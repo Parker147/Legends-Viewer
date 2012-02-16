@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{010B16A9-DE79-4047-80EF-13F3FA12B147}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LegendsViewer</RootNamespace>
+    <AssemblyName>LegendsViewer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SevenZipSharp">
+      <HintPath>..\..\..\Programming\SevenZipSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+    </Reference>
+    <Reference Include="System.Core">
+    </Reference>
+    <Reference Include="System.Data.Entity.Design">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.Entity.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq">
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+    </Reference>
+    <Reference Include="System.Data">
+    </Reference>
+    <Reference Include="System.Deployment">
+    </Reference>
+    <Reference Include="System.Drawing">
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+    </Reference>
+    <Reference Include="System.Xml">
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\appClasses.cs" />
+    <Compile Include="Controls\Chart\ChartControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DwarfTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Map\dlgPopulation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Map\dlgPopulation.Designer.cs">
+      <DependentUpon>dlgPopulation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DwarfTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\HTML\BattlePrinter.cs" />
+    <Compile Include="Controls\HTML\BeastAttackPrinter.cs" />
+    <Compile Include="Controls\HTML\EntityPrinter.cs" />
+    <Compile Include="Controls\HTML\EraPrinter.cs" />
+    <Compile Include="Controls\HTML\HistoricalFigurePrinter.cs" />
+    <Compile Include="Controls\HTML\HTMLControl.cs" />
+    <Compile Include="Controls\HTML\HTMLPrinter.cs" />
+    <Compile Include="Controls\HTML\RegionPrinter.cs" />
+    <Compile Include="Controls\HTML\SiteConqueredPrinter.cs" />
+    <Compile Include="Controls\HTML\SitePrinter.cs" />
+    <Compile Include="Controls\HTML\StringPrinter.cs" />
+    <Compile Include="Controls\HTML\UndergroundRegionPrinter.cs" />
+    <Compile Include="Controls\HTML\WarPrinter.cs" />
+    <Compile Include="Controls\HTML\WorldStatsPrinter.cs" />
+    <Compile Include="Controls\Map\HeatMapMaker.cs" />
+    <Compile Include="Controls\Map\MapControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Map\MapDrawer.cs" />
+    <Compile Include="Controls\Map\MapMenu.cs" />
+    <Compile Include="Controls\Map\PathMaker.cs" />
+    <Compile Include="Controls\PageControl.cs" />
+    <Compile Include="Controls\Query\CriteriaLine.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Query\CriteriaPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Query\PropertyBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Query\QueryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Query\QueryControl.designer.cs">
+      <DependentUpon>QueryControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Query\SearchInfo.cs" />
+    <Compile Include="Controls\Query\SearchList.cs" />
+    <Compile Include="Controls\Query\SearchProperty.cs" />
+    <Compile Include="Controls\SimpleLists.cs" />
+    <Compile Include="dlgFileSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dlgFileSelect.Designer.cs">
+      <DependentUpon>dlgFileSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chart\dlgHF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Chart\dlgHF.designer.cs">
+      <DependentUpon>dlgHF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Query\DwarfQuery.cs" />
+    <Compile Include="Controls\Query\Dynamic.cs" />
+    <Compile Include="LegendsViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LegendsViewer.Designer.cs">
+      <DependentUpon>LegendsViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Legends\Artifact.cs" />
+    <Compile Include="Legends\DwarfObject.cs" />
+    <Compile Include="Legends\Entity.cs" />
+    <Compile Include="Legends\EntityPopulation.cs" />
+    <Compile Include="Legends\Era.cs" />
+    <Compile Include="Legends\EventCollections\Abduction.cs" />
+    <Compile Include="Legends\EventCollections\Battle.cs" />
+    <Compile Include="Legends\EventCollections\BeastAttack.cs" />
+    <Compile Include="Legends\EventCollections\Duel.cs" />
+    <Compile Include="Legends\EventCollections\EventCollections.cs" />
+    <Compile Include="Legends\EventCollections\Journey.cs" />
+    <Compile Include="Legends\EventCollections\SiteConquered.cs" />
+    <Compile Include="Legends\EventCollections\Theft.cs" />
+    <Compile Include="Legends\EventCollections\War.cs" />
+    <Compile Include="Legends\Events.cs" />
+    <Compile Include="Legends\Formatting.cs" />
+    <Compile Include="Legends\HistoricalFigure.cs" />
+    <Compile Include="Legends\HistoryParser.cs" />
+    <Compile Include="Legends\IdenticonRenderer.cs" />
+    <Compile Include="Legends\Misc.cs" />
+    <Compile Include="Legends\OwnerPeriod.cs" />
+    <Compile Include="Legends\Population.cs" />
+    <Compile Include="Legends\Region.cs" />
+    <Compile Include="Legends\Site.cs" />
+    <Compile Include="Legends\SitesAndPopsParser.cs" />
+    <Compile Include="Legends\UndergroundRegion.cs" />
+    <Compile Include="Legends\World.cs" />
+    <Compile Include="Legends\WorldObject.cs" />
+    <Compile Include="Legends\XMLParser.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\Map\dlgPopulation.resx">
+      <DependentUpon>dlgPopulation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Query\QueryControl.resx">
+      <DependentUpon>QueryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dlgFileSelect.resx">
+      <DependentUpon>dlgFileSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Chart\dlgHF.resx">
+      <DependentUpon>dlgHF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LegendsViewer.resx">
+      <DependentUpon>LegendsViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
