@@ -137,13 +137,9 @@ namespace LegendsViewer.Legends
                     case "defending_squad_number": defenderSquadNumbers.Add(Convert.ToInt32(property.Value)); break;
                     case "defending_squad_deaths": defenderSquadDeaths.Add(Convert.ToInt32(property.Value)); break;
                     case "defending_squad_site": defenderSquadSite.Add(Convert.ToInt32(property.Value)); break;
-                    case "noncom_hfid":
-                        HistoricalFigure NonCombatant = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
-                        NonCombatant.Battles.Add(this);
-                        NonCombatants.Add(NonCombatant); break;
+                    case "noncom_hfid": NonCombatants.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value))); break;
                 }
 
-            //foreach (WorldEvent collectionEvent in Collection) AddEvent(collectionEvent);
             if (Collection.OfType<AttackedSite>().Count() > 0)
             {
                 Attacker = Collection.OfType<AttackedSite>().First().Attacker;
@@ -155,8 +151,14 @@ namespace LegendsViewer.Legends
                 Defender = Collection.OfType<FieldBattle>().First().Defender;
             }
 
+            //Battles are referencing non existing historical figures. In game legends reports these as "unknown creatures".
+            //Battle reports need to be updated to reflect this instead of removing them.
+            NotableAttackers.RemoveAll(hf => hf == null);
+            NotableDefenders.RemoveAll(hf => hf == null);
+            NonCombatants.RemoveAll(hf => hf == null);
             foreach (HistoricalFigure attacker in NotableAttackers) attacker.Battles.Add(this);
             foreach (HistoricalFigure defender in NotableDefenders) defender.Battles.Add(this);
+            foreach (HistoricalFigure nonCombatant in NonCombatants) nonCombatant.Battles.Add(this);
 
             for (int i = 0; i < attackerSquadRace.Count; i++)
                 AttackerSquads.Add(new Squad(attackerSquadRace[i], attackerSquadNumbers[i], attackerSquadDeaths[i], attackerSquadSite[i], attackerSquadEntityPopulation[i]));

@@ -85,7 +85,10 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<ol>");
                 foreach (OwnerPeriod owner in Site.OwnerHistory)
                 {
-                    HTML.AppendLine("<li>" + owner.Owner.PrintEntity() + ", " + owner.StartCause + " " + Site.ToLink(true, Site) + " in " + owner.StartYear);
+                    string ownerString = "UNKNOWN ENTITY";
+                    if (owner.Owner != null)
+                        ownerString = owner.Owner.PrintEntity();
+                    HTML.AppendLine("<li>" + ownerString + ", " + owner.StartCause + " " + Site.ToLink(true, Site) + " in " + owner.StartYear);
                     if (owner.EndYear >= 0)
                         HTML.Append(" and <font color=\"Red\">" + owner.EndCause + "</font> in " + owner.EndYear);
                     if (owner.Ender != null)

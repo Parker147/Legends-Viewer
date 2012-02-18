@@ -1179,7 +1179,11 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + Artifact.Name + " was created in " + Site.ToLink(link, pov) + " by " + HistoricalFigure.ToLink(link, pov) + ". ";
+            string print = this.GetYearTime() + Artifact.Name;
+            if (Site != null) ;
+                print += " was created in " + Site.ToLink(link, pov);
+            print += " by " + HistoricalFigure.ToLink(link, pov) + ". ";
+            return print;
         }
 
     }

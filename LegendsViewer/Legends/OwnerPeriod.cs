@@ -16,7 +16,8 @@ namespace LegendsViewer.Legends
         public OwnerPeriod(Site site, Entity newowner, int year, string cause)
         {
             Site = site; Owner = newowner; StartYear = year; StartCause = cause; EndYear = -1;
-            Owner.AddOwnedSite(this);
+            if (Owner != null)
+                Owner.AddOwnedSite(this);
             Site.OwnerHistory.Add(this);
         }
     }

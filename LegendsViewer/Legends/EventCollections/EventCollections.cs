@@ -37,8 +37,14 @@ namespace LegendsViewer.Legends
                     case "type": this.Type = Formatting.InitCaps(String.Intern(property.Value)); property.Known = true; break;
                     case "event":
                         WorldEvent collectionEvent = world.GetEvent(Convert.ToInt32(property.Value));
-                        collectionEvent.ParentCollection = this;
-                        this.Collection.Add(collectionEvent); property.Known = true; break;
+                        //Some Events don't exist in the XML now with 34.01? 
+                        ///TODO: Investigate EventCollection Events that don't exist in the XML, check if they exist in game or if this is just errors.
+                        if (collectionEvent != null)
+                        {
+                            collectionEvent.ParentCollection = this;
+                            this.Collection.Add(collectionEvent); property.Known = true;
+                        }
+                        break;
                     case "eventcol": this.CollectionIDs.Add(Convert.ToInt32(property.Value)); property.Known = true; break;
                     default: break;
                 }

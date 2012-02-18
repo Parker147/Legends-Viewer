@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.IO;
 
 namespace LegendsViewer.Legends
 {
@@ -18,7 +19,7 @@ namespace LegendsViewer.Legends
         public XMLParser(World world, string xmlFile)
         {
             World = world;
-            XML = new XmlTextReader(xmlFile);
+            XML = new XmlTextReader(new StreamReader(xmlFile));
             XML.WhitespaceHandling = WhitespaceHandling.Significant;
             Log = new StringBuilder();
             //TODO: Error Handling, fixing missing root element from dwarf fortress versions 31.12 and under exports
@@ -66,6 +67,22 @@ namespace LegendsViewer.Legends
 
         }
 
+        public string Parse()
+        {
+            while (!XML.EOF)
+            {
+                CurrentSection = GetSectionType(XML.Name);
+                if (CurrentSection == Section.Unknown)
+                {
+                    XML.Read();
+                    continue;
+                }
+
+                ParseSection();
+            }
+            XML.Close();
+            return Log.ToString();
+        }
 
         private void GetSectionStart()
         {
@@ -73,16 +90,6 @@ namespace LegendsViewer.Legends
             if (XML.NodeType == XmlNodeType.Element)
                 CurrentSectionName = XML.Name;
             CurrentSection = GetSectionType(CurrentSectionName);
-        }
-
-        private bool ParsingSection()
-        {
-            return XML.Read() && !(XML.NodeType == XmlNodeType.EndElement && XML.Name == CurrentSectionName);
-        }
-
-        private bool ParsingItem()
-        {
-            return XML.Read() && !(XML.NodeType == XmlNodeType.EndElement && (XML.Name == CurrentItemName));
         }
 
         private Section GetSectionType(string sectionName)
@@ -105,6 +112,30 @@ namespace LegendsViewer.Legends
                 case "": return Section.Unknown;
                 default: Log.AppendLine("Unknown XML Section: " + sectionName); return Section.Unknown;
             }
+        }
+
+        private void ParseSection()
+        {
+            XML.ReadStartElement();
+            while (XML.NodeType != XmlNodeType.EndElement)
+            {
+                AddItemToWorld(ParseItem());
+            }
+            ProcessXMLSection(CurrentSection); //Done with section, do post processing
+            XML.ReadEndElement();
+        }
+
+        public List<Property> ParseItem()
+        {
+            CurrentItemName = XML.Name;
+            XML.ReadStartElement();
+            List<Property> properties = new List<Property>();
+            while (XML.NodeType != XmlNodeType.EndElement && XML.Name != CurrentItemName)
+            {
+                properties.Add(ParseProperty());
+            }
+            XML.ReadEndElement();
+            return properties;
         }
 
         private Property ParseProperty()
@@ -137,30 +168,6 @@ namespace LegendsViewer.Legends
             XML.ReadEndElement();
             return property;
 
-        }
-
-        public List<Property> ParseItem()
-        {
-            CurrentItemName = XML.Name;
-            XML.ReadStartElement();
-            List<Property> properties = new List<Property>();
-            while (XML.NodeType != XmlNodeType.EndElement && XML.Name != CurrentItemName)
-            {
-                properties.Add(ParseProperty());
-            }
-            XML.ReadEndElement();
-            return properties;
-        }
-
-        private void ParseSection()
-        {
-            XML.ReadStartElement();
-            while (XML.NodeType != XmlNodeType.EndElement)
-            {
-                AddItemToWorld(ParseItem());
-            }
-            ProcessXMLSection(CurrentSection); //Done with section, do post processing
-            XML.ReadEndElement();
         }
 
         private void AddItemToWorld(List<Property> properties)
@@ -202,23 +209,6 @@ namespace LegendsViewer.Legends
             }
         }
 
-        public string Parse()
-        {
-            while (!XML.EOF)
-            {
-                //GetSectionStart();
-                CurrentSection = GetSectionType(XML.Name);
-                if (CurrentSection == Section.Unknown)
-                {
-                    XML.Read();
-                    continue;
-                }
-
-                ParseSection();                
-            }
-            XML.Close();
-            return Log.ToString();
-        }
 
         public void AddFromXMLSection(Section section, List<Property> properties)
         {
@@ -300,6 +290,9 @@ namespace LegendsViewer.Legends
 	            case "entity law":
 	            case "change hf body state":
                 case "razed structure":
+                case "hf learns secret":
+                case "artifact stored":
+                case "artifact possessed":
                     foreach (Property property in properties)
                         property.Known = true;
                 break;
