@@ -2644,7 +2644,7 @@
             this.Controls.Add(this.button2);
             this.DoubleBuffered = true;
             this.Name = "frmLegendsViewer";
-            this.Text = "Legends Viewer 1.12";
+            this.Text = "Legends Viewer 1.13";
             this.ResizeEnd += new System.EventHandler(this.frmLegendsViewer_ResizeEnd);
             this.tcWorld.ResumeLayout(false);
             this.tpSummary.ResumeLayout(false);

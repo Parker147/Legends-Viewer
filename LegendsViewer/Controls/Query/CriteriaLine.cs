@@ -222,8 +222,7 @@ namespace LegendsViewer.Controls.Query
                 }
             }
 
-            if (selectedType == typeof(bool) || selectedType == typeof(DeathCause) || selectedType == typeof(SiteConqueredType)
-                                             || selectedType == typeof(BattleOutcome) || selectedType == typeof(HFState))
+            if (selectedType == typeof(bool) || selectedType.IsEnum)
             {
                 ValueSelect.DropDownStyle = ComboBoxStyle.DropDownList;
                 if (ValueSelect.Items.Count > 0) ValueSelect.SelectedIndex = 0;

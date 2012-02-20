@@ -293,6 +293,7 @@ namespace LegendsViewer.Legends
                 case "hf learns secret":
                 case "artifact stored":
                 case "artifact possessed":
+                case "hf disturbed structure":
                     foreach (Property property in properties)
                         property.Known = true;
                 break;

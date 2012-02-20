@@ -18,13 +18,15 @@ namespace LegendsViewer
         public bool NewTab = false;
         public DwarfTabControl(World world) : base() { World = world; }
 
-        public Control Navigate(ControlOption control, object navigateObject = null)
+        public void Navigate(ControlOption control, object navigateObject = null)
         {
             PageControl newControl = null;
             switch(control)
             {
                 case ControlOption.HTML:
-                    newControl = new HTMLControl(navigateObject, this, World); break;
+                    if (navigateObject != null)
+                        newControl = new HTMLControl(navigateObject, this, World); 
+                    break;
                 case ControlOption.Chart:
                     newControl = new ChartControl(World, navigateObject as DwarfObject, this); break;
                 case ControlOption.Map:
@@ -33,15 +35,18 @@ namespace LegendsViewer
                     newControl = new SearchControl(this); break;
             }
 
-            if (MakeNewTab())
+            if (newControl != null)
             {
-                TabPages.Add(new DwarfTabPage(newControl));
+                if (MakeNewTab())
+                {
+                    TabPages.Add(new DwarfTabPage(newControl));
+                }
+                else
+                {
+                    (SelectedTab as DwarfTabPage).NewPageControl(newControl);
+                }
             }
-            else
-            {
-                (SelectedTab as DwarfTabPage).NewPageControl(newControl);
-            }
-            return newControl.GetControl();
+
         }
 
         private bool MakeNewTab()

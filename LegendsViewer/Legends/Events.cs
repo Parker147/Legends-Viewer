@@ -135,7 +135,10 @@ namespace LegendsViewer.Legends
             string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov);
             if (LinkType == "imprison") eventString += " imprisoned ";
             else eventString += " linked (UNKNOWN) to ";
-            eventString += HistoricalFigureTarget.ToLink(link, pov) + ". ";
+            if (HistoricalFigureTarget != null)
+                eventString += HistoricalFigureTarget.ToLink(link, pov) + ". ";
+            else
+                eventString += " (UNKNOWN HISTORICAL FIGURE).";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -204,7 +207,9 @@ namespace LegendsViewer.Legends
             string eventString = this.GetYearTime() + "UNKNOWN HISTORICAL FIGURE's body was abused by ";
             if (Abuser != null) eventString += Abuser.ToLink(link, pov);
             else eventString += "UNKNOWN ENTITY";
-            eventString += " in " + this.Site.ToLink(link, pov) + ". ";
+            if (Site != null)
+                eventString += " in " + this.Site.ToLink(link, pov);
+            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -562,8 +567,12 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Snatcher.ToLink(link, pov) + " abducted " + Target.ToLink(link, pov) +
-                " from " + Site.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime();
+            if (Snatcher != null)
+                eventString += Snatcher.ToLink(link, pov);
+            else
+                eventString += "(UNKNOWN HISTORICAL FIGURE)";
+            eventString += " abducted " + Target.ToLink(link, pov) + " from " + Site.ToLink(link, pov) + ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -926,7 +935,17 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Woundee.ToLink(link, pov) + " was wounded (UNKNOWN) by " + Wounder.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime();
+            if (Woundee != null)
+                eventString += Woundee.ToLink(link, pov);
+            else
+                eventString += "(UNKNOWN HISTORICAL FIGURE)";
+            eventString += " was wounded (UNKNOWN) by ";
+            if (Wounder != null)
+                eventString += Wounder.ToLink(link, pov);
+            else
+                eventString += "(UNKNOWN HISTORICAL FIGURE)";
+            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -1180,7 +1199,7 @@ namespace LegendsViewer.Legends
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string print = this.GetYearTime() + Artifact.Name;
-            if (Site != null) ;
+            if (Site != null)
                 print += " was created in " + Site.ToLink(link, pov);
             print += " by " + HistoricalFigure.ToLink(link, pov) + ". ";
             return print;

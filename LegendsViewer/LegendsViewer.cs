@@ -29,7 +29,7 @@ namespace LegendsViewer
         private BeastAttackList beastAttackSearch;
         private bool loading = true;
 
-        string version = "1.12";
+        string version = "1.13";
         string CommandFile = "";
         private TabPage[] EventTabs;
         Type[] EventTabTypes = new Type[]{typeof(HistoricalFigure), typeof(Site), typeof(Region),
@@ -1038,8 +1038,8 @@ namespace LegendsViewer
         {
             if (!loading)
             {
-                MapPanel showMap = Browser.Navigate(ControlOption.Map) as MapPanel;
-                showMap.ToggleCivs();
+                Browser.Navigate(ControlOption.Map);
+                ((Browser.SelectedTab as DwarfTabPage).Current.GetControl() as MapPanel).ToggleCivs();
             }
         }
 

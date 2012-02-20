@@ -52,6 +52,7 @@ namespace LegendsViewer.Controls
 
         public override void Refresh()
         {
+            HTMLBrowser.Navigate("about:blank");
             HTMLBrowser.DocumentText = Printer.Print();
         }
 
@@ -76,8 +77,9 @@ namespace LegendsViewer.Controls
                 if (!NavigateToNewControl(url))
                     if(!NavigateToNewObjectPage(url))
                         throw new Exception("Could not navigate with url: " + url);
+                e.Cancel = true; //Prevent the browser from actually navigating to a new page
             }
-            e.Cancel = true; //Prevent the browser from actually navigating to a new page
+            
         }
 
         private bool NavigateToNewControl(string url)

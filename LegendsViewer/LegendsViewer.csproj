@@ -181,6 +181,7 @@
     <Compile Include="Legends\OwnerPeriod.cs" />
     <Compile Include="Legends\Population.cs" />
     <Compile Include="Legends\Region.cs" />
+    <Compile Include="Legends\Link.cs" />
     <Compile Include="Legends\Site.cs" />
     <Compile Include="Legends\SitesAndPopsParser.cs" />
     <Compile Include="Legends\UndergroundRegion.cs" />
@@ -204,7 +205,9 @@
     <EmbeddedResource Include="LegendsViewer.resx">
       <DependentUpon>LegendsViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

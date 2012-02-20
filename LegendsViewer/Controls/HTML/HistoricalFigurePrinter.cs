@@ -23,6 +23,7 @@ namespace LegendsViewer.Controls
             PrintStyle();
             PrintTitle();
             PrintPositions();
+            PrintRelatedHistoricalFigures();
             PrintBattles();
             PrintKills();
             PrintBeastAttacks();
@@ -111,6 +112,26 @@ namespace LegendsViewer.Controls
                     else HTML.Append(position.Ended + ")");
                 }
                 EndList(ListType.Ordered);
+            }
+        }
+
+        private void PrintRelatedHistoricalFigures()
+        {
+            if (HistoricalFigure.RelatedHistoricalFigures.Count > 0)
+            {
+                HTML.AppendLine(Bold("Related Historical Figures") + LineBreak);
+                StartList(ListType.Unordered);
+                foreach (HistoricalFigureLink relation in HistoricalFigure.RelatedHistoricalFigures)
+                {
+                    string hf = "UNKNOWN";
+                    if (relation.HistoricalFigure != null)
+                        hf = relation.HistoricalFigure.ToLink();
+                    string relationString = hf + ", " + relation.Type;
+                    if (relation.Type == HistoricalFigureLinkType.Deity)
+                        relationString += " (" + relation.Strength + "%)";
+                    HTML.AppendLine(ListItem + relationString);
+                }
+                EndList(ListType.Unordered);
             }
         }
 

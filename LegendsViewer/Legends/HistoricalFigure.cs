@@ -13,28 +13,27 @@ namespace LegendsViewer.Legends
         public string AssociatedType { get; set; }
         public HFState CurrentState { get; set; }
         public List<State> States { get; set; }
+        public List<HistoricalFigureLink> RelatedHistoricalFigures { get; set; }
         public int Age { get; set; }
-        //{
-        //    get
-        //    {
-        //        if (DeathYear == -1) return World.Events.Last().Year - BirthYear;
-        //        else return DeathYear - BirthYear;
-        //    }
-        //    set { }
-        //}
         public int Appeared { get; set; }
         public int BirthYear { get; set; }
         public int BirthSeconds72 { get; set; }
         public int DeathYear { get; set; }
         public int DeathSeconds72 { get; set; }
         public DeathCause DeathCause { get; set; }
+        public string ActiveInteraction { get; set; }
+        public string InteractionKnowledge { get; set; }
+        public string Goal { get; set; }
+        public string JourneyPet { get; set; }
         public string DeathCollectionType
         {
             get
             {
                 HFDied death = Events.OfType<HFDied>().FirstOrDefault(death1 => death1.HistoricalFigure == this);
-                if (death != null)
+                if (death != null && death.ParentCollection != null)
                     return death.ParentCollection.GetCollectionParentString();
+                else if (death != null)
+                    return "None";
                 else
                     return "Not Dead";
             }
@@ -59,6 +58,8 @@ namespace LegendsViewer.Legends
         public bool Zombie { get; set; }
         public bool Ghost { get; set; }
         public bool Beast { get; set; }
+        public bool Animated { get; set; }
+        public string AnimatedType { get; set; }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -95,15 +96,31 @@ namespace LegendsViewer.Legends
                     case "force": Force = true; property.Known = true; break;
                     case "zombie": Zombie = true; property.Known = true; break;
                     case "ghost": Ghost = true; property.Known = true; break;
+                    case "hf_link":
+                        property.Known = true;
+                        HistoricalFigureLink relation = new HistoricalFigureLink(property.SubProperties, world);
+                        //Children/Apprentices haven't been read into memory yet, so the child/apprentice relation will be built when the mother/father/master link is found
+                        if (relation.Type != HistoricalFigureLinkType.Child && relation.Type != HistoricalFigureLinkType.Apprentice)
+                            RelatedHistoricalFigures.Add(relation);
+                        if ((relation.Type == HistoricalFigureLinkType.Mother || relation.Type == HistoricalFigureLinkType.Father || relation.Type == HistoricalFigureLinkType.Master) && relation.HistoricalFigure != null)
+                                relation.HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(this, HistoricalFigureLinkType.Child));
+  
+                        if (relation.Type == HistoricalFigureLinkType.Spouse && relation.HistoricalFigure != null && relation.HistoricalFigure.ID < this.ID)
+                            foreach(HistoricalFigureLink badLink in relation.HistoricalFigure.RelatedHistoricalFigures)
+                                badLink.FixUnloadedHistoricalFigure(this);
+                        break;
+                    case "active_interaction": ActiveInteraction = property.Value; break;
+                    case "interaction_knowledge": InteractionKnowledge = property.Value; break;
+                    case "animated": Animated = true; property.Known = true; break;
+                    case "animated_string": AnimatedType = property.Value; break;
+                    case "journey_pet": JourneyPet = property.Value; break;
+                    case "goal": Goal = property.Value; break;
 
                     //Unhandled Properties
                     case "sphere":
-                    case "interaction_knowledge":
                     case "current_identity_id":
                     case "ent_pop_id":
-                    case "journey_pet":
-                    case "goal":
-                    case "active_interaction":
+                    case "holds_artifact":
                     case "used_identity_id": property.Known = true; break;
                     case "entity_link":
                         property.Known = true;
@@ -136,16 +153,7 @@ namespace LegendsViewer.Legends
                                 case "end_year": subProperty.Known = true; break;
                             }
                         break;
-                    case "hf_link":
-                        property.Known = true;
-                        foreach(Property subProperty in property.SubProperties)
-                            switch (subProperty.Name)
-                            {
-                                case "link_type":
-                                case "link_strength":
-                                case "hfid": subProperty.Known = true; break;
-                            }
-                        break;
+
                     case "site_link":
                         property.Known = true;
                         foreach(Property subProperty in property.SubProperties)
@@ -185,7 +193,14 @@ namespace LegendsViewer.Legends
             Positions = new List<Position>();
             Spheres = new List<string>();
             BeastAttacks = new List<BeastAttack>();
-            States = new List<State>();            
+            States = new List<State>();
+            RelatedHistoricalFigures = new List<HistoricalFigureLink>();
+            AnimatedType = "";
+            Goal = "";
+            ActiveInteraction = "";
+            InteractionKnowledge = "";
+            JourneyPet = "";
+            
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)

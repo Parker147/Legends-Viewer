@@ -320,7 +320,12 @@ namespace LegendsViewer.Controls.Query
         private void dgResults_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
-                Browser.Navigate(ControlOption.HTML, dgResults.Rows[e.RowIndex].DataBoundItem);
+            {
+                object navigateTo = dgResults.Rows[e.RowIndex].DataBoundItem;
+                if (navigateTo.GetType() == typeof(HistoricalFigureLink))
+                    navigateTo = (navigateTo as HistoricalFigureLink).HistoricalFigure;
+                Browser.Navigate(ControlOption.HTML, navigateTo);
+            }
         }
 
         private void dgResults_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
