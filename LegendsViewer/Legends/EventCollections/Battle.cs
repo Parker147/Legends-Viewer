@@ -151,11 +151,6 @@ namespace LegendsViewer.Legends
                 Defender = Collection.OfType<FieldBattle>().First().Defender;
             }
 
-            //Battles are referencing non existing historical figures. In game legends reports these as "unknown creatures".
-            //Battle reports need to be updated to reflect this instead of removing them.
-            NotableAttackers.RemoveAll(hf => hf == null);
-            NotableDefenders.RemoveAll(hf => hf == null);
-            NonCombatants.RemoveAll(hf => hf == null);
             foreach (HistoricalFigure attacker in NotableAttackers) attacker.Battles.Add(this);
             foreach (HistoricalFigure defender in NotableDefenders) defender.Battles.Add(this);
             foreach (HistoricalFigure nonCombatant in NonCombatants) nonCombatant.Battles.Add(this);

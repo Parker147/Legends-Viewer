@@ -324,6 +324,18 @@ namespace LegendsViewer.Legends
 
         private void ProcessXMLSection(Section section)
         {
+            if (section == Section.Events)
+            {
+                int lastYear = World.Events.Last().Year;
+                foreach (HistoricalFigure hf in World.HistoricalFigures)
+                {
+                    if (hf.DeathYear > 0)
+                        hf.Age = hf.DeathYear - hf.BirthYear;
+                    else
+                        hf.Age = lastYear - hf.BirthYear;
+                }
+            }
+
             if (section == Section.EventCollections)
             {
                 World.Wars = World.EventCollections.OfType<War>().ToList();

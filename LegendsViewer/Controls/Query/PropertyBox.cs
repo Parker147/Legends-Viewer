@@ -131,7 +131,7 @@ namespace LegendsViewer.Controls.Query
                 (Parent as CriteriaLine).GetComparers();
                 (Parent as CriteriaLine).ValueSelect.ResetText();
                 (Parent as CriteriaLine).GetValueOptions();
-                (Parent as CriteriaLine).Resize();
+                (Parent as CriteriaLine).ResizeSelf();
             }
 
             base.OnSelectedIndexChanged(e);

@@ -102,10 +102,10 @@ namespace LegendsViewer.Controls.Query
 
         protected override void OnLocationChanged(EventArgs e)
         {
-            Resize();
+            ResizeSelf();
         }
 
-        public void Resize()
+        public void ResizeSelf()
         {
             QueryOperatorSelect.Location = new Point(0, 0);
             PropertySelect.Location = new Point(QueryOperatorSelect.Right + 3, 0);

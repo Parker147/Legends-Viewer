@@ -7,6 +7,7 @@ namespace LegendsViewer.Legends
 {
     public class HistoricalFigure : WorldObject
     {
+        public static HistoricalFigure Unknown;
         public string Name { get; set; }
         public string Race { get; set; }
         public string Caste { get; set; }
@@ -68,10 +69,10 @@ namespace LegendsViewer.Legends
         public HistoricalFigure() 
         { 
             Initialize();
-            Name = "INVALID HISTORICAL FIGURE";
-            Race = "INVALID";
-            Caste = "INVALID";
-            AssociatedType = "INVALID"; 
+            Name = "UNKNOWN HISTORICAL FIGURE";
+            Race = "UNKNOWN";
+            Caste = "UNKNOWN";
+            AssociatedType = "UNKNOWN"; 
         }
         public override string ToString() { return this.Name; }
         public HistoricalFigure(List<Property> properties, World world)
@@ -178,8 +179,6 @@ namespace LegendsViewer.Legends
                         break;
                 }
             if (Name == "") Name = "(Unnamed)";
-            //if (DeathYear == -1) Age = World.Events.Last().Year - BirthYear;
-            else Age = DeathYear - BirthYear;
         }
 
         private void Initialize()
@@ -205,7 +204,7 @@ namespace LegendsViewer.Legends
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
-            if (this == null) return "UNKNOWN";
+            if (this == HistoricalFigure.Unknown) return this.Name;
             if (link)
                 if ((pov == null || pov != this))
                 {

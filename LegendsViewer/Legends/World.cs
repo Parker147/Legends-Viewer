@@ -40,6 +40,8 @@ namespace LegendsViewer.Legends
                 Log = new StringBuilder();
                 Log.AppendLine("Start: " + DateTime.Now.ToLongTimeString());
 
+                CreateUnknowns();
+
                 XMLParser xml = new XMLParser(this, xmlFile);
                 Log.Append(xml.Parse());
                 HistoryParser history = new HistoryParser(this, historyFile);
@@ -161,6 +163,11 @@ namespace LegendsViewer.Legends
                 Events.Add(newEvent);
             }
 
+            private void CreateUnknowns()
+            {
+                HistoricalFigure.Unknown = new HistoricalFigure();
+            }
+
 
 
             #region GetWorldItemsFunctions
@@ -242,7 +249,7 @@ namespace LegendsViewer.Legends
                         else
                             return HistoricalFigures[mid];
                     }
-                    return null;
+                    return HistoricalFigure.Unknown;
                 }
             }
             public HistoricalFigure GetHistoricalFigure(string name)

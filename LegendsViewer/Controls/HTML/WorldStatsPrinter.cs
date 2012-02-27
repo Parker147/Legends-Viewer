@@ -42,7 +42,7 @@ namespace LegendsViewer.Controls
                     resize.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     resize.DrawImage(World.Map, new Rectangle(0, 0, mapSize.Width, mapSize.Height), new Rectangle(0, 0, World.Map.Width, World.Map.Height), GraphicsUnit.Pixel);
                 }
-                HTML.AppendLine("<center><a href=\"Load Map\">" + BitmapToHTML(resizedMap) + "</a></center>");
+                HTML.AppendLine("<center>" + MakeLink(BitmapToHTML(resizedMap), LinkOption.LoadMap) + "</center>");
             }
 
 
