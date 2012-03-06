@@ -31,7 +31,7 @@ namespace LegendsViewer.Legends
                         if (!Enum.TryParse(Formatting.InitCaps(property.Value), out linkType))
                         {
                             Type = HistoricalFigureLinkType.Unknown;
-                            world.Log.AppendLine("Unknown HF Link Type: " + property.Value);
+                            world.ParsingErrors.Report("Unknown HF Link Type: " + property.Value);
                         }
                         else
                             Type = linkType;                              

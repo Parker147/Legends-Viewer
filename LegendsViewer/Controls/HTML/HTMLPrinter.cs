@@ -40,6 +40,8 @@ namespace LegendsViewer.Controls
                 return new WarPrinter(printObject as War, world);
             if (printType == typeof(World))
                 return new WorldStatsPrinter(world);
+            if (printType == typeof(Artifact))
+                return new ArtifactPrinter(printObject as Artifact);
 
             if (printType == typeof(string))
                 return new StringPrinter(printObject as string);

@@ -30,24 +30,30 @@ namespace LegendsViewer.Legends
             public List<EventCollection> EventCollections = new List<EventCollection>();
             public List<Population> SitePopulations = new List<Population>(), OutdoorPopulations = new List<Population>(), UndergroundPopulations = new List<Population>();
 
+            public ParsingErrors ParsingErrors;
+
             public System.Drawing.Bitmap Map, PageMiniMap, MiniMap;
             public List<Era> TempEras = new List<Era>();
             public bool FilterBattles = true;
             public static List<DeathCause> DeathCauses;
 
+            private List<HistoricalFigure> HFtoHFLinkHFs = new List<HistoricalFigure>();
+            private List<Property> HFtoHFLinks = new List<Property>();
+
             public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile)
             {
+                ParsingErrors = new ParsingErrors();
                 Log = new StringBuilder();
                 Log.AppendLine("Start: " + DateTime.Now.ToLongTimeString());
 
                 CreateUnknowns();
 
                 XMLParser xml = new XMLParser(this, xmlFile);
-                Log.Append(xml.Parse());
+                xml.Parse();
                 HistoryParser history = new HistoryParser(this, historyFile);
                 Log.Append(history.Parse());
                 SitesAndPopulationsParser sitesAndPopulations = new SitesAndPopulationsParser(this, sitesAndPopulationsFile);
-                Log.Append(sitesAndPopulations.Parse());
+                sitesAndPopulations.Parse();
 
                 HistoricalFigure.Filters = new List<string>();
                 Site.Filters = new List<string>();
@@ -59,13 +65,14 @@ namespace LegendsViewer.Legends
                 SiteConquered.Filters = new List<string>();
                 Era.Filters = new List<string>();
                 BeastAttack.Filters = new List<string>();
+                Artifact.Filters = new List<string>();
 
                 GenerateCivIdenticons();
 
                 GenerateMaps(mapFile);
 
                 //DeathCauses = Events.OfType<LegendsViewer.HFDied>().Select(death => death.Cause).GroupBy(death => death).Select(death => death.Key).OrderBy(death => death.GetDescription()).ToList();
-
+                Log.AppendLine(ParsingErrors.Print());
                 Log.AppendLine("Finish: " + DateTime.Now.ToLongTimeString());
             }
 
@@ -378,6 +385,26 @@ namespace LegendsViewer.Legends
             }
             #endregion
 
+            public void AddHFtoHFLink(HistoricalFigure hf, Property link)
+            {
+                HFtoHFLinkHFs.Add(hf);
+                HFtoHFLinks.Add(link);
+            }
+
+            public void ProcessHFtoHFLinks()
+            {
+                for (int i = 0; i < HFtoHFLinks.Count; i++)
+                {
+                    Property link = HFtoHFLinks[i];
+                    HistoricalFigure HF = HFtoHFLinkHFs[i];
+                    HistoricalFigureLink relation = new HistoricalFigureLink(link.SubProperties, this);
+                    HF.RelatedHistoricalFigures.Add(relation);
+                }
+
+                HFtoHFLinkHFs.Clear();
+                HFtoHFLinks.Clear();
+            }
         }
+
                 
     }

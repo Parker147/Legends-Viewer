@@ -14,14 +14,12 @@ namespace LegendsViewer.Legends
         string CurrentSectionName = "";
         Section CurrentSection = Section.Unknown;
         string CurrentItemName = "";
-        StringBuilder Log;
 
         public XMLParser(World world, string xmlFile)
         {
             World = world;
             XML = new XmlTextReader(new StreamReader(xmlFile));
             XML.WhitespaceHandling = WhitespaceHandling.Significant;
-            Log = new StringBuilder();
             //TODO: Error Handling, fixing missing root element from dwarf fortress versions 31.12 and under exports
             //try
             //{
@@ -67,7 +65,7 @@ namespace LegendsViewer.Legends
 
         }
 
-        public string Parse()
+        public void Parse()
         {
             while (!XML.EOF)
             {
@@ -81,7 +79,6 @@ namespace LegendsViewer.Legends
                 ParseSection();
             }
             XML.Close();
-            return Log.ToString();
         }
 
         private void GetSectionStart()
@@ -110,7 +107,7 @@ namespace LegendsViewer.Legends
                 case "df_world":
                 case "world_constructions":
                 case "": return Section.Unknown;
-                default: Log.AppendLine("Unknown XML Section: " + sectionName); return Section.Unknown;
+                default: World.ParsingErrors.Report("Unknown XML Section: " + sectionName); return Section.Unknown;
             }
         }
 
@@ -199,12 +196,12 @@ namespace LegendsViewer.Legends
 
                 if (!property.Known && property.SubProperties.Count == 0)
                 {
-                    Log.AppendLine("Unknown " + section + " Property: " + property.Name + " (" + property.Value + ")");
+                    World.ParsingErrors.Report("Unknown " + section + " Property: " + property.Name, property.Value);
                 }
                 foreach (Property subProperty in property.SubProperties)
                 {
                     if (!subProperty.Known)
-                        Log.AppendLine("Unknown " + section + " Property: " + property.Name + " - " + subProperty.Name + " (" + subProperty.Value + ")");
+                        World.ParsingErrors.Report("Unknown " + section + " Property: " + property.Name + " - " + subProperty.Name, subProperty.Value);
                 }
             }
         }
@@ -222,7 +219,7 @@ namespace LegendsViewer.Legends
                 case Section.Entities: World.Entities.Add(new Entity(properties, World)); break;
                 case Section.Eras: World.Eras.Add(new Era(properties, World)); break;
                 case Section.Artifacts: World.Artifacts.Add(new Artifact(properties, World)); break;
-                default: Log.AppendLine("Unhandled XML Section: " + section.ToString()); break;
+                default: World.ParsingErrors.Report("Unknown XML Section: " + section.ToString()); break;
             }
         }
 
@@ -278,28 +275,21 @@ namespace LegendsViewer.Legends
                 case "remove hf site link": World.Events.Add(new RemoveHFSiteLink(properties, World)); break;
                 case "replaced structure": World.Events.Add(new ReplacedStructure(properties, World)); break;
                 case "site taken over": World.Events.Add(new SiteTakenOver(properties, World)); break;
-
-                //Unhandled Events
-                case "entity relocate":
-	            case "hf gains secret goal":
-	            case "hf profaned structure":
-	            case "hf does interaction":
-	            case "entity primary criminals":
-                case "hf confronted":
-                case "assume identity":
-	            case "entity law":
-	            case "change hf body state":
-                case "razed structure":
-                case "hf learns secret":
-                case "artifact stored":
-                case "artifact possessed":
+                case "entity relocate": World.Events.Add(new EntityRelocate(properties, World)); break;
+	            case "hf gains secret goal": World.Events.Add(new HFGainsSecretGoal(properties, World)); break;
+	            case "hf profaned structure": World.Events.Add(new HFProfanedStructure(properties, World)); break;
+	            case "hf does interaction": World.Events.Add(new HFDoesInteraction(properties, World)); break;
+	            case "entity primary criminals": World.Events.Add(new EntityPrimaryCriminals(properties, World)); break;
+                case "hf confronted": World.Events.Add(new HFConfronted(properties, World)); break;
+                case "assume identity": World.Events.Add(new AssumeIdentity(properties, World)); break;
+	            case "entity law": World.Events.Add(new EntityLaw(properties, World)); break;
+	            case "change hf body state": World.Events.Add(new ChangeHFBodyState(properties, World)); break;
+                case "razed structure": World.Events.Add(new RazedStructure(properties, World)); break;
+                case "hf learns secret": World.Events.Add(new HFLearnsSecret(properties, World)); break;
+                case "artifact stored": World.Events.Add(new ArtifactStored(properties, World)); break;
+                case "artifact possessed": World.Events.Add(new ArtifactPossessed(properties, World)); break;
                 case "hf disturbed structure":
-                    foreach (Property property in properties)
-                        property.Known = true;
-                break;
-                default: Log.AppendLine("Unhandled Event: " + type);
-                    foreach (Property property in properties)
-                    property.Known = true;
+                default: World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
             }
 
@@ -318,7 +308,7 @@ namespace LegendsViewer.Legends
                 case "site conquered": World.EventCollections.Add(new SiteConquered(properties, World)); break;
                 case "theft": World.EventCollections.Add(new Theft(properties, World)); break;
                 case "war": World.EventCollections.Add(new War(properties, World)); break;
-                default: Log.AppendLine("Unhandled Event Collection: " + type); break;
+                default: World.ParsingErrors.Report("Unknown Event Collection: " + type); break;
             }
         }
 
@@ -442,6 +432,7 @@ namespace LegendsViewer.Legends
             {
                 World.HistoricalFiguresByName = new List<HistoricalFigure>(World.HistoricalFigures);
                 World.HistoricalFiguresByName.Sort((a, b) => String.Compare(a.Name, b.Name));
+                World.ProcessHFtoHFLinks();
             }
 
             //Create sorted entities so they can be binary searched by name, needed for History/sites files

@@ -97,18 +97,16 @@ namespace LegendsViewer.Legends
                     case "force": Force = true; property.Known = true; break;
                     case "zombie": Zombie = true; property.Known = true; break;
                     case "ghost": Ghost = true; property.Known = true; break;
-                    case "hf_link":
+                    case "hf_link": //Will be processed after all HFs have been loaded
+                        world.AddHFtoHFLink(this, property);
                         property.Known = true;
-                        HistoricalFigureLink relation = new HistoricalFigureLink(property.SubProperties, world);
-                        //Children/Apprentices haven't been read into memory yet, so the child/apprentice relation will be built when the mother/father/master link is found
-                        if (relation.Type != HistoricalFigureLinkType.Child && relation.Type != HistoricalFigureLinkType.Apprentice)
-                            RelatedHistoricalFigures.Add(relation);
-                        if ((relation.Type == HistoricalFigureLinkType.Mother || relation.Type == HistoricalFigureLinkType.Father || relation.Type == HistoricalFigureLinkType.Master) && relation.HistoricalFigure != null)
-                                relation.HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(this, HistoricalFigureLinkType.Child));
-  
-                        if (relation.Type == HistoricalFigureLinkType.Spouse && relation.HistoricalFigure != null && relation.HistoricalFigure.ID < this.ID)
-                            foreach(HistoricalFigureLink badLink in relation.HistoricalFigure.RelatedHistoricalFigures)
-                                badLink.FixUnloadedHistoricalFigure(this);
+                        List<string> knownSubProperties = new List<string>() { "hfid", "link_strength", "link_type" };
+                        foreach (string subPropertyName in knownSubProperties)
+                        {
+                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                            if (subProperty != null)
+                                subProperty.Known = true;
+                        }
                         break;
                     case "active_interaction": ActiveInteraction = property.Value; break;
                     case "interaction_knowledge": InteractionKnowledge = property.Value; break;
@@ -260,12 +258,12 @@ namespace LegendsViewer.Legends
         }
 
         
-        private string CasteNoun(string caste, bool owner = false)
+        public string CasteNoun(bool owner = false)
         {
-            if (caste.ToLower() == "male")
+            if (this.Caste.ToLower() == "male")
                 if (owner) return "his";
                 else return "he";
-            else if (caste.ToLower() == "female")
+            else if (this.Caste.ToLower() == "female")
                 if (owner) return "her";
                 else return "she";
             else

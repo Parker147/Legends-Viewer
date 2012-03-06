@@ -14,16 +14,14 @@ namespace LegendsViewer.Legends
         Site Site;
         Entity Owner;
         Entity Parent;
-        StringBuilder Log;
 
         public SitesAndPopulationsParser(World world, string sitesAndPopsFile)
         {
             World = world;
             SitesAndPops = new StreamReader(sitesAndPopsFile, Encoding.Default);
-            Log = new StringBuilder();
         }
 
-        public string Parse()
+        public void Parse()
         {
             ReadLine();
             while (CurrentLine != "")
@@ -39,7 +37,6 @@ namespace LegendsViewer.Legends
             ReadOutdoorPopulations();
             ReadUndergroundPopulations();
             SitesAndPops.Close();
-            return Log.ToString();
         }
 
         private void ReadLine()
@@ -88,7 +85,7 @@ namespace LegendsViewer.Legends
                 }
                 catch (Exception e)
                 {
-                    Log.AppendLine(e.Message + ", Site Owner of " + Site.Name);
+                    World.ParsingErrors.Report(e.Message + ", Site Owner of " + Site.Name);
                 }
                 
                 ReadLine();
@@ -110,11 +107,11 @@ namespace LegendsViewer.Legends
                 catch (Exception e)
                 {
                     if (Owner != null)
-                        Log.AppendLine(e.Message + ", Parent Civ of " + Owner.Name + ", Site Owner of " + Site.Name);
+                        World.ParsingErrors.Report(e.Message + ", Parent Civ of " + Owner.Name + ", Site Owner of " + Site.Name);
                     else
-                        Log.AppendLine(e.Message + ", Parent Civ of Site Owner of " + Site.Name);
+                        World.ParsingErrors.Report(e.Message + ", Parent Civ of Site Owner of " + Site.Name);
                 }
-                
+
                 ReadLine();
             }
         }
@@ -133,7 +130,7 @@ namespace LegendsViewer.Legends
                     }
                     catch (Exception e)
                     {
-                        Log.AppendLine(e.Message + ", Official of " + Site.Name);
+                        World.ParsingErrors.Report(e.Message + ", Official of " + Site.Name);
                         ReadLine();
                         continue;
                     }
@@ -156,19 +153,12 @@ namespace LegendsViewer.Legends
                 ReadLine();
             }
 
-            //group duplicate populations
-            var pops = populations.GroupBy(pop => pop.Race).Select(count => new { count.Key, Count = count.Sum(pop => pop.Count) });
-            populations = new List<Population>();
-            foreach (var pop in pops)
-                populations.Add(new Population(pop.Key, pop.Count));
-            populations = populations.OrderByDescending(population => population.Count).ToList();
-
-            Site.Populations = populations;
+            Site.Populations = populations.OrderByDescending(pop => pop.Count).ToList();
             if (Owner != null)
             {
-                Owner.Populations = populations;
+                Owner.AddPopulations(populations);
                 if (Owner.Parent != null)
-                    Owner.Parent.Populations = populations;
+                    Owner.Parent.AddPopulations(populations);
             }
             World.SitePopulations.AddRange(populations);
         }
@@ -180,7 +170,7 @@ namespace LegendsViewer.Legends
                 if (Site.OwnerHistory.Count == 0)
                     new OwnerPeriod(Site, Owner, 1, "UNKNOWN");
                 else if (Site.OwnerHistory.Last().Owner != Owner)
-                    Log.AppendLine("Site ownership conflict: " + Site.Name);
+                    World.ParsingErrors.Report("Site ownership conflict: " + Site.Name);
 
             //check for loss of period ownership, since some some loss of ownership eventsList are missing
             if (Owner == null && Site.OwnerHistory.Count > 0 && Site.OwnerHistory.Last().EndYear == -1)

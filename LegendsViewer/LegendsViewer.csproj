@@ -88,6 +88,7 @@
     <Compile Include="Controls\DwarfTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\HTML\ArtifactPrinter.cs" />
     <Compile Include="Controls\Map\dlgPopulation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +180,7 @@
     <Compile Include="Legends\IdenticonRenderer.cs" />
     <Compile Include="Legends\Misc.cs" />
     <Compile Include="Legends\OwnerPeriod.cs" />
+    <Compile Include="Legends\ParsingErrors.cs" />
     <Compile Include="Legends\Population.cs" />
     <Compile Include="Legends\Region.cs" />
     <Compile Include="Legends\Link.cs" />

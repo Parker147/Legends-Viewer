@@ -40,9 +40,9 @@ namespace LegendsViewer
         new string[] {"plundered site",               "Site Pillaged",                            "Site attacked and plundered"},
         new string[] {"reclaim site",                 "Site Reclaimed",                           ""},
         new string[] {"remove hf entity link",        "Historical Figure - Entity Link Removed",  "(Incomplete) No longer in leader position / escaped prisons"},
-        new string[] {"artifact created",             "DF Mode - Artifact Created",               ""},
+        new string[] {"artifact created",             "Historical Figure Artifact Created",       ""},
         new string[] {"diplomat lost",                "DF Mode - Diplomat Lost",                  ""},
-        new string[] {"entity created",               "DF Mode - Entity Created",                 ""},
+        new string[] {"entity created",               "Entity Created",                           ""},
         new string[] {"hf revived",                   "DF Mode - Historical Figure Became Ghost", ""},
         new string[] {"masterpiece arch design",      "DF Mode - Masterpiece Arch. Designed",     ""},
         new string[] {"masterpiece arch constructed", "DF Mode - Masterpiece Arch. Constructed",  ""},
@@ -60,6 +60,20 @@ namespace LegendsViewer
         new string[] {"remove hf site link",          "Historical Figure - Site Link Removed",    "(Incomplete) Historical Figure moved out of site"},
         new string[] {"replaced structure",           "Site Structure Replaced",                  "(Incomplete) Housing replaced with biggger housing"},
         new string[] {"site taken over",              "Site Taken Over",                          ""},
+
+        new string[] {"entity relocate",              "Entity Relocated",                                         ""},
+        new string[] {"hf gains secret goal",         "Historical Figure Gained Secret Goal",                                         ""},
+        new string[] {"hf profaned structure",        "Historical Figure Profaned structure",                                         ""},
+        new string[] {"hf does interaction",          "Historical Figure Did Interaction",                                         ""},
+        new string[] {"entity primary criminals",     "Entity Became Primary Criminals",                                         ""},
+        new string[] {"hf confronted",                "Historical Figure Confronted",                                         ""},
+        new string[] {"assume identity",              "Historical Figure Assumed Identity",                                         ""},
+        new string[] {"entity law",                   "Entity Law Change",                                         ""},
+        new string[] {"change hf body state",         "Historical Figure Body State Changed",                                         ""},
+        new string[] {"razed structure",              "Entity Razed Structure",                                         ""},
+        new string[] {"hf learns secret",             "Historical Figure Learned Secret",                                         ""},
+        new string[] {"artifact stored",              "Historical Figure Stored Artifact",                                         ""},
+        new string[] {"artifact possessed",           "Historical Figure Obtained Artifact",                                         ""},
         new string[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 

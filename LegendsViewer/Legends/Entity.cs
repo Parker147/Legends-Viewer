@@ -142,6 +142,20 @@ namespace LegendsViewer.Legends
             }
         }
 
+        public void AddPopulations(List<Population> populations)
+        {
+            foreach (Population population in populations)
+            {
+                Population popMatch = this.Populations.FirstOrDefault(pop => pop.Race == population.Race);
+                if (popMatch != null)
+                    popMatch.Count += population.Count;
+                else
+                    this.Populations.Add(new Population(population.Race, population.Count));
+            }
+            this.Populations = this.Populations.OrderByDescending(pop => pop.Count).ToList();
+
+        }
+
         public string PrintIdenticon(bool fullSize = false)
         {
             if (IsCiv)

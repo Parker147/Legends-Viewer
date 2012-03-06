@@ -102,7 +102,7 @@ namespace LegendsViewer.Controls
             Map = map;
             World = world;
             FocusObject = focusObject;
-            if (FocusObject.GetType() == typeof(World))
+            if (FocusObject != null && FocusObject.GetType() == typeof(World))
                 FocusObject = null;
             DisplayObjects = new List<Object>();
             DoubleBuffered = true;

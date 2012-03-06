@@ -117,7 +117,7 @@ namespace LegendsViewer.Legends
                         {
                             case "attacker won": Outcome = BattleOutcome.AttackerWon; break;
                             case "defender won": Outcome = BattleOutcome.DefenderWon; break;
-                            default: Outcome = BattleOutcome.Unknown; world.Log.AppendLine("Unknown Battle Outcome: " + property.Value); break;
+                            default: Outcome = BattleOutcome.Unknown; world.ParsingErrors.Report("Unknown Battle Outcome: " + property.Value); break;
                         } break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;

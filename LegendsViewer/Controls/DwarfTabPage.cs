@@ -21,7 +21,10 @@ namespace LegendsViewer
         {
             ForwardHistory.Clear();
             if (Current != null)
+            {
+                Current.Dispose();
                 BackHistory.Push(Current);
+            }
             Current = pageControl;
             LoadPageControl();
         }
@@ -44,6 +47,7 @@ namespace LegendsViewer
         {
             if (BackHistory.Count > 0)
             {
+                Current.Dispose();
                 ForwardHistory.Push(Current);
                 Current = BackHistory.Pop();
                 LoadPageControl();
@@ -54,6 +58,7 @@ namespace LegendsViewer
         {
             if (ForwardHistory.Count > 0)
             {
+                Current.Dispose();
                 BackHistory.Push(Current);
                 Current = ForwardHistory.Pop();
                 LoadPageControl();
@@ -62,6 +67,7 @@ namespace LegendsViewer
 
         public void Close()
         {
+            Current.Dispose();
             Controls.Clear();
         }
     }
