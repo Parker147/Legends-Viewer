@@ -28,7 +28,7 @@ namespace LegendsViewer.Legends
 
         private void SkipAnimalPeople()
         {
-            while (!CurrentLine.Contains(","))
+            while (!CurrentLine.Contains(",") || CurrentLine.StartsWith(" "))
                 ReadLine();
         }
 
@@ -83,10 +83,6 @@ namespace LegendsViewer.Legends
                         continue;
                     }
                     worship.WorshippedBy = CurrentCiv;
-                    worship.Spheres = new List<string>();
-                    string[] worshipTypes = CurrentLine.Substring(CurrentLine.IndexOf(":") + 2, CurrentLine.Length - CurrentLine.IndexOf(":") - 2).Split(new string[] { ", " }, StringSplitOptions.None);
-                    foreach (string type in worshipTypes)
-                        worship.Spheres.Add(type);
                     CurrentCiv.Worshipped.Add(worship);
                     ReadLine();
                 }

@@ -172,7 +172,10 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was claimed in " + Site.ToLink(link, pov) + " by " + HistoricalFigure.ToLink(link, pov) + ".";
+            string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was claimed";
+            if (Site != null)
+                eventString += " in " + Site.ToLink(link, pov);
+            eventString += " by " + HistoricalFigure.ToLink(link, pov) + ".";
             return eventString;
         }
     }
@@ -474,7 +477,7 @@ namespace LegendsViewer.Legends
         {
             string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov);
             if (State == HFState.Settled) eventString += " settled in ";
-            if (State == HFState.Refugee || State == HFState.Snatcher || State == HFState.Thief) eventString += " became a " + State.ToString().ToLower() + " in ";
+            else if (State == HFState.Refugee || State == HFState.Snatcher || State == HFState.Thief) eventString += " became a " + State.ToString().ToLower() + " in ";
             else if (State == HFState.Wandering) eventString += " began wandering ";
             else if (State == HFState.Scouting) eventString += " began scouting the area around ";
             else if (State == HFState.Hunting) eventString += " began hunting great beasts in ";
@@ -2132,7 +2135,6 @@ namespace LegendsViewer.Legends
     }
 
 
-    //old eventsList
     public class AddHFSiteLink : WorldEvent
     {
         public Site Site;

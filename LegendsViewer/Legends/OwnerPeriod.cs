@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LegendsViewer.Legends
 {
-    //TODO: Move site/owner add history/site lines to site creation/destruction events
+    //TODO: Move site/owner add period/site lines to site creation/destruction events
     //TODO: Make Enums for start/end cause, search "new ownerperiod"
     public class OwnerPeriod
     {

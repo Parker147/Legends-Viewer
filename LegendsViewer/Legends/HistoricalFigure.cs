@@ -111,12 +111,13 @@ namespace LegendsViewer.Legends
                     case "active_interaction": ActiveInteraction = property.Value; break;
                     case "interaction_knowledge": InteractionKnowledge = property.Value; break;
                     case "animated": Animated = true; property.Known = true; break;
-                    case "animated_string": AnimatedType = property.Value; break;
-                    case "journey_pet": JourneyPet = property.Value; break;
-                    case "goal": Goal = property.Value; break;
+                    case "animated_string": AnimatedType = Formatting.InitCaps(property.Value); break;
+                    case "journey_pet": JourneyPet = Formatting.FormatRace(property.Value); break;
+                    case "goal": Goal = Formatting.InitCaps(property.Value); break;
+                    case "sphere":
+                        Spheres.Add(property.Value); break;
 
                     //Unhandled Properties
-                    case "sphere":
                     case "current_identity_id":
                     case "ent_pop_id":
                     case "holds_artifact":

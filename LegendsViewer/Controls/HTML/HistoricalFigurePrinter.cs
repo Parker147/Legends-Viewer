@@ -22,6 +22,7 @@ namespace LegendsViewer.Controls
             HTML = new StringBuilder();
             PrintStyle();
             PrintTitle();
+            PrintMiscInfo();
             PrintPositions();
             PrintRelatedHistoricalFigures();
             PrintBattles();
@@ -44,37 +45,18 @@ namespace LegendsViewer.Controls
             string title = String.Empty;
             if (HistoricalFigure.Deity)
             {
-                title = HistoricalFigure.Name + " is a deity that occurs in the myths of ";
-                if (HistoricalFigure.WorshippedBy != null) title += HistoricalFigure.WorshippedBy.ToLink() + ". " + HistoricalFigure.ToLink(false, HistoricalFigure)
-                    + " is most often depicted as a " + HistoricalFigure.RaceString();
-
-
-                if (HistoricalFigure.Spheres.Count > 0)
-                {
-                    title += " and is associated with ";
-                    string types = "";
-                    foreach (string type in HistoricalFigure.Spheres)
-                    {
-                        if (HistoricalFigure.Spheres.Last() == type && HistoricalFigure.Spheres.Count > 1) types += " and ";
-                        else if (types.Length > 0) types += ", ";
-                        types += type;
-                    }
-                    title += types;
-                }
+                title = HistoricalFigure.Name + " is a deity";
+                if (HistoricalFigure.WorshippedBy != null) 
+                    title += " that occurs in the myths of " + HistoricalFigure.WorshippedBy.ToLink() + ". ";
+                else 
+                    title += ". ";
+                title += HistoricalFigure.ToLink(false, HistoricalFigure) + " is most often depicted as a " + HistoricalFigure.RaceString() + ". ";
             }
             else if (HistoricalFigure.Force)
             {
                 title = HistoricalFigure.Name + " is a force said to permeate nature. ";
-                title += HistoricalFigure.ToLink(false, HistoricalFigure) + " was associated with ";
-                string associations = "";
-                foreach (string association in HistoricalFigure.Spheres)
-                {
-                    if (HistoricalFigure.Spheres.Last() == association && HistoricalFigure.Spheres.Count > 1) associations += " and ";
-                    else if (associations.Length > 0) associations += ", ";
-                    associations += association;
-                }
-                title += associations + ". ";
-                title += "Worshipped by " + HistoricalFigure.WorshippedBy.ToLink();
+                if (HistoricalFigure.WorshippedBy != null)
+                    title += "Worshipped by " + HistoricalFigure.WorshippedBy.ToLink();
             }
             else
             {
@@ -96,7 +78,34 @@ namespace LegendsViewer.Controls
                     title += ". ";
                 title += LineBreak + "Caste: " + HistoricalFigure.Caste + LineBreak + "Type: " + HistoricalFigure.AssociatedType;
             }
-            HTML.AppendLine(Bold(title) + LineBreak + LineBreak);
+            HTML.AppendLine(Bold(title) + LineBreak);
+        }
+
+
+        private void PrintMiscInfo()
+        {
+            if (HistoricalFigure.Spheres.Count > 0)
+            {
+                string spheres = "";
+                foreach (string sphere in HistoricalFigure.Spheres)
+                {
+                    if (HistoricalFigure.Spheres.Last() == sphere && HistoricalFigure.Spheres.Count > 1) spheres += " and ";
+                    else if (spheres.Length > 0) spheres += ", ";
+                    spheres += sphere;
+                }
+                HTML.Append(Bold("Associated Spheres: ") + spheres + LineBreak);
+            }
+            if (HistoricalFigure.Goal != "")
+                HTML.AppendLine(Bold("Goal: ") + HistoricalFigure.Goal + LineBreak);
+            if (HistoricalFigure.ActiveInteraction != "")
+                HTML.AppendLine(Bold("Active Interaction: ") + HistoricalFigure.ActiveInteraction + LineBreak);
+            if (HistoricalFigure.InteractionKnowledge != "")
+                HTML.AppendLine(Bold("Interaction Knowledge: ") + HistoricalFigure.InteractionKnowledge + LineBreak);
+            if (HistoricalFigure.Animated)
+                HTML.AppendLine(Bold("Animated as: ") + HistoricalFigure.AnimatedType + LineBreak);
+            if (HistoricalFigure.JourneyPet != "")
+                HTML.AppendLine(Bold("Journey Pet: ") + HistoricalFigure.JourneyPet + LineBreak);
+            HTML.AppendLine(LineBreak);
         }
 
         private void PrintPositions()
