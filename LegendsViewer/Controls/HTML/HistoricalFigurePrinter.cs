@@ -25,6 +25,7 @@ namespace LegendsViewer.Controls
             PrintMiscInfo();
             PrintPositions();
             PrintRelatedHistoricalFigures();
+            PrintRelatedEntities();
             PrintBattles();
             PrintKills();
             PrintBeastAttacks();
@@ -103,8 +104,17 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine(Bold("Interaction Knowledge: ") + HistoricalFigure.InteractionKnowledge + LineBreak);
             if (HistoricalFigure.Animated)
                 HTML.AppendLine(Bold("Animated as: ") + HistoricalFigure.AnimatedType + LineBreak);
-            if (HistoricalFigure.JourneyPet != "")
-                HTML.AppendLine(Bold("Journey Pet: ") + HistoricalFigure.JourneyPet + LineBreak);
+            if (HistoricalFigure.JourneyPets.Count > 0)
+            {
+                string pets = "";
+                foreach (string pet in HistoricalFigure.JourneyPets)
+                {
+                    if (HistoricalFigure.JourneyPets.Last() == pet && HistoricalFigure.JourneyPets.Count > 1) pets += " and ";
+                    else if (pets.Length > 0) pets += ", ";
+                    pets += pet;
+                }
+                HTML.AppendLine(Bold("Journey Pets: ") + pets + LineBreak);
+            }
             HTML.AppendLine(LineBreak);
         }
 
@@ -139,6 +149,32 @@ namespace LegendsViewer.Controls
                     if (relation.Type == HistoricalFigureLinkType.Deity)
                         relationString += " (" + relation.Strength + "%)";
                     HTML.AppendLine(ListItem + relationString);
+                }
+                EndList(ListType.Unordered);
+            }
+        }
+
+        private void PrintRelatedEntities()
+        {
+            if (HistoricalFigure.RelatedEntities.Count > 0)
+            {
+                HTML.AppendLine(Bold("Related Entities") + LineBreak);
+                StartList(ListType.Unordered);
+                foreach (EntityLink link in HistoricalFigure.RelatedEntities)
+                {
+                    string linkString = link.Entity.ToLink() + " (" + link.Type;
+                    if (link.Strength > 0)
+                        linkString += " " + link.Strength + "%";
+                    if (link.StartYear > -1)
+                    {
+                        linkString += " " + link.PositionID + ", " + link.StartYear + "-";
+                        if (link.EndYear > -1)
+                            linkString += link.EndYear;
+                        else
+                            linkString += "Present";
+                    }
+                    linkString += ")";
+                    HTML.AppendLine(ListItem + linkString);
                 }
                 EndList(ListType.Unordered);
             }

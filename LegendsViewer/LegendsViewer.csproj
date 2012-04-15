@@ -153,6 +153,7 @@
     </Compile>
     <Compile Include="Controls\Query\DwarfQuery.cs" />
     <Compile Include="Controls\Query\Dynamic.cs" />
+    <Compile Include="FileLoader.cs" />
     <Compile Include="LegendsViewer.cs">
       <SubType>Form</SubType>
     </Compile>

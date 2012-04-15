@@ -28,10 +28,10 @@ namespace LegendsViewer.Legends
             //catch (System.Xml.XmlException xmlError)
             //{
             //    XML.Close();
-            //    File.Move(xmlFile, xmlFile + ".bad");
-            //    using (StreamReader badXML = new StreamReader(xmlFile + ".bad", Encoding.Default))
+            //    File.Move(file, file + ".bad");
+            //    using (StreamReader badXML = new StreamReader(file + ".bad", Encoding.Default))
             //    {
-            //        using (StreamWriter fixedXML = new StreamWriter(xmlFile, false))
+            //        using (StreamWriter fixedXML = new StreamWriter(file, false))
             //        {
             //            string CurrentLine = "";
             //            while (!badXML.EndOfStream)
@@ -45,8 +45,8 @@ namespace LegendsViewer.Legends
             //        }
             //    }
 
-            //    File.Delete(xmlFile + ".bad");
-            //    XML = new XmlTextReader(xmlFile);
+            //    File.Delete(file + ".bad");
+            //    XML = new XmlTextReader(file);
             //    try { ParseXML(XML); }
             //    catch
             //    {
@@ -440,6 +440,7 @@ namespace LegendsViewer.Legends
             {
                 World.EntitiesByName = new List<Entity>(World.Entities);
                 World.EntitiesByName.Sort((a, b) => String.Compare(a.Name, b.Name));
+                World.ProcessHFtoEntityLinks();
             }
 
             if (section == Section.Eras)

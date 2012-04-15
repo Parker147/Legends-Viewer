@@ -15,6 +15,7 @@ namespace LegendsViewer.Legends
         public HFState CurrentState { get; set; }
         public List<State> States { get; set; }
         public List<HistoricalFigureLink> RelatedHistoricalFigures { get; set; }
+        public List<EntityLink> RelatedEntities { get; set; }
         public int Age { get; set; }
         public int Appeared { get; set; }
         public int BirthYear { get; set; }
@@ -25,7 +26,7 @@ namespace LegendsViewer.Legends
         public string ActiveInteraction { get; set; }
         public string InteractionKnowledge { get; set; }
         public string Goal { get; set; }
-        public string JourneyPet { get; set; }
+        public List<string> JourneyPets { get; set; }
         public string DeathCollectionType
         {
             get
@@ -108,11 +109,23 @@ namespace LegendsViewer.Legends
                                 subProperty.Known = true;
                         }
                         break;
+                    case "entity_link":
+                    case "entity_former_position_link":
+                    case "entity_position_link":
+                        world.AddHFtoEntityLink(this, property);
+                        List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year"};
+                        foreach (string subPropertyName in knownEntitySubProperties)
+                        {
+                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                            if (subProperty != null)
+                                subProperty.Known = true;
+                        }
+                        break;
                     case "active_interaction": ActiveInteraction = property.Value; break;
                     case "interaction_knowledge": InteractionKnowledge = property.Value; break;
                     case "animated": Animated = true; property.Known = true; break;
                     case "animated_string": AnimatedType = Formatting.InitCaps(property.Value); break;
-                    case "journey_pet": JourneyPet = Formatting.FormatRace(property.Value); break;
+                    case "journey_pet": JourneyPets.Add(Formatting.FormatRace(property.Value)); break;
                     case "goal": Goal = Formatting.InitCaps(property.Value); break;
                     case "sphere":
                         Spheres.Add(property.Value); break;
@@ -122,16 +135,6 @@ namespace LegendsViewer.Legends
                     case "ent_pop_id":
                     case "holds_artifact":
                     case "used_identity_id": property.Known = true; break;
-                    case "entity_link":
-                        property.Known = true;
-                        foreach(Property subProperty in property.SubProperties)
-                            switch (subProperty.Name)
-                            {
-                                case "link_type":
-                                case "link_strength":
-                                case "entity_id": subProperty.Known = true; break;
-                            }
-                        break;
                     case "hf_skill":
                         property.Known = true;
                         foreach(Property subProperty in property.SubProperties)
@@ -141,18 +144,17 @@ namespace LegendsViewer.Legends
                                 case "total_ip": subProperty.Known = true; break;
                             }
                         break;
-                    case "entity_former_position_link":
-                    case "entity_position_link":
-                        property.Known = true;
-                        foreach(Property subProperty in property.SubProperties)
-                            switch (subProperty.Name)
-                            {
-                                case "position_profile_id":
-		                        case "entity_id":
-		                        case "start_year":
-                                case "end_year": subProperty.Known = true; break;
-                            }
-                        break;
+                    
+                        //property.Known = true;
+                        //foreach(Property subProperty in property.SubProperties)
+                        //    switch (subProperty.Name)
+                        //    {
+                        //        case "position_profile_id":
+                        //        case "entity_id":
+                        //        case "start_year":
+                        //        case "end_year": subProperty.Known = true; break;
+                        //    }
+                        //break;
 
                     case "site_link":
                         property.Known = true;
@@ -193,11 +195,12 @@ namespace LegendsViewer.Legends
             BeastAttacks = new List<BeastAttack>();
             States = new List<State>();
             RelatedHistoricalFigures = new List<HistoricalFigureLink>();
+            RelatedEntities = new List<EntityLink>();
             AnimatedType = "";
             Goal = "";
             ActiveInteraction = "";
             InteractionKnowledge = "";
-            JourneyPet = "";
+            JourneyPets = new List<string>();
             
         }
 

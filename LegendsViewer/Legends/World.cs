@@ -40,6 +40,9 @@ namespace LegendsViewer.Legends
             private List<HistoricalFigure> HFtoHFLinkHFs = new List<HistoricalFigure>();
             private List<Property> HFtoHFLinks = new List<Property>();
 
+            private List<HistoricalFigure> HFtoEntityLinkHFs = new List<HistoricalFigure>();
+            private List<Property> HFtoEntityLinks = new List<Property>();
+
             public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile)
             {
                 ParsingErrors = new ParsingErrors();
@@ -403,6 +406,26 @@ namespace LegendsViewer.Legends
 
                 HFtoHFLinkHFs.Clear();
                 HFtoHFLinks.Clear();
+            }
+
+            public void AddHFtoEntityLink(HistoricalFigure hf, Property link)
+            {
+                HFtoEntityLinkHFs.Add(hf);
+                HFtoEntityLinks.Add(link);
+            }
+
+            public void ProcessHFtoEntityLinks()
+            {
+                for (int i = 0; i < HFtoEntityLinks.Count; i++)
+                {
+                    Property link = HFtoEntityLinks[i];
+                    HistoricalFigure hf = HFtoEntityLinkHFs[i];
+                    EntityLink relatedEntity = new EntityLink(link.SubProperties, this);
+                    hf.RelatedEntities.Add(relatedEntity);
+                }
+
+                HFtoEntityLinkHFs.Clear();
+                HFtoEntityLinks.Clear();
             }
         }
 

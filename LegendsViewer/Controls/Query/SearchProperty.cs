@@ -78,6 +78,7 @@ namespace LegendsViewer.Controls.Query
                     new SearchProperty("JourneyPet", "Journey Pet", typeof(string)),
                     new SearchProperty("Positions", "Positions", typeof(List<HistoricalFigure.Position>), false),
                     new SearchProperty("RelatedHistoricalFigures", "Related Historical Figures", typeof(List<HistoricalFigureLink>), true),
+                    new SearchProperty("RelatedEntities", "Related Entities", typeof(List<EntityLink>), true),
                     new SearchProperty("HFKills", "Kills", typeof(List<HistoricalFigure>), true),
                     new SearchProperty("Abductions", typeof(List<HistoricalFigure>)),
                     new SearchProperty("Abducted", typeof(int)),
@@ -96,6 +97,17 @@ namespace LegendsViewer.Controls.Query
                     new SearchProperty("HistoricalFigure", "Historical Figure", typeof(HistoricalFigure)),
                     new SearchProperty("Type", typeof(HistoricalFigureLinkType)),
                     new SearchProperty("Strength", typeof(int))
+                };
+            }
+            else if (nonGenericSearchType == typeof(EntityLink))
+            {
+                SearchProperties = new List<SearchProperty>() {
+                    new SearchProperty("Entity", typeof(Entity)),
+                    new SearchProperty("Type", typeof(EntityLinkType)),
+                    new SearchProperty("Strength", typeof(int)),
+                    new SearchProperty("PositionID", typeof(int)),
+                    new SearchProperty("StartYear", typeof(int)),
+                    new SearchProperty("EndYear", typeof(int))
                 };
             }
             else if (nonGenericSearchType == typeof(Entity))

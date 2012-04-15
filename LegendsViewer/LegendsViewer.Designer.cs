@@ -36,18 +36,15 @@
             this.btnStats = new System.Windows.Forms.Button();
             this.btnShowMap = new System.Windows.Forms.Button();
             this.btnMap = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.txtMap = new System.Windows.Forms.TextBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.txtSitePops = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.txtHistory = new System.Windows.Forms.TextBox();
             this.btnSitePops = new System.Windows.Forms.Button();
             this.btnHistory = new System.Windows.Forms.Button();
             this.btnXML = new System.Windows.Forms.Button();
             this.txtXML = new System.Windows.Forms.TextBox();
             this.txtLog = new System.Windows.Forms.RichTextBox();
-            this.btnLoad = new System.Windows.Forms.Button();
             this.tpHF = new System.Windows.Forms.TabPage();
             this.tcHF = new System.Windows.Forms.TabControl();
             this.tpHFSearch = new System.Windows.Forms.TabPage();
@@ -225,14 +222,11 @@
             this.numEraEnd = new System.Windows.Forms.NumericUpDown();
             this.listEras = new System.Windows.Forms.ListBox();
             this.tpEraEvents = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
             this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnForward = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.hint = new System.Windows.Forms.ToolTip(this.components);
-            this.loadWorld = new System.ComponentModel.BackgroundWorker();
-            this.extractZip = new System.ComponentModel.BackgroundWorker();
             this.tcWorld.SuspendLayout();
             this.tpSummary.SuspendLayout();
             this.tpHF.SuspendLayout();
@@ -317,18 +311,15 @@
             this.tpSummary.Controls.Add(this.btnStats);
             this.tpSummary.Controls.Add(this.btnShowMap);
             this.tpSummary.Controls.Add(this.btnMap);
-            this.tpSummary.Controls.Add(this.button3);
             this.tpSummary.Controls.Add(this.txtMap);
             this.tpSummary.Controls.Add(this.lblStatus);
             this.tpSummary.Controls.Add(this.txtSitePops);
-            this.tpSummary.Controls.Add(this.button1);
             this.tpSummary.Controls.Add(this.txtHistory);
             this.tpSummary.Controls.Add(this.btnSitePops);
             this.tpSummary.Controls.Add(this.btnHistory);
             this.tpSummary.Controls.Add(this.btnXML);
             this.tpSummary.Controls.Add(this.txtXML);
             this.tpSummary.Controls.Add(this.txtLog);
-            this.tpSummary.Controls.Add(this.btnLoad);
             this.tpSummary.Location = new System.Drawing.Point(4, 40);
             this.tpSummary.Name = "tpSummary";
             this.tpSummary.Size = new System.Drawing.Size(269, 518);
@@ -388,19 +379,6 @@
             this.btnMap.TabIndex = 15;
             this.btnMap.Text = "...";
             this.btnMap.UseVisualStyleBackColor = true;
-            this.btnMap.Click += new System.EventHandler(this.openFiles);
-            // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(230, 373);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(31, 23);
-            this.button3.TabIndex = 13;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Visible = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // txtMap
             // 
@@ -415,14 +393,14 @@
             // 
             // lblStatus
             // 
-            this.lblStatus.AutoSize = true;
             this.lblStatus.BackColor = System.Drawing.Color.Transparent;
             this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblStatus.Location = new System.Drawing.Point(3, 112);
+            this.lblStatus.ForeColor = System.Drawing.Color.Green;
+            this.lblStatus.Location = new System.Drawing.Point(8, 112);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(0, 20);
+            this.lblStatus.Size = new System.Drawing.Size(253, 20);
             this.lblStatus.TabIndex = 12;
+            this.lblStatus.Text = "Select Files";
             // 
             // txtSitePops
             // 
@@ -434,18 +412,6 @@
             this.txtSitePops.Size = new System.Drawing.Size(218, 20);
             this.txtSitePops.TabIndex = 11;
             this.txtSitePops.Text = "Sites and Populations Text";
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(228, 344);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(33, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "db";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtHistory
             // 
@@ -466,7 +432,6 @@
             this.btnSitePops.TabIndex = 9;
             this.btnSitePops.Text = "...";
             this.btnSitePops.UseVisualStyleBackColor = true;
-            this.btnSitePops.Click += new System.EventHandler(this.openFiles);
             // 
             // btnHistory
             // 
@@ -476,7 +441,6 @@
             this.btnHistory.TabIndex = 8;
             this.btnHistory.Text = "...";
             this.btnHistory.UseVisualStyleBackColor = true;
-            this.btnHistory.Click += new System.EventHandler(this.openFiles);
             // 
             // btnXML
             // 
@@ -486,7 +450,6 @@
             this.btnXML.TabIndex = 7;
             this.btnXML.Text = "...";
             this.btnXML.UseVisualStyleBackColor = true;
-            this.btnXML.Click += new System.EventHandler(this.openFiles);
             // 
             // txtXML
             // 
@@ -510,16 +473,6 @@
             this.txtLog.Text = "";
             this.txtLog.WordWrap = false;
             this.txtLog.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLog_KeyDown);
-            // 
-            // btnLoad
-            // 
-            this.btnLoad.Location = new System.Drawing.Point(152, 112);
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(75, 23);
-            this.btnLoad.TabIndex = 2;
-            this.btnLoad.Text = "Load";
-            this.btnLoad.UseVisualStyleBackColor = true;
-            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // tpHF
             // 
@@ -2575,18 +2528,6 @@
             this.tpEraEvents.Text = "Events";
             this.tpEraEvents.UseVisualStyleBackColor = true;
             // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(396, 520);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(28, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // dlgOpen
             // 
             this.dlgOpen.Filter = "Dwarf Files | *.xml; *.txt; *.zip";
@@ -2622,16 +2563,6 @@
             this.btnClose.Visible = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // loadWorld
-            // 
-            this.loadWorld.DoWork += new System.ComponentModel.DoWorkEventHandler(this.loadWorld_DoWork);
-            this.loadWorld.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.loadWorld_RunWorkerCompleted);
-            // 
-            // extractZip
-            // 
-            this.extractZip.DoWork += new System.ComponentModel.DoWorkEventHandler(this.extractZip_DoWork);
-            this.extractZip.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.extractZip_RunWorkerCompleted);
-            // 
             // frmLegendsViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2641,10 +2572,10 @@
             this.Controls.Add(this.btnForward);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.tcWorld);
-            this.Controls.Add(this.button2);
             this.DoubleBuffered = true;
             this.Name = "frmLegendsViewer";
             this.Text = "Legends Viewer 1.13";
+            this.Shown += new System.EventHandler(this.frmLegendsViewer_Shown);
             this.ResizeEnd += new System.EventHandler(this.frmLegendsViewer_ResizeEnd);
             this.tcWorld.ResumeLayout(false);
             this.tpSummary.ResumeLayout(false);
@@ -2736,7 +2667,6 @@
         private System.Windows.Forms.TabControl tcWorld;
         private System.Windows.Forms.TabPage tpSummary;
         private System.Windows.Forms.RichTextBox txtLog;
-        private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.TabPage tpSites;
         private System.Windows.Forms.TabPage tpRegions;
         private System.Windows.Forms.TabPage tpURegions;
@@ -2744,8 +2674,6 @@
         private System.Windows.Forms.OpenFileDialog dlgOpen;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnForward;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TabPage tpHF;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.TextBox txtSitePops;
@@ -2834,8 +2762,6 @@
         private System.Windows.Forms.RadioButton radEntitySortEvents;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblStatus;
-        private System.ComponentModel.BackgroundWorker loadWorld;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TabPage tpCollections;
         private System.Windows.Forms.TabControl tcCollections;
         private System.Windows.Forms.TabPage tpWars;
@@ -2886,7 +2812,6 @@
         private System.Windows.Forms.RadioButton radRegionSortBattles;
         private System.Windows.Forms.RadioButton radCivSortWars;
         private System.Windows.Forms.RadioButton radWarSortWarfare;
-        private System.ComponentModel.BackgroundWorker extractZip;
         private System.Windows.Forms.TabPage tpEras;
         private System.Windows.Forms.TabControl tcEras;
         private System.Windows.Forms.TabPage tpEraSearch;
