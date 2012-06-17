@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace LegendsViewer.Legends
 {
@@ -40,6 +41,13 @@ namespace LegendsViewer.Legends
             if (Type == HistoricalFigureLinkType.Deity && Strength == 0)
                 Strength = 100;
         }
+
+        public HistoricalFigureLink(HistoricalFigure historicalFigureTarget, HistoricalFigureLinkType type, int strength = 0)
+        {
+            HistoricalFigure = historicalFigureTarget;
+            Type = type;
+            Strength = strength;
+        }
     }
 
     public enum HistoricalFigureLinkType
@@ -48,9 +56,13 @@ namespace LegendsViewer.Legends
         Child,
         Deity,
         Father,
+        Lover,
         Master,
         Mother,
         Spouse,
+        Prisoner, //Not found in XML, used by AddHFHFLink event
+        [Description("Ex-Spouse")]
+        ExSpouse,
         Unknown
     }
 
@@ -114,16 +126,71 @@ namespace LegendsViewer.Legends
         Criminal,
         Enemy,
         Member,
+        [Description("Former Member")]
         FormerMember,
         Position,
+        [Description("Former Position")]
         FormerPosition,
         Prisoner,
+        [Description("Former Prisoner")]
         FormerPrisoner,
+        [Description("Former Slave")]
         FormerSlave,
+        Slave,
         Unknown
     }
 
-    class SiteLink
+    public class SiteLink
     {
+        public SiteLinkType Type { get; set; }
+        public Site Site { get; set; }
+        public int SubID { get; set; }
+        public Entity Entity { get; set; }
+        public SiteLink(List<Property> properties, World world)
+        {
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
+                {
+                    case "link_type":
+                        switch(property.Value)
+                        {
+                            case "lair": Type = SiteLinkType.Lair; break;
+                            case "home site building": Type = SiteLinkType.HomeSiteBuilding; break;
+                            case "home site underground": Type = SiteLinkType.HomeSiteUnderground; break;
+                            case "home structure": Type = SiteLinkType.HomeStructure; break;
+                            case "seat of power": Type = SiteLinkType.SeatOfPower; break;
+                            default: 
+                                Type = SiteLinkType.Unknown;
+                                world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value);
+                                break;
+                        }
+                        break;
+                    case "site_id":
+                        Site = world.GetSite(Convert.ToInt32(property.Value)); 
+                        break;
+                    case "sub_id":
+                        SubID = Convert.ToInt32(property.Value);
+                        break;
+                    case "entity_id":
+                        Entity = world.GetEntity(Convert.ToInt32(property.Value));
+                        break;
+                }
+            }
+        }
+    }
+
+    public enum SiteLinkType
+    {
+        Lair,
+        [Description("Home - Site Building")]
+        HomeSiteBuilding,
+        [Description("Home - Site Underground")]
+        HomeSiteUnderground,
+        [Description("Home - Structure")]
+        HomeStructure,
+        [Description("Seat of Power")]
+        SeatOfPower,
+        Unknown
     }
 }

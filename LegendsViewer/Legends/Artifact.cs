@@ -7,7 +7,8 @@ namespace LegendsViewer.Legends
 {
     public class Artifact : WorldObject
     {
-        public string Name, Item;
+        public string Name { get; set; }
+        public string Item { get; set; }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {

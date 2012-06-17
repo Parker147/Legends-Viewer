@@ -63,7 +63,7 @@ namespace LegendsViewer
 
         private void frmLegendsViewer_Shown(object sender, EventArgs e)
         {
-            if(CommandFile != "")
+            if (!String.IsNullOrEmpty(CommandFile))
                 FileLoader.AttemptLoadFrom(CommandFile);
         }
 
@@ -186,8 +186,8 @@ namespace LegendsViewer
                 hfSearch.type = cmbType.SelectedItem.ToString();
                 hfSearch.deity = chkDeity.Checked;
                 hfSearch.force = chkForce.Checked;
-                hfSearch.skeleton = chkSkeleton.Checked;
-                hfSearch.zombie = chkZombie.Checked;
+                hfSearch.vampire = chkVampire.Checked;
+                hfSearch.werebeast = chkWerebeast.Checked;
                 hfSearch.ghost = chkGhost.Checked;
                 hfSearch.alive = chkAlive.Checked;
                 hfSearch.Leader = chkHFLeader.Checked;
@@ -209,7 +209,7 @@ namespace LegendsViewer
             lblHFList.Font = new Font(lblHFList.Font.FontFamily, lblHFList.Font.Size, FontStyle.Bold);
             hfSearch.BaseList = list;
             txtHFSearch.Clear();
-            chkAlive.Checked = chkDeity.Checked = chkForce.Checked = chkGhost.Checked = chkSkeleton.Checked = chkZombie.Checked = chkHFLeader.Checked = false;
+            chkAlive.Checked = chkDeity.Checked = chkForce.Checked = chkGhost.Checked = chkVampire.Checked = chkWerebeast.Checked = chkHFLeader.Checked = false;
             cmbRace.SelectedIndex = 0;
             cmbCaste.SelectedIndex = 0;
             cmbType.SelectedIndex = 0;
@@ -667,7 +667,7 @@ namespace LegendsViewer
 
             txtHFSearch.Clear();
             listHFSearch.Items.Clear();
-            chkAlive.Checked = chkDeity.Checked = chkGhost.Checked = chkSkeleton.Checked = chkZombie.Checked = chkForce.Checked = chkHFLeader.Checked = false;
+            chkAlive.Checked = chkDeity.Checked = chkGhost.Checked = chkVampire.Checked = chkWerebeast.Checked = chkForce.Checked = chkHFLeader.Checked = false;
             cmbRace.Items.Clear();
             cmbCaste.Items.Clear();
             cmbType.Items.Clear();

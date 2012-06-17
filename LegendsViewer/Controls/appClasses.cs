@@ -60,7 +60,6 @@ namespace LegendsViewer
         new string[] {"remove hf site link",          "Historical Figure - Site Link Removed",    "(Incomplete) Historical Figure moved out of site"},
         new string[] {"replaced structure",           "Site Structure Replaced",                  "(Incomplete) Housing replaced with biggger housing"},
         new string[] {"site taken over",              "Site Taken Over",                          ""},
-
         new string[] {"entity relocate",              "Entity Relocated",                                         ""},
         new string[] {"hf gains secret goal",         "Historical Figure Gained Secret Goal",                                         ""},
         new string[] {"hf profaned structure",        "Historical Figure Profaned structure",                                         ""},
@@ -74,6 +73,7 @@ namespace LegendsViewer
         new string[] {"hf learns secret",             "Historical Figure Learned Secret",                                         ""},
         new string[] {"artifact stored",              "Historical Figure Stored Artifact",                                         ""},
         new string[] {"artifact possessed",           "Historical Figure Obtained Artifact",                                         ""},
+        new string[] {"agreement made",               "",                                         ""},
         new string[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 
@@ -190,6 +190,11 @@ namespace LegendsViewer
                 bindings = new List<ColumnBinding>() { new ColumnBinding("Name"),
                                                        new ColumnBinding("Deaths"),
                                                        new ColumnBinding("StartYear", "Year") };
+            }
+            else if (dataType == typeof(Artifact))
+            {
+                bindings = new List<ColumnBinding>() {new ColumnBinding("Name"),
+                                                      new ColumnBinding("Item") };
             }
 
             if (dataType.BaseType == typeof(WorldObject))

@@ -9,7 +9,7 @@ namespace LegendsViewer
         public class HistoricalFigureList
         {
             private World World;
-            public bool deity, skeleton, force, zombie, ghost, alive, Leader, sortKills, sortEvents, sortFiltered, sortBattles;
+            public bool deity, vampire, force, werebeast, ghost, alive, Leader, sortKills, sortEvents, sortFiltered, sortBattles;
             public string name, race, caste, type;
             public List<HistoricalFigure> BaseList;
             public HistoricalFigureList(World setWorld) { World = setWorld; BaseList = World.HistoricalFigures; }
@@ -21,17 +21,17 @@ namespace LegendsViewer
                 if (caste != "All") filtered = filtered.Where(hf => hf.Caste == caste);
                 if (type != "All") filtered = filtered.Where(hf => hf.AssociatedType == type);
                 if (deity) filtered = filtered.Where(hf => hf.Deity);
-                if (skeleton) filtered = filtered.Where(hf => hf.Skeleton);
+                if (vampire ) filtered = filtered.Where(hf => hf.ActiveInteraction.Contains("VAMPIRE"));
+                if (werebeast) filtered = filtered.Where(hf => hf.ActiveInteraction.Contains("WEREBEAST"));
                 if (force) filtered = filtered.Where(hf => hf.Force);
-                if (zombie) filtered = filtered.Where(hf => hf.Zombie);
                 if (ghost) filtered = filtered.Where(hf => hf.Ghost);
                 if (Leader) filtered = filtered.Where(hf => hf.Positions.Count > 0);
                 if (alive) filtered = filtered.Where(hf => hf.DeathYear == -1);
-                if (sortKills) filtered = filtered.OrderByDescending(hf => hf.Kills.Count).Take(1000);
-                if (sortEvents) filtered = filtered.OrderByDescending(hf => hf.Events.Count).Take(1000);
+                if (sortKills) filtered = filtered.OrderByDescending(hf => hf.NotableKills.Count);
+                if (sortEvents) filtered = filtered.OrderByDescending(hf => hf.Events.Count);
                 if (sortFiltered) filtered = filtered.OrderByDescending(hf => hf.Events.Count(ev => !HistoricalFigure.Filters.Contains(ev.Type)));
                 if (sortBattles) filtered = filtered.OrderByDescending(hf => hf.Battles.Count(battle => !World.FilterBattles || battle.Notable));
-                return filtered;
+                return filtered.Take(500);
             }
         }
 

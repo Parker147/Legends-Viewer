@@ -78,7 +78,8 @@
             "Wars",
             "Battles",
             "Conquerings",
-            "Beast Attacks"});
+            "Beast Attacks",
+            "Artifacts"});
             this.SelectList.Location = new System.Drawing.Point(3, 18);
             this.SelectList.Name = "SelectList";
             this.SelectList.Size = new System.Drawing.Size(134, 21);

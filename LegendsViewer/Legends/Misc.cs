@@ -126,6 +126,8 @@ namespace LegendsViewer.Legends
         ExecutedBuriedAlive,
         [Description("Executed - Beheaded")]
         ExecutedBeheaded,
+        [Description("Drained of blood")]
+        DrainedBlood,
         Unknown
     }
 }

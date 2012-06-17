@@ -10,12 +10,20 @@ namespace LegendsViewer.Legends
         public static HistoricalFigure Unknown;
         public string Name { get; set; }
         public string Race { get; set; }
+        public string PreviousRace { get; set; }
         public string Caste { get; set; }
         public string AssociatedType { get; set; }
+        public EntityPopulation EntityPopulation { get; set; }
         public HFState CurrentState { get; set; }
+        public HistoricalFigure UsedIdentity { get; set; }
+        public HistoricalFigure CurrentIdentity { get; set; }
+        public Artifact Holding { get; set; }
         public List<State> States { get; set; }
         public List<HistoricalFigureLink> RelatedHistoricalFigures { get; set; }
         public List<EntityLink> RelatedEntities { get; set; }
+        public List<EntityReputation> Reputations { get; set; }
+        public List<SiteLink> RelatedSites { get; set; }
+        public List<Skill> Skills { get; set; }
         public int Age { get; set; }
         public int Appeared { get; set; }
         public int BirthYear { get; set; }
@@ -24,7 +32,7 @@ namespace LegendsViewer.Legends
         public int DeathSeconds72 { get; set; }
         public DeathCause DeathCause { get; set; }
         public string ActiveInteraction { get; set; }
-        public string InteractionKnowledge { get; set; }
+        public List<string> InteractionKnowledge { get; set; }
         public string Goal { get; set; }
         public List<string> JourneyPets { get; set; }
         public string DeathCollectionType
@@ -41,8 +49,8 @@ namespace LegendsViewer.Legends
             }
             set { }
         }
-        public List<HFDied> Kills { get; set; }
-        public List<HistoricalFigure> HFKills { get { return Kills.Select(kill => kill.HistoricalFigure).ToList(); } set { } }
+        public List<HFDied> NotableKills { get; set; }
+        public List<HistoricalFigure> HFKills { get { return NotableKills.Select(kill => kill.HistoricalFigure).ToList(); } set { } }
         public List<HistoricalFigure> Abductions { get { return Events.OfType<HFAbducted>().Where(abduction => abduction.Snatcher == this).Select(abduction => abduction.Target).ToList(); } set { } }
         public int Abducted { get { return Events.OfType<HFAbducted>().Count(abduction => abduction.Target == this); } set { } }
         public List<string> Spheres { get; set; }
@@ -62,6 +70,7 @@ namespace LegendsViewer.Legends
         public bool Beast { get; set; }
         public bool Animated { get; set; }
         public string AnimatedType { get; set; }
+        public bool Adventurer { get; set; }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -80,7 +89,9 @@ namespace LegendsViewer.Legends
             : base(properties, world)
         {
             Initialize();
-
+            List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
+            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count" };
+            List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id" };
             foreach(Property property in properties)
                 switch(property.Name)
                 {
@@ -113,7 +124,6 @@ namespace LegendsViewer.Legends
                     case "entity_former_position_link":
                     case "entity_position_link":
                         world.AddHFtoEntityLink(this, property);
-                        List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year"};
                         foreach (string subPropertyName in knownEntitySubProperties)
                         {
                             Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
@@ -121,62 +131,56 @@ namespace LegendsViewer.Legends
                                 subProperty.Known = true;
                         }
                         break;
-                    case "active_interaction": ActiveInteraction = property.Value; break;
-                    case "interaction_knowledge": InteractionKnowledge = property.Value; break;
+                    case "entity_reputation":
+                        world.AddReputation(this, property);
+                        foreach (string subPropertyName in knownReputationSubProperties)
+                        {
+                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                            if (subProperty != null)
+                                subProperty.Known = true;
+                        }
+                        break;
+                    case "site_link":
+                        world.AddHFtoSiteLink(this, property);
+                        foreach (string subPropertyName in knownSiteLinkSubProperties)
+                        {
+                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                            if (subProperty != null)
+                                subProperty.Known = true;
+                        }
+                        break;
+                    case "hf_skill": Skills.Add(new Skill(property.SubProperties)); break;
+                    case "active_interaction": 
+                        if (ActiveInteraction != "")
+                            throw new Exception("Active Interaction already exists.");
+                        ActiveInteraction = property.Value; 
+                        break;
+                    case "interaction_knowledge":
+                        InteractionKnowledge.Add(property.Value);
+                        break;
                     case "animated": Animated = true; property.Known = true; break;
-                    case "animated_string": AnimatedType = Formatting.InitCaps(property.Value); break;
+                    case "animated_string":
+                        if (AnimatedType != "") throw new Exception("Animated Type already exists.");
+                        AnimatedType = Formatting.InitCaps(property.Value); break;
                     case "journey_pet": JourneyPets.Add(Formatting.FormatRace(property.Value)); break;
                     case "goal": Goal = Formatting.InitCaps(property.Value); break;
                     case "sphere":
                         Spheres.Add(property.Value); break;
-
-                    //Unhandled Properties
                     case "current_identity_id":
+                        world.AddHFCurrentIdentity(this, Convert.ToInt32(property.Value));
+                        break;
+                    case "used_identity_id":
+                        world.AddHFUsedIdentity(this, Convert.ToInt32(property.Value));
+                        break;
                     case "ent_pop_id":
-                    case "holds_artifact":
-                    case "used_identity_id": property.Known = true; break;
-                    case "hf_skill":
+                        EntityPopulation = world.GetEntityPopulation(Convert.ToInt32(property.Value)); break;
+                    case "holds_artifact": 
+                        if (Holding != null)
+                            throw new Exception("Multiple Holding Artifacts: " + this.ToString());
+                        Holding = world.GetArtifact(Convert.ToInt32(property.Value)); break;
+                    case "adventurer":
+                        Adventurer = true;
                         property.Known = true;
-                        foreach(Property subProperty in property.SubProperties)
-                            switch (subProperty.Name)
-                            {
-                                case "skill":
-                                case "total_ip": subProperty.Known = true; break;
-                            }
-                        break;
-                    
-                        //property.Known = true;
-                        //foreach(Property subProperty in property.SubProperties)
-                        //    switch (subProperty.Name)
-                        //    {
-                        //        case "position_profile_id":
-                        //        case "entity_id":
-                        //        case "start_year":
-                        //        case "end_year": subProperty.Known = true; break;
-                        //    }
-                        //break;
-
-                    case "site_link":
-                        property.Known = true;
-                        foreach(Property subProperty in property.SubProperties)
-                            switch (subProperty.Name)
-                            {
-                                case "link_type":
-                                case "site_id":
-                                case "sub_id":
-                                case "entity_id": subProperty.Known = true; break;
-                            }
-                        break;
-                    case "entity_reputation":
-                         property.Known = true;
-                        foreach(Property subProperty in property.SubProperties)
-                            switch (subProperty.Name)
-                            {
-                                case "entity_id":
-                                case "unsolved_murders":
-                                case "first_ageless_year":
-                                case "first_ageless_season_count": subProperty.Known = true; break;
-                            }
                         break;
                 }
             if (Name == "") Name = "(Unnamed)";
@@ -188,7 +192,7 @@ namespace LegendsViewer.Legends
             Name = Race = Caste = AssociatedType = "";
             DeathCause = DeathCause.None;
             CurrentState = HFState.None;
-            Kills = new List<HFDied>();
+            NotableKills = new List<HFDied>();
             Battles = new List<Battle>();
             Positions = new List<Position>();
             Spheres = new List<string>();
@@ -196,10 +200,14 @@ namespace LegendsViewer.Legends
             States = new List<State>();
             RelatedHistoricalFigures = new List<HistoricalFigureLink>();
             RelatedEntities = new List<EntityLink>();
+            Reputations = new List<EntityReputation>();
+            RelatedSites = new List<SiteLink>();
+            Skills = new List<Skill>();
             AnimatedType = "";
             Goal = "";
             ActiveInteraction = "";
-            InteractionKnowledge = "";
+            PreviousRace = "";
+            InteractionKnowledge = new List<string>();
             JourneyPets = new List<string>();
             
         }
@@ -219,7 +227,7 @@ namespace LegendsViewer.Legends
                             return "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name.Substring(0, this.Name.IndexOf(" ")) + "</font></a>";
                         else return "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name + "</font></a>";
                     else
-                        return "the " + this.Race.ToLower() + " " + "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
+                        return "the " + GetRaceString() + " " + "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
                 }
                 else// (pov != null && pov.ID == this.ID)
                     if (this.Name.IndexOf(" ") > 0)
@@ -229,7 +237,7 @@ namespace LegendsViewer.Legends
             else
 
                 if ((pov == null || pov != this))
-                    return this.Race + " " + this.Name;
+                    return GetRaceString() + " " + this.Name;
                 else //(pov != null && pov.ID == this.ID)
                     if (this.Name.IndexOf(" ") > 0)
                         return this.Name.Substring(0, this.Name.IndexOf(" ") + 1);
@@ -275,16 +283,72 @@ namespace LegendsViewer.Legends
                 else return "it";
         }
 
-        public string RaceString()
+        public string GetRaceTitleString()
         {
             string hfraceString = "";
+            if (Race == "Night Creature" && PreviousRace != "")
+                return PreviousRace.ToLower() + " turned night creature";
+
             if (Ghost) hfraceString += "ghostly ";
             if (Skeleton) hfraceString += "skeletal ";
             if (Zombie) hfraceString += "zombie ";
-            if (Caste == "MALE") hfraceString += "male ";
-            else if (Caste == "FEMALE") hfraceString += "female ";
-            return hfraceString + Race.ToLower();
+            if (Caste.ToUpper() == "MALE") hfraceString += "male ";
+            else if (Caste.ToUpper() == "FEMALE") hfraceString += "female ";
+            
+            hfraceString += Race.ToLower();
+
+            if (ActiveInteraction.Contains("VAMPIRE"))
+                return hfraceString += " vampire";
+            return hfraceString;
+
         }
 
+        public string GetRaceString()
+        {
+            if (Deity)
+                return Race.ToLower() + " deity";
+            if (Race == "Night Creature" && PreviousRace != "")
+                return PreviousRace.ToLower() + " turned night creature";
+            if (ActiveInteraction.Contains("VAMPIRE"))
+                return Race.ToLower() + " vampire";
+            return Race.ToLower();
+        }
+    }
+
+    public class Skill
+    {
+        public string Name { get; set; }
+        public int Points { get; set; }
+        public string Rank
+        {
+            get
+            {
+                int[] pointCutoffs = { 29000, 26600, 24300, 22100, 20000, 18000, 16100, 14300, 12600, 11000, 9500, 8100, 
+                                         6800, 5600, 4500, 3500, 2600, 1800, 1100, 500, 1 };
+                string[] titles = { "Legendary+5", "Legendary+4", "Legendary+3", "Legendary+2", "Legendary+1", "Legendary", 
+                                      "Grand Master", "High Master", "Master", "Great", "Accomplished", "Professional", 
+                                      "Expert", "Adept", "Talented", "Proficient", "Skilled", "Competent", "Adequate", "Novice", "Dabbling" };
+                for (int i = 0; i < pointCutoffs.Length; i++)
+                    if (Points >= pointCutoffs[i])
+                        return titles[i];
+                return "Unknown";
+            }
+            set { }
+        }
+        public Skill(List<Property> properties)
+        {
+            foreach(Property property in properties)
+            {
+                switch(property.Name)
+                {
+                    case "skill":
+                        Name = Formatting.InitCaps(property.Value.Replace('_', ' ').ToLower());
+                        break;
+                    case "total_ip":
+                        Points = Convert.ToInt32(property.Value);
+                        break;
+                }
+            }
+        }
     }
 }

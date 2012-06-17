@@ -67,8 +67,6 @@
             this.cmbRace = new System.Windows.Forms.ComboBox();
             this.chkAlive = new System.Windows.Forms.CheckBox();
             this.chkGhost = new System.Windows.Forms.CheckBox();
-            this.chkZombie = new System.Windows.Forms.CheckBox();
-            this.chkSkeleton = new System.Windows.Forms.CheckBox();
             this.chkDeity = new System.Windows.Forms.CheckBox();
             this.txtHFSearch = new System.Windows.Forms.TextBox();
             this.listHFSearch = new System.Windows.Forms.ListBox();
@@ -227,6 +225,8 @@
             this.btnForward = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.hint = new System.Windows.Forms.ToolTip(this.components);
+            this.chkVampire = new System.Windows.Forms.CheckBox();
+            this.chkWerebeast = new System.Windows.Forms.CheckBox();
             this.tcWorld.SuspendLayout();
             this.tpSummary.SuspendLayout();
             this.tpHF.SuspendLayout();
@@ -286,8 +286,8 @@
             // 
             // tcWorld
             // 
-            this.tcWorld.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.tcWorld.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tcWorld.Controls.Add(this.tpSummary);
             this.tcWorld.Controls.Add(this.tpHF);
             this.tcWorld.Controls.Add(this.tpSites);
@@ -464,8 +464,8 @@
             // 
             // txtLog
             // 
-            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.txtLog.Location = new System.Drawing.Point(9, 138);
             this.txtLog.Name = "txtLog";
             this.txtLog.Size = new System.Drawing.Size(254, 314);
@@ -536,8 +536,10 @@
             // 
             // grpHFFilter
             // 
-            this.grpHFFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpHFFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpHFFilter.Controls.Add(this.chkWerebeast);
+            this.grpHFFilter.Controls.Add(this.chkVampire);
             this.grpHFFilter.Controls.Add(this.chkHFLeader);
             this.grpHFFilter.Controls.Add(this.groupBox5);
             this.grpHFFilter.Controls.Add(this.chkForce);
@@ -549,8 +551,6 @@
             this.grpHFFilter.Controls.Add(this.cmbRace);
             this.grpHFFilter.Controls.Add(this.chkAlive);
             this.grpHFFilter.Controls.Add(this.chkGhost);
-            this.grpHFFilter.Controls.Add(this.chkZombie);
-            this.grpHFFilter.Controls.Add(this.chkSkeleton);
             this.grpHFFilter.Controls.Add(this.chkDeity);
             this.grpHFFilter.Location = new System.Drawing.Point(3, 280);
             this.grpHFFilter.Name = "grpHFFilter";
@@ -562,7 +562,7 @@
             // chkHFLeader
             // 
             this.chkHFLeader.AutoSize = true;
-            this.chkHFLeader.Location = new System.Drawing.Point(133, 162);
+            this.chkHFLeader.Location = new System.Drawing.Point(6, 162);
             this.chkHFLeader.Name = "chkHFLeader";
             this.chkHFLeader.Size = new System.Drawing.Size(59, 17);
             this.chkHFLeader.TabIndex = 17;
@@ -572,8 +572,8 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.radHFSortBattles);
             this.groupBox5.Controls.Add(this.radHFSortFiltered);
             this.groupBox5.Controls.Add(this.radHFNone);
@@ -639,9 +639,9 @@
             this.radSortKills.AutoSize = true;
             this.radSortKills.Location = new System.Drawing.Point(6, 65);
             this.radSortKills.Name = "radSortKills";
-            this.radSortKills.Size = new System.Drawing.Size(43, 17);
+            this.radSortKills.Size = new System.Drawing.Size(83, 17);
             this.radSortKills.TabIndex = 17;
-            this.radSortKills.Text = "Kills";
+            this.radSortKills.Text = "Notable Kills";
             this.radSortKills.UseVisualStyleBackColor = true;
             this.radSortKills.CheckedChanged += new System.EventHandler(this.searchHFList);
             // 
@@ -732,28 +732,6 @@
             this.chkGhost.UseVisualStyleBackColor = true;
             this.chkGhost.CheckedChanged += new System.EventHandler(this.searchHFList);
             // 
-            // chkZombie
-            // 
-            this.chkZombie.AutoSize = true;
-            this.chkZombie.Location = new System.Drawing.Point(6, 162);
-            this.chkZombie.Name = "chkZombie";
-            this.chkZombie.Size = new System.Drawing.Size(61, 17);
-            this.chkZombie.TabIndex = 2;
-            this.chkZombie.Text = "Zombie";
-            this.chkZombie.UseVisualStyleBackColor = true;
-            this.chkZombie.CheckedChanged += new System.EventHandler(this.searchHFList);
-            // 
-            // chkSkeleton
-            // 
-            this.chkSkeleton.AutoSize = true;
-            this.chkSkeleton.Location = new System.Drawing.Point(6, 139);
-            this.chkSkeleton.Name = "chkSkeleton";
-            this.chkSkeleton.Size = new System.Drawing.Size(68, 17);
-            this.chkSkeleton.TabIndex = 1;
-            this.chkSkeleton.Text = "Skeleton";
-            this.chkSkeleton.UseVisualStyleBackColor = true;
-            this.chkSkeleton.CheckedChanged += new System.EventHandler(this.searchHFList);
-            // 
             // chkDeity
             // 
             this.chkDeity.AutoSize = true;
@@ -767,9 +745,9 @@
             // 
             // txtHFSearch
             // 
-            this.txtHFSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtHFSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHFSearch.Location = new System.Drawing.Point(81, 5);
             this.txtHFSearch.Name = "txtHFSearch";
             this.txtHFSearch.Size = new System.Drawing.Size(177, 20);
@@ -778,9 +756,9 @@
             // 
             // listHFSearch
             // 
-            this.listHFSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listHFSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listHFSearch.FormattingEnabled = true;
             this.listHFSearch.HorizontalScrollbar = true;
             this.listHFSearch.Location = new System.Drawing.Point(3, 31);
@@ -869,8 +847,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.groupBox6);
             this.groupBox1.Controls.Add(this.label26);
             this.groupBox1.Controls.Add(this.cmbSiteType);
@@ -883,8 +861,8 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox6.Controls.Add(this.radSiteBeastAttacks);
             this.groupBox6.Controls.Add(this.radSiteSortDeaths);
             this.groupBox6.Controls.Add(this.radSortConnections);
@@ -1039,8 +1017,8 @@
             // 
             // txtSiteSearch
             // 
-            this.txtSiteSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSiteSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSiteSearch.Location = new System.Drawing.Point(81, 5);
             this.txtSiteSearch.Name = "txtSiteSearch";
             this.txtSiteSearch.Size = new System.Drawing.Size(177, 20);
@@ -1049,9 +1027,9 @@
             // 
             // listSiteSearch
             // 
-            this.listSiteSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listSiteSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listSiteSearch.FormattingEnabled = true;
             this.listSiteSearch.Location = new System.Drawing.Point(3, 31);
             this.listSiteSearch.Name = "listSiteSearch";
@@ -1117,8 +1095,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.groupBox7);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.cmbRegionType);
@@ -1131,8 +1109,8 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox7.Controls.Add(this.radRegionSortDeaths);
             this.groupBox7.Controls.Add(this.radRegionSortBattles);
             this.groupBox7.Controls.Add(this.radRegionSortFiltered);
@@ -1225,8 +1203,8 @@
             // 
             // txtRegionSearch
             // 
-            this.txtRegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtRegionSearch.Location = new System.Drawing.Point(81, 5);
             this.txtRegionSearch.Name = "txtRegionSearch";
             this.txtRegionSearch.Size = new System.Drawing.Size(177, 20);
@@ -1235,9 +1213,9 @@
             // 
             // listRegionSearch
             // 
-            this.listRegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listRegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listRegionSearch.FormattingEnabled = true;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listRegionSearch.Name = "listRegionSearch";
@@ -1312,8 +1290,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.groupBox8);
             this.groupBox3.Controls.Add(this.label28);
             this.groupBox3.Controls.Add(this.cmbURegionType);
@@ -1326,8 +1304,8 @@
             // 
             // groupBox8
             // 
-            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox8.Controls.Add(this.radURegionSortFiltered);
             this.groupBox8.Controls.Add(this.radURegionNone);
             this.groupBox8.Controls.Add(this.radURegionSortEvents);
@@ -1394,9 +1372,9 @@
             // 
             // listURegionSearch
             // 
-            this.listURegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listURegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listURegionSearch.FormattingEnabled = true;
             this.listURegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listURegionSearch.Name = "listURegionSearch";
@@ -1452,8 +1430,8 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.groupBox9);
             this.groupBox4.Controls.Add(this.chkCiv);
@@ -1476,8 +1454,8 @@
             // 
             // groupBox9
             // 
-            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox9.Controls.Add(this.cmbEntityPopulation);
             this.groupBox9.Controls.Add(this.radEntitySortPopulation);
             this.groupBox9.Controls.Add(this.radCivSortWars);
@@ -1595,8 +1573,8 @@
             // 
             // txtCivSearch
             // 
-            this.txtCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCivSearch.Location = new System.Drawing.Point(81, 5);
             this.txtCivSearch.Name = "txtCivSearch";
             this.txtCivSearch.Size = new System.Drawing.Size(177, 20);
@@ -1605,9 +1583,9 @@
             // 
             // listCivSearch
             // 
-            this.listCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listCivSearch.FormattingEnabled = true;
             this.listCivSearch.Location = new System.Drawing.Point(3, 31);
             this.listCivSearch.Name = "listCivSearch";
@@ -1731,8 +1709,8 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox10.Controls.Add(this.chkFilterWarfare);
             this.groupBox10.Controls.Add(this.chkWarOngoing);
             this.groupBox10.Controls.Add(this.groupBox11);
@@ -1870,9 +1848,9 @@
             // 
             // txtWarSearch
             // 
-            this.txtWarSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtWarSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWarSearch.Location = new System.Drawing.Point(81, 5);
             this.txtWarSearch.Name = "txtWarSearch";
             this.txtWarSearch.Size = new System.Drawing.Size(169, 20);
@@ -1881,9 +1859,9 @@
             // 
             // listWarSearch
             // 
-            this.listWarSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listWarSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listWarSearch.FormattingEnabled = true;
             this.listWarSearch.Location = new System.Drawing.Point(3, 31);
             this.listWarSearch.Name = "listWarSearch";
@@ -1970,8 +1948,8 @@
             // 
             // groupBox12
             // 
-            this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox12.Controls.Add(this.groupBox13);
             this.groupBox12.Location = new System.Drawing.Point(3, 296);
             this.groupBox12.Name = "groupBox12";
@@ -1982,8 +1960,8 @@
             // 
             // groupBox13
             // 
-            this.groupBox13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox13.Controls.Add(this.radBattleSortDeaths);
             this.groupBox13.Controls.Add(this.radBattleSortFiltered);
             this.groupBox13.Controls.Add(this.radBattleSortNone);
@@ -2045,8 +2023,8 @@
             // 
             // txtBattleSearch
             // 
-            this.txtBattleSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBattleSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBattleSearch.Location = new System.Drawing.Point(81, 5);
             this.txtBattleSearch.Name = "txtBattleSearch";
             this.txtBattleSearch.Size = new System.Drawing.Size(169, 20);
@@ -2055,9 +2033,9 @@
             // 
             // listBattleSearch
             // 
-            this.listBattleSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBattleSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBattleSearch.FormattingEnabled = true;
             this.listBattleSearch.Location = new System.Drawing.Point(3, 31);
             this.listBattleSearch.Name = "listBattleSearch";
@@ -2122,8 +2100,8 @@
             // 
             // groupBox14
             // 
-            this.groupBox14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox14.Controls.Add(this.label2);
             this.groupBox14.Controls.Add(this.cmbConqueringType);
             this.groupBox14.Controls.Add(this.groupBox15);
@@ -2154,8 +2132,8 @@
             // 
             // groupBox15
             // 
-            this.groupBox15.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox15.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox15.Controls.Add(this.radConqueringSortSite);
             this.groupBox15.Controls.Add(this.radConqueringSortFiltered);
             this.groupBox15.Controls.Add(this.radConqueringSortNone);
@@ -2217,8 +2195,8 @@
             // 
             // txtConqueringSearch
             // 
-            this.txtConqueringSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtConqueringSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtConqueringSearch.Location = new System.Drawing.Point(81, 5);
             this.txtConqueringSearch.Name = "txtConqueringSearch";
             this.txtConqueringSearch.Size = new System.Drawing.Size(169, 20);
@@ -2227,9 +2205,9 @@
             // 
             // listConqueringSearch
             // 
-            this.listConqueringSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listConqueringSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listConqueringSearch.FormattingEnabled = true;
             this.listConqueringSearch.Location = new System.Drawing.Point(3, 31);
             this.listConqueringSearch.Name = "listConqueringSearch";
@@ -2294,8 +2272,8 @@
             // 
             // groupBox18
             // 
-            this.groupBox18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox18.Controls.Add(this.groupBox17);
             this.groupBox18.Location = new System.Drawing.Point(3, 296);
             this.groupBox18.Name = "groupBox18";
@@ -2306,8 +2284,8 @@
             // 
             // groupBox17
             // 
-            this.groupBox17.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox17.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox17.Controls.Add(this.radBeastAttacksDeaths);
             this.groupBox17.Controls.Add(this.radBeastAttacksFiltered);
             this.groupBox17.Controls.Add(this.radBeastAttacksNone);
@@ -2369,8 +2347,8 @@
             // 
             // txtBeastAttacksSearch
             // 
-            this.txtBeastAttacksSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBeastAttacksSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBeastAttacksSearch.Location = new System.Drawing.Point(81, 5);
             this.txtBeastAttacksSearch.Name = "txtBeastAttacksSearch";
             this.txtBeastAttacksSearch.Size = new System.Drawing.Size(169, 20);
@@ -2379,9 +2357,9 @@
             // 
             // listBeastAttacks
             // 
-            this.listBeastAttacks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBeastAttacks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBeastAttacks.FormattingEnabled = true;
             this.listBeastAttacks.Location = new System.Drawing.Point(3, 31);
             this.listBeastAttacks.Name = "listBeastAttacks";
@@ -2434,8 +2412,8 @@
             // 
             // groupBox16
             // 
-            this.groupBox16.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox16.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox16.Controls.Add(this.btnEraShow);
             this.groupBox16.Controls.Add(this.label5);
             this.groupBox16.Controls.Add(this.label4);
@@ -2507,9 +2485,9 @@
             // 
             // listEras
             // 
-            this.listEras.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listEras.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listEras.FormattingEnabled = true;
             this.listEras.Location = new System.Drawing.Point(3, 31);
             this.listEras.Name = "listEras";
@@ -2562,6 +2540,28 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Visible = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // chkVampire
+            // 
+            this.chkVampire.AutoSize = true;
+            this.chkVampire.Location = new System.Drawing.Point(6, 139);
+            this.chkVampire.Name = "chkVampire";
+            this.chkVampire.Size = new System.Drawing.Size(64, 17);
+            this.chkVampire.TabIndex = 18;
+            this.chkVampire.Text = "Vampire";
+            this.chkVampire.UseVisualStyleBackColor = true;
+            this.chkVampire.CheckedChanged += new System.EventHandler(this.searchHFList);
+            // 
+            // chkWerebeast
+            // 
+            this.chkWerebeast.AutoSize = true;
+            this.chkWerebeast.Location = new System.Drawing.Point(133, 162);
+            this.chkWerebeast.Name = "chkWerebeast";
+            this.chkWerebeast.Size = new System.Drawing.Size(78, 17);
+            this.chkWerebeast.TabIndex = 19;
+            this.chkWerebeast.Text = "Werebeast";
+            this.chkWerebeast.UseVisualStyleBackColor = true;
+            this.chkWerebeast.CheckedChanged += new System.EventHandler(this.searchHFList);
             // 
             // frmLegendsViewer
             // 
@@ -2694,8 +2694,6 @@
         private System.Windows.Forms.ComboBox cmbRace;
         private System.Windows.Forms.CheckBox chkAlive;
         private System.Windows.Forms.CheckBox chkGhost;
-        private System.Windows.Forms.CheckBox chkZombie;
-        private System.Windows.Forms.CheckBox chkSkeleton;
         private System.Windows.Forms.CheckBox chkDeity;
         private System.Windows.Forms.TextBox txtHFSearch;
         private System.Windows.Forms.ListBox listHFSearch;
@@ -2862,6 +2860,8 @@
         private System.Windows.Forms.Button btnChart;
         private System.Windows.Forms.RadioButton radSiteBeastAttacks;
         private System.Windows.Forms.Button btnAdvancedSearch;
+        private System.Windows.Forms.CheckBox chkVampire;
+        private System.Windows.Forms.CheckBox chkWerebeast;
 
     }
 }

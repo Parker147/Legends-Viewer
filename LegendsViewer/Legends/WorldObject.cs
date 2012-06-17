@@ -9,10 +9,8 @@ namespace LegendsViewer.Legends
     {
         public List<WorldEvent> Events { get; set; }
         public int ID { get; set; }
-        protected World World;
         protected WorldObject(List<Property> properties, World world)
         {
-            World = world;
             ID = -1;
             Events = new List<WorldEvent>();
             foreach(Property property in properties)

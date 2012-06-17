@@ -639,7 +639,7 @@ namespace LegendsViewer
                     else
                         (FocusObject as WorldObject).Events.GroupBy(events => events.Type).Select(events => new { Type = events.Key, Count = events.Count() }).OrderByDescending(events => events.Count).ToList().ForEach(events => { series.First().Points.AddY(events.Count); series.First().Points.Last().LegendText = AppHelpers.EventInfo.Single(eventInfo => eventInfo[0] == events.Type)[1]; }); break;
                 case ChartOption.OtherKillsByRace:
-                    (FocusObject as HistoricalFigure).Kills.GroupBy(death => death.HistoricalFigure.Race).Select(death => new { Race = death.Key, Count = death.Count() }).OrderByDescending(death => death.Count).ToList().ForEach(death => { series.First().Points.AddY(death.Count); series.First().Points.Last().LegendText = death.Race; }); break;
+                    (FocusObject as HistoricalFigure).NotableKills.GroupBy(death => death.HistoricalFigure.Race).Select(death => new { Race = death.Key, Count = death.Count() }).OrderByDescending(death => death.Count).ToList().ForEach(death => { series.First().Points.AddY(death.Count); series.First().Points.Last().LegendText = death.Race; }); break;
                 case ChartOption.OtherEntityPopulations:
                     (FocusObject as Entity).Populations.OrderByDescending(pop => pop.Count).ToList().ForEach(pop => { series.First().Points.AddY(pop.Count); series.First().Points.Last().LegendText = pop.Race; }); break;
                 //case ChartOption.OtherDeaths:
@@ -800,7 +800,7 @@ namespace LegendsViewer
             else if (FocusObject.GetType() == typeof(HistoricalFigure))
             {
                 HistoricalFigure hf = (FocusObject as HistoricalFigure);
-                if (hf.Kills.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this, ChartOption.OtherKillsByRace));
+                if (hf.NotableKills.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this, ChartOption.OtherKillsByRace));
                 if (hf.Battles.Count > 0) timeline.DropDownItems.Add(new ChartMenuItem(this, ChartOption.TimelineBattles));
                 if (hf.BeastAttacks != null) timeline.DropDownItems.Add(new ChartMenuItem(this, ChartOption.TimelineBeastAttacks));
             }

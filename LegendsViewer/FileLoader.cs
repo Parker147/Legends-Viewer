@@ -19,79 +19,109 @@ namespace LegendsViewer
         private TextBox XMLText, HistoryText, SitesText, MapText;
         private RichTextBox LogText;
         private Label StatusLabel;
-        private bool _xmlReady, _historyReady, _sitesReady, _mapReady;
-        private bool XMLReady 
+        private Color ReadyColor = Color.FromArgb(220, 255, 220);
+        private Color NotReadyColor = Color.FromArgb(255, 220, 220);
+        private Color DefaultColor = SystemColors.Control;
+        private FileState _xmlState, _historyState, _sitesState, _mapState;
+        private string XMLTextDefault = "Legends XML / Archive";
+        private const string HistoryTextDefault = "World History Text";
+        private const string SitesTextDefault = "Sites and Populations Text";
+        private const string MapTextDefault = "Map Image";
+        private FileState XMLState 
         {
-            get { return _xmlReady;}
+            get { return _xmlState;}
             set {
-                if (File.Exists(XMLText.Text))
-                    _xmlReady = value;
-                else
-                    _xmlReady = false;
-                if (_xmlReady)
-                    XMLText.BackColor = Color.FromArgb(220, 255, 220);
-                else
+                _xmlState = value;
+                switch (value)
                 {
-                    XMLText.BackColor = SystemColors.MenuBar;
-                    XMLText.Text = "Legends XML / Archive";
+                    case FileState.Default:
+                        XMLText.Text = XMLTextDefault;
+                        XMLText.BackColor = DefaultColor;
+                        break;
+                    case FileState.NotReady:
+                        XMLText.Text = XMLTextDefault;
+                        XMLText.BackColor = NotReadyColor;
+                        break;
+                    case FileState.Ready:
+                        XMLText.BackColor = ReadyColor;
+                        break;
+                    default:
+                        throw new Exception("Unhandled File Loader File State.");
                 }
             }
         }
-        private bool HistoryReady
+        private FileState HistoryState
         {
-            get { return _historyReady; }
+            get { return _historyState; }
             set
             {
-                if (File.Exists(HistoryText.Text))
-                    _historyReady = value;
-                else
-                    _historyReady = false;
-                if (_historyReady)
-                    HistoryText.BackColor = Color.FromArgb(220, 255, 220);
-                else
+                _historyState = value;
+                switch (value)
                 {
-                    HistoryText.BackColor = SystemColors.MenuBar;
-                    HistoryText.Text = "World History Text";
+                    case FileState.Default:
+                        HistoryText.Text = HistoryTextDefault;
+                        HistoryText.BackColor = DefaultColor;
+                        break;
+                    case FileState.NotReady:
+                        HistoryText.Text = HistoryTextDefault;
+                        HistoryText.BackColor = NotReadyColor;
+                        break;
+                    case FileState.Ready:
+                        HistoryText.BackColor = ReadyColor;
+                        break;
+                    default:
+                        throw new Exception("Unhandled File Loader File State.");
                 }
             }
         }
-        private bool SitesReady
+        private FileState SitesState
         {
-            get { return _sitesReady;}
+            get { return _sitesState;}
             set {
-                if (File.Exists(SitesText.Text))
-                    _sitesReady = value;
-                else
-                    _sitesReady = false;
-                if (_sitesReady)
-                    SitesText.BackColor = Color.FromArgb(220, 255, 220);
-                else
+                _sitesState = value;
+                switch (value)
                 {
-                    SitesText.BackColor = SystemColors.MenuBar;
-                    SitesText.Text = "Sites and Populations Text";
+                    case FileState.Default:
+                        SitesText.Text = SitesTextDefault;
+                        SitesText.BackColor = DefaultColor;
+                        break;
+                    case FileState.NotReady:
+                        SitesText.Text = SitesTextDefault;
+                        SitesText.BackColor = NotReadyColor;
+                        break;
+                    case FileState.Ready:
+                        SitesText.BackColor = ReadyColor;
+                        break;
+                    default:
+                        throw new Exception("Unhandled File Loader File State.");
                 }
             }
         }
-        private bool MapReady
+        private FileState MapState
         {
-            get { return _mapReady; }
+            get { return _mapState; }
             set
             {
-                if (File.Exists(MapText.Text))
-                    _mapReady = value;
-                else
-                    _mapReady = false;
-                if (_mapReady)
-                    MapText.BackColor = Color.FromArgb(220, 255, 220);
-                else
+                _mapState = value;
+                switch (value)
                 {
-                    MapText.BackColor = SystemColors.MenuBar;
-                    MapText.Text = "Map Image";
+                    case FileState.Default:
+                        MapText.Text = MapTextDefault;
+                        MapText.BackColor = DefaultColor;
+                        break;
+                    case FileState.NotReady:
+                        MapText.Text = MapTextDefault;
+                        MapText.BackColor = NotReadyColor;
+                        break;
+                    case FileState.Ready:
+                        MapText.BackColor = ReadyColor;
+                        break;
+                    default:
+                        throw new Exception("Unhandled File Loader File State.");
                 }
             }
         }
         private List<string> ExtractedFiles;
-        private Color ReadyColor;
 
         public FileLoader(frmLegendsViewer form, Button xmlButton, TextBox xmlText, Button historyButton, TextBox historyText, Button sitesButton, TextBox sitesText, Button mapButton, TextBox mapText, Label statusLabel, RichTextBox logText)
         {
@@ -106,6 +136,8 @@ namespace LegendsViewer
             MapText = mapText;
             StatusLabel = statusLabel;
             LogText = logText;
+
+            XMLState = HistoryState = SitesState = MapState = FileState.Default;
 
             XMLButton.Click += XMLClick;
             HistoryButton.Click += HistoryClick;
@@ -137,10 +169,8 @@ namespace LegendsViewer
             else if (file.EndsWith(".xml"))
             {
                 XMLText.Text = file;
-                XMLReady = true;
+                XMLState = FileState.Ready;
             }
-            else
-                XMLReady = false;
 
             LocateOtherFiles(file);
             Load();
@@ -152,11 +182,7 @@ namespace LegendsViewer
             if (historyFile != "")
             {
                 HistoryText.Text = historyFile;
-                HistoryReady = true;
-            }
-            else
-            {
-                HistoryReady = false;
+                HistoryState = FileState.Ready;
             }
             Load();
         }
@@ -167,10 +193,8 @@ namespace LegendsViewer
             if (sitesFile != "")
             {
                 SitesText.Text = sitesFile;
-                SitesReady = true;
+                SitesState = FileState.Ready;
             }
-            else
-                SitesReady = false;
             Load();
         }
 
@@ -180,10 +204,8 @@ namespace LegendsViewer
             if (mapFile != "")
             {
                 MapText.Text = mapFile;
-                MapReady = true;
+                MapState = FileState.Ready;
             }
-            else
-                MapReady = false;
             Load();
         }
 
@@ -199,25 +221,32 @@ namespace LegendsViewer
             if (File.Exists(directory + region + "-world_history.txt"))
             {
                 HistoryText.Text = directory + region + "-world_history.txt";
-                HistoryReady = true;
+                HistoryState = FileState.Ready;
             }
+            else
+                HistoryState = FileState.NotReady;
             if (File.Exists(directory + region + "-world_sites_and_pops.txt"))
             {
                 SitesText.Text = directory + region + "-world_sites_and_pops.txt";
-                SitesReady = true;
+                SitesState = FileState.Ready;
             }
+            else
+                SitesState = FileState.NotReady;
             List<string> imageFiles = Directory.GetFiles(directory).Where(file => file.Contains("world") && file.Contains(region) && (file.EndsWith(".bmp") || file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg"))).ToList();
             if (imageFiles.Count == 1)
             {
                 MapText.Text = imageFiles.First();
-                MapReady = true;
+                MapState = FileState.Ready;
             }
+            else
+                MapState = FileState.NotReady;
 
         }
 
         private void Load()
         {
-            if (!(XMLReady && HistoryReady && SitesReady && MapReady)) return;
+            if (XMLState != FileState.Ready || HistoryState != FileState.Ready || SitesState != FileState.Ready || MapState != FileState.Ready)
+                return;
 
             if (!(File.Exists(XMLText.Text) && File.Exists(HistoryText.Text) && File.Exists(SitesText.Text) && File.Exists(MapText.Text)))
                 return;
@@ -236,7 +265,7 @@ namespace LegendsViewer
             while (load.IsBusy) Application.DoEvents();
 
             Working = false;
-            XMLReady = HistoryReady = SitesReady = MapReady = false;
+            XMLState = HistoryState = SitesState = MapState = FileState.Default;
         }
 
         private void load_DoWork(object sender, DoWorkEventArgs e)
@@ -337,14 +366,21 @@ namespace LegendsViewer
             else
             {
                 XMLText.Text = ExtractedFiles[0];
-                XMLReady = true;
+                XMLState = FileState.Ready;
                 HistoryText.Text = ExtractedFiles[1];
-                HistoryReady = true;
+                HistoryState = FileState.Ready;
                 SitesText.Text = ExtractedFiles[2];
-                SitesReady = true;
+                SitesState = FileState.Ready;
                 MapText.Text = ExtractedFiles[3];
-                MapReady = true;
+                MapState = FileState.Ready;
             }
+        }
+
+        private enum FileState
+        {
+            Default,
+            Ready,
+            NotReady
         }
     }
 }

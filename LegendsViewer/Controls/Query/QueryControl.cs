@@ -84,6 +84,10 @@ namespace LegendsViewer.Controls.Query
                     SearchList = new SearchList<BeastAttack>(World.BeastAttacks);
                     SelectProperties.ParentType = typeof(BeastAttack);
                     break;
+                case "Artifacts":
+                    SearchList = new SearchList<Artifact>(World.Artifacts);
+                    SelectProperties.ParentType = typeof(Artifact);
+                    break;
             }
 
             if (SelectProperties.ParentType == typeof(Site) || SelectProperties.ParentType == typeof(Battle)) btnMapResults.Visible = true;
@@ -202,8 +206,8 @@ namespace LegendsViewer.Controls.Query
             /*if (results.Count > 0 && results.First().GetType() == typeof(HistoricalFigure))
             {
                 DataGridViewTextBoxColumn killCount = new DataGridViewTextBoxColumn();
-                killCount.DataPropertyName = "Kills";
-                killCount.HeaderText = "Kills";
+                killCount.DataPropertyName = "NotableKills";
+                killCount.HeaderText = "NotableKills";
                 dgResults.Columns.Insert(killCount);
                 dgResults.Columns.AddRange(
             }*/
@@ -339,7 +343,7 @@ namespace LegendsViewer.Controls.Query
             if (objectType == typeof(HistoricalFigure))
             {
                 HistoricalFigure hf = dgResults.Rows[e.RowIndex].DataBoundItem as HistoricalFigure;
-                if (column == "Kills") e.Value = hf.Kills.Count;
+                if (column == "Kills") e.Value = hf.NotableKills.Count;
                 else if (column == "Abductions") e.Value = hf.Abductions.Count;
                 else if (column == "Battles") e.Value = hf.Battles.Count;
                 else if (column == "Beast Attacks") e.Value = hf.BeastAttacks.Count;
@@ -460,6 +464,12 @@ namespace LegendsViewer.Controls.Query
                 else if (column == "Deaths") e.Value = attack.Deaths.Count;
                 else if (column == "Events")
                     e.Value = attack.FilteredEvents.Count + " / " + attack.AllEvents.Count;
+            }
+            else if (objectType == typeof(Artifact))
+            {
+                Artifact artifact = dgResults.Rows[e.RowIndex].DataBoundItem as Artifact;
+                if (column == "Events")
+                    e.Value = artifact.Events.Count;
             }
 
             //if (objectType.BaseType == typeof(WorldObject) && column == "Events")

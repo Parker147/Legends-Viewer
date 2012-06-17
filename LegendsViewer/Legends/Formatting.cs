@@ -107,38 +107,42 @@ namespace LegendsViewer.Legends
             return new Location(x, y);
         }
 
-        public static void ResizeImage(Bitmap source, ref Bitmap dest, int maxSideLength)
+        public static void ResizeImage(Bitmap source, ref Bitmap dest, int height, int width, bool keepRatio, bool smooth = true)
         {
-            //int maxSideLength = 250;
             double resizePercent = 1;
             Size imageSize = new Size();
-            if (source.Width == source.Height)
-                imageSize.Height = imageSize.Width = maxSideLength;
-            else
+            if (keepRatio)
             {
-                if (source.Width > source.Height) resizePercent = maxSideLength / Convert.ToDouble(source.Width);
-                else resizePercent = maxSideLength / Convert.ToDouble(source.Height);
+                if (source.Width > source.Height)
+                    resizePercent = height / Convert.ToDouble(source.Width);
+                else
+                    resizePercent = height / Convert.ToDouble(source.Height);
                 imageSize.Width = Convert.ToInt32(source.Width * resizePercent);
                 imageSize.Height = Convert.ToInt32(source.Height * resizePercent);
+            }
+            else
+            {
+                imageSize.Width = width;
+                imageSize.Height = height;
             }
 
             dest = new Bitmap(imageSize.Width, imageSize.Height);
             using (Graphics g = Graphics.FromImage(dest))
             {
-                /*//Point pageMiniMapLocation;
-                if (imageSize.Width == imageSize.Height) pageMiniMapLocation = new Point(0, 0);
+
+                if (smooth)
+                {
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                }
                 else
                 {
-                    int x, y;
-                    x = (maxSideLength / 2) - (imageSize.Width / 2);
-                    y = (maxSideLength / 2) - (imageSize.Height / 2);
-                    pageMiniMapLocation = new Point(x, y);
-                }*/
-
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                }
                 using (SolidBrush fillBrush = new SolidBrush(Color.FromArgb(0, 0, 50)))
-                    g.FillRectangle(fillBrush, 0, 0, maxSideLength, maxSideLength);
+                    g.FillRectangle(fillBrush, 0, 0, height, height);
                 g.DrawImage(source, new Rectangle(0, 0, imageSize.Width, imageSize.Height), new Rectangle(0, 0, source.Width, source.Height), GraphicsUnit.Pixel);
             }
         }
@@ -280,6 +284,23 @@ namespace LegendsViewer.Legends
                 return Color.FromArgb(255, t, p, v);
             else
                 return Color.FromArgb(255, v, p, q);
+        }
+
+        public static string TimeCountToSeason(int count)
+        {
+            string seasonString = string.Empty;
+            int month = count % 100800;
+            if (month <= 33600) seasonString += "early ";
+            else if (month <= 67200) seasonString += "mid";
+            else if (month <= 100800) seasonString += "late ";
+
+            int season = count % 403200;
+            if (season < 100800) seasonString += "spring";
+            else if (season < 201600) seasonString += "summer";
+            else if (season < 302400) seasonString += "autumn";
+            else if (season < 403200) seasonString += "winter";
+
+            return seasonString;
         }
     }
 }

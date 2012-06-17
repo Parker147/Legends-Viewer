@@ -20,49 +20,6 @@ namespace LegendsViewer.Legends
             World = world;
             XML = new XmlTextReader(new StreamReader(xmlFile));
             XML.WhitespaceHandling = WhitespaceHandling.Significant;
-            //TODO: Error Handling, fixing missing root element from dwarf fortress versions 31.12 and under exports
-            //try
-            //{
-            //    ParseXML(XML);
-            //}
-            //catch (System.Xml.XmlException xmlError)
-            //{
-            //    XML.Close();
-            //    File.Move(file, file + ".bad");
-            //    using (StreamReader badXML = new StreamReader(file + ".bad", Encoding.Default))
-            //    {
-            //        using (StreamWriter fixedXML = new StreamWriter(file, false))
-            //        {
-            //            string CurrentLine = "";
-            //            while (!badXML.EndOfStream)
-            //            {
-            //                CurrentLine = badXML.ReadLine();
-            //                fixedXML.WriteLine(CurrentLine);
-            //                if (CurrentLine == "<?xml version=\"1.0\" encoding='UTF-8'?>") fixedXML.WriteLine("<df_world>");
-            //            }
-            //            fixedXML.WriteLine("</df_world>");
-
-            //        }
-            //    }
-
-            //    File.Delete(file + ".bad");
-            //    XML = new XmlTextReader(file);
-            //    try { ParseXML(XML); }
-            //    catch
-            //    {
-            //        throw;
-            //    }
-
-            //}
-            //catch
-            //{
-            //    throw;
-            //}
-            //finally
-            //{
-            //    XML.Close();
-            //}
-
         }
 
         public void Parse()
@@ -70,13 +27,14 @@ namespace LegendsViewer.Legends
             while (!XML.EOF)
             {
                 CurrentSection = GetSectionType(XML.Name);
-                if (CurrentSection == Section.Unknown)
+                if (CurrentSection == Section.Junk)
                 {
                     XML.Read();
-                    continue;
                 }
-
-                ParseSection();
+                else if (CurrentSection == Section.Unknown)
+                    SkipSection();
+                else
+                    ParseSection();
             }
             XML.Close();
         }
@@ -103,10 +61,10 @@ namespace LegendsViewer.Legends
                 case "regions": return Section.Regions;
                 case "sites": return Section.Sites;
                 case "underground_regions": return Section.UndergroundRegions;
+                case "world_constructions": return Section.WorldConstructions;
                 case "xml":
-                case "df_world":
-                case "world_constructions":
-                case "": return Section.Unknown;
+                case "":
+                case "df_world": return Section.Junk;
                 default: World.ParsingErrors.Report("Unknown XML Section: " + sectionName); return Section.Unknown;
             }
         }
@@ -119,6 +77,17 @@ namespace LegendsViewer.Legends
                 AddItemToWorld(ParseItem());
             }
             ProcessXMLSection(CurrentSection); //Done with section, do post processing
+            XML.ReadEndElement();
+        }
+
+        private void SkipSection()
+        {
+            string currentSectionName = XML.Name;
+            XML.ReadStartElement();
+            while (!(XML.NodeType == XmlNodeType.EndElement && XML.Name == currentSectionName))
+            {
+                XML.Read();
+            }
             XML.ReadEndElement();
         }
 
@@ -219,6 +188,7 @@ namespace LegendsViewer.Legends
                 case Section.Entities: World.Entities.Add(new Entity(properties, World)); break;
                 case Section.Eras: World.Eras.Add(new Era(properties, World)); break;
                 case Section.Artifacts: World.Artifacts.Add(new Artifact(properties, World)); break;
+                case Section.WorldConstructions: break;
                 default: World.ParsingErrors.Report("Unknown XML Section: " + section.ToString()); break;
             }
         }
@@ -255,7 +225,7 @@ namespace LegendsViewer.Legends
                 case "plundered site": World.Events.Add(new PlunderedSite(properties, World)); break;
                 case "reclaim site": World.Events.Add(new ReclaimSite(properties, World)); break;
                 case "remove hf entity link": World.Events.Add(new RemoveHFEntityLink(properties, World)); break;
-                case "artifact created": World.Events.Add(new ArtifactCreated(properties, World)); break; // start dwarf mode World.EventsList
+                case "artifact created": World.Events.Add(new ArtifactCreated(properties, World)); break;
                 case "diplomat lost": World.Events.Add(new DiplomatLost(properties, World)); break;
                 case "entity created": World.Events.Add(new EntityCreated(properties, World)); break;
                 case "hf revived": World.Events.Add(new HFRevived(properties, World)); break;
@@ -269,7 +239,7 @@ namespace LegendsViewer.Legends
                 case "merchant": World.Events.Add(new Merchant(properties, World)); break;
                 case "site abandoned": World.Events.Add(new SiteAbandoned(properties, World)); break;
                 case "site died": World.Events.Add(new SiteDied(properties, World)); break;
-                case "add hf site link": World.Events.Add(new AddHFSiteLink(properties, World)); break; //start old World.EventsList
+                case "add hf site link": World.Events.Add(new AddHFSiteLink(properties, World)); break;
                 case "created structure": World.Events.Add(new CreatedStructure(properties, World)); break;
                 case "hf razed structure": World.Events.Add(new HFRazedStructure(properties, World)); break;
                 case "remove hf site link": World.Events.Add(new RemoveHFSiteLink(properties, World)); break;
@@ -288,6 +258,7 @@ namespace LegendsViewer.Legends
                 case "hf learns secret": World.Events.Add(new HFLearnsSecret(properties, World)); break;
                 case "artifact stored": World.Events.Add(new ArtifactStored(properties, World)); break;
                 case "artifact possessed": World.Events.Add(new ArtifactPossessed(properties, World)); break;
+                case "agreement made": World.Events.Add(new AgreementMade(properties, World)); break;
                 case "hf disturbed structure":
                 default: World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
@@ -316,6 +287,7 @@ namespace LegendsViewer.Legends
         {
             if (section == Section.Events)
             {
+                //Calculate Historical Figure Ages.
                 int lastYear = World.Events.Last().Year;
                 foreach (HistoricalFigure hf in World.HistoricalFigures)
                 {
@@ -328,103 +300,7 @@ namespace LegendsViewer.Legends
 
             if (section == Section.EventCollections)
             {
-                World.Wars = World.EventCollections.OfType<War>().ToList();
-                World.Battles = World.EventCollections.OfType<Battle>().ToList();
-                World.BeastAttacks = World.EventCollections.OfType<BeastAttack>().ToList();
-
-                foreach (EventCollection eventCollection in World.EventCollections)
-                {
-                    //Sub Event Collections aren't created until after the main collection
-                    //So only IDs are stored in the main collection until here now that all collections have been created
-                    //and can now be added to their main CurrentParent collection
-                    foreach (int collectionID in eventCollection.CollectionIDs)
-                        eventCollection.Collections.Add(World.GetEventCollection(collectionID));
-                }
-
-                //Find beast by looking at eventsList and fill in some event properties from the beast attacks's properties
-                //Calculated here so it can look in Duel collections contained in beast attacks
-                foreach (BeastAttack beastAttack in World.EventCollections.OfType<BeastAttack>())
-                {
-                    //Find Beast by looking at fights, Beast always engages the first fight in a Beast Attack?
-                    if (beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Count() > 0)
-                    {
-                        beastAttack.Beast = beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First().HistoricalFigure1;
-                        if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
-                        beastAttack.Beast.BeastAttacks.Add(beastAttack);
-                    }
-                    if (beastAttack.GetSubEvents().OfType<HFDied>().Count() > 1)
-                    {
-                        var slayers = beastAttack.GetSubEvents().OfType<HFDied>().GroupBy(death => death.Slayer).Select(hf => new { HF = hf.Key, Count = hf.Count() });
-                        if (slayers.Count(slayer => slayer.Count > 1) == 1)
-                        {
-                            HistoricalFigure beast = slayers.Single(slayer => slayer.Count > 1).HF;
-                            //if (beastAttack.Beast != World.HistoricalFigure.Unknown && beastAttack.Beast != beast) Log.AppendLine("Beast Attack setup error: " + beastAttack.ToString());
-                            //else
-                            beastAttack.Beast = beast;
-                        }
-                        //else if (slayers.Count(slayer => slayer.Count > 1) > 1)
-                        //    Log.AppendLine("Beast Attack setup error (2):" + beastAttack.ToString());
-                    }
-
-                    //Fill in some event info
-
-                    int insertIndex = 0;
-                    foreach (ItemStolen theft in beastAttack.Collection.OfType<ItemStolen>())
-                    {
-                        theft.Site = beastAttack.Site;
-                        theft.Thief = beastAttack.Beast;
-
-                        insertIndex = beastAttack.Site.Events.BinarySearch(theft);
-                        beastAttack.Site.Events.Insert(~insertIndex, theft);
-                        //beastAttack.Site.AddEvent(theft);
-                        if (beastAttack.Beast != null)
-                        {
-                            insertIndex = beastAttack.Beast.Events.BinarySearch(theft);
-                            beastAttack.Beast.Events.Insert(~insertIndex, theft);
-                        }
-                        //beastAttack.Beast.AddEvent(theft);
-                    }
-                    insertIndex = 0;
-                    foreach (CreatureDevoured devoured in beastAttack.Collection.OfType<CreatureDevoured>())
-                    {
-                        if (beastAttack.Beast != null)
-                        {
-                            devoured.Eater = beastAttack.Beast;
-                            insertIndex = beastAttack.Beast.Events.BinarySearch(devoured);
-                            beastAttack.Beast.Events.Insert(~insertIndex, devoured);
-                            //beastAttack.Beast.AddEvent(devoured);
-                        }
-                    }
-
-                }
-
-                //Assign a Conquering Event its corresponding battle
-                //Battle = first Battle prior to the conquering?
-                foreach (SiteConquered conquer in World.EventCollections.OfType<SiteConquered>())
-                {
-                    for (int i = conquer.ID - 1; i >= 0; i--)
-                    {
-                        EventCollection collection = World.GetEventCollection(i);
-                        if (collection == null) continue;
-                        if (collection.GetType() == typeof(Battle))
-                        {
-
-                            conquer.Battle = collection as Battle;
-                            conquer.Battle.Conquering = conquer;
-                            break;
-                        }
-                    }
-                    /*int conquerIndex = EventCollections.IndexOf(conquer);
-                    for(int i = conquerIndex; i >= 0; i--)
-                        if (EventCollections[i].GetType() == typeof(Battle))
-                        {
-                            conquer.Battle = EventCollections[i] as Battle;
-                            conquer.Battle.Conquering = conquer;
-                            //if (conquer.Notable) conquer.Battle.Notable = true;
-                            break;
-                        }*/
-                }
-                //Log.AppendLine("Unknown Beast Attack %: " + EventCollections.OfType<BeastAttack>().Count(attack => attack.Beast == null) / +Convert.ToDouble(EventCollections.OfType<BeastAttack>().Count()) * 100);
+                ProcessCollections();
             }
 
             //Create sorted Historical Figures so they can be binary searched by name, needed for parsing History file
@@ -433,6 +309,8 @@ namespace LegendsViewer.Legends
                 World.HistoricalFiguresByName = new List<HistoricalFigure>(World.HistoricalFigures);
                 World.HistoricalFiguresByName.Sort((a, b) => String.Compare(a.Name, b.Name));
                 World.ProcessHFtoHFLinks();
+                //World.ProcessHFCurrentIdentities();
+                //World.ProcessHFUsedIdentities();
             }
 
             //Create sorted entities so they can be binary searched by name, needed for History/sites files
@@ -440,9 +318,11 @@ namespace LegendsViewer.Legends
             {
                 World.EntitiesByName = new List<Entity>(World.Entities);
                 World.EntitiesByName.Sort((a, b) => String.Compare(a.Name, b.Name));
-                World.ProcessHFtoEntityLinks();
+                World.ProcessReputations();
+                World.ProcessHFtoSiteLinks();
             }
 
+            //Calculate end years for eras and add list of wars during era.
             if (section == Section.Eras)
             {
                 World.Eras.Last().EndYear = World.Events.Last().Year;
@@ -459,6 +339,91 @@ namespace LegendsViewer.Legends
                 }
                 
             }
+        }
+
+        private void ProcessCollections()
+        {
+            World.Wars = World.EventCollections.OfType<War>().ToList();
+            World.Battles = World.EventCollections.OfType<Battle>().ToList();
+            World.BeastAttacks = World.EventCollections.OfType<BeastAttack>().ToList();
+
+            foreach (EventCollection eventCollection in World.EventCollections)
+            {
+                //Sub Event Collections aren't created until after the main collection
+                //So only IDs are stored in the main collection until here now that all collections have been created
+                //and can now be added to their Parent collection
+                foreach (int collectionID in eventCollection.CollectionIDs)
+                    eventCollection.Collections.Add(World.GetEventCollection(collectionID));
+            }
+
+            //Attempt at calculating beast historical figure for beast attacks.
+            //Find beast by looking at eventsList and fill in some event properties from the beast attacks's properties
+            //Calculated here so it can look in Duel collections contained in beast attacks
+            foreach (BeastAttack beastAttack in World.EventCollections.OfType<BeastAttack>())
+            {
+                //Find Beast by looking at fights, Beast always engages the first fight in a Beast Attack?
+                if (beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Count() > 0)
+                {
+                    beastAttack.Beast = beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First().HistoricalFigure1;
+                    if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
+                    beastAttack.Beast.BeastAttacks.Add(beastAttack);
+                }
+                if (beastAttack.GetSubEvents().OfType<HFDied>().Count() > 1)
+                {
+                    var slayers = beastAttack.GetSubEvents().OfType<HFDied>().GroupBy(death => death.Slayer).Select(hf => new { HF = hf.Key, Count = hf.Count() });
+                    if (slayers.Count(slayer => slayer.Count > 1) == 1)
+                    {
+                        HistoricalFigure beast = slayers.Single(slayer => slayer.Count > 1).HF;
+                        beastAttack.Beast = beast;
+                    }
+                }
+
+                //Fill in some various event info from collections.
+
+                int insertIndex = 0;
+                foreach (ItemStolen theft in beastAttack.Collection.OfType<ItemStolen>())
+                {
+                    theft.Site = beastAttack.Site;
+                    theft.Thief = beastAttack.Beast;
+
+                    insertIndex = beastAttack.Site.Events.BinarySearch(theft);
+                    beastAttack.Site.Events.Insert(~insertIndex, theft);
+                    if (beastAttack.Beast != null)
+                    {
+                        insertIndex = beastAttack.Beast.Events.BinarySearch(theft);
+                        beastAttack.Beast.Events.Insert(~insertIndex, theft);
+                    }
+                }
+                insertIndex = 0;
+                foreach (CreatureDevoured devoured in beastAttack.Collection.OfType<CreatureDevoured>())
+                {
+                    if (beastAttack.Beast != null)
+                    {
+                        devoured.Eater = beastAttack.Beast;
+                        insertIndex = beastAttack.Beast.Events.BinarySearch(devoured);
+                        beastAttack.Beast.Events.Insert(~insertIndex, devoured);
+                    }
+                }
+
+            }
+
+            //Assign a Conquering Event its corresponding battle
+            //Battle = first Battle prior to the conquering?
+            foreach (SiteConquered conquer in World.EventCollections.OfType<SiteConquered>())
+            {
+                for (int i = conquer.ID - 1; i >= 0; i--)
+                {
+                    EventCollection collection = World.GetEventCollection(i);
+                    if (collection == null) continue;
+                    if (collection.GetType() == typeof(Battle))
+                    {
+
+                        conquer.Battle = collection as Battle;
+                        conquer.Battle.Conquering = conquer;
+                        break;
+                    }
+                }
+            } 
         }
     }
 
@@ -483,6 +448,8 @@ namespace LegendsViewer.Legends
         Regions,
         Sites,
         UndergroundRegions,
-        Unknown
+        WorldConstructions,
+        Unknown,
+        Junk
     }
 }

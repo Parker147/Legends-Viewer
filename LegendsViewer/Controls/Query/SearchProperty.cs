@@ -73,13 +73,15 @@ namespace LegendsViewer.Controls.Query
                     new SearchProperty("Animated", "Is Animated", typeof(bool)),
                     new SearchProperty("AnimatedType", "Animated Type", typeof(string)),
                     new SearchProperty("ActiveInteraction", "Active Interaction", typeof(string)),
-                    new SearchProperty("InteractionKnowledge", "Interaction Knowledge", typeof(string)),
+                    new SearchProperty("InteractionKnowledge", "Interaction Knowledge", typeof(List<string>)),
                     new SearchProperty("Goal", typeof(string)),
                     new SearchProperty("JourneyPet", "Journey Pet", typeof(string)),
                     new SearchProperty("Positions", "Positions", typeof(List<HistoricalFigure.Position>), false),
                     new SearchProperty("RelatedHistoricalFigures", "Related Historical Figures", typeof(List<HistoricalFigureLink>), true),
                     new SearchProperty("RelatedEntities", "Related Entities", typeof(List<EntityLink>), true),
-                    new SearchProperty("HFKills", "Kills", typeof(List<HistoricalFigure>), true),
+                    new SearchProperty("RelatedSites", "Related Sites", typeof(List<SiteLink>), true),
+                    new SearchProperty("Skills", typeof(List<Skill>)),
+                    new SearchProperty("HFKills", "Notable Kills", typeof(List<HistoricalFigure>), true),
                     new SearchProperty("Abductions", typeof(List<HistoricalFigure>)),
                     new SearchProperty("Abducted", typeof(int)),
                     new SearchProperty("Battles", "Battles", typeof(List<Battle>), true),
@@ -108,6 +110,23 @@ namespace LegendsViewer.Controls.Query
                     new SearchProperty("PositionID", typeof(int)),
                     new SearchProperty("StartYear", typeof(int)),
                     new SearchProperty("EndYear", typeof(int))
+                };
+            }
+            else if (nonGenericSearchType == typeof(SiteLink))
+            {
+                SearchProperties = new List<SearchProperty>() {
+                    new SearchProperty("Site", typeof(Site)),
+                    new SearchProperty("Type", typeof(SiteLinkType)),
+                    new SearchProperty("Entity", typeof(Entity))
+                    //new SearchProperty("SubID", typeof(int))
+                };
+            }
+            else if (nonGenericSearchType == typeof(Skill))
+            {
+                SearchProperties = new List<SearchProperty>() {
+                    new SearchProperty("Name", typeof(string)),
+                    new SearchProperty("Points", typeof(int)),
+                    new SearchProperty("Rank", typeof(string))
                 };
             }
             else if (nonGenericSearchType == typeof(Entity))
@@ -232,6 +251,13 @@ namespace LegendsViewer.Controls.Query
                     new SearchProperty("Beast", typeof(HistoricalFigure)),
                     new SearchProperty("StartYear", "Year", typeof(int)),
                     new SearchProperty("Deaths", "Deaths", typeof(List<HistoricalFigure>), true)
+                };
+            }
+            else if (nonGenericSearchType == typeof(Artifact))
+            {
+                SearchProperties = new List<SearchProperty>() {
+                    new SearchProperty("Name", typeof(string)),
+                    new SearchProperty("Item", typeof(string))
                 };
             }
             else if (nonGenericSearchType == typeof(HFDied))

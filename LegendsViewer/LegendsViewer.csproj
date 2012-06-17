@@ -164,6 +164,7 @@
     <Compile Include="Legends\DwarfObject.cs" />
     <Compile Include="Legends\Entity.cs" />
     <Compile Include="Legends\EntityPopulation.cs" />
+    <Compile Include="Legends\EntityReputation.cs" />
     <Compile Include="Legends\Era.cs" />
     <Compile Include="Legends\EventCollections\Abduction.cs" />
     <Compile Include="Legends\EventCollections\Battle.cs" />

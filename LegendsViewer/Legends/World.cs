@@ -35,13 +35,24 @@ namespace LegendsViewer.Legends
             public System.Drawing.Bitmap Map, PageMiniMap, MiniMap;
             public List<Era> TempEras = new List<Era>();
             public bool FilterBattles = true;
-            public static List<DeathCause> DeathCauses;
 
             private List<HistoricalFigure> HFtoHFLinkHFs = new List<HistoricalFigure>();
             private List<Property> HFtoHFLinks = new List<Property>();
 
             private List<HistoricalFigure> HFtoEntityLinkHFs = new List<HistoricalFigure>();
             private List<Property> HFtoEntityLinks = new List<Property>();
+
+            private List<HistoricalFigure> HFtoSiteLinkHFs = new List<HistoricalFigure>();
+            private List<Property> HFtoSiteLinks = new List<Property>();
+
+            private List<HistoricalFigure> ReputationHFs = new List<HistoricalFigure>();
+            private List<Property> Reputations = new List<Property>();
+
+            private List<HistoricalFigure> UsedIdentityHFs = new List<HistoricalFigure>();
+            private List<int> UsedIdentityIDs = new List<int>();
+
+            private List<HistoricalFigure> CurrentIdentityHFs = new List<HistoricalFigure>();
+            private List<int> CurrentIdentityIDs = new List<int>();
 
             public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile)
             {
@@ -57,6 +68,7 @@ namespace LegendsViewer.Legends
                 Log.Append(history.Parse());
                 SitesAndPopulationsParser sitesAndPopulations = new SitesAndPopulationsParser(this, sitesAndPopulationsFile);
                 sitesAndPopulations.Parse();
+                ProcessHFtoEntityLinks();
 
                 HistoricalFigure.Filters = new List<string>();
                 Site.Filters = new List<string>();
@@ -74,7 +86,6 @@ namespace LegendsViewer.Legends
 
                 GenerateMaps(mapFile);
 
-                //DeathCauses = Events.OfType<LegendsViewer.HFDied>().Select(death => death.Cause).GroupBy(death => death).Select(death => death.Key).OrderBy(death => death.GetDescription()).ToList();
                 Log.AppendLine(ParsingErrors.Print());
                 Log.AppendLine("Finish: " + DateTime.Now.ToLongTimeString());
             }
@@ -161,11 +172,35 @@ namespace LegendsViewer.Legends
 
             private void GenerateMaps(string mapFile)
             {
+                int biggestXCoordinate = 0;
+                int biggestYCoordinates = 0;
+                int[] worldSizes = { 33, 65, 129, 257 };
+                int worldSizeWidth = 17;
+                int worldSizeHeight = 17;
+                int tileSize = 16;
+                foreach (Site site in this.Sites)
+                {
+                    if (site.Coordinates.X > biggestXCoordinate)
+                        biggestXCoordinate = site.Coordinates.X;
+                    if (site.Coordinates.Y > biggestYCoordinates)
+                        biggestYCoordinates = site.Coordinates.Y;
+                }
+
+                for(int i = 0; i < worldSizes.Length - 1; i++)
+                {
+                    if (biggestXCoordinate >= worldSizes[i])
+                        worldSizeWidth = worldSizes[i + 1];
+                    if (biggestYCoordinates >= worldSizes[i])
+                        worldSizeHeight = worldSizes[i + 1];
+                }
+
+
                 using (FileStream mapStream = new FileStream(mapFile, FileMode.Open))
                     Map = new Bitmap(mapStream);
 
-                Formatting.ResizeImage(Map, ref PageMiniMap, 250);
-                Formatting.ResizeImage(Map, ref MiniMap, 200);
+                Formatting.ResizeImage(Map, ref Map, worldSizeHeight * tileSize, worldSizeWidth * tileSize, false, false);
+                Formatting.ResizeImage(Map, ref PageMiniMap, 250, 250, true, true);
+                Formatting.ResizeImage(Map, ref MiniMap, 200, 200, true, true);
             }
 
             private void AddEvent(WorldEvent newEvent)
@@ -181,6 +216,7 @@ namespace LegendsViewer.Legends
 
 
             #region GetWorldItemsFunctions
+
             public WorldRegion GetRegion(int id)
             {
                 if (id == -1) return null;
@@ -386,8 +422,30 @@ namespace LegendsViewer.Legends
                 if (Eras.Count(era => era.ID == id) > 0) return Eras.First(era => era.ID == id);
                 else throw new Exception("No Era with ID " + id);
             }
+
+            public EntityPopulation GetEntityPopulation(int id)
+            {
+                if (id == -1) return null;
+                else
+                {
+                    int min = 0;
+                    int max = EntityPopulations.Count - 1;
+                    while (min <= max)
+                    {
+                        int mid = min + (max - min) / 2;
+                        if (id > EntityPopulations[mid].ID)
+                            min = mid + 1;
+                        else if (id < EntityPopulations[mid].ID)
+                            max = mid - 1;
+                        else
+                            return EntityPopulations[mid];
+                    }
+                    return null;
+                }
+            }
             #endregion
 
+            #region AfterXMLSectionProcessing
             public void AddHFtoHFLink(HistoricalFigure hf, Property link)
             {
                 HFtoHFLinkHFs.Add(hf);
@@ -421,12 +479,97 @@ namespace LegendsViewer.Legends
                     Property link = HFtoEntityLinks[i];
                     HistoricalFigure hf = HFtoEntityLinkHFs[i];
                     EntityLink relatedEntity = new EntityLink(link.SubProperties, this);
-                    hf.RelatedEntities.Add(relatedEntity);
+                    if (relatedEntity.Entity == null)
+                        throw new Exception("Related Entity Error: " + hf.ToString());
+                    else if (relatedEntity.Type != EntityLinkType.Enemy || (relatedEntity.Type == EntityLinkType.Enemy && relatedEntity.Entity.IsCiv))
+                        hf.RelatedEntities.Add(relatedEntity);
                 }
 
                 HFtoEntityLinkHFs.Clear();
                 HFtoEntityLinks.Clear();
             }
+
+            public void AddHFtoSiteLink(HistoricalFigure hf, Property link)
+            {
+                HFtoSiteLinkHFs.Add(hf);
+                HFtoSiteLinks.Add(link);
+            }
+
+            public void ProcessHFtoSiteLinks()
+            {
+                for (int i = 0; i < HFtoSiteLinks.Count; i++)
+                {
+                    Property link = HFtoSiteLinks[i];
+                    HistoricalFigure hf = HFtoSiteLinkHFs[i];
+                    SiteLink relatedSite = new SiteLink(link.SubProperties, this);
+                    hf.RelatedSites.Add(relatedSite);
+                }
+
+                HFtoSiteLinkHFs.Clear();
+                HFtoSiteLinks.Clear();
+            }
+
+            public void AddReputation(HistoricalFigure hf, Property link)
+            {
+                ReputationHFs.Add(hf);
+                Reputations.Add(link);
+            }
+
+            public void ProcessReputations()
+            {
+                for (int i = 0; i < Reputations.Count; i++)
+                {
+                    Property reputation = Reputations[i];
+                    HistoricalFigure hf = ReputationHFs[i];
+                    EntityReputation entityReputation = new EntityReputation(reputation.SubProperties, this);
+                    hf.Reputations.Add(entityReputation);
+                }
+
+                ReputationHFs.Clear();
+                Reputations.Clear();
+            }
+
+            public void AddHFCurrentIdentity(HistoricalFigure hf, int identityID)
+            {
+                CurrentIdentityHFs.Add(hf);
+                CurrentIdentityIDs.Add(identityID);
+            }
+
+            public void ProcessHFCurrentIdentities()
+            {
+                for(int i = 0; i < CurrentIdentityHFs.Count; i++)
+                {
+                    HistoricalFigure hf = CurrentIdentityHFs[i];
+                    int id = CurrentIdentityIDs[i];
+                    if (hf.CurrentIdentity != null)
+                        throw new Exception("Current Identity already exists.");
+                    hf.CurrentIdentity = GetHistoricalFigure(id);
+                }
+                CurrentIdentityHFs.Clear();
+                CurrentIdentityIDs.Clear();
+            }
+
+            public void AddHFUsedIdentity(HistoricalFigure hf, int identityID)
+            {
+                UsedIdentityHFs.Add(hf);
+                UsedIdentityIDs.Add(identityID);
+            }
+
+            public void ProcessHFUsedIdentities()
+            {
+                for (int i = 0; i < UsedIdentityHFs.Count; i++)
+                {
+                    HistoricalFigure hf = UsedIdentityHFs[i];
+                    int id = UsedIdentityIDs[i];
+                    if (hf.UsedIdentity != null)
+                        throw new Exception("UsedIdentity already exists.");
+                    hf.UsedIdentity = GetHistoricalFigure(id);
+                }
+                UsedIdentityHFs.Clear();
+                UsedIdentityIDs.Clear();
+            }
+
+            #endregion
         }
 
                 
