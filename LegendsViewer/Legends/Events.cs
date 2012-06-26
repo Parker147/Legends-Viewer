@@ -143,8 +143,6 @@ namespace LegendsViewer.Legends
                     HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigureTarget, HistoricalFigureLinkType.ExSpouse));
                     HistoricalFigureTarget.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigure, HistoricalFigureLinkType.ExSpouse));
                 }
-                else
-                    throw new Exception("Could not fill in link event between " + HistoricalFigure + " and " + HistoricalFigureTarget);
             }
 
             HistoricalFigure.AddEvent(this);
@@ -199,6 +197,32 @@ namespace LegendsViewer.Legends
                 eventString += HistoricalFigureTarget.ToLink(link, pov);
             eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public class ArtifactLost : WorldEvent
+    {
+        public Artifact Artifact {get; set;}
+        public Site Site { get; set; }
+        public ArtifactLost(List<Property> properties, World world) : base(properties, world)
+        {
+            foreach(Property property in properties)
+            {
+                switch(property.Name)
+                {
+                    case "artifact_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                }
+            }
+
+            Artifact.AddEvent(this);
+            Site.AddEvent(this);
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was lost in " + Site.ToLink(link, pov);
             return eventString;
         }
     }
@@ -333,8 +357,11 @@ namespace LegendsViewer.Legends
             string eventString = this.GetYearTime() + Attacker.PrintEntity(true, pov) + " attacked ";
             if (SiteEntity != null) eventString += SiteEntity.PrintEntity(true, pov);
             else eventString += Defender.PrintEntity(true, pov);
-            eventString += " at " + Site.ToLink(link, pov) + ". " + AttackerGeneral.ToLink(link, pov) + " led the attack";
-            if (DefenderGeneral != null) eventString += ", and the defenders were led by " + DefenderGeneral.ToLink(link, pov) + ". ";
+            eventString += " at " + Site.ToLink(link, pov) + ". ";
+            if (AttackerGeneral != null)
+                eventString += AttackerGeneral.ToLink(link, pov) + " led the attack";
+            if (DefenderGeneral != null) 
+                eventString += ", and the defenders were led by " + DefenderGeneral.ToLink(link, pov);
             else eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
@@ -980,6 +1007,9 @@ namespace LegendsViewer.Legends
                             case "exec buried alive": Cause = DeathCause.ExecutedBuriedAlive; break;
                             case "exec beheaded": Cause = DeathCause.ExecutedBeheaded; break;
                             case "blood drained": Cause = DeathCause.DrainedBlood; break;
+                            case "collapsed": Cause = DeathCause.Collapsed; break;
+                            case "scared to death": Cause = DeathCause.ScaredToDeath; break;
+                            case "scuttled": Cause = DeathCause.Scuttled; break;
                             default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("Unknown Death Cause: " + UnknownCause); break;
                         } break;
                     case "slayer_race": SlayerRace = Formatting.FormatRace(property.Value); break;
@@ -1022,7 +1052,8 @@ namespace LegendsViewer.Legends
             else if (Cause == DeathCause.CaveIn) deathString = "was crushed under a collapsing ceiling";
             else if (Cause == DeathCause.InACage) deathString = "died in a cage";
             else if (Cause == DeathCause.FrozenInWater) deathString = "was incased in ice";
-            else if (Cause == DeathCause.Unknown) deathString = "died. (" + UnknownCause + ")";
+            else if (Cause == DeathCause.Scuttled) deathString = "was scuttled";
+            else if (Cause == DeathCause.Unknown) deathString = "died (" + UnknownCause + ")";
 
             if (Slayer != null || SlayerRace != "UNKNOWN")
             {
@@ -1043,10 +1074,10 @@ namespace LegendsViewer.Legends
                 else if (Cause == DeathCause.ExecutedHackedToPieces) deathString = "was hacked to pieces by " + slayerString;
                 else if (Cause == DeathCause.ExecutedBeheaded) deathString = "was beheaded by " + slayerString;
                 else if (Cause == DeathCause.DrainedBlood) deathString = "was drained of blood by " + slayerString;
+                else if (Cause == DeathCause.Collapsed) deathString = "collapsed, struck down by " + slayerString;
+                else if (Cause == DeathCause.ScaredToDeath) deathString = " was scared to death by " + slayerString;
                 else deathString += ", slain by " + slayerString;
             }
-
-
 
             eventString += deathString;
 
@@ -1175,10 +1206,8 @@ namespace LegendsViewer.Legends
 
             if (Teacher != null)
                 eventString += Teacher.ToLink(link, pov) + " taught " + Student.ToLink(link, pov) + " (" + Interaction + ")";
-            else if (Artifact != null)
+            else 
                 eventString += Student.ToLink(link, pov) + " learned (" + Interaction + ") from " + Artifact.ToLink(link, pov);
-            else
-                throw new Exception("Unhandled HFLearnsSecret Event Situation. No Teacher or Artifact.");
             eventString += ". ";
             return eventString;
         }
@@ -1711,6 +1740,7 @@ namespace LegendsViewer.Legends
     {
         public int UnitID;
         public Artifact Artifact;
+        public bool RecievedName;
         public HistoricalFigure HistoricalFigure;
         public Site Site;
         public ArtifactCreated(List<Property> properties, World world)
@@ -1723,6 +1753,7 @@ namespace LegendsViewer.Legends
                     case "artifact_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                     case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "name_only": RecievedName = true; property.Known = true; break;
                 }
             Artifact.AddEvent(this);
             HistoricalFigure.AddEvent(this);
@@ -1731,10 +1762,17 @@ namespace LegendsViewer.Legends
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string print = this.GetYearTime() + Artifact.ToLink(link, pov);
+            if (RecievedName)
+                print += " recieved its name";
+            else
+                print += " was created";
             if (Site != null)
-                print += " was created in " + Site.ToLink(link, pov);
-            else print += " was created ";
-            print += " by " + HistoricalFigure.ToLink(link, pov) + ". ";
+                print += " in " + Site.ToLink(link, pov);
+            if (RecievedName)
+                print += " from ";
+            else
+                print += " by ";
+            print += HistoricalFigure.ToLink(link, pov) + ". ";
             return print;
         }
 

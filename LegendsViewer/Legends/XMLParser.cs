@@ -259,6 +259,7 @@ namespace LegendsViewer.Legends
                 case "artifact stored": World.Events.Add(new ArtifactStored(properties, World)); break;
                 case "artifact possessed": World.Events.Add(new ArtifactPossessed(properties, World)); break;
                 case "agreement made": World.Events.Add(new AgreementMade(properties, World)); break;
+                case "artifact lost": World.Events.Add(new ArtifactLost(properties, World)); break;
                 case "hf disturbed structure":
                 default: World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

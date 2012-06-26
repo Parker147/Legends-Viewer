@@ -137,6 +137,8 @@ namespace LegendsViewer.Legends
         [Description("Former Slave")]
         FormerSlave,
         Slave,
+        [Description("Respected for heroic acts")]
+        Hero,
         Unknown
     }
 

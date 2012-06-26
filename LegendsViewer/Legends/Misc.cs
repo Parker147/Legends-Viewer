@@ -128,6 +128,10 @@ namespace LegendsViewer.Legends
         ExecutedBeheaded,
         [Description("Drained of blood")]
         DrainedBlood,
+        Collapsed,
+        [Description("Scared to death")]
+        ScaredToDeath,
+        Scuttled,
         Unknown
     }
 }

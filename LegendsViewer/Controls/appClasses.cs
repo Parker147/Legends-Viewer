@@ -73,7 +73,8 @@ namespace LegendsViewer
         new string[] {"hf learns secret",             "Historical Figure Learned Secret",                                         ""},
         new string[] {"artifact stored",              "Historical Figure Stored Artifact",                                         ""},
         new string[] {"artifact possessed",           "Historical Figure Obtained Artifact",                                         ""},
-        new string[] {"agreement made",               "",                                         ""},
+        new string[] {"agreement made",               "Entity Agreement Made",                                         ""},
+        new string[] {"artifact lost",                "Artifact Lost",                                         ""},
         new string[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 

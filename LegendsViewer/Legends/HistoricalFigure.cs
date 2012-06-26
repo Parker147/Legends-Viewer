@@ -17,7 +17,7 @@ namespace LegendsViewer.Legends
         public HFState CurrentState { get; set; }
         public HistoricalFigure UsedIdentity { get; set; }
         public HistoricalFigure CurrentIdentity { get; set; }
-        public Artifact Holding { get; set; }
+        public List<Artifact> HoldingArtifacts { get; set; }
         public List<State> States { get; set; }
         public List<HistoricalFigureLink> RelatedHistoricalFigures { get; set; }
         public List<EntityLink> RelatedEntities { get; set; }
@@ -175,9 +175,7 @@ namespace LegendsViewer.Legends
                     case "ent_pop_id":
                         EntityPopulation = world.GetEntityPopulation(Convert.ToInt32(property.Value)); break;
                     case "holds_artifact": 
-                        if (Holding != null)
-                            throw new Exception("Multiple Holding Artifacts: " + this.ToString());
-                        Holding = world.GetArtifact(Convert.ToInt32(property.Value)); break;
+                        HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
                     case "adventurer":
                         Adventurer = true;
                         property.Known = true;
@@ -209,7 +207,7 @@ namespace LegendsViewer.Legends
             PreviousRace = "";
             InteractionKnowledge = new List<string>();
             JourneyPets = new List<string>();
-            
+            HoldingArtifacts = new List<Artifact>();
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)

@@ -123,9 +123,18 @@ namespace LegendsViewer.Controls
                 }
                 HTML.AppendLine(Bold("Interaction Knowledge: ") + interactions + LineBreak);
             }
-            if (HistoricalFigure.Holding != null)
+            if (HistoricalFigure.HoldingArtifacts.Count > 0)
             {
-                HTML.AppendLine(Bold("Holding Artifact: ") + HistoricalFigure.Holding.ToLink() + LineBreak);
+                string artifacts = "";
+                foreach(Artifact artifact in HistoricalFigure.HoldingArtifacts)
+                {
+                    if (HistoricalFigure.HoldingArtifacts.Last() == artifact && HistoricalFigure.HoldingArtifacts.Count > 1)
+                        artifacts += " and ";
+                    else if (artifacts.Length > 0) 
+                        artifacts += ", ";
+                    artifacts += artifact.ToLink();
+                }
+                HTML.AppendLine(Bold("Holding Artifacts: ") + artifacts + LineBreak);
             }
             if (HistoricalFigure.Animated)
                 HTML.AppendLine(Bold("Animated as: ") + HistoricalFigure.AnimatedType + LineBreak);

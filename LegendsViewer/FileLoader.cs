@@ -254,6 +254,8 @@ namespace LegendsViewer
             string[] files = new string[] { XMLText.Text, HistoryText.Text, SitesText.Text, MapText.Text };
 
             Working = true;
+            XMLButton.Enabled = HistoryButton.Enabled = SitesButton.Enabled = MapButton.Enabled = false;
+            LogText.Clear();
             StatusLabel.Text = "Loading...";
             StatusLabel.ForeColor = Color.Blue;
 
@@ -265,6 +267,7 @@ namespace LegendsViewer
             while (load.IsBusy) Application.DoEvents();
 
             Working = false;
+            XMLButton.Enabled = HistoryButton.Enabled = SitesButton.Enabled = MapButton.Enabled = true;
             XMLState = HistoryState = SitesState = MapState = FileState.Default;
         }
 
@@ -293,6 +296,7 @@ namespace LegendsViewer
 
         private void Extract(string file)
         {
+            XMLButton.Enabled = HistoryButton.Enabled = SitesButton.Enabled = MapButton.Enabled = false;
             StatusLabel.Text = "Extracting...";
             StatusLabel.ForeColor = Color.Orange;
 

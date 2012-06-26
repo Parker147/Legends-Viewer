@@ -174,9 +174,9 @@ namespace LegendsViewer.Legends
             {
                 int biggestXCoordinate = 0;
                 int biggestYCoordinates = 0;
-                int[] worldSizes = { 33, 65, 129, 257 };
-                int worldSizeWidth = 17;
-                int worldSizeHeight = 17;
+                int[] worldSizes = { 17, 33, 65, 129, 257 };
+                int worldSizeWidth = worldSizes[0];
+                int worldSizeHeight = worldSizes[0];
                 int tileSize = 16;
                 foreach (Site site in this.Sites)
                 {
