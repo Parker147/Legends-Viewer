@@ -43,9 +43,13 @@ namespace LegendsViewer
 
         public override void Dispose()
         {
-            SeriesOptions = DwarfChart.SeriesOptions.GroupBy(option => option).Select(option => option.Key).ToList();
-            OtherChart = DwarfChart.OtherChart;
-            DwarfChart.Dispose();
+            if (DwarfChart != null)
+            {
+                SeriesOptions = DwarfChart.SeriesOptions.GroupBy(option => option).Select(option => option.Key).ToList();
+                OtherChart = DwarfChart.OtherChart;
+                DwarfChart.Dispose();
+                DwarfChart = null;
+            }
         }
     }
 

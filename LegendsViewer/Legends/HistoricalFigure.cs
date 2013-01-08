@@ -31,7 +31,7 @@ namespace LegendsViewer.Legends
         public int DeathYear { get; set; }
         public int DeathSeconds72 { get; set; }
         public DeathCause DeathCause { get; set; }
-        public string ActiveInteraction { get; set; }
+        public List<string> ActiveInteractions { get; set; }
         public List<string> InteractionKnowledge { get; set; }
         public string Goal { get; set; }
         public List<string> JourneyPets { get; set; }
@@ -150,10 +150,8 @@ namespace LegendsViewer.Legends
                         }
                         break;
                     case "hf_skill": Skills.Add(new Skill(property.SubProperties)); break;
-                    case "active_interaction": 
-                        if (ActiveInteraction != "")
-                            throw new Exception("Active Interaction already exists.");
-                        ActiveInteraction = property.Value; 
+                    case "active_interaction":
+                        ActiveInteractions.Add(property.Value);
                         break;
                     case "interaction_knowledge":
                         InteractionKnowledge.Add(property.Value);
@@ -203,7 +201,7 @@ namespace LegendsViewer.Legends
             Skills = new List<Skill>();
             AnimatedType = "";
             Goal = "";
-            ActiveInteraction = "";
+            ActiveInteractions = new List<string>();
             PreviousRace = "";
             InteractionKnowledge = new List<string>();
             JourneyPets = new List<string>();
@@ -295,7 +293,7 @@ namespace LegendsViewer.Legends
             
             hfraceString += Race.ToLower();
 
-            if (ActiveInteraction.Contains("VAMPIRE"))
+            if (ActiveInteractions.Contains("VAMPIRE"))
                 return hfraceString += " vampire";
             return hfraceString;
 
@@ -307,7 +305,7 @@ namespace LegendsViewer.Legends
                 return Race.ToLower() + " deity";
             if (Race == "Night Creature" && PreviousRace != "")
                 return PreviousRace.ToLower() + " turned night creature";
-            if (ActiveInteraction.Contains("VAMPIRE"))
+            if (ActiveInteractions.Contains("VAMPIRE"))
                 return Race.ToLower() + " vampire";
             return Race.ToLower();
         }

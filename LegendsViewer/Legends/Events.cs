@@ -127,14 +127,18 @@ namespace LegendsViewer.Legends
                     case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "hfid_target": HistoricalFigureTarget = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                 }
+
+            //Fill in LinkType by looking at related historical figures.
             LinkType = HistoricalFigureLinkType.Unknown;
             if (HistoricalFigure != HistoricalFigure.Unknown && HistoricalFigureTarget != HistoricalFigure.Unknown)
             {
-                
-                HistoricalFigureLink HistoricalFigureToTargetLink = HistoricalFigure.RelatedHistoricalFigures.Where(link => link.Type != HistoricalFigureLinkType.Child).SingleOrDefault(link => link.HistoricalFigure == HistoricalFigureTarget);
+                List<HistoricalFigureLink> historicalFigureToTargetLinks = HistoricalFigure.RelatedHistoricalFigures.Where(link => link.Type != HistoricalFigureLinkType.Child).Where(link => link.HistoricalFigure == HistoricalFigureTarget).ToList();
+                HistoricalFigureLink historicalFigureToTargetLink = null;
+                if (historicalFigureToTargetLinks.Count <= 1)
+                    historicalFigureToTargetLink = historicalFigureToTargetLinks.FirstOrDefault();
                 HFAbducted abduction = HistoricalFigureTarget.Events.OfType<HFAbducted>().SingleOrDefault(abduction1 => abduction1.Snatcher == HistoricalFigure);
-                if (HistoricalFigureToTargetLink != null && abduction == null)
-                    LinkType = HistoricalFigureToTargetLink.Type;
+                if (historicalFigureToTargetLink != null && abduction == null)
+                    LinkType = historicalFigureToTargetLink.Type;
                 else if (abduction != null)
                     LinkType = HistoricalFigureLinkType.Prisoner;
                 else if (HistoricalFigure.Race == "Night Creature" || HistoricalFigureTarget.Race == "Night Creature")

@@ -18,6 +18,7 @@ namespace LegendsViewer.Legends
         public Artifact(List<Property> properties, World world)
             : base(properties, world)
         {
+            Name = "Untitled";
             foreach(Property property in properties)
                 switch(property.Name)
                 {
@@ -26,8 +27,6 @@ namespace LegendsViewer.Legends
                   
                 }
         }
-
-        public Artifact() { Name = "INVALID ARTIFACT"; Item = "INVALID ITEM"; }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {

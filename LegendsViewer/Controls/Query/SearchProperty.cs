@@ -72,7 +72,7 @@ namespace LegendsViewer.Controls.Query
                     new SearchProperty("Ghost", "Is Ghost", typeof(bool)),
                     new SearchProperty("Animated", "Is Animated", typeof(bool)),
                     new SearchProperty("AnimatedType", "Animated Type", typeof(string)),
-                    new SearchProperty("ActiveInteraction", "Active Interaction", typeof(string)),
+                    new SearchProperty("ActiveInteractions", "Active Interactions", typeof(List<string>)),
                     new SearchProperty("InteractionKnowledge", "Interaction Knowledge", typeof(List<string>)),
                     new SearchProperty("Goal", typeof(string)),
                     new SearchProperty("JourneyPet", "Journey Pet", typeof(string)),

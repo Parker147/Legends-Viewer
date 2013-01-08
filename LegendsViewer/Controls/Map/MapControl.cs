@@ -54,19 +54,20 @@ namespace LegendsViewer.Controls
         }
         public override void Dispose()
         {
-            MapScale = MapPanel.ZoomCurrent;
-            Center = MapPanel.Center;
-            CivsToggled = MapPanel.CivsToggled;
-            SitesToggled = MapPanel.SitesToggled;
-            WarsToggled = MapPanel.WarsToggled;
-            BattlesToggled = MapPanel.BattlesToggled;
-            CurrentYear = MapPanel.CurrentYear;
-            if (MapPanel.Overlay != null) MapPanel.Overlay.Dispose();
-            if (MapPanel.AlternateMap != null) MapPanel.AlternateMap.Dispose();
-            MapPanel.Dispose();
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
+            if (MapPanel != null)
+            {
+                MapScale = MapPanel.ZoomCurrent;
+                Center = MapPanel.Center;
+                CivsToggled = MapPanel.CivsToggled;
+                SitesToggled = MapPanel.SitesToggled;
+                WarsToggled = MapPanel.WarsToggled;
+                BattlesToggled = MapPanel.BattlesToggled;
+                CurrentYear = MapPanel.CurrentYear;
+                if (MapPanel.Overlay != null) MapPanel.Overlay.Dispose();
+                if (MapPanel.AlternateMap != null) MapPanel.AlternateMap.Dispose();
+                MapPanel.Dispose();
+                MapPanel = null;
+            }
         }
     }
 

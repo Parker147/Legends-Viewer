@@ -109,8 +109,18 @@ namespace LegendsViewer.Controls
             }
             if (HistoricalFigure.Goal != "")
                 HTML.AppendLine(Bold("Goal: ") + HistoricalFigure.Goal + LineBreak);
-            if (HistoricalFigure.ActiveInteraction != "")
-                HTML.AppendLine(Bold("Active Interaction: ") + HistoricalFigure.ActiveInteraction + LineBreak);
+            if (HistoricalFigure.ActiveInteractions.Count > 0)
+            {
+                string interactions = "";
+                foreach (string interaction in HistoricalFigure.ActiveInteractions)
+                {
+                    if (HistoricalFigure.ActiveInteractions.Last() == interaction && HistoricalFigure.ActiveInteractions.Count > 1)
+                        interactions += " and ";
+                    else if (interactions.Length > 0) interactions += ", ";
+                    interactions += interaction;
+                }
+                HTML.AppendLine(Bold("Active Interactions: ") + interactions + LineBreak);
+            }
             if (HistoricalFigure.InteractionKnowledge.Count > 0)
             {
                 string interactions = "";

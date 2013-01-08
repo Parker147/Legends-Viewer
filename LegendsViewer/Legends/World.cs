@@ -480,7 +480,7 @@ namespace LegendsViewer.Legends
                     HistoricalFigure hf = HFtoEntityLinkHFs[i];
                     EntityLink relatedEntity = new EntityLink(link.SubProperties, this);
                     if (relatedEntity.Entity == null)
-                        throw new Exception("Related Entity Error: " + hf.ToString());
+                        continue;
                     else if (relatedEntity.Type != EntityLinkType.Enemy || (relatedEntity.Type == EntityLinkType.Enemy && relatedEntity.Entity.IsCiv))
                         hf.RelatedEntities.Add(relatedEntity);
                 }

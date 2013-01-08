@@ -42,12 +42,12 @@ namespace LegendsViewer.Controls
 
         public override void Dispose()
         {
-            BrowserScrollPosition = HTMLBrowser.Document.Body.ScrollTop;
-            HTMLBrowser.Dispose();
-            HTMLBrowser = null;
-            //GC.Collect();
-            //GC.WaitForPendingFinalizers();
-            //GC.Collect();
+            if (HTMLBrowser != null)
+            {
+                BrowserScrollPosition = HTMLBrowser.Document.Body.ScrollTop;
+                HTMLBrowser.Dispose();
+                HTMLBrowser = null;
+            }
         }
 
         public override void Refresh()

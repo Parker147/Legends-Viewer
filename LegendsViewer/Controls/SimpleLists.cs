@@ -21,8 +21,8 @@ namespace LegendsViewer
                 if (caste != "All") filtered = filtered.Where(hf => hf.Caste == caste);
                 if (type != "All") filtered = filtered.Where(hf => hf.AssociatedType == type);
                 if (deity) filtered = filtered.Where(hf => hf.Deity);
-                if (vampire ) filtered = filtered.Where(hf => hf.ActiveInteraction.Contains("VAMPIRE"));
-                if (werebeast) filtered = filtered.Where(hf => hf.ActiveInteraction.Contains("WEREBEAST"));
+                if (vampire ) filtered = filtered.Where(hf => hf.ActiveInteractions.Contains("VAMPIRE"));
+                if (werebeast) filtered = filtered.Where(hf => hf.ActiveInteractions.Contains("WEREBEAST"));
                 if (force) filtered = filtered.Where(hf => hf.Force);
                 if (ghost) filtered = filtered.Where(hf => hf.Ghost);
                 if (Leader) filtered = filtered.Where(hf => hf.Positions.Count > 0);
