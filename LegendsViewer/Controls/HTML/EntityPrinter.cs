@@ -40,7 +40,7 @@ namespace LegendsViewer.Controls
         private void PrintTitle()
         {
             string title = Entity.ToLink(false);
-            if (Entity.IsCiv) title += " is a civlization of ";
+            if (Entity.IsCiv) title += " is a civilization of ";
             else title += " is a group of ";
             title += Entity.Race.ToLower();
             if (Entity.Parent != null) title += " of " + Entity.Parent.ToLink(true, Entity);
