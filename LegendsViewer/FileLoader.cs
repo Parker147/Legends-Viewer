@@ -145,6 +145,9 @@ namespace LegendsViewer
             MapButton.Click += MapClick;
 
             ExtractedFiles = new List<string>();
+
+            if (Environment.Is64BitProcess)
+                SevenZip.SevenZipExtractor.SetLibraryPath("7z64.dll");
         }
 
         private string GetFile(string filter)
