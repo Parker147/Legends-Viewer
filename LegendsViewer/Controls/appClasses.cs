@@ -32,7 +32,7 @@ namespace LegendsViewer
         new string[] {"hf simple battle event",       "Historical Figure Fight",                  "Multiple Outcomes / Subtypes"},
         new string[] {"hf travel",                    "Historical Figure Travel",                 ""},
         new string[] {"hf wounded",                   "Historical Figure Wounded",                "(Incomplete)"},
-        new string[] {"impersonate hf",               "Historical Figure Impersonation",          "Diety is impersonated, fooling Diety's associated civlization"},
+        new string[] {"impersonate hf",               "Historical Figure Impersonation",          "Deity is impersonated, fooling Deity's associated civilization"},
         new string[] {"item stolen",                  "Historical Figure Theft",                  "(Incomplete)"},
         new string[] {"new site leader",              "Site Taken Over / New Leader",             "Site Attacked and taken over. New Government and Leader installed."},
         new string[] {"peace accepted",               "Entity Accepted Peace",                    "(Incomplete)"},
