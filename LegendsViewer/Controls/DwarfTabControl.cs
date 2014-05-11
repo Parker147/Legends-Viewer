@@ -103,7 +103,7 @@ namespace LegendsViewer
         protected override void WndProc(ref Message m)
         {
             if (m.Msg > 512 && m.Msg <= 528)
-                switch (m.WParam.ToInt32())
+                switch (m.WParam.ToInt64())
                 {
                     case 66059:
                     case (int)MouseButtons.XButton1: Back(); break;
