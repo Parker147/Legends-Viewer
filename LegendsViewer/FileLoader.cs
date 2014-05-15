@@ -8,6 +8,7 @@ using System.Drawing;
 using System.ComponentModel;
 using LegendsViewer.Legends;
 using SevenZip;
+using System.Xml;
 
 namespace LegendsViewer
 {
@@ -277,7 +278,26 @@ namespace LegendsViewer
         private void load_DoWork(object sender, DoWorkEventArgs e)
         {
             string[] files = e.Argument as string[];
-            e.Result = new World(files[0], files[1], files[2], files[3]);
+            try
+            {
+                e.Result = new World(files[0], files[1], files[2], files[3]);
+            }
+            catch (XmlException)
+            {
+                string safeXMLFile = XMLParser.SafeXMLFile(files[0]);
+                if (safeXMLFile != null)
+                {
+                    if (safeXMLFile != files[0])
+                    {
+                        ExtractedFiles.Add(safeXMLFile);
+                    }
+                    e.Result = new World(safeXMLFile, files[1], files[2], files[3]);
+                }
+                else
+                {
+                    e.Result = null;
+                }
+            }
         }
 
         private void load_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -286,14 +306,23 @@ namespace LegendsViewer
                 System.IO.File.Delete(delete);
             ExtractedFiles.Clear();
 
-            if (e.Error != null)
+            if (e.Result != null)
             {
-                LogText.AppendText(e.Error.Message + "\n" + e.Error.StackTrace);
+                if (e.Error != null)
+                {
+                    LogText.AppendText(e.Error.Message + "\n" + e.Error.StackTrace);
+                    StatusLabel.Text = "ERROR!";
+                    StatusLabel.ForeColor = Color.Red;
+                }
+                else
+                    Form.AfterLoad(e.Result as World);
+            }
+            else
+            {
+                LogText.AppendText("Repair of corrupt XML cancelled!");
                 StatusLabel.Text = "ERROR!";
                 StatusLabel.ForeColor = Color.Red;
             }
-            else
-                Form.AfterLoad(e.Result as World);
 
         }
 
