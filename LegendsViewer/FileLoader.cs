@@ -277,7 +277,12 @@ namespace LegendsViewer
         private void load_DoWork(object sender, DoWorkEventArgs e)
         {
             string[] files = e.Argument as string[];
-            e.Result = new World(files[0], files[1], files[2], files[3]);
+            string safeXMLFile = XMLParser.SafeXMLFile(files[0]);
+            if (safeXMLFile != files[0])
+            {
+                ExtractedFiles.Add(safeXMLFile);
+            }
+            e.Result = new World(safeXMLFile, files[1], files[2], files[3]);
         }
 
         private void load_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

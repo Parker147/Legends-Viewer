@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace LegendsViewer.Legends
 {
@@ -19,8 +20,38 @@ namespace LegendsViewer.Legends
         public XMLParser(World world, string xmlFile)
         {
             World = world;
-            XML = new XmlTextReader(new StreamReader(new MemoryStream(Encoding.ASCII.GetBytes(Regex.Replace(File.ReadAllText(xmlFile), "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]", string.Empty, RegexOptions.Compiled))),Encoding.ASCII));
+            XML = new XmlTextReader(xmlFile);
             XML.WhitespaceHandling = WhitespaceHandling.Significant;
+        }
+
+        public static string SafeXMLFile(string xmlFile)
+        {
+            try
+            {
+                XDocument safeFile = XDocument.Load(xmlFile);
+                safeFile = null;
+                return xmlFile;
+            }
+            catch (XmlException)
+            {
+                string currentLine = String.Empty;
+                string safeFile = Path.GetTempFileName();
+                using (FileStream inputStream = File.OpenRead(xmlFile))
+                {
+                    using (StreamReader inputReader = new StreamReader(inputStream))
+                    {
+                        using (StreamWriter outputWriter = File.AppendText(safeFile))
+                        {
+                            while (null != (currentLine = inputReader.ReadLine()))
+                            {
+                                outputWriter.WriteLine(Regex.Replace(currentLine, "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]", string.Empty));
+                            }
+                        }
+                    }
+                }
+                return safeFile;
+            }
+
         }
 
         public void Parse()
