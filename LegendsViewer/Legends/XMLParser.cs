@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace LegendsViewer.Legends
 {
@@ -18,7 +19,7 @@ namespace LegendsViewer.Legends
         public XMLParser(World world, string xmlFile)
         {
             World = world;
-            XML = new XmlTextReader(new StreamReader(xmlFile));
+            XML = new XmlTextReader(new StreamReader(new MemoryStream(Encoding.ASCII.GetBytes(Regex.Replace(File.ReadAllText(xmlFile), "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]", string.Empty, RegexOptions.Compiled))),Encoding.ASCII));
             XML.WhitespaceHandling = WhitespaceHandling.Significant;
         }
 
