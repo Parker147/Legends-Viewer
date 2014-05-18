@@ -278,11 +278,18 @@ namespace LegendsViewer
         {
             string[] files = e.Argument as string[];
             string safeXMLFile = XMLParser.SafeXMLFile(files[0]);
-            if (safeXMLFile != files[0])
+            if (safeXMLFile != null)
             {
-                ExtractedFiles.Add(safeXMLFile);
+                if (safeXMLFile != files[0])
+                {
+                    ExtractedFiles.Add(safeXMLFile);
+                }
+                e.Result = new World(safeXMLFile, files[1], files[2], files[3]);
             }
-            e.Result = new World(safeXMLFile, files[1], files[2], files[3]);
+            else
+            {
+                e.Result = null;
+            }
         }
 
         private void load_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -291,14 +298,23 @@ namespace LegendsViewer
                 System.IO.File.Delete(delete);
             ExtractedFiles.Clear();
 
-            if (e.Error != null)
+            if (e.Result != null)
             {
-                LogText.AppendText(e.Error.Message + "\n" + e.Error.StackTrace);
+                if (e.Error != null)
+                {
+                    LogText.AppendText(e.Error.Message + "\n" + e.Error.StackTrace);
+                    StatusLabel.Text = "ERROR!";
+                    StatusLabel.ForeColor = Color.Red;
+                }
+                else
+                    Form.AfterLoad(e.Result as World);
+            }
+            else
+            {
+                LogText.AppendText("Repair of corrupt XML cancelled!");
                 StatusLabel.Text = "ERROR!";
                 StatusLabel.ForeColor = Color.Red;
             }
-            else
-                Form.AfterLoad(e.Result as World);
 
         }
 

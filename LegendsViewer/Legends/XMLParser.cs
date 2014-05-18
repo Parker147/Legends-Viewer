@@ -6,6 +6,7 @@ using System.Xml;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace LegendsViewer.Legends
 {
@@ -34,22 +35,34 @@ namespace LegendsViewer.Legends
             }
             catch (XmlException)
             {
-                string currentLine = String.Empty;
-                string safeFile = Path.GetTempFileName();
-                using (FileStream inputStream = File.OpenRead(xmlFile))
-                {
-                    using (StreamReader inputReader = new StreamReader(inputStream))
-                    {
-                        using (StreamWriter outputWriter = File.AppendText(safeFile))
-                        {
-                            while (null != (currentLine = inputReader.ReadLine()))
-                            {
-                                outputWriter.WriteLine(Regex.Replace(currentLine, "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]", string.Empty));
-                            }
-                        }
-                    }
-                }
-                return safeFile;
+                  DialogResult response = MessageBox.Show("There was an error loading this XML file! Do you wish to attempt a repair?", "Error loading XML", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                  if (response == DialogResult.Yes)
+                  {
+                      string currentLine = String.Empty;
+                      string safeFile = Path.GetTempFileName();
+                      using (FileStream inputStream = File.OpenRead(xmlFile))
+                      {
+                          using (StreamReader inputReader = new StreamReader(inputStream))
+                          {
+                              using (StreamWriter outputWriter = File.AppendText(safeFile))
+                              {
+                                  while (null != (currentLine = inputReader.ReadLine()))
+                                  {
+                                      outputWriter.WriteLine(Regex.Replace(currentLine, "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]", string.Empty));
+                                  }
+                              }
+                          }
+                      }
+                      DialogResult overwrite = MessageBox.Show("Repair completed. Would you like to overwrite the original file with the repaired version? (Note: No effect if opened from an archive)", "Repair Completed", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                      if (overwrite == DialogResult.Yes)
+                      {
+                          File.Delete(xmlFile);
+                          File.Copy(safeFile, xmlFile);
+                          return xmlFile;
+                      }
+                      return safeFile;
+                  }
+                  return null;
             }
 
         }
