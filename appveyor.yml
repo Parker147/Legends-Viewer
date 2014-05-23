@@ -1,0 +1,78 @@
+#######################
+#    BUILDS
+
+# to disable automatic builds
+#build: off
+
+build:
+  project: LegendsViewer.sln        # path to Visual Studio solution or project
+  verbosity: minimal               # quiet|minimal|norma|detailed
+
+# branches to build
+branches:
+  only:
+    - master
+    - develop
+
+# Operating system (build VM template)
+#os: Windows Server 2012 R2
+os: Windows Server 2012
+
+# build platform, i.e. x86, x64, AnyCPU. This setting is optional.
+#platform: AnyCPU
+
+# to add several configurations to build matrix:
+#configuration:
+#  - Debug
+#  - Release
+
+# to disable automatic tests 
+#test: off
+
+# to run auto tests
+#tests:
+
+#######################
+#    HOOKS
+
+# scripts to run before build
+#before_build:
+
+# scripts to run after build
+#after_build:
+
+# scripts to run before tests
+#before_test:
+
+# scripts to run after tests
+#after_test:
+
+# to run your custom scripts instead of automatic tests
+#test_script:
+
+# scripts to run before deployment
+#before_deploy:
+
+# scripts to run after deployment
+#after_deploy:
+
+# to run your custom scripts instead of provider deployments
+#deploy_script:
+
+# on successful build
+on_success:
+  - ps: $folder = "$($env:APPVEYOR_BUILD_FOLDER)\LegendsViewer\bin\"; New-Item -Path "$($folder)\Output" -ItemType "directory"; Get-ChildItem "$($folder)\Debug\*.exe", "$($folder)\Debug\*.dll", "$($folder)\Debug\ReadMe.txt" | Copy-Item -Destination "$($folder)\Output"; Push-AppveyorArtifact "$($folder)\Output\LegendsViewer.exe" -FileName "LegendsViewer.exe" -DeploymentName "Executable Only"; [Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem"); [System.IO.Compression.ZipFile]::CreateFromDirectory("$($folder)\Output", "$($folder)\FullRelease.zip", [System.IO.Compression.CompressionLevel]::Optimal, $false); Push-AppveyorArtifact "$($folder)\FullRelease.zip" -FileName "Full Release.zip" -DeploymentName "Full Release"  
+  
+# on build failure
+#on_failure:
+#  - ps: Push-AppveyorArtifact "$($env:APPVEYOR_BUILD_FOLDER)\LegendsViewer\logs "LegendsViewer-Failure.zip" -DeploymentName "$($env:APPVEYOR_BUILD_VERSION) $($env:APPVEYOR_REPO_BRANCH) Failure Logs"
+
+
+#######################
+#    ARTIFACTS
+
+# TODO: Replace with scripts to rename/move executables (Hooks)
+#artifacts:
+
+# to disable deployment
+deploy: off
