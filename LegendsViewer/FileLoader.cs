@@ -8,6 +8,7 @@ using System.Drawing;
 using System.ComponentModel;
 using LegendsViewer.Legends;
 using SevenZip;
+using System.Xml;
 
 namespace LegendsViewer
 {
@@ -277,18 +278,25 @@ namespace LegendsViewer
         private void load_DoWork(object sender, DoWorkEventArgs e)
         {
             string[] files = e.Argument as string[];
-            string safeXMLFile = XMLParser.SafeXMLFile(files[0]);
-            if (safeXMLFile != null)
+            try
             {
-                if (safeXMLFile != files[0])
-                {
-                    ExtractedFiles.Add(safeXMLFile);
-                }
-                e.Result = new World(safeXMLFile, files[1], files[2], files[3]);
+                e.Result = new World(files[0], files[1], files[2], files[3]);
             }
-            else
+            catch (XmlException)
             {
-                e.Result = null;
+                string safeXMLFile = XMLParser.SafeXMLFile(files[0]);
+                if (safeXMLFile != null)
+                {
+                    if (safeXMLFile != files[0])
+                    {
+                        ExtractedFiles.Add(safeXMLFile);
+                    }
+                    e.Result = new World(safeXMLFile, files[1], files[2], files[3]);
+                }
+                else
+                {
+                    e.Result = null;
+                }
             }
         }
 
