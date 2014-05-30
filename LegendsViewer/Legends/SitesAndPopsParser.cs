@@ -18,7 +18,7 @@ namespace LegendsViewer.Legends
         public SitesAndPopulationsParser(World world, string sitesAndPopsFile)
         {
             World = world;
-            SitesAndPops = new StreamReader(sitesAndPopsFile, Encoding.Default);
+            SitesAndPops = new StreamReader(sitesAndPopsFile, Encoding.GetEncoding("windows-1252"));
         }
 
         public void Parse()

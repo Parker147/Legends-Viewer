@@ -17,7 +17,7 @@ namespace LegendsViewer.Legends
         public HistoryParser(World world, string historyFile)
         {
             World = world;
-            History = new StreamReader(historyFile, Encoding.Default);
+            History = new StreamReader(historyFile, Encoding.GetEncoding("windows-1252"));
             Log = new StringBuilder();
         }
 
