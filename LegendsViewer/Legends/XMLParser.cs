@@ -296,6 +296,11 @@ namespace LegendsViewer.Legends
                 case "artifact possessed": World.Events.Add(new ArtifactPossessed(properties, World)); break;
                 case "agreement made": World.Events.Add(new AgreementMade(properties, World)); break;
                 case "artifact lost": World.Events.Add(new ArtifactLost(properties, World)); break;
+                case "site dispute": World.Events.Add(new SiteDispute(properties, World)); break;
+                case "hf attacked site": World.Events.Add(new HfAttackedSite(properties, World)); break;
+                case "hf destroyed site": World.Events.Add(new HfDestroyedSite(properties, World)); break;
+                case "agreement formed": World.Events.Add(new AgreementFormed(properties, World)); break;
+                case "site tribute forced": World.Events.Add(new SiteTributeForced(properties, World)); break;
                 case "hf disturbed structure":
                 default: World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

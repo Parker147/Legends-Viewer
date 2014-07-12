@@ -75,6 +75,11 @@ namespace LegendsViewer
         new string[] {"artifact possessed",           "Historical Figure Obtained Artifact",                                         ""},
         new string[] {"agreement made",               "Entity Agreement Made",                                         ""},
         new string[] {"artifact lost",                "Artifact Lost",                                         ""},
+        new string[] {"site dispute",                 "Site Dispute", ""},
+        new string[] {"hf attacked site",             "Historical Figure Attacked Site", ""},
+        new string[] {"hf destroyed site",            "Historical Figure Destroyed Site", ""},
+        new string[] {"agreement formed",             "Agreement Formed", ""},
+        new string[] {"site tribute forced",          "Site Tribute Forced", ""},
         new string[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 

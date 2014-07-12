@@ -87,12 +87,30 @@ namespace LegendsViewer.Controls
                 {
                     string ownerString = "UNKNOWN ENTITY";
                     if (owner.Owner != null)
-                        ownerString = owner.Owner.PrintEntity();
+                    {
+                        if (owner.Owner is Entity)
+                        {
+                            ownerString = ((Entity)owner.Owner).PrintEntity();
+                        }
+                        else
+                        {
+                            ownerString = owner.Owner.ToLink(true, Site);
+                        }
+                    }
                     HTML.AppendLine("<li>" + ownerString + ", " + owner.StartCause + " " + Site.ToLink(true, Site) + " in " + owner.StartYear);
                     if (owner.EndYear >= 0)
                         HTML.Append(" and <font color=\"Red\">" + owner.EndCause + "</font> in " + owner.EndYear);
                     if (owner.Ender != null)
-                        HTML.Append(" by " + owner.Ender.PrintEntity());
+                    {
+                        if (owner.Ender is Entity)
+                        {
+                            HTML.Append(" by " + ((Entity)owner.Ender).PrintEntity());
+                        }
+                        else
+                        {
+                            HTML.Append(" by " + owner.Ender.ToLink(true, Site));
+                        }
+                    }
                 }
                 HTML.AppendLine("</ol>");
             }

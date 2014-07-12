@@ -328,6 +328,8 @@ namespace LegendsViewer.Controls.Query
                 object navigateTo = dgResults.Rows[e.RowIndex].DataBoundItem;
                 if (navigateTo.GetType() == typeof(HistoricalFigureLink))
                     navigateTo = (navigateTo as HistoricalFigureLink).HistoricalFigure;
+                else if (navigateTo.GetType() == typeof(SiteLink))
+                    navigateTo = (navigateTo as SiteLink).Site;
                 Browser.Navigate(ControlOption.HTML, navigateTo);
             }
         }
@@ -389,11 +391,17 @@ namespace LegendsViewer.Controls.Query
             {
                 Site site = dgResults.Rows[e.RowIndex].DataBoundItem as Site;
                 if (column == "Owner") {
-                    if (e.Value == null) 
+                    if (e.Value == null)
                         e.Value = "";
                     else
-                        e.Value = site.CurrentOwner + " (" + site.CurrentOwner.Race + ")";
+                    {
+                        e.Value = site.CurrentOwner;
+                        if (site.CurrentOwner is Entity)
+                        {
+                            e.Value += " (" + ((Entity)site.CurrentOwner).Race + ")";
+                        }
                     }
+                }
                 else if (column == "Previous Owners") e.Value = site.PreviousOwners.Count;
                 else if (column == "Deaths") e.Value = site.Deaths.Count;
                 else if (column == "Warfare") e.Value = site.Warfare.Count;

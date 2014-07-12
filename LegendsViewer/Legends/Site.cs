@@ -17,7 +17,7 @@ namespace LegendsViewer.Legends
         public List<SiteConquered> Conquerings { get { return Warfare.OfType<SiteConquered>().ToList(); } set { } }
         public List<OwnerPeriod> OwnerHistory { get; set; }
         public static List<string> Filters;
-        public Entity CurrentOwner
+        public DwarfObject CurrentOwner
         {
             get
             {
@@ -28,7 +28,7 @@ namespace LegendsViewer.Legends
             }
             set { }
         }
-        public List<Entity> PreviousOwners { get { return OwnerHistory.Where(site => site.EndYear >= 0).Select(site => site.Owner).ToList(); } set { } }
+        public List<DwarfObject> PreviousOwners { get { return OwnerHistory.Where(site => site.EndYear >= 0).Select(site => site.Owner).ToList(); } set { } }
         public List<Site> Connections { get; set; }
         public List<Population> Populations { get; set; }
         public List<string> PopulationsAsList

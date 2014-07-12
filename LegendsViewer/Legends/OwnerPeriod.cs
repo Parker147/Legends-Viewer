@@ -10,14 +10,15 @@ namespace LegendsViewer.Legends
     public class OwnerPeriod
     {
         public Site Site;
-        public Entity Owner, Ender;
+        public DwarfObject Owner;
+        public DwarfObject Ender;
         public int StartYear, EndYear;
         public string StartCause, EndCause;
-        public OwnerPeriod(Site site, Entity newowner, int year, string cause)
+        public OwnerPeriod(Site site, DwarfObject newowner, int year, string cause)
         {
             Site = site; Owner = newowner; StartYear = year; StartCause = cause; EndYear = -1;
-            if (Owner != null)
-                Owner.AddOwnedSite(this);
+            if (Owner != null && Owner is Entity)
+                ((Entity) Owner).AddOwnedSite(this);
             Site.OwnerHistory.Add(this);
         }
     }

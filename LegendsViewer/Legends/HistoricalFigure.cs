@@ -92,6 +92,7 @@ namespace LegendsViewer.Legends
             List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
             List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count" };
             List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id" };
+            List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" }; 
             foreach(Property property in properties)
                 switch(property.Name)
                 {
@@ -134,6 +135,16 @@ namespace LegendsViewer.Legends
                     case "entity_reputation":
                         world.AddReputation(this, property);
                         foreach (string subPropertyName in knownReputationSubProperties)
+                        {
+                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                            if (subProperty != null)
+                                subProperty.Known = true;
+                        }
+                        break;
+                    case "entity_squad_link":
+                    case "entity_former_squad_link":
+                        property.Known = true;
+                        foreach (string subPropertyName in knownEntitySquadLinkProperties)
                         {
                             Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
                             if (subProperty != null)

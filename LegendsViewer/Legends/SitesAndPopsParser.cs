@@ -170,7 +170,7 @@ namespace LegendsViewer.Legends
                 if (Site.OwnerHistory.Count == 0)
                     new OwnerPeriod(Site, Owner, 1, "UNKNOWN");
                 else if (Site.OwnerHistory.Last().Owner != Owner)
-                    World.ParsingErrors.Report("Site ownership conflict: " + Site.Name);
+                    World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false));
 
             //check for loss of period ownership, since some some loss of ownership eventsList are missing
             if (Owner == null && Site.OwnerHistory.Count > 0 && Site.OwnerHistory.Last().EndYear == -1)

@@ -205,7 +205,16 @@ namespace LegendsViewer.Controls
                         siteTable.AddData(ownedSite.EndYear.ToString());
                     }
                     if (ownedSite.Ender != null)
-                        siteTable.AddData(" by " + ownedSite.Ender.PrintEntity(), 0, TableDataAlign.Right);
+                    {
+                        if (ownedSite.Ender is Entity)
+                        {
+                            siteTable.AddData(" by " + ((Entity)ownedSite.Ender).PrintEntity(), 0, TableDataAlign.Right);
+                        }
+                        else
+                        {
+                            siteTable.AddData(" by " + ownedSite.Ender.ToLink(true, Entity), 0, TableDataAlign.Right);
+                        }
+                    }
                     siteTable.EndRow();
                 }
                 HTML.AppendLine(siteTable.GetTable() + LineBreak);

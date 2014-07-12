@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace LegendsViewer.Legends
 {
@@ -30,7 +31,9 @@ namespace LegendsViewer.Legends
         public WorldEvent() { ID = -1; Year = -1; Seconds72 = -1; Type = "INVALID"; }
         public virtual string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + this.Type;
+            string eventString = this.GetYearTime() + this.Type;
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
 
         public int Compare(WorldEvent worldEvent)
@@ -226,7 +229,8 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was lost in " + Site.ToLink(link, pov);
+            string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was lost in " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -262,7 +266,8 @@ namespace LegendsViewer.Legends
             string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was claimed";
             if (Site != null)
                 eventString += " in " + Site.ToLink(link, pov);
-            eventString += " by " + HistoricalFigure.ToLink(link, pov) + ".";
+            eventString += " by " + HistoricalFigure.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -295,7 +300,8 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was stored in " + Site.ToLink(link, pov) + " by " + HistoricalFigure.ToLink(link, pov) + ".";
+            string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was stored in " + Site.ToLink(link, pov) + " by " + HistoricalFigure.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -326,7 +332,8 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Trickster.ToLink(link, pov) + " fooled " + Target.ToLink(link, pov) + " into believing " + Trickster.CasteNoun() + " was " + Identity.ToLink(link, pov) + ".";
+            string eventString = GetYearTime() + Trickster.ToLink(link, pov) + " fooled " + Target.ToLink(link, pov) + " into believing " + Trickster.CasteNoun() + " was " + Identity.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -466,7 +473,8 @@ namespace LegendsViewer.Legends
                 eventString += " at " + Site.ToLink(link, pov);
             if (BuildingID != -1)
                 eventString += " within (" + BuildingID + ")";
-            eventString += ".";
+            eventString += ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -501,7 +509,12 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " became a UNKNOWN JOB in " + Site.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " became a UNKNOWN JOB";
+            if (Site != null)
+            {
+                eventString += " in " + Site.ToLink(link, pov);
+            }
+            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -626,6 +639,7 @@ namespace LegendsViewer.Legends
     {
         public Entity Civ, SiteEntity;
         public Site Site;
+        public HistoricalFigure Builder;
         public CreatedSite(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -635,23 +649,38 @@ namespace LegendsViewer.Legends
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "builder_hfid": Builder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                 }
             if (SiteEntity != null)
             {
                 SiteEntity.Parent = Civ;
                 new OwnerPeriod(Site, SiteEntity, this.Year, "founded");
             }
-            else
+            else if (Civ != null)
+            {
                 new OwnerPeriod(Site, Civ, this.Year, "founded");
+            }
+            else if (Builder != null)
+            {
+                new OwnerPeriod(Site, Builder, this.Year, "created");
+            }
             Site.AddEvent(this);
             SiteEntity.AddEvent(this);
             Civ.AddEvent(this);
+            Builder.AddEvent(this);
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = this.GetYearTime();
-            if (SiteEntity != null ) eventString += SiteEntity.ToLink(link, pov) + " of ";
-            eventString += Civ.ToLink(link, pov) + " founded " + Site.ToLink(link, pov) + ". ";
+            if (Builder != null)
+            {
+                eventString += Builder.ToLink(link, pov) + " created " + Site.ToLink(link, pov) + ". ";
+            }
+            else
+            {
+                if (SiteEntity != null) eventString += SiteEntity.ToLink(link, pov) + " of ";
+                eventString += Civ.ToLink(link, pov) + " founded " + Site.ToLink(link, pov) + ". ";
+            }
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -936,7 +965,9 @@ namespace LegendsViewer.Legends
                 if (Reasons.Count > 1 && reason == Reasons[Reasons.Count - 2])
                     reasonString += "and ";
             }
-            eventString += " " + reasonString;
+            eventString += " " + reasonString + ". ";
+
+            eventString += PrintParentCollection(link, pov);
 
             return eventString;
         }
@@ -1122,7 +1153,8 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Doer.ToLink(link, pov) + " (" + Interaction + ") on " + Target.ToLink(link, pov) + ".";
+            string eventString = GetYearTime() + Doer.ToLink(link, pov) + " (" + Interaction + ") on " + Target.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -1167,7 +1199,8 @@ namespace LegendsViewer.Legends
                 case SecretGoal.Immortality: goalString = " became obsessed with " + HistoricalFigure.CasteNoun(true) + " own mortality and sought to extend " + HistoricalFigure.CasteNoun(true) + " life by any means"; break;
                 case SecretGoal.Unknown: goalString = " gained secret goal (" + UnknownGoal + ")"; break;
             }
-            eventString += goalString + ".";
+            eventString += goalString + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -1213,6 +1246,7 @@ namespace LegendsViewer.Legends
             else 
                 eventString += Student.ToLink(link, pov) + " learned (" + Interaction + ") from " + Artifact.ToLink(link, pov);
             eventString += ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -1277,7 +1311,8 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov) + " profaned (" + StructureID + ") in " + Site.ToLink(link, pov) + ".";
+            string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov) + " profaned (" + StructureID + ") in " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -1672,7 +1707,8 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Entity.ToLink(link, pov) + " razed (" + StructureID + ") in " + Site.ToLink(link, pov);
+            string eventString = GetYearTime() + Entity.ToLink(link, pov) + " razed (" + StructureID + ") in " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -1733,7 +1769,9 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + " UNKNOWN HISTORICAL FIGURE removed link with " + Civ.ToLink(link, pov);
+            string eventString = this.GetYearTime() + " UNKNOWN HISTORICAL FIGURE removed link with " + Civ.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -1765,19 +1803,20 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string print = this.GetYearTime() + Artifact.ToLink(link, pov);
+            string eventString = this.GetYearTime() + Artifact.ToLink(link, pov);
             if (RecievedName)
-                print += " recieved its name";
+                eventString += " recieved its name";
             else
-                print += " was created";
+                eventString += " was created";
             if (Site != null)
-                print += " in " + Site.ToLink(link, pov);
+                eventString += " in " + Site.ToLink(link, pov);
             if (RecievedName)
-                print += " from ";
+                eventString += " from ";
             else
-                print += " by ";
-            print += HistoricalFigure.ToLink(link, pov) + ". ";
-            return print;
+                eventString += " by ";
+            eventString += HistoricalFigure.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
 
     }
@@ -1797,8 +1836,10 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + "UNKNOWN ENTITY lost a diplomat at " + Site.ToLink(link, pov)
-                + ". They suspected the involvement of UNKNOWN ENTITY.";
+            string eventString = this.GetYearTime() + "UNKNOWN ENTITY lost a diplomat at " + Site.ToLink(link, pov)
+                + ". They suspected the involvement of UNKNOWN ENTITY. ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -1823,7 +1864,9 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + Entity.ToLink(link, pov) + " formed in " + Site.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime() + Entity.ToLink(link, pov) + " formed in " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -1881,6 +1924,8 @@ namespace LegendsViewer.Legends
             else
                 eventString += " laws from ";
             eventString += Entity.ToLink(link, pov);
+            eventString += ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -1919,7 +1964,8 @@ namespace LegendsViewer.Legends
             string eventString = GetYearTime() + Entity.ToLink(link, pov) + " became the primary criminal organization in " + Site.ToLink();
             if (StructureID >= 0)
                 eventString += " (" + StructureID + ")";
-            eventString += ".";
+            eventString += ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -1949,7 +1995,8 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Entity.ToLink(link, pov) + " moved to (" + StructureID + ") in " + Site.ToLink(link, pov);
+            string eventString = GetYearTime() + Entity.ToLink(link, pov) + " moved to (" + StructureID + ") in " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -1980,7 +2027,9 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " came back from the dead as a " + Ghost + " in " + Site.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " came back from the dead as a " + Ghost + " in " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2007,8 +2056,10 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " constructed a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
-                " at " + Site.ToLink(link, pov);
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " constructed a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
+                " at " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2035,8 +2086,10 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " designed a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " designed a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
                 " at " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
 
     }
@@ -2064,8 +2117,10 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + "created a masterful engraving for" + Civ.ToLink(link, pov) +
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + "created a masterful engraving for" + Civ.ToLink(link, pov) +
                 " in " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2092,8 +2147,10 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " prepared a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " prepared a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
                 " at " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2120,8 +2177,10 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " created a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " created a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
                 " at " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2148,8 +2207,10 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " added masterful (UNKNOWN) to a (UNKNOWN) for "
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " added masterful (UNKNOWN) to a (UNKNOWN) for "
                 + Civ.ToLink(link, pov) + " at " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2202,7 +2263,9 @@ namespace LegendsViewer.Legends
         {
             string eventString = this.GetYearTime();
             if (SiteEntity != null && SiteEntity != Civ) eventString += SiteEntity.ToLink(link, pov) + " of ";
-            return eventString + Civ.ToLink(link, pov) + " abandoned the settlement at " + Site.ToLink(link, pov) + ". ";
+            eventString += Civ.ToLink(link, pov) + " abandoned the settlement at " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2238,7 +2301,9 @@ namespace LegendsViewer.Legends
         {
             string eventString = this.GetYearTime();
             if (SiteEntity != null && SiteEntity != Civ) eventString += SiteEntity.ToLink(link, pov) + " and ";
-            return eventString + Civ.ToLink(link, pov) + " settlement of " + Site.ToLink(link, pov) + " withered.";
+            eventString += Civ.ToLink(link, pov) + " settlement of " + Site.ToLink(link, pov) + " withered. ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2258,7 +2323,9 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + "UNKNOWN HISTORICAL FIGURE linked to " + Site.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime() + "UNKNOWN HISTORICAL FIGURE linked to " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2278,7 +2345,9 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return "UNKNOWN AGREEMENT proposed by UNKNOWN ENTITY was accepted by UNKNOWN ENTITY at " + Site.ToLink(link, pov);
+            string eventString = this.GetYearTime() + "UNKNOWN AGREEMENT proposed by UNKNOWN ENTITY was accepted by UNKNOWN ENTITY at " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2287,6 +2356,8 @@ namespace LegendsViewer.Legends
         public int StructureID;
         public Entity Civ, SiteEntity;
         public Site Site;
+        public HistoricalFigure Builder;
+
         public CreatedStructure(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -2297,16 +2368,27 @@ namespace LegendsViewer.Legends
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "builder_hfid": Builder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                 }
             Civ.AddEvent(this);
             SiteEntity.AddEvent(this);
             Site.AddEvent(this);
+            Builder.AddEvent(this);
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = this.GetYearTime();
-            if (SiteEntity != null) eventString += SiteEntity.ToLink(link, pov) + " of ";
-            eventString += Civ.ToLink(link, pov) + " constructed (" + StructureID + ") in " + Site.ToLink(link, pov) + ". ";
+            if (Builder != null)
+            {
+                eventString += Builder.ToLink(link, pov) + ", thrust a spire of slade up from the underworld, naming it (UNKNOWN), and established a gateway between worlds in "
+                    + Site.ToLink(link, pov) + ". ";
+            }
+            else
+            {
+                if (SiteEntity != null) eventString += SiteEntity.ToLink(link, pov) + " of ";
+                eventString += Civ.ToLink(link, pov) + " constructed (" + StructureID + ") in " + Site.ToLink(link, pov) + ". ";
+            }
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -2331,7 +2413,9 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " razed a (" + StructureID + ") in " + Site.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " razed a (" + StructureID + ") in " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2350,7 +2434,9 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            return this.GetYearTime() + "UNKNOWN HISTORICAL FIGURE removed link to " + Site.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime() + "UNKNOWN HISTORICAL FIGURE removed link to " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
         }
     }
 
@@ -2380,7 +2466,8 @@ namespace LegendsViewer.Legends
             string eventString = this.GetYearTime();
             if (SiteEntity != null) eventString += SiteEntity.ToLink(link, pov) + " of ";
             eventString += Civ.ToLink(link, pov) + " replaced a (" + OldABID + ") in " + Site.ToLink(link, pov)
-                + " with a (" + NewABID + ")";
+                + " with a (" + NewABID + ") ";
+            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
@@ -2430,6 +2517,251 @@ namespace LegendsViewer.Legends
             if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
             eventString += Defender.ToLink(link, pov) + " and took over " + Site.ToLink(link, pov) +
                 ". The new government was called " + NewSiteEntity.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public enum Dispute
+    {
+        FishingRights,
+        GrazingRights,
+        LivestockOwnership,
+        RightsOfWay,
+        Territory,
+        WaterRights,
+        Unknown
+    }
+
+    public class SiteDispute : WorldEvent
+    {
+        public Dispute Dispute { get; set; }
+        public Entity Entity1 { get; set; }
+        public Entity Entity2 { get; set; }
+        public Site Site1 { get; set; }
+        public Site Site2 { get; set; }
+        private string unknownDispute;
+
+        public SiteDispute(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach(Property property in properties)
+                switch(property.Name)
+                {
+                    case "dispute":
+                        switch (property.Value)
+                        {
+                            case "fishing rights": Dispute = Dispute.FishingRights; break;
+                            case "grazing rights": Dispute = Dispute.GrazingRights; break;
+                            case "livestock ownership": Dispute = Dispute.LivestockOwnership; break;
+                            case "territory": Dispute = Dispute.Territory; break;
+                            case "water rights": Dispute = Dispute.WaterRights; break;
+                            case "rights-of-way": Dispute = Dispute.RightsOfWay; break;
+                            default:
+                                Dispute = Dispute.Unknown;
+                                unknownDispute = property.Value;
+                                world.ParsingErrors.Report("Unknown Site Dispute: " + unknownDispute);
+                                break;
+                        }
+                        break;
+                    case "entity_id_1": Entity1 = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "entity_id_2": Entity2 = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id_1": Site1 = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "site_id_2": Site2 = world.GetSite(Convert.ToInt32(property.Value)); break;
+                }
+
+            Entity1.AddEvent(this);
+            Entity2.AddEvent(this);
+            Site1.AddEvent(this);
+            Site2.AddEvent(this);
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            String dispute = unknownDispute;
+            switch (Dispute)
+            {
+                case Dispute.FishingRights: dispute = "fishing rights"; break;
+                case Dispute.GrazingRights: dispute = "grazing rights"; break;
+                case Dispute.LivestockOwnership: dispute = "livestock ownership"; break;
+                case Dispute.Territory: dispute = "territory"; break;
+                case Dispute.WaterRights: dispute = "water rights"; break;
+                case Dispute.RightsOfWay: dispute = "rights of way"; break;
+            }
+
+            String eventString = this.GetYearTime() + Entity1.ToLink(link, pov) + " of "
+                 + Site1.ToLink(link, pov) + " and " + Entity2.ToLink(link, pov)
+                 + " of " + Site2.ToLink(link, pov) + " became embroiled in a dispute over "
+                 + dispute + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public class HfAttackedSite : WorldEvent
+    {
+        HistoricalFigure Attacker { get; set; }
+        Entity DefenderCiv { get; set; }
+        Entity SiteCiv { get; set; }
+        Site Site { get; set; }
+
+        public HfAttackedSite(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+
+                    case "attacker_hfid": Attacker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "defender_civ_id": DefenderCiv = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_civ_id": SiteCiv = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                }
+
+            Attacker.AddEvent(this);
+            DefenderCiv.AddEvent(this);
+            SiteCiv.AddEvent(this);
+            Site.AddEvent(this);
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            String eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " attacked "
+                + SiteCiv.ToLink(link, pov);
+            if (DefenderCiv != null)
+            {
+                eventString += " of " + DefenderCiv.ToLink(link, pov);
+            }
+            eventString += " at " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public class HfDestroyedSite : WorldEvent
+    {
+        HistoricalFigure Attacker { get; set; }
+        Entity DefenderCiv { get; set; }
+        Entity SiteCiv { get; set; }
+        Site Site { get; set; }
+
+        public HfDestroyedSite(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+
+                    case "attacker_hfid": Attacker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "defender_civ_id": DefenderCiv = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_civ_id": SiteCiv = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                }
+
+            Attacker.AddEvent(this);
+            DefenderCiv.AddEvent(this);
+            SiteCiv.AddEvent(this);
+            Site.AddEvent(this);
+
+            OwnerPeriod lastSiteOwnerPeriod = Site.OwnerHistory.LastOrDefault();
+            if (lastSiteOwnerPeriod != null)
+            {
+                lastSiteOwnerPeriod.EndYear = this.Year;
+                lastSiteOwnerPeriod.EndCause = "destroyed";
+                lastSiteOwnerPeriod.Ender = Attacker;
+            }
+            if (DefenderCiv != null)
+            {
+                OwnerPeriod lastDefenderCivOwnerPeriod = DefenderCiv.SiteHistory.LastOrDefault(s => s.Site == Site);
+                if (lastDefenderCivOwnerPeriod != null)
+                {
+                    lastDefenderCivOwnerPeriod.EndYear = this.Year;
+                    lastDefenderCivOwnerPeriod.EndCause = "destroyed";
+                    lastDefenderCivOwnerPeriod.Ender = Attacker;
+                }
+            }
+            OwnerPeriod lastSiteCiveOwnerPeriod = SiteCiv.SiteHistory.LastOrDefault(s => s.Site == Site);
+            if (lastSiteCiveOwnerPeriod != null)
+            {
+                lastSiteCiveOwnerPeriod.EndYear = this.Year;
+                lastSiteCiveOwnerPeriod.EndCause = "destroyed";
+                lastSiteCiveOwnerPeriod.Ender = Attacker;
+            }
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            String eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " routed "
+                + SiteCiv.ToLink(link, pov);
+            if (DefenderCiv != null )
+            {
+                eventString += " of " + DefenderCiv.ToLink(link, pov);
+            }
+            eventString += " and destroyed " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public class AgreementFormed : WorldEvent
+    {
+        String AgreementId { get; set; }
+        public AgreementFormed(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
+                {
+                    case "agreement_id": AgreementId = property.Value; break;
+                }
+            }
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            String eventString = this.GetYearTime() + " an unknown agreement was formed (" + AgreementId + "). ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public class SiteTributeForced : WorldEvent
+    {
+        public Entity Attacker { get; set; }
+        public Entity Defender { get; set; }
+        public Entity SiteEntity { get; set; }
+        public Site Site { get; set; }
+
+        public SiteTributeForced(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
+                {
+                    case "attacker_civ_id": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "defender_civ_id": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                }
+            }
+
+            Attacker.AddEvent(this);
+            Defender.AddEvent(this);
+            SiteEntity.AddEvent(this);
+            Site.AddEvent(this);
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " secured tribute from " + SiteEntity.ToLink(link, pov);
+            if (Defender != null)
+            {
+                eventString += " of " + Defender.ToLink(link, pov);
+            }
+            eventString += ", to be delivered from " + Site.ToLink(link, pov) + ". ";
+            eventString += PrintParentCollection();
             return eventString;
         }
     }

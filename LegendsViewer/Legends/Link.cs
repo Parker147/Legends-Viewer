@@ -60,6 +60,7 @@ namespace LegendsViewer.Legends
         Master,
         Mother,
         Spouse,
+        Imprisoner,
         Prisoner, //Not found in XML, used by AddHFHFLink event
         [Description("Ex-Spouse")]
         ExSpouse,
@@ -158,6 +159,7 @@ namespace LegendsViewer.Legends
                         switch(property.Value)
                         {
                             case "lair": Type = SiteLinkType.Lair; break;
+                            case "hangout": Type = SiteLinkType.Hangout; break;
                             case "home site building": Type = SiteLinkType.HomeSiteBuilding; break;
                             case "home site underground": Type = SiteLinkType.HomeSiteUnderground; break;
                             case "home structure": Type = SiteLinkType.HomeStructure; break;
@@ -185,6 +187,7 @@ namespace LegendsViewer.Legends
     public enum SiteLinkType
     {
         Lair,
+        Hangout,
         [Description("Home - Site Building")]
         HomeSiteBuilding,
         [Description("Home - Site Underground")]

@@ -134,7 +134,7 @@ namespace LegendsViewer.Legends
                 this.SiteHistory.Add(newSite);
 
             if (newSite.Owner != this)
-                this.Groups.Add(newSite.Owner);
+                this.Groups.Add((Entity)newSite.Owner);
             if (this.Parent != null && this.Parent != null)
             {
                 Parent.AddOwnedSite(newSite);
