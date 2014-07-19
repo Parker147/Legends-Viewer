@@ -48,9 +48,7 @@ namespace LegendsViewer.Legends
                     case "defending_enid": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
                 }
 
-            //Move to post processing in ParseXML()? also move duels
-            foreach (HFDied death in Collection.OfType<HFDied>())
-                (ParentCollection as War).DeathCount++;
+            
 
             if (Collection.OfType<PlunderedSite>().Count() > 0) ConquerType = SiteConqueredType.Pillaging;
             else if (Collection.OfType<DestroyedSite>().Count() > 0) ConquerType = SiteConqueredType.Destruction;
@@ -60,8 +58,15 @@ namespace LegendsViewer.Legends
             if (ConquerType == SiteConqueredType.Pillaging) Notable = false;
 
             Site.Warfare.Add(this);
-            if (Attacker == (ParentCollection as War).Attacker) (ParentCollection as War).AttackerVictories.Add(this);
-            else (ParentCollection as War).DefenderVictories.Add(this);
+            if (ParentCollection != null)
+            {
+                (ParentCollection as War).DeathCount += Collection.OfType<HFDied>().Count();
+
+                if (Attacker == (ParentCollection as War).Attacker) 
+                    (ParentCollection as War).AttackerVictories.Add(this);
+                else 
+                    (ParentCollection as War).DefenderVictories.Add(this);
+            }
 
         }
 
