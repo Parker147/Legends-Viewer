@@ -172,6 +172,7 @@
     <Compile Include="Legends\EventCollections\BeastAttack.cs" />
     <Compile Include="Legends\EventCollections\Duel.cs" />
     <Compile Include="Legends\EventCollections\EventCollections.cs" />
+    <Compile Include="Legends\EventCollections\Insurrection.cs" />
     <Compile Include="Legends\EventCollections\Journey.cs" />
     <Compile Include="Legends\EventCollections\SiteConquered.cs" />
     <Compile Include="Legends\EventCollections\Theft.cs" />

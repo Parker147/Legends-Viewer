@@ -2273,6 +2273,7 @@ namespace LegendsViewer.Legends
     {
         public Entity Civ, SiteEntity;
         public Site Site;
+        public Boolean Abandoned;
         public SiteDied(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -2282,16 +2283,25 @@ namespace LegendsViewer.Legends
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "abandoned":
+                        property.Known = true;
+                        Abandoned = true;
+                        break;
                 }
+
+            string endCause = "withered";
+            if (Abandoned)
+                endCause = "abandoned";
+
             Site.OwnerHistory.Last().EndYear = this.Year;
-            Site.OwnerHistory.Last().EndCause = "withered";
+            Site.OwnerHistory.Last().EndCause = endCause;
             if (SiteEntity != null)
             {
                 SiteEntity.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
-                SiteEntity.SiteHistory.Last(s => s.Site == Site).EndCause = "withered";
+                SiteEntity.SiteHistory.Last(s => s.Site == Site).EndCause = endCause;
             }
             Civ.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
-            Civ.SiteHistory.Last(s => s.Site == Site).EndCause = "withered";
+            Civ.SiteHistory.Last(s => s.Site == Site).EndCause = endCause;
 
             Civ.AddEvent(this);
             SiteEntity.AddEvent(this);
@@ -2299,9 +2309,15 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
-            if (SiteEntity != null && SiteEntity != Civ) eventString += SiteEntity.ToLink(link, pov) + " and ";
-            eventString += Civ.ToLink(link, pov) + " settlement of " + Site.ToLink(link, pov) + " withered. ";
+            string eventString = this.GetYearTime() + SiteEntity.PrintEntity(link, pov);
+            if (Abandoned)
+            {
+                eventString += "abandoned the settlement of " + Site.ToLink(link, pov) + ". ";
+            }
+            else
+            {
+                eventString += " settlement of " + Site.ToLink(link, pov) + " withered. ";
+            }
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -2762,6 +2778,83 @@ namespace LegendsViewer.Legends
             }
             eventString += ", to be delivered from " + Site.ToLink(link, pov) + ". ";
             eventString += PrintParentCollection();
+            return eventString;
+        }
+    }
+
+
+    public enum InsurrectionOutcome
+    {
+        LeadershipOverthrown,
+        PopulationGone,
+        Unknown
+    }
+
+    public class InsurrectionStarted : WorldEvent
+    {
+        public Entity Civ { get; set; }
+        public Site Site { get; set; }
+        public InsurrectionOutcome Outcome { get; set; }
+        public Boolean ActualStart { get; set; }
+        private string unknownOutcome;
+
+        public InsurrectionStarted(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            ActualStart = false;
+
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
+                {
+                    case "target_civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "outcome":
+                        switch (property.Value)
+                        {
+                            case "leadership overthrown": Outcome = InsurrectionOutcome.LeadershipOverthrown;
+                                break;
+                            case "population gone": Outcome = InsurrectionOutcome.PopulationGone;
+                                break;
+                            default: Outcome = InsurrectionOutcome.Unknown;
+                                unknownOutcome = property.Value;
+                                world.ParsingErrors.Report("Unknown Insurrection Outcome: " + unknownOutcome);
+                                break;
+                        }
+                        break;
+                }
+            }
+
+            Civ.AddEvent(this);
+            Site.AddEvent(this);
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = this.GetYearTime();
+            if (ActualStart)
+            {
+                eventString += "an insurrection against " + Civ.ToLink(link, pov)
+                               + " began in " + Site.ToLink(link, pov) + ". ";
+            }
+            else
+            {
+                eventString += "the insurrection in " + Site.ToLink(link, pov);
+                switch (Outcome)
+                {      
+                    case InsurrectionOutcome.LeadershipOverthrown:
+                        eventString += " concluded with " + Civ.ToLink(link, pov) + " overthrown. ";
+                        break;
+                    case InsurrectionOutcome.PopulationGone:
+                        eventString += " ended with the disappearance of the rebelling population. ";
+                        break;
+                    default:
+                        eventString += " against " + Civ.ToLink(link, pov) + " concluded with (" + unknownOutcome + "). ";
+                        break;
+                }
+        }
+
+        eventString += PrintParentCollection();
             return eventString;
         }
     }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Windows.Forms;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Legends
 {
@@ -301,6 +302,8 @@ namespace LegendsViewer.Legends
                 case "hf destroyed site": World.Events.Add(new HfDestroyedSite(properties, World)); break;
                 case "agreement formed": World.Events.Add(new AgreementFormed(properties, World)); break;
                 case "site tribute forced": World.Events.Add(new SiteTributeForced(properties, World)); break;
+                case "insurrection started": World.Events.Add((new InsurrectionStarted(properties, World)));
+                    break;
                 case "hf disturbed structure":
                 default: World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
@@ -321,6 +324,8 @@ namespace LegendsViewer.Legends
                 case "site conquered": World.EventCollections.Add(new SiteConquered(properties, World)); break;
                 case "theft": World.EventCollections.Add(new Theft(properties, World)); break;
                 case "war": World.EventCollections.Add(new War(properties, World)); break;
+                case "insurrection": World.EventCollections.Add(new Insurrection(properties, World));
+                    break;
                 default: World.ParsingErrors.Report("Unknown Event Collection: " + type); break;
             }
         }

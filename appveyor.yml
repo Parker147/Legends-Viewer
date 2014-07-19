@@ -1,3 +1,7 @@
+# version format
+# {major_release}.{feature_release}.{build}
+version: 1.13.{build}
+
 #######################
 #    BUILDS
 
@@ -28,6 +32,14 @@ os: Windows Server 2012
 
 # to disable automatic tests 
 #test: off
+
+# enable patching of AssemblyInfo.* files
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
 
 # to run auto tests
 #tests:

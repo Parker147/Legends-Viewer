@@ -80,6 +80,7 @@ namespace LegendsViewer
         new string[] {"hf destroyed site",            "Historical Figure Destroyed Site", ""},
         new string[] {"agreement formed",             "Agreement Formed", ""},
         new string[] {"site tribute forced",          "Site Tribute Forced", ""},
+        new string[] {"insurrection started",         "Insurrection Started", ""}, 
         new string[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 

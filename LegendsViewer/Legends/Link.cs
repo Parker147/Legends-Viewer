@@ -64,6 +64,8 @@ namespace LegendsViewer.Legends
         Prisoner, //Not found in XML, used by AddHFHFLink event
         [Description("Ex-Spouse")]
         ExSpouse,
+        [Description("Traveling Companion")]
+        Companion,
         Unknown
     }
 

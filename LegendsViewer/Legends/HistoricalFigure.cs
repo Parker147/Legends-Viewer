@@ -90,9 +90,10 @@ namespace LegendsViewer.Legends
         {
             Initialize();
             List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
-            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count" };
+            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter" };
             List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id" };
-            List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" }; 
+            List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
+            List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge" };
             foreach(Property property in properties)
                 switch(property.Name)
                 {
@@ -145,6 +146,15 @@ namespace LegendsViewer.Legends
                     case "entity_former_squad_link":
                         property.Known = true;
                         foreach (string subPropertyName in knownEntitySquadLinkProperties)
+                        {
+                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                            if (subProperty != null)
+                                subProperty.Known = true;
+                        }
+                        break;
+                    case "relationship_profile_hf":
+                        property.Known = true;
+                        foreach (string subPropertyName in knownRelationshipProfileProperties)
                         {
                             Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
                             if (subProperty != null)
