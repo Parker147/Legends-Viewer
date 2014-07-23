@@ -224,8 +224,8 @@ namespace LegendsViewer.Controls
                         }
                         if (battle.Coordinates.Y < ZoomBounds.Y) ZoomBounds.Y = battle.Coordinates.Y;
                         if (battle.Coordinates.X < ZoomBounds.X) ZoomBounds.X = battle.Coordinates.X;
-                        if (battle.Coordinates.Y > ZoomBounds.Height) ZoomBounds.Height = battle.Site.Coordinates.Y;
-                        if (battle.Coordinates.X > ZoomBounds.Width) ZoomBounds.Width = battle.Site.Coordinates.X;
+                        if (battle.Coordinates.Y > ZoomBounds.Height) ZoomBounds.Height = battle.Coordinates.Y;
+                        if (battle.Coordinates.X > ZoomBounds.Width) ZoomBounds.Width = battle.Coordinates.X;
                     }
                 }
 

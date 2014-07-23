@@ -174,9 +174,8 @@ namespace LegendsViewer
             {
                 XMLText.Text = file;
                 XMLState = FileState.Ready;
+                LocateOtherFiles(file);
             }
-
-            LocateOtherFiles(file);
             Load();
         }
 
@@ -353,20 +352,22 @@ namespace LegendsViewer
                 if (extractor.ArchiveFileNames.Count(file => file.EndsWith(".bmp") || file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg")) == 0)
                     throw new Exception("No map image found.");
 
-                string xml = extractor.ArchiveFileNames.Where(file => file.EndsWith(".xml")).Single();
-                if (File.Exists(xml)) throw new Exception(xml + " already exists.");
-                extractor.ExtractFiles(System.IO.Directory.GetCurrentDirectory(), xml);
-                ExtractedFiles.Add(xml);
+                string outputDirectory = new FileInfo(extractor.FileName).Directory.FullName;
 
-                string history = extractor.ArchiveFileNames.Where(file => file.EndsWith("-world_history.txt")).Single();
-                if (File.Exists(history)) throw new Exception(history + " already exists.");
-                extractor.ExtractFiles(System.IO.Directory.GetCurrentDirectory(), history);
-                ExtractedFiles.Add(history);
+                string xml = extractor.ArchiveFileNames.Single(file => file.EndsWith(".xml"));
+                if (File.Exists(Path.Combine(outputDirectory, xml))) throw new Exception(xml + " already exists.");
+                extractor.ExtractFiles(outputDirectory, xml);
+                ExtractedFiles.Add(Path.Combine(outputDirectory, xml));
 
-                string sites = extractor.ArchiveFileNames.Where(file => file.EndsWith("-world_sites_and_pops.txt")).Single();
-                if (File.Exists(sites)) throw new Exception(sites + " already exists.");
-                extractor.ExtractFiles(System.IO.Directory.GetCurrentDirectory(), sites);
-                ExtractedFiles.Add(sites);
+                string history = extractor.ArchiveFileNames.Single(file => file.EndsWith("-world_history.txt"));
+                if (File.Exists(Path.Combine(outputDirectory, history))) throw new Exception(history + " already exists.");
+                extractor.ExtractFiles(outputDirectory, history);
+                ExtractedFiles.Add(Path.Combine(outputDirectory, history));
+
+                string sites = extractor.ArchiveFileNames.Single(file => file.EndsWith("-world_sites_and_pops.txt"));
+                if (File.Exists(Path.Combine(outputDirectory, sites))) throw new Exception(sites + " already exists.");
+                extractor.ExtractFiles(outputDirectory, sites);
+                ExtractedFiles.Add(Path.Combine(outputDirectory, sites));
 
                 string map = "";
 
@@ -382,9 +383,9 @@ namespace LegendsViewer
                     map = fileSelect.SelectedFile;
                 }
 
-                if (File.Exists(map)) throw new Exception(map + " already exists.");
-                extractor.ExtractFiles(Directory.GetCurrentDirectory(), map);
-                ExtractedFiles.Add(map);
+                if (File.Exists(Path.Combine(outputDirectory, map))) throw new Exception(map + " already exists.");
+                extractor.ExtractFiles(outputDirectory, map);
+                ExtractedFiles.Add(Path.Combine(outputDirectory, map));
             }
         }
         private void extract_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
