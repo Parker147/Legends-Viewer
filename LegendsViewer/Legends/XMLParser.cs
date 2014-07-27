@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -12,17 +13,26 @@ namespace LegendsViewer.Legends
 {
     class XMLParser
     {
-        World World;
-        XmlTextReader XML;
-        string CurrentSectionName = "";
-        Section CurrentSection = Section.Unknown;
-        string CurrentItemName = "";
+        protected World World;
+        protected XmlTextReader XML;
+        protected string CurrentSectionName = "";
+        protected Section CurrentSection = Section.Unknown;
+        protected string CurrentItemName = "";
+        private WorldPlusParser xmlPlusParser;
+
+        protected XMLParser(string xmlFile)
+        {
+            XML = new XmlTextReader(xmlFile);
+            XML.WhitespaceHandling = WhitespaceHandling.Significant;
+        }
 
         public XMLParser(World world, string xmlFile)
         {
             World = world;
             XML = new XmlTextReader(xmlFile);
             XML.WhitespaceHandling = WhitespaceHandling.Significant;
+            string xmlPlusFile = xmlFile.Split('.')[0] + "_plus.xml";
+            xmlPlusParser = new WorldPlusParser(world, xmlPlusFile);
         }
 
         public static string SafeXMLFile(string xmlFile)
@@ -83,7 +93,7 @@ namespace LegendsViewer.Legends
             CurrentSection = GetSectionType(CurrentSectionName);
         }
 
-        private Section GetSectionType(string sectionName)
+        protected Section GetSectionType(string sectionName)
         {
             switch (sectionName)
             {
@@ -110,13 +120,15 @@ namespace LegendsViewer.Legends
             XML.ReadStartElement();
             while (XML.NodeType != XmlNodeType.EndElement)
             {
-                AddItemToWorld(ParseItem());
+                List<Property> item = ParseItem();
+                xmlPlusParser.AddNewProperties(item, CurrentSection);
+                AddItemToWorld(item);
             }
             ProcessXMLSection(CurrentSection); //Done with section, do post processing
             XML.ReadEndElement();
         }
 
-        private void SkipSection()
+        protected void SkipSection()
         {
             string currentSectionName = XML.Name;
             XML.ReadStartElement();
@@ -130,6 +142,9 @@ namespace LegendsViewer.Legends
         public List<Property> ParseItem()
         {
             CurrentItemName = XML.Name;
+            if (XML.NodeType == XmlNodeType.EndElement)
+                return null;
+
             XML.ReadStartElement();
             List<Property> properties = new List<Property>();
             while (XML.NodeType != XmlNodeType.EndElement && XML.Name != CurrentItemName)
@@ -172,7 +187,7 @@ namespace LegendsViewer.Legends
 
         }
 
-        private void AddItemToWorld(List<Property> properties)
+        protected void AddItemToWorld(List<Property> properties)
         {
             string eventType = "";
             if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
@@ -475,23 +490,34 @@ namespace LegendsViewer.Legends
         private string _value = "";
         public bool Known = false;
         public List<Property> SubProperties = new List<Property>();
-        public string Value { get { Known = true; return _value; } set { _value = value; } }
+        public string Value { get { Known = true; return _value; } set { _value = value.Replace('_', ' '); } }
+
+        public int? ValueAsInt()
+        {
+            int value = 0;
+            bool isInt = int.TryParse(Value, out value);
+            if (isInt)
+                return value;
+            else
+                return null;
+        }
     }
 
+    //In order as they appear in the XML.
     public enum Section
     {
-        Artifacts,
-        Entities,
-        EntityPopulations,
-        Eras,
-        EventCollections,
-        Events,
-        HistoricalFigures,
-        Regions,
-        Sites,
-        UndergroundRegions,
-        WorldConstructions,
         Unknown,
-        Junk
+        Junk,
+        Regions,
+        UndergroundRegions,
+        Sites,
+        WorldConstructions,
+        Artifacts,
+        HistoricalFigures,
+        EntityPopulations,
+        Entities,
+        Events,
+        EventCollections,
+        Eras
     }
 }

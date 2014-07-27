@@ -193,6 +193,7 @@
     <Compile Include="Legends\World.cs" />
     <Compile Include="Legends\WorldObject.cs" />
     <Compile Include="Legends\XMLParser.cs" />
+    <Compile Include="Legends\XmlPlusParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\Map\dlgPopulation.resx">
