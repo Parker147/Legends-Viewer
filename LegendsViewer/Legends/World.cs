@@ -107,7 +107,9 @@ namespace LegendsViewer.Legends
                 //19+ reduced color variance
                 int maxHue = 300;
                 int colorVariance;
-                if (races.Count <= 6) colorVariance = Convert.ToInt32(Math.Floor(maxHue / Convert.ToDouble(races.Count - 1)));
+                if (races.Count <= 1)
+                    colorVariance = 0;
+                else if (races.Count <= 6) colorVariance = Convert.ToInt32(Math.Floor(maxHue / Convert.ToDouble(races.Count - 1)));
                 else if (races.Count > 18) colorVariance = Convert.ToInt32(Math.Floor(maxHue / (Math.Ceiling(races.Count / 3.0) - 1)));
                 else colorVariance = 60;
 

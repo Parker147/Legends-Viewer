@@ -22,7 +22,8 @@ namespace LegendsViewer.Legends
         public XMLParser(World world, string xmlFile)
         {
             World = world;
-            XML = new XmlTextReader(xmlFile);
+            StreamReader reader = new StreamReader(xmlFile, Encoding.GetEncoding("windows-1252"));
+            XML = new XmlTextReader(reader);
             XML.WhitespaceHandling = WhitespaceHandling.Significant;
         }
 
