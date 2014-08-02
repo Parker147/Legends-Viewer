@@ -12,6 +12,7 @@ namespace LegendsViewer.Legends
     {
         public string Name { get; set; }
         public Entity Parent { get; set; }
+        public EntityType Type { get; set; }
         public bool IsCiv { get; set; }
         public string Race { get; set; }
         public List<HistoricalFigure> Worshipped { get; set; }
@@ -105,6 +106,36 @@ namespace LegendsViewer.Legends
                 switch(property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
+                    case "race":
+                        Race = Formatting.InitCaps(property.Value);
+                        break;
+                    case "type":
+                        switch (property.Value)
+                        {
+                            case "civilization": 
+                                Type = EntityType.Civilization;
+                                break;
+                            case "religion":
+                                Type = EntityType.Religion;
+                                break;
+                            case "sitegovernment":
+                                Type = EntityType.SiteGovernment;
+                                break;
+                            case "nomadicgroup":
+                                Type = EntityType.NomadicGroup;
+                                break;
+                            case "outcast": 
+                                Type = EntityType.Outcast;
+                                break;
+                            default:
+                                Type  = EntityType.Unknown;
+                                world.ParsingErrors.Report("Unknown Entity Type: " + property.Value);
+                                break;
+                        }
+                        break;
+                    case "child":
+                        property.Known = true;
+                        break;
                 }
         }
         public override string ToString() { return this.Name; }
