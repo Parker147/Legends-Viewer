@@ -494,14 +494,9 @@ namespace LegendsViewer.Legends
         public List<Property> SubProperties = new List<Property>();
         public string Value { get { Known = true; return _value; } set { _value = value.Replace('_', ' '); } }
 
-        public int? ValueAsInt()
+        public int ValueAsInt()
         {
-            int value = 0;
-            bool isInt = int.TryParse(Value, out value);
-            if (isInt)
-                return value;
-            else
-                return null;
+            return Convert.ToInt32(Value);
         }
     }
 

@@ -321,9 +321,9 @@ namespace LegendsViewer.Legends
                 throw new Exception("Couldn't Find Historical Figure: " + name);
 
             }
-            public Entity GetEntity(int? id)
+            public Entity GetEntity(int id)
             {
-                if (id == null || id == -1) return null;
+                if (id == -1) return null;
                 else
                 {
                     int min = 0;

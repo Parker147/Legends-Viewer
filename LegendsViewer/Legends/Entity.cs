@@ -37,6 +37,7 @@ namespace LegendsViewer.Legends
         public List<Site> CurrentSites { get { return SiteHistory.Where(site => site.EndYear == -1).Select(site => site.Site).ToList(); } set { } }
         public List<Site> LostSites { get { return SiteHistory.Where(site => site.EndYear >= 0).Select(site => site.Site).ToList(); } set { } }
         public List<Site> Sites { get { return SiteHistory.Select(site => site.Site).ToList(); } set { } }
+        public List<EntitySiteLink> SiteLinks { get; set; } 
         public List<War> Wars { get; set; }
         public List<War> WarsAttacking { get { return Wars.Where(war => war.Attacker == this).ToList(); } set { } }
         public List<War> WarsDefending { get { return Wars.Where(war => war.Defender == this).ToList(); } set { } }
@@ -100,6 +101,7 @@ namespace LegendsViewer.Legends
             Leaders = new List<List<HistoricalFigure>>();
             Groups = new List<Entity>();
             SiteHistory = new List<OwnerPeriod>();
+            SiteLinks = new List<EntitySiteLink>();
             Wars = new List<War>();
             Populations = new List<Population>();
             foreach(Property property in properties)
@@ -135,6 +137,9 @@ namespace LegendsViewer.Legends
                         break;
                     case "child":
                         property.Known = true;
+                        break;
+                    case "site_link":
+                        SiteLinks.Add(new EntitySiteLink(property.SubProperties, world));
                         break;
                 }
         }

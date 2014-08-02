@@ -166,6 +166,8 @@
     <Compile Include="Legends\Entity.cs" />
     <Compile Include="Legends\EntityPopulation.cs" />
     <Compile Include="Legends\EntityReputation.cs" />
+    <Compile Include="Legends\EntitySiteLink.cs" />
+    <Compile Include="Legends\EntitySiteLinkType.cs" />
     <Compile Include="Legends\EntityType.cs" />
     <Compile Include="Legends\Era.cs" />
     <Compile Include="Legends\EventCollections\Abduction.cs" />
