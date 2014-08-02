@@ -153,6 +153,9 @@ namespace LegendsViewer.Legends
                                 subProperty.Known = true;
                         }
                         break;
+                    case "worship_id":
+                        property.Known = true;
+                        break;
                 }
         }
         public override string ToString() { return this.Name; }
