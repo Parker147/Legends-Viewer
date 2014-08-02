@@ -108,6 +108,8 @@ namespace LegendsViewer.Legends
                 case "sites": return Section.Sites;
                 case "underground_regions": return Section.UndergroundRegions;
                 case "world_constructions": return Section.WorldConstructions;
+                case "name":
+                case "altname":
                 case "xml":
                 case "":
                 case "df_world": return Section.Junk;
