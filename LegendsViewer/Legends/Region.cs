@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -24,6 +25,7 @@ namespace LegendsViewer.Legends
         }
         public List<HistoricalFigure> NotableDeaths { get { return Events.OfType<HFDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
         public List<Battle> Battles { get; set; }
+        public List<Location> Coordinates { get; set; }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -38,11 +40,23 @@ namespace LegendsViewer.Legends
             : base(properties, world)
         {
             Battles = new List<Battle>();
+            Coordinates = new List<Location>();
             foreach(Property property in properties)
                 switch(property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "type": Type = String.Intern(property.Value); break;
+                    case "coords":
+                        string[] coordinateStrings = property.Value.Split(new char[] {'|'},
+                            StringSplitOptions.RemoveEmptyEntries);
+                        foreach(var coordinateString in coordinateStrings)
+                        {
+                            string[] xYCoordinates = coordinateString.Split(',');
+                            int x = Convert.ToInt32(xYCoordinates[0]);
+                            int y = Convert.ToInt32(xYCoordinates[1]);
+                            Coordinates.Add(new Location(x, y));
+                        }
+                    break;
                 }
         }
         public override string ToString() { return this.Name; }
