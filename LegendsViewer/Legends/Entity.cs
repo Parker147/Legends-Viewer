@@ -37,7 +37,8 @@ namespace LegendsViewer.Legends
         public List<Site> CurrentSites { get { return SiteHistory.Where(site => site.EndYear == -1).Select(site => site.Site).ToList(); } set { } }
         public List<Site> LostSites { get { return SiteHistory.Where(site => site.EndYear >= 0).Select(site => site.Site).ToList(); } set { } }
         public List<Site> Sites { get { return SiteHistory.Select(site => site.Site).ToList(); } set { } }
-        public List<EntitySiteLink> SiteLinks { get; set; } 
+        public List<EntitySiteLink> SiteLinks { get; set; }
+        public List<EntityEntityLink> EntityLinks { get; set; } 
         public List<War> Wars { get; set; }
         public List<War> WarsAttacking { get { return Wars.Where(war => war.Attacker == this).ToList(); } set { } }
         public List<War> WarsDefending { get { return Wars.Where(war => war.Defender == this).ToList(); } set { } }
@@ -78,6 +79,7 @@ namespace LegendsViewer.Legends
         {
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
+        private string[] knownEntityLinkSubProperties = { "target", "type", "strength" };
         public Entity(World world)
         {
             ID = -1; Name = "INVALID ENTITY"; Race = "Unknown";
@@ -102,6 +104,7 @@ namespace LegendsViewer.Legends
             Groups = new List<Entity>();
             SiteHistory = new List<OwnerPeriod>();
             SiteLinks = new List<EntitySiteLink>();
+            EntityLinks = new List<EntityEntityLink>();
             Wars = new List<War>();
             Populations = new List<Population>();
             foreach(Property property in properties)
@@ -140,6 +143,15 @@ namespace LegendsViewer.Legends
                         break;
                     case "site_link":
                         SiteLinks.Add(new EntitySiteLink(property.SubProperties, world));
+                        break;
+                    case "entity_link":
+                        world.AddEntityEntityLink(this, property);
+                        foreach (string subPropertyName in knownEntityLinkSubProperties)
+                        {
+                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                            if (subProperty != null)
+                                subProperty.Known = true;
+                        }
                         break;
                 }
         }

@@ -379,6 +379,7 @@ namespace LegendsViewer.Legends
                 World.EntitiesByName.Sort((a, b) => String.Compare(a.Name, b.Name));
                 World.ProcessReputations();
                 World.ProcessHFtoSiteLinks();
+                World.ProcessEntityEntityLinks();
             }
 
             //Calculate end years for eras and add list of wars during era.

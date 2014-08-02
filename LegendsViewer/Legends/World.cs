@@ -54,6 +54,9 @@ namespace LegendsViewer.Legends
             private List<HistoricalFigure> CurrentIdentityHFs = new List<HistoricalFigure>();
             private List<int> CurrentIdentityIDs = new List<int>();
 
+            private List<Entity> EntityEntityLinkEntities = new List<Entity>();
+            private List<Property> EntityEntityLinks = new List<Property>(); 
+
             public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile)
             {
                 ParsingErrors = new ParsingErrors();
@@ -507,6 +510,22 @@ namespace LegendsViewer.Legends
 
                 HFtoSiteLinkHFs.Clear();
                 HFtoSiteLinks.Clear();
+            }
+
+            public void AddEntityEntityLink(Entity entity, Property property)
+            {
+                EntityEntityLinkEntities.Add(entity);
+                EntityEntityLinks.Add(property);
+            }
+
+            public void ProcessEntityEntityLinks()
+            {
+                for (int i = 0; i < EntityEntityLinkEntities.Count; i++)
+                {
+                    Entity entity = EntityEntityLinkEntities[i];
+                    Property entityLink = EntityEntityLinks[i];
+                    entity.EntityLinks.Add(new EntityEntityLink(entityLink.SubProperties, this));
+                }
             }
 
             public void AddReputation(HistoricalFigure hf, Property link)
