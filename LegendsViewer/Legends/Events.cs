@@ -185,16 +185,30 @@ namespace LegendsViewer.Legends
         public AddHFHFLink(List<Property> properties, World world)
             : base(properties, world)
         {
+            LinkType = HistoricalFigureLinkType.Unknown;
             foreach (Property property in properties)
                 switch (property.Name)
                 {
                     case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "hfid_target": HistoricalFigureTarget = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "link_type":
+                        HistoricalFigureLinkType linkType = HistoricalFigureLinkType.Unknown;
+                        if (!Enum.TryParse(Formatting.InitCaps(property.Value), out linkType))
+                        {
+                            LinkType = HistoricalFigureLinkType.Unknown;
+                            world.ParsingErrors.Report("Unknown HF Link Type: " + property.Value);
+                        }
+                        else
+                            LinkType = linkType;                              
+                        break;
+                    case "histfig1":
+                    case "histfig2":
+                        property.Known = true;
+                        break;
                 }
 
             //Fill in LinkType by looking at related historical figures.
-            LinkType = HistoricalFigureLinkType.Unknown;
-            if (HistoricalFigure != HistoricalFigure.Unknown && HistoricalFigureTarget != HistoricalFigure.Unknown)
+            if (LinkType == HistoricalFigureLinkType.Unknown && HistoricalFigure != HistoricalFigure.Unknown && HistoricalFigureTarget != HistoricalFigure.Unknown)
             {
                 List<HistoricalFigureLink> historicalFigureToTargetLinks = HistoricalFigure.RelatedHistoricalFigures.Where(link => link.Type != HistoricalFigureLinkType.Child).Where(link => link.HistoricalFigure == HistoricalFigureTarget).ToList();
                 HistoricalFigureLink historicalFigureToTargetLink = null;
@@ -205,12 +219,16 @@ namespace LegendsViewer.Legends
                     LinkType = historicalFigureToTargetLink.Type;
                 else if (abduction != null)
                     LinkType = HistoricalFigureLinkType.Prisoner;
-                else if (HistoricalFigure.Race == "Night Creature" || HistoricalFigureTarget.Race == "Night Creature")
+            }
+
+            if (HistoricalFigure.Race == "Night Creature" || HistoricalFigureTarget.Race == "Night Creature")
+            {
+                if (LinkType == HistoricalFigureLinkType.Unknown)
                 {
                     LinkType = HistoricalFigureLinkType.Spouse;
-                    HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigureTarget, HistoricalFigureLinkType.ExSpouse));
-                    HistoricalFigureTarget.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigure, HistoricalFigureLinkType.ExSpouse));
                 }
+                HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigureTarget, HistoricalFigureLinkType.ExSpouse));
+                HistoricalFigureTarget.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigure, HistoricalFigureLinkType.ExSpouse));
             }
 
             HistoricalFigure.AddEvent(this);
@@ -2425,7 +2443,6 @@ namespace LegendsViewer.Legends
             foreach(Property property in properties)
                 switch(property.Name)
                 {
-                    
                     case "structure_id": StructureID = Convert.ToInt32(property.Value); break;              
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;           
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
