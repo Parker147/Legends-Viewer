@@ -2425,11 +2425,18 @@ namespace LegendsViewer.Legends
             foreach(Property property in properties)
                 switch(property.Name)
                 {
-                    case "structure_id": StructureID = Convert.ToInt32(property.Value); break;
-                    case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    
+                    case "structure_id": StructureID = Convert.ToInt32(property.Value); break;              
+                    case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;           
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "builder_hfid": Builder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "structure":
+                    case "civ":
+                    case "group":
+                    case "site":
+                        property.Known = true;
+                        break;
                 }
             Civ.AddEvent(this);
             SiteEntity.AddEvent(this);
