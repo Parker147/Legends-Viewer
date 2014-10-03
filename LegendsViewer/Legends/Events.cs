@@ -2531,7 +2531,12 @@ namespace LegendsViewer.Legends
         {
             string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
             if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
-            eventString += Defender.ToLink(link, pov) + " and took over " + Site.ToLink(link, pov) +
+            if (Defender == null) {
+                eventString += "UNKNOWN";
+            } else {
+                eventString += Defender.ToLink(link, pov);
+            }
+            eventString += " and took over " + Site.ToLink(link, pov) +
                 ". The new government was called " + NewSiteEntity.ToLink(link, pov) + ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
