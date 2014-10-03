@@ -36,7 +36,9 @@ namespace LegendsViewer.Controls
                 + "img {border:none;}"
                 + "</style>");
 
-            HTML.AppendLine(Conquering.GetYearTime() + "The " + Conquering.GetOrdinal(Conquering.Ordinal) + Conquering.ConquerType + " of " + Conquering.Site.ToLink() + " ocurred as a result of " + Conquering.Battle.ToLink() + " in " + Conquering.ParentCollection.ToLink() + " waged by " + (Conquering.ParentCollection as War).Attacker.PrintEntity() + " on " + (Conquering.ParentCollection as War).Defender.PrintEntity() + ".</br></br>");
+            HTML.AppendLine(Conquering.GetYearTime() + "The " + Conquering.GetOrdinal(Conquering.Ordinal) + Conquering.ConquerType + " of " + Conquering.Site.ToLink() + " ocurred as a result of " + Conquering.Battle.ToLink() 
+                + (Conquering.ParentCollection == null ? "" : " in " + Conquering.ParentCollection.ToLink() + " waged by " + (Conquering.ParentCollection as War).Attacker.PrintEntity() + " on " + (Conquering.ParentCollection as War).Defender.PrintEntity() )
+                + ".</br></br>");
 
             List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Conquering);
             HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
