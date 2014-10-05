@@ -53,7 +53,7 @@ namespace LegendsViewer.Controls
                         warfareString = warfareString.Insert(warfareString.IndexOf(" as a result of"), "</br>");
                     HTML.AppendLine("<td>" + warfareString + "</td>");
                     HTML.AppendLine("<td>as part of</td>");
-                    HTML.AppendLine("<td>" + warfare.ParentCollection.ToLink() + "</td>");
+                    HTML.AppendLine("<td>" + ((warfare.ParentCollection == null) ? "UNKNOWN" :warfare.ParentCollection.ToLink()) + "</td>");
                     HTML.AppendLine("<td align=\"right\">by ");
                     if (warfare.GetType() == typeof(Battle))
                     {

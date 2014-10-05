@@ -59,7 +59,12 @@ namespace LegendsViewer.Legends
             else if (season < 302400) yearTime += "autumn, ";
             else if (season < 403200) yearTime += "winter, ";
 
-            return yearTime;
+            int monthIndex = this.Seconds72 / (28 * 1200);
+            string[] monthNames = { "Granite", "Slate", "Felsite", "Hematite", "Malachite", "Galena", "Limestone", "Sandstone", "Timber", "Moonstone", "Opal", "Obsidian" };
+            string monthName = monthNames[monthIndex];
+            int dayIndex = 1 + (this.Seconds72 % (28 * 1200)) / 1200;
+
+            return yearTime + " (" + monthName + ", " + dayIndex.ToString() + ") ";
         }
         public string PrintParentCollection(bool link = true, DwarfObject pov = null)
         {
@@ -2531,7 +2536,12 @@ namespace LegendsViewer.Legends
         {
             string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
             if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
-            eventString += Defender.ToLink(link, pov) + " and took over " + Site.ToLink(link, pov) +
+            if (Defender == null) {
+                eventString += "UNKNOWN";
+            } else {
+                eventString += Defender.ToLink(link, pov);
+            }
+            eventString += " and took over " + Site.ToLink(link, pov) +
                 ". The new government was called " + NewSiteEntity.ToLink(link, pov) + ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
