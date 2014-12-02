@@ -26,9 +26,14 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
             PrintStyle();
-
-            HTML.AppendLine(Battle.GetYearTime() + Battle.ToLink(false) + " occured as part of " + Battle.ParentCollection.ToLink() + " waged by " + (Battle.ParentCollection as War).Attacker.PrintEntity()
-                + " on " + (Battle.ParentCollection as War).Defender.PrintEntity());
+                
+            String battleDescription = Battle.GetYearTime() + Battle.ToLink(false);
+            if (Battle.ParentCollection != null)
+            {
+                battleDescription += " occured as part of " + Battle.ParentCollection.ToLink() + " waged by " + (Battle.ParentCollection as War).Attacker.PrintEntity()
+                    + " on " + (Battle.ParentCollection as War).Defender.PrintEntity();
+            }
+            HTML.AppendLine(battleDescription);
             if (Battle.Site != null) HTML.Append(" at " + Battle.Site.ToLink());
             if (Battle.Region != null) HTML.Append(" in " + Battle.Region.ToLink());
             HTML.Append(".</br>");

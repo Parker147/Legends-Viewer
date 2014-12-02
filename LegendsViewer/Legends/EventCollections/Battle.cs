@@ -198,24 +198,27 @@ namespace LegendsViewer.Legends
             AttackerDeathCount = Attackers.Sum(attacker => attacker.Deaths);
             DefenderDeathCount = Defenders.Sum(defender => defender.Deaths);
 
-            War parent = ParentCollection as War;
-            if (parent.Attacker == Attacker)
-            {
-                parent.AttackerDeathCount += AttackerDeathCount;
-                parent.DefenderDeathCount += DefenderDeathCount;
-            }
-            else
-            {
-                parent.AttackerDeathCount += DefenderDeathCount;
-                parent.DefenderDeathCount += AttackerDeathCount;
-            }
-            parent.DeathCount += attackerSquadDeaths.Sum() + defenderSquadDeaths.Sum() + Collection.OfType<HFDied>().Count();
-
             if (Outcome == BattleOutcome.AttackerWon) Victor = Attacker;
             else if (Outcome == BattleOutcome.DefenderWon) Victor = Defender;
 
-            if (Attacker == (ParentCollection as War).Attacker && Victor == Attacker) (ParentCollection as War).AttackerVictories.Add(this);
-            else (ParentCollection as War).DefenderVictories.Add(this);
+            War parentWar = ParentCollection as War;
+            if (parentWar != null)
+            {
+                if (parentWar.Attacker == Attacker)
+                {
+                    parentWar.AttackerDeathCount += AttackerDeathCount;
+                    parentWar.DefenderDeathCount += DefenderDeathCount;
+                }
+                else
+                {
+                    parentWar.AttackerDeathCount += DefenderDeathCount;
+                    parentWar.DefenderDeathCount += AttackerDeathCount;
+                }
+                parentWar.DeathCount += attackerSquadDeaths.Sum() + defenderSquadDeaths.Sum() + Collection.OfType<HFDied>().Count();
+
+                if (Attacker == parentWar.Attacker && Victor == Attacker) parentWar.AttackerVictories.Add(this);
+                else parentWar.DefenderVictories.Add(this);
+            }
 
             if (Site != null) Site.Warfare.Add(this);
             if (Region != null) Region.Battles.Add(this);
@@ -224,7 +227,6 @@ namespace LegendsViewer.Legends
             if ((attackerSquadDeaths.Sum() + defenderSquadDeaths.Sum() + Collection.OfType<HFDied>().Count()) == 0)
                 Notable = false;
             if ((attackerSquadNumbers.Sum() + NotableAttackers.Count) > ((defenderSquadNumbers.Sum() + NotableDefenders.Count) * 10) //NotableDefenders outnumbered 10 to 1
-                //&& Collection.OfType<HFDied>().Count(death => death.HistoricalFigure.Notable) == 0
                 && Victor == Attacker
                 && AttackerDeathCount < ((NotableAttackers.Count + attackerSquadNumbers.Sum()) * 0.1)) //NotableAttackers lossses < 10%
                 Notable = false;
