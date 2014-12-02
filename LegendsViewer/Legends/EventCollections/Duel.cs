@@ -38,19 +38,31 @@ namespace LegendsViewer.Legends
                 foreach (HFDied death in Collection.OfType<HFDied>())
                 {
                     Battle battle = ParentCollection as Battle;
+                    War parentWar = (battle.ParentCollection as War);
                     if (battle.NotableAttackers.Contains(death.HistoricalFigure))
                     {
                         battle.AttackerDeathCount++;
                         battle.Attackers.Single(squad => squad.Race == death.HistoricalFigure.Race).Deaths++;
-                        (battle.ParentCollection as War).AttackerDeathCount++;
+                        
+                        if (parentWar != null)
+                        {
+                            parentWar.AttackerDeathCount++;
+                        }
                     }
                     else if (battle.NotableDefenders.Contains(death.HistoricalFigure))
                     {
                         battle.DefenderDeathCount++;
                         battle.Defenders.Single(squad => squad.Race == death.HistoricalFigure.Race).Deaths++;
-                        (battle.ParentCollection as War).DefenderDeathCount++;
+                        if (parentWar != null)
+                        {
+                            parentWar.DefenderDeathCount++;
+                        }
                     }
-                    (ParentCollection.ParentCollection as War).DeathCount++;
+
+                    if (parentWar != null)
+                    {
+                        (ParentCollection.ParentCollection as War).DeathCount++;
+                    }
                 }
 
         }
