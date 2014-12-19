@@ -296,8 +296,11 @@ namespace LegendsViewer.Controls
                     battleTable.StartRow();
                     battleTable.AddData(battle.StartYear.ToString());
                     battleTable.AddData(battle.ToLink());
-                    battleTable.AddData("as part of");
-                    battleTable.AddData(battle.ParentCollection.ToLink());
+                    if (battle.ParentCollection != null)
+                    {
+                        battleTable.AddData("as part of");
+                        battleTable.AddData(battle.ParentCollection.ToLink());
+                    }
                     string involvement = "";
                     if (battle.NotableAttackers.Count > 0 && battle.NotableAttackers.Contains(HistoricalFigure))
                         if (battle.Collection.OfType<FieldBattle>().Where(fieldBattle => fieldBattle.AttackerGeneral == HistoricalFigure).Count() > 0 ||

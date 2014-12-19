@@ -468,6 +468,8 @@ namespace LegendsViewer.Legends
 
                         conquer.Battle = collection as Battle;
                         conquer.Battle.Conquering = conquer;
+                        if (conquer.Battle.Defender == null && conquer.Defender != null)
+                            conquer.Battle.Defender = conquer.Defender;
                         break;
                     }
                 }
