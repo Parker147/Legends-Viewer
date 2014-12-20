@@ -225,7 +225,8 @@ namespace LegendsViewer.Controls
                     SubMenu.Options.Last().OptionObject = battle.Defender;
                     SubMenu.AddOption("Combatants: " + (battle.NotableAttackers.Count + battle.AttackerSquads.Sum(squad => squad.Numbers)) + " / " + (battle.NotableDefenders.Count + battle.DefenderSquads.Sum(squad => squad.Numbers)) + "    Kills: " + battle.DefenderDeathCount + " / " + battle.AttackerDeathCount);
                     SubMenu.Options.ForEach(option => option.Selectable = false);
-                    SubMenu.AddOption(battle.ParentCollection);
+                    if (battle.ParentCollection != null) 
+                        SubMenu.AddOption(battle.ParentCollection);
                     //SubMenu.AddOption("Deaths: " + (battle.AttackerDeathCount + battle.DefenderDeathCount));
                 }
                 if (OptionObject.GetType() == typeof(War))
