@@ -51,6 +51,8 @@
             this.btnHFListReset = new System.Windows.Forms.Button();
             this.lblHFList = new System.Windows.Forms.Label();
             this.grpHFFilter = new System.Windows.Forms.GroupBox();
+            this.chkWerebeast = new System.Windows.Forms.CheckBox();
+            this.chkVampire = new System.Windows.Forms.CheckBox();
             this.chkHFLeader = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.radHFSortBattles = new System.Windows.Forms.RadioButton();
@@ -225,8 +227,6 @@
             this.btnForward = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.hint = new System.Windows.Forms.ToolTip(this.components);
-            this.chkVampire = new System.Windows.Forms.CheckBox();
-            this.chkWerebeast = new System.Windows.Forms.CheckBox();
             this.tcWorld.SuspendLayout();
             this.tpSummary.SuspendLayout();
             this.tpHF.SuspendLayout();
@@ -558,6 +558,28 @@
             this.grpHFFilter.TabIndex = 33;
             this.grpHFFilter.TabStop = false;
             this.grpHFFilter.Text = "Filter / Sort";
+            // 
+            // chkWerebeast
+            // 
+            this.chkWerebeast.AutoSize = true;
+            this.chkWerebeast.Location = new System.Drawing.Point(133, 162);
+            this.chkWerebeast.Name = "chkWerebeast";
+            this.chkWerebeast.Size = new System.Drawing.Size(78, 17);
+            this.chkWerebeast.TabIndex = 19;
+            this.chkWerebeast.Text = "Werebeast";
+            this.chkWerebeast.UseVisualStyleBackColor = true;
+            this.chkWerebeast.CheckedChanged += new System.EventHandler(this.searchHFList);
+            // 
+            // chkVampire
+            // 
+            this.chkVampire.AutoSize = true;
+            this.chkVampire.Location = new System.Drawing.Point(6, 139);
+            this.chkVampire.Name = "chkVampire";
+            this.chkVampire.Size = new System.Drawing.Size(64, 17);
+            this.chkVampire.TabIndex = 18;
+            this.chkVampire.Text = "Vampire";
+            this.chkVampire.UseVisualStyleBackColor = true;
+            this.chkVampire.CheckedChanged += new System.EventHandler(this.searchHFList);
             // 
             // chkHFLeader
             // 
@@ -2541,28 +2563,6 @@
             this.btnClose.Visible = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // chkVampire
-            // 
-            this.chkVampire.AutoSize = true;
-            this.chkVampire.Location = new System.Drawing.Point(6, 139);
-            this.chkVampire.Name = "chkVampire";
-            this.chkVampire.Size = new System.Drawing.Size(64, 17);
-            this.chkVampire.TabIndex = 18;
-            this.chkVampire.Text = "Vampire";
-            this.chkVampire.UseVisualStyleBackColor = true;
-            this.chkVampire.CheckedChanged += new System.EventHandler(this.searchHFList);
-            // 
-            // chkWerebeast
-            // 
-            this.chkWerebeast.AutoSize = true;
-            this.chkWerebeast.Location = new System.Drawing.Point(133, 162);
-            this.chkWerebeast.Name = "chkWerebeast";
-            this.chkWerebeast.Size = new System.Drawing.Size(78, 17);
-            this.chkWerebeast.TabIndex = 19;
-            this.chkWerebeast.Text = "Werebeast";
-            this.chkWerebeast.UseVisualStyleBackColor = true;
-            this.chkWerebeast.CheckedChanged += new System.EventHandler(this.searchHFList);
-            // 
             // frmLegendsViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2574,7 +2574,7 @@
             this.Controls.Add(this.tcWorld);
             this.DoubleBuffered = true;
             this.Name = "frmLegendsViewer";
-            this.Text = "Legends Viewer 1.13";
+            this.Text = "Legends Viewer 1.14";
             this.Shown += new System.EventHandler(this.frmLegendsViewer_Shown);
             this.ResizeEnd += new System.EventHandler(this.frmLegendsViewer_ResizeEnd);
             this.tcWorld.ResumeLayout(false);

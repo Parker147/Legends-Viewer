@@ -196,6 +196,9 @@ namespace LegendsViewer.Legends
                 case HistoricalFigureLinkType.Spouse:
                     eventString += " married ";
                     break;
+                case HistoricalFigureLinkType.Master:
+                    eventString += " began an apprenticeship under ";
+                    break;
                 case HistoricalFigureLinkType.Unknown:
                     eventString += " linked (UNKNOWN) to ";
                     break;
@@ -2866,6 +2869,255 @@ namespace LegendsViewer.Legends
 
         eventString += PrintParentCollection();
             return eventString;
+        }
+    }
+
+    // new 0.42.XX events
+
+    public class Procession : WorldEvent
+    {
+        public Entity Civ;
+        public Site Site;
+        public WorldRegion Region;
+        public UndergroundRegion UndergroundRegion;
+        public Procession(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
+                    case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
+                    case "occasion_id": 
+                    case "schedule_id": 
+                        // TODO
+                        break;
+                }
+            Civ.AddEvent(this);
+            Site.AddEvent(this);
+        }
+    }
+
+    public class Ceremony : WorldEvent
+    {
+        public Entity Civ;
+        public Site Site;
+        public WorldRegion Region;
+        public UndergroundRegion UndergroundRegion;
+        public Ceremony(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
+                    case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
+                    case "occasion_id": 
+                    case "schedule_id":
+                        // TODO
+                        break;
+                }
+            Civ.AddEvent(this);
+            Site.AddEvent(this);
+        }
+    }
+
+    public class Performance : WorldEvent
+    {
+        public Entity Civ;
+        public Site Site;
+        public WorldRegion Region;
+        public UndergroundRegion UndergroundRegion;
+        public Performance(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
+                    case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
+                    case "occasion_id": 
+                    case "schedule_id":
+                        // TODO
+                        break;
+                }
+            Civ.AddEvent(this);
+            Site.AddEvent(this);
+        }
+    }
+
+    public class Competition : WorldEvent
+    {
+        public Entity Civ;
+        public Site Site;
+        public WorldRegion Region;
+        public UndergroundRegion UndergroundRegion;
+        HistoricalFigure Winner { get; set; }
+        List<HistoricalFigure> Competitors { get; set; }
+        public Competition(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            Competitors = new List<HistoricalFigure>();
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
+                    case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
+                    case "winner_hfid": Winner = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "competitor_hfid": Competitors.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value))); break;
+                    case "occasion_id": 
+                    case "schedule_id":
+                        // TODO
+                        break;
+                }
+            Civ.AddEvent(this);
+            Site.AddEvent(this);
+            Winner.AddEvent(this);
+            Competitors.ForEach(competitor => competitor.AddEvent(this));
+        }
+    }
+
+    public class WrittenContentComposed : WorldEvent
+    {
+        public Entity Civ;
+        public Site Site;
+        public HistoricalFigure HistoricalFigure { get; set; }
+        public WrittenContentComposed(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "wc_id":
+                    case "reason":
+                    case "reason_id":
+                    case "circumstance":
+                    case "circumstance_id":
+                        // TODO
+                        break;
+                }
+            Civ.AddEvent(this);
+            Site.AddEvent(this);
+        }
+    }
+
+    public class PoeticFormCreated : WorldEvent
+    {
+        public Site Site;
+        public HistoricalFigure HistoricalFigure { get; set; }
+        public PoeticFormCreated(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "form_id":
+                    case "circumstance":
+                        // TODO
+                        break;
+                }
+            Site.AddEvent(this);
+        }
+    }
+
+    public class MusicalFormCreated : WorldEvent
+    {
+        public Site Site;
+        public HistoricalFigure HistoricalFigure { get; set; }
+        public MusicalFormCreated(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "form_id":
+                    case "circumstance":
+                        // TODO
+                        break;
+                }
+            Site.AddEvent(this);
+        }
+    }
+
+    public class DanceFormCreated : WorldEvent
+    {
+        public Site Site;
+        public HistoricalFigure HistoricalFigure { get; set; }
+        public DanceFormCreated(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "form_id":
+                    case "circumstance":
+                        // TODO
+                        break;
+                }
+            Site.AddEvent(this);
+        }
+    }
+
+    public class KnowledgeDiscovered : WorldEvent
+    {
+        public HistoricalFigure HistoricalFigure { get; set; }
+        public KnowledgeDiscovered(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "knowledge":
+                    case "first":
+                        // TODO
+                        break;
+                }
+        }
+    }
+
+    public class HFRelationShipDenied : WorldEvent
+    {
+        public Site Site;
+        public WorldRegion Region;
+        public UndergroundRegion UndergroundRegion;
+        public HistoricalFigure Seeker { get; set; }
+        public HistoricalFigure Target { get; set; }
+        public HFRelationShipDenied(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
+                    case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
+                    case "seeker_hfid": Seeker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "target_hfid": Target = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "relationship":
+                    case "reason":
+                    case "reason_id":
+                        // TODO
+                        break;
+                }
+            Site.AddEvent(this);
         }
     }
 }

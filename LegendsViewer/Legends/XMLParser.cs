@@ -184,13 +184,13 @@ namespace LegendsViewer.Legends
             {
                 AddFromXMLSection(CurrentSection, properties);
             }
-            else if (CurrentSection == Section.Events)
-            {
-                AddEvent(eventType, properties);
-            }
             else if (CurrentSection == Section.EventCollections)
             {
                 AddEventCollection(eventType, properties);
+            }
+            else if (CurrentSection == Section.Events)
+            {
+                AddEvent(eventType, properties);
             }
 
             foreach (Property property in properties)
@@ -303,14 +303,21 @@ namespace LegendsViewer.Legends
                 case "hf destroyed site": World.Events.Add(new HfDestroyedSite(properties, World)); break;
                 case "agreement formed": World.Events.Add(new AgreementFormed(properties, World)); break;
                 case "site tribute forced": World.Events.Add(new SiteTributeForced(properties, World)); break;
-                case "insurrection started": World.Events.Add((new InsurrectionStarted(properties, World)));
-                    break;
+                case "insurrection started": World.Events.Add(new InsurrectionStarted(properties, World)); break;
+                case "procession": World.Events.Add(new Procession(properties, World)); break;
+                case "ceremony": World.Events.Add(new Ceremony(properties, World)); break;
+                case "performance": World.Events.Add(new Performance(properties, World)); break;
+                case "competition": World.Events.Add(new Competition(properties, World)); break;
+                case "written content composed": World.Events.Add(new WrittenContentComposed(properties, World)); break;
+                case "poetic form created": World.Events.Add(new PoeticFormCreated(properties, World)); break;
+                case "musical form created": World.Events.Add(new MusicalFormCreated(properties, World)); break;
+                case "dance form created": World.Events.Add(new DanceFormCreated(properties, World)); break;
+                case "knowledge discovered": World.Events.Add(new KnowledgeDiscovered(properties, World)); break;
+                case "hf relationship denied": World.Events.Add(new HFRelationShipDenied(properties, World)); break;
                 case "hf disturbed structure":
                 default: World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
             }
-
-
         }
 
         private void AddEventCollection(string type, List<Property> properties)
@@ -325,8 +332,12 @@ namespace LegendsViewer.Legends
                 case "site conquered": World.EventCollections.Add(new SiteConquered(properties, World)); break;
                 case "theft": World.EventCollections.Add(new Theft(properties, World)); break;
                 case "war": World.EventCollections.Add(new War(properties, World)); break;
-                case "insurrection": World.EventCollections.Add(new Insurrection(properties, World));
-                    break;
+                case "insurrection": World.EventCollections.Add(new Insurrection(properties, World)); break;
+                case "occasion": World.EventCollections.Add(new Occasion(properties, World)); break;
+                case "procession": World.EventCollections.Add(new ProcessionCollection(properties, World)); break;
+                case "ceremony": World.EventCollections.Add(new CeremonyCollection(properties, World)); break;
+                case "performance": World.EventCollections.Add(new PerformanceCollection(properties, World)); break;
+                case "competition": World.EventCollections.Add(new CompetitionCollection(properties, World)); break;
                 default: World.ParsingErrors.Report("Unknown Event Collection: " + type); break;
             }
         }

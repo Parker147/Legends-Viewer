@@ -170,10 +170,15 @@
     <Compile Include="Legends\EventCollections\Abduction.cs" />
     <Compile Include="Legends\EventCollections\Battle.cs" />
     <Compile Include="Legends\EventCollections\BeastAttack.cs" />
+    <Compile Include="Legends\EventCollections\CeremonyCollection.cs" />
+    <Compile Include="Legends\EventCollections\CompetitionCollection.cs" />
     <Compile Include="Legends\EventCollections\Duel.cs" />
     <Compile Include="Legends\EventCollections\EventCollections.cs" />
     <Compile Include="Legends\EventCollections\Insurrection.cs" />
     <Compile Include="Legends\EventCollections\Journey.cs" />
+    <Compile Include="Legends\EventCollections\Occasion.cs" />
+    <Compile Include="Legends\EventCollections\PerformanceCollection.cs" />
+    <Compile Include="Legends\EventCollections\ProcessionCollection.cs" />
     <Compile Include="Legends\EventCollections\SiteConquered.cs" />
     <Compile Include="Legends\EventCollections\Theft.cs" />
     <Compile Include="Legends\EventCollections\War.cs" />
