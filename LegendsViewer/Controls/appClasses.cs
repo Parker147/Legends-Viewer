@@ -92,6 +92,7 @@ namespace LegendsViewer
         new string[] { "poetic form created",         "Poetic Form Created",                      ""},
         new string[] { "musical form created",        "Musical Form Created",                     ""},
         new string[] { "dance form created",          "Dance Form Created",                       ""},
+        new string[] { "regionpop incorporated into entity", "Regionpop Incorporated Into Entity",                       ""},
         new string[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 

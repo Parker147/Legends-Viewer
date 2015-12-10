@@ -2897,6 +2897,8 @@ namespace LegendsViewer.Legends
                 }
             Civ.AddEvent(this);
             Site.AddEvent(this);
+            Region.AddEvent(this);
+            UndergroundRegion.AddEvent(this);
         }
     }
 
@@ -2923,6 +2925,8 @@ namespace LegendsViewer.Legends
                 }
             Civ.AddEvent(this);
             Site.AddEvent(this);
+            Region.AddEvent(this);
+            UndergroundRegion.AddEvent(this);
         }
     }
 
@@ -2949,6 +2953,8 @@ namespace LegendsViewer.Legends
                 }
             Civ.AddEvent(this);
             Site.AddEvent(this);
+            Region.AddEvent(this);
+            UndergroundRegion.AddEvent(this);
         }
     }
 
@@ -2980,6 +2986,8 @@ namespace LegendsViewer.Legends
                 }
             Civ.AddEvent(this);
             Site.AddEvent(this);
+            Region.AddEvent(this);
+            UndergroundRegion.AddEvent(this);
             Winner.AddEvent(this);
             Competitors.ForEach(competitor => competitor.AddEvent(this));
         }
@@ -2989,6 +2997,7 @@ namespace LegendsViewer.Legends
     {
         public Entity Civ;
         public Site Site;
+        public Artifact Artifact;
         public HistoricalFigure HistoricalFigure { get; set; }
         public WrittenContentComposed(List<Property> properties, World world)
             : base(properties, world)
@@ -2999,7 +3008,7 @@ namespace LegendsViewer.Legends
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
-                    case "wc_id":
+                    case "wc_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                     case "reason":
                     case "reason_id":
                     case "circumstance":
@@ -3009,12 +3018,15 @@ namespace LegendsViewer.Legends
                 }
             Civ.AddEvent(this);
             Site.AddEvent(this);
+            HistoricalFigure.AddEvent(this);
+            Artifact.AddEvent(this);
         }
     }
 
     public class PoeticFormCreated : WorldEvent
     {
         public Site Site;
+        public Artifact Artifact;
         public HistoricalFigure HistoricalFigure { get; set; }
         public PoeticFormCreated(List<Property> properties, World world)
             : base(properties, world)
@@ -3024,18 +3036,21 @@ namespace LegendsViewer.Legends
                 {
                     case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "form_id":
+                    case "form_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                     case "circumstance":
                         // TODO
                         break;
                 }
             Site.AddEvent(this);
+            HistoricalFigure.AddEvent(this);
+            Artifact.AddEvent(this);
         }
     }
 
     public class MusicalFormCreated : WorldEvent
     {
         public Site Site;
+        public Artifact Artifact;
         public HistoricalFigure HistoricalFigure { get; set; }
         public MusicalFormCreated(List<Property> properties, World world)
             : base(properties, world)
@@ -3045,17 +3060,20 @@ namespace LegendsViewer.Legends
                 {
                     case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "form_id":
+                    case "form_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                     case "circumstance":
                         // TODO
                         break;
                 }
             Site.AddEvent(this);
+            HistoricalFigure.AddEvent(this);
+            Artifact.AddEvent(this);
         }
     }
 
     public class DanceFormCreated : WorldEvent
     {
+        public Artifact Artifact;
         public Site Site;
         public HistoricalFigure HistoricalFigure { get; set; }
         public DanceFormCreated(List<Property> properties, World world)
@@ -3066,12 +3084,14 @@ namespace LegendsViewer.Legends
                 {
                     case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "form_id":
+                    case "form_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                     case "circumstance":
                         // TODO
                         break;
                 }
             Site.AddEvent(this);
+            HistoricalFigure.AddEvent(this);
+            Artifact.AddEvent(this);
         }
     }
 
@@ -3090,6 +3110,7 @@ namespace LegendsViewer.Legends
                         // TODO
                         break;
                 }
+            HistoricalFigure.AddEvent(this);
         }
     }
 
@@ -3118,6 +3139,36 @@ namespace LegendsViewer.Legends
                         break;
                 }
             Site.AddEvent(this);
+            Region.AddEvent(this);
+            UndergroundRegion.AddEvent(this);
+            Seeker.AddEvent(this);
+            Target.AddEvent(this);
+        }
+    }
+
+
+    public class RegionpopIncorporatedIntoEntity : WorldEvent
+    {
+        public Site Site;
+        public Entity JoinEntity;
+
+        public RegionpopIncorporatedIntoEntity(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "join_entity_id": JoinEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "pop_race":
+                    case "pop_number_moved":
+                    case "pop_srid":
+                    case "pop_flid":
+                        // TODO
+                        break;
+                }
+            Site.AddEvent(this);
+            JoinEntity.AddEvent(this);
         }
     }
 }

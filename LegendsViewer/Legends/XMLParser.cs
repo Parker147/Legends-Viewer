@@ -314,7 +314,9 @@ namespace LegendsViewer.Legends
                 case "dance form created": World.Events.Add(new DanceFormCreated(properties, World)); break;
                 case "knowledge discovered": World.Events.Add(new KnowledgeDiscovered(properties, World)); break;
                 case "hf relationship denied": World.Events.Add(new HFRelationShipDenied(properties, World)); break;
+                case "regionpop incorporated into entity": World.Events.Add(new RegionpopIncorporatedIntoEntity(properties, World)); break;
                 case "hf disturbed structure":
+                    break;
                 default: World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
             }
