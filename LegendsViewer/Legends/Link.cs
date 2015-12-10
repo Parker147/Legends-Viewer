@@ -26,13 +26,15 @@ namespace LegendsViewer.Legends
                     case "link_strength": Strength = Convert.ToInt32(property.Value); break;
                     case "link_type":
                         HistoricalFigureLinkType linkType = HistoricalFigureLinkType.Unknown;
-                        if (!Enum.TryParse(Formatting.InitCaps(property.Value), out linkType))
+                        if (Enum.TryParse(Formatting.InitCaps(property.Value).Replace(" ", ""), out linkType))
+                        {
+                            Type = linkType;
+                        }
+                        else
                         {
                             Type = HistoricalFigureLinkType.Unknown;
                             world.ParsingErrors.Report("Unknown HF Link Type: " + property.Value);
                         }
-                        else
-                            Type = linkType;                              
                         break;
                 }
             }
@@ -53,11 +55,15 @@ namespace LegendsViewer.Legends
     public enum HistoricalFigureLinkType
     {
         Apprentice,
+        Master,
+        [Description("Former Apprentice")]
+        FormerApprentice,
+        [Description("Former Master")]
+        FormerMaster,
         Child,
         Deity,
         Father,
         Lover,
-        Master,
         Mother,
         Spouse,
         Imprisoner,
@@ -150,6 +156,7 @@ namespace LegendsViewer.Legends
         public SiteLinkType Type { get; set; }
         public Site Site { get; set; }
         public int SubID { get; set; }
+        public int OccupationID { get; set; }
         public Entity Entity { get; set; }
         public SiteLink(List<Property> properties, World world)
         {
@@ -166,6 +173,7 @@ namespace LegendsViewer.Legends
                             case "home site underground": Type = SiteLinkType.HomeSiteUnderground; break;
                             case "home structure": Type = SiteLinkType.HomeStructure; break;
                             case "seat of power": Type = SiteLinkType.SeatOfPower; break;
+                            case "occupation": Type = SiteLinkType.Occupation; break;
                             default: 
                                 Type = SiteLinkType.Unknown;
                                 world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value);
@@ -180,6 +188,9 @@ namespace LegendsViewer.Legends
                         break;
                     case "entity_id":
                         Entity = world.GetEntity(Convert.ToInt32(property.Value));
+                        break;
+                    case "occupation_id":
+                        OccupationID = Convert.ToInt32(property.Value);
                         break;
                 }
             }
@@ -198,6 +209,7 @@ namespace LegendsViewer.Legends
         HomeStructure,
         [Description("Seat of Power")]
         SeatOfPower,
+        Occupation,
         Unknown
     }
 }

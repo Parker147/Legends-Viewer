@@ -232,7 +232,7 @@ namespace LegendsViewer.Controls
                 StartList(ListType.Unordered);
                 foreach (SiteLink link in HistoricalFigure.RelatedSites)
                 {
-                    string linkString = link.Site.ToLink() + ", " + link.Type.GetDescription() + " (" + link.SubID + ") ";
+                    string linkString = link.Site.ToLink() + ", " + link.Type.GetDescription() + " (" + (link.Type == SiteLinkType.Occupation ? link.OccupationID : link.SubID) + ") ";
                     if (link.Entity != null)
                         linkString += "" + link.Entity.ToLink();
                     HTML.AppendLine(ListItem + linkString);

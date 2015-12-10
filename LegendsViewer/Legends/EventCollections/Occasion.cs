@@ -6,8 +6,9 @@ namespace LegendsViewer.Legends.EventCollections
 {
     public class Occasion : EventCollection
     {
-        public Entity Civ;
-        public string Ordinal;
+        public Entity Civ { get; set; }
+        public string Ordinal { get; set; }
+        public int OccasionId { get; set; }
 
         public List<string> Filters;
         public override List<WorldEvent> FilteredEvents
@@ -22,9 +23,7 @@ namespace LegendsViewer.Legends.EventCollections
                 {
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "ordinal": Ordinal = String.Intern(property.Value); break;
-                    case "occasion_id":
-                        // TODO
-                        break;
+                    case "occasion_id": OccasionId = Convert.ToInt32(property.Value); break;
                 }
         }
         public override string ToLink(bool link = true, DwarfObject pov = null)
