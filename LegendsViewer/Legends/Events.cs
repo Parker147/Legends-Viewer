@@ -3342,6 +3342,10 @@ namespace LegendsViewer.Legends
     {
         public Site Site { get; set; }
         public Entity JoinEntity { get; set; }
+        public string PopRace { get; set; }
+        public int PopNumberMoved { get; set; }
+        public WorldRegion PopSourceRegion { get; set; }
+        public string PopFlId { get; set; }
 
         public RegionpopIncorporatedIntoEntity(List<Property> properties, World world)
             : base(properties, world)
@@ -3351,15 +3355,39 @@ namespace LegendsViewer.Legends
                 {
                     case "join_entity_id": JoinEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "pop_race":
-                    case "pop_number_moved":
-                    case "pop_srid":
-                    case "pop_flid":
-                        // TODO
-                        break;
+                    case "pop_race": PopRace = property.Value; break;
+                    case "pop_number_moved": PopNumberMoved = Convert.ToInt32(property.Value); break;
+                    case "pop_srid": PopSourceRegion = world.GetRegion(Convert.ToInt32(property.Value)); break;
+                    case "pop_flid": PopFlId = property.Value; break;
                 }
             Site.AddEvent(this);
             JoinEntity.AddEvent(this);
+            PopSourceRegion.AddEvent(this);
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = GetYearTime();
+            if (PopNumberMoved > 200)
+            {
+                eventString += " hundreds of";
+            }
+            else if (PopNumberMoved > 24)
+            {
+                eventString += " dozens of";
+            }
+            else
+            {
+                eventString += " several";
+            }
+            eventString += " UNKNOWN RACE from ";
+            eventString += PopSourceRegion.ToLink(link, pov);
+            eventString += " joined with ";
+            eventString += JoinEntity.ToLink(link, pov);
+            eventString += " at ";
+            eventString += Site.ToLink(link, pov);
+            eventString += ".";
+            return eventString;
         }
     }
 }

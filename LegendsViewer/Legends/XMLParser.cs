@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using System.Windows.Forms;
 using LegendsViewer.Legends.EventCollections;
 
