@@ -24,7 +24,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
 
             HTML.AppendLine("<b>");
             if (Era.Name != "")

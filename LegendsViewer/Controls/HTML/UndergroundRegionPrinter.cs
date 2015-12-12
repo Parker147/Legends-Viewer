@@ -25,7 +25,7 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
+
             HTML.AppendLine("<b>Depth: " + Region.Depth + "</b>");
             HTML.AppendLine("</br></br>");
 

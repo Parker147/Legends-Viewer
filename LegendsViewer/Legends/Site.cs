@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using LegendsViewer.Controls;
+using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends
 {
@@ -122,10 +123,10 @@ namespace LegendsViewer.Legends
                     return "<a href = \"site#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
                 }
                 else
-                    return "<font color=\"Blue\">" + this.Name + "</font>";
+                    return HTMLStyleUtil.CurrentDwarfObject(Name);
             }
             else
-                return this.Name;
+                return Name;
         }
 
     }

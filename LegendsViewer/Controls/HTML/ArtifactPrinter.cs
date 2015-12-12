@@ -16,7 +16,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
             PrintEvents();
             return HTML.ToString();
         }

@@ -25,7 +25,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
                 
             String battleDescription = Battle.GetYearTime() + Battle.ToLink(false);
             if (Battle.ParentCollection != null)

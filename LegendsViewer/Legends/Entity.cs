@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Docuverse.Identicon;
 using LegendsViewer.Controls;
+using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends
 {
@@ -191,10 +192,10 @@ namespace LegendsViewer.Legends
                     else return entityLink;
                 }
                 else
-                    return "<font color=\"Blue\">" + this.Name + "</font>";
+                    return HTMLStyleUtil.CurrentDwarfObject(Name);
             }
             else
-                return this.Name;
+                return Name;
         }
 
     }

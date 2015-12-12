@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LegendsViewer.Controls.HTML.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,13 +77,13 @@ namespace LegendsViewer.Legends
         {
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
-        public HistoricalFigure() 
-        { 
+        public HistoricalFigure()
+        {
             Initialize();
             Name = "UNKNOWN HISTORICAL FIGURE";
             Race = "UNKNOWN";
             Caste = "UNKNOWN";
-            AssociatedType = "UNKNOWN"; 
+            AssociatedType = "UNKNOWN";
         }
         public override string ToString() { return this.Name; }
         public HistoricalFigure(List<Property> properties, World world)
@@ -94,8 +95,8 @@ namespace LegendsViewer.Legends
             List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
             List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
             List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge" };
-            foreach(Property property in properties)
-                switch(property.Name)
+            foreach (Property property in properties)
+                switch (property.Name)
                 {
                     case "appeared": Appeared = Convert.ToInt32(property.Value); break;
                     case "birth_year": BirthYear = Convert.ToInt32(property.Value); break;
@@ -193,7 +194,7 @@ namespace LegendsViewer.Legends
                         break;
                     case "ent_pop_id":
                         EntityPopulation = world.GetEntityPopulation(Convert.ToInt32(property.Value)); break;
-                    case "holds_artifact": 
+                    case "holds_artifact":
                         HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
                     case "adventurer":
                         Adventurer = true;
@@ -231,7 +232,8 @@ namespace LegendsViewer.Legends
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
-            if (this == HistoricalFigure.Unknown) return this.Name;
+            if (this == HistoricalFigure.Unknown)
+                return this.Name;
             if (link)
                 if ((pov == null || pov != this))
                 {
@@ -241,25 +243,17 @@ namespace LegendsViewer.Legends
                     title += "&#13Events: " + Events.Count;
                     if (pov != null && pov.GetType() == typeof(BeastAttack) && (pov as BeastAttack).Beast == this) //Highlight Beast when printing Beast Attack Log
                         if (this.Name.IndexOf(" ") > 0)
-                            return "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name.Substring(0, this.Name.IndexOf(" ")) + "</font></a>";
-                        else return "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name + "</font></a>";
+                            return "<a href=\"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name.Substring(0, this.Name.IndexOf(" ")) + "</font></a>";
+                        else return "<a href=\"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name + "</font></a>";
                     else
                         return "the " + GetRaceString() + " " + "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
                 }
-                else// (pov != null && pov.ID == this.ID)
-                    if (this.Name.IndexOf(" ") > 0)
-                        return "<font color=\"Blue\">" + this.Name.Substring(0, this.Name.IndexOf(" ")) + "</font>";
-                    else
-                        return "<font color=\"Blue\">" + this.Name + "</font>";
+                else
+                    return HTMLStyleUtil.CurrentDwarfObject(Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name);
+            else if ((pov == null || pov != this))
+                return GetRaceString() + " " + Name;
             else
-
-                if ((pov == null || pov != this))
-                    return GetRaceString() + " " + this.Name;
-                else //(pov != null && pov.ID == this.ID)
-                    if (this.Name.IndexOf(" ") > 0)
-                        return this.Name.Substring(0, this.Name.IndexOf(" ") + 1);
-                    else
-                        return this.Name;
+                return Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name;
         }
 
         public class Position
@@ -269,7 +263,7 @@ namespace LegendsViewer.Legends
             public int Ended { get; set; }
             public string Title { get; set; }
             public int Length { get; set; }
-            public Position(Entity civ, int began, int ended, string title) { Entity = civ; Began = began; Ended = ended; Title = title;}
+            public Position(Entity civ, int began, int ended, string title) { Entity = civ; Began = began; Ended = ended; Title = title; }
         }
 
         public class State
@@ -286,7 +280,7 @@ namespace LegendsViewer.Legends
             }
         }
 
-        
+
         public string CasteNoun(bool owner = false)
         {
             if (this.Caste.ToLower() == "male")
@@ -297,7 +291,7 @@ namespace LegendsViewer.Legends
                 else return "she";
             else
                 if (owner) return "it's";
-                else return "it";
+            else return "it";
         }
 
         public string GetRaceTitleString()
@@ -311,7 +305,7 @@ namespace LegendsViewer.Legends
             if (Zombie) hfraceString += "zombie ";
             if (Caste.ToUpper() == "MALE") hfraceString += "male ";
             else if (Caste.ToUpper() == "FEMALE") hfraceString += "female ";
-            
+
             hfraceString += Race.ToLower();
 
             if (ActiveInteractions.Contains("VAMPIRE"))
@@ -340,10 +334,10 @@ namespace LegendsViewer.Legends
         {
             get
             {
-                int[] pointCutoffs = { 29000, 26600, 24300, 22100, 20000, 18000, 16100, 14300, 12600, 11000, 9500, 8100, 
+                int[] pointCutoffs = { 29000, 26600, 24300, 22100, 20000, 18000, 16100, 14300, 12600, 11000, 9500, 8100,
                                          6800, 5600, 4500, 3500, 2600, 1800, 1100, 500, 1 };
-                string[] titles = { "Legendary+5", "Legendary+4", "Legendary+3", "Legendary+2", "Legendary+1", "Legendary", 
-                                      "Grand Master", "High Master", "Master", "Great", "Accomplished", "Professional", 
+                string[] titles = { "Legendary+5", "Legendary+4", "Legendary+3", "Legendary+2", "Legendary+1", "Legendary",
+                                      "Grand Master", "High Master", "Master", "Great", "Accomplished", "Professional",
                                       "Expert", "Adept", "Talented", "Proficient", "Skilled", "Competent", "Adequate", "Novice", "Dabbling" };
                 for (int i = 0; i < pointCutoffs.Length; i++)
                     if (Points >= pointCutoffs[i])
@@ -354,9 +348,9 @@ namespace LegendsViewer.Legends
         }
         public Skill(List<Property> properties)
         {
-            foreach(Property property in properties)
+            foreach (Property property in properties)
             {
-                switch(property.Name)
+                switch (property.Name)
                 {
                     case "skill":
                         Name = Formatting.InitCaps(property.Value.Replace('_', ' ').ToLower());

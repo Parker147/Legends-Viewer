@@ -24,8 +24,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
-
 
             HTML.AppendLine("<h1><center>" + World.Name + "</center></h1>");
             int mapSideLength = 300;
@@ -287,21 +285,38 @@ namespace LegendsViewer.Controls
             }
             HTML.AppendLine("</br>");
 
-            HTML.AppendLine("<h1>Outdoor Populations</h1>");
-            HTML.AppendLine("<ol>");
-            foreach (Population population in World.OutdoorPopulations)
-                if (population.Count == Int32.MaxValue) HTML.AppendLine("<li>" + population.Race + ": Unnumbered");
-                else HTML.AppendLine("<li>" + population.Race + ": " + population.Count);
-            HTML.AppendLine("</ol>");
-            HTML.AppendLine("</br>");
+            if (World.CivilizedPopulations.Any())
+            {
+                HTML.AppendLine("<h1>Civilized Populations</h1>");
+                HTML.AppendLine("<ol>");
+                foreach (Population population in World.CivilizedPopulations)
+                    if (population.Count == Int32.MaxValue) HTML.AppendLine("<li>" + population.Race + ": Unnumbered");
+                    else HTML.AppendLine("<li>" + population.Race + ": " + population.Count);
+                HTML.AppendLine("</ol>");
+                HTML.AppendLine("</br>");
+            }
 
-            HTML.AppendLine("<h1>Underground Populations</h1>");
-            HTML.AppendLine("<ol>");
-            foreach (Population population in World.UndergroundPopulations)
-                if (population.Count == Int32.MaxValue) HTML.AppendLine("<li>" + population.Race + ": Unnumbered");
-                else HTML.AppendLine("<li>" + population.Race + ": " + population.Count);
-            HTML.AppendLine("</ol>");
-            HTML.AppendLine("</br>");
+            if (World.OutdoorPopulations.Any())
+            {
+                HTML.AppendLine("<h1>Outdoor Populations</h1>");
+                HTML.AppendLine("<ol>");
+                foreach (Population population in World.OutdoorPopulations)
+                    if (population.Count == Int32.MaxValue) HTML.AppendLine("<li>" + population.Race + ": Unnumbered");
+                    else HTML.AppendLine("<li>" + population.Race + ": " + population.Count);
+                HTML.AppendLine("</ol>");
+                HTML.AppendLine("</br>");
+
+            }
+            if (World.UndergroundPopulations.Any())
+            {
+                HTML.AppendLine("<h1>Underground Populations</h1>");
+                HTML.AppendLine("<ol>");
+                foreach (Population population in World.UndergroundPopulations)
+                    if (population.Count == Int32.MaxValue) HTML.AppendLine("<li>" + population.Race + ": Unnumbered");
+                    else HTML.AppendLine("<li>" + population.Race + ": " + population.Count);
+                HTML.AppendLine("</ol>");
+                HTML.AppendLine("</br>");
+            }
 
             return HTML.ToString();
         }

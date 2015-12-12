@@ -20,7 +20,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
             PrintTitle();
             PrintMiscInfo();
             PrintPositions();

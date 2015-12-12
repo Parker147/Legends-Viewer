@@ -17,10 +17,6 @@ a:hover {
     color: #000000;
 }
 
-td {
-    font-size: 13px;
-}
-
 ol {
     margin-top: 0;
 }
@@ -36,21 +32,50 @@ img {
 h1 {
     font-size: 18px;
     font-weight: bold;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 h2 {
     font-size: 16px;
     font-weight: normal;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 h3 {
     font-size: 14px;
     font-weight: normal;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
     margin-left: 5px;
+}
+
+/* TABLES*/
+
+/*table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}*/
+
+td {
+    font-size: 13px;
+}
+
+/* CUSTOM */
+
+.legends_current_dwarfobject {
+    color: blue;
 }

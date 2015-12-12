@@ -36,7 +36,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
 
             string beast = "UNKNOWN BEAST";
             if (Attack.Beast != null)

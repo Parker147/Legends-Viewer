@@ -1,7 +1,6 @@
-﻿using System;
+﻿using LegendsViewer.Controls.HTML.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LegendsViewer.Legends
 {
@@ -39,7 +38,7 @@ namespace LegendsViewer.Legends
                     linkedString = "<a href = \"artifact#" + this.ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    linkedString = "<font color=\"Blue\">" + Name + "</font>";
+                    linkedString = HTMLStyleUtil.CurrentDwarfObject(Name);
                 return linkedString;
             }
             else

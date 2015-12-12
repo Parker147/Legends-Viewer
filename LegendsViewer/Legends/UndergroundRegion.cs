@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LegendsViewer.Controls.HTML.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace LegendsViewer.Legends
                 if (pov != this)
                     return "<a href = \"uregion#" + this.ID + "\">" + name + "</a>";
                 else
-                    return "<font color=\"Blue\">" + name + "</font>";
+                    return HTMLStyleUtil.CurrentDwarfObject(name);
             }
             else
                 return name;

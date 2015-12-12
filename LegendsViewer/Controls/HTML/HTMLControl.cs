@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using LegendsViewer.Legends;
+using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Controls
 {
@@ -31,7 +32,7 @@ namespace LegendsViewer.Controls
                 HTMLBrowser = new WebBrowser();
                 HTMLBrowser.Dock = DockStyle.Fill;
                 HTMLBrowser.WebBrowserShortcutsEnabled = false;
-                HTMLBrowser.DocumentText = Printer.Print();
+                HTMLBrowser.DocumentText = Printer.GetHTMLPage();
                 HTMLBrowser.DocumentCompleted += AfterPageLoad;
                 HTMLBrowser.Navigating += BrowserNavigating;
                 HTMLBrowser.Document.MouseMove += MouseOver;
@@ -53,7 +54,7 @@ namespace LegendsViewer.Controls
         public override void Refresh()
         {
             HTMLBrowser.Navigate("about:blank");
-            HTMLBrowser.DocumentText = Printer.Print();
+            HTMLBrowser.DocumentText = Printer.GetHTMLPage();
         }
 
         private void AfterPageLoad(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)

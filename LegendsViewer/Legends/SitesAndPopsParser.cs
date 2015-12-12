@@ -58,8 +58,24 @@ namespace LegendsViewer.Legends
         {
             if (CurrentLine == "Civilized World Population")
             {
+                ReadLine();
+                CurrentLine = SitesAndPops.ReadLine();
+                while (CurrentLine != "" && !SitesAndPops.EndOfStream)
+                {
+                    if (CurrentLine == "") { CurrentLine = SitesAndPops.ReadLine(); continue; }
+                    int count;
+                    string population = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1));
+                    string countString = CurrentLine.Substring(1, CurrentLine.IndexOf(" ") - 1);
+                    if (countString == "Unnumbered") count = Int32.MaxValue;
+                    else count = Convert.ToInt32(countString);
+                    World.CivilizedPopulations.Add(new Population(population, count));
+                    CurrentLine = SitesAndPops.ReadLine();
+                }
+                World.CivilizedPopulations = World.CivilizedPopulations.OrderByDescending(population => population.Count).ToList();
                 while (CurrentLine != "Sites")
-                    ReadLine();
+                {
+                    CurrentLine = SitesAndPops.ReadLine();
+                }
             }
             if (CurrentLine == "Sites")
             {
@@ -85,6 +101,10 @@ namespace LegendsViewer.Legends
                 {
                     Owner = World.GetEntity(entityName);
                     Owner.Race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(",") + 2, CurrentLine.Length - CurrentLine.IndexOf(",") - 2));
+                    if (string.IsNullOrWhiteSpace(Owner.Race))
+                    {
+                        Owner.Race = "Unknown";
+                    }
                 }
                 catch (Exception e)
                 {
@@ -104,6 +124,10 @@ namespace LegendsViewer.Legends
                 {
                     Parent = World.GetEntity(civName);
                     Parent.Race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(",") + 2, CurrentLine.Length - CurrentLine.IndexOf(",") - 2));
+                    if (string.IsNullOrWhiteSpace(Parent.Race))
+                    {
+                        Parent.Race = "Unknown";
+                    }
                     if (Owner != null && !Parent.Groups.Contains(Owner))
                         Parent.Groups.Add(Owner);
                 }

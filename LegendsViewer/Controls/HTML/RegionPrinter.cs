@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
 
@@ -25,8 +23,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
-
 
             HTML.AppendLine("<b>" + Region.Name + ", " + Region.Type + "</b><br /><br />");
 

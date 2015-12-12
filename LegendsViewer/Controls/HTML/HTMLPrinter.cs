@@ -50,11 +50,23 @@ namespace LegendsViewer.Controls
             throw new Exception("No HTML Printer for type: " + printObject.GetType().ToString());
         }
 
-        protected virtual void PrintStyle()
+        public string GetHTMLPage()
+        {
+            var htmlPage = new StringBuilder();
+            htmlPage.Append("<!DOCTYPE html><html><head>");
+            htmlPage.Append("<title>" + GetTitle() + "</title>");
+            htmlPage.Append(GetStyle());
+            htmlPage.Append("</head>");
+            htmlPage.Append("<body>" + Print() + "</body>");
+            htmlPage.Append("</html>");
+            return htmlPage.ToString();
+        }
+
+        public string GetStyle()
         {
             if (string.IsNullOrWhiteSpace(LegendsCSS))
             {
-                HTML.AppendLine("<style type=\"text/css\">"
+                return "<style type=\"text/css\">"
                     + "body {font-size: 0.8em;}"
                     + "a:link {text-decoration: none; color: #000000}"
                     + "a:visited {text-decoration: none; color: #000000}"
@@ -66,20 +78,20 @@ namespace LegendsViewer.Controls
                     + "h1 {font-size: 18px;font-weight: bold;margin-top: 0px;margin-bottom: 0px;}"
                     + "h2 {font-size: 16px;font-weight: normal;margin-top: 0px;margin-bottom: 0px;}"
                     + "h3 {font-size: 14px;font-weight: normal;margin-top: 0px;margin-bottom: 0px;margin-left: 5px;}"
-                    + "</style>");
+                    + "</style>";
             }
             else
             {
-                HTML.AppendLine("<style type=\"text/css\">"+ LegendsCSS + "</style>");
+                return "<style type=\"text/css\">"+ LegendsCSS + "</style>";
             }
         }
 
-        protected string Bold(string text)
+        protected static string Bold(string text)
         {
             return "<b>" + text + "</b>";
         }
 
-        protected string Font(string text, string color)
+        protected static string Font(string text, string color)
         {
             return "<font color=\"" + color + "\">" + text + "</font>";
         }

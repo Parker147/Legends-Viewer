@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LegendsViewer.Controls.HTML.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -56,7 +57,7 @@ namespace LegendsViewer.Legends
                     return "<a href = \"region#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
                 }
                 else
-                    return "<font color=\"Blue\">" + this.Name + "</font>";
+                    return HTMLStyleUtil.CurrentDwarfObject(Name);
             }
             else
                 return this.Name;

@@ -29,7 +29,7 @@ namespace LegendsViewer
         private ConqueringsList conqueringsSearch;
         private BeastAttackList beastAttackSearch;
 
-        string version = "1.13";
+        string version = "1.14";
         private TabPage[] EventTabs;
         Type[] EventTabTypes = new Type[]{typeof(HistoricalFigure), typeof(Site), typeof(Region),
                                             typeof(UndergroundRegion), typeof(Entity), typeof(War),
@@ -130,7 +130,7 @@ namespace LegendsViewer
         private void OnEventFilterCheck(object sender, EventArgs e)
         {
             CheckBox eventCheck = (sender as CheckBox);
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 string[] eventInfo = AppHelpers.EventInfo.Where(a => a[1] == eventCheck.Text).Single();
                 int eventPageIndex = Array.IndexOf(EventTabs, eventCheck.Parent);
@@ -175,7 +175,7 @@ namespace LegendsViewer
 
         private void searchHFList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 if (txtHFSearch.Text.Length > 1)
                     hfSearch.name = txtHFSearch.Text;
@@ -214,15 +214,15 @@ namespace LegendsViewer
             cmbCaste.SelectedIndex = 0;
             cmbType.SelectedIndex = 0;
             radHFNone.Checked = true;
-            FileLoader.Working = false;
             tcWorld.SelectedTab = tpHF;
             tcHF.SelectedTab = tpHFSearch;
             searchHFList(null, null);
+            FileLoader.Working = false;
         }
 
         public void ResetHFBaseList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 lblHFList.Text = "All";
                 lblHFList.ForeColor = Control.DefaultForeColor;
@@ -234,7 +234,7 @@ namespace LegendsViewer
 		
 		private void searchSiteList(object sender, EventArgs e)
 		{
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 if (sender == cmbSitePopulation && !radSiteSortPopulation.Checked) radSiteSortPopulation.Checked = true;
                 else
@@ -268,15 +268,15 @@ namespace LegendsViewer
             cmbSiteType.SelectedIndex = 0;
             cmbSitePopulation.SelectedIndex = 0;
             radSiteNone.Checked = true;
-            FileLoader.Working = false;
             tcWorld.SelectedTab = tpSites;
             tcSites.SelectedTab = tpSiteSearch;
             searchSiteList(null, null);
+            FileLoader.Working = false;
         }
 
         public void ResetSiteBaseList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 lblSiteList.Text = "All";
                 lblSiteList.ForeColor = Control.DefaultForeColor;
@@ -288,7 +288,7 @@ namespace LegendsViewer
 
 		private void searchRegionList(object sender, EventArgs e)
 		{
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 regionSearch.name = txtRegionSearch.Text;
                 regionSearch.type = cmbRegionType.SelectedItem.ToString();
@@ -304,7 +304,7 @@ namespace LegendsViewer
 
 		private void searchURegionList(object sender, EventArgs e)
 		{
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 uRegionSearch.type = cmbURegionType.SelectedItem.ToString();
                 uRegionSearch.sortEvents = radURegionSortEvents.Checked;
@@ -317,7 +317,7 @@ namespace LegendsViewer
 
 		private void searchEntityList(object sender, EventArgs e)
 		{
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 if (sender == cmbEntityPopulation && !radEntitySortPopulation.Checked) radEntitySortPopulation.Checked = true;
                 else
@@ -340,7 +340,7 @@ namespace LegendsViewer
 
         private void searchWarList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 warSearch.Name = txtWarSearch.Text;
                 warSearch.SortEvents = radWarSortEvents.Checked;
@@ -366,16 +366,16 @@ namespace LegendsViewer
             txtWarSearch.Clear();
             chkWarOngoing.Checked = false;
             radWarSortNone.Checked = true;
-            FileLoader.Working = false;
             tcWorld.SelectedTab = tpCollections;
             tcCollections.SelectedTab = tpWars;
             tcWars.SelectedTab = tpWarSearch;
             searchHFList(null, null);
+            FileLoader.Working = false;
         }
 
         public void ResetWarBaseList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 lblWarList.Text = "All";
                 lblWarList.ForeColor = Control.DefaultForeColor;
@@ -387,7 +387,7 @@ namespace LegendsViewer
 
         private void searchBattleList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 battleSearch.Name = txtBattleSearch.Text;
                 battleSearch.SortEvents = radBattleSortEvents.Checked;
@@ -409,16 +409,16 @@ namespace LegendsViewer
             txtBattleSearch.Clear();
 
             radBattleSortNone.Checked = true;
-            FileLoader.Working = false;
             tcWorld.SelectedTab = tpCollections;
             tcCollections.SelectedTab = tpBattles;
             tcBattles.SelectedTab = tpBattlesSearch;
             searchBattleList(null, null);
+            FileLoader.Working = false;
         }
 
         public void ResetBattleBaseList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 lblBattleList.Text = "All";
                 lblBattleList.ForeColor = Control.DefaultForeColor;
@@ -430,7 +430,7 @@ namespace LegendsViewer
 
         private void searchConqueringList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 conqueringsSearch.Name = txtConqueringSearch.Text;
                 conqueringsSearch.SortEvents = radConqueringSortEvents.Checked;
@@ -445,7 +445,7 @@ namespace LegendsViewer
 
         private void searchbeastAttackList(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 beastAttackSearch.Name = txtBeastAttacksSearch.Text;
                 beastAttackSearch.SortEvents = radBeastAttacksEvents.Checked;
@@ -459,13 +459,16 @@ namespace LegendsViewer
 
         private void btnEraShow_Click(object sender, EventArgs e)
         {
-            Browser.Navigate(ControlOption.HTML, new Era(Convert.ToInt32(numStart.Value), Convert.ToInt32(numEraEnd.Value), world));
+            if (!FileLoader.Working && world != null)
+            {
+                Browser.Navigate(ControlOption.HTML, new Era(Convert.ToInt32(numStart.Value), Convert.ToInt32(numEraEnd.Value), world));
+            }
         }
 
 
         public void AfterLoad(World loadedWorld)
         {
-            if (world != null)
+            if (!FileLoader.Working && world != null)
             {
                 world.Map.Dispose();
                 world.MiniMap.Dispose();
@@ -634,13 +637,13 @@ namespace LegendsViewer
             numStart.Maximum = numEraEnd.Value = numEraEnd.Maximum = world.Events.Last().Year;
             
 
-            FileLoader.Working = false;
             DontRefreshBrowserPages = true;
             foreach (CheckBox eraCheck in tpEraEvents.Controls.OfType<CheckBox>())
                 eraCheck.Checked = false;
             DontRefreshBrowserPages = false;
             lblStatus.Text = "Done!";
             lblStatus.ForeColor = Color.Green;
+            FileLoader.Working = false;
         }
 
         public void ResetForm()
@@ -733,15 +736,15 @@ namespace LegendsViewer
                 Browser.CloseTab();
         }
 
-
         private void chkFilterWarfare_CheckedChanged(object sender, EventArgs e)
         {
-            if (!FileLoader.Working) world.FilterBattles = chkFilterWarfare.Checked;
+            if (!FileLoader.Working && world != null)
+                world.FilterBattles = chkFilterWarfare.Checked;
         }
 
         private void btnShowMap_Click(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 Browser.Navigate(ControlOption.Map);
                 ((Browser.SelectedTab as DwarfTabPage).Current.GetControl() as MapPanel).ToggleCivs();
@@ -750,13 +753,13 @@ namespace LegendsViewer
 
         private void btnStats_Click(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
                 Browser.Navigate(ControlOption.HTML, world);
         }
 
         private void btnChart_Click(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
             {
                 Browser.Navigate(ControlOption.Chart, new Era(-1, world.Events.Last().Year, world));
             }
@@ -771,7 +774,7 @@ namespace LegendsViewer
 
         private void btnAdvancedSearch_Click(object sender, EventArgs e)
         {
-            if (!FileLoader.Working)
+            if (!FileLoader.Working && world != null)
                 Browser.Navigate(ControlOption.Search);
         }
 

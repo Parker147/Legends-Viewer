@@ -25,7 +25,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
 
             HTML.AppendLine("<b><center>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</b></center></br>");
             HTML.AppendLine("<b>" + Site.ToLink(false) + " is a " + Site.Type + "</b><br /><br />");

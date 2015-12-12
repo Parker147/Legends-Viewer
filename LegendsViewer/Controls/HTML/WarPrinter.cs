@@ -25,7 +25,6 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            PrintStyle();
 
             HTML.AppendLine("<b>" + War.Name + " was waged by " + War.Attacker.PrintEntity() + " on " + War.Defender.PrintEntity() + "</b><br/>");
             HTML.AppendLine("Started " + War.GetYearTime().ToLower() + "and ");
