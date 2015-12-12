@@ -43,7 +43,7 @@ namespace LegendsViewer.Controls
             else title += " is a group of ";
             title += Entity.Race.ToLower();
             if (Entity.Parent != null) title += " of " + Entity.Parent.ToLink(true, Entity);
-            HTML.AppendLine(Bold(title) + LineBreak + LineBreak);
+            HTML.AppendLine("<h1>"+title+"</h1></br>");
 
             if (Entity.IsCiv)
                 HTML.AppendLine(Entity.PrintIdenticon(true) + LineBreak + LineBreak);
@@ -124,25 +124,25 @@ namespace LegendsViewer.Controls
                     if (war.Attacker == Entity)
                     {
                         warTable.AddData("waged against");
-                        warTable.AddData(war.Defender.PrintEntity(), 0, TableDataAlign.Right);
+                        warTable.AddData(war.Defender.PrintEntity(), 0);
                         warTable.AddData("");
                     }
                     else if (war.Attacker.Parent == Entity)
                     {
                         warTable.AddData("waged against");
-                        warTable.AddData(war.Defender.PrintEntity(), 0, TableDataAlign.Right);
+                        warTable.AddData(war.Defender.PrintEntity(), 0);
                         warTable.AddData("by " + war.Attacker.ToLink());
                     }
                     else if (war.Defender == Entity)
                     {
                         warTable.AddData("defended against");
-                        warTable.AddData(war.Attacker.PrintEntity(), 0, TableDataAlign.Right);
+                        warTable.AddData(war.Attacker.PrintEntity(), 0);
                         warTable.AddData("");
                     }
                     else if (war.Defender.Parent == Entity)
                     {
                         warTable.AddData("defended against");
-                        warTable.AddData(war.Attacker.PrintEntity(), 0, TableDataAlign.Right);
+                        warTable.AddData(war.Attacker.PrintEntity(), 0);
                         warTable.AddData("by " + war.Defender.ToLink());
                     }
 

@@ -24,13 +24,9 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-
-            HTML.AppendLine("<b>");
-            if (Era.Name != "")
-                HTML.Append(Era.Name + ". ");
-            HTML.Append("(" + Era.StartYear + " - " + Era.EndYear + ")</b></br></br>");
-
-
+            string title = string.IsNullOrWhiteSpace(Era.Name) ? "" : Era.Name + " ";
+            string timespan = "(" + Era.StartYear + " - " + Era.EndYear + ")";
+            HTML.AppendLine("<h1>" + title + timespan + "</h1></br></br>");
 
             if (Era.Wars.Count > 0)
             {
@@ -46,7 +42,7 @@ namespace LegendsViewer.Controls
                     if (war.EndYear == -1) HTML.Append("<font color=\"Blue\">Present</font>");
                     else if (war.EndYear > Era.EndYear) HTML.Append("<font color=\"Blue\">" + war.EndYear + "</font>");
                     else HTML.Append(war.EndYear);
-                    HTML.Append("</td><td>" + war.ToLink() + "</td><td align=\"right\">" + war.Attacker.PrintEntity() + "</td><td>against</td><td align=\"right\">" + war.Defender.PrintEntity() + "</td>");
+                    HTML.Append("</td><td>" + war.ToLink() + "</td><td>" + war.Attacker.PrintEntity() + "</td><td>against</td><td>" + war.Defender.PrintEntity() + "</td>");
 
                     int attackerVictories = 0, defenderVictories = 0, attackerConquerings = 0, defenderConquerings = 0, attackerKills, defenderKills;
                     attackerVictories = war.AttackerVictories.OfType<Battle>().Count();

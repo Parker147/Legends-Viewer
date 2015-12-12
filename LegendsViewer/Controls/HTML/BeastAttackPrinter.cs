@@ -37,11 +37,13 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
+            HTML.AppendLine("<h1>" + GetTitle() + "</h1></br>");
+
             string beast = "UNKNOWN BEAST";
             if (Attack.Beast != null)
                 beast = Attack.Beast.ToLink();
 
-            HTML.AppendLine("The " + Attack.GetOrdinal(Attack.Ordinal) + " Rampage of " + beast + " in " + Attack.Site.ToLink() + "</br>");
+            HTML.AppendLine("The " + Attack.GetOrdinal(Attack.Ordinal) + " Rampage of " + beast + " in " + Attack.Site.ToLink() + ".</br></br>");
 
             List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Attack.Site);
             HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");

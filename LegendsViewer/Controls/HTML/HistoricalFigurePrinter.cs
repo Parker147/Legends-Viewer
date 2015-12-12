@@ -45,10 +45,11 @@ namespace LegendsViewer.Controls
 
         private void PrintTitle()
         {
-            string title = String.Empty;
+            HTML.AppendLine("<h1>" + HistoricalFigure.Name + "</h1></br>");
+            string title = string.Empty;
             if (HistoricalFigure.Deity)
             {
-                title = HistoricalFigure.Name + " is a deity";
+                title = "Is a deity";
                 if (HistoricalFigure.WorshippedBy != null) 
                     title += " that occurs in the myths of " + HistoricalFigure.WorshippedBy.ToLink() + ". ";
                 else 
@@ -57,17 +58,16 @@ namespace LegendsViewer.Controls
             }
             else if (HistoricalFigure.Force)
             {
-                title = HistoricalFigure.Name + " is a force said to permeate nature. ";
+                title = "Is a force said to permeate nature. ";
                 if (HistoricalFigure.WorshippedBy != null)
                     title += "Worshipped by " + HistoricalFigure.WorshippedBy.ToLink();
             }
             else
             {
-                title = HistoricalFigure.Name;
-                if (HistoricalFigure.DeathYear >= 0) title += " was a " + HistoricalFigure.GetRaceTitleString();
-                else title += " is a " + HistoricalFigure.GetRaceTitleString();
+                if (HistoricalFigure.DeathYear >= 0) title += "Was a " + HistoricalFigure.GetRaceTitleString();
+                else title += "Is a " + HistoricalFigure.GetRaceTitleString();
                 title += " born in " + HistoricalFigure.BirthYear;
-                //else title += " " + CasteNoun(Caste) + " was the first of " + CasteNoun(Caste, true) + " kind";
+
                 if (HistoricalFigure.DeathYear > 0)
                 {
                     HFDied death = HistoricalFigure.Events.OfType<HFDied>().First(hfDeath => hfDeath.HistoricalFigure == HistoricalFigure);
@@ -81,7 +81,7 @@ namespace LegendsViewer.Controls
                     title += ". ";
                 title += LineBreak + "Caste: " + HistoricalFigure.Caste + LineBreak + "Type: " + HistoricalFigure.AssociatedType;
             }
-            HTML.AppendLine(Bold(title) + LineBreak);
+            HTML.AppendLine("<b>" + title + "</b></br>");
         }
 
 

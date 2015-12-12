@@ -24,7 +24,7 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<b>" + Region.Name + ", " + Region.Type + "</b><br /><br />");
+            HTML.AppendLine("<h1>" + Region.Name + ", " + Region.Type + "</h1><br />");
 
             if (Region.Battles.Count(battle => !World.FilterBattles || battle.Notable) > 0)
             {

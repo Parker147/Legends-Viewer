@@ -66,7 +66,10 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<li>" + civRace.Type + ": " + civRace.Count);
                 HTML.AppendLine("<ul>");
                 foreach (var civ in civsByRace.Where(civ => civ.Race == civRace.Type))
-                    HTML.AppendLine("<li>" + StringToImageHTML(civ.SmallIdenticonString) + " " + civ.ToLink().Substring(0, civ.ToLink().IndexOf("<img")));
+                {
+                    HTML.AppendLine("<li>" + civ.ToLink());
+                    //HTML.AppendLine("<li>" + StringToImageHTML(civ.SmallIdenticonString) + " " + civ.ToLink().Substring(0, civ.ToLink().IndexOf("<img")));
+                }
                 HTML.AppendLine("</ul>");
             }
             HTML.AppendLine("</ul>");

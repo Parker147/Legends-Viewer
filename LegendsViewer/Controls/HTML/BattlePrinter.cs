@@ -25,17 +25,25 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-                
-            String battleDescription = Battle.GetYearTime() + Battle.ToLink(false);
+
+            HTML.AppendLine("<h1>" + GetTitle() + "</h1></br>");
+
+            string battleDescription = Battle.GetYearTime() + Battle.ToLink(false);
             if (Battle.ParentCollection != null)
             {
-                battleDescription += " occured as part of " + Battle.ParentCollection.ToLink() + " waged by " + (Battle.ParentCollection as War).Attacker.PrintEntity()
-                    + " on " + (Battle.ParentCollection as War).Defender.PrintEntity();
+                battleDescription += " occured as part of " + Battle.ParentCollection.ToLink();
+                battleDescription += " waged by " + (Battle.ParentCollection as War).Attacker.PrintEntity();
+                battleDescription += " on " + (Battle.ParentCollection as War).Defender.PrintEntity();
             }
-            HTML.AppendLine(battleDescription);
-            if (Battle.Site != null) HTML.Append(" at " + Battle.Site.ToLink());
-            if (Battle.Region != null) HTML.Append(" in " + Battle.Region.ToLink());
-            HTML.Append(".</br>");
+            if (Battle.Site != null)
+            {
+                battleDescription += " at " + Battle.Site.ToLink();
+            }
+            if (Battle.Region != null)
+            {
+                battleDescription += " in " + Battle.Region.ToLink();
+            }
+            HTML.AppendLine(battleDescription+".</br>");
 
             if (Battle.Conquering != null)
                 HTML.AppendLine("<b>Outcome:</b> " + Battle.Conquering.ToLink(true, Battle) + "</br>");

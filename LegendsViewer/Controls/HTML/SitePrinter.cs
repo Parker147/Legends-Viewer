@@ -26,8 +26,8 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<b><center>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</b></center></br>");
-            HTML.AppendLine("<b>" + Site.ToLink(false) + " is a " + Site.Type + "</b><br /><br />");
+            HTML.AppendLine("<h1>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</h1></br>");
+            HTML.AppendLine("<b>" + Site.ToLink() + " is a " + Site.Type + "</b><br /><br />");
 
             List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Site);
             HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");

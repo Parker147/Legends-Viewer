@@ -71,7 +71,7 @@ namespace LegendsViewer.Legends
         public Color IdenticonColor { get; set; }
         public Color LineColor { get; set; }
         public Bitmap Identicon { get; set; }
-       
+
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -102,15 +102,15 @@ namespace LegendsViewer.Legends
             SiteHistory = new List<OwnerPeriod>();
             Wars = new List<War>();
             Populations = new List<Population>();
-            foreach(Property property in properties)
-                switch(property.Name)
+            foreach (Property property in properties)
+                switch (property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                 }
         }
         public override string ToString() { return this.Name; }
-        
-        
+
+
 
         public bool EqualsOrParentEquals(Entity entity)
         {
@@ -123,9 +123,9 @@ namespace LegendsViewer.Legends
             if (this.Parent != null) entityString += " of " + Parent.ToLink(link, pov);
             return entityString;
         }
-        
 
-        
+
+
         //TODO: Check and possibly move logic
         public void AddOwnedSite(OwnerPeriod newSite)
         {
@@ -184,12 +184,28 @@ namespace LegendsViewer.Legends
                 if (pov != this)
                 {
                     string title = "";
-                    if (IsCiv) title = "Civilization of " + Race;
-                    else title = "Group of " + Race;
-                    if (Parent != null) title += ", of " + Parent.Name;
-                    string entityLink = "<a href = \"entity#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
-                    if (IsCiv) return entityLink + " " + PrintIdenticon() + " ";
-                    else return entityLink;
+                    if (IsCiv)
+                    {
+                        title = "Civilization of " + Race;
+                    }
+                    else
+                    {
+                        title = "Group of " + Race;
+                    }
+                    if (Parent != null)
+                    {
+                        title += ", of " + Parent.Name;
+                    }
+
+                    string entityLink = "<a href = \"entity#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    if (IsCiv)
+                    {
+                        return PrintIdenticon() + " " + entityLink + " ";
+                    }
+                    else
+                    {
+                        return entityLink;
+                    }
                 }
                 else
                     return HTMLStyleUtil.CurrentDwarfObject(Name);

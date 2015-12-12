@@ -1905,7 +1905,9 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Entity.ToLink(link, pov) + " formed in " + Site.ToLink(link, pov) + ". ";
+            string eventString = this.GetYearTime();
+            eventString += Entity.ToLink(link, pov) + " formed in ";
+            eventString += (Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE") + ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -3262,7 +3264,15 @@ namespace LegendsViewer.Legends
             {
                 eventString += " independently discovered ";
             }
-            eventString += " the " + Knowledge[1] + " (" + Knowledge[2] + ") in the field of " + Knowledge[0] + ".";
+            if (Knowledge.Length > 1)
+            {
+                eventString += " the " + Knowledge[1];
+                if (Knowledge.Length > 2)
+                {
+                    eventString += " (" + Knowledge[2] + ")";
+                }
+                eventString += " in the field of " + Knowledge[0] + ".";
+            }
             return eventString;
         }
     }

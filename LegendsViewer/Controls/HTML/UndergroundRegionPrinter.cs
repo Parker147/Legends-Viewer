@@ -26,8 +26,7 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<b>Depth: " + Region.Depth + "</b>");
-            HTML.AppendLine("</br></br>");
+            HTML.AppendLine("<h1>Depth: " + Region.Depth + "</h1></br></br>");
 
             if (Region.Battles.Count > 0)
             {

@@ -26,12 +26,13 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<b>" + War.Name + " was waged by " + War.Attacker.PrintEntity() + " on " + War.Defender.PrintEntity() + "</b><br/>");
+            HTML.AppendLine("<h1>" + GetTitle() + "</h1></br>");
             HTML.AppendLine("Started " + War.GetYearTime().ToLower() + "and ");
             if (War.EndYear == -1)
                 HTML.AppendLine("is still ongoing.");
             else
                 HTML.AppendLine("ended " + War.GetYearTime(false).ToLower().Substring(0, War.GetYearTime(false).Length - 1) + ". ");
+            HTML.AppendLine(War.Name + " was waged by " + War.Attacker.PrintEntity() + " on " + War.Defender.PrintEntity() + ".<br/>");
             HTML.AppendLine("</br></br>");
 
             List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, War);
@@ -69,15 +70,20 @@ namespace LegendsViewer.Controls
                 if (World.FilterBattles) HTML.Append(" (Notable)");
                 HTML.Append("</br>");
                 HTML.AppendLine("<table>");
-                HTML.AppendLine("<tr><td colspan=6></td>");
-                HTML.AppendLine("<td align=right>" + StringToImageHTML(War.Attacker.SmallIdenticonString) + "</td>");
-                HTML.AppendLine("<td>/</td>");
-                HTML.AppendLine("<td align=left>" + StringToImageHTML(War.Defender.SmallIdenticonString) + "</td>");
+                HTML.AppendLine("<tr>");
+                HTML.AppendLine("<th align=right>#</th>");
+                HTML.AppendLine("<th align=right>Year</th>");
+                HTML.AppendLine("<th>Battle</th>");
+                HTML.AppendLine("<th>Victor</th>");
+                HTML.AppendLine("<th align=right>" + StringToImageHTML(War.Attacker.SmallIdenticonString) + "</th>");
+                HTML.AppendLine("<th>/</th>");
+                HTML.AppendLine("<th align=left>" + StringToImageHTML(War.Defender.SmallIdenticonString) + "</th>");
                 HTML.AppendLine("</tr>");
                 foreach (EventCollection warfare in War.Collections.Where(battle => !World.FilterBattles || battle.Notable))
                 {
                     HTML.AppendLine("<tr>");
-                    HTML.AppendLine("<td width=\"20\" align=\"right\">" + warfareCount + ".<td width=\"10\"></td><td>" + warfare.StartYear + "</td>");
+                    HTML.AppendLine("<td align=right>" + warfareCount + ".</td>");
+                    HTML.AppendLine("<td align=right>" + warfare.StartYear + "</td>");
                     string warfareString = warfare.ToLink();
                     if (warfareString.Contains(" as a result of"))
                         warfareString = warfareString.Insert(warfareString.IndexOf(" as a result of"), "</br>");
@@ -85,22 +91,15 @@ namespace LegendsViewer.Controls
                     if (warfare.GetType() == typeof(Battle))
                     {
                         Battle battle = warfare as Battle;
-                        HTML.Append("<td>Victor: </td><td align=\"right\">");
-                        if (battle.Victor == War.Attacker) HTML.Append(battle.Attacker.PrintEntity());
-                        else HTML.Append(battle.Defender.PrintEntity());
-
-                        if (battle.Attacker == War.Attacker) HTML.AppendLine("<td align=right>" + battle.DefenderDeathCount + "</td>");
-                        else HTML.AppendLine("<td align=right>" + battle.AttackerDeathCount + "</td>");
-
+                        HTML.AppendLine("<td>"+ (battle.Victor == War.Attacker? battle.Attacker.PrintEntity(): battle.Defender.PrintEntity())+ "</td>");
+                        HTML.AppendLine("<td align=right>" + (battle.Attacker == War.Attacker ? battle.DefenderDeathCount : battle.AttackerDeathCount) + "</td>");
                         HTML.AppendLine("<td>/</td>");
-
-                        if (battle.Defender == War.Attacker) HTML.AppendLine("<td align=left>" + battle.DefenderDeathCount + "</td>");
-                        else HTML.AppendLine("<td align=left>" + battle.AttackerDeathCount + "</td>");
-
-                        HTML.AppendLine("</td>");
+                        HTML.AppendLine("<td align=left>" + (battle.Defender == War.Attacker ? battle.DefenderDeathCount : battle.AttackerDeathCount) + "</td>");
                     }
-                    if (warfare.GetType() == typeof(SiteConquered))
-                        HTML.AppendLine("<td>Victor: </td><td align=right>" + (warfare as SiteConquered).Attacker.PrintEntity() + "</td>");
+                    else if (warfare.GetType() == typeof(SiteConquered))
+                    {
+                        HTML.AppendLine("<td align=right>" + (warfare as SiteConquered).Attacker.PrintEntity() + "</td>");
+                    }
 
                     HTML.AppendLine("</tr>");
                     warfareCount++;
