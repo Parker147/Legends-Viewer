@@ -9,6 +9,7 @@ using System.ComponentModel;
 using LegendsViewer.Legends;
 using SevenZip;
 using System.Xml;
+using System.Reflection;
 
 namespace LegendsViewer
 {
@@ -149,6 +150,22 @@ namespace LegendsViewer
 
             if (Environment.Is64BitProcess)
                 SevenZip.SevenZipExtractor.SetLibraryPath("7z64.dll");
+
+            try
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = "LegendsViewer.Controls.HTML.Styles.legends.css";
+
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    Controls.HTMLPrinter.LegendsCSS = reader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         private string GetFile(string filter)

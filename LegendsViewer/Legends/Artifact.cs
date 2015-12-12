@@ -24,7 +24,6 @@ namespace LegendsViewer.Legends
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "item": Item = Formatting.InitCaps(property.Value); break;
-                  
                 }
         }
 

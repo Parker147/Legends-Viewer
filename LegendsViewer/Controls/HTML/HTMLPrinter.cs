@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
 using System.Drawing;
@@ -15,6 +13,9 @@ namespace LegendsViewer.Controls
         protected const string ListItem = "<li>";
         public abstract string GetTitle();
         public abstract string Print();
+
+        public static string LegendsCSS;
+
         public static HTMLPrinter GetPrinter(object printObject, World world)
         {
             Type printType = printObject.GetType();
@@ -51,19 +52,26 @@ namespace LegendsViewer.Controls
 
         protected virtual void PrintStyle()
         {
-            HTML.AppendLine("<basefont size=\"2\">");
-            HTML.AppendLine("<style type=\"text/css\">"
-                + "a:link {text-decoration: none; color: #000000}"
-                + "a:visited {text-decoration: none; color: #000000}"
-                + "a:hover {text-decoration: underline; color: #000000}"
-                + "td {font-size: 13px;}"
-                + "ol { margin-top: 0;}"
-                + "ul { margin-top: 0;}"
-                + "img {border:none;}"
-                + "h1 {font-size: 18px;font-weight: bold;margin-top: 0px;margin-bottom: 0px;}"
-                + "h2 {font-size: 16px;font-weight: normal;margin-top: 0px;margin-bottom: 0px;}"
-                + "h3 {font-size: 14px;font-weight: normal;margin-top: 0px;margin-bottom: 0px;margin-left: 5px;}"
-                + "</style>");
+            if (string.IsNullOrWhiteSpace(LegendsCSS))
+            {
+                HTML.AppendLine("<style type=\"text/css\">"
+                    + "body {font-size: 0.8em;}"
+                    + "a:link {text-decoration: none; color: #000000}"
+                    + "a:visited {text-decoration: none; color: #000000}"
+                    + "a:hover {text-decoration: underline; color: #000000}"
+                    + "td {font-size: 13px;}"
+                    + "ol { margin-top: 0;}"
+                    + "ul { margin-top: 0;}"
+                    + "img {border:none;}"
+                    + "h1 {font-size: 18px;font-weight: bold;margin-top: 0px;margin-bottom: 0px;}"
+                    + "h2 {font-size: 16px;font-weight: normal;margin-top: 0px;margin-bottom: 0px;}"
+                    + "h3 {font-size: 14px;font-weight: normal;margin-top: 0px;margin-bottom: 0px;margin-left: 5px;}"
+                    + "</style>");
+            }
+            else
+            {
+                HTML.AppendLine("<style type=\"text/css\">"+ LegendsCSS + "</style>");
+            }
         }
 
         protected string Bold(string text)
@@ -296,5 +304,5 @@ namespace LegendsViewer.Controls
         Center
     }
 
-  
+
 }

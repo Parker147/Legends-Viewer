@@ -60,6 +60,9 @@ namespace LegendsViewer.Legends
             {
                 while (CurrentLine != "Sites")
                     ReadLine();
+            }
+            if (CurrentLine == "Sites")
+            {
                 ReadLine();
                 ReadLine();
             }

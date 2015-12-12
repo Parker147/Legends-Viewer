@@ -1,0 +1,56 @@
+﻿body {
+    font-size: 0.8em;
+}
+
+a:link {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #000000;
+}
+
+td {
+    font-size: 13px;
+}
+
+ol {
+    margin-top: 0;
+}
+
+ul {
+    margin-top: 0;
+}
+
+img {
+    border: none;
+}
+
+h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+}

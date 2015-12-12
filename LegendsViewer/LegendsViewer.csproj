@@ -83,9 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\appClasses.cs" />
-    <Compile Include="Controls\Chart\ChartControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Controls\Chart\ChartControl.cs" />
     <Compile Include="Controls\DwarfTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -114,9 +112,7 @@
     <Compile Include="Controls\HTML\WarPrinter.cs" />
     <Compile Include="Controls\HTML\WorldStatsPrinter.cs" />
     <Compile Include="Controls\Map\HeatMapMaker.cs" />
-    <Compile Include="Controls\Map\MapControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Controls\Map\MapControl.cs" />
     <Compile Include="Controls\Map\MapDrawer.cs" />
     <Compile Include="Controls\Map\MapMenu.cs" />
     <Compile Include="Controls\Map\PathMaker.cs" />
@@ -258,6 +254,7 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Controls\HTML\Styles\legends.css" />
     <Content Include="ReadMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
