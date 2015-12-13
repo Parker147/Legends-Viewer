@@ -40,11 +40,11 @@ namespace LegendsViewer.Controls
                     HTML.AppendLine("<td>" + battle.ToLink() + "</td>");
                     HTML.AppendLine("<td>as part of</td>");
                     HTML.AppendLine("<td>" + battle.ParentCollection.ToLink() + "</td>");
-                    HTML.AppendLine("<td align=\"right\">" + battle.Attacker.PrintEntity());
+                    HTML.AppendLine("<td>" + battle.Attacker.PrintEntity());
                     if (battle.Victor == battle.Attacker) HTML.Append("<td>(V)</td>");
                     else HTML.AppendLine("<td></td>");
                     HTML.AppendLine("<td>Vs.</td>");
-                    HTML.AppendLine("<td align=\"right\">" + battle.Defender.PrintEntity());
+                    HTML.AppendLine("<td>" + battle.Defender.PrintEntity());
                     if (battle.Victor == battle.Defender) HTML.AppendLine("<td>(V)</td>");
                     else HTML.AppendLine("<td></td>");
 

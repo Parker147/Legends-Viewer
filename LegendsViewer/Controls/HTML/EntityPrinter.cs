@@ -58,7 +58,7 @@ namespace LegendsViewer.Controls
                 mapTable.AddData(MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap));
                 mapTable.AddData(MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap));
                 mapTable.EndRow();
-                HTML.AppendLine(mapTable.GetTable());
+                HTML.AppendLine(mapTable.GetTable()+"</br>");
                 maps[0].Dispose();
                 maps[1].Dispose();
             }
@@ -76,7 +76,7 @@ namespace LegendsViewer.Controls
                     foreach (HistoricalFigure leader in Entity.Leaders[Entity.LeaderTypes.IndexOf(leaderType)])
                     {
                         leaderTable.StartRow();
-                        leaderTable.AddData(leader.Positions.Last(position => position.Title == leaderType).Began.ToString());
+                        leaderTable.AddData(leader.Positions.Last(position => position.Title == leaderType).Began.ToString(), 0, TableDataAlign.Right);
                         leaderTable.AddData(leader.ToLink());
                         leaderTable.EndRow();
                     }
@@ -201,17 +201,17 @@ namespace LegendsViewer.Controls
                     if (ownedSite.EndYear >= 0)
                     {
                         siteTable.AddData(ownedSite.EndCause);
-                        siteTable.AddData(ownedSite.EndYear.ToString());
+                        siteTable.AddData(ownedSite.EndYear.ToString(), 0 , TableDataAlign.Right);
                     }
                     if (ownedSite.Ender != null)
                     {
                         if (ownedSite.Ender is Entity)
                         {
-                            siteTable.AddData(" by " + ((Entity)ownedSite.Ender).PrintEntity(), 0, TableDataAlign.Right);
+                            siteTable.AddData(" by " + ((Entity)ownedSite.Ender).PrintEntity());
                         }
                         else
                         {
-                            siteTable.AddData(" by " + ownedSite.Ender.ToLink(true, Entity), 0, TableDataAlign.Right);
+                            siteTable.AddData(" by " + ownedSite.Ender.ToLink(true, Entity));
                         }
                     }
                     siteTable.EndRow();
