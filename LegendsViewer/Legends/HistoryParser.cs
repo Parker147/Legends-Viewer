@@ -78,9 +78,13 @@ namespace LegendsViewer.Legends
                     }
                     catch (Exception e)
                     {
-                        Log.AppendLine(e.Message + ", a Worship of " + CurrentCiv.Name);
-                        ReadLine();
-                        continue;
+                        worship = World.HistoricalFiguresByName.FirstOrDefault(h => h.Name.Equals(worshipName, StringComparison.OrdinalIgnoreCase) && h.Deity);
+                        if (worship == null)
+                        {
+                            Log.AppendLine(e.Message + ", a Worship of " + CurrentCiv.Name);
+                            ReadLine();
+                            continue;
+                        }
                     }
                     worship.WorshippedBy = CurrentCiv;
                     CurrentCiv.Worshipped.Add(worship);

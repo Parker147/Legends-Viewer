@@ -18,7 +18,7 @@ namespace LegendsViewer.Controls
         public override string GetTitle()
         {
             if (Era.Name != "") return Era.Name;
-            else return "(" + Era.StartYear + " - " + Era.EndYear + ")";
+            else return "(" + (Era.StartYear < 0 ? 0 : Era.StartYear) + " - " + Era.EndYear + ")";
         }
 
         public override string Print()

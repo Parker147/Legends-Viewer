@@ -25,7 +25,7 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<h1><center>" + World.Name + "</center></h1>");
+            HTML.AppendLine("<h1>" + World.Name + "</h1></br>");
             int mapSideLength = 300;
             double resizePercent;
             Size mapSize;
@@ -40,14 +40,14 @@ namespace LegendsViewer.Controls
                     resize.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     resize.DrawImage(World.Map, new Rectangle(0, 0, mapSize.Width, mapSize.Height), new Rectangle(0, 0, World.Map.Width, World.Map.Height), GraphicsUnit.Pixel);
                 }
-                HTML.AppendLine("<center>" + MakeLink(BitmapToHTML(resizedMap), LinkOption.LoadMap) + "</center>");
+                HTML.AppendLine(MakeLink(BitmapToHTML(resizedMap), LinkOption.LoadMap) + "</br>");
             }
 
 
             HTML.AppendLine("<h1>Eras</h2>");
             HTML.AppendLine("<ol>");
             foreach (Era era in World.Eras)
-                HTML.AppendLine("<li>" + era.Name + " (" + era.StartYear + " - " + era.EndYear + ")");
+                HTML.AppendLine("<li>" + era.Name + " (" + (era.StartYear < 0 ? 0 : era.StartYear) + " - " + era.EndYear + ")");
             HTML.AppendLine("</ol>");
             HTML.AppendLine("</br>");
 

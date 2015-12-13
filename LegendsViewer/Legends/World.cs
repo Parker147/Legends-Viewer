@@ -62,6 +62,7 @@ namespace LegendsViewer.Legends
             ParsingErrors = new ParsingErrors();
             Log = new StringBuilder();
             Log.AppendLine("Start: " + DateTime.Now.ToLongTimeString());
+            Log.AppendLine();
 
             CreateUnknowns();
 
@@ -324,7 +325,6 @@ namespace LegendsViewer.Legends
                     throw new Exception("Duplicate Historical Figure Name: " + name);
             }
             throw new Exception("Couldn't Find Historical Figure: " + name);
-
         }
         public Entity GetEntity(int id)
         {

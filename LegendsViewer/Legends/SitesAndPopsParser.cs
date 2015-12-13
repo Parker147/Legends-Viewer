@@ -100,17 +100,23 @@ namespace LegendsViewer.Legends
                 try
                 {
                     Owner = World.GetEntity(entityName);
+                }
+                catch (Exception ex)
+                {
+                    Owner = World.EntitiesByName.FirstOrDefault(e => e.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase) && e.Sites.Contains(Site));
+                    if (Owner == null)
+                    {
+                        World.ParsingErrors.Report(ex.Message + ", Site Owner of " + Site.Name);
+                    }
+                }
+                if (Owner != null)
+                {
                     Owner.Race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(",") + 2, CurrentLine.Length - CurrentLine.IndexOf(",") - 2));
                     if (string.IsNullOrWhiteSpace(Owner.Race))
                     {
                         Owner.Race = "Unknown";
                     }
                 }
-                catch (Exception e)
-                {
-                    World.ParsingErrors.Report(e.Message + ", Site Owner of " + Site.Name);
-                }
-                
                 ReadLine();
             }
         }
@@ -194,11 +200,40 @@ namespace LegendsViewer.Legends
         {
             //Check if a site was gained without a proper event from the xml
             if (Owner != null)
+            {
                 if (Site.OwnerHistory.Count == 0)
+                {
                     new OwnerPeriod(Site, Owner, 1, "UNKNOWN");
+                }
                 else if (Site.OwnerHistory.Last().Owner != Owner)
-                    World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false));
-
+                {
+                    HistoricalFigure lastKnownOwner = Site.OwnerHistory.Last().Owner as HistoricalFigure;
+                    if (lastKnownOwner != null)
+                    {
+                        if (lastKnownOwner.DeathYear != -1)
+                        {
+                            new OwnerPeriod(Site, Owner, lastKnownOwner.DeathYear, "took over after death of last owner (" + lastKnownOwner.DeathCause.ToString() + ")");
+                        }
+                        else if (lastKnownOwner.Race == "Demon" && Site.Type == "Vault" && Owner is Entity && Owner.Race == "Unknown")
+                        {
+                            // SPOILER Devil owns the place, Entity is a group of angles
+                            Console.WriteLine();
+                        }
+                        else
+                        {
+                            World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false) + " instead of " + Site.OwnerHistory.Last().Owner.ToLink(false));
+                        }
+                    }
+                    else if (Site.CurrentOwner == null)
+                    {
+                        new OwnerPeriod(Site, Owner, Site.OwnerHistory.Last().EndYear, "slowly repopulated after the site was " + Site.OwnerHistory.Last().EndCause);
+                    }
+                    else
+                    {
+                        World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false)+ " instead of "+ Site.OwnerHistory.Last().Owner.ToLink(false));
+                    }
+                }
+            }
             //check for loss of period ownership, since some some loss of ownership eventsList are missing
             if (Owner == null && Site.OwnerHistory.Count > 0 && Site.OwnerHistory.Last().EndYear == -1)
             {

@@ -255,7 +255,6 @@ namespace LegendsViewer.Legends
             return eventString;
         }
     }
-
     public class ArtifactPossessed : WorldEvent
     {
         public Artifact Artifact { get; set; }
@@ -292,7 +291,6 @@ namespace LegendsViewer.Legends
             return eventString;
         }
     }
-
     public class ArtifactStored : WorldEvent
     {
         public Artifact Artifact { get; set; }
@@ -323,6 +321,39 @@ namespace LegendsViewer.Legends
         {
             string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was stored in " + Site.ToLink(link, pov) + " by " + HistoricalFigure.ToLink(link, pov) + ". ";
             eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+    public class ArtifactDestroyed : WorldEvent
+    {
+        public Artifact Artifact { get; set; }
+        public Site Site { get; set; }
+        public HistoricalFigure Destroyer { get; set; }
+
+        public ArtifactDestroyed(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "artifact_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "destroyer_enid": Destroyer = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                }
+            Site.AddEvent(this);
+            Artifact.AddEvent(this);
+            Destroyer.AddEvent(this);
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = GetYearTime();
+            eventString += Artifact.ToLink(link, pov);
+            eventString += " was destroyed by ";
+            eventString += Destroyer.ToLink(link, pov);
+            eventString += " in ";
+            eventString += Site.ToLink(link, pov);
+            eventString += ".";
             return eventString;
         }
     }
@@ -3012,27 +3043,34 @@ namespace LegendsViewer.Legends
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = base.Print(link, pov);
-            eventString += "</br>";
-            eventString += "Competing were ";
-            for (int i = 0; i < Competitors.Count; i++)
+            if (Competitors.Any())
             {
-                HistoricalFigure competitor = Competitors.ElementAt(i);
-                if (i == 0)
+                eventString += "</br>";
+                eventString += "Competing were ";
+                for (int i = 0; i < Competitors.Count; i++)
                 {
-                    eventString += competitor.ToLink(link, pov);
+                    HistoricalFigure competitor = Competitors.ElementAt(i);
+                    if (i == 0)
+                    {
+                        eventString += competitor.ToLink(link, pov);
+                    }
+                    else if (i == Competitors.Count - 1)
+                    {
+                        eventString += " and " + competitor.ToLink(link, pov);
+                    }
+                    else
+                    {
+                        eventString += ", " + competitor.ToLink(link, pov);
+                    }
                 }
-                else if (i == Competitors.Count - 1)
-                {
-                    eventString += " and " + competitor.ToLink(link, pov);
-                }
-                else
-                {
-                    eventString += ", " + competitor.ToLink(link, pov);
-                }
+                eventString += ". ";
             }
-            eventString += ". The winner was ";
-            eventString += Winner.ToLink(link, pov);
-            eventString += ".";
+            if (Winner != null)
+            {
+                eventString += "The winner was ";
+                eventString += Winner.ToLink(link, pov);
+                eventString += ".";
+            }
             return eventString;
         }
     }
@@ -3048,6 +3086,7 @@ namespace LegendsViewer.Legends
     public class FormCreatedEvent : WorldEvent
     {
         public Site Site { get; set; }
+        public WorldRegion Region { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
         public string FormId { get; set; }
         public string Reason { get; set; }
@@ -3071,8 +3110,10 @@ namespace LegendsViewer.Legends
                     case "reason_id": ReasonId = Convert.ToInt32(property.Value); break;
                     case "circumstance": Circumstance = property.Value; break;
                     case "circumstance_id": CircumstanceId = Convert.ToInt32(property.Value); break;
+                    case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                 }
             Site.AddEvent(this);
+            Region.AddEvent(this);
             HistoricalFigure.AddEvent(this);
             if (Reason == "glorify hf")
             {
@@ -3106,8 +3147,11 @@ namespace LegendsViewer.Legends
             }
             eventString += " was created by ";
             eventString += HistoricalFigure.ToLink(link, pov);
-            eventString += " in ";
-            eventString += Site.ToLink(link, pov);
+            if (Site != null)
+            {
+                eventString += " in ";
+                eventString += Site.ToLink(link, pov);
+            }
             if (GlorifiedHF != null)
             {
                 eventString += " in order to glorify " + GlorifiedHF.ToLink(link, pov);
@@ -3159,6 +3203,7 @@ namespace LegendsViewer.Legends
     {
         public Entity Civ { get; set; }
         public Site Site { get; set; }
+        public WorldRegion Region { get; set; }
         public string WrittenContent { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
         public string Reason { get; set; }
@@ -3181,9 +3226,11 @@ namespace LegendsViewer.Legends
                     case "reason_id": ReasonId = Convert.ToInt32(property.Value); break;
                     case "circumstance": Circumstance = property.Value; break;
                     case "circumstance_id": CircumstanceId = Convert.ToInt32(property.Value); break;
+                    case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                 }
             Civ.AddEvent(this);
             Site.AddEvent(this);
+            Region.AddEvent(this);
             HistoricalFigure.AddEvent(this);
             if (Reason == "glorify hf")
             {
@@ -3203,8 +3250,11 @@ namespace LegendsViewer.Legends
             eventString += "UNKNOWN WRITTEN CONTENT";
             eventString += " was authored by ";
             eventString += HistoricalFigure.ToLink(link, pov);
-            eventString += " in ";
-            eventString += Site.ToLink(link, pov);
+            if (Site != null)
+            {
+                eventString += " in ";
+                eventString += Site.ToLink(link, pov);
+            }
             if (GlorifiedHF != null)
             {
                 eventString += " in order to glorify " + GlorifiedHF.ToLink(link, pov);
@@ -3327,8 +3377,11 @@ namespace LegendsViewer.Legends
                     break;
             }
             eventString += Target.ToLink(link, pov);
-            eventString += " in ";
-            eventString += Site.ToLink(link, pov);
+            if (Site != null)
+            {
+                eventString += " in ";
+                eventString += Site.ToLink(link, pov);
+            }
             if (ReasonHF != null)
             {
                 switch (Reason)

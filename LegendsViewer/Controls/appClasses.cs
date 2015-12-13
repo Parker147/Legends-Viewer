@@ -41,6 +41,7 @@ namespace LegendsViewer
         new string[] {"reclaim site",                 "Site Reclaimed",                           ""},
         new string[] {"remove hf entity link",        "Historical Figure - Entity Link Removed",  "(Incomplete) No longer in leader position / escaped prisons"},
         new string[] {"artifact created",             "Historical Figure Artifact Created",       ""},
+        new string[] {"artifact destroyed",           "Historical Figure Artifact Destroyed",     ""},
         new string[] {"diplomat lost",                "DF Mode - Diplomat Lost",                  ""},
         new string[] {"entity created",               "Entity Created",                           ""},
         new string[] {"hf revived",                   "DF Mode - Historical Figure Became Ghost", ""},
