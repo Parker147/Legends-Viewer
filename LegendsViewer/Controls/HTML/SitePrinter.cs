@@ -134,11 +134,24 @@ namespace LegendsViewer.Controls
 
             if (Site.Populations.Count > 0)
             {
-                HTML.AppendLine("<b>Populations</b></br>");
-                HTML.AppendLine("<ul>");
-                foreach (Population population in Site.Populations)
-                    HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                HTML.AppendLine("</ul>");
+                var mainRacePops = Site.Populations.Where(pop => pop.IsMainRace);
+                var otherRacePops = Site.Populations.Where(pop => !pop.IsMainRace);
+                if (mainRacePops.Any())
+                {
+                    HTML.AppendLine("<b>Civilized Populations</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in mainRacePops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (otherRacePops.Any())
+                {
+                    HTML.AppendLine("<b>Other Populations</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in otherRacePops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
             }
 
             if (Site.BeastAttacks != null && Site.BeastAttacks.Count > 0)

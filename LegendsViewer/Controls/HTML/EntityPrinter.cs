@@ -224,11 +224,24 @@ namespace LegendsViewer.Controls
         {
             if (Entity.Populations.Count > 0)
             {
-                HTML.AppendLine(Bold("Populations") + LineBreak);
-                StartList(ListType.Unordered);
-                foreach (Population population in Entity.Populations)
-                    HTML.AppendLine(ListItem + population.Count + " " + population.Race);
-                EndList(ListType.Unordered);
+                var mainRacePops = Entity.Populations.Where(pop => pop.IsMainRace);
+                var otherRacePops = Entity.Populations.Where(pop => !pop.IsMainRace);
+                if (mainRacePops.Any())
+                {
+                    HTML.AppendLine("<b>Civilized Populations</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in mainRacePops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (otherRacePops.Any())
+                {
+                    HTML.AppendLine("<b>Other Populations</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in otherRacePops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
             }
         }
 

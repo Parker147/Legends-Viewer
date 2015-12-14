@@ -51,28 +51,59 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</ol>");
             HTML.AppendLine("</br>");
 
-            HTML.AppendLine("<h1>Civilizations: " + World.Entities.Count(entity => entity.IsCiv) + "</h2>");
             var civsByRace = from civ in World.Entities.Where(entity => entity.IsCiv)
                              orderby civ.Race
                              select civ;
-            var civRaces = from civ in World.Entities.Where(entity => entity.IsCiv)
-                           orderby civ.Race
-                           group civ by civ.Race into civRace
-                           select new { Type = civRace.Key, Count = civRace.Count() };
-            civRaces.OrderByDescending(civRace => civRace.Count);
-            HTML.AppendLine("<Ul>");
-            foreach (var civRace in civRaces)
+
+            var currentCivs = civsByRace.Where(civ => civ.Populations.Any());
+            var fallenCivs = civsByRace.Where(civ => !civ.Populations.Any());
+
+            HTML.AppendLine("<table>");
+            HTML.AppendLine("<tr>");
+            if (currentCivs.Any())
             {
-                HTML.AppendLine("<li>" + civRace.Type + ": " + civRace.Count);
+                HTML.AppendLine("<td style=\"vertical-align: top; \">");
+                HTML.AppendLine("<h1>Current Civilizations: " + currentCivs.Count() + "</h1>");
                 HTML.AppendLine("<ul>");
-                foreach (var civ in civsByRace.Where(civ => civ.Race == civRace.Type))
+                foreach (var civRace in currentCivs.Select(cc => cc.Race).Distinct())
                 {
-                    HTML.AppendLine("<li>" + civ.ToLink());
-                    //HTML.AppendLine("<li>" + StringToImageHTML(civ.SmallIdenticonString) + " " + civ.ToLink().Substring(0, civ.ToLink().IndexOf("<img")));
+                    HTML.AppendLine("<li>" + civRace + ": " + currentCivs.Count(cc => cc.Race == civRace) + "</li>");
+                    HTML.AppendLine("<ul>");
+                    foreach (var civ in civsByRace.Where(civ => civ.Race == civRace && civ.Populations.Any()))
+                    {
+                        var intelligentPop = civ.Populations.Where(pop => pop.IsMainRace).ToList();
+                        var intelligentPopCount = intelligentPop.Sum(cp => cp.Count);
+                        var civPop = intelligentPop.FirstOrDefault(pop => pop.Race == civ.Race);
+                        var civPopCount = civPop != null ? civPop.Count : 0;
+                        HTML.AppendLine("<li>" + civ.ToLink() + " ["+civPopCount+" +" + (intelligentPopCount-civPopCount) + " &#9823;, " + civ.CurrentSites.Count + " &#9978;]</li>");
+                    }
+                    HTML.AppendLine("</ul>");
                 }
                 HTML.AppendLine("</ul>");
+                HTML.AppendLine("</td>");
             }
-            HTML.AppendLine("</ul>");
+
+            if (fallenCivs.Any())
+            {
+                HTML.AppendLine("<td style=\"vertical-align: top; \">");
+                HTML.AppendLine("<h1>Fallen Civilizations: " + fallenCivs.Count() + "</h1>");
+                HTML.AppendLine("<ul>");
+                foreach (var civRace in fallenCivs.Select(fc => fc.Race).Distinct())
+                {
+                    HTML.AppendLine("<li>" + civRace + ": " + fallenCivs.Count(fc => fc.Race == civRace) + "</li>");
+                    HTML.AppendLine("<ul>");
+                    foreach (var civ in civsByRace.Where(civ => civ.Race == civRace && !civ.Populations.Any()))
+                    {
+                        HTML.AppendLine("<li>" + civ.ToLink() + " &#10013;</li>");
+                    }
+                    HTML.AppendLine("</ul>");
+                }
+                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</td>");
+            }
+            HTML.AppendLine("</tr>");
+            HTML.AppendLine("</table>");
+
             HTML.AppendLine("</br>");
 
             HTML.AppendLine("<h1>Entities: " + World.Entities.Count(entity => !entity.IsCiv) + "</h1>");

@@ -23,6 +23,13 @@ ol {
 
 ul {
     margin-top: 0;
+    list-style-type: square;
+    margin-left: 20px;
+    padding: 2px 4px;
+}
+
+li {
+    padding: 2px 4px;
 }
 
 img {
@@ -33,14 +40,14 @@ h1 {
     font-size: 18px;
     font-weight: bold;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 5px;
 }
 
 h2 {
     font-size: 16px;
     font-weight: normal;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 3px;
 }
 
 h3 {
