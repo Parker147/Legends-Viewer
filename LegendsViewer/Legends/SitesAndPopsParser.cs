@@ -134,8 +134,21 @@ namespace LegendsViewer.Legends
                     {
                         Parent.Race = "Unknown";
                     }
-                    if (Owner != null && !Parent.Groups.Contains(Owner))
-                        Parent.Groups.Add(Owner);
+                    if (Owner != null)
+                    {
+                        if (Owner.Parent == null)
+                        {
+                            Owner.Parent = Parent;
+                        }
+                        else if (Owner.Parent != Parent)
+                        {
+                            World.ParsingErrors.Report("More than one Parent Civ of " + Owner.Name + ", Site Owner of " + Site.Name);
+                        }
+                        if (!Parent.Groups.Contains(Owner))
+                        {
+                            Parent.Groups.Add(Owner);
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
@@ -203,7 +216,7 @@ namespace LegendsViewer.Legends
             {
                 if (Site.OwnerHistory.Count == 0)
                 {
-                    new OwnerPeriod(Site, Owner, 1, "UNKNOWN");
+                    new OwnerPeriod(Site, Owner, 1, "founded");
                 }
                 else if (Site.OwnerHistory.Last().Owner != Owner)
                 {
@@ -212,7 +225,7 @@ namespace LegendsViewer.Legends
                     {
                         if (lastKnownOwner.DeathYear != -1)
                         {
-                            new OwnerPeriod(Site, Owner, lastKnownOwner.DeathYear, "took over after death of last owner (" + lastKnownOwner.DeathCause.ToString() + ")");
+                            new OwnerPeriod(Site, Owner, lastKnownOwner.DeathYear, "after death of last owner (" + lastKnownOwner.DeathCause + ") took over");
                         }
                         else if (lastKnownOwner.Race == "Demon" && Site.Type == "Vault" && Owner is Entity && Owner.Race == "Unknown")
                         {

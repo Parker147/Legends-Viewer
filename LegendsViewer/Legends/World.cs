@@ -94,7 +94,6 @@ namespace LegendsViewer.Legends
             Log.AppendLine("Finish: " + DateTime.Now.ToLongTimeString());
         }
 
-
         private void GenerateCivIdenticons()
         {
             List<Entity> civs = Entities.Where(entity => entity.IsCiv).ToList();

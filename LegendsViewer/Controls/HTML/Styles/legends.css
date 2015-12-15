@@ -68,6 +68,8 @@ th, td {
     padding: 2px 8px;
 }
 
+tr:nth-child(even){background-color: #f2f2f2}
+
 th {
     border-bottom: 1px solid dimgray;
 }

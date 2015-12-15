@@ -50,7 +50,8 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</br>");
 
             List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Battle);
-            HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
+            //HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
+            HTML.AppendLine("<table>");
             HTML.AppendLine("<tr>");
             HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
             HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");

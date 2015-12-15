@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using LegendsViewer.Legends;
 using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls
 {
@@ -29,16 +26,19 @@ namespace LegendsViewer.Controls
         {
             if (HTMLBrowser == null || HTMLBrowser.IsDisposed)
             {
-                HTMLBrowser = new WebBrowser();
-                HTMLBrowser.Dock = DockStyle.Fill;
-                HTMLBrowser.WebBrowserShortcutsEnabled = false;
-                HTMLBrowser.DocumentText = Printer.GetHTMLPage();
+                BrowserUtil.SetBrowserEmulationMode();
+                HTMLBrowser = new WebBrowser
+                {
+                    Dock = DockStyle.Fill,
+                    WebBrowserShortcutsEnabled = false,
+                    DocumentText = Printer.GetHTMLPage()
+                };
                 HTMLBrowser.DocumentCompleted += AfterPageLoad;
                 HTMLBrowser.Navigating += BrowserNavigating;
                 HTMLBrowser.Document.MouseMove += MouseOver;
                 return HTMLBrowser;
             }
-            else return HTMLBrowser;
+            return HTMLBrowser;
         }
 
         public override void Dispose()

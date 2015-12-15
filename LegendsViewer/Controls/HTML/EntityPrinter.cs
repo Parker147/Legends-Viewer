@@ -53,7 +53,7 @@ namespace LegendsViewer.Controls
                 if (Entity.SiteHistory.Count(sitePeriod => sitePeriod.EndYear == -1) == 0)
                     HTML.AppendLine(Font("Last Known Sites. Year: " + (Entity.SiteHistory.Max(sitePeriod => sitePeriod.EndYear) - 1), "red"));
                 List<Bitmap> maps = MapPanel.CreateBitmaps(World, Entity);
-                TableMaker mapTable = new TableMaker(false, maps[0].Width + maps[1].Width + 10);
+                TableMaker mapTable = new TableMaker();
                 mapTable.StartRow();
                 mapTable.AddData(MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap));
                 mapTable.AddData(MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap));
