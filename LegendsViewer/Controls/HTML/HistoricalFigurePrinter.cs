@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
 
@@ -45,7 +43,7 @@ namespace LegendsViewer.Controls
 
         private void PrintTitle()
         {
-            HTML.AppendLine("<h1>" + HistoricalFigure.Name + "</h1></br>");
+            HTML.AppendLine("<h1>" + HistoricalFigure.Name + "</h1>");
             string title = string.Empty;
             if (HistoricalFigure.Deity)
             {

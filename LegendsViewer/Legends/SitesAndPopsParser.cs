@@ -243,7 +243,7 @@ namespace LegendsViewer.Legends
                     }
                     else
                     {
-                        World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false)+ " instead of "+ Site.OwnerHistory.Last().Owner.ToLink(false));
+                        World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false) + " instead of " + Site.OwnerHistory.Last().Owner.ToLink(false));
                     }
                 }
             }

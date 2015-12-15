@@ -1,20 +1,20 @@
-﻿body {
-    font-size: 0.8em;
+﻿
+body {
+    font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #333;
+    background-color: #fff;
 }
 
 a:link {
-    text-decoration: none;
     color: #000000;
 }
 
 a:visited {
-    text-decoration: none;
     color: #000000;
 }
 
 a:hover {
-    text-decoration: underline;
-    color: #000000;
+    color: dimgray;
 }
 
 ol {
@@ -65,7 +65,7 @@ table {
 }
 
 th, td {
-    padding: 2px 8px;
+    padding: 2px 8px 2px 0;
 }
 
 tr:nth-child(even){background-color: #f2f2f2}
@@ -81,5 +81,21 @@ td {
 /* CUSTOM */
 
 .legends_current_dwarfobject {
-    color: blue;
+    color: darkblue;
+}
+
+.legends_symbol_population {
+    font-family: Arial;
+    font-size: 14px;
+    color: #000;
+}
+
+.legends_symbol_site {
+    font-family: Arial;
+    color: #333;
+}
+
+.legends_symbol_dead {
+    font-family: Arial;
+    color: #333;
 }

@@ -191,13 +191,13 @@ namespace LegendsViewer.Controls
             {
                 HTML.AppendLine(Bold("Site History") + " " + MakeLink("[Load]", LinkOption.LoadEntitySites) + LineBreak);
                 TableMaker siteTable = new TableMaker(true);
-                foreach (OwnerPeriod ownedSite in Entity.SiteHistory)
+                foreach (OwnerPeriod ownedSite in Entity.SiteHistory.OrderBy(sh => sh.StartYear))
                 {
                     siteTable.StartRow();
                     siteTable.AddData(ownedSite.Owner.ToLink(true, Entity));
                     siteTable.AddData(ownedSite.StartCause);
                     siteTable.AddData(ownedSite.Site.ToLink());
-                    siteTable.AddData(ownedSite.StartYear.ToString());
+                    siteTable.AddData(ownedSite.StartYear.ToString(), 0, TableDataAlign.Right);
                     if (ownedSite.EndYear >= 0)
                     {
                         siteTable.AddData(ownedSite.EndCause);
@@ -225,12 +225,39 @@ namespace LegendsViewer.Controls
             if (Entity.Populations.Count > 0)
             {
                 var mainRacePops = Entity.Populations.Where(pop => pop.IsMainRace);
-                var otherRacePops = Entity.Populations.Where(pop => !pop.IsMainRace);
+                var outcastsPops = Entity.Populations.Where(pop => pop.IsOutcasts);
+                var prisonersPops = Entity.Populations.Where(pop => pop.IsPrisoners);
+                var slavesPops = Entity.Populations.Where(pop => pop.IsSlaves);
+                var otherRacePops = Entity.Populations.Where(pop => !pop.IsMainRace && !pop.IsOutcasts && !pop.IsPrisoners && !pop.IsSlaves);
                 if (mainRacePops.Any())
                 {
                     HTML.AppendLine("<b>Civilized Populations</b></br>");
                     HTML.AppendLine("<ul>");
                     foreach (Population population in mainRacePops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (outcastsPops.Any())
+                {
+                    HTML.AppendLine("<b>Outcasts</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in outcastsPops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (prisonersPops.Any())
+                {
+                    HTML.AppendLine("<b>Prisoners</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in prisonersPops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (slavesPops.Any())
+                {
+                    HTML.AppendLine("<b>Slaves</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in slavesPops)
                         HTML.AppendLine("<li>" + population.Count + " " + population.Race);
                     HTML.AppendLine("</ul>");
                 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
 using System.Drawing;
+using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Controls
 {
@@ -75,7 +76,9 @@ namespace LegendsViewer.Controls
                         var intelligentPopCount = intelligentPop.Sum(cp => cp.Count);
                         var civPop = intelligentPop.FirstOrDefault(pop => pop.Race == civ.Race);
                         var civPopCount = civPop != null ? civPop.Count : 0;
-                        HTML.AppendLine("<li>" + civ.ToLink() + " ["+civPopCount+" +" + (intelligentPopCount-civPopCount) + " &#9823;, " + civ.CurrentSites.Count + " &#9978;]</li>");
+                        HTML.AppendLine("<li>" + civ.ToLink() 
+                            +" ["+civPopCount+" +" + (intelligentPopCount-civPopCount) + " "+HTMLStyleUtil.SYMBOL_POPULATION
+                            +", " + civ.CurrentSites.Count + " "+ HTMLStyleUtil.SYMBOL_SITE+ "]</li>");
                     }
                     HTML.AppendLine("</ul>");
                 }
@@ -94,7 +97,7 @@ namespace LegendsViewer.Controls
                     HTML.AppendLine("<ul>");
                     foreach (var civ in civsByRace.Where(civ => civ.Race == civRace && !civ.Populations.Any()))
                     {
-                        HTML.AppendLine("<li>" + civ.ToLink() + " &#10013;</li>");
+                        HTML.AppendLine("<li>" + civ.ToLink() + " "+HTMLStyleUtil.SYMBOL_DEAD+"</li>");
                     }
                     HTML.AppendLine("</ul>");
                 }
@@ -119,12 +122,15 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</br>");
 
             HTML.AppendLine("<h1>Wars: " + World.EventCollections.OfType<War>().Count() + "</h1>");
-            HTML.AppendLine("<h2>Battles: " + World.EventCollections.OfType<Battle>().Count() + "</h2>");
             HTML.AppendLine("<ul>");
-            HTML.AppendLine("<li>Notable: " + World.EventCollections.OfType<Battle>().Count(battle => battle.Notable));
-            HTML.AppendLine("<li>Unnotable: " + World.EventCollections.OfType<Battle>().Count(battle => !battle.Notable));
+            HTML.AppendLine("<li>Battles: " + World.EventCollections.OfType<Battle>().Count() + "</li>");
+            HTML.AppendLine("<ul>");
+            HTML.AppendLine("<li>Notable: " + World.EventCollections.OfType<Battle>().Count(battle => battle.Notable) + "</li>");
+            HTML.AppendLine("<li>Unnotable: " + World.EventCollections.OfType<Battle>().Count(battle => !battle.Notable) + "</li>");
             HTML.AppendLine("</ul>");
-            HTML.AppendLine("<h2>Conquerings: " + World.EventCollections.OfType<SiteConquered>().Count() + "</h2>");
+            HTML.AppendLine("</ul>");
+            HTML.AppendLine("<ul>");
+            HTML.AppendLine("<li>Conquerings: " + World.EventCollections.OfType<SiteConquered>().Count() + "</li>");
             var conquerings = from conquering in World.EventCollections.OfType<SiteConquered>()
                               group conquering by conquering.ConquerType into conquerType
                               select new { Type = conquerType.Key, Count = conquerType.Count() };
@@ -133,10 +139,13 @@ namespace LegendsViewer.Controls
             foreach (var conquering in conquerings)
                 HTML.AppendLine("<li>" + conquering.Type + "s: " + conquering.Count + "</li>");
             HTML.AppendLine("</ul>");
-            HTML.AppendLine("<h2>Deaths</h2>");
+            HTML.AppendLine("</ul>");
             HTML.AppendLine("<ul>");
-            HTML.AppendLine("<li>Historical Figures: " + World.EventCollections.OfType<Battle>().Sum(battle => battle.Collection.OfType<HFDied>().Count()));
-            HTML.AppendLine("<li>Populations: " + World.EventCollections.OfType<Battle>().Sum(battle => battle.AttackerSquads.Sum(squad => squad.Deaths) + battle.DefenderSquads.Sum(squad => squad.Deaths)));
+            HTML.AppendLine("<li>Deaths</li>");
+            HTML.AppendLine("<ul>");
+            HTML.AppendLine("<li>Historical Figures: " + World.EventCollections.OfType<Battle>().Sum(battle => battle.Collection.OfType<HFDied>().Count()) + "</li>");
+            HTML.AppendLine("<li>Populations: " + World.EventCollections.OfType<Battle>().Sum(battle => battle.AttackerSquads.Sum(squad => squad.Deaths) + battle.DefenderSquads.Sum(squad => squad.Deaths)) + "</li>");
+            HTML.AppendLine("</ul>");
             HTML.AppendLine("</ul>");
             HTML.AppendLine("</br>");
 

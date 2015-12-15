@@ -26,8 +26,8 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</h1></br>");
-            HTML.AppendLine("<b>" + Site.ToLink() + " is a " + Site.Type + "</b><br /><br />");
+            HTML.AppendLine("<h1>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</h1>");
+            HTML.AppendLine("<b>" + Site.ToLink(false) + " is a " + Site.Type + "</b><br /><br />");
 
             List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Site);
             //HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
@@ -136,12 +136,39 @@ namespace LegendsViewer.Controls
             if (Site.Populations.Count > 0)
             {
                 var mainRacePops = Site.Populations.Where(pop => pop.IsMainRace);
-                var otherRacePops = Site.Populations.Where(pop => !pop.IsMainRace);
+                var outcastsPops = Site.Populations.Where(pop => pop.IsOutcasts);
+                var prisonersPops = Site.Populations.Where(pop => pop.IsPrisoners);
+                var slavesPops = Site.Populations.Where(pop => pop.IsSlaves);
+                var otherRacePops = Site.Populations.Where(pop => !pop.IsMainRace && !pop.IsOutcasts && !pop.IsPrisoners && !pop.IsSlaves);
                 if (mainRacePops.Any())
                 {
                     HTML.AppendLine("<b>Civilized Populations</b></br>");
                     HTML.AppendLine("<ul>");
                     foreach (Population population in mainRacePops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (outcastsPops.Any())
+                {
+                    HTML.AppendLine("<b>Outcasts</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in outcastsPops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (prisonersPops.Any())
+                {
+                    HTML.AppendLine("<b>Prisoners</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in prisonersPops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (slavesPops.Any())
+                {
+                    HTML.AppendLine("<b>Slaves</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in slavesPops)
                         HTML.AppendLine("<li>" + population.Count + " " + population.Race);
                     HTML.AppendLine("</ul>");
                 }

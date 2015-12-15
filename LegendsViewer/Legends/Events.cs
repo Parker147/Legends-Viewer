@@ -1615,13 +1615,13 @@ namespace LegendsViewer.Legends
         {
             string eventString = this.GetYearTime();
 
-            eventString += " a (UNKNOWN ITEM) was stolen from ";
+            eventString += " a UNKNOWN ITEM was stolen from ";
             if (Site != null) eventString += Site.ToLink(path, pov);
-            else eventString += " (UNKNOWN SITE)";
+            else eventString += " UNKNOWN SITE";
 
             eventString += " by ";
             if (Thief != null && Thief != null) eventString += Thief.ToLink(path, pov);
-            else eventString += "(UNKNOWN HISTORICAL FIGURE)";
+            else eventString += "UNKNOWN HISTORICAL FIGURE";
 
             if (ReturnSite != null) eventString += " and brought to " + ReturnSite.ToLink();
 
