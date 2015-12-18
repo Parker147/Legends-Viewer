@@ -163,7 +163,24 @@ namespace LegendsViewer
             }
         }
 
-        public class ConqueringsList
+    public class ArtifactList
+    {
+        private World World;
+        public string Name;
+        public bool SortEvents, SortFiltered;
+        public List<Artifact> BaseList;
+        public ArtifactList(World world) { World = world; BaseList = world.Artifacts; }
+        public IEnumerable<Artifact> GetList()
+        {
+            IEnumerable<Artifact> filtered = BaseList;
+            if (Name != "") filtered = filtered.Where(artifact => artifact.Name.ToLower().Contains(Name.ToLower()));
+            if (SortEvents) filtered = filtered.OrderByDescending(artifact => artifact.Events.Count);
+            if (SortFiltered) filtered = filtered.OrderByDescending(artifact => artifact.FilteredEvents.Count(ev => !Artifact.Filters.Contains(ev.Type)));
+            return filtered;
+        }
+    }
+
+    public class ConqueringsList
         {
             private World World;
             public string Name, Type;

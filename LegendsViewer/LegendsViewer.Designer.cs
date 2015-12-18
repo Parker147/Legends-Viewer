@@ -222,6 +222,20 @@
             this.numEraEnd = new System.Windows.Forms.NumericUpDown();
             this.listEras = new System.Windows.Forms.ListBox();
             this.tpEraEvents = new System.Windows.Forms.TabPage();
+            this.tpArtifacts = new System.Windows.Forms.TabPage();
+            this.tcArtifacts = new System.Windows.Forms.TabControl();
+            this.tpArtifactsSearch = new System.Windows.Forms.TabPage();
+            this.btnArtifactListReset = new System.Windows.Forms.Button();
+            this.lblArtifactList = new System.Windows.Forms.Label();
+            this.btnArtifactSearch = new System.Windows.Forms.Button();
+            this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.radArtifactSortFiltered = new System.Windows.Forms.RadioButton();
+            this.radArtifactSortNone = new System.Windows.Forms.RadioButton();
+            this.radArtifactSortEvents = new System.Windows.Forms.RadioButton();
+            this.txtArtifactSearch = new System.Windows.Forms.TextBox();
+            this.listArtifactSearch = new System.Windows.Forms.ListBox();
+            this.tpArtifactsEvents = new System.Windows.Forms.TabPage();
             this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnForward = new System.Windows.Forms.Button();
@@ -282,6 +296,11 @@
             this.groupBox16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numEraEnd)).BeginInit();
+            this.tpArtifacts.SuspendLayout();
+            this.tcArtifacts.SuspendLayout();
+            this.tpArtifactsSearch.SuspendLayout();
+            this.groupBox19.SuspendLayout();
+            this.groupBox20.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcWorld
@@ -320,9 +339,9 @@
             this.tpSummary.Controls.Add(this.btnXML);
             this.tpSummary.Controls.Add(this.txtXML);
             this.tpSummary.Controls.Add(this.txtLog);
-            this.tpSummary.Location = new System.Drawing.Point(4, 40);
+            this.tpSummary.Location = new System.Drawing.Point(4, 58);
             this.tpSummary.Name = "tpSummary";
-            this.tpSummary.Size = new System.Drawing.Size(269, 518);
+            this.tpSummary.Size = new System.Drawing.Size(269, 500);
             this.tpSummary.TabIndex = 0;
             this.tpSummary.Text = "Summary";
             this.tpSummary.UseVisualStyleBackColor = true;
@@ -330,7 +349,7 @@
             // btnAdvancedSearch
             // 
             this.btnAdvancedSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAdvancedSearch.Location = new System.Drawing.Point(11, 487);
+            this.btnAdvancedSearch.Location = new System.Drawing.Point(11, 470);
             this.btnAdvancedSearch.Name = "btnAdvancedSearch";
             this.btnAdvancedSearch.Size = new System.Drawing.Size(250, 23);
             this.btnAdvancedSearch.TabIndex = 19;
@@ -341,7 +360,7 @@
             // btnChart
             // 
             this.btnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnChart.Location = new System.Drawing.Point(188, 458);
+            this.btnChart.Location = new System.Drawing.Point(188, 440);
             this.btnChart.Name = "btnChart";
             this.btnChart.Size = new System.Drawing.Size(75, 23);
             this.btnChart.TabIndex = 18;
@@ -352,7 +371,7 @@
             // btnStats
             // 
             this.btnStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnStats.Location = new System.Drawing.Point(11, 458);
+            this.btnStats.Location = new System.Drawing.Point(11, 440);
             this.btnStats.Name = "btnStats";
             this.btnStats.Size = new System.Drawing.Size(75, 23);
             this.btnStats.TabIndex = 17;
@@ -363,7 +382,7 @@
             // btnShowMap
             // 
             this.btnShowMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnShowMap.Location = new System.Drawing.Point(100, 458);
+            this.btnShowMap.Location = new System.Drawing.Point(100, 440);
             this.btnShowMap.Name = "btnShowMap";
             this.btnShowMap.Size = new System.Drawing.Size(75, 23);
             this.btnShowMap.TabIndex = 16;
@@ -387,7 +406,7 @@
             this.txtMap.Location = new System.Drawing.Point(9, 84);
             this.txtMap.Name = "txtMap";
             this.txtMap.ReadOnly = true;
-            this.txtMap.Size = new System.Drawing.Size(218, 20);
+            this.txtMap.Size = new System.Drawing.Size(218, 22);
             this.txtMap.TabIndex = 14;
             this.txtMap.Text = "Map Image";
             // 
@@ -409,7 +428,7 @@
             this.txtSitePops.Location = new System.Drawing.Point(9, 60);
             this.txtSitePops.Name = "txtSitePops";
             this.txtSitePops.ReadOnly = true;
-            this.txtSitePops.Size = new System.Drawing.Size(218, 20);
+            this.txtSitePops.Size = new System.Drawing.Size(218, 22);
             this.txtSitePops.TabIndex = 11;
             this.txtSitePops.Text = "Sites and Populations Text";
             // 
@@ -420,7 +439,7 @@
             this.txtHistory.Location = new System.Drawing.Point(9, 34);
             this.txtHistory.Name = "txtHistory";
             this.txtHistory.ReadOnly = true;
-            this.txtHistory.Size = new System.Drawing.Size(218, 20);
+            this.txtHistory.Size = new System.Drawing.Size(218, 22);
             this.txtHistory.TabIndex = 10;
             this.txtHistory.Text = "World History Text";
             // 
@@ -458,7 +477,7 @@
             this.txtXML.Location = new System.Drawing.Point(9, 8);
             this.txtXML.Name = "txtXML";
             this.txtXML.ReadOnly = true;
-            this.txtXML.Size = new System.Drawing.Size(218, 20);
+            this.txtXML.Size = new System.Drawing.Size(218, 22);
             this.txtXML.TabIndex = 6;
             this.txtXML.Text = "Legends XML / Archive";
             // 
@@ -468,7 +487,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.txtLog.Location = new System.Drawing.Point(9, 138);
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(254, 314);
+            this.txtLog.Size = new System.Drawing.Size(254, 295);
             this.txtLog.TabIndex = 3;
             this.txtLog.Text = "";
             this.txtLog.WordWrap = false;
@@ -477,10 +496,10 @@
             // tpHF
             // 
             this.tpHF.Controls.Add(this.tcHF);
-            this.tpHF.Location = new System.Drawing.Point(4, 40);
+            this.tpHF.Location = new System.Drawing.Point(4, 58);
             this.tpHF.Margin = new System.Windows.Forms.Padding(0);
             this.tpHF.Name = "tpHF";
-            this.tpHF.Size = new System.Drawing.Size(269, 518);
+            this.tpHF.Size = new System.Drawing.Size(269, 500);
             this.tpHF.TabIndex = 1;
             this.tpHF.Text = "Historical Figures";
             this.tpHF.UseVisualStyleBackColor = true;
@@ -495,7 +514,7 @@
             this.tcHF.Name = "tcHF";
             this.tcHF.Padding = new System.Drawing.Point(0, 0);
             this.tcHF.SelectedIndex = 0;
-            this.tcHF.Size = new System.Drawing.Size(269, 518);
+            this.tcHF.Size = new System.Drawing.Size(269, 500);
             this.tcHF.TabIndex = 0;
             // 
             // tpHFSearch
@@ -509,7 +528,7 @@
             this.tpHFSearch.Location = new System.Drawing.Point(4, 22);
             this.tpHFSearch.Margin = new System.Windows.Forms.Padding(0);
             this.tpHFSearch.Name = "tpHFSearch";
-            this.tpHFSearch.Size = new System.Drawing.Size(261, 492);
+            this.tpHFSearch.Size = new System.Drawing.Size(261, 474);
             this.tpHFSearch.TabIndex = 0;
             this.tpHFSearch.Text = "Search";
             this.tpHFSearch.UseVisualStyleBackColor = true;
@@ -517,7 +536,7 @@
             // btnHFListReset
             // 
             this.btnHFListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnHFListReset.Location = new System.Drawing.Point(6, 236);
+            this.btnHFListReset.Location = new System.Drawing.Point(6, 218);
             this.btnHFListReset.Name = "btnHFListReset";
             this.btnHFListReset.Size = new System.Drawing.Size(50, 20);
             this.btnHFListReset.TabIndex = 41;
@@ -528,7 +547,7 @@
             // lblHFList
             // 
             this.lblHFList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblHFList.Location = new System.Drawing.Point(61, 241);
+            this.lblHFList.Location = new System.Drawing.Point(61, 223);
             this.lblHFList.Name = "lblHFList";
             this.lblHFList.Size = new System.Drawing.Size(192, 36);
             this.lblHFList.TabIndex = 40;
@@ -552,7 +571,7 @@
             this.grpHFFilter.Controls.Add(this.chkAlive);
             this.grpHFFilter.Controls.Add(this.chkGhost);
             this.grpHFFilter.Controls.Add(this.chkDeity);
-            this.grpHFFilter.Location = new System.Drawing.Point(3, 280);
+            this.grpHFFilter.Location = new System.Drawing.Point(3, 262);
             this.grpHFFilter.Name = "grpHFFilter";
             this.grpHFFilter.Size = new System.Drawing.Size(254, 209);
             this.grpHFFilter.TabIndex = 33;
@@ -564,7 +583,7 @@
             this.chkWerebeast.AutoSize = true;
             this.chkWerebeast.Location = new System.Drawing.Point(133, 162);
             this.chkWerebeast.Name = "chkWerebeast";
-            this.chkWerebeast.Size = new System.Drawing.Size(78, 17);
+            this.chkWerebeast.Size = new System.Drawing.Size(81, 17);
             this.chkWerebeast.TabIndex = 19;
             this.chkWerebeast.Text = "Werebeast";
             this.chkWerebeast.UseVisualStyleBackColor = true;
@@ -575,7 +594,7 @@
             this.chkVampire.AutoSize = true;
             this.chkVampire.Location = new System.Drawing.Point(6, 139);
             this.chkVampire.Name = "chkVampire";
-            this.chkVampire.Size = new System.Drawing.Size(64, 17);
+            this.chkVampire.Size = new System.Drawing.Size(68, 17);
             this.chkVampire.TabIndex = 18;
             this.chkVampire.Text = "Vampire";
             this.chkVampire.UseVisualStyleBackColor = true;
@@ -586,7 +605,7 @@
             this.chkHFLeader.AutoSize = true;
             this.chkHFLeader.Location = new System.Drawing.Point(6, 162);
             this.chkHFLeader.Name = "chkHFLeader";
-            this.chkHFLeader.Size = new System.Drawing.Size(59, 17);
+            this.chkHFLeader.Size = new System.Drawing.Size(60, 17);
             this.chkHFLeader.TabIndex = 17;
             this.chkHFLeader.Text = "Leader";
             this.chkHFLeader.UseVisualStyleBackColor = true;
@@ -613,7 +632,7 @@
             this.radHFSortBattles.AutoSize = true;
             this.radHFSortBattles.Location = new System.Drawing.Point(6, 88);
             this.radHFSortBattles.Name = "radHFSortBattles";
-            this.radHFSortBattles.Size = new System.Drawing.Size(57, 17);
+            this.radHFSortBattles.Size = new System.Drawing.Size(60, 17);
             this.radHFSortBattles.TabIndex = 21;
             this.radHFSortBattles.TabStop = true;
             this.radHFSortBattles.Text = "Battles";
@@ -625,7 +644,7 @@
             this.radHFSortFiltered.AutoSize = true;
             this.radHFSortFiltered.Location = new System.Drawing.Point(6, 42);
             this.radHFSortFiltered.Name = "radHFSortFiltered";
-            this.radHFSortFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radHFSortFiltered.Size = new System.Drawing.Size(100, 17);
             this.radHFSortFiltered.TabIndex = 20;
             this.radHFSortFiltered.TabStop = true;
             this.radHFSortFiltered.Text = "Filtered Events";
@@ -638,7 +657,7 @@
             this.radHFNone.Checked = true;
             this.radHFNone.Location = new System.Drawing.Point(6, 111);
             this.radHFNone.Name = "radHFNone";
-            this.radHFNone.Size = new System.Drawing.Size(51, 17);
+            this.radHFNone.Size = new System.Drawing.Size(53, 17);
             this.radHFNone.TabIndex = 19;
             this.radHFNone.TabStop = true;
             this.radHFNone.Text = "None";
@@ -661,7 +680,7 @@
             this.radSortKills.AutoSize = true;
             this.radSortKills.Location = new System.Drawing.Point(6, 65);
             this.radSortKills.Name = "radSortKills";
-            this.radSortKills.Size = new System.Drawing.Size(83, 17);
+            this.radSortKills.Size = new System.Drawing.Size(89, 17);
             this.radSortKills.TabIndex = 17;
             this.radSortKills.Text = "Notable Kills";
             this.radSortKills.UseVisualStyleBackColor = true;
@@ -672,7 +691,7 @@
             this.chkForce.AutoSize = true;
             this.chkForce.Location = new System.Drawing.Point(6, 185);
             this.chkForce.Name = "chkForce";
-            this.chkForce.Size = new System.Drawing.Size(53, 17);
+            this.chkForce.Size = new System.Drawing.Size(54, 17);
             this.chkForce.TabIndex = 15;
             this.chkForce.Text = "Force";
             this.chkForce.UseVisualStyleBackColor = true;
@@ -683,7 +702,7 @@
             this.label30.AutoSize = true;
             this.label30.Location = new System.Drawing.Point(3, 96);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(31, 13);
+            this.label30.Size = new System.Drawing.Size(30, 13);
             this.label30.TabIndex = 14;
             this.label30.Text = "Type";
             // 
@@ -701,7 +720,7 @@
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(3, 57);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(34, 13);
+            this.label29.Size = new System.Drawing.Size(35, 13);
             this.label29.TabIndex = 12;
             this.label29.Text = "Caste";
             // 
@@ -719,7 +738,7 @@
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(3, 17);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(33, 13);
+            this.label25.Size = new System.Drawing.Size(31, 13);
             this.label25.TabIndex = 10;
             this.label25.Text = "Race";
             // 
@@ -737,7 +756,7 @@
             this.chkAlive.AutoSize = true;
             this.chkAlive.Location = new System.Drawing.Point(73, 162);
             this.chkAlive.Name = "chkAlive";
-            this.chkAlive.Size = new System.Drawing.Size(49, 17);
+            this.chkAlive.Size = new System.Drawing.Size(50, 17);
             this.chkAlive.TabIndex = 4;
             this.chkAlive.Text = "Alive";
             this.chkAlive.UseVisualStyleBackColor = true;
@@ -748,7 +767,7 @@
             this.chkGhost.AutoSize = true;
             this.chkGhost.Location = new System.Drawing.Point(73, 139);
             this.chkGhost.Name = "chkGhost";
-            this.chkGhost.Size = new System.Drawing.Size(54, 17);
+            this.chkGhost.Size = new System.Drawing.Size(57, 17);
             this.chkGhost.TabIndex = 3;
             this.chkGhost.Text = "Ghost";
             this.chkGhost.UseVisualStyleBackColor = true;
@@ -759,7 +778,7 @@
             this.chkDeity.AutoSize = true;
             this.chkDeity.Location = new System.Drawing.Point(73, 185);
             this.chkDeity.Name = "chkDeity";
-            this.chkDeity.Size = new System.Drawing.Size(50, 17);
+            this.chkDeity.Size = new System.Drawing.Size(52, 17);
             this.chkDeity.TabIndex = 0;
             this.chkDeity.Text = "Deity";
             this.chkDeity.UseVisualStyleBackColor = true;
@@ -772,7 +791,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHFSearch.Location = new System.Drawing.Point(81, 5);
             this.txtHFSearch.Name = "txtHFSearch";
-            this.txtHFSearch.Size = new System.Drawing.Size(177, 20);
+            this.txtHFSearch.Size = new System.Drawing.Size(177, 22);
             this.txtHFSearch.TabIndex = 32;
             this.txtHFSearch.TextChanged += new System.EventHandler(this.searchHFList);
             // 
@@ -785,7 +804,7 @@
             this.listHFSearch.HorizontalScrollbar = true;
             this.listHFSearch.Location = new System.Drawing.Point(3, 31);
             this.listHFSearch.Name = "listHFSearch";
-            this.listHFSearch.Size = new System.Drawing.Size(256, 186);
+            this.listHFSearch.Size = new System.Drawing.Size(256, 160);
             this.listHFSearch.TabIndex = 31;
             this.listHFSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -805,7 +824,7 @@
             this.tpHFEvents.Location = new System.Drawing.Point(4, 22);
             this.tpHFEvents.Name = "tpHFEvents";
             this.tpHFEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHFEvents.Size = new System.Drawing.Size(261, 492);
+            this.tpHFEvents.Size = new System.Drawing.Size(261, 474);
             this.tpHFEvents.TabIndex = 1;
             this.tpHFEvents.Text = "Events";
             this.tpHFEvents.UseVisualStyleBackColor = true;
@@ -813,9 +832,9 @@
             // tpSites
             // 
             this.tpSites.Controls.Add(this.tcSites);
-            this.tpSites.Location = new System.Drawing.Point(4, 40);
+            this.tpSites.Location = new System.Drawing.Point(4, 58);
             this.tpSites.Name = "tpSites";
-            this.tpSites.Size = new System.Drawing.Size(269, 518);
+            this.tpSites.Size = new System.Drawing.Size(269, 500);
             this.tpSites.TabIndex = 2;
             this.tpSites.Text = "Sites";
             this.tpSites.UseVisualStyleBackColor = true;
@@ -828,7 +847,7 @@
             this.tcSites.Location = new System.Drawing.Point(0, 0);
             this.tcSites.Name = "tcSites";
             this.tcSites.SelectedIndex = 0;
-            this.tcSites.Size = new System.Drawing.Size(269, 518);
+            this.tcSites.Size = new System.Drawing.Size(269, 500);
             this.tcSites.TabIndex = 0;
             // 
             // tpSiteSearch
@@ -842,7 +861,7 @@
             this.tpSiteSearch.Location = new System.Drawing.Point(4, 22);
             this.tpSiteSearch.Name = "tpSiteSearch";
             this.tpSiteSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSiteSearch.Size = new System.Drawing.Size(261, 492);
+            this.tpSiteSearch.Size = new System.Drawing.Size(261, 474);
             this.tpSiteSearch.TabIndex = 0;
             this.tpSiteSearch.Text = "Search";
             this.tpSiteSearch.UseVisualStyleBackColor = true;
@@ -850,7 +869,7 @@
             // btnSiteListReset
             // 
             this.btnSiteListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSiteListReset.Location = new System.Drawing.Point(6, 241);
+            this.btnSiteListReset.Location = new System.Drawing.Point(6, 223);
             this.btnSiteListReset.Name = "btnSiteListReset";
             this.btnSiteListReset.Size = new System.Drawing.Size(50, 20);
             this.btnSiteListReset.TabIndex = 43;
@@ -861,7 +880,7 @@
             // lblSiteList
             // 
             this.lblSiteList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSiteList.Location = new System.Drawing.Point(61, 245);
+            this.lblSiteList.Location = new System.Drawing.Point(61, 227);
             this.lblSiteList.Name = "lblSiteList";
             this.lblSiteList.Size = new System.Drawing.Size(198, 36);
             this.lblSiteList.TabIndex = 42;
@@ -874,7 +893,7 @@
             this.groupBox1.Controls.Add(this.groupBox6);
             this.groupBox1.Controls.Add(this.label26);
             this.groupBox1.Controls.Add(this.cmbSiteType);
-            this.groupBox1.Location = new System.Drawing.Point(3, 284);
+            this.groupBox1.Location = new System.Drawing.Point(3, 266);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(254, 202);
             this.groupBox1.TabIndex = 34;
@@ -907,7 +926,7 @@
             this.radSiteBeastAttacks.AutoSize = true;
             this.radSiteBeastAttacks.Location = new System.Drawing.Point(113, 87);
             this.radSiteBeastAttacks.Name = "radSiteBeastAttacks";
-            this.radSiteBeastAttacks.Size = new System.Drawing.Size(91, 17);
+            this.radSiteBeastAttacks.Size = new System.Drawing.Size(93, 17);
             this.radSiteBeastAttacks.TabIndex = 23;
             this.radSiteBeastAttacks.TabStop = true;
             this.radSiteBeastAttacks.Text = "Beast Attacks";
@@ -919,7 +938,7 @@
             this.radSiteSortDeaths.AutoSize = true;
             this.radSiteSortDeaths.Location = new System.Drawing.Point(6, 110);
             this.radSiteSortDeaths.Name = "radSiteSortDeaths";
-            this.radSiteSortDeaths.Size = new System.Drawing.Size(59, 17);
+            this.radSiteSortDeaths.Size = new System.Drawing.Size(61, 17);
             this.radSiteSortDeaths.TabIndex = 22;
             this.radSiteSortDeaths.TabStop = true;
             this.radSiteSortDeaths.Text = "Deaths";
@@ -931,7 +950,7 @@
             this.radSortConnections.AutoSize = true;
             this.radSortConnections.Location = new System.Drawing.Point(113, 64);
             this.radSortConnections.Name = "radSortConnections";
-            this.radSortConnections.Size = new System.Drawing.Size(84, 17);
+            this.radSortConnections.Size = new System.Drawing.Size(90, 17);
             this.radSortConnections.TabIndex = 21;
             this.radSortConnections.TabStop = true;
             this.radSortConnections.Text = "Connections";
@@ -952,7 +971,7 @@
             this.radSiteSortPopulation.AutoSize = true;
             this.radSiteSortPopulation.Location = new System.Drawing.Point(113, 19);
             this.radSiteSortPopulation.Name = "radSiteSortPopulation";
-            this.radSiteSortPopulation.Size = new System.Drawing.Size(75, 17);
+            this.radSiteSortPopulation.Size = new System.Drawing.Size(82, 17);
             this.radSiteSortPopulation.TabIndex = 19;
             this.radSiteSortPopulation.TabStop = true;
             this.radSiteSortPopulation.Text = "Population";
@@ -964,7 +983,7 @@
             this.radSiteSortWarfare.AutoSize = true;
             this.radSiteSortWarfare.Location = new System.Drawing.Point(6, 87);
             this.radSiteSortWarfare.Name = "radSiteSortWarfare";
-            this.radSiteSortWarfare.Size = new System.Drawing.Size(57, 17);
+            this.radSiteSortWarfare.Size = new System.Drawing.Size(60, 17);
             this.radSiteSortWarfare.TabIndex = 18;
             this.radSiteSortWarfare.TabStop = true;
             this.radSiteSortWarfare.Text = "Battles";
@@ -976,7 +995,7 @@
             this.radSiteSortFiltered.AutoSize = true;
             this.radSiteSortFiltered.Location = new System.Drawing.Point(6, 42);
             this.radSiteSortFiltered.Name = "radSiteSortFiltered";
-            this.radSiteSortFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radSiteSortFiltered.Size = new System.Drawing.Size(100, 17);
             this.radSiteSortFiltered.TabIndex = 17;
             this.radSiteSortFiltered.TabStop = true;
             this.radSiteSortFiltered.Text = "Filtered Events";
@@ -988,7 +1007,7 @@
             this.radSiteOwners.AutoSize = true;
             this.radSiteOwners.Location = new System.Drawing.Point(6, 65);
             this.radSiteOwners.Name = "radSiteOwners";
-            this.radSiteOwners.Size = new System.Drawing.Size(91, 17);
+            this.radSiteOwners.Size = new System.Drawing.Size(99, 17);
             this.radSiteOwners.TabIndex = 16;
             this.radSiteOwners.TabStop = true;
             this.radSiteOwners.Text = "Owner History";
@@ -1001,7 +1020,7 @@
             this.radSiteNone.Checked = true;
             this.radSiteNone.Location = new System.Drawing.Point(113, 110);
             this.radSiteNone.Name = "radSiteNone";
-            this.radSiteNone.Size = new System.Drawing.Size(51, 17);
+            this.radSiteNone.Size = new System.Drawing.Size(53, 17);
             this.radSiteNone.TabIndex = 15;
             this.radSiteNone.TabStop = true;
             this.radSiteNone.Text = "None";
@@ -1024,7 +1043,7 @@
             this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(6, 16);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(31, 13);
+            this.label26.Size = new System.Drawing.Size(30, 13);
             this.label26.TabIndex = 12;
             this.label26.Text = "Type";
             // 
@@ -1043,7 +1062,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSiteSearch.Location = new System.Drawing.Point(81, 5);
             this.txtSiteSearch.Name = "txtSiteSearch";
-            this.txtSiteSearch.Size = new System.Drawing.Size(177, 20);
+            this.txtSiteSearch.Size = new System.Drawing.Size(177, 22);
             this.txtSiteSearch.TabIndex = 33;
             this.txtSiteSearch.TextChanged += new System.EventHandler(this.searchSiteList);
             // 
@@ -1055,7 +1074,7 @@
             this.listSiteSearch.FormattingEnabled = true;
             this.listSiteSearch.Location = new System.Drawing.Point(3, 31);
             this.listSiteSearch.Name = "listSiteSearch";
-            this.listSiteSearch.Size = new System.Drawing.Size(256, 199);
+            this.listSiteSearch.Size = new System.Drawing.Size(256, 173);
             this.listSiteSearch.TabIndex = 32;
             this.listSiteSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1075,7 +1094,7 @@
             this.tpSiteEvents.Location = new System.Drawing.Point(4, 22);
             this.tpSiteEvents.Name = "tpSiteEvents";
             this.tpSiteEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSiteEvents.Size = new System.Drawing.Size(261, 492);
+            this.tpSiteEvents.Size = new System.Drawing.Size(261, 471);
             this.tpSiteEvents.TabIndex = 1;
             this.tpSiteEvents.Text = "Events";
             this.tpSiteEvents.UseVisualStyleBackColor = true;
@@ -1083,9 +1102,9 @@
             // tpRegions
             // 
             this.tpRegions.Controls.Add(this.tcRegions);
-            this.tpRegions.Location = new System.Drawing.Point(4, 40);
+            this.tpRegions.Location = new System.Drawing.Point(4, 58);
             this.tpRegions.Name = "tpRegions";
-            this.tpRegions.Size = new System.Drawing.Size(269, 518);
+            this.tpRegions.Size = new System.Drawing.Size(269, 500);
             this.tpRegions.TabIndex = 3;
             this.tpRegions.Text = "Regions";
             this.tpRegions.UseVisualStyleBackColor = true;
@@ -1098,7 +1117,7 @@
             this.tcRegions.Location = new System.Drawing.Point(0, 0);
             this.tcRegions.Name = "tcRegions";
             this.tcRegions.SelectedIndex = 0;
-            this.tcRegions.Size = new System.Drawing.Size(269, 518);
+            this.tcRegions.Size = new System.Drawing.Size(269, 500);
             this.tcRegions.TabIndex = 0;
             // 
             // tpRegionSearch
@@ -1110,7 +1129,7 @@
             this.tpRegionSearch.Location = new System.Drawing.Point(4, 22);
             this.tpRegionSearch.Name = "tpRegionSearch";
             this.tpRegionSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRegionSearch.Size = new System.Drawing.Size(261, 492);
+            this.tpRegionSearch.Size = new System.Drawing.Size(261, 474);
             this.tpRegionSearch.TabIndex = 0;
             this.tpRegionSearch.Text = "Search";
             this.tpRegionSearch.UseVisualStyleBackColor = true;
@@ -1122,7 +1141,7 @@
             this.groupBox2.Controls.Add(this.groupBox7);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.cmbRegionType);
-            this.groupBox2.Location = new System.Drawing.Point(3, 302);
+            this.groupBox2.Location = new System.Drawing.Point(3, 284);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(254, 163);
             this.groupBox2.TabIndex = 34;
@@ -1150,7 +1169,7 @@
             this.radRegionSortDeaths.AutoSize = true;
             this.radRegionSortDeaths.Location = new System.Drawing.Point(6, 88);
             this.radRegionSortDeaths.Name = "radRegionSortDeaths";
-            this.radRegionSortDeaths.Size = new System.Drawing.Size(59, 17);
+            this.radRegionSortDeaths.Size = new System.Drawing.Size(61, 17);
             this.radRegionSortDeaths.TabIndex = 16;
             this.radRegionSortDeaths.TabStop = true;
             this.radRegionSortDeaths.Text = "Deaths";
@@ -1162,7 +1181,7 @@
             this.radRegionSortBattles.AutoSize = true;
             this.radRegionSortBattles.Location = new System.Drawing.Point(6, 65);
             this.radRegionSortBattles.Name = "radRegionSortBattles";
-            this.radRegionSortBattles.Size = new System.Drawing.Size(57, 17);
+            this.radRegionSortBattles.Size = new System.Drawing.Size(60, 17);
             this.radRegionSortBattles.TabIndex = 15;
             this.radRegionSortBattles.TabStop = true;
             this.radRegionSortBattles.Text = "Battles";
@@ -1174,7 +1193,7 @@
             this.radRegionSortFiltered.AutoSize = true;
             this.radRegionSortFiltered.Location = new System.Drawing.Point(6, 42);
             this.radRegionSortFiltered.Name = "radRegionSortFiltered";
-            this.radRegionSortFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radRegionSortFiltered.Size = new System.Drawing.Size(100, 17);
             this.radRegionSortFiltered.TabIndex = 14;
             this.radRegionSortFiltered.TabStop = true;
             this.radRegionSortFiltered.Text = "Filtered Events";
@@ -1187,7 +1206,7 @@
             this.radRegionNone.Checked = true;
             this.radRegionNone.Location = new System.Drawing.Point(6, 111);
             this.radRegionNone.Name = "radRegionNone";
-            this.radRegionNone.Size = new System.Drawing.Size(51, 17);
+            this.radRegionNone.Size = new System.Drawing.Size(53, 17);
             this.radRegionNone.TabIndex = 13;
             this.radRegionNone.TabStop = true;
             this.radRegionNone.Text = "None";
@@ -1210,7 +1229,7 @@
             this.label27.AutoSize = true;
             this.label27.Location = new System.Drawing.Point(6, 16);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(31, 13);
+            this.label27.Size = new System.Drawing.Size(30, 13);
             this.label27.TabIndex = 12;
             this.label27.Text = "Type";
             // 
@@ -1229,7 +1248,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtRegionSearch.Location = new System.Drawing.Point(81, 5);
             this.txtRegionSearch.Name = "txtRegionSearch";
-            this.txtRegionSearch.Size = new System.Drawing.Size(177, 20);
+            this.txtRegionSearch.Size = new System.Drawing.Size(177, 22);
             this.txtRegionSearch.TabIndex = 33;
             this.txtRegionSearch.TextChanged += new System.EventHandler(this.searchRegionList);
             // 
@@ -1241,7 +1260,7 @@
             this.listRegionSearch.FormattingEnabled = true;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listRegionSearch.Name = "listRegionSearch";
-            this.listRegionSearch.Size = new System.Drawing.Size(256, 264);
+            this.listRegionSearch.Size = new System.Drawing.Size(256, 238);
             this.listRegionSearch.TabIndex = 32;
             this.listRegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1261,7 +1280,7 @@
             this.tpRegionEvents.Location = new System.Drawing.Point(4, 22);
             this.tpRegionEvents.Name = "tpRegionEvents";
             this.tpRegionEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRegionEvents.Size = new System.Drawing.Size(261, 492);
+            this.tpRegionEvents.Size = new System.Drawing.Size(261, 471);
             this.tpRegionEvents.TabIndex = 1;
             this.tpRegionEvents.Text = "Events";
             this.tpRegionEvents.UseVisualStyleBackColor = true;
@@ -1269,9 +1288,9 @@
             // tpURegions
             // 
             this.tpURegions.Controls.Add(this.tcURegions);
-            this.tpURegions.Location = new System.Drawing.Point(4, 40);
+            this.tpURegions.Location = new System.Drawing.Point(4, 58);
             this.tpURegions.Name = "tpURegions";
-            this.tpURegions.Size = new System.Drawing.Size(269, 518);
+            this.tpURegions.Size = new System.Drawing.Size(269, 500);
             this.tpURegions.TabIndex = 4;
             this.tpURegions.Text = "Underground Regions";
             this.tpURegions.UseVisualStyleBackColor = true;
@@ -1284,7 +1303,7 @@
             this.tcURegions.Location = new System.Drawing.Point(0, 0);
             this.tcURegions.Name = "tcURegions";
             this.tcURegions.SelectedIndex = 0;
-            this.tcURegions.Size = new System.Drawing.Size(269, 518);
+            this.tcURegions.Size = new System.Drawing.Size(269, 500);
             this.tcURegions.TabIndex = 0;
             // 
             // tpURegionSearch
@@ -1295,7 +1314,7 @@
             this.tpURegionSearch.Location = new System.Drawing.Point(4, 22);
             this.tpURegionSearch.Name = "tpURegionSearch";
             this.tpURegionSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpURegionSearch.Size = new System.Drawing.Size(261, 492);
+            this.tpURegionSearch.Size = new System.Drawing.Size(261, 474);
             this.tpURegionSearch.TabIndex = 0;
             this.tpURegionSearch.Text = "Search";
             this.tpURegionSearch.UseVisualStyleBackColor = true;
@@ -1317,7 +1336,7 @@
             this.groupBox3.Controls.Add(this.groupBox8);
             this.groupBox3.Controls.Add(this.label28);
             this.groupBox3.Controls.Add(this.cmbURegionType);
-            this.groupBox3.Location = new System.Drawing.Point(3, 303);
+            this.groupBox3.Location = new System.Drawing.Point(3, 285);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(254, 162);
             this.groupBox3.TabIndex = 33;
@@ -1343,7 +1362,7 @@
             this.radURegionSortFiltered.AutoSize = true;
             this.radURegionSortFiltered.Location = new System.Drawing.Point(6, 42);
             this.radURegionSortFiltered.Name = "radURegionSortFiltered";
-            this.radURegionSortFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radURegionSortFiltered.Size = new System.Drawing.Size(100, 17);
             this.radURegionSortFiltered.TabIndex = 14;
             this.radURegionSortFiltered.TabStop = true;
             this.radURegionSortFiltered.Text = "Filtered Events";
@@ -1356,7 +1375,7 @@
             this.radURegionNone.Checked = true;
             this.radURegionNone.Location = new System.Drawing.Point(6, 65);
             this.radURegionNone.Name = "radURegionNone";
-            this.radURegionNone.Size = new System.Drawing.Size(51, 17);
+            this.radURegionNone.Size = new System.Drawing.Size(53, 17);
             this.radURegionNone.TabIndex = 13;
             this.radURegionNone.TabStop = true;
             this.radURegionNone.Text = "None";
@@ -1379,7 +1398,7 @@
             this.label28.AutoSize = true;
             this.label28.Location = new System.Drawing.Point(6, 16);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(31, 13);
+            this.label28.Size = new System.Drawing.Size(30, 13);
             this.label28.TabIndex = 12;
             this.label28.Text = "Type";
             // 
@@ -1400,7 +1419,7 @@
             this.listURegionSearch.FormattingEnabled = true;
             this.listURegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listURegionSearch.Name = "listURegionSearch";
-            this.listURegionSearch.Size = new System.Drawing.Size(256, 264);
+            this.listURegionSearch.Size = new System.Drawing.Size(256, 238);
             this.listURegionSearch.TabIndex = 32;
             this.listURegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1410,7 +1429,7 @@
             this.tpURegionEvents.Location = new System.Drawing.Point(4, 22);
             this.tpURegionEvents.Name = "tpURegionEvents";
             this.tpURegionEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpURegionEvents.Size = new System.Drawing.Size(261, 492);
+            this.tpURegionEvents.Size = new System.Drawing.Size(261, 471);
             this.tpURegionEvents.TabIndex = 1;
             this.tpURegionEvents.Text = "Events";
             this.tpURegionEvents.UseVisualStyleBackColor = true;
@@ -1418,9 +1437,9 @@
             // tpCivs
             // 
             this.tpCivs.Controls.Add(this.tcCivs);
-            this.tpCivs.Location = new System.Drawing.Point(4, 40);
+            this.tpCivs.Location = new System.Drawing.Point(4, 58);
             this.tpCivs.Name = "tpCivs";
-            this.tpCivs.Size = new System.Drawing.Size(269, 518);
+            this.tpCivs.Size = new System.Drawing.Size(269, 500);
             this.tpCivs.TabIndex = 5;
             this.tpCivs.Text = "Civs and entities";
             this.tpCivs.UseVisualStyleBackColor = true;
@@ -1433,7 +1452,7 @@
             this.tcCivs.Location = new System.Drawing.Point(0, 0);
             this.tcCivs.Name = "tcCivs";
             this.tcCivs.SelectedIndex = 0;
-            this.tcCivs.Size = new System.Drawing.Size(269, 518);
+            this.tcCivs.Size = new System.Drawing.Size(269, 500);
             this.tcCivs.TabIndex = 0;
             // 
             // tpCivSearch
@@ -1445,7 +1464,7 @@
             this.tpCivSearch.Location = new System.Drawing.Point(4, 22);
             this.tpCivSearch.Name = "tpCivSearch";
             this.tpCivSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCivSearch.Size = new System.Drawing.Size(261, 492);
+            this.tpCivSearch.Size = new System.Drawing.Size(261, 474);
             this.tpCivSearch.TabIndex = 0;
             this.tpCivSearch.Text = "Search";
             this.tpCivSearch.UseVisualStyleBackColor = true;
@@ -1458,7 +1477,7 @@
             this.groupBox4.Controls.Add(this.groupBox9);
             this.groupBox4.Controls.Add(this.chkCiv);
             this.groupBox4.Controls.Add(this.cmbCivRace);
-            this.groupBox4.Location = new System.Drawing.Point(3, 311);
+            this.groupBox4.Location = new System.Drawing.Point(3, 293);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(254, 175);
             this.groupBox4.TabIndex = 37;
@@ -1470,7 +1489,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 13);
+            this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 16;
             this.label1.Text = "Race";
             // 
@@ -1506,7 +1525,7 @@
             this.radEntitySortPopulation.AutoSize = true;
             this.radEntitySortPopulation.Location = new System.Drawing.Point(114, 19);
             this.radEntitySortPopulation.Name = "radEntitySortPopulation";
-            this.radEntitySortPopulation.Size = new System.Drawing.Size(75, 17);
+            this.radEntitySortPopulation.Size = new System.Drawing.Size(82, 17);
             this.radEntitySortPopulation.TabIndex = 18;
             this.radEntitySortPopulation.TabStop = true;
             this.radEntitySortPopulation.Text = "Population";
@@ -1518,7 +1537,7 @@
             this.radCivSortWars.AutoSize = true;
             this.radCivSortWars.Location = new System.Drawing.Point(6, 88);
             this.radCivSortWars.Name = "radCivSortWars";
-            this.radCivSortWars.Size = new System.Drawing.Size(50, 17);
+            this.radCivSortWars.Size = new System.Drawing.Size(51, 17);
             this.radCivSortWars.TabIndex = 17;
             this.radCivSortWars.TabStop = true;
             this.radCivSortWars.Text = "Wars";
@@ -1530,7 +1549,7 @@
             this.radCivSortFiltered.AutoSize = true;
             this.radCivSortFiltered.Location = new System.Drawing.Point(6, 42);
             this.radCivSortFiltered.Name = "radCivSortFiltered";
-            this.radCivSortFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radCivSortFiltered.Size = new System.Drawing.Size(100, 17);
             this.radCivSortFiltered.TabIndex = 16;
             this.radCivSortFiltered.TabStop = true;
             this.radCivSortFiltered.Text = "Filtered Events";
@@ -1542,7 +1561,7 @@
             this.radCivSites.AutoSize = true;
             this.radCivSites.Location = new System.Drawing.Point(6, 65);
             this.radCivSites.Name = "radCivSites";
-            this.radCivSites.Size = new System.Drawing.Size(48, 17);
+            this.radCivSites.Size = new System.Drawing.Size(49, 17);
             this.radCivSites.TabIndex = 15;
             this.radCivSites.TabStop = true;
             this.radCivSites.Text = "Sites";
@@ -1555,7 +1574,7 @@
             this.radEntityNone.Checked = true;
             this.radEntityNone.Location = new System.Drawing.Point(114, 65);
             this.radEntityNone.Name = "radEntityNone";
-            this.radEntityNone.Size = new System.Drawing.Size(51, 17);
+            this.radEntityNone.Size = new System.Drawing.Size(53, 17);
             this.radEntityNone.TabIndex = 14;
             this.radEntityNone.TabStop = true;
             this.radEntityNone.Text = "None";
@@ -1578,7 +1597,7 @@
             this.chkCiv.AutoSize = true;
             this.chkCiv.Location = new System.Drawing.Point(147, 34);
             this.chkCiv.Name = "chkCiv";
-            this.chkCiv.Size = new System.Drawing.Size(80, 17);
+            this.chkCiv.Size = new System.Drawing.Size(87, 17);
             this.chkCiv.TabIndex = 14;
             this.chkCiv.Text = "Civilizations";
             this.chkCiv.UseVisualStyleBackColor = true;
@@ -1599,7 +1618,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCivSearch.Location = new System.Drawing.Point(81, 5);
             this.txtCivSearch.Name = "txtCivSearch";
-            this.txtCivSearch.Size = new System.Drawing.Size(177, 20);
+            this.txtCivSearch.Size = new System.Drawing.Size(177, 22);
             this.txtCivSearch.TabIndex = 36;
             this.txtCivSearch.TextChanged += new System.EventHandler(this.searchEntityList);
             // 
@@ -1611,7 +1630,7 @@
             this.listCivSearch.FormattingEnabled = true;
             this.listCivSearch.Location = new System.Drawing.Point(3, 31);
             this.listCivSearch.Name = "listCivSearch";
-            this.listCivSearch.Size = new System.Drawing.Size(256, 264);
+            this.listCivSearch.Size = new System.Drawing.Size(256, 238);
             this.listCivSearch.TabIndex = 35;
             this.listCivSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1631,7 +1650,7 @@
             this.tpCivEvents.Location = new System.Drawing.Point(4, 22);
             this.tpCivEvents.Name = "tpCivEvents";
             this.tpCivEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCivEvents.Size = new System.Drawing.Size(261, 492);
+            this.tpCivEvents.Size = new System.Drawing.Size(261, 471);
             this.tpCivEvents.TabIndex = 1;
             this.tpCivEvents.Text = "Events";
             this.tpCivEvents.UseVisualStyleBackColor = true;
@@ -1639,9 +1658,9 @@
             // tpCollections
             // 
             this.tpCollections.Controls.Add(this.tcCollections);
-            this.tpCollections.Location = new System.Drawing.Point(4, 40);
+            this.tpCollections.Location = new System.Drawing.Point(4, 58);
             this.tpCollections.Name = "tpCollections";
-            this.tpCollections.Size = new System.Drawing.Size(269, 518);
+            this.tpCollections.Size = new System.Drawing.Size(269, 500);
             this.tpCollections.TabIndex = 6;
             this.tpCollections.Text = "Collections";
             this.tpCollections.UseVisualStyleBackColor = true;
@@ -1653,21 +1672,23 @@
             this.tcCollections.Controls.Add(this.tpConquerins);
             this.tcCollections.Controls.Add(this.tpBeastAttacks);
             this.tcCollections.Controls.Add(this.tpEras);
+            this.tcCollections.Controls.Add(this.tpArtifacts);
             this.tcCollections.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcCollections.ItemSize = new System.Drawing.Size(48, 18);
             this.tcCollections.Location = new System.Drawing.Point(0, 0);
             this.tcCollections.Multiline = true;
             this.tcCollections.Name = "tcCollections";
             this.tcCollections.SelectedIndex = 0;
-            this.tcCollections.Size = new System.Drawing.Size(269, 518);
+            this.tcCollections.Size = new System.Drawing.Size(269, 500);
+            this.tcCollections.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tcCollections.TabIndex = 0;
             // 
             // tpWars
             // 
             this.tpWars.Controls.Add(this.tcWars);
-            this.tpWars.Location = new System.Drawing.Point(4, 22);
+            this.tpWars.Location = new System.Drawing.Point(4, 40);
             this.tpWars.Name = "tpWars";
-            this.tpWars.Size = new System.Drawing.Size(261, 492);
+            this.tpWars.Size = new System.Drawing.Size(261, 456);
             this.tpWars.TabIndex = 0;
             this.tpWars.Text = "Wars";
             this.tpWars.UseVisualStyleBackColor = true;
@@ -1680,7 +1701,7 @@
             this.tcWars.Location = new System.Drawing.Point(0, 0);
             this.tcWars.Name = "tcWars";
             this.tcWars.SelectedIndex = 0;
-            this.tcWars.Size = new System.Drawing.Size(261, 492);
+            this.tcWars.Size = new System.Drawing.Size(261, 456);
             this.tcWars.TabIndex = 0;
             // 
             // tpWarSearch
@@ -1694,7 +1715,7 @@
             this.tpWarSearch.Location = new System.Drawing.Point(4, 22);
             this.tpWarSearch.Name = "tpWarSearch";
             this.tpWarSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpWarSearch.Size = new System.Drawing.Size(253, 466);
+            this.tpWarSearch.Size = new System.Drawing.Size(253, 430);
             this.tpWarSearch.TabIndex = 0;
             this.tpWarSearch.Text = "Search";
             this.tpWarSearch.UseVisualStyleBackColor = true;
@@ -1702,7 +1723,7 @@
             // btnWarListReset
             // 
             this.btnWarListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnWarListReset.Location = new System.Drawing.Point(5, 252);
+            this.btnWarListReset.Location = new System.Drawing.Point(5, 216);
             this.btnWarListReset.Name = "btnWarListReset";
             this.btnWarListReset.Size = new System.Drawing.Size(50, 20);
             this.btnWarListReset.TabIndex = 48;
@@ -1713,7 +1734,7 @@
             // lblWarList
             // 
             this.lblWarList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblWarList.Location = new System.Drawing.Point(61, 257);
+            this.lblWarList.Location = new System.Drawing.Point(61, 221);
             this.lblWarList.Name = "lblWarList";
             this.lblWarList.Size = new System.Drawing.Size(189, 36);
             this.lblWarList.TabIndex = 47;
@@ -1736,7 +1757,7 @@
             this.groupBox10.Controls.Add(this.chkFilterWarfare);
             this.groupBox10.Controls.Add(this.chkWarOngoing);
             this.groupBox10.Controls.Add(this.groupBox11);
-            this.groupBox10.Location = new System.Drawing.Point(3, 296);
+            this.groupBox10.Location = new System.Drawing.Point(3, 260);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(247, 164);
             this.groupBox10.TabIndex = 45;
@@ -1750,7 +1771,7 @@
             this.chkFilterWarfare.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkFilterWarfare.Location = new System.Drawing.Point(89, 141);
             this.chkFilterWarfare.Name = "chkFilterWarfare";
-            this.chkFilterWarfare.Size = new System.Drawing.Size(141, 17);
+            this.chkFilterWarfare.Size = new System.Drawing.Size(154, 17);
             this.chkFilterWarfare.TabIndex = 17;
             this.chkFilterWarfare.Text = "Filter Unnotable Warfare";
             this.chkFilterWarfare.UseVisualStyleBackColor = true;
@@ -1761,7 +1782,7 @@
             this.chkWarOngoing.AutoSize = true;
             this.chkWarOngoing.Location = new System.Drawing.Point(9, 140);
             this.chkWarOngoing.Name = "chkWarOngoing";
-            this.chkWarOngoing.Size = new System.Drawing.Size(66, 17);
+            this.chkWarOngoing.Size = new System.Drawing.Size(73, 17);
             this.chkWarOngoing.TabIndex = 16;
             this.chkWarOngoing.Text = "Ongoing";
             this.chkWarOngoing.UseVisualStyleBackColor = true;
@@ -1789,7 +1810,7 @@
             this.radWarsSortConquerings.AutoSize = true;
             this.radWarsSortConquerings.Location = new System.Drawing.Point(119, 42);
             this.radWarsSortConquerings.Name = "radWarsSortConquerings";
-            this.radWarsSortConquerings.Size = new System.Drawing.Size(84, 17);
+            this.radWarsSortConquerings.Size = new System.Drawing.Size(92, 17);
             this.radWarsSortConquerings.TabIndex = 20;
             this.radWarsSortConquerings.TabStop = true;
             this.radWarsSortConquerings.Text = "Conquerings";
@@ -1801,7 +1822,7 @@
             this.radWarSortWarfare.AutoSize = true;
             this.radWarSortWarfare.Location = new System.Drawing.Point(119, 19);
             this.radWarSortWarfare.Name = "radWarSortWarfare";
-            this.radWarSortWarfare.Size = new System.Drawing.Size(63, 17);
+            this.radWarSortWarfare.Size = new System.Drawing.Size(66, 17);
             this.radWarSortWarfare.TabIndex = 19;
             this.radWarSortWarfare.TabStop = true;
             this.radWarSortWarfare.Text = "Warfare";
@@ -1813,7 +1834,7 @@
             this.radWarDeaths.AutoSize = true;
             this.radWarDeaths.Location = new System.Drawing.Point(6, 88);
             this.radWarDeaths.Name = "radWarDeaths";
-            this.radWarDeaths.Size = new System.Drawing.Size(59, 17);
+            this.radWarDeaths.Size = new System.Drawing.Size(61, 17);
             this.radWarDeaths.TabIndex = 18;
             this.radWarDeaths.TabStop = true;
             this.radWarDeaths.Text = "Deaths";
@@ -1825,7 +1846,7 @@
             this.radWarLength.AutoSize = true;
             this.radWarLength.Location = new System.Drawing.Point(6, 65);
             this.radWarLength.Name = "radWarLength";
-            this.radWarLength.Size = new System.Drawing.Size(58, 17);
+            this.radWarLength.Size = new System.Drawing.Size(61, 17);
             this.radWarLength.TabIndex = 17;
             this.radWarLength.TabStop = true;
             this.radWarLength.Text = "Length";
@@ -1837,7 +1858,7 @@
             this.radWarSortFiltered.AutoSize = true;
             this.radWarSortFiltered.Location = new System.Drawing.Point(6, 42);
             this.radWarSortFiltered.Name = "radWarSortFiltered";
-            this.radWarSortFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radWarSortFiltered.Size = new System.Drawing.Size(100, 17);
             this.radWarSortFiltered.TabIndex = 16;
             this.radWarSortFiltered.TabStop = true;
             this.radWarSortFiltered.Text = "Filtered Events";
@@ -1850,7 +1871,7 @@
             this.radWarSortNone.Checked = true;
             this.radWarSortNone.Location = new System.Drawing.Point(119, 65);
             this.radWarSortNone.Name = "radWarSortNone";
-            this.radWarSortNone.Size = new System.Drawing.Size(51, 17);
+            this.radWarSortNone.Size = new System.Drawing.Size(53, 17);
             this.radWarSortNone.TabIndex = 14;
             this.radWarSortNone.TabStop = true;
             this.radWarSortNone.Text = "None";
@@ -1875,7 +1896,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWarSearch.Location = new System.Drawing.Point(81, 5);
             this.txtWarSearch.Name = "txtWarSearch";
-            this.txtWarSearch.Size = new System.Drawing.Size(169, 20);
+            this.txtWarSearch.Size = new System.Drawing.Size(169, 22);
             this.txtWarSearch.TabIndex = 44;
             this.txtWarSearch.TextChanged += new System.EventHandler(this.searchWarList);
             // 
@@ -1887,7 +1908,7 @@
             this.listWarSearch.FormattingEnabled = true;
             this.listWarSearch.Location = new System.Drawing.Point(3, 31);
             this.listWarSearch.Name = "listWarSearch";
-            this.listWarSearch.Size = new System.Drawing.Size(247, 199);
+            this.listWarSearch.Size = new System.Drawing.Size(247, 147);
             this.listWarSearch.TabIndex = 43;
             this.listWarSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1896,7 +1917,7 @@
             this.tpWarEvents.Location = new System.Drawing.Point(4, 22);
             this.tpWarEvents.Name = "tpWarEvents";
             this.tpWarEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpWarEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpWarEvents.Size = new System.Drawing.Size(253, 430);
             this.tpWarEvents.TabIndex = 1;
             this.tpWarEvents.Text = "Events";
             this.tpWarEvents.UseVisualStyleBackColor = true;
@@ -1904,9 +1925,9 @@
             // tpBattles
             // 
             this.tpBattles.Controls.Add(this.tcBattles);
-            this.tpBattles.Location = new System.Drawing.Point(4, 22);
+            this.tpBattles.Location = new System.Drawing.Point(4, 40);
             this.tpBattles.Name = "tpBattles";
-            this.tpBattles.Size = new System.Drawing.Size(261, 492);
+            this.tpBattles.Size = new System.Drawing.Size(261, 456);
             this.tpBattles.TabIndex = 1;
             this.tpBattles.Text = "Battles";
             this.tpBattles.UseVisualStyleBackColor = true;
@@ -1919,7 +1940,7 @@
             this.tcBattles.Location = new System.Drawing.Point(0, 0);
             this.tcBattles.Name = "tcBattles";
             this.tcBattles.SelectedIndex = 0;
-            this.tcBattles.Size = new System.Drawing.Size(261, 492);
+            this.tcBattles.Size = new System.Drawing.Size(261, 456);
             this.tcBattles.TabIndex = 1;
             // 
             // tpBattlesSearch
@@ -1933,7 +1954,7 @@
             this.tpBattlesSearch.Location = new System.Drawing.Point(4, 22);
             this.tpBattlesSearch.Name = "tpBattlesSearch";
             this.tpBattlesSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBattlesSearch.Size = new System.Drawing.Size(253, 466);
+            this.tpBattlesSearch.Size = new System.Drawing.Size(253, 430);
             this.tpBattlesSearch.TabIndex = 0;
             this.tpBattlesSearch.Text = "Search";
             this.tpBattlesSearch.UseVisualStyleBackColor = true;
@@ -1941,7 +1962,7 @@
             // btnBattleListReset
             // 
             this.btnBattleListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBattleListReset.Location = new System.Drawing.Point(5, 252);
+            this.btnBattleListReset.Location = new System.Drawing.Point(5, 216);
             this.btnBattleListReset.Name = "btnBattleListReset";
             this.btnBattleListReset.Size = new System.Drawing.Size(50, 20);
             this.btnBattleListReset.TabIndex = 48;
@@ -1952,7 +1973,7 @@
             // lblBattleList
             // 
             this.lblBattleList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblBattleList.Location = new System.Drawing.Point(61, 257);
+            this.lblBattleList.Location = new System.Drawing.Point(61, 221);
             this.lblBattleList.Name = "lblBattleList";
             this.lblBattleList.Size = new System.Drawing.Size(189, 36);
             this.lblBattleList.TabIndex = 47;
@@ -1973,7 +1994,7 @@
             this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox12.Controls.Add(this.groupBox13);
-            this.groupBox12.Location = new System.Drawing.Point(3, 296);
+            this.groupBox12.Location = new System.Drawing.Point(3, 260);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(247, 164);
             this.groupBox12.TabIndex = 45;
@@ -2000,7 +2021,7 @@
             this.radBattleSortDeaths.AutoSize = true;
             this.radBattleSortDeaths.Location = new System.Drawing.Point(6, 63);
             this.radBattleSortDeaths.Name = "radBattleSortDeaths";
-            this.radBattleSortDeaths.Size = new System.Drawing.Size(59, 17);
+            this.radBattleSortDeaths.Size = new System.Drawing.Size(61, 17);
             this.radBattleSortDeaths.TabIndex = 17;
             this.radBattleSortDeaths.TabStop = true;
             this.radBattleSortDeaths.Text = "Deaths";
@@ -2012,7 +2033,7 @@
             this.radBattleSortFiltered.AutoSize = true;
             this.radBattleSortFiltered.Location = new System.Drawing.Point(6, 42);
             this.radBattleSortFiltered.Name = "radBattleSortFiltered";
-            this.radBattleSortFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radBattleSortFiltered.Size = new System.Drawing.Size(100, 17);
             this.radBattleSortFiltered.TabIndex = 16;
             this.radBattleSortFiltered.TabStop = true;
             this.radBattleSortFiltered.Text = "Filtered Events";
@@ -2025,7 +2046,7 @@
             this.radBattleSortNone.Checked = true;
             this.radBattleSortNone.Location = new System.Drawing.Point(6, 86);
             this.radBattleSortNone.Name = "radBattleSortNone";
-            this.radBattleSortNone.Size = new System.Drawing.Size(51, 17);
+            this.radBattleSortNone.Size = new System.Drawing.Size(53, 17);
             this.radBattleSortNone.TabIndex = 14;
             this.radBattleSortNone.TabStop = true;
             this.radBattleSortNone.Text = "None";
@@ -2049,7 +2070,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBattleSearch.Location = new System.Drawing.Point(81, 5);
             this.txtBattleSearch.Name = "txtBattleSearch";
-            this.txtBattleSearch.Size = new System.Drawing.Size(169, 20);
+            this.txtBattleSearch.Size = new System.Drawing.Size(169, 22);
             this.txtBattleSearch.TabIndex = 44;
             this.txtBattleSearch.TextChanged += new System.EventHandler(this.searchBattleList);
             // 
@@ -2061,7 +2082,7 @@
             this.listBattleSearch.FormattingEnabled = true;
             this.listBattleSearch.Location = new System.Drawing.Point(3, 31);
             this.listBattleSearch.Name = "listBattleSearch";
-            this.listBattleSearch.Size = new System.Drawing.Size(247, 199);
+            this.listBattleSearch.Size = new System.Drawing.Size(247, 134);
             this.listBattleSearch.TabIndex = 43;
             this.listBattleSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2070,7 +2091,7 @@
             this.tpBattlesEvents.Location = new System.Drawing.Point(4, 22);
             this.tpBattlesEvents.Name = "tpBattlesEvents";
             this.tpBattlesEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBattlesEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpBattlesEvents.Size = new System.Drawing.Size(253, 430);
             this.tpBattlesEvents.TabIndex = 1;
             this.tpBattlesEvents.Text = "Events";
             this.tpBattlesEvents.UseVisualStyleBackColor = true;
@@ -2078,9 +2099,9 @@
             // tpConquerins
             // 
             this.tpConquerins.Controls.Add(this.tcConquerings);
-            this.tpConquerins.Location = new System.Drawing.Point(4, 22);
+            this.tpConquerins.Location = new System.Drawing.Point(4, 40);
             this.tpConquerins.Name = "tpConquerins";
-            this.tpConquerins.Size = new System.Drawing.Size(261, 492);
+            this.tpConquerins.Size = new System.Drawing.Size(261, 456);
             this.tpConquerins.TabIndex = 2;
             this.tpConquerins.Text = "Conquerings";
             this.tpConquerins.UseVisualStyleBackColor = true;
@@ -2093,7 +2114,7 @@
             this.tcConquerings.Location = new System.Drawing.Point(0, 0);
             this.tcConquerings.Name = "tcConquerings";
             this.tcConquerings.SelectedIndex = 0;
-            this.tcConquerings.Size = new System.Drawing.Size(261, 492);
+            this.tcConquerings.Size = new System.Drawing.Size(261, 456);
             this.tcConquerings.TabIndex = 1;
             // 
             // tpConqueringsSearch
@@ -2105,7 +2126,7 @@
             this.tpConqueringsSearch.Location = new System.Drawing.Point(4, 22);
             this.tpConqueringsSearch.Name = "tpConqueringsSearch";
             this.tpConqueringsSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpConqueringsSearch.Size = new System.Drawing.Size(253, 466);
+            this.tpConqueringsSearch.Size = new System.Drawing.Size(253, 430);
             this.tpConqueringsSearch.TabIndex = 0;
             this.tpConqueringsSearch.Text = "Search";
             this.tpConqueringsSearch.UseVisualStyleBackColor = true;
@@ -2127,7 +2148,7 @@
             this.groupBox14.Controls.Add(this.label2);
             this.groupBox14.Controls.Add(this.cmbConqueringType);
             this.groupBox14.Controls.Add(this.groupBox15);
-            this.groupBox14.Location = new System.Drawing.Point(3, 296);
+            this.groupBox14.Location = new System.Drawing.Point(3, 260);
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.Size = new System.Drawing.Size(247, 164);
             this.groupBox14.TabIndex = 45;
@@ -2139,7 +2160,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 16);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 13);
+            this.label2.Size = new System.Drawing.Size(30, 13);
             this.label2.TabIndex = 17;
             this.label2.Text = "Type";
             // 
@@ -2172,7 +2193,7 @@
             this.radConqueringSortSite.AutoSize = true;
             this.radConqueringSortSite.Location = new System.Drawing.Point(6, 65);
             this.radConqueringSortSite.Name = "radConqueringSortSite";
-            this.radConqueringSortSite.Size = new System.Drawing.Size(43, 17);
+            this.radConqueringSortSite.Size = new System.Drawing.Size(44, 17);
             this.radConqueringSortSite.TabIndex = 17;
             this.radConqueringSortSite.TabStop = true;
             this.radConqueringSortSite.Text = "Site";
@@ -2184,7 +2205,7 @@
             this.radConqueringSortFiltered.AutoSize = true;
             this.radConqueringSortFiltered.Location = new System.Drawing.Point(6, 42);
             this.radConqueringSortFiltered.Name = "radConqueringSortFiltered";
-            this.radConqueringSortFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radConqueringSortFiltered.Size = new System.Drawing.Size(100, 17);
             this.radConqueringSortFiltered.TabIndex = 16;
             this.radConqueringSortFiltered.TabStop = true;
             this.radConqueringSortFiltered.Text = "Filtered Events";
@@ -2197,7 +2218,7 @@
             this.radConqueringSortNone.Checked = true;
             this.radConqueringSortNone.Location = new System.Drawing.Point(6, 88);
             this.radConqueringSortNone.Name = "radConqueringSortNone";
-            this.radConqueringSortNone.Size = new System.Drawing.Size(51, 17);
+            this.radConqueringSortNone.Size = new System.Drawing.Size(53, 17);
             this.radConqueringSortNone.TabIndex = 14;
             this.radConqueringSortNone.TabStop = true;
             this.radConqueringSortNone.Text = "None";
@@ -2221,7 +2242,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtConqueringSearch.Location = new System.Drawing.Point(81, 5);
             this.txtConqueringSearch.Name = "txtConqueringSearch";
-            this.txtConqueringSearch.Size = new System.Drawing.Size(169, 20);
+            this.txtConqueringSearch.Size = new System.Drawing.Size(169, 22);
             this.txtConqueringSearch.TabIndex = 44;
             this.txtConqueringSearch.TextChanged += new System.EventHandler(this.searchConqueringList);
             // 
@@ -2233,7 +2254,7 @@
             this.listConqueringSearch.FormattingEnabled = true;
             this.listConqueringSearch.Location = new System.Drawing.Point(3, 31);
             this.listConqueringSearch.Name = "listConqueringSearch";
-            this.listConqueringSearch.Size = new System.Drawing.Size(247, 199);
+            this.listConqueringSearch.Size = new System.Drawing.Size(247, 147);
             this.listConqueringSearch.TabIndex = 43;
             this.listConqueringSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2242,7 +2263,7 @@
             this.tpConqueringsEvents.Location = new System.Drawing.Point(4, 22);
             this.tpConqueringsEvents.Name = "tpConqueringsEvents";
             this.tpConqueringsEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpConqueringsEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpConqueringsEvents.Size = new System.Drawing.Size(253, 430);
             this.tpConqueringsEvents.TabIndex = 1;
             this.tpConqueringsEvents.Text = "Events";
             this.tpConqueringsEvents.UseVisualStyleBackColor = true;
@@ -2250,9 +2271,9 @@
             // tpBeastAttacks
             // 
             this.tpBeastAttacks.Controls.Add(this.tabControl1);
-            this.tpBeastAttacks.Location = new System.Drawing.Point(4, 22);
+            this.tpBeastAttacks.Location = new System.Drawing.Point(4, 40);
             this.tpBeastAttacks.Name = "tpBeastAttacks";
-            this.tpBeastAttacks.Size = new System.Drawing.Size(261, 492);
+            this.tpBeastAttacks.Size = new System.Drawing.Size(261, 456);
             this.tpBeastAttacks.TabIndex = 4;
             this.tpBeastAttacks.Text = "Rampages";
             this.tpBeastAttacks.UseVisualStyleBackColor = true;
@@ -2265,7 +2286,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(261, 492);
+            this.tabControl1.Size = new System.Drawing.Size(261, 456);
             this.tabControl1.TabIndex = 0;
             // 
             // tpBeastAttackSearch
@@ -2277,7 +2298,7 @@
             this.tpBeastAttackSearch.Location = new System.Drawing.Point(4, 22);
             this.tpBeastAttackSearch.Name = "tpBeastAttackSearch";
             this.tpBeastAttackSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBeastAttackSearch.Size = new System.Drawing.Size(253, 466);
+            this.tpBeastAttackSearch.Size = new System.Drawing.Size(253, 430);
             this.tpBeastAttackSearch.TabIndex = 0;
             this.tpBeastAttackSearch.Text = "Search";
             this.tpBeastAttackSearch.UseVisualStyleBackColor = true;
@@ -2297,7 +2318,7 @@
             this.groupBox18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox18.Controls.Add(this.groupBox17);
-            this.groupBox18.Location = new System.Drawing.Point(3, 296);
+            this.groupBox18.Location = new System.Drawing.Point(3, 260);
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.Size = new System.Drawing.Size(247, 164);
             this.groupBox18.TabIndex = 49;
@@ -2324,7 +2345,7 @@
             this.radBeastAttacksDeaths.AutoSize = true;
             this.radBeastAttacksDeaths.Location = new System.Drawing.Point(6, 63);
             this.radBeastAttacksDeaths.Name = "radBeastAttacksDeaths";
-            this.radBeastAttacksDeaths.Size = new System.Drawing.Size(59, 17);
+            this.radBeastAttacksDeaths.Size = new System.Drawing.Size(61, 17);
             this.radBeastAttacksDeaths.TabIndex = 17;
             this.radBeastAttacksDeaths.TabStop = true;
             this.radBeastAttacksDeaths.Text = "Deaths";
@@ -2336,7 +2357,7 @@
             this.radBeastAttacksFiltered.AutoSize = true;
             this.radBeastAttacksFiltered.Location = new System.Drawing.Point(6, 42);
             this.radBeastAttacksFiltered.Name = "radBeastAttacksFiltered";
-            this.radBeastAttacksFiltered.Size = new System.Drawing.Size(95, 17);
+            this.radBeastAttacksFiltered.Size = new System.Drawing.Size(100, 17);
             this.radBeastAttacksFiltered.TabIndex = 16;
             this.radBeastAttacksFiltered.TabStop = true;
             this.radBeastAttacksFiltered.Text = "Filtered Events";
@@ -2349,7 +2370,7 @@
             this.radBeastAttacksNone.Checked = true;
             this.radBeastAttacksNone.Location = new System.Drawing.Point(6, 86);
             this.radBeastAttacksNone.Name = "radBeastAttacksNone";
-            this.radBeastAttacksNone.Size = new System.Drawing.Size(51, 17);
+            this.radBeastAttacksNone.Size = new System.Drawing.Size(53, 17);
             this.radBeastAttacksNone.TabIndex = 14;
             this.radBeastAttacksNone.TabStop = true;
             this.radBeastAttacksNone.Text = "None";
@@ -2373,7 +2394,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBeastAttacksSearch.Location = new System.Drawing.Point(81, 5);
             this.txtBeastAttacksSearch.Name = "txtBeastAttacksSearch";
-            this.txtBeastAttacksSearch.Size = new System.Drawing.Size(169, 20);
+            this.txtBeastAttacksSearch.Size = new System.Drawing.Size(169, 22);
             this.txtBeastAttacksSearch.TabIndex = 48;
             this.txtBeastAttacksSearch.TextChanged += new System.EventHandler(this.searchbeastAttackList);
             // 
@@ -2385,7 +2406,7 @@
             this.listBeastAttacks.FormattingEnabled = true;
             this.listBeastAttacks.Location = new System.Drawing.Point(3, 31);
             this.listBeastAttacks.Name = "listBeastAttacks";
-            this.listBeastAttacks.Size = new System.Drawing.Size(247, 199);
+            this.listBeastAttacks.Size = new System.Drawing.Size(247, 134);
             this.listBeastAttacks.TabIndex = 47;
             this.listBeastAttacks.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2394,7 +2415,7 @@
             this.tpBeastAttackEvents.Location = new System.Drawing.Point(4, 22);
             this.tpBeastAttackEvents.Name = "tpBeastAttackEvents";
             this.tpBeastAttackEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBeastAttackEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpBeastAttackEvents.Size = new System.Drawing.Size(253, 430);
             this.tpBeastAttackEvents.TabIndex = 1;
             this.tpBeastAttackEvents.Text = "Events";
             this.tpBeastAttackEvents.UseVisualStyleBackColor = true;
@@ -2402,9 +2423,9 @@
             // tpEras
             // 
             this.tpEras.Controls.Add(this.tcEras);
-            this.tpEras.Location = new System.Drawing.Point(4, 22);
+            this.tpEras.Location = new System.Drawing.Point(4, 40);
             this.tpEras.Name = "tpEras";
-            this.tpEras.Size = new System.Drawing.Size(261, 492);
+            this.tpEras.Size = new System.Drawing.Size(261, 456);
             this.tpEras.TabIndex = 3;
             this.tpEras.Text = "Eras";
             this.tpEras.UseVisualStyleBackColor = true;
@@ -2417,7 +2438,7 @@
             this.tcEras.Location = new System.Drawing.Point(0, 0);
             this.tcEras.Name = "tcEras";
             this.tcEras.SelectedIndex = 0;
-            this.tcEras.Size = new System.Drawing.Size(261, 492);
+            this.tcEras.Size = new System.Drawing.Size(261, 456);
             this.tcEras.TabIndex = 2;
             // 
             // tpEraSearch
@@ -2427,7 +2448,7 @@
             this.tpEraSearch.Location = new System.Drawing.Point(4, 22);
             this.tpEraSearch.Name = "tpEraSearch";
             this.tpEraSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEraSearch.Size = new System.Drawing.Size(253, 466);
+            this.tpEraSearch.Size = new System.Drawing.Size(253, 430);
             this.tpEraSearch.TabIndex = 0;
             this.tpEraSearch.Text = "Search";
             this.tpEraSearch.UseVisualStyleBackColor = true;
@@ -2442,7 +2463,7 @@
             this.groupBox16.Controls.Add(this.label3);
             this.groupBox16.Controls.Add(this.numStart);
             this.groupBox16.Controls.Add(this.numEraEnd);
-            this.groupBox16.Location = new System.Drawing.Point(3, 296);
+            this.groupBox16.Location = new System.Drawing.Point(3, 260);
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.Size = new System.Drawing.Size(247, 164);
             this.groupBox16.TabIndex = 45;
@@ -2464,7 +2485,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(120, 34);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(10, 13);
+            this.label5.Size = new System.Drawing.Size(11, 13);
             this.label5.TabIndex = 22;
             this.label5.Text = "-";
             // 
@@ -2473,7 +2494,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(134, 16);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(26, 13);
+            this.label4.Size = new System.Drawing.Size(27, 13);
             this.label4.TabIndex = 21;
             this.label4.Text = "End";
             // 
@@ -2482,7 +2503,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(31, 16);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 13);
+            this.label3.Size = new System.Drawing.Size(61, 13);
             this.label3.TabIndex = 20;
             this.label3.Text = "Beginning";
             // 
@@ -2495,14 +2516,14 @@
             0,
             -2147483648});
             this.numStart.Name = "numStart";
-            this.numStart.Size = new System.Drawing.Size(80, 20);
+            this.numStart.Size = new System.Drawing.Size(80, 22);
             this.numStart.TabIndex = 19;
             // 
             // numEraEnd
             // 
             this.numEraEnd.Location = new System.Drawing.Point(136, 32);
             this.numEraEnd.Name = "numEraEnd";
-            this.numEraEnd.Size = new System.Drawing.Size(80, 20);
+            this.numEraEnd.Size = new System.Drawing.Size(80, 22);
             this.numEraEnd.TabIndex = 20;
             // 
             // listEras
@@ -2513,7 +2534,7 @@
             this.listEras.FormattingEnabled = true;
             this.listEras.Location = new System.Drawing.Point(3, 31);
             this.listEras.Name = "listEras";
-            this.listEras.Size = new System.Drawing.Size(247, 199);
+            this.listEras.Size = new System.Drawing.Size(247, 147);
             this.listEras.TabIndex = 43;
             this.listEras.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2523,10 +2544,171 @@
             this.tpEraEvents.Location = new System.Drawing.Point(4, 22);
             this.tpEraEvents.Name = "tpEraEvents";
             this.tpEraEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEraEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpEraEvents.Size = new System.Drawing.Size(253, 430);
             this.tpEraEvents.TabIndex = 1;
             this.tpEraEvents.Text = "Events";
             this.tpEraEvents.UseVisualStyleBackColor = true;
+            // 
+            // tpArtifacts
+            // 
+            this.tpArtifacts.Controls.Add(this.tcArtifacts);
+            this.tpArtifacts.Location = new System.Drawing.Point(4, 40);
+            this.tpArtifacts.Name = "tpArtifacts";
+            this.tpArtifacts.Size = new System.Drawing.Size(261, 456);
+            this.tpArtifacts.TabIndex = 5;
+            this.tpArtifacts.Text = "Artifacts";
+            this.tpArtifacts.UseVisualStyleBackColor = true;
+            // 
+            // tcArtifacts
+            // 
+            this.tcArtifacts.Controls.Add(this.tpArtifactsSearch);
+            this.tcArtifacts.Controls.Add(this.tpArtifactsEvents);
+            this.tcArtifacts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcArtifacts.Location = new System.Drawing.Point(0, 0);
+            this.tcArtifacts.Name = "tcArtifacts";
+            this.tcArtifacts.SelectedIndex = 0;
+            this.tcArtifacts.Size = new System.Drawing.Size(261, 456);
+            this.tcArtifacts.TabIndex = 2;
+            // 
+            // tpArtifactsSearch
+            // 
+            this.tpArtifactsSearch.Controls.Add(this.btnArtifactListReset);
+            this.tpArtifactsSearch.Controls.Add(this.lblArtifactList);
+            this.tpArtifactsSearch.Controls.Add(this.btnArtifactSearch);
+            this.tpArtifactsSearch.Controls.Add(this.groupBox19);
+            this.tpArtifactsSearch.Controls.Add(this.txtArtifactSearch);
+            this.tpArtifactsSearch.Controls.Add(this.listArtifactSearch);
+            this.tpArtifactsSearch.Location = new System.Drawing.Point(4, 22);
+            this.tpArtifactsSearch.Name = "tpArtifactsSearch";
+            this.tpArtifactsSearch.Padding = new System.Windows.Forms.Padding(3);
+            this.tpArtifactsSearch.Size = new System.Drawing.Size(253, 430);
+            this.tpArtifactsSearch.TabIndex = 0;
+            this.tpArtifactsSearch.Text = "Search";
+            this.tpArtifactsSearch.UseVisualStyleBackColor = true;
+            // 
+            // btnArtifactListReset
+            // 
+            this.btnArtifactListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnArtifactListReset.Location = new System.Drawing.Point(5, 216);
+            this.btnArtifactListReset.Name = "btnArtifactListReset";
+            this.btnArtifactListReset.Size = new System.Drawing.Size(50, 20);
+            this.btnArtifactListReset.TabIndex = 48;
+            this.btnArtifactListReset.Text = "Reset";
+            this.btnArtifactListReset.UseVisualStyleBackColor = true;
+            this.btnArtifactListReset.Click += new System.EventHandler(this.ResetArtifactBaseList);
+            // 
+            // lblArtifactList
+            // 
+            this.lblArtifactList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblArtifactList.Location = new System.Drawing.Point(61, 221);
+            this.lblArtifactList.Name = "lblArtifactList";
+            this.lblArtifactList.Size = new System.Drawing.Size(189, 36);
+            this.lblArtifactList.TabIndex = 47;
+            this.lblArtifactList.Text = "All";
+            // 
+            // btnArtifactSearch
+            // 
+            this.btnArtifactSearch.Location = new System.Drawing.Point(3, 3);
+            this.btnArtifactSearch.Name = "btnArtifactSearch";
+            this.btnArtifactSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnArtifactSearch.TabIndex = 46;
+            this.btnArtifactSearch.Text = "Search";
+            this.btnArtifactSearch.UseVisualStyleBackColor = true;
+            this.btnArtifactSearch.Click += new System.EventHandler(this.searchArtifactList);
+            // 
+            // groupBox19
+            // 
+            this.groupBox19.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox19.Controls.Add(this.groupBox20);
+            this.groupBox19.Location = new System.Drawing.Point(3, 260);
+            this.groupBox19.Name = "groupBox19";
+            this.groupBox19.Size = new System.Drawing.Size(247, 164);
+            this.groupBox19.TabIndex = 45;
+            this.groupBox19.TabStop = false;
+            this.groupBox19.Text = "Filter / Sort";
+            // 
+            // groupBox20
+            // 
+            this.groupBox20.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox20.Controls.Add(this.radArtifactSortFiltered);
+            this.groupBox20.Controls.Add(this.radArtifactSortNone);
+            this.groupBox20.Controls.Add(this.radArtifactSortEvents);
+            this.groupBox20.Location = new System.Drawing.Point(133, 19);
+            this.groupBox20.Name = "groupBox20";
+            this.groupBox20.Size = new System.Drawing.Size(108, 126);
+            this.groupBox20.TabIndex = 15;
+            this.groupBox20.TabStop = false;
+            this.groupBox20.Text = "Sort By";
+            // 
+            // radArtifactSortFiltered
+            // 
+            this.radArtifactSortFiltered.AutoSize = true;
+            this.radArtifactSortFiltered.Location = new System.Drawing.Point(6, 42);
+            this.radArtifactSortFiltered.Name = "radArtifactSortFiltered";
+            this.radArtifactSortFiltered.Size = new System.Drawing.Size(100, 17);
+            this.radArtifactSortFiltered.TabIndex = 16;
+            this.radArtifactSortFiltered.TabStop = true;
+            this.radArtifactSortFiltered.Text = "Filtered Events";
+            this.radArtifactSortFiltered.UseVisualStyleBackColor = true;
+            this.radArtifactSortFiltered.CheckedChanged += new System.EventHandler(this.searchArtifactList);
+            // 
+            // radArtifactSortNone
+            // 
+            this.radArtifactSortNone.AutoSize = true;
+            this.radArtifactSortNone.Checked = true;
+            this.radArtifactSortNone.Location = new System.Drawing.Point(6, 65);
+            this.radArtifactSortNone.Name = "radArtifactSortNone";
+            this.radArtifactSortNone.Size = new System.Drawing.Size(53, 17);
+            this.radArtifactSortNone.TabIndex = 14;
+            this.radArtifactSortNone.TabStop = true;
+            this.radArtifactSortNone.Text = "None";
+            this.radArtifactSortNone.UseVisualStyleBackColor = true;
+            this.radArtifactSortNone.CheckedChanged += new System.EventHandler(this.searchArtifactList);
+            // 
+            // radArtifactSortEvents
+            // 
+            this.radArtifactSortEvents.AutoSize = true;
+            this.radArtifactSortEvents.Location = new System.Drawing.Point(6, 19);
+            this.radArtifactSortEvents.Name = "radArtifactSortEvents";
+            this.radArtifactSortEvents.Size = new System.Drawing.Size(58, 17);
+            this.radArtifactSortEvents.TabIndex = 13;
+            this.radArtifactSortEvents.Text = "Events";
+            this.radArtifactSortEvents.UseVisualStyleBackColor = true;
+            this.radArtifactSortEvents.CheckedChanged += new System.EventHandler(this.searchArtifactList);
+            // 
+            // txtArtifactSearch
+            // 
+            this.txtArtifactSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtArtifactSearch.Location = new System.Drawing.Point(81, 5);
+            this.txtArtifactSearch.Name = "txtArtifactSearch";
+            this.txtArtifactSearch.Size = new System.Drawing.Size(169, 22);
+            this.txtArtifactSearch.TabIndex = 44;
+            this.txtArtifactSearch.TextChanged += new System.EventHandler(this.searchArtifactList);
+            // 
+            // listArtifactSearch
+            // 
+            this.listArtifactSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listArtifactSearch.FormattingEnabled = true;
+            this.listArtifactSearch.Location = new System.Drawing.Point(3, 31);
+            this.listArtifactSearch.Name = "listArtifactSearch";
+            this.listArtifactSearch.Size = new System.Drawing.Size(247, 134);
+            this.listArtifactSearch.TabIndex = 43;
+            this.listArtifactSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
+            // 
+            // tpArtifactsEvents
+            // 
+            this.tpArtifactsEvents.Location = new System.Drawing.Point(4, 22);
+            this.tpArtifactsEvents.Name = "tpArtifactsEvents";
+            this.tpArtifactsEvents.Padding = new System.Windows.Forms.Padding(3);
+            this.tpArtifactsEvents.Size = new System.Drawing.Size(253, 430);
+            this.tpArtifactsEvents.TabIndex = 1;
+            this.tpArtifactsEvents.Text = "Events";
+            this.tpArtifactsEvents.UseVisualStyleBackColor = true;
             // 
             // dlgOpen
             // 
@@ -2573,6 +2755,7 @@
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.tcWorld);
             this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Segoe UI Symbol", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmLegendsViewer";
             this.Text = "Legends Viewer 1.14";
             this.Shown += new System.EventHandler(this.frmLegendsViewer_Shown);
@@ -2658,6 +2841,13 @@
             this.groupBox16.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numEraEnd)).EndInit();
+            this.tpArtifacts.ResumeLayout(false);
+            this.tcArtifacts.ResumeLayout(false);
+            this.tpArtifactsSearch.ResumeLayout(false);
+            this.tpArtifactsSearch.PerformLayout();
+            this.groupBox19.ResumeLayout(false);
+            this.groupBox20.ResumeLayout(false);
+            this.groupBox20.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2862,7 +3052,20 @@
         private System.Windows.Forms.Button btnAdvancedSearch;
         private System.Windows.Forms.CheckBox chkVampire;
         private System.Windows.Forms.CheckBox chkWerebeast;
-
+        private System.Windows.Forms.TabPage tpArtifacts;
+        private System.Windows.Forms.TabControl tcArtifacts;
+        private System.Windows.Forms.TabPage tpArtifactsSearch;
+        private System.Windows.Forms.Button btnArtifactListReset;
+        private System.Windows.Forms.Label lblArtifactList;
+        private System.Windows.Forms.Button btnArtifactSearch;
+        private System.Windows.Forms.GroupBox groupBox19;
+        private System.Windows.Forms.GroupBox groupBox20;
+        private System.Windows.Forms.RadioButton radArtifactSortFiltered;
+        private System.Windows.Forms.RadioButton radArtifactSortNone;
+        private System.Windows.Forms.RadioButton radArtifactSortEvents;
+        private System.Windows.Forms.TextBox txtArtifactSearch;
+        private System.Windows.Forms.ListBox listArtifactSearch;
+        private System.Windows.Forms.TabPage tpArtifactsEvents;
     }
 }
 

@@ -26,6 +26,7 @@ namespace LegendsViewer
         private EntitiesList entitySearch;
         private WarsList warSearch;
         private BattlesList battleSearch;
+        private ArtifactList artifactSearch;
         private ConqueringsList conqueringsSearch;
         private BeastAttackList beastAttackSearch;
 
@@ -33,7 +34,8 @@ namespace LegendsViewer
         private TabPage[] EventTabs;
         Type[] EventTabTypes = new Type[]{typeof(HistoricalFigure), typeof(Site), typeof(Region),
                                             typeof(UndergroundRegion), typeof(Entity), typeof(War),
-                                            typeof(Battle), typeof(SiteConquered), typeof(Era), typeof(BeastAttack)};                         
+                                            typeof(Battle), typeof(SiteConquered), typeof(Era), typeof(BeastAttack),
+                                            typeof(Artifact)};                         
         private List<List<String>> TabEvents;
         DwarfTabControl Browser;
         private bool DontRefreshBrowserPages = true;
@@ -43,7 +45,7 @@ namespace LegendsViewer
         {
             InitializeComponent();
             FileLoader = new LegendsViewer.FileLoader(this, btnXML, txtXML, btnHistory, txtHistory, btnSitePops, txtSitePops, btnMap, txtMap, lblStatus, txtLog);
-            EventTabs = new TabPage[] { tpHFEvents, tpSiteEvents, tpRegionEvents, tpURegionEvents, tpCivEvents, tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpEraEvents, tpBeastAttackEvents };
+            EventTabs = new TabPage[] { tpHFEvents, tpSiteEvents, tpRegionEvents, tpURegionEvents, tpCivEvents, tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpEraEvents, tpBeastAttackEvents, tpArtifactsEvents };
             tcWorld.Height = ClientSize.Height;
             btnBack.Location = new Point(tcWorld.Right + 3, 3);
             btnForward.Location = new Point(btnBack.Right + 3, 3);
@@ -499,6 +501,7 @@ namespace LegendsViewer
             battleSearch = new BattlesList(world);
             conqueringsSearch = new ConqueringsList(world);
             beastAttackSearch = new BeastAttackList(world);
+            artifactSearch = new ArtifactList(world);
 
             dlgOpen.FileName = "";
 
@@ -568,6 +571,11 @@ namespace LegendsViewer
             var beastAttackEvents = from eventType in world.EventCollections.OfType<BeastAttack>().SelectMany(beastAttack => beastAttack.GetSubEvents())
                                    group eventType by eventType.Type into type
                                    select type.Key;
+
+            var artifactEvents = from eventType in world.Artifacts.SelectMany(artifact => artifact.Events)
+                                 group eventType by eventType.Type into type
+                                 select type.Key;
+
             var eventTypes = from eventType in world.Events
                              group eventType by eventType.Type into type
                              select type.Key;
@@ -593,6 +601,8 @@ namespace LegendsViewer
                     TabEvents.Add(conqueringEvents.ToList());
                 else if (eventTabType == typeof(Era))
                     TabEvents.Add(eventTypes.ToList());
+                else if (eventTabType == typeof(Artifact))
+                    TabEvents.Add(artifactEvents.ToList());
                 else if (eventTabType == typeof(BeastAttack))
                     TabEvents.Add(beastAttackEvents.ToList());
             }
@@ -713,6 +723,10 @@ namespace LegendsViewer
             cmbConqueringType.Items.Clear();
             radConqueringSortNone.Checked = true;
 
+            txtArtifactSearch.Clear();
+            listArtifactSearch.Items.Clear();
+            radArtifactSortNone.Checked = true;
+
             listEras.Items.Clear();
             numStart.Value = -1;
             numEraEnd.Value = 0;
@@ -785,5 +799,29 @@ namespace LegendsViewer
                     Clipboard.SetText(txtLog.SelectedText);
         }
 
+        private void searchArtifactList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                artifactSearch.Name = txtArtifactSearch.Text;
+                artifactSearch.SortEvents = radArtifactSortEvents.Checked;
+                artifactSearch.SortFiltered = radArtifactSortFiltered.Checked;
+                IEnumerable<Artifact> list = artifactSearch.GetList();
+                listArtifactSearch.Items.Clear();
+                listArtifactSearch.Items.AddRange(list.ToArray());
+            }
+        }
+
+        private void ResetArtifactBaseList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                lblArtifactList.Text = "All";
+                lblArtifactList.ForeColor = Control.DefaultForeColor;
+                lblArtifactList.Font = new Font(lblBattleList.Font.FontFamily, lblBattleList.Font.Size, FontStyle.Regular);
+                artifactSearch.BaseList = world.Artifacts;
+                searchArtifactList(null, null);
+            }
+        }
     }
 }
