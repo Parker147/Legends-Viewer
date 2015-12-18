@@ -16,6 +16,13 @@ namespace LegendsViewer.Legends
         public Entity Defender { get; set; }
         public HistoricalFigure Beast { get; set; }
         public List<HistoricalFigure> Deaths { get { return GetSubEvents().OfType<HFDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
+
+        // BUG in XML? 
+        // ParentCollection was never set prior to DF 0.42.xx and is now often set to an occasion
+        // but DF legends mode does not show it.
+        // http://www.bay12forums.com/smf/index.php?topic=154617.msg6669851#msg6669851
+        public EventCollection ParentEventCol { get; set; }
+
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -36,7 +43,7 @@ namespace LegendsViewer.Legends
                 {
                     case "ordinal": Ordinal = Convert.ToInt32(property.Value); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
-                    case "parent_eventcol": ParentCollection = world.GetEventCollection(Convert.ToInt32(property.Value)); break;
+                    case "parent_eventcol": ParentEventCol = world.GetEventCollection(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
