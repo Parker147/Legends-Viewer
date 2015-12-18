@@ -368,8 +368,8 @@ namespace LegendsViewer
             txtWarSearch.Clear();
             chkWarOngoing.Checked = false;
             radWarSortNone.Checked = true;
-            tcWorld.SelectedTab = tpCollections;
-            tcCollections.SelectedTab = tpWars;
+            tcWorld.SelectedTab = tpWarfare;
+            tcWarfare.SelectedTab = tpWars;
             tcWars.SelectedTab = tpWarSearch;
             searchHFList(null, null);
             FileLoader.Working = false;
@@ -411,8 +411,8 @@ namespace LegendsViewer
             txtBattleSearch.Clear();
 
             radBattleSortNone.Checked = true;
-            tcWorld.SelectedTab = tpCollections;
-            tcCollections.SelectedTab = tpBattles;
+            tcWorld.SelectedTab = tpWarfare;
+            tcWarfare.SelectedTab = tpBattles;
             tcBattles.SelectedTab = tpBattlesSearch;
             searchBattleList(null, null);
             FileLoader.Working = false;

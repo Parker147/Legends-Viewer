@@ -74,6 +74,25 @@
             this.listHFSearch = new System.Windows.Forms.ListBox();
             this.btnHFSearch = new System.Windows.Forms.Button();
             this.tpHFEvents = new System.Windows.Forms.TabPage();
+            this.tpCivs = new System.Windows.Forms.TabPage();
+            this.tcCivs = new System.Windows.Forms.TabControl();
+            this.tpCivSearch = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.cmbEntityPopulation = new System.Windows.Forms.ComboBox();
+            this.radEntitySortPopulation = new System.Windows.Forms.RadioButton();
+            this.radCivSortWars = new System.Windows.Forms.RadioButton();
+            this.radCivSortFiltered = new System.Windows.Forms.RadioButton();
+            this.radCivSites = new System.Windows.Forms.RadioButton();
+            this.radEntityNone = new System.Windows.Forms.RadioButton();
+            this.radEntitySortEvents = new System.Windows.Forms.RadioButton();
+            this.chkCiv = new System.Windows.Forms.CheckBox();
+            this.cmbCivRace = new System.Windows.Forms.ComboBox();
+            this.txtCivSearch = new System.Windows.Forms.TextBox();
+            this.listCivSearch = new System.Windows.Forms.ListBox();
+            this.btnCivSearch = new System.Windows.Forms.Button();
+            this.tpCivEvents = new System.Windows.Forms.TabPage();
             this.tpSites = new System.Windows.Forms.TabPage();
             this.tcSites = new System.Windows.Forms.TabControl();
             this.tpSiteSearch = new System.Windows.Forms.TabPage();
@@ -98,6 +117,8 @@
             this.btnSiteSearch = new System.Windows.Forms.Button();
             this.tpSiteEvents = new System.Windows.Forms.TabPage();
             this.tpRegions = new System.Windows.Forms.TabPage();
+            this.tcRegionsSub = new System.Windows.Forms.TabControl();
+            this.tpOverworld = new System.Windows.Forms.TabPage();
             this.tcRegions = new System.Windows.Forms.TabControl();
             this.tpRegionSearch = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -113,7 +134,7 @@
             this.listRegionSearch = new System.Windows.Forms.ListBox();
             this.btnRegionSearch = new System.Windows.Forms.Button();
             this.tpRegionEvents = new System.Windows.Forms.TabPage();
-            this.tpURegions = new System.Windows.Forms.TabPage();
+            this.tpUnderground = new System.Windows.Forms.TabPage();
             this.tcURegions = new System.Windows.Forms.TabControl();
             this.tpURegionSearch = new System.Windows.Forms.TabPage();
             this.btnURegionSearch = new System.Windows.Forms.Button();
@@ -126,27 +147,8 @@
             this.cmbURegionType = new System.Windows.Forms.ComboBox();
             this.listURegionSearch = new System.Windows.Forms.ListBox();
             this.tpURegionEvents = new System.Windows.Forms.TabPage();
-            this.tpCivs = new System.Windows.Forms.TabPage();
-            this.tcCivs = new System.Windows.Forms.TabControl();
-            this.tpCivSearch = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.cmbEntityPopulation = new System.Windows.Forms.ComboBox();
-            this.radEntitySortPopulation = new System.Windows.Forms.RadioButton();
-            this.radCivSortWars = new System.Windows.Forms.RadioButton();
-            this.radCivSortFiltered = new System.Windows.Forms.RadioButton();
-            this.radCivSites = new System.Windows.Forms.RadioButton();
-            this.radEntityNone = new System.Windows.Forms.RadioButton();
-            this.radEntitySortEvents = new System.Windows.Forms.RadioButton();
-            this.chkCiv = new System.Windows.Forms.CheckBox();
-            this.cmbCivRace = new System.Windows.Forms.ComboBox();
-            this.txtCivSearch = new System.Windows.Forms.TextBox();
-            this.listCivSearch = new System.Windows.Forms.ListBox();
-            this.btnCivSearch = new System.Windows.Forms.Button();
-            this.tpCivEvents = new System.Windows.Forms.TabPage();
-            this.tpCollections = new System.Windows.Forms.TabPage();
-            this.tcCollections = new System.Windows.Forms.TabControl();
+            this.tpWarfare = new System.Windows.Forms.TabPage();
+            this.tcWarfare = new System.Windows.Forms.TabControl();
             this.tpWars = new System.Windows.Forms.TabPage();
             this.tcWars = new System.Windows.Forms.TabControl();
             this.tpWarSearch = new System.Windows.Forms.TabPage();
@@ -210,6 +212,8 @@
             this.txtBeastAttacksSearch = new System.Windows.Forms.TextBox();
             this.listBeastAttacks = new System.Windows.Forms.ListBox();
             this.tpBeastAttackEvents = new System.Windows.Forms.TabPage();
+            this.tpCollections = new System.Windows.Forms.TabPage();
+            this.tcCollections = new System.Windows.Forms.TabControl();
             this.tpEras = new System.Windows.Forms.TabPage();
             this.tcEras = new System.Windows.Forms.TabControl();
             this.tpEraSearch = new System.Windows.Forms.TabPage();
@@ -248,28 +252,30 @@
             this.tpHFSearch.SuspendLayout();
             this.grpHFFilter.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.tpCivs.SuspendLayout();
+            this.tcCivs.SuspendLayout();
+            this.tpCivSearch.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.tpSites.SuspendLayout();
             this.tcSites.SuspendLayout();
             this.tpSiteSearch.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tpRegions.SuspendLayout();
+            this.tcRegionsSub.SuspendLayout();
+            this.tpOverworld.SuspendLayout();
             this.tcRegions.SuspendLayout();
             this.tpRegionSearch.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.tpURegions.SuspendLayout();
+            this.tpUnderground.SuspendLayout();
             this.tcURegions.SuspendLayout();
             this.tpURegionSearch.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.tpCivs.SuspendLayout();
-            this.tcCivs.SuspendLayout();
-            this.tpCivSearch.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            this.tpCollections.SuspendLayout();
-            this.tcCollections.SuspendLayout();
+            this.tpWarfare.SuspendLayout();
+            this.tcWarfare.SuspendLayout();
             this.tpWars.SuspendLayout();
             this.tcWars.SuspendLayout();
             this.tpWarSearch.SuspendLayout();
@@ -290,6 +296,8 @@
             this.tpBeastAttackSearch.SuspendLayout();
             this.groupBox18.SuspendLayout();
             this.groupBox17.SuspendLayout();
+            this.tpCollections.SuspendLayout();
+            this.tcCollections.SuspendLayout();
             this.tpEras.SuspendLayout();
             this.tcEras.SuspendLayout();
             this.tpEraSearch.SuspendLayout();
@@ -309,10 +317,10 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.tcWorld.Controls.Add(this.tpSummary);
             this.tcWorld.Controls.Add(this.tpHF);
+            this.tcWorld.Controls.Add(this.tpCivs);
             this.tcWorld.Controls.Add(this.tpSites);
             this.tcWorld.Controls.Add(this.tpRegions);
-            this.tcWorld.Controls.Add(this.tpURegions);
-            this.tcWorld.Controls.Add(this.tpCivs);
+            this.tcWorld.Controls.Add(this.tpWarfare);
             this.tcWorld.Controls.Add(this.tpCollections);
             this.tcWorld.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.tcWorld.Location = new System.Drawing.Point(0, 0);
@@ -339,9 +347,9 @@
             this.tpSummary.Controls.Add(this.btnXML);
             this.tpSummary.Controls.Add(this.txtXML);
             this.tpSummary.Controls.Add(this.txtLog);
-            this.tpSummary.Location = new System.Drawing.Point(4, 58);
+            this.tpSummary.Location = new System.Drawing.Point(4, 40);
             this.tpSummary.Name = "tpSummary";
-            this.tpSummary.Size = new System.Drawing.Size(269, 500);
+            this.tpSummary.Size = new System.Drawing.Size(269, 518);
             this.tpSummary.TabIndex = 0;
             this.tpSummary.Text = "Summary";
             this.tpSummary.UseVisualStyleBackColor = true;
@@ -349,7 +357,7 @@
             // btnAdvancedSearch
             // 
             this.btnAdvancedSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAdvancedSearch.Location = new System.Drawing.Point(11, 470);
+            this.btnAdvancedSearch.Location = new System.Drawing.Point(11, 488);
             this.btnAdvancedSearch.Name = "btnAdvancedSearch";
             this.btnAdvancedSearch.Size = new System.Drawing.Size(250, 23);
             this.btnAdvancedSearch.TabIndex = 19;
@@ -360,7 +368,7 @@
             // btnChart
             // 
             this.btnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnChart.Location = new System.Drawing.Point(188, 440);
+            this.btnChart.Location = new System.Drawing.Point(188, 458);
             this.btnChart.Name = "btnChart";
             this.btnChart.Size = new System.Drawing.Size(75, 23);
             this.btnChart.TabIndex = 18;
@@ -371,7 +379,7 @@
             // btnStats
             // 
             this.btnStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnStats.Location = new System.Drawing.Point(11, 440);
+            this.btnStats.Location = new System.Drawing.Point(11, 458);
             this.btnStats.Name = "btnStats";
             this.btnStats.Size = new System.Drawing.Size(75, 23);
             this.btnStats.TabIndex = 17;
@@ -382,7 +390,7 @@
             // btnShowMap
             // 
             this.btnShowMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnShowMap.Location = new System.Drawing.Point(100, 440);
+            this.btnShowMap.Location = new System.Drawing.Point(100, 458);
             this.btnShowMap.Name = "btnShowMap";
             this.btnShowMap.Size = new System.Drawing.Size(75, 23);
             this.btnShowMap.TabIndex = 16;
@@ -487,19 +495,20 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.txtLog.Location = new System.Drawing.Point(9, 138);
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(254, 295);
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.txtLog.Size = new System.Drawing.Size(254, 313);
             this.txtLog.TabIndex = 3;
             this.txtLog.Text = "";
-            this.txtLog.WordWrap = false;
             this.txtLog.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLog_KeyDown);
             // 
             // tpHF
             // 
             this.tpHF.Controls.Add(this.tcHF);
-            this.tpHF.Location = new System.Drawing.Point(4, 58);
+            this.tpHF.Location = new System.Drawing.Point(4, 40);
             this.tpHF.Margin = new System.Windows.Forms.Padding(0);
             this.tpHF.Name = "tpHF";
-            this.tpHF.Size = new System.Drawing.Size(269, 500);
+            this.tpHF.Size = new System.Drawing.Size(269, 518);
             this.tpHF.TabIndex = 1;
             this.tpHF.Text = "Historical Figures";
             this.tpHF.UseVisualStyleBackColor = true;
@@ -514,7 +523,7 @@
             this.tcHF.Name = "tcHF";
             this.tcHF.Padding = new System.Drawing.Point(0, 0);
             this.tcHF.SelectedIndex = 0;
-            this.tcHF.Size = new System.Drawing.Size(269, 500);
+            this.tcHF.Size = new System.Drawing.Size(269, 518);
             this.tcHF.TabIndex = 0;
             // 
             // tpHFSearch
@@ -528,7 +537,7 @@
             this.tpHFSearch.Location = new System.Drawing.Point(4, 22);
             this.tpHFSearch.Margin = new System.Windows.Forms.Padding(0);
             this.tpHFSearch.Name = "tpHFSearch";
-            this.tpHFSearch.Size = new System.Drawing.Size(261, 474);
+            this.tpHFSearch.Size = new System.Drawing.Size(261, 492);
             this.tpHFSearch.TabIndex = 0;
             this.tpHFSearch.Text = "Search";
             this.tpHFSearch.UseVisualStyleBackColor = true;
@@ -536,7 +545,7 @@
             // btnHFListReset
             // 
             this.btnHFListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnHFListReset.Location = new System.Drawing.Point(6, 218);
+            this.btnHFListReset.Location = new System.Drawing.Point(6, 236);
             this.btnHFListReset.Name = "btnHFListReset";
             this.btnHFListReset.Size = new System.Drawing.Size(50, 20);
             this.btnHFListReset.TabIndex = 41;
@@ -547,7 +556,7 @@
             // lblHFList
             // 
             this.lblHFList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblHFList.Location = new System.Drawing.Point(61, 223);
+            this.lblHFList.Location = new System.Drawing.Point(61, 241);
             this.lblHFList.Name = "lblHFList";
             this.lblHFList.Size = new System.Drawing.Size(192, 36);
             this.lblHFList.TabIndex = 40;
@@ -571,7 +580,7 @@
             this.grpHFFilter.Controls.Add(this.chkAlive);
             this.grpHFFilter.Controls.Add(this.chkGhost);
             this.grpHFFilter.Controls.Add(this.chkDeity);
-            this.grpHFFilter.Location = new System.Drawing.Point(3, 262);
+            this.grpHFFilter.Location = new System.Drawing.Point(3, 280);
             this.grpHFFilter.Name = "grpHFFilter";
             this.grpHFFilter.Size = new System.Drawing.Size(254, 209);
             this.grpHFFilter.TabIndex = 33;
@@ -754,7 +763,7 @@
             // chkAlive
             // 
             this.chkAlive.AutoSize = true;
-            this.chkAlive.Location = new System.Drawing.Point(73, 162);
+            this.chkAlive.Location = new System.Drawing.Point(74, 162);
             this.chkAlive.Name = "chkAlive";
             this.chkAlive.Size = new System.Drawing.Size(50, 17);
             this.chkAlive.TabIndex = 4;
@@ -765,7 +774,7 @@
             // chkGhost
             // 
             this.chkGhost.AutoSize = true;
-            this.chkGhost.Location = new System.Drawing.Point(73, 139);
+            this.chkGhost.Location = new System.Drawing.Point(74, 139);
             this.chkGhost.Name = "chkGhost";
             this.chkGhost.Size = new System.Drawing.Size(57, 17);
             this.chkGhost.TabIndex = 3;
@@ -776,7 +785,7 @@
             // chkDeity
             // 
             this.chkDeity.AutoSize = true;
-            this.chkDeity.Location = new System.Drawing.Point(73, 185);
+            this.chkDeity.Location = new System.Drawing.Point(74, 185);
             this.chkDeity.Name = "chkDeity";
             this.chkDeity.Size = new System.Drawing.Size(52, 17);
             this.chkDeity.TabIndex = 0;
@@ -824,17 +833,238 @@
             this.tpHFEvents.Location = new System.Drawing.Point(4, 22);
             this.tpHFEvents.Name = "tpHFEvents";
             this.tpHFEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHFEvents.Size = new System.Drawing.Size(261, 474);
+            this.tpHFEvents.Size = new System.Drawing.Size(261, 510);
             this.tpHFEvents.TabIndex = 1;
             this.tpHFEvents.Text = "Events";
             this.tpHFEvents.UseVisualStyleBackColor = true;
             // 
+            // tpCivs
+            // 
+            this.tpCivs.Controls.Add(this.tcCivs);
+            this.tpCivs.Location = new System.Drawing.Point(4, 40);
+            this.tpCivs.Name = "tpCivs";
+            this.tpCivs.Size = new System.Drawing.Size(269, 518);
+            this.tpCivs.TabIndex = 5;
+            this.tpCivs.Text = "Civs and entities";
+            this.tpCivs.UseVisualStyleBackColor = true;
+            // 
+            // tcCivs
+            // 
+            this.tcCivs.Controls.Add(this.tpCivSearch);
+            this.tcCivs.Controls.Add(this.tpCivEvents);
+            this.tcCivs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcCivs.Location = new System.Drawing.Point(0, 0);
+            this.tcCivs.Name = "tcCivs";
+            this.tcCivs.SelectedIndex = 0;
+            this.tcCivs.Size = new System.Drawing.Size(269, 518);
+            this.tcCivs.TabIndex = 0;
+            // 
+            // tpCivSearch
+            // 
+            this.tpCivSearch.Controls.Add(this.groupBox4);
+            this.tpCivSearch.Controls.Add(this.txtCivSearch);
+            this.tpCivSearch.Controls.Add(this.listCivSearch);
+            this.tpCivSearch.Controls.Add(this.btnCivSearch);
+            this.tpCivSearch.Location = new System.Drawing.Point(4, 22);
+            this.tpCivSearch.Name = "tpCivSearch";
+            this.tpCivSearch.Padding = new System.Windows.Forms.Padding(3);
+            this.tpCivSearch.Size = new System.Drawing.Size(261, 492);
+            this.tpCivSearch.TabIndex = 0;
+            this.tpCivSearch.Text = "Search";
+            this.tpCivSearch.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Controls.Add(this.groupBox9);
+            this.groupBox4.Controls.Add(this.chkCiv);
+            this.groupBox4.Controls.Add(this.cmbCivRace);
+            this.groupBox4.Location = new System.Drawing.Point(3, 311);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(254, 175);
+            this.groupBox4.TabIndex = 37;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Filter / Sort";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Race";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox9.Controls.Add(this.cmbEntityPopulation);
+            this.groupBox9.Controls.Add(this.radEntitySortPopulation);
+            this.groupBox9.Controls.Add(this.radCivSortWars);
+            this.groupBox9.Controls.Add(this.radCivSortFiltered);
+            this.groupBox9.Controls.Add(this.radCivSites);
+            this.groupBox9.Controls.Add(this.radEntityNone);
+            this.groupBox9.Controls.Add(this.radEntitySortEvents);
+            this.groupBox9.Location = new System.Drawing.Point(6, 62);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(240, 107);
+            this.groupBox9.TabIndex = 15;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Sort By";
+            // 
+            // cmbEntityPopulation
+            // 
+            this.cmbEntityPopulation.FormattingEnabled = true;
+            this.cmbEntityPopulation.Location = new System.Drawing.Point(113, 38);
+            this.cmbEntityPopulation.Name = "cmbEntityPopulation";
+            this.cmbEntityPopulation.Size = new System.Drawing.Size(121, 21);
+            this.cmbEntityPopulation.TabIndex = 19;
+            this.cmbEntityPopulation.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // radEntitySortPopulation
+            // 
+            this.radEntitySortPopulation.AutoSize = true;
+            this.radEntitySortPopulation.Location = new System.Drawing.Point(114, 19);
+            this.radEntitySortPopulation.Name = "radEntitySortPopulation";
+            this.radEntitySortPopulation.Size = new System.Drawing.Size(82, 17);
+            this.radEntitySortPopulation.TabIndex = 18;
+            this.radEntitySortPopulation.TabStop = true;
+            this.radEntitySortPopulation.Text = "Population";
+            this.radEntitySortPopulation.UseVisualStyleBackColor = true;
+            this.radEntitySortPopulation.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // radCivSortWars
+            // 
+            this.radCivSortWars.AutoSize = true;
+            this.radCivSortWars.Location = new System.Drawing.Point(6, 88);
+            this.radCivSortWars.Name = "radCivSortWars";
+            this.radCivSortWars.Size = new System.Drawing.Size(51, 17);
+            this.radCivSortWars.TabIndex = 17;
+            this.radCivSortWars.TabStop = true;
+            this.radCivSortWars.Text = "Wars";
+            this.radCivSortWars.UseVisualStyleBackColor = true;
+            this.radCivSortWars.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // radCivSortFiltered
+            // 
+            this.radCivSortFiltered.AutoSize = true;
+            this.radCivSortFiltered.Location = new System.Drawing.Point(6, 42);
+            this.radCivSortFiltered.Name = "radCivSortFiltered";
+            this.radCivSortFiltered.Size = new System.Drawing.Size(100, 17);
+            this.radCivSortFiltered.TabIndex = 16;
+            this.radCivSortFiltered.TabStop = true;
+            this.radCivSortFiltered.Text = "Filtered Events";
+            this.radCivSortFiltered.UseVisualStyleBackColor = true;
+            this.radCivSortFiltered.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // radCivSites
+            // 
+            this.radCivSites.AutoSize = true;
+            this.radCivSites.Location = new System.Drawing.Point(6, 65);
+            this.radCivSites.Name = "radCivSites";
+            this.radCivSites.Size = new System.Drawing.Size(49, 17);
+            this.radCivSites.TabIndex = 15;
+            this.radCivSites.TabStop = true;
+            this.radCivSites.Text = "Sites";
+            this.radCivSites.UseVisualStyleBackColor = true;
+            this.radCivSites.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // radEntityNone
+            // 
+            this.radEntityNone.AutoSize = true;
+            this.radEntityNone.Checked = true;
+            this.radEntityNone.Location = new System.Drawing.Point(114, 65);
+            this.radEntityNone.Name = "radEntityNone";
+            this.radEntityNone.Size = new System.Drawing.Size(53, 17);
+            this.radEntityNone.TabIndex = 14;
+            this.radEntityNone.TabStop = true;
+            this.radEntityNone.Text = "None";
+            this.radEntityNone.UseVisualStyleBackColor = true;
+            this.radEntityNone.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // radEntitySortEvents
+            // 
+            this.radEntitySortEvents.AutoSize = true;
+            this.radEntitySortEvents.Location = new System.Drawing.Point(6, 19);
+            this.radEntitySortEvents.Name = "radEntitySortEvents";
+            this.radEntitySortEvents.Size = new System.Drawing.Size(58, 17);
+            this.radEntitySortEvents.TabIndex = 13;
+            this.radEntitySortEvents.Text = "Events";
+            this.radEntitySortEvents.UseVisualStyleBackColor = true;
+            this.radEntitySortEvents.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // chkCiv
+            // 
+            this.chkCiv.AutoSize = true;
+            this.chkCiv.Location = new System.Drawing.Point(147, 34);
+            this.chkCiv.Name = "chkCiv";
+            this.chkCiv.Size = new System.Drawing.Size(87, 17);
+            this.chkCiv.TabIndex = 14;
+            this.chkCiv.Text = "Civilizations";
+            this.chkCiv.UseVisualStyleBackColor = true;
+            this.chkCiv.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // cmbCivRace
+            // 
+            this.cmbCivRace.FormattingEnabled = true;
+            this.cmbCivRace.Location = new System.Drawing.Point(6, 32);
+            this.cmbCivRace.Name = "cmbCivRace";
+            this.cmbCivRace.Size = new System.Drawing.Size(121, 21);
+            this.cmbCivRace.TabIndex = 13;
+            this.cmbCivRace.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // txtCivSearch
+            // 
+            this.txtCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCivSearch.Location = new System.Drawing.Point(81, 5);
+            this.txtCivSearch.Name = "txtCivSearch";
+            this.txtCivSearch.Size = new System.Drawing.Size(177, 22);
+            this.txtCivSearch.TabIndex = 36;
+            this.txtCivSearch.TextChanged += new System.EventHandler(this.searchEntityList);
+            // 
+            // listCivSearch
+            // 
+            this.listCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listCivSearch.FormattingEnabled = true;
+            this.listCivSearch.Location = new System.Drawing.Point(3, 31);
+            this.listCivSearch.Name = "listCivSearch";
+            this.listCivSearch.Size = new System.Drawing.Size(256, 238);
+            this.listCivSearch.TabIndex = 35;
+            this.listCivSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
+            // 
+            // btnCivSearch
+            // 
+            this.btnCivSearch.Location = new System.Drawing.Point(3, 3);
+            this.btnCivSearch.Name = "btnCivSearch";
+            this.btnCivSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnCivSearch.TabIndex = 34;
+            this.btnCivSearch.Text = "Search";
+            this.btnCivSearch.UseVisualStyleBackColor = true;
+            this.btnCivSearch.Click += new System.EventHandler(this.searchEntityList);
+            // 
+            // tpCivEvents
+            // 
+            this.tpCivEvents.AutoScroll = true;
+            this.tpCivEvents.Location = new System.Drawing.Point(4, 22);
+            this.tpCivEvents.Name = "tpCivEvents";
+            this.tpCivEvents.Padding = new System.Windows.Forms.Padding(3);
+            this.tpCivEvents.Size = new System.Drawing.Size(261, 510);
+            this.tpCivEvents.TabIndex = 1;
+            this.tpCivEvents.Text = "Events";
+            this.tpCivEvents.UseVisualStyleBackColor = true;
+            // 
             // tpSites
             // 
             this.tpSites.Controls.Add(this.tcSites);
-            this.tpSites.Location = new System.Drawing.Point(4, 58);
+            this.tpSites.Location = new System.Drawing.Point(4, 40);
             this.tpSites.Name = "tpSites";
-            this.tpSites.Size = new System.Drawing.Size(269, 500);
+            this.tpSites.Size = new System.Drawing.Size(269, 518);
             this.tpSites.TabIndex = 2;
             this.tpSites.Text = "Sites";
             this.tpSites.UseVisualStyleBackColor = true;
@@ -847,7 +1077,7 @@
             this.tcSites.Location = new System.Drawing.Point(0, 0);
             this.tcSites.Name = "tcSites";
             this.tcSites.SelectedIndex = 0;
-            this.tcSites.Size = new System.Drawing.Size(269, 500);
+            this.tcSites.Size = new System.Drawing.Size(269, 518);
             this.tcSites.TabIndex = 0;
             // 
             // tpSiteSearch
@@ -861,7 +1091,7 @@
             this.tpSiteSearch.Location = new System.Drawing.Point(4, 22);
             this.tpSiteSearch.Name = "tpSiteSearch";
             this.tpSiteSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSiteSearch.Size = new System.Drawing.Size(261, 474);
+            this.tpSiteSearch.Size = new System.Drawing.Size(261, 492);
             this.tpSiteSearch.TabIndex = 0;
             this.tpSiteSearch.Text = "Search";
             this.tpSiteSearch.UseVisualStyleBackColor = true;
@@ -869,7 +1099,7 @@
             // btnSiteListReset
             // 
             this.btnSiteListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSiteListReset.Location = new System.Drawing.Point(6, 223);
+            this.btnSiteListReset.Location = new System.Drawing.Point(6, 241);
             this.btnSiteListReset.Name = "btnSiteListReset";
             this.btnSiteListReset.Size = new System.Drawing.Size(50, 20);
             this.btnSiteListReset.TabIndex = 43;
@@ -880,7 +1110,7 @@
             // lblSiteList
             // 
             this.lblSiteList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSiteList.Location = new System.Drawing.Point(61, 227);
+            this.lblSiteList.Location = new System.Drawing.Point(61, 245);
             this.lblSiteList.Name = "lblSiteList";
             this.lblSiteList.Size = new System.Drawing.Size(198, 36);
             this.lblSiteList.TabIndex = 42;
@@ -893,7 +1123,7 @@
             this.groupBox1.Controls.Add(this.groupBox6);
             this.groupBox1.Controls.Add(this.label26);
             this.groupBox1.Controls.Add(this.cmbSiteType);
-            this.groupBox1.Location = new System.Drawing.Point(3, 266);
+            this.groupBox1.Location = new System.Drawing.Point(3, 284);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(254, 202);
             this.groupBox1.TabIndex = 34;
@@ -1074,7 +1304,7 @@
             this.listSiteSearch.FormattingEnabled = true;
             this.listSiteSearch.Location = new System.Drawing.Point(3, 31);
             this.listSiteSearch.Name = "listSiteSearch";
-            this.listSiteSearch.Size = new System.Drawing.Size(256, 173);
+            this.listSiteSearch.Size = new System.Drawing.Size(256, 186);
             this.listSiteSearch.TabIndex = 32;
             this.listSiteSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1094,31 +1324,53 @@
             this.tpSiteEvents.Location = new System.Drawing.Point(4, 22);
             this.tpSiteEvents.Name = "tpSiteEvents";
             this.tpSiteEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSiteEvents.Size = new System.Drawing.Size(261, 471);
+            this.tpSiteEvents.Size = new System.Drawing.Size(261, 492);
             this.tpSiteEvents.TabIndex = 1;
             this.tpSiteEvents.Text = "Events";
             this.tpSiteEvents.UseVisualStyleBackColor = true;
             // 
             // tpRegions
             // 
-            this.tpRegions.Controls.Add(this.tcRegions);
-            this.tpRegions.Location = new System.Drawing.Point(4, 58);
+            this.tpRegions.Controls.Add(this.tcRegionsSub);
+            this.tpRegions.Location = new System.Drawing.Point(4, 40);
             this.tpRegions.Name = "tpRegions";
-            this.tpRegions.Size = new System.Drawing.Size(269, 500);
+            this.tpRegions.Size = new System.Drawing.Size(269, 518);
             this.tpRegions.TabIndex = 3;
             this.tpRegions.Text = "Regions";
             this.tpRegions.UseVisualStyleBackColor = true;
+            // 
+            // tcRegionsSub
+            // 
+            this.tcRegionsSub.Controls.Add(this.tpOverworld);
+            this.tcRegionsSub.Controls.Add(this.tpUnderground);
+            this.tcRegionsSub.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcRegionsSub.Location = new System.Drawing.Point(0, 0);
+            this.tcRegionsSub.Name = "tcRegionsSub";
+            this.tcRegionsSub.SelectedIndex = 0;
+            this.tcRegionsSub.Size = new System.Drawing.Size(269, 518);
+            this.tcRegionsSub.TabIndex = 1;
+            // 
+            // tpOverworld
+            // 
+            this.tpOverworld.Controls.Add(this.tcRegions);
+            this.tpOverworld.Location = new System.Drawing.Point(4, 22);
+            this.tpOverworld.Name = "tpOverworld";
+            this.tpOverworld.Padding = new System.Windows.Forms.Padding(3);
+            this.tpOverworld.Size = new System.Drawing.Size(261, 492);
+            this.tpOverworld.TabIndex = 0;
+            this.tpOverworld.Text = "Overworld";
+            this.tpOverworld.UseVisualStyleBackColor = true;
             // 
             // tcRegions
             // 
             this.tcRegions.Controls.Add(this.tpRegionSearch);
             this.tcRegions.Controls.Add(this.tpRegionEvents);
             this.tcRegions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcRegions.Location = new System.Drawing.Point(0, 0);
+            this.tcRegions.Location = new System.Drawing.Point(3, 3);
             this.tcRegions.Name = "tcRegions";
             this.tcRegions.SelectedIndex = 0;
-            this.tcRegions.Size = new System.Drawing.Size(269, 500);
-            this.tcRegions.TabIndex = 0;
+            this.tcRegions.Size = new System.Drawing.Size(255, 486);
+            this.tcRegions.TabIndex = 1;
             // 
             // tpRegionSearch
             // 
@@ -1129,7 +1381,7 @@
             this.tpRegionSearch.Location = new System.Drawing.Point(4, 22);
             this.tpRegionSearch.Name = "tpRegionSearch";
             this.tpRegionSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRegionSearch.Size = new System.Drawing.Size(261, 474);
+            this.tpRegionSearch.Size = new System.Drawing.Size(247, 460);
             this.tpRegionSearch.TabIndex = 0;
             this.tpRegionSearch.Text = "Search";
             this.tpRegionSearch.UseVisualStyleBackColor = true;
@@ -1141,9 +1393,9 @@
             this.groupBox2.Controls.Add(this.groupBox7);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.cmbRegionType);
-            this.groupBox2.Location = new System.Drawing.Point(3, 284);
+            this.groupBox2.Location = new System.Drawing.Point(3, 270);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(254, 163);
+            this.groupBox2.Size = new System.Drawing.Size(240, 163);
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filter / Sort";
@@ -1159,7 +1411,7 @@
             this.groupBox7.Controls.Add(this.radRegionSortEvents);
             this.groupBox7.Location = new System.Drawing.Point(133, 19);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(113, 131);
+            this.groupBox7.Size = new System.Drawing.Size(99, 131);
             this.groupBox7.TabIndex = 13;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Sort By";
@@ -1186,7 +1438,7 @@
             this.radRegionSortBattles.TabStop = true;
             this.radRegionSortBattles.Text = "Battles";
             this.radRegionSortBattles.UseVisualStyleBackColor = true;
-            this.radRegionSortBattles.CheckedChanged += new System.EventHandler(this.searchBattleList);
+            this.radRegionSortBattles.CheckedChanged += new System.EventHandler(this.searchRegionList);
             // 
             // radRegionSortFiltered
             // 
@@ -1248,7 +1500,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtRegionSearch.Location = new System.Drawing.Point(81, 5);
             this.txtRegionSearch.Name = "txtRegionSearch";
-            this.txtRegionSearch.Size = new System.Drawing.Size(177, 22);
+            this.txtRegionSearch.Size = new System.Drawing.Size(163, 22);
             this.txtRegionSearch.TabIndex = 33;
             this.txtRegionSearch.TextChanged += new System.EventHandler(this.searchRegionList);
             // 
@@ -1260,7 +1512,7 @@
             this.listRegionSearch.FormattingEnabled = true;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listRegionSearch.Name = "listRegionSearch";
-            this.listRegionSearch.Size = new System.Drawing.Size(256, 238);
+            this.listRegionSearch.Size = new System.Drawing.Size(242, 212);
             this.listRegionSearch.TabIndex = 32;
             this.listRegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1280,31 +1532,32 @@
             this.tpRegionEvents.Location = new System.Drawing.Point(4, 22);
             this.tpRegionEvents.Name = "tpRegionEvents";
             this.tpRegionEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRegionEvents.Size = new System.Drawing.Size(261, 471);
+            this.tpRegionEvents.Size = new System.Drawing.Size(247, 460);
             this.tpRegionEvents.TabIndex = 1;
             this.tpRegionEvents.Text = "Events";
             this.tpRegionEvents.UseVisualStyleBackColor = true;
             // 
-            // tpURegions
+            // tpUnderground
             // 
-            this.tpURegions.Controls.Add(this.tcURegions);
-            this.tpURegions.Location = new System.Drawing.Point(4, 58);
-            this.tpURegions.Name = "tpURegions";
-            this.tpURegions.Size = new System.Drawing.Size(269, 500);
-            this.tpURegions.TabIndex = 4;
-            this.tpURegions.Text = "Underground Regions";
-            this.tpURegions.UseVisualStyleBackColor = true;
+            this.tpUnderground.Controls.Add(this.tcURegions);
+            this.tpUnderground.Location = new System.Drawing.Point(4, 22);
+            this.tpUnderground.Name = "tpUnderground";
+            this.tpUnderground.Padding = new System.Windows.Forms.Padding(3);
+            this.tpUnderground.Size = new System.Drawing.Size(261, 492);
+            this.tpUnderground.TabIndex = 1;
+            this.tpUnderground.Text = "Underground";
+            this.tpUnderground.UseVisualStyleBackColor = true;
             // 
             // tcURegions
             // 
             this.tcURegions.Controls.Add(this.tpURegionSearch);
             this.tcURegions.Controls.Add(this.tpURegionEvents);
             this.tcURegions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcURegions.Location = new System.Drawing.Point(0, 0);
+            this.tcURegions.Location = new System.Drawing.Point(3, 3);
             this.tcURegions.Name = "tcURegions";
             this.tcURegions.SelectedIndex = 0;
-            this.tcURegions.Size = new System.Drawing.Size(269, 500);
-            this.tcURegions.TabIndex = 0;
+            this.tcURegions.Size = new System.Drawing.Size(255, 486);
+            this.tcURegions.TabIndex = 1;
             // 
             // tpURegionSearch
             // 
@@ -1314,7 +1567,7 @@
             this.tpURegionSearch.Location = new System.Drawing.Point(4, 22);
             this.tpURegionSearch.Name = "tpURegionSearch";
             this.tpURegionSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpURegionSearch.Size = new System.Drawing.Size(261, 474);
+            this.tpURegionSearch.Size = new System.Drawing.Size(247, 460);
             this.tpURegionSearch.TabIndex = 0;
             this.tpURegionSearch.Text = "Search";
             this.tpURegionSearch.UseVisualStyleBackColor = true;
@@ -1336,9 +1589,9 @@
             this.groupBox3.Controls.Add(this.groupBox8);
             this.groupBox3.Controls.Add(this.label28);
             this.groupBox3.Controls.Add(this.cmbURegionType);
-            this.groupBox3.Location = new System.Drawing.Point(3, 285);
+            this.groupBox3.Location = new System.Drawing.Point(3, 271);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(254, 162);
+            this.groupBox3.Size = new System.Drawing.Size(240, 162);
             this.groupBox3.TabIndex = 33;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Filter / Sort";
@@ -1352,7 +1605,7 @@
             this.groupBox8.Controls.Add(this.radURegionSortEvents);
             this.groupBox8.Location = new System.Drawing.Point(133, 19);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(113, 92);
+            this.groupBox8.Size = new System.Drawing.Size(99, 92);
             this.groupBox8.TabIndex = 13;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Sort By";
@@ -1419,7 +1672,7 @@
             this.listURegionSearch.FormattingEnabled = true;
             this.listURegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listURegionSearch.Name = "listURegionSearch";
-            this.listURegionSearch.Size = new System.Drawing.Size(256, 238);
+            this.listURegionSearch.Size = new System.Drawing.Size(242, 212);
             this.listURegionSearch.TabIndex = 32;
             this.listURegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1429,266 +1682,43 @@
             this.tpURegionEvents.Location = new System.Drawing.Point(4, 22);
             this.tpURegionEvents.Name = "tpURegionEvents";
             this.tpURegionEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpURegionEvents.Size = new System.Drawing.Size(261, 471);
+            this.tpURegionEvents.Size = new System.Drawing.Size(247, 460);
             this.tpURegionEvents.TabIndex = 1;
             this.tpURegionEvents.Text = "Events";
             this.tpURegionEvents.UseVisualStyleBackColor = true;
             // 
-            // tpCivs
+            // tpWarfare
             // 
-            this.tpCivs.Controls.Add(this.tcCivs);
-            this.tpCivs.Location = new System.Drawing.Point(4, 58);
-            this.tpCivs.Name = "tpCivs";
-            this.tpCivs.Size = new System.Drawing.Size(269, 500);
-            this.tpCivs.TabIndex = 5;
-            this.tpCivs.Text = "Civs and entities";
-            this.tpCivs.UseVisualStyleBackColor = true;
+            this.tpWarfare.Controls.Add(this.tcWarfare);
+            this.tpWarfare.Location = new System.Drawing.Point(4, 40);
+            this.tpWarfare.Name = "tpWarfare";
+            this.tpWarfare.Size = new System.Drawing.Size(269, 518);
+            this.tpWarfare.TabIndex = 6;
+            this.tpWarfare.Text = "Warfare";
+            this.tpWarfare.UseVisualStyleBackColor = true;
             // 
-            // tcCivs
+            // tcWarfare
             // 
-            this.tcCivs.Controls.Add(this.tpCivSearch);
-            this.tcCivs.Controls.Add(this.tpCivEvents);
-            this.tcCivs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcCivs.Location = new System.Drawing.Point(0, 0);
-            this.tcCivs.Name = "tcCivs";
-            this.tcCivs.SelectedIndex = 0;
-            this.tcCivs.Size = new System.Drawing.Size(269, 500);
-            this.tcCivs.TabIndex = 0;
-            // 
-            // tpCivSearch
-            // 
-            this.tpCivSearch.Controls.Add(this.groupBox4);
-            this.tpCivSearch.Controls.Add(this.txtCivSearch);
-            this.tpCivSearch.Controls.Add(this.listCivSearch);
-            this.tpCivSearch.Controls.Add(this.btnCivSearch);
-            this.tpCivSearch.Location = new System.Drawing.Point(4, 22);
-            this.tpCivSearch.Name = "tpCivSearch";
-            this.tpCivSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCivSearch.Size = new System.Drawing.Size(261, 474);
-            this.tpCivSearch.TabIndex = 0;
-            this.tpCivSearch.Text = "Search";
-            this.tpCivSearch.UseVisualStyleBackColor = true;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Controls.Add(this.groupBox9);
-            this.groupBox4.Controls.Add(this.chkCiv);
-            this.groupBox4.Controls.Add(this.cmbCivRace);
-            this.groupBox4.Location = new System.Drawing.Point(3, 293);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(254, 175);
-            this.groupBox4.TabIndex = 37;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Filter / Sort";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "Race";
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox9.Controls.Add(this.cmbEntityPopulation);
-            this.groupBox9.Controls.Add(this.radEntitySortPopulation);
-            this.groupBox9.Controls.Add(this.radCivSortWars);
-            this.groupBox9.Controls.Add(this.radCivSortFiltered);
-            this.groupBox9.Controls.Add(this.radCivSites);
-            this.groupBox9.Controls.Add(this.radEntityNone);
-            this.groupBox9.Controls.Add(this.radEntitySortEvents);
-            this.groupBox9.Location = new System.Drawing.Point(6, 62);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(240, 107);
-            this.groupBox9.TabIndex = 15;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Sort By";
-            // 
-            // cmbEntityPopulation
-            // 
-            this.cmbEntityPopulation.FormattingEnabled = true;
-            this.cmbEntityPopulation.Location = new System.Drawing.Point(113, 38);
-            this.cmbEntityPopulation.Name = "cmbEntityPopulation";
-            this.cmbEntityPopulation.Size = new System.Drawing.Size(121, 21);
-            this.cmbEntityPopulation.TabIndex = 19;
-            this.cmbEntityPopulation.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // radEntitySortPopulation
-            // 
-            this.radEntitySortPopulation.AutoSize = true;
-            this.radEntitySortPopulation.Location = new System.Drawing.Point(114, 19);
-            this.radEntitySortPopulation.Name = "radEntitySortPopulation";
-            this.radEntitySortPopulation.Size = new System.Drawing.Size(82, 17);
-            this.radEntitySortPopulation.TabIndex = 18;
-            this.radEntitySortPopulation.TabStop = true;
-            this.radEntitySortPopulation.Text = "Population";
-            this.radEntitySortPopulation.UseVisualStyleBackColor = true;
-            this.radEntitySortPopulation.CheckedChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // radCivSortWars
-            // 
-            this.radCivSortWars.AutoSize = true;
-            this.radCivSortWars.Location = new System.Drawing.Point(6, 88);
-            this.radCivSortWars.Name = "radCivSortWars";
-            this.radCivSortWars.Size = new System.Drawing.Size(51, 17);
-            this.radCivSortWars.TabIndex = 17;
-            this.radCivSortWars.TabStop = true;
-            this.radCivSortWars.Text = "Wars";
-            this.radCivSortWars.UseVisualStyleBackColor = true;
-            this.radCivSortWars.CheckedChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // radCivSortFiltered
-            // 
-            this.radCivSortFiltered.AutoSize = true;
-            this.radCivSortFiltered.Location = new System.Drawing.Point(6, 42);
-            this.radCivSortFiltered.Name = "radCivSortFiltered";
-            this.radCivSortFiltered.Size = new System.Drawing.Size(100, 17);
-            this.radCivSortFiltered.TabIndex = 16;
-            this.radCivSortFiltered.TabStop = true;
-            this.radCivSortFiltered.Text = "Filtered Events";
-            this.radCivSortFiltered.UseVisualStyleBackColor = true;
-            this.radCivSortFiltered.CheckedChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // radCivSites
-            // 
-            this.radCivSites.AutoSize = true;
-            this.radCivSites.Location = new System.Drawing.Point(6, 65);
-            this.radCivSites.Name = "radCivSites";
-            this.radCivSites.Size = new System.Drawing.Size(49, 17);
-            this.radCivSites.TabIndex = 15;
-            this.radCivSites.TabStop = true;
-            this.radCivSites.Text = "Sites";
-            this.radCivSites.UseVisualStyleBackColor = true;
-            this.radCivSites.CheckedChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // radEntityNone
-            // 
-            this.radEntityNone.AutoSize = true;
-            this.radEntityNone.Checked = true;
-            this.radEntityNone.Location = new System.Drawing.Point(114, 65);
-            this.radEntityNone.Name = "radEntityNone";
-            this.radEntityNone.Size = new System.Drawing.Size(53, 17);
-            this.radEntityNone.TabIndex = 14;
-            this.radEntityNone.TabStop = true;
-            this.radEntityNone.Text = "None";
-            this.radEntityNone.UseVisualStyleBackColor = true;
-            this.radEntityNone.CheckedChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // radEntitySortEvents
-            // 
-            this.radEntitySortEvents.AutoSize = true;
-            this.radEntitySortEvents.Location = new System.Drawing.Point(6, 19);
-            this.radEntitySortEvents.Name = "radEntitySortEvents";
-            this.radEntitySortEvents.Size = new System.Drawing.Size(58, 17);
-            this.radEntitySortEvents.TabIndex = 13;
-            this.radEntitySortEvents.Text = "Events";
-            this.radEntitySortEvents.UseVisualStyleBackColor = true;
-            this.radEntitySortEvents.CheckedChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // chkCiv
-            // 
-            this.chkCiv.AutoSize = true;
-            this.chkCiv.Location = new System.Drawing.Point(147, 34);
-            this.chkCiv.Name = "chkCiv";
-            this.chkCiv.Size = new System.Drawing.Size(87, 17);
-            this.chkCiv.TabIndex = 14;
-            this.chkCiv.Text = "Civilizations";
-            this.chkCiv.UseVisualStyleBackColor = true;
-            this.chkCiv.CheckedChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // cmbCivRace
-            // 
-            this.cmbCivRace.FormattingEnabled = true;
-            this.cmbCivRace.Location = new System.Drawing.Point(6, 32);
-            this.cmbCivRace.Name = "cmbCivRace";
-            this.cmbCivRace.Size = new System.Drawing.Size(121, 21);
-            this.cmbCivRace.TabIndex = 13;
-            this.cmbCivRace.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // txtCivSearch
-            // 
-            this.txtCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCivSearch.Location = new System.Drawing.Point(81, 5);
-            this.txtCivSearch.Name = "txtCivSearch";
-            this.txtCivSearch.Size = new System.Drawing.Size(177, 22);
-            this.txtCivSearch.TabIndex = 36;
-            this.txtCivSearch.TextChanged += new System.EventHandler(this.searchEntityList);
-            // 
-            // listCivSearch
-            // 
-            this.listCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listCivSearch.FormattingEnabled = true;
-            this.listCivSearch.Location = new System.Drawing.Point(3, 31);
-            this.listCivSearch.Name = "listCivSearch";
-            this.listCivSearch.Size = new System.Drawing.Size(256, 238);
-            this.listCivSearch.TabIndex = 35;
-            this.listCivSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
-            // 
-            // btnCivSearch
-            // 
-            this.btnCivSearch.Location = new System.Drawing.Point(3, 3);
-            this.btnCivSearch.Name = "btnCivSearch";
-            this.btnCivSearch.Size = new System.Drawing.Size(75, 23);
-            this.btnCivSearch.TabIndex = 34;
-            this.btnCivSearch.Text = "Search";
-            this.btnCivSearch.UseVisualStyleBackColor = true;
-            this.btnCivSearch.Click += new System.EventHandler(this.searchEntityList);
-            // 
-            // tpCivEvents
-            // 
-            this.tpCivEvents.AutoScroll = true;
-            this.tpCivEvents.Location = new System.Drawing.Point(4, 22);
-            this.tpCivEvents.Name = "tpCivEvents";
-            this.tpCivEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCivEvents.Size = new System.Drawing.Size(261, 471);
-            this.tpCivEvents.TabIndex = 1;
-            this.tpCivEvents.Text = "Events";
-            this.tpCivEvents.UseVisualStyleBackColor = true;
-            // 
-            // tpCollections
-            // 
-            this.tpCollections.Controls.Add(this.tcCollections);
-            this.tpCollections.Location = new System.Drawing.Point(4, 58);
-            this.tpCollections.Name = "tpCollections";
-            this.tpCollections.Size = new System.Drawing.Size(269, 500);
-            this.tpCollections.TabIndex = 6;
-            this.tpCollections.Text = "Collections";
-            this.tpCollections.UseVisualStyleBackColor = true;
-            // 
-            // tcCollections
-            // 
-            this.tcCollections.Controls.Add(this.tpWars);
-            this.tcCollections.Controls.Add(this.tpBattles);
-            this.tcCollections.Controls.Add(this.tpConquerins);
-            this.tcCollections.Controls.Add(this.tpBeastAttacks);
-            this.tcCollections.Controls.Add(this.tpEras);
-            this.tcCollections.Controls.Add(this.tpArtifacts);
-            this.tcCollections.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcCollections.ItemSize = new System.Drawing.Size(48, 18);
-            this.tcCollections.Location = new System.Drawing.Point(0, 0);
-            this.tcCollections.Multiline = true;
-            this.tcCollections.Name = "tcCollections";
-            this.tcCollections.SelectedIndex = 0;
-            this.tcCollections.Size = new System.Drawing.Size(269, 500);
-            this.tcCollections.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
-            this.tcCollections.TabIndex = 0;
+            this.tcWarfare.Controls.Add(this.tpWars);
+            this.tcWarfare.Controls.Add(this.tpBattles);
+            this.tcWarfare.Controls.Add(this.tpConquerins);
+            this.tcWarfare.Controls.Add(this.tpBeastAttacks);
+            this.tcWarfare.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcWarfare.ItemSize = new System.Drawing.Size(48, 18);
+            this.tcWarfare.Location = new System.Drawing.Point(0, 0);
+            this.tcWarfare.Multiline = true;
+            this.tcWarfare.Name = "tcWarfare";
+            this.tcWarfare.SelectedIndex = 0;
+            this.tcWarfare.Size = new System.Drawing.Size(269, 518);
+            this.tcWarfare.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
+            this.tcWarfare.TabIndex = 0;
             // 
             // tpWars
             // 
             this.tpWars.Controls.Add(this.tcWars);
-            this.tpWars.Location = new System.Drawing.Point(4, 40);
+            this.tpWars.Location = new System.Drawing.Point(4, 22);
             this.tpWars.Name = "tpWars";
-            this.tpWars.Size = new System.Drawing.Size(261, 456);
+            this.tpWars.Size = new System.Drawing.Size(261, 492);
             this.tpWars.TabIndex = 0;
             this.tpWars.Text = "Wars";
             this.tpWars.UseVisualStyleBackColor = true;
@@ -1701,7 +1731,7 @@
             this.tcWars.Location = new System.Drawing.Point(0, 0);
             this.tcWars.Name = "tcWars";
             this.tcWars.SelectedIndex = 0;
-            this.tcWars.Size = new System.Drawing.Size(261, 456);
+            this.tcWars.Size = new System.Drawing.Size(261, 492);
             this.tcWars.TabIndex = 0;
             // 
             // tpWarSearch
@@ -1715,7 +1745,7 @@
             this.tpWarSearch.Location = new System.Drawing.Point(4, 22);
             this.tpWarSearch.Name = "tpWarSearch";
             this.tpWarSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpWarSearch.Size = new System.Drawing.Size(253, 430);
+            this.tpWarSearch.Size = new System.Drawing.Size(253, 466);
             this.tpWarSearch.TabIndex = 0;
             this.tpWarSearch.Text = "Search";
             this.tpWarSearch.UseVisualStyleBackColor = true;
@@ -1723,7 +1753,7 @@
             // btnWarListReset
             // 
             this.btnWarListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnWarListReset.Location = new System.Drawing.Point(5, 216);
+            this.btnWarListReset.Location = new System.Drawing.Point(5, 252);
             this.btnWarListReset.Name = "btnWarListReset";
             this.btnWarListReset.Size = new System.Drawing.Size(50, 20);
             this.btnWarListReset.TabIndex = 48;
@@ -1734,7 +1764,7 @@
             // lblWarList
             // 
             this.lblWarList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblWarList.Location = new System.Drawing.Point(61, 221);
+            this.lblWarList.Location = new System.Drawing.Point(61, 257);
             this.lblWarList.Name = "lblWarList";
             this.lblWarList.Size = new System.Drawing.Size(189, 36);
             this.lblWarList.TabIndex = 47;
@@ -1757,7 +1787,7 @@
             this.groupBox10.Controls.Add(this.chkFilterWarfare);
             this.groupBox10.Controls.Add(this.chkWarOngoing);
             this.groupBox10.Controls.Add(this.groupBox11);
-            this.groupBox10.Location = new System.Drawing.Point(3, 260);
+            this.groupBox10.Location = new System.Drawing.Point(3, 296);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(247, 164);
             this.groupBox10.TabIndex = 45;
@@ -1908,7 +1938,7 @@
             this.listWarSearch.FormattingEnabled = true;
             this.listWarSearch.Location = new System.Drawing.Point(3, 31);
             this.listWarSearch.Name = "listWarSearch";
-            this.listWarSearch.Size = new System.Drawing.Size(247, 147);
+            this.listWarSearch.Size = new System.Drawing.Size(247, 173);
             this.listWarSearch.TabIndex = 43;
             this.listWarSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1917,7 +1947,7 @@
             this.tpWarEvents.Location = new System.Drawing.Point(4, 22);
             this.tpWarEvents.Name = "tpWarEvents";
             this.tpWarEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpWarEvents.Size = new System.Drawing.Size(253, 430);
+            this.tpWarEvents.Size = new System.Drawing.Size(253, 466);
             this.tpWarEvents.TabIndex = 1;
             this.tpWarEvents.Text = "Events";
             this.tpWarEvents.UseVisualStyleBackColor = true;
@@ -1925,9 +1955,9 @@
             // tpBattles
             // 
             this.tpBattles.Controls.Add(this.tcBattles);
-            this.tpBattles.Location = new System.Drawing.Point(4, 40);
+            this.tpBattles.Location = new System.Drawing.Point(4, 22);
             this.tpBattles.Name = "tpBattles";
-            this.tpBattles.Size = new System.Drawing.Size(261, 456);
+            this.tpBattles.Size = new System.Drawing.Size(261, 492);
             this.tpBattles.TabIndex = 1;
             this.tpBattles.Text = "Battles";
             this.tpBattles.UseVisualStyleBackColor = true;
@@ -1940,7 +1970,7 @@
             this.tcBattles.Location = new System.Drawing.Point(0, 0);
             this.tcBattles.Name = "tcBattles";
             this.tcBattles.SelectedIndex = 0;
-            this.tcBattles.Size = new System.Drawing.Size(261, 456);
+            this.tcBattles.Size = new System.Drawing.Size(261, 492);
             this.tcBattles.TabIndex = 1;
             // 
             // tpBattlesSearch
@@ -1954,7 +1984,7 @@
             this.tpBattlesSearch.Location = new System.Drawing.Point(4, 22);
             this.tpBattlesSearch.Name = "tpBattlesSearch";
             this.tpBattlesSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBattlesSearch.Size = new System.Drawing.Size(253, 430);
+            this.tpBattlesSearch.Size = new System.Drawing.Size(253, 466);
             this.tpBattlesSearch.TabIndex = 0;
             this.tpBattlesSearch.Text = "Search";
             this.tpBattlesSearch.UseVisualStyleBackColor = true;
@@ -1962,7 +1992,7 @@
             // btnBattleListReset
             // 
             this.btnBattleListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBattleListReset.Location = new System.Drawing.Point(5, 216);
+            this.btnBattleListReset.Location = new System.Drawing.Point(5, 252);
             this.btnBattleListReset.Name = "btnBattleListReset";
             this.btnBattleListReset.Size = new System.Drawing.Size(50, 20);
             this.btnBattleListReset.TabIndex = 48;
@@ -1973,7 +2003,7 @@
             // lblBattleList
             // 
             this.lblBattleList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblBattleList.Location = new System.Drawing.Point(61, 221);
+            this.lblBattleList.Location = new System.Drawing.Point(61, 257);
             this.lblBattleList.Name = "lblBattleList";
             this.lblBattleList.Size = new System.Drawing.Size(189, 36);
             this.lblBattleList.TabIndex = 47;
@@ -1994,7 +2024,7 @@
             this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox12.Controls.Add(this.groupBox13);
-            this.groupBox12.Location = new System.Drawing.Point(3, 260);
+            this.groupBox12.Location = new System.Drawing.Point(3, 296);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(247, 164);
             this.groupBox12.TabIndex = 45;
@@ -2082,7 +2112,7 @@
             this.listBattleSearch.FormattingEnabled = true;
             this.listBattleSearch.Location = new System.Drawing.Point(3, 31);
             this.listBattleSearch.Name = "listBattleSearch";
-            this.listBattleSearch.Size = new System.Drawing.Size(247, 134);
+            this.listBattleSearch.Size = new System.Drawing.Size(247, 160);
             this.listBattleSearch.TabIndex = 43;
             this.listBattleSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2091,7 +2121,7 @@
             this.tpBattlesEvents.Location = new System.Drawing.Point(4, 22);
             this.tpBattlesEvents.Name = "tpBattlesEvents";
             this.tpBattlesEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBattlesEvents.Size = new System.Drawing.Size(253, 430);
+            this.tpBattlesEvents.Size = new System.Drawing.Size(253, 466);
             this.tpBattlesEvents.TabIndex = 1;
             this.tpBattlesEvents.Text = "Events";
             this.tpBattlesEvents.UseVisualStyleBackColor = true;
@@ -2099,9 +2129,9 @@
             // tpConquerins
             // 
             this.tpConquerins.Controls.Add(this.tcConquerings);
-            this.tpConquerins.Location = new System.Drawing.Point(4, 40);
+            this.tpConquerins.Location = new System.Drawing.Point(4, 22);
             this.tpConquerins.Name = "tpConquerins";
-            this.tpConquerins.Size = new System.Drawing.Size(261, 456);
+            this.tpConquerins.Size = new System.Drawing.Size(261, 492);
             this.tpConquerins.TabIndex = 2;
             this.tpConquerins.Text = "Conquerings";
             this.tpConquerins.UseVisualStyleBackColor = true;
@@ -2114,7 +2144,7 @@
             this.tcConquerings.Location = new System.Drawing.Point(0, 0);
             this.tcConquerings.Name = "tcConquerings";
             this.tcConquerings.SelectedIndex = 0;
-            this.tcConquerings.Size = new System.Drawing.Size(261, 456);
+            this.tcConquerings.Size = new System.Drawing.Size(261, 492);
             this.tcConquerings.TabIndex = 1;
             // 
             // tpConqueringsSearch
@@ -2126,7 +2156,7 @@
             this.tpConqueringsSearch.Location = new System.Drawing.Point(4, 22);
             this.tpConqueringsSearch.Name = "tpConqueringsSearch";
             this.tpConqueringsSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpConqueringsSearch.Size = new System.Drawing.Size(253, 430);
+            this.tpConqueringsSearch.Size = new System.Drawing.Size(253, 466);
             this.tpConqueringsSearch.TabIndex = 0;
             this.tpConqueringsSearch.Text = "Search";
             this.tpConqueringsSearch.UseVisualStyleBackColor = true;
@@ -2148,7 +2178,7 @@
             this.groupBox14.Controls.Add(this.label2);
             this.groupBox14.Controls.Add(this.cmbConqueringType);
             this.groupBox14.Controls.Add(this.groupBox15);
-            this.groupBox14.Location = new System.Drawing.Point(3, 260);
+            this.groupBox14.Location = new System.Drawing.Point(3, 296);
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.Size = new System.Drawing.Size(247, 164);
             this.groupBox14.TabIndex = 45;
@@ -2254,7 +2284,7 @@
             this.listConqueringSearch.FormattingEnabled = true;
             this.listConqueringSearch.Location = new System.Drawing.Point(3, 31);
             this.listConqueringSearch.Name = "listConqueringSearch";
-            this.listConqueringSearch.Size = new System.Drawing.Size(247, 147);
+            this.listConqueringSearch.Size = new System.Drawing.Size(247, 173);
             this.listConqueringSearch.TabIndex = 43;
             this.listConqueringSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2263,7 +2293,7 @@
             this.tpConqueringsEvents.Location = new System.Drawing.Point(4, 22);
             this.tpConqueringsEvents.Name = "tpConqueringsEvents";
             this.tpConqueringsEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpConqueringsEvents.Size = new System.Drawing.Size(253, 430);
+            this.tpConqueringsEvents.Size = new System.Drawing.Size(253, 466);
             this.tpConqueringsEvents.TabIndex = 1;
             this.tpConqueringsEvents.Text = "Events";
             this.tpConqueringsEvents.UseVisualStyleBackColor = true;
@@ -2271,9 +2301,9 @@
             // tpBeastAttacks
             // 
             this.tpBeastAttacks.Controls.Add(this.tabControl1);
-            this.tpBeastAttacks.Location = new System.Drawing.Point(4, 40);
+            this.tpBeastAttacks.Location = new System.Drawing.Point(4, 22);
             this.tpBeastAttacks.Name = "tpBeastAttacks";
-            this.tpBeastAttacks.Size = new System.Drawing.Size(261, 456);
+            this.tpBeastAttacks.Size = new System.Drawing.Size(261, 492);
             this.tpBeastAttacks.TabIndex = 4;
             this.tpBeastAttacks.Text = "Rampages";
             this.tpBeastAttacks.UseVisualStyleBackColor = true;
@@ -2286,7 +2316,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(261, 456);
+            this.tabControl1.Size = new System.Drawing.Size(261, 492);
             this.tabControl1.TabIndex = 0;
             // 
             // tpBeastAttackSearch
@@ -2298,7 +2328,7 @@
             this.tpBeastAttackSearch.Location = new System.Drawing.Point(4, 22);
             this.tpBeastAttackSearch.Name = "tpBeastAttackSearch";
             this.tpBeastAttackSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBeastAttackSearch.Size = new System.Drawing.Size(253, 430);
+            this.tpBeastAttackSearch.Size = new System.Drawing.Size(253, 466);
             this.tpBeastAttackSearch.TabIndex = 0;
             this.tpBeastAttackSearch.Text = "Search";
             this.tpBeastAttackSearch.UseVisualStyleBackColor = true;
@@ -2318,7 +2348,7 @@
             this.groupBox18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox18.Controls.Add(this.groupBox17);
-            this.groupBox18.Location = new System.Drawing.Point(3, 260);
+            this.groupBox18.Location = new System.Drawing.Point(3, 296);
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.Size = new System.Drawing.Size(247, 164);
             this.groupBox18.TabIndex = 49;
@@ -2406,7 +2436,7 @@
             this.listBeastAttacks.FormattingEnabled = true;
             this.listBeastAttacks.Location = new System.Drawing.Point(3, 31);
             this.listBeastAttacks.Name = "listBeastAttacks";
-            this.listBeastAttacks.Size = new System.Drawing.Size(247, 134);
+            this.listBeastAttacks.Size = new System.Drawing.Size(247, 160);
             this.listBeastAttacks.TabIndex = 47;
             this.listBeastAttacks.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2415,18 +2445,40 @@
             this.tpBeastAttackEvents.Location = new System.Drawing.Point(4, 22);
             this.tpBeastAttackEvents.Name = "tpBeastAttackEvents";
             this.tpBeastAttackEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBeastAttackEvents.Size = new System.Drawing.Size(253, 430);
+            this.tpBeastAttackEvents.Size = new System.Drawing.Size(253, 466);
             this.tpBeastAttackEvents.TabIndex = 1;
             this.tpBeastAttackEvents.Text = "Events";
             this.tpBeastAttackEvents.UseVisualStyleBackColor = true;
             // 
+            // tpCollections
+            // 
+            this.tpCollections.Controls.Add(this.tcCollections);
+            this.tpCollections.Location = new System.Drawing.Point(4, 40);
+            this.tpCollections.Name = "tpCollections";
+            this.tpCollections.Size = new System.Drawing.Size(269, 518);
+            this.tpCollections.TabIndex = 7;
+            this.tpCollections.Text = "Collections";
+            this.tpCollections.UseVisualStyleBackColor = true;
+            // 
+            // tcCollections
+            // 
+            this.tcCollections.Controls.Add(this.tpEras);
+            this.tcCollections.Controls.Add(this.tpArtifacts);
+            this.tcCollections.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcCollections.Location = new System.Drawing.Point(0, 0);
+            this.tcCollections.Name = "tcCollections";
+            this.tcCollections.SelectedIndex = 0;
+            this.tcCollections.Size = new System.Drawing.Size(269, 518);
+            this.tcCollections.TabIndex = 0;
+            // 
             // tpEras
             // 
             this.tpEras.Controls.Add(this.tcEras);
-            this.tpEras.Location = new System.Drawing.Point(4, 40);
+            this.tpEras.Location = new System.Drawing.Point(4, 22);
             this.tpEras.Name = "tpEras";
-            this.tpEras.Size = new System.Drawing.Size(261, 456);
-            this.tpEras.TabIndex = 3;
+            this.tpEras.Padding = new System.Windows.Forms.Padding(3);
+            this.tpEras.Size = new System.Drawing.Size(261, 492);
+            this.tpEras.TabIndex = 0;
             this.tpEras.Text = "Eras";
             this.tpEras.UseVisualStyleBackColor = true;
             // 
@@ -2435,11 +2487,11 @@
             this.tcEras.Controls.Add(this.tpEraSearch);
             this.tcEras.Controls.Add(this.tpEraEvents);
             this.tcEras.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcEras.Location = new System.Drawing.Point(0, 0);
+            this.tcEras.Location = new System.Drawing.Point(3, 3);
             this.tcEras.Name = "tcEras";
             this.tcEras.SelectedIndex = 0;
-            this.tcEras.Size = new System.Drawing.Size(261, 456);
-            this.tcEras.TabIndex = 2;
+            this.tcEras.Size = new System.Drawing.Size(255, 486);
+            this.tcEras.TabIndex = 3;
             // 
             // tpEraSearch
             // 
@@ -2448,7 +2500,7 @@
             this.tpEraSearch.Location = new System.Drawing.Point(4, 22);
             this.tpEraSearch.Name = "tpEraSearch";
             this.tpEraSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEraSearch.Size = new System.Drawing.Size(253, 430);
+            this.tpEraSearch.Size = new System.Drawing.Size(247, 460);
             this.tpEraSearch.TabIndex = 0;
             this.tpEraSearch.Text = "Search";
             this.tpEraSearch.UseVisualStyleBackColor = true;
@@ -2463,9 +2515,9 @@
             this.groupBox16.Controls.Add(this.label3);
             this.groupBox16.Controls.Add(this.numStart);
             this.groupBox16.Controls.Add(this.numEraEnd);
-            this.groupBox16.Location = new System.Drawing.Point(3, 260);
+            this.groupBox16.Location = new System.Drawing.Point(3, 290);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(247, 164);
+            this.groupBox16.Size = new System.Drawing.Size(241, 164);
             this.groupBox16.TabIndex = 45;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Filter / Sort";
@@ -2534,7 +2586,7 @@
             this.listEras.FormattingEnabled = true;
             this.listEras.Location = new System.Drawing.Point(3, 31);
             this.listEras.Name = "listEras";
-            this.listEras.Size = new System.Drawing.Size(247, 147);
+            this.listEras.Size = new System.Drawing.Size(241, 160);
             this.listEras.TabIndex = 43;
             this.listEras.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2544,7 +2596,7 @@
             this.tpEraEvents.Location = new System.Drawing.Point(4, 22);
             this.tpEraEvents.Name = "tpEraEvents";
             this.tpEraEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEraEvents.Size = new System.Drawing.Size(253, 430);
+            this.tpEraEvents.Size = new System.Drawing.Size(247, 460);
             this.tpEraEvents.TabIndex = 1;
             this.tpEraEvents.Text = "Events";
             this.tpEraEvents.UseVisualStyleBackColor = true;
@@ -2552,10 +2604,11 @@
             // tpArtifacts
             // 
             this.tpArtifacts.Controls.Add(this.tcArtifacts);
-            this.tpArtifacts.Location = new System.Drawing.Point(4, 40);
+            this.tpArtifacts.Location = new System.Drawing.Point(4, 22);
             this.tpArtifacts.Name = "tpArtifacts";
-            this.tpArtifacts.Size = new System.Drawing.Size(261, 456);
-            this.tpArtifacts.TabIndex = 5;
+            this.tpArtifacts.Padding = new System.Windows.Forms.Padding(3);
+            this.tpArtifacts.Size = new System.Drawing.Size(261, 492);
+            this.tpArtifacts.TabIndex = 1;
             this.tpArtifacts.Text = "Artifacts";
             this.tpArtifacts.UseVisualStyleBackColor = true;
             // 
@@ -2564,11 +2617,11 @@
             this.tcArtifacts.Controls.Add(this.tpArtifactsSearch);
             this.tcArtifacts.Controls.Add(this.tpArtifactsEvents);
             this.tcArtifacts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcArtifacts.Location = new System.Drawing.Point(0, 0);
+            this.tcArtifacts.Location = new System.Drawing.Point(3, 3);
             this.tcArtifacts.Name = "tcArtifacts";
             this.tcArtifacts.SelectedIndex = 0;
-            this.tcArtifacts.Size = new System.Drawing.Size(261, 456);
-            this.tcArtifacts.TabIndex = 2;
+            this.tcArtifacts.Size = new System.Drawing.Size(255, 486);
+            this.tcArtifacts.TabIndex = 3;
             // 
             // tpArtifactsSearch
             // 
@@ -2581,7 +2634,7 @@
             this.tpArtifactsSearch.Location = new System.Drawing.Point(4, 22);
             this.tpArtifactsSearch.Name = "tpArtifactsSearch";
             this.tpArtifactsSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpArtifactsSearch.Size = new System.Drawing.Size(253, 430);
+            this.tpArtifactsSearch.Size = new System.Drawing.Size(247, 460);
             this.tpArtifactsSearch.TabIndex = 0;
             this.tpArtifactsSearch.Text = "Search";
             this.tpArtifactsSearch.UseVisualStyleBackColor = true;
@@ -2589,7 +2642,7 @@
             // btnArtifactListReset
             // 
             this.btnArtifactListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnArtifactListReset.Location = new System.Drawing.Point(5, 216);
+            this.btnArtifactListReset.Location = new System.Drawing.Point(5, 246);
             this.btnArtifactListReset.Name = "btnArtifactListReset";
             this.btnArtifactListReset.Size = new System.Drawing.Size(50, 20);
             this.btnArtifactListReset.TabIndex = 48;
@@ -2600,7 +2653,7 @@
             // lblArtifactList
             // 
             this.lblArtifactList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblArtifactList.Location = new System.Drawing.Point(61, 221);
+            this.lblArtifactList.Location = new System.Drawing.Point(61, 251);
             this.lblArtifactList.Name = "lblArtifactList";
             this.lblArtifactList.Size = new System.Drawing.Size(189, 36);
             this.lblArtifactList.TabIndex = 47;
@@ -2621,9 +2674,9 @@
             this.groupBox19.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox19.Controls.Add(this.groupBox20);
-            this.groupBox19.Location = new System.Drawing.Point(3, 260);
+            this.groupBox19.Location = new System.Drawing.Point(3, 290);
             this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Size = new System.Drawing.Size(247, 164);
+            this.groupBox19.Size = new System.Drawing.Size(241, 164);
             this.groupBox19.TabIndex = 45;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Filter / Sort";
@@ -2637,7 +2690,7 @@
             this.groupBox20.Controls.Add(this.radArtifactSortEvents);
             this.groupBox20.Location = new System.Drawing.Point(133, 19);
             this.groupBox20.Name = "groupBox20";
-            this.groupBox20.Size = new System.Drawing.Size(108, 126);
+            this.groupBox20.Size = new System.Drawing.Size(102, 126);
             this.groupBox20.TabIndex = 15;
             this.groupBox20.TabStop = false;
             this.groupBox20.Text = "Sort By";
@@ -2684,7 +2737,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtArtifactSearch.Location = new System.Drawing.Point(81, 5);
             this.txtArtifactSearch.Name = "txtArtifactSearch";
-            this.txtArtifactSearch.Size = new System.Drawing.Size(169, 22);
+            this.txtArtifactSearch.Size = new System.Drawing.Size(163, 22);
             this.txtArtifactSearch.TabIndex = 44;
             this.txtArtifactSearch.TextChanged += new System.EventHandler(this.searchArtifactList);
             // 
@@ -2696,7 +2749,7 @@
             this.listArtifactSearch.FormattingEnabled = true;
             this.listArtifactSearch.Location = new System.Drawing.Point(3, 31);
             this.listArtifactSearch.Name = "listArtifactSearch";
-            this.listArtifactSearch.Size = new System.Drawing.Size(247, 134);
+            this.listArtifactSearch.Size = new System.Drawing.Size(241, 147);
             this.listArtifactSearch.TabIndex = 43;
             this.listArtifactSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2705,7 +2758,7 @@
             this.tpArtifactsEvents.Location = new System.Drawing.Point(4, 22);
             this.tpArtifactsEvents.Name = "tpArtifactsEvents";
             this.tpArtifactsEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpArtifactsEvents.Size = new System.Drawing.Size(253, 430);
+            this.tpArtifactsEvents.Size = new System.Drawing.Size(247, 460);
             this.tpArtifactsEvents.TabIndex = 1;
             this.tpArtifactsEvents.Text = "Events";
             this.tpArtifactsEvents.UseVisualStyleBackColor = true;
@@ -2771,6 +2824,14 @@
             this.grpHFFilter.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.tpCivs.ResumeLayout(false);
+            this.tcCivs.ResumeLayout(false);
+            this.tpCivSearch.ResumeLayout(false);
+            this.tpCivSearch.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.tpSites.ResumeLayout(false);
             this.tcSites.ResumeLayout(false);
             this.tpSiteSearch.ResumeLayout(false);
@@ -2780,6 +2841,8 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.tpRegions.ResumeLayout(false);
+            this.tcRegionsSub.ResumeLayout(false);
+            this.tpOverworld.ResumeLayout(false);
             this.tcRegions.ResumeLayout(false);
             this.tpRegionSearch.ResumeLayout(false);
             this.tpRegionSearch.PerformLayout();
@@ -2787,23 +2850,15 @@
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            this.tpURegions.ResumeLayout(false);
+            this.tpUnderground.ResumeLayout(false);
             this.tcURegions.ResumeLayout(false);
             this.tpURegionSearch.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            this.tpCivs.ResumeLayout(false);
-            this.tcCivs.ResumeLayout(false);
-            this.tpCivSearch.ResumeLayout(false);
-            this.tpCivSearch.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
-            this.tpCollections.ResumeLayout(false);
-            this.tcCollections.ResumeLayout(false);
+            this.tpWarfare.ResumeLayout(false);
+            this.tcWarfare.ResumeLayout(false);
             this.tpWars.ResumeLayout(false);
             this.tcWars.ResumeLayout(false);
             this.tpWarSearch.ResumeLayout(false);
@@ -2834,6 +2889,8 @@
             this.groupBox18.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
             this.groupBox17.PerformLayout();
+            this.tpCollections.ResumeLayout(false);
+            this.tcCollections.ResumeLayout(false);
             this.tpEras.ResumeLayout(false);
             this.tcEras.ResumeLayout(false);
             this.tpEraSearch.ResumeLayout(false);
@@ -2859,7 +2916,6 @@
         private System.Windows.Forms.RichTextBox txtLog;
         private System.Windows.Forms.TabPage tpSites;
         private System.Windows.Forms.TabPage tpRegions;
-        private System.Windows.Forms.TabPage tpURegions;
         private System.Windows.Forms.TabPage tpCivs;
         private System.Windows.Forms.OpenFileDialog dlgOpen;
         private System.Windows.Forms.Button btnBack;
@@ -2899,23 +2955,6 @@
         private System.Windows.Forms.ListBox listSiteSearch;
         private System.Windows.Forms.Button btnSiteSearch;
         private System.Windows.Forms.TabPage tpSiteEvents;
-        private System.Windows.Forms.TabControl tcRegions;
-        private System.Windows.Forms.TabPage tpRegionSearch;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.ComboBox cmbRegionType;
-        private System.Windows.Forms.TextBox txtRegionSearch;
-        private System.Windows.Forms.ListBox listRegionSearch;
-        private System.Windows.Forms.Button btnRegionSearch;
-        private System.Windows.Forms.TabPage tpRegionEvents;
-        private System.Windows.Forms.TabControl tcURegions;
-        private System.Windows.Forms.TabPage tpURegionSearch;
-        private System.Windows.Forms.Button btnURegionSearch;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.ComboBox cmbURegionType;
-        private System.Windows.Forms.ListBox listURegionSearch;
-        private System.Windows.Forms.TabPage tpURegionEvents;
         private System.Windows.Forms.TabControl tcCivs;
         private System.Windows.Forms.TabPage tpCivSearch;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -2935,14 +2974,6 @@
         private System.Windows.Forms.RadioButton radSiteOwners;
         private System.Windows.Forms.RadioButton radSiteNone;
         private System.Windows.Forms.RadioButton radSiteSortEvents;
-        private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.RadioButton radRegionSortFiltered;
-        private System.Windows.Forms.RadioButton radRegionNone;
-        private System.Windows.Forms.RadioButton radRegionSortEvents;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.RadioButton radURegionSortFiltered;
-        private System.Windows.Forms.RadioButton radURegionNone;
-        private System.Windows.Forms.RadioButton radURegionSortEvents;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.RadioButton radCivSortFiltered;
         private System.Windows.Forms.RadioButton radCivSites;
@@ -2950,8 +2981,8 @@
         private System.Windows.Forms.RadioButton radEntitySortEvents;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblStatus;
-        private System.Windows.Forms.TabPage tpCollections;
-        private System.Windows.Forms.TabControl tcCollections;
+        private System.Windows.Forms.TabPage tpWarfare;
+        private System.Windows.Forms.TabControl tcWarfare;
         private System.Windows.Forms.TabPage tpWars;
         private System.Windows.Forms.TabPage tpBattles;
         private System.Windows.Forms.TabControl tcWars;
@@ -2997,21 +3028,8 @@
         private System.Windows.Forms.RadioButton radBattleSortDeaths;
         private System.Windows.Forms.RadioButton radHFSortBattles;
         private System.Windows.Forms.RadioButton radSiteSortWarfare;
-        private System.Windows.Forms.RadioButton radRegionSortBattles;
         private System.Windows.Forms.RadioButton radCivSortWars;
         private System.Windows.Forms.RadioButton radWarSortWarfare;
-        private System.Windows.Forms.TabPage tpEras;
-        private System.Windows.Forms.TabControl tcEras;
-        private System.Windows.Forms.TabPage tpEraSearch;
-        private System.Windows.Forms.GroupBox groupBox16;
-        private System.Windows.Forms.ListBox listEras;
-        private System.Windows.Forms.TabPage tpEraEvents;
-        private System.Windows.Forms.NumericUpDown numEraEnd;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numStart;
-        private System.Windows.Forms.Button btnEraShow;
         private System.Windows.Forms.CheckBox chkHFLeader;
         private System.Windows.Forms.RadioButton radSortConnections;
         private System.Windows.Forms.ComboBox cmbSitePopulation;
@@ -3032,7 +3050,6 @@
         private System.Windows.Forms.Button btnBattleListReset;
         private System.Windows.Forms.Label lblBattleList;
         private System.Windows.Forms.RadioButton radSiteSortDeaths;
-        private System.Windows.Forms.RadioButton radRegionSortDeaths;
         private System.Windows.Forms.RadioButton radWarsSortConquerings;
         private System.Windows.Forms.TabPage tpBeastAttacks;
         private System.Windows.Forms.TabControl tabControl1;
@@ -3052,20 +3069,64 @@
         private System.Windows.Forms.Button btnAdvancedSearch;
         private System.Windows.Forms.CheckBox chkVampire;
         private System.Windows.Forms.CheckBox chkWerebeast;
+        private System.Windows.Forms.TabControl tcRegionsSub;
+        private System.Windows.Forms.TabPage tpOverworld;
+        private System.Windows.Forms.TabPage tpUnderground;
+        private System.Windows.Forms.TabPage tpURegionEvents;
+        private System.Windows.Forms.ListBox listURegionSearch;
+        private System.Windows.Forms.ComboBox cmbURegionType;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.RadioButton radURegionSortEvents;
+        private System.Windows.Forms.RadioButton radURegionNone;
+        private System.Windows.Forms.RadioButton radURegionSortFiltered;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnURegionSearch;
+        private System.Windows.Forms.TabPage tpURegionSearch;
+        private System.Windows.Forms.TabControl tcURegions;
+        private System.Windows.Forms.TabPage tpRegionEvents;
+        private System.Windows.Forms.Button btnRegionSearch;
+        private System.Windows.Forms.ListBox listRegionSearch;
+        private System.Windows.Forms.TextBox txtRegionSearch;
+        private System.Windows.Forms.ComboBox cmbRegionType;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.RadioButton radRegionSortEvents;
+        private System.Windows.Forms.RadioButton radRegionNone;
+        private System.Windows.Forms.RadioButton radRegionSortFiltered;
+        private System.Windows.Forms.RadioButton radRegionSortBattles;
+        private System.Windows.Forms.RadioButton radRegionSortDeaths;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TabPage tpRegionSearch;
+        private System.Windows.Forms.TabControl tcRegions;
+        private System.Windows.Forms.TabPage tpCollections;
+        private System.Windows.Forms.TabControl tcCollections;
+        private System.Windows.Forms.TabPage tpEras;
         private System.Windows.Forms.TabPage tpArtifacts;
-        private System.Windows.Forms.TabControl tcArtifacts;
-        private System.Windows.Forms.TabPage tpArtifactsSearch;
-        private System.Windows.Forms.Button btnArtifactListReset;
-        private System.Windows.Forms.Label lblArtifactList;
-        private System.Windows.Forms.Button btnArtifactSearch;
-        private System.Windows.Forms.GroupBox groupBox19;
-        private System.Windows.Forms.GroupBox groupBox20;
-        private System.Windows.Forms.RadioButton radArtifactSortFiltered;
-        private System.Windows.Forms.RadioButton radArtifactSortNone;
-        private System.Windows.Forms.RadioButton radArtifactSortEvents;
-        private System.Windows.Forms.TextBox txtArtifactSearch;
-        private System.Windows.Forms.ListBox listArtifactSearch;
         private System.Windows.Forms.TabPage tpArtifactsEvents;
+        private System.Windows.Forms.ListBox listArtifactSearch;
+        private System.Windows.Forms.TextBox txtArtifactSearch;
+        private System.Windows.Forms.RadioButton radArtifactSortEvents;
+        private System.Windows.Forms.RadioButton radArtifactSortNone;
+        private System.Windows.Forms.RadioButton radArtifactSortFiltered;
+        private System.Windows.Forms.GroupBox groupBox20;
+        private System.Windows.Forms.GroupBox groupBox19;
+        private System.Windows.Forms.Button btnArtifactSearch;
+        private System.Windows.Forms.Label lblArtifactList;
+        private System.Windows.Forms.Button btnArtifactListReset;
+        private System.Windows.Forms.TabPage tpArtifactsSearch;
+        private System.Windows.Forms.TabControl tcArtifacts;
+        private System.Windows.Forms.TabPage tpEraEvents;
+        private System.Windows.Forms.ListBox listEras;
+        private System.Windows.Forms.NumericUpDown numEraEnd;
+        private System.Windows.Forms.NumericUpDown numStart;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnEraShow;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.TabPage tpEraSearch;
+        private System.Windows.Forms.TabControl tcEras;
     }
 }
 
