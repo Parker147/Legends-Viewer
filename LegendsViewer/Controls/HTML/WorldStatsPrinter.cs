@@ -26,7 +26,32 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
+            var dwarvesCount = World.CivilizedPopulations.Where(pop => pop.Race == "Dwarves").Sum(pop => pop.Count);
+            var elvesCount = World.CivilizedPopulations.Where(pop => pop.Race == "Elves").Sum(pop => pop.Count);
+            var humansCount = World.CivilizedPopulations.Where(pop => pop.Race == "Humans").Sum(pop => pop.Count);
+            var goblinsCount = World.CivilizedPopulations.Where(pop => pop.Race == "Goblins").Sum(pop => pop.Count);
+            var koboldsCount = World.CivilizedPopulations.Where(pop => pop.Race == "Kobolds").Sum(pop => pop.Count);
+
+            HTML.AppendLine("<script>"+ ChartJS + "</script>");
+            HTML.AppendLine("<script>");
+            HTML.AppendLine("var data = [");
+            HTML.AppendLine("{ value: " + dwarvesCount + ", color: \"#D72828\", highlight: \"#DF5353\", label: \"Dwarves\" }, ");
+            HTML.AppendLine("{ value: " + elvesCount + ", color: \"#ABD728\", highlight: \"#BCDF53\", label: \"Elves\" },   ");
+            HTML.AppendLine("{ value: " + humansCount + ", color: \"#2853D7\", highlight: \"#5375DF\", label: \"Humans\" },  ");
+            HTML.AppendLine("{ value: " + goblinsCount + ", color: \"#00AF57\", highlight: \"#33BF79\", label: \"Goblins\" }, ");
+            HTML.AppendLine("{ value: " + koboldsCount + ", color: \"#AF00AF\", highlight: \"#BF33BF\", label: \"Kobolds\" }, ");
+            HTML.AppendLine("]");
+            HTML.AppendLine("window.onload = function(){");
+            HTML.AppendLine("var ctx = document.getElementById(\"canvas\").getContext(\"2d\");");
+            HTML.AppendLine("window.myChart = new Chart(ctx).PolarArea(data);");
+            HTML.AppendLine("}");
+            HTML.AppendLine("</script>");
+
             HTML.AppendLine("<h1>" + World.Name + "</h1></br>");
+
+            HTML.AppendLine("<table>");
+            HTML.AppendLine("<tr>");
+            HTML.AppendLine("<td style=\"vertical-align: top; \">");
             int mapSideLength = 300;
             double resizePercent;
             Size mapSize;
@@ -43,14 +68,15 @@ namespace LegendsViewer.Controls
                 }
                 HTML.AppendLine(MakeLink(BitmapToHTML(resizedMap), LinkOption.LoadMap) + "</br>");
             }
+            HTML.AppendLine("</td>");
 
+            HTML.AppendLine("<td style=\"vertical-align: top; \">");
+            HTML.AppendLine("<canvas id=\"canvas\" height=\"300\" width=\"300\"></canvas>");
+            HTML.AppendLine("</td>");
 
-            HTML.AppendLine("<h1>Eras</h2>");
-            HTML.AppendLine("<ol>");
-            foreach (Era era in World.Eras)
-                HTML.AppendLine("<li>" + era.Name + " (" + (era.StartYear < 0 ? 0 : era.StartYear) + " - " + era.EndYear + ")</li>");
-            HTML.AppendLine("</ol>");
-            HTML.AppendLine("</br>");
+            HTML.AppendLine("<td style=\"vertical-align: top; \">");
+            HTML.AppendLine("</td>");
+            HTML.AppendLine("</tr>");
 
             var civsByRace = from civ in World.Entities.Where(entity => entity.IsCiv)
                              orderby civ.Race
@@ -59,8 +85,7 @@ namespace LegendsViewer.Controls
             var currentCivs = civsByRace.Where(civ => civ.Populations.Any()).ToList();
             var fallenCivs = civsByRace.Where(civ => !civ.Populations.Any()).ToList();
 
-            HTML.AppendLine("<table>");
-            HTML.AppendLine("<tr>");
+            HTML.AppendLine("<tr style=\"background-color: #ffffff;\">");
             if (currentCivs.Any())
             {
                 HTML.AppendLine("<td style=\"vertical-align: top; \">");
@@ -76,9 +101,9 @@ namespace LegendsViewer.Controls
                         var intelligentPopCount = intelligentPop.Sum(cp => cp.Count);
                         var civPop = intelligentPop.FirstOrDefault(pop => pop.Race == civ.Race);
                         var civPopCount = civPop != null ? civPop.Count : 0;
-                        HTML.AppendLine("<li>" + civ.ToLink() 
-                            +" ["+civPopCount+" +" + (intelligentPopCount-civPopCount) + " "+HTMLStyleUtil.SYMBOL_POPULATION
-                            +", " + civ.CurrentSites.Count + " "+ HTMLStyleUtil.SYMBOL_SITE+ "]</li>");
+                        HTML.AppendLine("<li>" + civ.ToLink()
+                            + " [" + civPopCount + " +" + (intelligentPopCount - civPopCount) + " " + HTMLStyleUtil.SYMBOL_POPULATION
+                            + ", " + civ.CurrentSites.Count + " " + HTMLStyleUtil.SYMBOL_SITE + "]</li>");
                     }
                     HTML.AppendLine("</ul>");
                 }
@@ -97,7 +122,7 @@ namespace LegendsViewer.Controls
                     HTML.AppendLine("<ul>");
                     foreach (var civ in civsByRace.Where(civ => civ.Race == civRace && !civ.Populations.Any()))
                     {
-                        HTML.AppendLine("<li>" + civ.ToLink() + " "+HTMLStyleUtil.SYMBOL_DEAD+"</li>");
+                        HTML.AppendLine("<li>" + civ.ToLink() + " " + HTMLStyleUtil.SYMBOL_DEAD + "</li>");
                     }
                     HTML.AppendLine("</ul>");
                 }
@@ -107,6 +132,12 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</tr>");
             HTML.AppendLine("</table>");
 
+            HTML.AppendLine("</br>");
+            HTML.AppendLine("<h1>Eras</h2>");
+            HTML.AppendLine("<ol>");
+            foreach (Era era in World.Eras)
+                HTML.AppendLine("<li>" + era.Name + " (" + (era.StartYear < 0 ? 0 : era.StartYear) + " - " + era.EndYear + ")</li>");
+            HTML.AppendLine("</ol>");
             HTML.AppendLine("</br>");
 
             HTML.AppendLine("<h1>Entities: " + World.Entities.Count(entity => !entity.IsCiv) + "</h1>");
@@ -350,7 +381,6 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</ol>");
                 HTML.AppendLine("</br>");
             }
-
             if (World.OutdoorPopulations.Any())
             {
                 HTML.AppendLine("<h1>Outdoor Populations</h1>");

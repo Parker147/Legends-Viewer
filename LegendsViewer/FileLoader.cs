@@ -155,11 +155,16 @@ namespace LegendsViewer
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 var resourceName = "LegendsViewer.Controls.HTML.Styles.legends.css";
-
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     Controls.HTMLPrinter.LegendsCSS = reader.ReadToEnd();
+                }
+                var chartjsName = "LegendsViewer.Controls.HTML.Scripts.Chart.min.js";
+                using (Stream stream = assembly.GetManifestResourceStream(chartjsName))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    Controls.HTMLPrinter.ChartJS = reader.ReadToEnd();
                 }
             }
             catch (Exception ex)

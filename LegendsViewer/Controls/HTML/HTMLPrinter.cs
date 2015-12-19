@@ -15,6 +15,7 @@ namespace LegendsViewer.Controls
         public abstract string Print();
 
         public static string LegendsCSS;
+        public static string ChartJS;
 
         public static HTMLPrinter GetPrinter(object printObject, World world)
         {

@@ -257,6 +257,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Controls\HTML\Styles\legends.css" />
+    <EmbeddedResource Include="Controls\HTML\Scripts\Chart.min.js" />
     <Content Include="ReadMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
