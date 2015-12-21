@@ -35,15 +35,19 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<script>"+ ChartJS + "</script>");
             HTML.AppendLine("<script>");
             HTML.AppendLine("var data = [");
-            HTML.AppendLine("{ value: " + dwarvesCount + ", color: \"#D72828\", highlight: \"#DF5353\", label: \"Dwarves\" }, ");
-            HTML.AppendLine("{ value: " + elvesCount + ", color: \"#ABD728\", highlight: \"#BCDF53\", label: \"Elves\" },   ");
-            HTML.AppendLine("{ value: " + humansCount + ", color: \"#2853D7\", highlight: \"#5375DF\", label: \"Humans\" },  ");
-            HTML.AppendLine("{ value: " + goblinsCount + ", color: \"#00AF57\", highlight: \"#33BF79\", label: \"Goblins\" }, ");
-            HTML.AppendLine("{ value: " + koboldsCount + ", color: \"#AF00AF\", highlight: \"#BF33BF\", label: \"Kobolds\" }, ");
+
+            if (dwarvesCount > 0) HTML.AppendLine("{ value: " + dwarvesCount + ", color: \"#D72828\", highlight: \"#DF5353\", label: \"Dwarves\" }, ");
+            if (elvesCount > 0) HTML.AppendLine("{ value: " + elvesCount + ", color: \"#ABD728\", highlight: \"#BCDF53\", label: \"Elves\" },   ");
+            if (humansCount > 0) HTML.AppendLine("{ value: " + humansCount + ", color: \"#2853D7\", highlight: \"#5375DF\", label: \"Humans\" },  ");
+            if (goblinsCount > 0) HTML.AppendLine("{ value: " + goblinsCount + ", color: \"#00AF57\", highlight: \"#33BF79\", label: \"Goblins\" }, ");
+            if (koboldsCount > 0) HTML.AppendLine("{ value: " + koboldsCount + ", color: \"#AF00AF\", highlight: \"#BF33BF\", label: \"Kobolds\" }, ");
+
             HTML.AppendLine("]");
             HTML.AppendLine("window.onload = function(){");
             HTML.AppendLine("var ctx = document.getElementById(\"canvas\").getContext(\"2d\");");
-            HTML.AppendLine("window.myChart = new Chart(ctx).PolarArea(data);");
+            HTML.AppendLine("window.myChart = new Chart(ctx).Doughnut(data, {animationEasing : \"easeOutCubic\",percentageInnerCutout : 60, legendTemplate : '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'});");
+            HTML.AppendLine("var legenddiv = document.getElementById('canvas_legend');");
+            HTML.AppendLine("legenddiv.innerHTML = window.myChart.generateLegend();");
             HTML.AppendLine("}");
             HTML.AppendLine("</script>");
 
@@ -70,8 +74,9 @@ namespace LegendsViewer.Controls
             }
             HTML.AppendLine("</td>");
 
-            HTML.AppendLine("<td style=\"vertical-align: top; \">");
-            HTML.AppendLine("<canvas id=\"canvas\" height=\"300\" width=\"300\"></canvas>");
+            HTML.AppendLine("<td style=\"vertical-align: middle; \">");
+            HTML.AppendLine("<canvas id=\"canvas\" height=\"200\" width=\"200\"></canvas>");
+            HTML.AppendLine("<div id=\"canvas_legend\" class=\"chart-legend\"></div>");
             HTML.AppendLine("</td>");
 
             HTML.AppendLine("<td style=\"vertical-align: top; \">");
@@ -82,8 +87,8 @@ namespace LegendsViewer.Controls
                              orderby civ.Race
                              select civ;
 
-            var currentCivs = civsByRace.Where(civ => civ.Populations.Any()).ToList();
-            var fallenCivs = civsByRace.Where(civ => !civ.Populations.Any()).ToList();
+            var currentCivs = civsByRace.Where(civ => civ.Populations.Any(pop => pop.IsMainRace && pop.Count > 0)).ToList();
+            var fallenCivs = civsByRace.Where(civ => !civ.Populations.Any(pop => pop.IsMainRace && pop.Count > 0)).ToList();
 
             HTML.AppendLine("<tr style=\"background-color: #ffffff;\">");
             if (currentCivs.Any())
@@ -95,7 +100,7 @@ namespace LegendsViewer.Controls
                 {
                     HTML.AppendLine("<li>" + civRace + ": " + currentCivs.Count(cc => cc.Race == civRace) + "</li>");
                     HTML.AppendLine("<ul>");
-                    foreach (var civ in civsByRace.Where(civ => civ.Race == civRace && civ.Populations.Any()))
+                    foreach (var civ in currentCivs.Where(civ => civ.Race == civRace))
                     {
                         var intelligentPop = civ.Populations.Where(pop => pop.IsMainRace).ToList();
                         var intelligentPopCount = intelligentPop.Sum(cp => cp.Count);
@@ -120,7 +125,7 @@ namespace LegendsViewer.Controls
                 {
                     HTML.AppendLine("<li>" + civRace + ": " + fallenCivs.Count(fc => fc.Race == civRace) + "</li>");
                     HTML.AppendLine("<ul>");
-                    foreach (var civ in civsByRace.Where(civ => civ.Race == civRace && !civ.Populations.Any()))
+                    foreach (var civ in fallenCivs.Where(civ => civ.Race == civRace))
                     {
                         HTML.AppendLine("<li>" + civ.ToLink() + " " + HTMLStyleUtil.SYMBOL_DEAD + "</li>");
                     }

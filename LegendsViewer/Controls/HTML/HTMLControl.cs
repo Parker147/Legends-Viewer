@@ -31,7 +31,8 @@ namespace LegendsViewer.Controls
                 {
                     Dock = DockStyle.Fill,
                     WebBrowserShortcutsEnabled = false,
-                    DocumentText = Printer.GetHTMLPage()
+                    DocumentText = Printer.GetHTMLPage(),
+                   
                 };
                 HTMLBrowser.DocumentCompleted += AfterPageLoad;
                 HTMLBrowser.Navigating += BrowserNavigating;

@@ -3,6 +3,7 @@ body {
     font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     color: #333;
     background-color: #fff;
+    padding: 10px;
 }
 
 a:link {
@@ -76,6 +77,24 @@ th {
 
 td {
     font-size: 13px;
+}
+
+/* CHARTS */
+
+.chart-legend {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.chart-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+
+.chart-legend ul {
+    list-style-type: none;
 }
 
 /* CUSTOM */
