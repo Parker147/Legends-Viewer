@@ -228,12 +228,21 @@ namespace LegendsViewer.Controls
                 var outcastsPops = Entity.Populations.Where(pop => pop.IsOutcasts);
                 var prisonersPops = Entity.Populations.Where(pop => pop.IsPrisoners);
                 var slavesPops = Entity.Populations.Where(pop => pop.IsSlaves);
-                var otherRacePops = Entity.Populations.Where(pop => !pop.IsMainRace && !pop.IsOutcasts && !pop.IsPrisoners && !pop.IsSlaves);
+                var animalPeoplePops = Entity.Populations.Where(pop => pop.IsAnimalPeople);
+                var otherRacePops = Entity.Populations.Where(pop => !pop.IsMainRace && !pop.IsOutcasts && !pop.IsPrisoners && !pop.IsSlaves && !pop.IsAnimalPeople);
                 if (mainRacePops.Any())
                 {
                     HTML.AppendLine("<b>Civilized Populations</b></br>");
                     HTML.AppendLine("<ul>");
                     foreach (Population population in mainRacePops)
+                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
+                    HTML.AppendLine("</ul>");
+                }
+                if (animalPeoplePops.Any())
+                {
+                    HTML.AppendLine("<b>Animal People Populations</b></br>");
+                    HTML.AppendLine("<ul>");
+                    foreach (Population population in animalPeoplePops)
                         HTML.AppendLine("<li>" + population.Count + " " + population.Race);
                     HTML.AppendLine("</ul>");
                 }
