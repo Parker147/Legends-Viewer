@@ -83,6 +83,6 @@ CTRL+Click on any links, lists, or buttons opens pages in a new tab.
 	
 ##Troubleshooting
 * If images aren't showing up in pages or navigating pages doesn't work try updating Internet Explorer to a newer 
-  version. IE7 and up should work.
+  version. IE9 and up should work.
 * If you encouter errors while loading files, first try restarting Dwarf Fortress and re-export all the files. 
   If it still happens after that you can send me your files or world gen parameters and I will look into it.
