@@ -117,6 +117,7 @@
     <Compile Include="Controls\Map\MapControl.cs" />
     <Compile Include="Controls\Map\MapDrawer.cs" />
     <Compile Include="Controls\Map\MapMenu.cs" />
+    <Compile Include="Controls\Map\MapUtil.cs" />
     <Compile Include="Controls\Map\PathMaker.cs" />
     <Compile Include="Controls\PageControl.cs" />
     <Compile Include="Controls\Query\CriteriaLine.cs">

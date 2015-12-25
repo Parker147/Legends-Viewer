@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using LegendsViewer.Legends;
 using System.Text;
+using LegendsViewer.Controls.Map;
 
 namespace LegendsViewer.Controls
 {
@@ -64,7 +65,6 @@ namespace LegendsViewer.Controls
                 BattlesToggled = MapPanel.BattlesToggled;
                 CurrentYear = MapPanel.CurrentYear;
                 if (MapPanel.Overlay != null) MapPanel.Overlay.Dispose();
-                if (MapPanel.AlternateMap != null) MapPanel.AlternateMap.Dispose();
                 MapPanel.Dispose();
                 MapPanel = null;
             }
@@ -267,6 +267,15 @@ namespace LegendsViewer.Controls
             Minimap = world.MiniMap;
             UpdateWarDisplay();
             Invalidate();
+
+            if (MapUtil.AlternateMap != null)
+            {
+                AlternateMap = MapUtil.AlternateMap;
+                AltMapAlpha = MapUtil.AltMapAlpha;
+                AltMapTransparency.Value = (int)(AltMapAlpha * 100);
+                AlternateMapToggled = false;
+                ToggleAlternateMap();
+            }
         }
 
         private class CivPaths
@@ -807,6 +816,11 @@ namespace LegendsViewer.Controls
                         AlternateMap = resized;
                     }
                 }
+                MapUtil.AlternateMap = AlternateMap;
+                if (MapUtil.AltMapAlpha == 0)
+                {
+                    MapUtil.AltMapAlpha = 1;
+                }
                 AlternateMapToggled = false;
                 ToggleAlternateMap();
             }
@@ -817,6 +831,7 @@ namespace LegendsViewer.Controls
         private void ChangeAltMapTransparency(object sender, EventArgs e)
         {
             AltMapAlpha = AltMapTransparency.Value / 100.0f;
+            MapUtil.AltMapAlpha = AltMapAlpha;
             Invalidate();
         }
 
