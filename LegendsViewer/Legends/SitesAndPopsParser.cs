@@ -220,30 +220,37 @@ namespace LegendsViewer.Legends
                 }
                 else if (Site.OwnerHistory.Last().Owner != Owner)
                 {
+                    bool found = false;
                     HistoricalFigure lastKnownOwner = Site.OwnerHistory.Last().Owner as HistoricalFigure;
                     if (lastKnownOwner != null)
                     {
                         if (lastKnownOwner.DeathYear != -1)
                         {
                             new OwnerPeriod(Site, Owner, lastKnownOwner.DeathYear, "after death of last owner (" + lastKnownOwner.DeathCause + ") took over");
+                            found = true;
                         }
                         else if (lastKnownOwner.Race == "Demon" && Site.Type == "Vault" && Owner is Entity && Owner.Race == "Unknown")
                         {
                             // SPOILER Devil owns the place, Entity is a group of angles
-                            Console.WriteLine();
-                        }
-                        else
-                        {
-                            World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false) + " instead of " + Site.OwnerHistory.Last().Owner.ToLink(false));
+                            found = true;
                         }
                     }
                     else if (Site.CurrentOwner == null)
                     {
                         new OwnerPeriod(Site, Owner, Site.OwnerHistory.Last().EndYear, "slowly repopulated after the site was " + Site.OwnerHistory.Last().EndCause);
+                        found = true;
                     }
-                    else
+                    if(!found)
                     {
-                        World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false) + " instead of " + Site.OwnerHistory.Last().Owner.ToLink(false));
+                        ChangeHFState lastSettledEvent = Site.Events.OfType<ChangeHFState>().LastOrDefault();
+                        if (lastSettledEvent != null)
+                        {
+                            new OwnerPeriod(Site, Owner, lastSettledEvent.Year, "settled in ");
+                        }
+                        else
+                        {
+                            World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false) + " instead of " + Site.OwnerHistory.Last().Owner.ToLink(false));
+                        }
                     }
                 }
             }
