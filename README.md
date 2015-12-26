@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/2dcxapcp3tium23l?svg=true)](https://ci.appveyor.com/project/Kromtec/legends-viewer)
+
 #Legends Viewer
 
 Recreates Legends Mode from exported data. Browser like navigation, including tabs, allows to easily view other people/places/entities by just clicking names in the event logs or search lists, CTRL+Click opens a new tab. 
