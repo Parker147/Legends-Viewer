@@ -6,7 +6,7 @@
         {
             get
             {
-                return Race == "Dwarves" || Race == "Humans" || Race == "Elves" || Race == "Goblins" || Race == "Kobolds";
+                return World.MainRaces.ContainsKey(Race);
             }
         }
 

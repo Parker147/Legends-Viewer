@@ -11,6 +11,8 @@ namespace LegendsViewer.Legends
 
     public class World
     {
+        public static Dictionary<string, Color> MainRaces = new Dictionary<string, Color>();
+
         public string Name;
         public StringBuilder Log;
         public List<WorldRegion> Regions = new List<WorldRegion>();
@@ -35,7 +37,7 @@ namespace LegendsViewer.Legends
 
         public ParsingErrors ParsingErrors;
 
-        public System.Drawing.Bitmap Map, PageMiniMap, MiniMap;
+        public Bitmap Map, PageMiniMap, MiniMap;
         public List<Era> TempEras = new List<Era>();
         public bool FilterBattles = true;
 
@@ -59,6 +61,7 @@ namespace LegendsViewer.Legends
 
         public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile)
         {
+            MainRaces.Clear();
             ParsingErrors = new ParsingErrors();
             Log = new StringBuilder();
             Log.AppendLine("Start: " + DateTime.Now.ToLongTimeString());
@@ -135,6 +138,11 @@ namespace LegendsViewer.Legends
                 int alpha;
                 if (races.Count <= 12) alpha = 175;
                 else alpha = 175;
+
+                if (!MainRaces.ContainsKey(civ.Race))
+                {
+                    MainRaces.Add(civ.Race, raceColor);
+                }
                 civ.IdenticonColor = Color.FromArgb(alpha, raceColor);
                 civ.LineColor = raceColor;
 

@@ -5,6 +5,7 @@ using System.Text;
 using LegendsViewer.Legends;
 using System.Drawing;
 using LegendsViewer.Controls.HTML.Utilities;
+using System.Windows.Forms;
 
 namespace LegendsViewer.Controls
 {
@@ -26,21 +27,17 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            var dwarvesCount = World.CivilizedPopulations.Where(pop => pop.Race == "Dwarves").Sum(pop => pop.Count);
-            var elvesCount = World.CivilizedPopulations.Where(pop => pop.Race == "Elves").Sum(pop => pop.Count);
-            var humansCount = World.CivilizedPopulations.Where(pop => pop.Race == "Humans").Sum(pop => pop.Count);
-            var goblinsCount = World.CivilizedPopulations.Where(pop => pop.Race == "Goblins").Sum(pop => pop.Count);
-            var koboldsCount = World.CivilizedPopulations.Where(pop => pop.Race == "Kobolds").Sum(pop => pop.Count);
-
-            HTML.AppendLine("<script>"+ ChartJS + "</script>");
+            HTML.AppendLine("<script>" + ChartJS + "</script>");
             HTML.AppendLine("<script>");
             HTML.AppendLine("var data = [");
 
-            if (dwarvesCount > 0) HTML.AppendLine("{ value: " + dwarvesCount + ", color: \"#D72828\", highlight: \"#DF5353\", label: \"Dwarves\" }, ");
-            if (elvesCount > 0) HTML.AppendLine("{ value: " + elvesCount + ", color: \"#ABD728\", highlight: \"#BCDF53\", label: \"Elves\" },   ");
-            if (humansCount > 0) HTML.AppendLine("{ value: " + humansCount + ", color: \"#2853D7\", highlight: \"#5375DF\", label: \"Humans\" },  ");
-            if (goblinsCount > 0) HTML.AppendLine("{ value: " + goblinsCount + ", color: \"#00AF57\", highlight: \"#33BF79\", label: \"Goblins\" }, ");
-            if (koboldsCount > 0) HTML.AppendLine("{ value: " + koboldsCount + ", color: \"#AF00AF\", highlight: \"#BF33BF\", label: \"Kobolds\" }, ");
+            foreach (Population civilizedPop in World.CivilizedPopulations)
+            {
+                Color civilizedPopColor = World.MainRaces.First(r => r.Key == civilizedPop.Race).Value;
+                Color highlightPopColor = ControlPaint.Light(civilizedPopColor);
+                Color darkenedPopColor = ControlPaint.Dark(civilizedPopColor, 90f);
+                HTML.AppendLine("{ value: " + civilizedPop.Count + ", color: \""+ ColorTranslator.ToHtml(darkenedPopColor) +"\", highlight: \""+ ColorTranslator.ToHtml(highlightPopColor) + "\", label: \"" + civilizedPop.Race + "\" }, ");
+            }
 
             HTML.AppendLine("]");
             HTML.AppendLine("window.onload = function(){");
