@@ -50,9 +50,9 @@ namespace LegendsViewer.Legends
 
             
 
-            if (Collection.OfType<PlunderedSite>().Count() > 0) ConquerType = SiteConqueredType.Pillaging;
-            else if (Collection.OfType<DestroyedSite>().Count() > 0) ConquerType = SiteConqueredType.Destruction;
-            else if (Collection.OfType<NewSiteLeader>().Count() > 0 || Collection.OfType<SiteTakenOver>().Count() > 0) ConquerType = SiteConqueredType.Conquest;
+            if (Collection.OfType<PlunderedSite>().Any()) ConquerType = SiteConqueredType.Pillaging;
+            else if (Collection.OfType<DestroyedSite>().Any()) ConquerType = SiteConqueredType.Destruction;
+            else if (Collection.OfType<NewSiteLeader>().Any() || Collection.OfType<SiteTakenOver>().Any()) ConquerType = SiteConqueredType.Conquest;
             else ConquerType = SiteConqueredType.Unknown;
 
             if (ConquerType == SiteConqueredType.Pillaging) Notable = false;

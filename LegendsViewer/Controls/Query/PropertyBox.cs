@@ -117,7 +117,7 @@ namespace LegendsViewer.Controls.Query
             }
 
             //if listproperties only and subproperties contains other lists or !list
-            if (!ListPropertiesOnly && SelectedProperty != null && ((!ListPropertiesOnly && SelectedProperty.SubProperties.Count() > 0) || (ListPropertiesOnly && SelectedProperty.SubProperties.Count(property => property.SubProperties.Count > 0) > 0)))
+            if (!ListPropertiesOnly && SelectedProperty != null && ((!ListPropertiesOnly && SelectedProperty.SubProperties.Any()) || (ListPropertiesOnly && SelectedProperty.SubProperties.Count(property => property.SubProperties.Count > 0) > 0)))
             {
                 Child = new PropertyBox();
                 Child.ParentProperty = this;

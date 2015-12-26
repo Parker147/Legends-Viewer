@@ -423,7 +423,7 @@ namespace LegendsViewer.Legends
             foreach (BeastAttack beastAttack in World.EventCollections.OfType<BeastAttack>())
             {
                 //Find Beast by looking at fights, Beast always engages the first fight in a Beast Attack?
-                if (beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Count() > 0)
+                if (beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Any())
                 {
                     beastAttack.Beast = beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First().HistoricalFigure1;
                     if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();

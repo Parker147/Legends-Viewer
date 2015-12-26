@@ -198,12 +198,12 @@ namespace LegendsViewer.Controls
                 foreach (BeastAttack attack in Site.BeastAttacks)
                 {
                     HTML.AppendLine("<li>" + attack.StartYear + ", " + attack.ToLink(true, Site));
-                    if (attack.GetSubEvents().OfType<HFDied>().Count() > 0) HTML.Append(" (Deaths: " + attack.GetSubEvents().OfType<HFDied>().Count() + ")");
+                    if (attack.GetSubEvents().OfType<HFDied>().Any()) HTML.Append(" (Deaths: " + attack.GetSubEvents().OfType<HFDied>().Count() + ")");
                 }
                 HTML.AppendLine("</ol>");
             }
 
-            if (Site.Events.OfType<HFDied>().Count() > 0 || Site.Warfare.OfType<Battle>().Count() > 0)
+            if (Site.Events.OfType<HFDied>().Any() || Site.Warfare.OfType<Battle>().Any())
             {
                 HTML.AppendLine("<b>Deaths</b> " + MakeLink("[Load]", LinkOption.LoadSiteDeaths) + LineBreak);
                 HTML.AppendLine("<ol>");

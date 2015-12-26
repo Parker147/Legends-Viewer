@@ -59,7 +59,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<b>Battles</b> (Unnotable): " + Region.Battles.Count(battle => !battle.Notable) + "</br></br>");
 
 
-            if (Region.Events.OfType<HFDied>().Count() > 0 || Region.Battles.Count > 0)
+            if (Region.Events.OfType<HFDied>().Any() || Region.Battles.Count > 0)
             {
                 HTML.AppendLine("<b>Deaths</b> " + MakeLink("[Load]", LinkOption.LoadRegionDeaths) + LineBreak);
                 HTML.AppendLine("<ol>");

@@ -78,11 +78,11 @@ namespace LegendsViewer.Controls
             foreach (HistoricalFigure attacker in Battle.NotableAttackers)
             {
                 HTML.AppendLine("<li>" + attacker.ToLink());
-                if (Battle.Collection.OfType<FieldBattle>().Where(fieldBattle => fieldBattle.AttackerGeneral == attacker).Count() > 0 ||
-                    Battle.Collection.OfType<AttackedSite>().Where(attack => attack.AttackerGeneral == attacker).Count() > 0)
+                if (Battle.Collection.OfType<FieldBattle>().Any(fieldBattle => fieldBattle.AttackerGeneral == attacker) ||
+                    Battle.Collection.OfType<AttackedSite>().Any(attack => attack.AttackerGeneral == attacker))
                     HTML.Append(" <b>(Led the Attack)</b> ");
 
-                if (Battle.GetSubEvents().OfType<HFDied>().Where(death => death.HistoricalFigure == attacker).Count() > 0)
+                if (Battle.GetSubEvents().OfType<HFDied>().Any(death => death.HistoricalFigure == attacker))
                     HTML.Append(" (Died) ");
             }
             HTML.AppendLine("</ul>");
@@ -106,11 +106,11 @@ namespace LegendsViewer.Controls
             foreach (HistoricalFigure defender in Battle.NotableDefenders)
             {
                 HTML.AppendLine("<li>" + defender.ToLink());
-                if (Battle.Collection.OfType<FieldBattle>().Where(fieldBattle => fieldBattle.DefenderGeneral == defender).Count() > 0 ||
-                    Battle.Collection.OfType<AttackedSite>().Where(attack => attack.DefenderGeneral == defender).Count() > 0)
+                if (Battle.Collection.OfType<FieldBattle>().Any(fieldBattle => fieldBattle.DefenderGeneral == defender) ||
+                    Battle.Collection.OfType<AttackedSite>().Any(attack => attack.DefenderGeneral == defender))
                     HTML.Append(" <b>(Led the Defense)</b> ");
 
-                if (Battle.GetSubEvents().OfType<HFDied>().Where(death => death.HistoricalFigure == defender).Count() > 0)
+                if (Battle.GetSubEvents().OfType<HFDied>().Any(death => death.HistoricalFigure == defender))
                     HTML.Append(" (Died) ");
             }
             HTML.AppendLine("</ul>");
@@ -123,7 +123,7 @@ namespace LegendsViewer.Controls
                 foreach (HistoricalFigure nonCombatant in Battle.NonCombatants)
                 {
                     HTML.AppendLine("<li>" + nonCombatant.ToLink());
-                    if (Battle.Collection.OfType<HFDied>().Where(death => death.HistoricalFigure == nonCombatant).Count() > 0)
+                    if (Battle.Collection.OfType<HFDied>().Any(death => death.HistoricalFigure == nonCombatant))
                         HTML.Append(" (Died) ");
                 }
                 HTML.AppendLine("</ol>");

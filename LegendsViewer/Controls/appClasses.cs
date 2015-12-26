@@ -250,7 +250,7 @@ namespace LegendsViewer
 
         public static double AverageOrZero(this IEnumerable<double> values)
         {
-            if (values.Count() > 0) return values.Average();
+            if (values.Any()) return values.Average();
             else return 0;
         }
 

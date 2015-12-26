@@ -140,12 +140,12 @@ namespace LegendsViewer.Legends
                     case "noncom_hfid": NonCombatants.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value))); break;
                 }
 
-            if (Collection.OfType<AttackedSite>().Count() > 0)
+            if (Collection.OfType<AttackedSite>().Any())
             {
                 Attacker = Collection.OfType<AttackedSite>().First().Attacker;
                 Defender = Collection.OfType<AttackedSite>().First().Defender;
             }
-            else if (Collection.OfType<FieldBattle>().Count() > 0)
+            else if (Collection.OfType<FieldBattle>().Any())
             {
                 Attacker = Collection.OfType<FieldBattle>().First().Attacker;
                 Defender = Collection.OfType<FieldBattle>().First().Defender;

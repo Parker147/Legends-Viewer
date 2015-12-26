@@ -308,13 +308,12 @@ namespace LegendsViewer.Legends
 
             hfraceString += Race.ToLower();
 
-            if (ActiveInteractions.Where(it => it.Contains("VAMPIRE")).Count() > 0)
+            if (ActiveInteractions.Any(it => it.Contains("VAMPIRE")))
                 return hfraceString + " vampire";
-            if (ActiveInteractions.Where(it => it.Contains("WEREBEAST")).Count() > 0)
+            if (ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
                 return hfraceString + " werebeast";
 
             return hfraceString;
-
         }
 
         public string GetRaceString()
@@ -323,9 +322,9 @@ namespace LegendsViewer.Legends
                 return Race.ToLower() + " deity";
             if (Race == "Night Creature" && PreviousRace != "")
                 return PreviousRace.ToLower() + " turned night creature";
-            if (ActiveInteractions.Where(it => it.Contains("VAMPIRE")).Count() > 0)
+            if (ActiveInteractions.Any(it => it.Contains("VAMPIRE")))
                 return Race.ToLower() + " vampire";
-            if (ActiveInteractions.Where(it => it.Contains("WEREBEAST")).Count() > 0)
+            if (ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
                 return Race.ToLower() + " werebeast";
             return Race.ToLower();
         }
