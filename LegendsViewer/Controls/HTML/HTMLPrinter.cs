@@ -46,6 +46,8 @@ namespace LegendsViewer.Controls
                 return new WorldStatsPrinter(world);
             if (printType == typeof(Artifact))
                 return new ArtifactPrinter(printObject as Artifact);
+            if (printType == typeof(WorldContruction))
+                return new WorldConstructionPrinter(printObject as WorldContruction);
 
             if (printType == typeof(string))
                 return new StringPrinter(printObject as string);
@@ -332,7 +334,7 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
             foreach (var e in events)
             {
-                if (!filters.Contains(e.Type))
+                if (filters == null || !filters.Contains(e.Type))
                 {
                     HTML.AppendLine(e.Print(true, dfo) + "<br /><br />");
                 }

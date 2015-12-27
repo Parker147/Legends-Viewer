@@ -90,6 +90,7 @@
     <Compile Include="Controls\HTML\ArtifactPrinter.cs" />
     <Compile Include="Controls\HTML\Utilities\BrowserUtil.cs" />
     <Compile Include="Controls\HTML\Utilities\HTMLStyleUtil.cs" />
+    <Compile Include="Controls\HTML\WorldConstructionPrinter.cs" />
     <Compile Include="Controls\Map\dlgPopulation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,8 +164,10 @@
     <Compile Include="Legends\Artifact.cs" />
     <Compile Include="Legends\DwarfObject.cs" />
     <Compile Include="Legends\Entity.cs" />
+    <Compile Include="Legends\EntityEntityLink.cs" />
     <Compile Include="Legends\EntityPopulation.cs" />
     <Compile Include="Legends\EntityReputation.cs" />
+    <Compile Include="Legends\EntitySiteLink.cs" />
     <Compile Include="Legends\Era.cs" />
     <Compile Include="Legends\EventCollections\Abduction.cs" />
     <Compile Include="Legends\EventCollections\Battle.cs" />
@@ -194,10 +197,13 @@
     <Compile Include="Legends\Link.cs" />
     <Compile Include="Legends\Site.cs" />
     <Compile Include="Legends\SitesAndPopsParser.cs" />
+    <Compile Include="Legends\Structure.cs" />
     <Compile Include="Legends\UndergroundRegion.cs" />
     <Compile Include="Legends\World.cs" />
+    <Compile Include="Legends\WorldConstruction.cs" />
     <Compile Include="Legends\WorldObject.cs" />
     <Compile Include="Legends\XMLParser.cs" />
+    <Compile Include="Legends\XMLPlusParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\Map\dlgPopulation.resx">

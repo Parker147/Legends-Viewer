@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends
         public int Depth { get; set; }
         public string Type { get; set; }
         public List<Battle> Battles { get; set; }
+        public List<Location> Coordinates { get; set; } // legends_plus.xml
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -23,11 +24,23 @@ namespace LegendsViewer.Legends
             Depth = 0;
             Type = "";
             Battles = new List<Battle>();
-            foreach(Property property in properties)
+            Coordinates = new List<Location>();
+            foreach (Property property in properties)
                 switch(property.Name)
                 {
                     case "depth": Depth = Convert.ToInt32(property.Value); break;
                     case "type": Type = Formatting.InitCaps(property.Value); break;
+                    case "coords":
+                        string[] coordinateStrings = property.Value.Split(new char[] { '|' },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var coordinateString in coordinateStrings)
+                        {
+                            string[] xYCoordinates = coordinateString.Split(',');
+                            int x = Convert.ToInt32(xYCoordinates[0]);
+                            int y = Convert.ToInt32(xYCoordinates[1]);
+                            Coordinates.Add(new Location(x, y));
+                        }
+                        break;
                 }
         }
         public override string ToString() { return this.Type; }

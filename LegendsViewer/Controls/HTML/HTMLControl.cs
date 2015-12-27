@@ -128,6 +128,8 @@ namespace LegendsViewer.Controls
                         navigateObject = World.GetEra(id); break;
                     case "artifact":
                         navigateObject = World.GetArtifact(id); break;
+                    case "worldconstruction":
+                        navigateObject = World.GetWorldConstruction(id); break;
                     default: throw new Exception("Unhandled url type: " + objectType);
                 }
                 TabControl.Navigate(ControlOption.HTML, navigateObject);
