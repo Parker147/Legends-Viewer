@@ -37,10 +37,8 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</ol>");
             }
 
-            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            foreach (WorldEvent printEvent in Region.Events)
-                if (!UndergroundRegion.Filters.Contains(printEvent.Type))
-                    HTML.AppendLine(printEvent.Print(true, Region) + "</br></br>");
+            PrintEventLog(Region.Events, UndergroundRegion.Filters, Region);
+
             return HTML.ToString();
         }
     }

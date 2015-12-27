@@ -31,7 +31,7 @@ namespace LegendsViewer.Controls
                 + ".</br></br>");
 
             List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Conquering);
-            //HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
+
             HTML.AppendLine("<table>");
             HTML.AppendLine("<tr>");
             HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
@@ -41,10 +41,8 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<b>" + Conquering.Attacker.PrintEntity() + " (Attacker)</b></br>");
             HTML.AppendLine("<b>" + Conquering.Defender.PrintEntity() + " (Defender)</b></br></br>");
 
-            HTML.AppendLine("<b>Event Log</b></br>");
-            foreach (WorldEvent printEvent in Conquering.GetSubEvents())
-                if (!SiteConquered.Filters.Contains(printEvent.Type))
-                    HTML.AppendLine(printEvent.Print(true, Conquering) + "<br/><br/>");
+            PrintEventLog(Conquering.GetSubEvents(), SiteConquered.Filters, Conquering);
+
             return HTML.ToString();
         }
     }

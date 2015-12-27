@@ -58,7 +58,6 @@ namespace LegendsViewer.Controls
             if (World.FilterBattles && Region.Battles.Count(battle => !battle.Notable) > 0)
                 HTML.AppendLine("<b>Battles</b> (Unnotable): " + Region.Battles.Count(battle => !battle.Notable) + "</br></br>");
 
-
             if (Region.Events.OfType<HFDied>().Any() || Region.Battles.Count > 0)
             {
                 HTML.AppendLine("<b>Deaths</b> " + MakeLink("[Load]", LinkOption.LoadRegionDeaths) + LineBreak);
@@ -69,11 +68,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</ol>");
             }
 
-
-            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            foreach (WorldEvent printEvent in Region.Events)
-                if (!WorldRegion.Filters.Contains(printEvent.Type))
-                    HTML.AppendLine(printEvent.Print(true, Region) + "</br></br>");
+            PrintEventLog(Region.Events, WorldRegion.Filters, Region);
 
             return HTML.ToString();
         }

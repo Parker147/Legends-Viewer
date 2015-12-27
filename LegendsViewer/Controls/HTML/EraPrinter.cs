@@ -65,12 +65,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</table></br>");
             }
 
-
-            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            //List<WorldEvent> eraEvents = World.Events.Where(eraEvent => eraEvent.Year >= StartYear && eraEvent.Year <= EndYear).ToList();
-            foreach (WorldEvent eraEvent in Era.Events)
-                if (!Era.Filters.Contains(eraEvent.Type))
-                    HTML.AppendLine(eraEvent.Print() + "</br></br>");
+            PrintEventLog(Era.Events, Era.Filters, Era);
 
             return HTML.ToString();
         }

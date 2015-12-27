@@ -53,7 +53,7 @@ namespace LegendsViewer.Controls
                         warfareString = warfareString.Insert(warfareString.IndexOf(" as a result of"), "</br>");
                     HTML.AppendLine("<td>" + warfareString + "</td>");
                     HTML.AppendLine("<td>as part of</td>");
-                    HTML.AppendLine("<td>" + ((warfare.ParentCollection == null) ? "UNKNOWN" :warfare.ParentCollection.ToLink()) + "</td>");
+                    HTML.AppendLine("<td>" + ((warfare.ParentCollection == null) ? "UNKNOWN" : warfare.ParentCollection.ToLink()) + "</td>");
                     HTML.AppendLine("<td>by ");
                     if (warfare.GetType() == typeof(Battle))
                     {
@@ -133,63 +133,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</ol>");
             }
 
-            if (Site.Populations.Count > 0)
-            {
-                var mainRacePops = Site.Populations.Where(pop => pop.IsMainRace);
-                var outcastsPops = Site.Populations.Where(pop => pop.IsOutcasts);
-                var prisonersPops = Site.Populations.Where(pop => pop.IsPrisoners);
-                var slavesPops = Site.Populations.Where(pop => pop.IsSlaves);
-                var animalPeoplePops = Site.Populations.Where(pop => pop.IsAnimalPeople);
-                var otherRacePops = Site.Populations.Where(pop => !pop.IsMainRace && !pop.IsOutcasts && !pop.IsPrisoners && !pop.IsSlaves && !pop.IsAnimalPeople);
-                if (mainRacePops.Any())
-                {
-                    HTML.AppendLine("<b>Civilized Populations</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in mainRacePops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (animalPeoplePops.Any())
-                {
-                    HTML.AppendLine("<b>Animal People Populations</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in animalPeoplePops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (outcastsPops.Any())
-                {
-                    HTML.AppendLine("<b>Outcasts</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in outcastsPops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (prisonersPops.Any())
-                {
-                    HTML.AppendLine("<b>Prisoners</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in prisonersPops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (slavesPops.Any())
-                {
-                    HTML.AppendLine("<b>Slaves</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in slavesPops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (otherRacePops.Any())
-                {
-                    HTML.AppendLine("<b>Other Populations</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in otherRacePops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-            }
+            PrintPopulations(Site.Populations);
 
             if (Site.BeastAttacks != null && Site.BeastAttacks.Count > 0)
             {
@@ -213,11 +157,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</ol>");
             }
 
-
-            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            foreach (var e in Site.Events)
-                if (!Site.Filters.Contains(e.Type))
-                    HTML.AppendLine(e.Print(true, Site) + "<br /><br />");
+            PrintEventLog(Site.Events, Site.Filters, Site);
 
             return HTML.ToString();
         }

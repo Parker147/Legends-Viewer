@@ -129,10 +129,8 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</ol>");
             }
 
-            HTML.AppendLine("<b>Event Log</b></br>");
-            foreach (WorldEvent printEvent in Battle.GetSubEvents())
-                if (!Battle.Filters.Contains(printEvent.Type))
-                    HTML.AppendLine(printEvent.Print(true, Battle) + "<br/><br/>");
+            PrintEventLog(Battle.GetSubEvents(), Battle.Filters, Battle);
+
             return HTML.ToString();
         }
     }

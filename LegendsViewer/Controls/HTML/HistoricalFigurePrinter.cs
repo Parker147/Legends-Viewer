@@ -29,7 +29,7 @@ namespace LegendsViewer.Controls
             PrintBattles();
             PrintKills();
             PrintBeastAttacks();
-            PrintEvents();
+            PrintEventLog(HistoricalFigure.Events, HistoricalFigure.Filters, HistoricalFigure);
             return HTML.ToString();
         }
 
@@ -377,14 +377,6 @@ namespace LegendsViewer.Controls
                 EndList(ListType.Ordered);
                 HTML.AppendLine(LineBreak);
             }
-        }
-
-        private void PrintEvents()
-        {
-            HTML.AppendLine(Bold("Event Log") + " " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            foreach (var e in HistoricalFigure.Events)
-                if (!HistoricalFigure.Filters.Contains(e.Type))
-                    HTML.AppendLine(e.Print(true, HistoricalFigure) + LineBreak + LineBreak);
         }
     }
 }
