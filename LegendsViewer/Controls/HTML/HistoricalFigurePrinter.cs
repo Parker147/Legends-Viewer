@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
-using System.Collections.Generic;
 
 namespace LegendsViewer.Controls
 {
