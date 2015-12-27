@@ -63,6 +63,22 @@ namespace LegendsViewer.Legends
             return true;
         }
 
+        private void ReadEOSCiv()
+        {
+            string civName = CurrentLine.Substring(0, CurrentLine.IndexOf(","));
+            try
+            {
+                CurrentCiv = World.GetEntity(civName);
+            }
+            catch (Exception e)
+            {
+                Log.AppendLine(e.Message + ", Civ");
+            }
+            CurrentCiv.Race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(",") + 2, CurrentLine.Length - CurrentLine.IndexOf(",") - 2).ToLower());
+            foreach (Entity group in CurrentCiv.Groups) group.Race = CurrentCiv.Race;
+            CurrentCiv.IsCiv = true;
+        }
+
         private void ReadWorships()
         {
             if (CurrentLine.Contains("Worship List"))
@@ -166,7 +182,12 @@ namespace LegendsViewer.Legends
                 else
                     SkipToNextCiv();
             }
+
             History.Close();
+
+            if (CurrentLine != null && CivStart())
+                ReadEOSCiv();
+
             return Log.ToString();
         }
     }
