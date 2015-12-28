@@ -91,6 +91,7 @@
     <Compile Include="Controls\HTML\Utilities\BrowserUtil.cs" />
     <Compile Include="Controls\HTML\Utilities\HTMLStyleUtil.cs" />
     <Compile Include="Controls\HTML\WorldConstructionPrinter.cs" />
+	<Compile Include="Controls\HTML\Utilities\SkillDictionary.cs" />
     <Compile Include="Controls\Map\dlgPopulation.cs">
       <SubType>Form</SubType>
     </Compile>

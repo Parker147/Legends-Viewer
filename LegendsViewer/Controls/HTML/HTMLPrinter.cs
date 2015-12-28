@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Controls
 {
@@ -222,7 +223,19 @@ namespace LegendsViewer.Controls
             return html;
         }
 
-        
+        protected string SkillToString(SkillDescription desc)
+        {
+            string subrank = desc.Rank.ToLower().Replace(" ", string.Empty).Substring(0, 5);
+
+            return
+                "<li class='" + desc.Category
+                + " " + subrank
+                + "' title='" + desc.Token
+                + " | " + desc.Rank
+                + " | " + desc.Points
+                + "'>" + desc.Name + "</li>";
+        }
+
         protected void PrintPopulations(List<Population> populations)
         {
             if (!populations.Any())
@@ -437,6 +450,4 @@ namespace LegendsViewer.Controls
         Right,
         Center
     }
-
-
 }
