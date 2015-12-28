@@ -268,7 +268,7 @@ namespace LegendsViewer.Controls
 
                 HTML.AppendLine(Bold("Skills") + LineBreak);
 
-                foreach (var group in described.GroupBy(d => d.Category))
+                foreach (var group in described.Where(d => d.Category != "non").GroupBy(d => d.Category).OrderByDescending(g => g.Count()))
                 {
                     HTML.AppendLine("<ol class='skills'>");
 

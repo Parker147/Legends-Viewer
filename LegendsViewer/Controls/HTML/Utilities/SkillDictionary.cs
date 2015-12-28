@@ -27,6 +27,7 @@ namespace LegendsViewer.Controls.HTML.Utilities
     {
         public static readonly Dictionary<string, SkillDescription> dict = new Dictionary<string, SkillDescription>
         {
+            {"None", new SkillDescription("non", "NONE", "None", "None")},
             {"Mining", new SkillDescription("min", "MINING", "Miner", "Mining")},
             {"Woodcutting", new SkillDescription("wod", "WOODCUTTING", "Wood cutter", "Wood Cutting")},
             {"Carpentry", new SkillDescription("wod", "CARPENTRY", "Carpenter", "Carpentry")},
