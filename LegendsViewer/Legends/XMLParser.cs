@@ -467,31 +467,62 @@ namespace LegendsViewer.Legends
 
                 //Fill in some various event info from collections.
 
-                int insertIndex = 0;
+                int insertIndex;
                 foreach (ItemStolen theft in beastAttack.Collection.OfType<ItemStolen>())
                 {
-                    theft.Site = beastAttack.Site;
-                    theft.Thief = beastAttack.Beast;
+                    if (theft.Site == null)
+                    {
+                        theft.Site = beastAttack.Site;
+                    }
+                    else
+                    {
+                        beastAttack.Site = theft.Site;
+                    }
+                    if (theft.Thief == null)
+                    {
+                        theft.Thief = beastAttack.Beast;
+                    }
+                    else
+                    {
+                        beastAttack.Beast = theft.Thief;
+                    }
 
-                    insertIndex = beastAttack.Site.Events.BinarySearch(theft);
-                    beastAttack.Site.Events.Insert(~insertIndex, theft);
+                    if (beastAttack.Site != null)
+                    {
+                        insertIndex = beastAttack.Site.Events.BinarySearch(theft);
+                        if (insertIndex < 0)
+                        {
+                            beastAttack.Site.Events.Add(theft);
+                        }
+                    }
                     if (beastAttack.Beast != null)
                     {
                         insertIndex = beastAttack.Beast.Events.BinarySearch(theft);
-                        beastAttack.Beast.Events.Insert(~insertIndex, theft);
+                        if (insertIndex < 0)
+                        {
+                            beastAttack.Beast.Events.Add(theft);
+                        }
                     }
                 }
-                insertIndex = 0;
                 foreach (CreatureDevoured devoured in beastAttack.Collection.OfType<CreatureDevoured>())
                 {
-                    if (beastAttack.Beast != null)
+                    if (devoured.Eater == null)
                     {
                         devoured.Eater = beastAttack.Beast;
+                    }
+                    else
+                    {
+                        beastAttack.Beast = devoured.Eater;
+                    }
+                    if (beastAttack.Beast != null)
+                    {
                         insertIndex = beastAttack.Beast.Events.BinarySearch(devoured);
-                        beastAttack.Beast.Events.Insert(~insertIndex, devoured);
+                        if (insertIndex < 0)
+                        {
+                            beastAttack.Beast.Events.Add(devoured);
+                        }
                     }
                 }
-
             }
 
             //Assign a Conquering Event its corresponding battle

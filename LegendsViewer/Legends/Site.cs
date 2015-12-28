@@ -110,6 +110,7 @@ namespace LegendsViewer.Legends
                             foreach (Property subProperty in property.SubProperties)
                             {
                                 Structures.Add(new Structure(subProperty.SubProperties, world));
+                                subProperty.Known = true;
                             }
                         }
                         break;
