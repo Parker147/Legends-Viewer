@@ -121,12 +121,17 @@ td {
 
 /* FANCY SKILLS */
 
+.skills {
+    display: inline-block;
+}
+
 .skills li {
     display: inline-block;
     margin: 1px 0;
     line-height: 20px;
     padding: 0 4px 0 1px;
     height: 20px;
+    width: 100%;
     overflow: hidden;
 }
 

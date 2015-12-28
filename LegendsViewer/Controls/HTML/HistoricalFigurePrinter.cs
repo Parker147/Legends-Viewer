@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
+using LegendsViewer.Controls.HTML.Utilities;
+using System.Collections.Generic;
 
 namespace LegendsViewer.Controls
 {
@@ -262,16 +264,21 @@ namespace LegendsViewer.Controls
         {
             if (HistoricalFigure.Skills.Count > 0)
             {
-                HTML.AppendLine(Bold("Skills") + LineBreak);
-                HTML.AppendLine("<ul class='skills'>");
+                var described = HistoricalFigure.Skills.ConvertAll(s => SkillDictionary.lookupSkill(s));
 
-                foreach (Skill skill in HistoricalFigure.Skills)
+                HTML.AppendLine(Bold("Skills") + LineBreak);
+
+                foreach (var group in described.GroupBy(d => d.Category))
                 {
-                    if (skill.Name != "None")
-                        HTML.AppendLine(SkillToString(skill));
+                    HTML.AppendLine("<ol class='skills'>");
+
+                    foreach (var desc in group.OrderByDescending(d => d.Points))
+                        HTML.AppendLine(SkillToString(desc));
+
+                    HTML.AppendLine("</ol>");
                 }
 
-                HTML.AppendLine("</ul>");
+                HTML.AppendLine(LineBreak);
             }
         }
 
