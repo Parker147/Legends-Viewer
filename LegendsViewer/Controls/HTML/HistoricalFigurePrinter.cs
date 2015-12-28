@@ -73,7 +73,7 @@ namespace LegendsViewer.Controls
                     HFDied death = HistoricalFigure.Events.OfType<HFDied>().First(hfDeath => hfDeath.HistoricalFigure == HistoricalFigure);
                     title += " and died in " + HistoricalFigure.DeathYear + " (" + death.Cause.GetDescription() + ")";
                     if (death.Slayer != null) title += " by " + death.Slayer.ToLink();
-                    else if (death.SlayerRace != "UNKNOWN") title += " by a " + death.SlayerRace.ToLower();
+                    else if (death.SlayerRace != "UNKNOWN" && death.SlayerRace != "-1") title += " by a " + death.SlayerRace.ToLower();
                     if (death.PrintParentCollection().Length > 0)
                         title += ", " + death.PrintParentCollection().Replace("In ", "in ");
                 }

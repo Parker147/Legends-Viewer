@@ -396,8 +396,8 @@ namespace LegendsViewer.Legends
                 World.HistoricalFiguresByName = new List<HistoricalFigure>(World.HistoricalFigures);
                 World.HistoricalFiguresByName.Sort((a, b) => String.Compare(a.Name, b.Name));
                 World.ProcessHFtoHFLinks();
-                //World.ProcessHFCurrentIdentities();
-                //World.ProcessHFUsedIdentities();
+                World.ProcessHFCurrentIdentities();
+                World.ProcessHFUsedIdentities();
             }
 
             //Create sorted entities so they can be binary searched by name, needed for History/sites files
@@ -407,6 +407,7 @@ namespace LegendsViewer.Legends
                 World.EntitiesByName.Sort((a, b) => String.Compare(a.Name, b.Name));
                 World.ProcessReputations();
                 World.ProcessHFtoSiteLinks();
+                World.ProcessEntityEntityLinks();
             }
 
             //Calculate end years for eras and add list of wars during era.

@@ -210,6 +210,8 @@ namespace LegendsViewer.Legends
         [Description("Seat of Power")]
         SeatOfPower,
         Occupation,
+        [Description("Home - Site Realization Building")]
+        HomeSiteRealizationBuilding,
         Unknown
     }
 }

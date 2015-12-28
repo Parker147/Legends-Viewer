@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LegendsViewer.Legends
 {
@@ -33,10 +34,10 @@ namespace LegendsViewer.Legends
                         }
                         break;
                     case "target":
-                        Target = world.GetEntity(property.ValueAsInt());
+                        Target = world.GetEntity(Convert.ToInt32(property.Value));
                         break;
                     case "strength":
-                        Strength = property.ValueAsInt();
+                        Strength = Convert.ToInt32(property.Value);
                         break;
                 }
             }

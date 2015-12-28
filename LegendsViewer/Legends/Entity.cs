@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends
     {
         Civilization,
         NomadicGroup,
+        MigratingGroup,
         Outcast,
         Religion,
         SiteGovernment,
@@ -49,7 +50,6 @@ namespace LegendsViewer.Legends
         public EntityType Type { get; set; } // legends_plus.xml
         public List<EntitySiteLink> SiteLinks { get; set; } // legends_plus.xml
         public List<EntityEntityLink> EntityLinks { get; set; } // legends_plus.xml
-        private string[] knownEntityLinkSubProperties = { "target", "type", "strength" }; // legends_plus.xml
 
         public List<War> Wars { get; set; }
         public List<War> WarsAttacking { get { return Wars.Where(war => war.Attacker == this).ToList(); } set { } }
@@ -119,6 +119,7 @@ namespace LegendsViewer.Legends
             Wars = new List<War>();
             Populations = new List<Population>();
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
@@ -144,6 +145,9 @@ namespace LegendsViewer.Legends
                             case "outcast":
                                 Type = EntityType.Outcast;
                                 break;
+                            case "migratinggroup":
+                                Type = EntityType.MigratingGroup;
+                                break;
                             default:
                                 Type = EntityType.Unknown;
                                 world.ParsingErrors.Report("Unknown Entity Type: " + property.Value);
@@ -157,18 +161,18 @@ namespace LegendsViewer.Legends
                         SiteLinks.Add(new EntitySiteLink(property.SubProperties, world));
                         break;
                     case "entity_link":
-                        world.AddEntityEntityLink(this, property);
-                        foreach (string subPropertyName in knownEntityLinkSubProperties)
+                        property.Known = true;
+                        foreach (Property subProperty in property.SubProperties)
                         {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
+                            subProperty.Known = true;
                         }
+                        world.AddEntityEntityLink(this, property);
                         break;
                     case "worship_id":
                         property.Known = true;
                         break;
                 }
+            }
         }
         public override string ToString() { return this.Name; }
 

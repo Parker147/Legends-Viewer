@@ -71,9 +71,9 @@ namespace LegendsViewer.Legends
             if (CurrentItem == null)
                 return;
 
-            if (xmlParserSection > this.CurrentSection)
+            if (xmlParserSection > CurrentSection)
             {
-                while (xmlParserSection > this.CurrentSection)
+                while (xmlParserSection > CurrentSection)
                 {
                     AddItemToWorld(CurrentItem);
                     CurrentItem = null;
@@ -81,7 +81,7 @@ namespace LegendsViewer.Legends
                 }
             }
 
-            if (xmlParserSection < this.CurrentSection)
+            if (xmlParserSection < CurrentSection)
             {
                 return;
             }
@@ -92,6 +92,11 @@ namespace LegendsViewer.Legends
             {
                 foreach (var property in CurrentItem)
                 {
+                    if (CurrentSection == Section.Entities && property.Name == "entity_link" || property.Name == "child")
+                    {
+                        existingProperties.Add(property);
+                        continue;
+                    }
                     Property matchingProperty = existingProperties.SingleOrDefault(p => p.Name == property.Name);
                     if (CurrentSection == Section.Events && matchingProperty != null && matchingProperty.Name == "type")
                     {

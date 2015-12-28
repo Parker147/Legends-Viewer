@@ -558,6 +558,7 @@ namespace LegendsViewer.Legends
             {
                 Entity entity = EntityEntityLinkEntities[i];
                 Property entityLink = EntityEntityLinks[i];
+                entityLink.Known = true;
                 entity.EntityLinks.Add(new EntityEntityLink(entityLink.SubProperties, this));
             }
         }
