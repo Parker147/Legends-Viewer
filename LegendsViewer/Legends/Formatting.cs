@@ -48,7 +48,7 @@ namespace LegendsViewer.Legends
             else if (population.EndsWith("f")) population = population.Substring(0, population.Length - 1) + "ves";
             else if (population.EndsWith("x") || population.EndsWith("ch") || population.EndsWith("sh") || population.EndsWith("s")) population += "es";
             else if (population.EndsWith("y") && !population.EndsWith("ay") && !population.EndsWith("ey") && !population.EndsWith("iy") && !population.EndsWith("oy") && !population.EndsWith("uy")) population = population.Substring(0, population.Length - 1) + "ies";
-            else population += "s";
+            else if (!population.EndsWith("i")) population += "s";
 
             if (ending != "") population += ending;
 
