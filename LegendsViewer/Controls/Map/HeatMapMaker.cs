@@ -139,8 +139,8 @@ namespace LegendsViewer.Controls
             int pixelSize = 4;
             int radius = 8;
             int totalMax = (radius * 2 + 1) * 256;
-            int sourceStart = (int)bmd.Scan0;
-            int blurredStart = (int)bmdBlurred.Scan0;
+            long sourceStart = (long)bmd.Scan0;
+            long blurredStart = (long)bmdBlurred.Scan0;
             int stride = bmd.Stride;
             int width = bmd.Width;
             int height = bmd.Height;
@@ -188,7 +188,7 @@ namespace LegendsViewer.Controls
                 source = new Bitmap(blurred);
                 bmd = source.LockBits(new Rectangle(0, 0, source.Width, source.Height), ImageLockMode.ReadOnly, source.PixelFormat);
                 bmdBlurred = blurred.LockBits(new Rectangle(0, 0, blurred.Width, blurred.Height), ImageLockMode.ReadOnly, blurred.PixelFormat);
-                sourceStart = (int)bmd.Scan0;
+                sourceStart = (long)bmd.Scan0;
 
                 xOffset = 3;
                 for (int x = 0; x < width; x++)

@@ -18,7 +18,7 @@ namespace LegendsViewer.Legends
         public Structure(List<Property> properties, World world)
             : base(properties, world)
         {
-            Name = "Untitled";
+            Name = "UNKNOWN STRUCTURE";
             foreach (Property property in properties)
             {
                 switch (property.Name)
