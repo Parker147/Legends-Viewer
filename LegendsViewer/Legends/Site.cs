@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using LegendsViewer.Controls;
 using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends
@@ -12,7 +10,8 @@ namespace LegendsViewer.Legends
         public string Name { get; set; }
         public string UntranslatedName { get; set; }
         public Location Coordinates { get; set; }
-        public bool Structures { get; set; }
+        public bool HasStructures { get; set; }
+        public List<Structure> Structures { get; set; }
         public List<EventCollection> Warfare { get; set; }
         public List<Battle> Battles { get { return Warfare.OfType<Battle>().ToList(); } set { } }
         public List<SiteConquered> Conquerings { get { return Warfare.OfType<SiteConquered>().ToList(); } set { } }
@@ -96,13 +95,24 @@ namespace LegendsViewer.Legends
             Populations = new List<Population>();
             Officials = new List<Official>();
             BeastAttacks = new List<BeastAttack>();
+            Structures = new List<Structure>();
             foreach(Property property in properties)
                 switch(property.Name)
                 {
                     case "type": Type = Formatting.InitCaps(property.Value); break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
-                    case "structures": Structures = true; property.Known = true; break;
+                    case "structures":
+                        HasStructures = true;
+                        property.Known = true;
+                        if (property.SubProperties.Any())
+                        {
+                            foreach (Property subProperty in property.SubProperties)
+                            {
+                                Structures.Add(new Structure(subProperty.SubProperties, world));
+                            }
+                        }
+                        break;
                 }
         }
 

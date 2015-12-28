@@ -36,7 +36,7 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</br></br>");
 
             List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, War);
-            //HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
+
             HTML.AppendLine("<table>");
             HTML.AppendLine("<tr>");
             HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
@@ -117,10 +117,8 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</ul>");
             }
 
-            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            foreach (WorldEvent printEvent in War.GetSubEvents())
-                if (!War.Filters.Contains(printEvent.Type))
-                    HTML.AppendLine(printEvent.Print(true, War) + "<br/><br/>");
+            PrintEventLog(War.GetSubEvents(), War.Filters, War);
+
             return HTML.ToString();
         }
     }

@@ -825,18 +825,18 @@ namespace LegendsViewer
             {
                 Site site = (FocusObject as Site);
                 if (site.BeastAttacks.Count > 0) timeline.DropDownItems.Add(new ChartMenuItem(this, ChartOption.TimelineBeastAttacks));
-                if (site.Warfare.OfType<Battle>().Count() > 0)
+                if (site.Warfare.OfType<Battle>().Any())
                 {
                     timeline.DropDownItems.Add(new ChartMenuItem(this, ChartOption.TimelineBattles));
                     timeline.DropDownItems.Add(new ChartMenuItem(this, ChartOption.TimelineBattleDeaths));
                 }
                 if (site.Populations.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this, ChartOption.OtherSitePopulations));
-                if (site.Events.OfType<HFDied>().Count() > 0 || site.Warfare.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this, ChartOption.OtherDeaths));
+                if (site.Events.OfType<HFDied>().Any() || site.Warfare.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this, ChartOption.OtherDeaths));
             }
             else if (FocusObject.GetType() == typeof(LegendsViewer.Legends.WorldRegion))
             {
                 LegendsViewer.Legends.WorldRegion region = (FocusObject as LegendsViewer.Legends.WorldRegion);
-                if (region.Events.OfType<HFDied>().Count() > 0) other.DropDownItems.Add(new ChartMenuItem(this, ChartOption.OtherDeaths));
+                if (region.Events.OfType<HFDied>().Any()) other.DropDownItems.Add(new ChartMenuItem(this, ChartOption.OtherDeaths));
                 if (region.Battles.Count > 0)
                 {
                     timeline.DropDownItems.Add(new ChartMenuItem(this, ChartOption.TimelineBattles));

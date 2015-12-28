@@ -31,7 +31,7 @@ namespace LegendsViewer.Controls
             PrintBattles();
             PrintKills();
             PrintBeastAttacks();
-            PrintEvents();
+            PrintEventLog(HistoricalFigure.Events, HistoricalFigure.Filters, HistoricalFigure);
             return HTML.ToString();
         }
 
@@ -310,21 +310,21 @@ namespace LegendsViewer.Controls
                     }
                     string involvement = "";
                     if (battle.NotableAttackers.Count > 0 && battle.NotableAttackers.Contains(HistoricalFigure))
-                        if (battle.Collection.OfType<FieldBattle>().Where(fieldBattle => fieldBattle.AttackerGeneral == HistoricalFigure).Count() > 0 ||
-                            battle.Collection.OfType<AttackedSite>().Where(attack => attack.AttackerGeneral == HistoricalFigure).Count() > 0)
+                        if (battle.Collection.OfType<FieldBattle>().Any(fieldBattle => fieldBattle.AttackerGeneral == HistoricalFigure) ||
+                            battle.Collection.OfType<AttackedSite>().Any(attack => attack.AttackerGeneral == HistoricalFigure))
                             involvement += "Led the attack";
                         else
                             involvement += "Fought in the attack";
                     else if (battle.NotableDefenders.Count > 0 && battle.NotableDefenders.Contains(HistoricalFigure))
-                        if (battle.Collection.OfType<FieldBattle>().Where(fieldBattle => fieldBattle.DefenderGeneral == HistoricalFigure).Count() > 0 ||
-                            battle.Collection.OfType<AttackedSite>().Where(attack => attack.DefenderGeneral == HistoricalFigure).Count() > 0)
+                        if (battle.Collection.OfType<FieldBattle>().Any(fieldBattle => fieldBattle.DefenderGeneral == HistoricalFigure) ||
+                            battle.Collection.OfType<AttackedSite>().Any(attack => attack.DefenderGeneral == HistoricalFigure))
                             involvement += "Led the defense";
                         else
                             involvement += "Aided in the defense";
                     else
                         involvement += "A non combatant";
 
-                    if (battle.GetSubEvents().OfType<HFDied>().Where(death => death.HistoricalFigure == HistoricalFigure).Count() > 0)
+                    if (battle.GetSubEvents().OfType<HFDied>().Any(death => death.HistoricalFigure == HistoricalFigure))
                         involvement += " and died";
                     battleTable.AddData(involvement);
                     if (battle.NotableAttackers.Contains(HistoricalFigure))
@@ -381,20 +381,12 @@ namespace LegendsViewer.Controls
                 foreach (BeastAttack attack in HistoricalFigure.BeastAttacks)
                 {
                     HTML.AppendLine(ListItem + attack.StartYear + ", " + MakeLink(attack.GetOrdinal(attack.Ordinal) + "rampage in ", attack) + attack.Site.ToLink());
-                    if (attack.GetSubEvents().OfType<HFDied>().Count() > 0)
+                    if (attack.GetSubEvents().OfType<HFDied>().Any())
                         HTML.Append(" (Kills: " + attack.GetSubEvents().OfType<HFDied>().Count() + ")");
                 }
                 EndList(ListType.Ordered);
                 HTML.AppendLine(LineBreak);
             }
-        }
-
-        private void PrintEvents()
-        {
-            HTML.AppendLine(Bold("Event Log") + " " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            foreach (var e in HistoricalFigure.Events)
-                if (!HistoricalFigure.Filters.Contains(e.Type))
-                    HTML.AppendLine(e.Print(true, HistoricalFigure) + LineBreak + LineBreak);
         }
     }
 }

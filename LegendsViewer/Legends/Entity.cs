@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using Docuverse.Identicon;
-using LegendsViewer.Controls;
 using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends
 {
+    public enum EntityType // legends_plus.xml
+    {
+        Civilization,
+        NomadicGroup,
+        Outcast,
+        Religion,
+        SiteGovernment,
+        Unknown
+    }
+
     public class Entity : WorldObject
     {
         public string Name { get; set; }
@@ -37,6 +45,12 @@ namespace LegendsViewer.Legends
         public List<Site> CurrentSites { get { return SiteHistory.Where(site => site.EndYear == -1).Select(site => site.Site).ToList(); } set { } }
         public List<Site> LostSites { get { return SiteHistory.Where(site => site.EndYear >= 0).Select(site => site.Site).ToList(); } set { } }
         public List<Site> Sites { get { return SiteHistory.Select(site => site.Site).ToList(); } set { } }
+
+        public EntityType Type { get; set; } // legends_plus.xml
+        public List<EntitySiteLink> SiteLinks { get; set; } // legends_plus.xml
+        public List<EntityEntityLink> EntityLinks { get; set; } // legends_plus.xml
+        private string[] knownEntityLinkSubProperties = { "target", "type", "strength" }; // legends_plus.xml
+
         public List<War> Wars { get; set; }
         public List<War> WarsAttacking { get { return Wars.Where(war => war.Attacker == this).ToList(); } set { } }
         public List<War> WarsDefending { get { return Wars.Where(war => war.Defender == this).ToList(); } set { } }
@@ -100,12 +114,60 @@ namespace LegendsViewer.Legends
             Leaders = new List<List<HistoricalFigure>>();
             Groups = new List<Entity>();
             SiteHistory = new List<OwnerPeriod>();
+            SiteLinks = new List<EntitySiteLink>();
+            EntityLinks = new List<EntityEntityLink>();
             Wars = new List<War>();
             Populations = new List<Population>();
             foreach (Property property in properties)
                 switch (property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
+                    case "race":
+                        var race = property.Value.Replace("_", " ").Replace("man", "Men");
+                        Race = Formatting.InitCaps(race);
+                        break;
+                    case "type":
+                        switch (property.Value)
+                        {
+                            case "civilization":
+                                Type = EntityType.Civilization;
+                                break;
+                            case "religion":
+                                Type = EntityType.Religion;
+                                break;
+                            case "sitegovernment":
+                                Type = EntityType.SiteGovernment;
+                                break;
+                            case "nomadicgroup":
+                                Type = EntityType.NomadicGroup;
+                                break;
+                            case "outcast":
+                                Type = EntityType.Outcast;
+                                break;
+                            default:
+                                Type = EntityType.Unknown;
+                                world.ParsingErrors.Report("Unknown Entity Type: " + property.Value);
+                                break;
+                        }
+                        break;
+                    case "child":
+                        property.Known = true;
+                        break;
+                    case "site_link":
+                        SiteLinks.Add(new EntitySiteLink(property.SubProperties, world));
+                        break;
+                    case "entity_link":
+                        world.AddEntityEntityLink(this, property);
+                        foreach (string subPropertyName in knownEntityLinkSubProperties)
+                        {
+                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                            if (subProperty != null)
+                                subProperty.Known = true;
+                        }
+                        break;
+                    case "worship_id":
+                        property.Known = true;
+                        break;
                 }
         }
         public override string ToString() { return this.Name; }

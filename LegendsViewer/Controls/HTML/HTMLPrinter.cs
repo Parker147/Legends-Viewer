@@ -3,6 +3,8 @@ using System.Text;
 using LegendsViewer.Legends;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Collections.Generic;
+using System.Linq;
 using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Controls
@@ -45,6 +47,8 @@ namespace LegendsViewer.Controls
                 return new WorldStatsPrinter(world);
             if (printType == typeof(Artifact))
                 return new ArtifactPrinter(printObject as Artifact);
+            if (printType == typeof(WorldContruction))
+                return new WorldConstructionPrinter(printObject as WorldContruction);
 
             if (printType == typeof(string))
                 return new StringPrinter(printObject as string);
@@ -198,7 +202,6 @@ namespace LegendsViewer.Controls
             return html;
         }
 
-
         protected string BitmapToString(Bitmap image)
         {
             string imageString;
@@ -231,6 +234,124 @@ namespace LegendsViewer.Controls
                 + " | " + desc.Rank
                 + " | " + desc.Points
                 + "'>" + desc.Name + "</li>";
+        }
+
+        protected void PrintPopulations(List<Population> populations)
+        {
+            if (!populations.Any())
+            {
+                return;
+            }
+            var mainRacePops = new List<Population>();
+            var animalPeoplePops = new List<Population>();
+            var visitorsPops = new List<Population>();
+            var outcastsPops = new List<Population>();
+            var prisonersPops = new List<Population>();
+            var slavesPops = new List<Population>();
+            var otherRacePops = new List<Population>();
+            for (int i = 0; i < populations.Count; i++)
+            {
+                if (populations[i].IsMainRace)
+                {
+                    mainRacePops.Add(populations[i]);
+                }
+                else if (populations[i].IsAnimalPeople)
+                {
+                    animalPeoplePops.Add(populations[i]);
+                }
+                else if (populations[i].IsVisitors)
+                {
+                    visitorsPops.Add(populations[i]);
+                }
+                else if (populations[i].IsOutcasts)
+                {
+                    outcastsPops.Add(populations[i]);
+                }
+                else if (populations[i].IsPrisoners)
+                {
+                    prisonersPops.Add(populations[i]);
+                }
+                else if (populations[i].IsSlaves)
+                {
+                    slavesPops.Add(populations[i]);
+                }
+                else
+                {
+                    otherRacePops.Add(populations[i]);
+                }
+            }
+            if (mainRacePops.Any())
+            {
+                HTML.AppendLine("<b>Civilized Populations</b></br>");
+                HTML.AppendLine("<ul>");
+                foreach (Population population in mainRacePops)
+                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                HTML.AppendLine("</ul>");
+            }
+            if (animalPeoplePops.Any())
+            {
+                HTML.AppendLine("<b>Animal People</b></br>");
+                HTML.AppendLine("<ul>");
+                foreach (Population population in animalPeoplePops)
+                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                HTML.AppendLine("</ul>");
+            }
+            if (visitorsPops.Any())
+            {
+                HTML.AppendLine("<b>Visitors</b></br>");
+                HTML.AppendLine("<ul>");
+                foreach (Population population in visitorsPops)
+                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                HTML.AppendLine("</ul>");
+            }
+            if (outcastsPops.Any())
+            {
+                HTML.AppendLine("<b>Outcasts</b></br>");
+                HTML.AppendLine("<ul>");
+                foreach (Population population in outcastsPops)
+                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                HTML.AppendLine("</ul>");
+            }
+            if (prisonersPops.Any())
+            {
+                HTML.AppendLine("<b>Prisoners</b></br>");
+                HTML.AppendLine("<ul>");
+                foreach (Population population in prisonersPops)
+                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                HTML.AppendLine("</ul>");
+            }
+            if (slavesPops.Any())
+            {
+                HTML.AppendLine("<b>Slaves</b></br>");
+                HTML.AppendLine("<ul>");
+                foreach (Population population in slavesPops)
+                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                HTML.AppendLine("</ul>");
+            }
+            if (otherRacePops.Any())
+            {
+                HTML.AppendLine("<b>Other Populations</b></br>");
+                HTML.AppendLine("<ul>");
+                foreach (Population population in otherRacePops)
+                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                HTML.AppendLine("</ul>");
+            }
+        }
+
+        protected void PrintEventLog(List<WorldEvent> events, List<string> filters, DwarfObject dfo)
+        {
+            if (!events.Any())
+            {
+                return;
+            }
+            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
+            foreach (var e in events)
+            {
+                if (filters == null || !filters.Contains(e.Type))
+                {
+                    HTML.AppendLine(e.Print(true, dfo) + "<br /><br />");
+                }
+            }
         }
     }
 

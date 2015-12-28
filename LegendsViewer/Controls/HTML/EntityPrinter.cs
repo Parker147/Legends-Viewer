@@ -31,8 +31,8 @@ namespace LegendsViewer.Controls
             PrintWorships();
             PrintWars();
             PrintSiteHistory();
-            PrintPopulations();
-            PrintEvents();
+            PrintPopulations(Entity.Populations);
+            PrintEventLog(Entity.Events, Entity.Filters, Entity);
             return HTML.ToString();
         }
 
@@ -219,78 +219,5 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine(siteTable.GetTable() + LineBreak);
             }
         }
-
-        private void PrintPopulations()
-        {
-            if (Entity.Populations.Count > 0)
-            {
-                var mainRacePops = Entity.Populations.Where(pop => pop.IsMainRace);
-                var outcastsPops = Entity.Populations.Where(pop => pop.IsOutcasts);
-                var prisonersPops = Entity.Populations.Where(pop => pop.IsPrisoners);
-                var slavesPops = Entity.Populations.Where(pop => pop.IsSlaves);
-                var animalPeoplePops = Entity.Populations.Where(pop => pop.IsAnimalPeople);
-                var otherRacePops = Entity.Populations.Where(pop => !pop.IsMainRace && !pop.IsOutcasts && !pop.IsPrisoners && !pop.IsSlaves && !pop.IsAnimalPeople);
-                if (mainRacePops.Any())
-                {
-                    HTML.AppendLine("<b>Civilized Populations</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in mainRacePops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (animalPeoplePops.Any())
-                {
-                    HTML.AppendLine("<b>Animal People Populations</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in animalPeoplePops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (outcastsPops.Any())
-                {
-                    HTML.AppendLine("<b>Outcasts</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in outcastsPops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (prisonersPops.Any())
-                {
-                    HTML.AppendLine("<b>Prisoners</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in prisonersPops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (slavesPops.Any())
-                {
-                    HTML.AppendLine("<b>Slaves</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in slavesPops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-                if (otherRacePops.Any())
-                {
-                    HTML.AppendLine("<b>Other Populations</b></br>");
-                    HTML.AppendLine("<ul>");
-                    foreach (Population population in otherRacePops)
-                        HTML.AppendLine("<li>" + population.Count + " " + population.Race);
-                    HTML.AppendLine("</ul>");
-                }
-            }
-        }
-
-        private void PrintEvents()
-        {
-            HTML.AppendLine(Bold("Event Log") + " " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            foreach (var e in Entity.Events)
-            {
-                if (!Entity.Filters.Contains(e.Type))
-                    HTML.AppendLine(e.Print(true, Entity) + LineBreak + LineBreak);
-            }
-        }
-
-        
     }
 }

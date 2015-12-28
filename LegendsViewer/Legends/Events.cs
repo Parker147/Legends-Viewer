@@ -92,29 +92,89 @@ namespace LegendsViewer.Legends
         }
     }
 
+
+    public enum HfEntityLinkType
+    {
+        Enemy,
+        Member,
+        Position,
+        Prisoner,
+        Unknown
+    }
     public class AddHFEntityLink : WorldEvent
     {
         public Entity Entity;
         public HistoricalFigure HistoricalFigure;
-        public string LinkType;
+        public HfEntityLinkType LinkType;
+        public string Position;
         public AddHFEntityLink(List<Property> properties, World world)
             : base(properties, world)
         {
+            LinkType = HfEntityLinkType.Unknown;
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
-                    case "civ_id": Entity = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "civ":
+                    case "civ_id":
+                        Entity = world.GetEntity(Convert.ToInt32(property.Value));
+                        break;
+                    case "histfig":
+                        HistoricalFigure = world.GetHistoricalFigure(property.ValueAsInt());
+                        break;
+                    case "link_type":
+                        switch (property.Value)
+                        {
+                            case "position":
+                                LinkType = HfEntityLinkType.Position;
+                                break;
+                            case "prisoner":
+                                LinkType = HfEntityLinkType.Prisoner;
+                                break;
+                            case "enemy":
+                                LinkType = HfEntityLinkType.Enemy;
+                                break;
+                            case "member":
+                                LinkType = HfEntityLinkType.Member;
+                                break;
+                            default:
+                                world.ParsingErrors.Report("Unknown HfEntityLinkType: " + property.Value);
+                                break;
+                        }
+                        break;
+                    case "position":
+                        Position = property.Value;
+                        break;
                 }
+            }
+
+            HistoricalFigure.AddEvent(this);
             Entity.AddEvent(this);
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + " ";
+            string eventString = this.GetYearTime();
             if (HistoricalFigure != null) eventString += HistoricalFigure.ToLink(link, pov);
             else eventString += "UNKNOWN HISTORICAL FIGURE";
-            if (LinkType == "imprison") eventString += " was imprisoned by ";
-            else if (LinkType == "enemy") eventString += " became an enemy of ";
-            else eventString += " linked to ";
+            switch (LinkType)
+            {
+                case HfEntityLinkType.Prisoner:
+                    eventString += " was imprisoned by ";
+                    break;
+                case HfEntityLinkType.Enemy:
+                    eventString += " became an enemy of ";
+                    break;
+                case HfEntityLinkType.Member:
+                    eventString += " became a member of ";
+                    break;
+                case HfEntityLinkType.Position:
+                    eventString += " became the " + Position + " of ";
+                    break;
+                default:
+                    eventString += " linked to ";
+                    break;
+            }
+
             eventString += Entity.ToLink(link, pov) + ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
@@ -127,16 +187,30 @@ namespace LegendsViewer.Legends
         public AddHFHFLink(List<Property> properties, World world)
             : base(properties, world)
         {
+            LinkType = HistoricalFigureLinkType.Unknown;
             foreach (Property property in properties)
                 switch (property.Name)
                 {
                     case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "hfid_target": HistoricalFigureTarget = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "link_type":
+                        HistoricalFigureLinkType linkType = HistoricalFigureLinkType.Unknown;
+                        if (!Enum.TryParse(Formatting.InitCaps(property.Value), out linkType))
+                        {
+                            LinkType = HistoricalFigureLinkType.Unknown;
+                            world.ParsingErrors.Report("Unknown HF Link Type: " + property.Value);
+                        }
+                        else
+                            LinkType = linkType;
+                        break;
+                    case "histfig1":
+                    case "histfig2":
+                        property.Known = true;
+                        break;
                 }
 
             //Fill in LinkType by looking at related historical figures.
-            LinkType = HistoricalFigureLinkType.Unknown;
-            if (HistoricalFigure != HistoricalFigure.Unknown && HistoricalFigureTarget != HistoricalFigure.Unknown)
+            if (LinkType == HistoricalFigureLinkType.Unknown && HistoricalFigure != HistoricalFigure.Unknown && HistoricalFigureTarget != HistoricalFigure.Unknown)
             {
                 List<HistoricalFigureLink> historicalFigureToTargetLinks = HistoricalFigure.RelatedHistoricalFigures.Where(link => link.Type != HistoricalFigureLinkType.Child).Where(link => link.HistoricalFigure == HistoricalFigureTarget).ToList();
                 HistoricalFigureLink historicalFigureToTargetLink = null;
@@ -147,12 +221,16 @@ namespace LegendsViewer.Legends
                     LinkType = historicalFigureToTargetLink.Type;
                 else if (abduction != null)
                     LinkType = HistoricalFigureLinkType.Prisoner;
-                else if (HistoricalFigure.Race == "Night Creature" || HistoricalFigureTarget.Race == "Night Creature")
+            }
+
+            if (HistoricalFigure.Race == "Night Creature" || HistoricalFigureTarget.Race == "Night Creature")
+            {
+                if (LinkType == HistoricalFigureLinkType.Unknown)
                 {
                     LinkType = HistoricalFigureLinkType.Spouse;
-                    HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigureTarget, HistoricalFigureLinkType.ExSpouse));
-                    HistoricalFigureTarget.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigure, HistoricalFigureLinkType.ExSpouse));
                 }
+                HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigureTarget, HistoricalFigureLinkType.ExSpouse));
+                HistoricalFigureTarget.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigure, HistoricalFigureLinkType.ExSpouse));
             }
 
             HistoricalFigure.AddEvent(this);
@@ -1868,7 +1946,13 @@ namespace LegendsViewer.Legends
                     case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "name_only": RecievedName = true; property.Known = true; break;
+                    case "hfid": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                 }
+            if (Artifact != null)
+            {
+                Artifact.Creator = HistoricalFigure;
+            }
             Artifact.AddEvent(this);
             HistoricalFigure.AddEvent(this);
             Site.AddEvent(this);
@@ -2443,7 +2527,8 @@ namespace LegendsViewer.Legends
 
     public class CreatedStructure : WorldEvent
     {
-        public int StructureID;
+        public int StructureID { get; set; }
+        public Structure Structure; // TODO
         public Entity Civ, SiteEntity;
         public Site Site;
         public HistoricalFigure Builder;
@@ -2459,24 +2544,37 @@ namespace LegendsViewer.Legends
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "builder_hfid": Builder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "structure": StructureID = Convert.ToInt32(property.Value); break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "civ": if (Civ == null) { Civ = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "group": if (SiteEntity == null) { SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                 }
+
+            if (Site != null)
+            {
+                Structure = Site.Structures.FirstOrDefault(structure => structure.ID == StructureID);
+            }
             Civ.AddEvent(this);
             SiteEntity.AddEvent(this);
             Site.AddEvent(this);
             Builder.AddEvent(this);
+            Structure.AddEvent(this);
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
+            string eventString = GetYearTime();
             if (Builder != null)
             {
-                eventString += Builder.ToLink(link, pov) + ", thrust a spire of slade up from the underworld, naming it (UNKNOWN), and established a gateway between worlds in "
-                    + Site.ToLink(link, pov) + ". ";
+                eventString += Builder.ToLink(link, pov) + ", thrust a spire of slade up from the underworld, naming it ";
+                eventString += Structure != null ? Structure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
+                eventString += ", and established a gateway between worlds in " + Site.ToLink(link, pov) + ". ";
             }
             else
             {
                 if (SiteEntity != null) eventString += SiteEntity.ToLink(link, pov) + " of ";
-                eventString += Civ.ToLink(link, pov) + " constructed (" + StructureID + ") in " + Site.ToLink(link, pov) + ". ";
+                eventString += Civ.ToLink(link, pov) + " constructed ";
+                eventString += Structure != null ? Structure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
+                eventString += " in " + Site.ToLink(link, pov) + ". ";
             }
             eventString += PrintParentCollection(link, pov);
             return eventString;
@@ -3390,7 +3488,7 @@ namespace LegendsViewer.Legends
                         eventString += " due to jealousy of " + ReasonHF.ToLink(link, pov);
                         break;
                     case "prefers working alone":
-                        eventString += " as "+ ReasonHF.ToLink(link, pov) + " prefers to work alone";
+                        eventString += " as " + ReasonHF.ToLink(link, pov) + " prefers to work alone";
                         break;
                     default:
                         break;

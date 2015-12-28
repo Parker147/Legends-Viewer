@@ -12,18 +12,29 @@ namespace LegendsViewer.Legends
 {
     class XMLParser
     {
-        World World;
-        XmlTextReader XML;
-        string CurrentSectionName = "";
-        Section CurrentSection = Section.Unknown;
-        string CurrentItemName = "";
+        protected World World;
+        protected XmlTextReader XML;
+        protected string CurrentSectionName = "";
+        protected Section CurrentSection = Section.Unknown;
+        protected string CurrentItemName = "";
+        private XMLPlusParser xmlPlusParser;
 
-        public XMLParser(World world, string xmlFile)
+
+        protected XMLParser(string xmlFile)
         {
-            World = world;
             StreamReader reader = new StreamReader(xmlFile, Encoding.GetEncoding("windows-1252"));
             XML = new XmlTextReader(reader);
             XML.WhitespaceHandling = WhitespaceHandling.Significant;
+        }
+
+        public XMLParser(World world, string xmlFile) : this(xmlFile)
+        {
+            World = world;
+            string xmlPlusFile = xmlFile.Replace(".xml", "_plus.xml");
+            if (File.Exists(xmlPlusFile))
+            {
+                xmlPlusParser = new XMLPlusParser(world, xmlPlusFile);
+            }
         }
 
         public static string SafeXMLFile(string xmlFile)
@@ -84,7 +95,7 @@ namespace LegendsViewer.Legends
             CurrentSection = GetSectionType(CurrentSectionName);
         }
 
-        private Section GetSectionType(string sectionName)
+        protected Section GetSectionType(string sectionName)
         {
             switch (sectionName)
             {
@@ -99,6 +110,8 @@ namespace LegendsViewer.Legends
                 case "sites": return Section.Sites;
                 case "underground_regions": return Section.UndergroundRegions;
                 case "world_constructions": return Section.WorldConstructions;
+                case "name":
+                case "altname":
                 case "xml":
                 case "":
                 case "df_world": return Section.Junk;
@@ -106,18 +119,23 @@ namespace LegendsViewer.Legends
             }
         }
 
-        private void ParseSection()
+        protected void ParseSection()
         {
             XML.ReadStartElement();
             while (XML.NodeType != XmlNodeType.EndElement)
             {
-                AddItemToWorld(ParseItem());
+                List<Property> item = ParseItem();
+                if (xmlPlusParser != null)
+                {
+                    xmlPlusParser.AddNewProperties(item, CurrentSection);
+                }
+                AddItemToWorld(item);
             }
             ProcessXMLSection(CurrentSection); //Done with section, do post processing
             XML.ReadEndElement();
         }
 
-        private void SkipSection()
+        protected void SkipSection()
         {
             string currentSectionName = XML.Name;
             XML.ReadStartElement();
@@ -131,6 +149,9 @@ namespace LegendsViewer.Legends
         public List<Property> ParseItem()
         {
             CurrentItemName = XML.Name;
+            if (XML.NodeType == XmlNodeType.EndElement)
+                return null;
+
             XML.ReadStartElement();
             List<Property> properties = new List<Property>();
             while (XML.NodeType != XmlNodeType.EndElement && XML.Name != CurrentItemName)
@@ -144,6 +165,11 @@ namespace LegendsViewer.Legends
         private Property ParseProperty()
         {
             Property property = new Property();
+
+            if (string.IsNullOrWhiteSpace(XML.Name))
+            {
+                return null;
+            }
 
             if (XML.IsEmptyElement) //Need this for bugged XML properties that only have and end element like "</deity>" for historical figures.
             {
@@ -173,7 +199,7 @@ namespace LegendsViewer.Legends
 
         }
 
-        private void AddItemToWorld(List<Property> properties)
+        protected void AddItemToWorld(List<Property> properties)
         {
             string eventType = "";
             if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
@@ -225,7 +251,7 @@ namespace LegendsViewer.Legends
                 case Section.Entities: World.Entities.Add(new Entity(properties, World)); break;
                 case Section.Eras: World.Eras.Add(new Era(properties, World)); break;
                 case Section.Artifacts: World.Artifacts.Add(new Artifact(properties, World)); break;
-                case Section.WorldConstructions: break;
+                case Section.WorldConstructions: World.WorldContructions.Add(new WorldContruction(properties, World)); break;
                 default: World.ParsingErrors.Report("Unknown XML Section: " + section.ToString()); break;
             }
         }
@@ -423,7 +449,7 @@ namespace LegendsViewer.Legends
             foreach (BeastAttack beastAttack in World.EventCollections.OfType<BeastAttack>())
             {
                 //Find Beast by looking at fights, Beast always engages the first fight in a Beast Attack?
-                if (beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Count() > 0)
+                if (beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Any())
                 {
                     beastAttack.Beast = beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First().HistoricalFigure1;
                     if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
@@ -497,22 +523,28 @@ namespace LegendsViewer.Legends
         public bool Known = false;
         public List<Property> SubProperties = new List<Property>();
         public string Value { get { Known = true; return _value; } set { _value = value; } }
+
+        public int ValueAsInt()
+        {
+            return Convert.ToInt32(Value);
+        }
     }
 
+    //In order as they appear in the XML.
     public enum Section
     {
-        Artifacts,
-        Entities,
-        EntityPopulations,
-        Eras,
-        EventCollections,
-        Events,
-        HistoricalFigures,
-        Regions,
-        Sites,
-        UndergroundRegions,
-        WorldConstructions,
         Unknown,
-        Junk
+        Junk,
+        Regions,
+        UndergroundRegions,
+        Sites,
+        WorldConstructions,
+        Artifacts,
+        HistoricalFigures,
+        EntityPopulations,
+        Entities,
+        Events,
+        EventCollections,
+        Eras
     }
 }

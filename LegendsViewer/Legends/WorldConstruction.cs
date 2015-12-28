@@ -5,46 +5,28 @@ using System.Linq;
 
 namespace LegendsViewer.Legends
 {
-    public class WorldRegion : WorldObject
+    public class WorldContruction : WorldObject
     {
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public List<string> Deaths
-        {
-            get
-            {
-                List<string> deaths = new List<string>();
-                deaths.AddRange(NotableDeaths.Select(death => death.Race));
-                foreach (Battle.Squad squad in Battles.SelectMany(battle => battle.AttackerSquads.Concat(battle.DefenderSquads)))
-                    for (int i = 0; i < squad.Deaths; i++)
-                        deaths.Add(squad.Race);
-                return deaths;
-            }
-            set { }
-        }
-        public List<HistoricalFigure> NotableDeaths { get { return Events.OfType<HFDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
-        public List<Battle> Battles { get; set; }
+        public string Name { get; set; } // legends_plus.xml
+        public string Type { get; set; } // legends_plus.xml
         public List<Location> Coordinates { get; set; } // legends_plus.xml
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
-        public WorldRegion()
-        {
-            Name = "INVALID REGION"; Type = "INVALID";
-            Battles = new List<Battle>();
-        }
-        public WorldRegion(List<Property> properties, World world)
+
+        public WorldContruction(List<Property> properties, World world)
             : base(properties, world)
         {
-            Battles = new List<Battle>();
+            Name = "Untitled";
             Coordinates = new List<Location>();
             foreach (Property property in properties)
-                switch(property.Name)
+            {
+                switch (property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
-                    case "type": Type = string.Intern(property.Value); break;
+                    case "type": Type = Formatting.InitCaps(property.Value); break;
                     case "coords":
                         string[] coordinateStrings = property.Value.Split(new char[] { '|' },
                             StringSplitOptions.RemoveEmptyEntries);
@@ -57,22 +39,28 @@ namespace LegendsViewer.Legends
                         }
                         break;
                 }
+            }
         }
-        public override string ToString() { return this.Name; }
+
+        public override string ToString() { return Name; }
+
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
             if (link)
             {
+                string linkedString = "";
                 if (pov != this)
                 {
-                    string title = Type + " | Events: " + Events.Count;
-                    return "<a href = \"region#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
+                    string title = "Events: " + this.Events.Count;
+
+                    linkedString = "<a href = \"worldconstruction#" + this.ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    return HTMLStyleUtil.CurrentDwarfObject(Name);
+                    linkedString = HTMLStyleUtil.CurrentDwarfObject(Name);
+                return linkedString;
             }
             else
-                return this.Name;
+                return Name;
         }
     }
 }

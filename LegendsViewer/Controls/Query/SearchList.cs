@@ -160,7 +160,7 @@ namespace LegendsViewer.Controls.Query
                                 case QueryComparer.Average:
                                     List = List.OrderByDescending(t => criteria.Select(t).Select(t1 => Convert.ToDouble(t1)).AverageOrZero()).ToList();
                                     //List = List.OrderByDescending(t => criteria.Select(t)
-                                    //Expression<Func<T, bool>> notEmpty = t => criteria.Select(t).Count() > 0;
+                                    //Expression<Func<T, bool>> notEmpty = t => criteria.Select(t).Any();
                                     //List = List.Where(notEmpty.Compile()).OrderByDescending(t => criteria.Select(t).Select(t1 => Convert.ToDouble(t1)).Average()).ToList();
                                     break;
                                 case QueryComparer.Sum: List = List.OrderByDescending(t => criteria.Select(t).Select(t1 => Convert.ToDouble(t1)).Sum()).ToList(); break;

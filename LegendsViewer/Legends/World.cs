@@ -28,6 +28,7 @@ namespace LegendsViewer.Legends
         public List<BeastAttack> BeastAttacks;
         public List<Era> Eras = new List<Era>();
         public List<Artifact> Artifacts = new List<Artifact>();
+        public List<WorldContruction> WorldContructions = new List<WorldContruction>();
         public List<WorldEvent> Events = new List<WorldEvent>();
         public List<EventCollection> EventCollections = new List<EventCollection>();
         public List<Population> CivilizedPopulations = new List<Population>();
@@ -58,6 +59,10 @@ namespace LegendsViewer.Legends
 
         private List<HistoricalFigure> CurrentIdentityHFs = new List<HistoricalFigure>();
         private List<int> CurrentIdentityIDs = new List<int>();
+
+        private List<Entity> EntityEntityLinkEntities = new List<Entity>();// legends_plus.xml
+        private List<Property> EntityEntityLinks = new List<Property>();// legends_plus.xml
+
 
         public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile)
         {
@@ -318,15 +323,15 @@ namespace LegendsViewer.Legends
             while (min <= max)
             {
                 int mid = min + (max - min) / 2;
-                if (String.Compare(HistoricalFiguresByName[mid].Name, name, true) < 0)
+                if (string.Compare(HistoricalFiguresByName[mid].Name, name, true) < 0)
                     min = mid + 1;
-                else if (String.Compare(HistoricalFiguresByName[mid].Name, name, true) > 0)
+                else if (string.Compare(HistoricalFiguresByName[mid].Name, name, true) > 0)
                     max = mid - 1;
-                else if (mid == 0 && String.Compare(HistoricalFigures[mid + 1].Name, name, true) != 0)
+                else if (mid == 0 && string.Compare(HistoricalFigures[mid + 1].Name, name, true) != 0)
                     return HistoricalFiguresByName[mid];
-                else if (mid == (HistoricalFiguresByName.Count() - 1) && String.Compare(HistoricalFiguresByName[mid - 1].Name, name, true) != 0)
+                else if (mid == (HistoricalFiguresByName.Count() - 1) && string.Compare(HistoricalFiguresByName[mid - 1].Name, name, true) != 0)
                     return HistoricalFiguresByName[mid];
-                else if (String.Compare(HistoricalFiguresByName[mid - 1].Name, name, true) != 0 && String.Compare(HistoricalFiguresByName[mid + 1].Name, name, true) != 0) //checks duplicates
+                else if (string.Compare(HistoricalFiguresByName[mid - 1].Name, name, true) != 0 && string.Compare(HistoricalFiguresByName[mid + 1].Name, name, true) != 0) //checks duplicates
                     return HistoricalFiguresByName[mid];
                 else
                     throw new Exception("Duplicate Historical Figure Name: " + name);
@@ -390,6 +395,26 @@ namespace LegendsViewer.Legends
                         max = mid - 1;
                     else
                         return Artifacts[mid];
+                }
+                return null;
+            }
+        }
+        public WorldContruction GetWorldConstruction(int id)
+        {
+            if (id == -1) return null;
+            else
+            {
+                int min = 0;
+                int max = WorldContructions.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > WorldContructions[mid].ID)
+                        min = mid + 1;
+                    else if (id < WorldContructions[mid].ID)
+                        max = mid - 1;
+                    else
+                        return WorldContructions[mid];
                 }
                 return null;
             }
@@ -519,6 +544,22 @@ namespace LegendsViewer.Legends
 
             HFtoSiteLinkHFs.Clear();
             HFtoSiteLinks.Clear();
+        }
+
+        public void AddEntityEntityLink(Entity entity, Property property)
+        {
+            EntityEntityLinkEntities.Add(entity);
+            EntityEntityLinks.Add(property);
+        }
+
+        public void ProcessEntityEntityLinks()
+        {
+            for (int i = 0; i < EntityEntityLinkEntities.Count; i++)
+            {
+                Entity entity = EntityEntityLinkEntities[i];
+                Property entityLink = EntityEntityLinks[i];
+                entity.EntityLinks.Add(new EntityEntityLink(entityLink.SubProperties, this));
+            }
         }
 
         public void AddReputation(HistoricalFigure hf, Property link)

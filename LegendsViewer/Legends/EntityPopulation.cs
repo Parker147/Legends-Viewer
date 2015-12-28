@@ -7,6 +7,10 @@ namespace LegendsViewer.Legends
 {
     public class EntityPopulation : WorldObject
     {
+        public string Race { get; set; } // legends_plus.xml
+        public int Count { get; set; } // legends_plus.xml
+        public Entity Entity { get; set; } // legends_plus.xml
+
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -15,7 +19,20 @@ namespace LegendsViewer.Legends
         public EntityPopulation(List<Property> properties, World world)
             : base(properties, world)
         {
-            
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
+                {
+                    case "race":
+                        var raceCount = property.Value.Split(':');
+                        Race = raceCount[0];
+                        Count = Convert.ToInt32(raceCount[1]);
+                        break;
+                    case "civ_id":
+                        Entity = world.GetEntity(property.ValueAsInt());
+                        break;
+                }
+            }
         }
     }
 }

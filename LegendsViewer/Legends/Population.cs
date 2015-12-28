@@ -34,11 +34,19 @@
             }
         }
 
+        public bool IsVisitors
+        {
+            get
+            {
+                return Race.Contains("Visitors");
+            }
+        }
+
         public bool IsAnimalPeople
         {
             get
             {
-                return Race.Contains(" Men") && !IsSlaves && !IsPrisoners && !IsOutcasts;
+                return Race.Contains(" Men") && !IsSlaves && !IsPrisoners && !IsOutcasts && !IsVisitors;
             }
         }
 
