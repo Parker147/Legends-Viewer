@@ -285,35 +285,6 @@ namespace LegendsViewer
 
         }
 
-
-        public static string MakePopulationPlural(string population)
-        {
-            string ending = "";
-
-            if (population.Contains(" of"))
-            {
-                ending = population.Substring(population.IndexOf(" of"), population.Length - population.IndexOf(" of"));
-                population = population.Substring(0, population.IndexOf(" of"));
-            }
-
-            if (population.EndsWith("Men") || population.EndsWith("men") || population == "Humans") return population + ending;
-            else if (population.EndsWith("s") && !population.EndsWith("ss")) return population + ending;
-
-            if (population == "Human") population = "Humans";
-            else if (population.EndsWith("Man")) population = population.Replace("Man", "Men");
-            else if (population.EndsWith("man") && !population.Contains("Human")) population = population.Replace("man", "men");
-            else if (population.EndsWith("Woman")) population = population.Replace("Woman", "Women");
-            else if (population.EndsWith("woman")) population = population.Replace("woman", "women");
-            else if (population.EndsWith("f")) population = population.Substring(0, population.Length - 1) + "ves";
-            else if (population.EndsWith("x") || population.EndsWith("ch") || population.EndsWith("sh") || population.EndsWith("s")) population += "es";
-            else if (population.EndsWith("y") && !population.EndsWith("ay") && !population.EndsWith("ey") && !population.EndsWith("iy") && !population.EndsWith("oy") && !population.EndsWith("uy")) population = population.Substring(0, population.Length - 1) + "ies";
-            else population += "s";
-
-            if (ending != "") population += ending;
-
-            return population;
-        }
-
         public static string InitCaps(string name, bool all = true)
         {
             if (name.Length == 0) return name;

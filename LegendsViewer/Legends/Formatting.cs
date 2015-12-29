@@ -55,7 +55,6 @@ namespace LegendsViewer.Legends
             return population;
         }
 
-
         public static string FormatRace(string race)
         {
             if (race.Contains("DEMON")) return "Demon";
