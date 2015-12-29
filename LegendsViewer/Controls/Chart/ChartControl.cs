@@ -623,10 +623,10 @@ namespace LegendsViewer
                     }
 
 
-                    hfDeaths.Select(death => death.HistoricalFigure.Race).ToList().ForEach(death => deathRaces.Add(AppHelpers.MakePopulationPlural(death)));
+                    hfDeaths.Select(death => death.HistoricalFigure.Race).ToList().ForEach(death => deathRaces.Add(Formatting.MakePopulationPlural(death)));
                     foreach (Battle.Squad squad in squads)
                     {
-                        string plural = AppHelpers.MakePopulationPlural(squad.Race);
+                        string plural = Formatting.MakePopulationPlural(squad.Race);
                         for (int i = 0; i < squad.Deaths; i++) deathRaces.Add(plural);
                     }
                     deathRaces.GroupBy(race => race).Select(race => new { Type = race.Key, Count = race.Count() }).OrderByDescending(race => race.Count).ToList().ForEach(race => { series.First().Points.AddY(race.Count); series.First().Points.Last().LegendText = race.Type; });
@@ -670,12 +670,12 @@ namespace LegendsViewer
                         hfDeathsList = hfDeathsList.Concat(battles1.Where(battle => battle.Defender == entity || battle.Defender.Parent == entity).SelectMany(battle => battle.GetSubEvents().OfType<HFDied>().Where(death => battle.NotableDefenders.Contains(death.HistoricalFigure))).ToList()).ToList();
                         squadsList = battles1.Where(battle => battle.Attacker == entity || battle.Attacker.Parent == entity).SelectMany(battle => battle.AttackerSquads).ToList();
                         squadsList = squadsList.Concat(battles1.Where(battle => battle.Defender == entity || battle.Defender.Parent == entity).SelectMany(battle => battle.DefenderSquads).ToList()).ToList();
-                        hfDeathsList.Select(death => death.HistoricalFigure.Race).ToList().ForEach(death => deathRacesList.Add(AppHelpers.MakePopulationPlural(death)));
+                        hfDeathsList.Select(death => death.HistoricalFigure.Race).ToList().ForEach(death => deathRacesList.Add(Formatting.MakePopulationPlural(death)));
 
                         //squadsList.GroupBy(squad => squad.Race).Select(squad => new { Race = squad.Key, Count = squad.Sum(race => race.Deaths) });
                         foreach (Battle.Squad squad in squadsList)
                         {
-                            string plural = AppHelpers.MakePopulationPlural(squad.Race);
+                            string plural = Formatting.MakePopulationPlural(squad.Race);
                             for (int i = 0; i < squad.Deaths; i++) deathRacesList.Add(plural);
                         }
 
@@ -695,11 +695,11 @@ namespace LegendsViewer
                     break;
                 case ChartOption.OtherBattleRemaining:
                     Battle battle1 = (FocusObject as Battle);
-                    List<string> attackers = battle1.NotableAttackers.Select(hf => AppHelpers.MakePopulationPlural(hf.Race)).ToList();
-                    List<string> attackersKilled = battle1.NotableAttackers.Where(hf => battle1.GetSubEvents().OfType<HFDied>().Count(death => death.HistoricalFigure == hf) > 0).Select(hf => AppHelpers.MakePopulationPlural(hf.Race)).ToList();
+                    List<string> attackers = battle1.NotableAttackers.Select(hf => Formatting.MakePopulationPlural(hf.Race)).ToList();
+                    List<string> attackersKilled = battle1.NotableAttackers.Where(hf => battle1.GetSubEvents().OfType<HFDied>().Count(death => death.HistoricalFigure == hf) > 0).Select(hf => Formatting.MakePopulationPlural(hf.Race)).ToList();
                     foreach (Battle.Squad squad in battle1.AttackerSquads)
                     {
-                        string plural = AppHelpers.MakePopulationPlural(squad.Race);
+                        string plural = Formatting.MakePopulationPlural(squad.Race);
                         for (int i = 0; i < squad.Numbers; i++) attackers.Add(plural);
                         for (int i = 0; i < squad.Deaths; i++) attackersKilled.Add(plural);
                     }
@@ -727,11 +727,11 @@ namespace LegendsViewer
                     series.Last().Points.Last().Label = "";
                     series.Last().Points.Last().AxisLabel = "VS.";
 
-                    List<string> defenders = battle1.NotableDefenders.Select(hf => AppHelpers.MakePopulationPlural(hf.Race)).ToList();
-                    List<string> defendersKilled = battle1.NotableDefenders.Where(hf => battle1.GetSubEvents().OfType<HFDied>().Count(death => death.HistoricalFigure == hf) > 0).Select(hf => AppHelpers.MakePopulationPlural(hf.Race)).ToList();
+                    List<string> defenders = battle1.NotableDefenders.Select(hf => Formatting.MakePopulationPlural(hf.Race)).ToList();
+                    List<string> defendersKilled = battle1.NotableDefenders.Where(hf => battle1.GetSubEvents().OfType<HFDied>().Count(death => death.HistoricalFigure == hf) > 0).Select(hf => Formatting.MakePopulationPlural(hf.Race)).ToList();
                     foreach (Battle.Squad squad in battle1.DefenderSquads)
                     {
-                        string plural = AppHelpers.MakePopulationPlural(squad.Race);
+                        string plural = Formatting.MakePopulationPlural(squad.Race);
                         for (int i = 0; i < squad.Numbers; i++) defenders.Add(plural);
                         for (int i = 0; i < squad.Deaths; i++) defendersKilled.Add(plural);
                     }

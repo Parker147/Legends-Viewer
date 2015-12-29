@@ -278,7 +278,7 @@ namespace LegendsViewer.Controls
                     deathCollections = deathCollections.OrderByDescending(collectionType => collectionType.Count);
                     HTML.AppendLine("<ul>");
                     foreach (var deathCollection in deathCollections)
-                        HTML.AppendLine("<li>" + AppHelpers.InitCaps(deathCollection.Type) + ": " + deathCollection.Count + "</li>");
+                        HTML.AppendLine("<li>" + Formatting.InitCaps(deathCollection.Type) + ": " + deathCollection.Count + "</li>");
                     HTML.AppendLine("<li>None: " + World.Events.OfType<HFDied>().Count(death => death.ParentCollection == null) + "</li>");
                     HTML.AppendLine("</ul>");
                     HTML.AppendLine("</ul>");
@@ -344,7 +344,7 @@ namespace LegendsViewer.Controls
             collectionTypes = collectionTypes.OrderByDescending(collection => collection.Count);
             foreach (var collectionType in collectionTypes)
             {
-                HTML.AppendLine("<h2>" + AppHelpers.InitCaps(collectionType.Type) + ": " + collectionType.Count + "</h2>");
+                HTML.AppendLine("<h2>" + Formatting.InitCaps(collectionType.Type) + ": " + collectionType.Count + "</h2>");
                 HTML.AppendLine("<ul>");
                 var subCollections = from subCollection in World.EventCollections.Where(collection => collection.Type == collectionType.Type).SelectMany(collection => collection.Collections)
                                      group subCollection by subCollection.Type into subCollectionType
@@ -355,7 +355,7 @@ namespace LegendsViewer.Controls
                     HTML.AppendLine("<li>Sub Collections");
                     HTML.AppendLine("<ul>");
                     foreach (var subCollection in subCollections)
-                        HTML.AppendLine("<li>" + AppHelpers.InitCaps(subCollection.Type) + ": " + subCollection.Count + "</li>");
+                        HTML.AppendLine("<li>" + Formatting.InitCaps(subCollection.Type) + ": " + subCollection.Count + "</li>");
                     HTML.AppendLine("</ul>");
                 }
 
