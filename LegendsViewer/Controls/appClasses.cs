@@ -284,26 +284,6 @@ namespace LegendsViewer
             return enumerationValue.ToString();
 
         }
-
-        public static string InitCaps(string name, bool all = true)
-        {
-            if (name.Length == 0) return name;
-            name = name.Trim();
-            string[] parts = name.Split(new string[] { " " }, StringSplitOptions.None);
-            string capName = "";
-            if (all)
-                foreach (string part in parts)
-                {
-                    if (capName.Length > 0) capName += " ";
-                    if (((part != "the" && part != "of") || (capName.Length == 0)) && part.Length > 0)
-                        capName += part.ToUpper()[0] + part.Substring(1, part.Length - 1);
-                    else
-                        capName += part.ToLower();
-                }
-            return capName;
-
-        }
-      
     }
 }
  
