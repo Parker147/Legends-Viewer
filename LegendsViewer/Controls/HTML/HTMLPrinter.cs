@@ -344,7 +344,7 @@ namespace LegendsViewer.Controls
             {
                 return;
             }
-            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
+            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + "<br/><br/>");
             foreach (var e in events)
             {
                 if (filters == null || !filters.Contains(e.Type))

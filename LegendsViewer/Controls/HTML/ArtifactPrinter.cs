@@ -3,7 +3,6 @@ using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls
 {
-
     class ArtifactPrinter : HTMLPrinter
     {
         Artifact Artifact;
@@ -16,7 +15,17 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            HTML.AppendLine("<h1>" + Artifact.Name + "</h1><br />");
+            HTML.AppendLine("<h1>" + Artifact.Name + (!string.IsNullOrWhiteSpace(Artifact.Item) ? " \"" + Artifact.Item + "\"" : "") + "</h1>");
+            if (!string.IsNullOrWhiteSpace(Artifact.Type))
+            {
+                HTML.AppendLine("<b>" + Artifact.Name + " was a legendary " + Artifact.Material + " ");
+                HTML.AppendLine(!string.IsNullOrWhiteSpace(Artifact.SubType) ? Artifact.SubType : Artifact.Type + ".</b><br />");
+            }
+            if (!string.IsNullOrWhiteSpace(Artifact.Description))
+            {
+                HTML.AppendLine("<i>\"" + Artifact.Description + "\"</i><br />");
+            }
+            HTML.AppendLine("<br />");
 
             PrintEventLog(Artifact.Events, Artifact.Filters, Artifact);
             return HTML.ToString();

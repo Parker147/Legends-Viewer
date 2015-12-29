@@ -136,13 +136,14 @@ namespace LegendsViewer.Legends
                     }
                     if (Owner != null)
                     {
-                        if (Owner.Parent == null)
+                        var current = Owner;
+                        while (current.Parent != null)
                         {
-                            Owner.Parent = Parent;
+                            current = current.Parent;
                         }
-                        else if (Owner.Parent != Parent)
+                        if (current != Parent)
                         {
-                            World.ParsingErrors.Report("More than one Parent Civ of " + Owner.Name + ", Site Owner of " + Site.Name);
+                            current.Parent = Parent;
                         }
                         if (!Parent.Groups.Contains(Owner))
                         {
@@ -229,7 +230,7 @@ namespace LegendsViewer.Legends
                             new OwnerPeriod(Site, Owner, lastKnownOwner.DeathYear, "after death of last owner (" + lastKnownOwner.DeathCause + ") took over");
                             found = true;
                         }
-                        else if (lastKnownOwner.Race == "Demon" && Site.Type == "Vault" && Owner is Entity && Owner.Race == "Unknown")
+                        else if (lastKnownOwner.Race == "Demon" && Site.Type == "Vault" && Owner is Entity)
                         {
                             // SPOILER Devil owns the place, Entity is a group of angles
                             found = true;

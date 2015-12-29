@@ -63,7 +63,6 @@ namespace LegendsViewer.Legends
         private List<Entity> EntityEntityLinkEntities = new List<Entity>();// legends_plus.xml
         private List<Property> EntityEntityLinks = new List<Property>();// legends_plus.xml
 
-
         public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile)
         {
             MainRaces.Clear();

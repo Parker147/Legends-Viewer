@@ -341,6 +341,8 @@ namespace LegendsViewer.Legends
                 case "hf relationship denied": World.Events.Add(new HFRelationShipDenied(properties, World)); break;
                 case "regionpop incorporated into entity": World.Events.Add(new RegionpopIncorporatedIntoEntity(properties, World)); break;
                 case "artifact destroyed": World.Events.Add(new ArtifactDestroyed(properties, World)); break;
+                case "first contact": World.Events.Add(new FirstContact(properties, World)); break;
+                case "site retired": World.Events.Add(new SiteRetired(properties, World)); break;
                 case "hf disturbed structure":
                     break;
                 default: World.ParsingErrors.Report("Unknown Event: " + type);

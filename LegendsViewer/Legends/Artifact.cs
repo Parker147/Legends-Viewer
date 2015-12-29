@@ -10,6 +10,7 @@ namespace LegendsViewer.Legends
         public string Item { get; set; }
         public HistoricalFigure Creator { get; set; }
         public string Type { get; set; } // legends_plus.xml
+        public string SubType { get; set; } // legends_plus.xml
         public string Description { get; set; } // legends_plus.xml
         public string Material { get; set; } // legends_plus.xml
         public static List<string> Filters;
@@ -28,9 +29,10 @@ namespace LegendsViewer.Legends
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "item": Item = Formatting.InitCaps(property.Value); break;
-                    case "item_type": Type = Formatting.InitCaps(property.Value); break;
+                    case "item_type": Type = property.Value; break;
+                    case "item_subtype": SubType = property.Value; break;
                     case "item_description": Description = Formatting.InitCaps(property.Value); break;
-                    case "mat": Material = Formatting.InitCaps(property.Value); break;
+                    case "mat": Material = property.Value; break;
                 }
             }
         }
