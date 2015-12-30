@@ -1,6 +1,4 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/2dcxapcp3tium23l?svg=true)](https://ci.appveyor.com/project/Kromtec/legends-viewer)
-[![Github Issues](https://img.shields.io/github/issues/Kromtec/Legends-Viewer.svg)]
-(https://github.com/Kromtec/Legends-Viewer/issues)
 
 #Legends Viewer
 
