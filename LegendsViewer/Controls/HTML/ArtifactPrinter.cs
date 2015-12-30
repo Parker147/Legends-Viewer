@@ -19,7 +19,7 @@ namespace LegendsViewer.Controls
             if (!string.IsNullOrWhiteSpace(Artifact.Type))
             {
                 HTML.AppendLine("<b>" + Artifact.Name + " was a legendary " + Artifact.Material + " ");
-                HTML.AppendLine(!string.IsNullOrWhiteSpace(Artifact.SubType) ? Artifact.SubType : Artifact.Type + ".</b><br />");
+                HTML.AppendLine((!string.IsNullOrWhiteSpace(Artifact.SubType) ? Artifact.SubType : Artifact.Type) + ".</b><br />");
             }
             if (!string.IsNullOrWhiteSpace(Artifact.Description))
             {

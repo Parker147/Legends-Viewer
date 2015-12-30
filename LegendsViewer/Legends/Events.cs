@@ -19,17 +19,17 @@ namespace LegendsViewer.Legends
             foreach (Property property in properties)
                 switch (property.Name)
                 {
-                    case "id": this.ID = Convert.ToInt32(property.Value); property.Known = true; break;
-                    case "year": this.Year = Convert.ToInt32(property.Value); property.Known = true; break;
-                    case "seconds72": this.Seconds72 = Convert.ToInt32(property.Value); property.Known = true; break;
-                    case "type": this.Type = String.Intern(property.Value); property.Known = true; break;
+                    case "id": ID = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "year": Year = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "seconds72": Seconds72 = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "type": Type = string.Intern(property.Value); property.Known = true; break;
                     default: break;
                 }
         }
         public WorldEvent() { ID = -1; Year = -1; Seconds72 = -1; Type = "INVALID"; }
         public virtual string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + this.Type;
+            string eventString = GetYearTime() + Type;
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -743,6 +743,7 @@ namespace LegendsViewer.Legends
         Refugee,
         Thief,
         Hunting,
+        Visiting,
         Unknown
     }
     public class ChangeHFState : WorldEvent
@@ -770,6 +771,7 @@ namespace LegendsViewer.Legends
                             case "refugee": State = HFState.Refugee; break;
                             case "thief": State = HFState.Thief; break;
                             case "hunting": State = HFState.Hunting; break;
+                            case "visiting": State = HFState.Visiting; break;
                             default: State = HFState.Unknown; UnknownState = property.Value; world.ParsingErrors.Report("Unknown HF State: " + UnknownState); break;
                         }
                         break;
@@ -799,6 +801,7 @@ namespace LegendsViewer.Legends
             else if (State == HFState.Wandering) eventString += " began wandering ";
             else if (State == HFState.Scouting) eventString += " began scouting the area around ";
             else if (State == HFState.Hunting) eventString += " began hunting great beasts in ";
+            else if (State == HFState.Visiting) eventString += " visited ";
             else
             {
                 eventString += " " + UnknownState + " in ";
@@ -1352,12 +1355,19 @@ namespace LegendsViewer.Legends
         public string ItemType { get; set; }
         public string ItemSubType { get; set; }
         public string ItemMaterial { get; set; }
-
         public Artifact Artifact { get; set; }
+
+        public int ShooterItemID { get; set; }
+        public string ShooterItemType { get; set; }
+        public string ShooterItemSubType { get; set; }
+        public string ShooterItemMaterial { get; set; }
+        public Artifact ShooterArtifact { get; set; }
 
         public HFDied(List<Property> properties, World world)
             : base(properties, world)
         {
+            ItemID = -1;
+            ShooterItemID = -1;
             SlayerItemID = -1;
             SlayerShooterItemID = -1;
             SlayerRace = "UNKNOWN";
@@ -1423,6 +1433,11 @@ namespace LegendsViewer.Legends
                     case "item_subtype": ItemSubType = property.Value; break;
                     case "mat": ItemMaterial = property.Value; break;
                     case "artifact_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
+                    case "shooter_item": ShooterItemID = Convert.ToInt32(property.Value); break;
+                    case "shooter_item_type": ShooterItemType = property.Value; break;
+                    case "shooter_item_subtype": ShooterItemSubType = property.Value; break;
+                    case "shooter_mat": ShooterItemMaterial = property.Value; break;
+                    case "shooter_artifact_id": ShooterArtifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                 }
             HistoricalFigure.AddEvent(this);
             if (HistoricalFigure.DeathCause == DeathCause.None)
@@ -1488,18 +1503,34 @@ namespace LegendsViewer.Legends
 
             eventString += deathString;
 
-            if (Artifact != null)
+            if (ItemID >= 0)
             {
-                eventString += " with " + Artifact.ToLink(link, pov);
+                if (Artifact != null)
+                {
+                    eventString += " with " + Artifact.ToLink(link, pov);
+                }
+                else if (!string.IsNullOrWhiteSpace(ItemType) || !string.IsNullOrWhiteSpace(ItemSubType))
+                {
+                    eventString += " with a ";
+                    eventString += !string.IsNullOrWhiteSpace(ItemMaterial) ? ItemMaterial + " " : " ";
+                    eventString += !string.IsNullOrWhiteSpace(ItemSubType) ? ItemSubType : ItemType;
+                }
             }
-            else if (!string.IsNullOrWhiteSpace(ItemType) || !string.IsNullOrWhiteSpace(ItemSubType))
+            else if (ShooterItemID >= 0)
             {
-                eventString += " with a ";
-                eventString += !string.IsNullOrWhiteSpace(ItemMaterial) ? ItemMaterial + " " : " ";
-                eventString += !string.IsNullOrWhiteSpace(ItemSubType) ? ItemSubType : ItemType;
+                if (ShooterArtifact != null)
+                {
+                    eventString += " (shot) with " + ShooterArtifact.ToLink(link, pov);
+                }
+                else if (!string.IsNullOrWhiteSpace(ShooterItemType) || !string.IsNullOrWhiteSpace(ShooterItemSubType))
+                {
+                    eventString += " (shot) with a ";
+                    eventString += !string.IsNullOrWhiteSpace(ShooterItemMaterial) ? ShooterItemMaterial + " " : " ";
+                    eventString += !string.IsNullOrWhiteSpace(ShooterItemSubType) ? ShooterItemSubType : ShooterItemType;
+                }
             }
             else if (SlayerItemID >= 0) eventString += " with a (" + SlayerItemID + ")";
-            else if (SlayerShooterItemID >= 0) eventString += " with a (shot) (" + SlayerShooterItemID + ")";
+            else if (SlayerShooterItemID >= 0) eventString += " (shot) with a (" + SlayerShooterItemID + ")";
 
             if (Site != null) eventString += " in " + Site.ToLink(link, pov);
             else if (Region != null) eventString += " in " + Region.ToLink(link, pov);
@@ -2703,37 +2734,8 @@ namespace LegendsViewer.Legends
         }
     }
 
-    public class MasterpieceArchDesign : WorldEvent
-    {
-        public int SkillAtTime;
-        public HistoricalFigure HistoricalFigure;
-        public Entity Civ;
-        public Site Site;
-        public MasterpieceArchDesign(List<Property> properties, World world)
-            : base(properties, world)
-        {
-            foreach (Property property in properties)
-                switch (property.Name)
-                {
-                    case "skill_at_time": SkillAtTime = Convert.ToInt32(property.Value); break;
-                    case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
-                    case "entity_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
-                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                }
-            HistoricalFigure.AddEvent(this);
-            Civ.AddEvent(this);
-            Site.AddEvent(this);
-        }
-        public override string Print(bool link = true, DwarfObject pov = null)
-        {
-            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " constructed a masterful (UNKNOWN) for " + Civ.ToLink(link, pov) +
-                " at " + Site.ToLink(link, pov) + ". ";
-            eventString += PrintParentCollection(link, pov);
-            return eventString;
-        }
-    }
 
-    public class MasterpieceArchConstructed : WorldEvent
+    public class MasterpieceArch : WorldEvent
     {
         private int SkillAtTime { get; set; }
         public HistoricalFigure Maker { get; set; }
@@ -2743,7 +2745,9 @@ namespace LegendsViewer.Legends
         public string BuildingSubType { get; set; }
         public int BuildingCustom { get; set; }
 
-        public MasterpieceArchConstructed(List<Property> properties, World world)
+        public string Process { get; set; }
+
+        public MasterpieceArch(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
@@ -2770,7 +2774,9 @@ namespace LegendsViewer.Legends
         {
             string eventString = GetYearTime();
             eventString += Maker != null ? Maker.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
-            eventString += " constructed a masterful ";
+            eventString += " ";
+            eventString += Process;
+            eventString += " a masterful ";
             if (!string.IsNullOrWhiteSpace(BuildingSubType) && BuildingSubType != "-1")
             {
                 eventString += BuildingSubType;
@@ -2788,6 +2794,25 @@ namespace LegendsViewer.Legends
             return eventString;
         }
     }
+
+    public class MasterpieceArchDesign : MasterpieceArch
+    {
+        public MasterpieceArchDesign(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            Process = "designed";
+        }
+    }
+
+    public class MasterpieceArchConstructed : MasterpieceArch
+    {
+        public MasterpieceArchConstructed(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            Process = "constructed";
+        }
+    }
+
 
     public class MasterpieceEngraving : WorldEvent
     {
@@ -3321,12 +3346,22 @@ namespace LegendsViewer.Legends
         }
     }
 
+
+    public enum AgreementTopic
+    {
+        TreeQuota,
+        BecomeLandHolder,
+        PromoteLandHolder,
+        Unknown
+    }
+
+
     public class AgreementMade : WorldEvent
     {
         public Entity Source { get; set; }
         public Entity Destination { get; set; }
         public Site Site { get; set; }
-        public string Topic { get; set; }
+        public AgreementTopic Topic { get; set; }
 
         public AgreementMade(List<Property> properties, World world) : base(properties, world)
         {
@@ -3334,7 +3369,18 @@ namespace LegendsViewer.Legends
                 switch (property.Name)
                 {
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "topic": Topic = property.Value; break;
+                    case "topic":
+                        switch (property.Value)
+                        {
+                            case "treequota": Topic = AgreementTopic.TreeQuota; break;
+                            case "becomelandholder": Topic = AgreementTopic.BecomeLandHolder; break;
+                            case "promotelandholder": Topic = AgreementTopic.PromoteLandHolder; break;
+                            default:
+                                Topic = AgreementTopic.Unknown;
+                                world.ParsingErrors.Report("Unknown Agreement Topic: " + property.Value);
+                                break;
+                        }
+                        break;
                     case "source": Source = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "destination": Destination = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
@@ -3349,11 +3395,14 @@ namespace LegendsViewer.Legends
             string eventString = GetYearTime();
             switch (Topic)
             {
-                case "treequota":
+                case AgreementTopic.TreeQuota:
                     eventString += "a lumber agreement proposed by ";
                     break;
-                case "becomelandholder":
+                case AgreementTopic.BecomeLandHolder:
                     eventString += "the establishment of landed nobility proposed by ";
+                    break;
+                case AgreementTopic.PromoteLandHolder:
+                    eventString += "the elevation of the landed nobility proposed by ";
                     break;
                 default:
                     eventString += "UNKNOWN AGREEMENT";
@@ -3376,7 +3425,7 @@ namespace LegendsViewer.Legends
         public Entity Source { get; set; }
         public Entity Destination { get; set; }
         public Site Site { get; set; }
-        public string Topic { get; set; }
+        public AgreementTopic Topic { get; set; }
         public int Result { get; set; }
 
         public AgreementConcluded(List<Property> properties, World world) : base(properties, world)
@@ -3385,7 +3434,18 @@ namespace LegendsViewer.Legends
                 switch (property.Name)
                 {
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "topic": Topic = property.Value; break;
+                    case "topic":
+                        switch (property.Value)
+                        {
+                            case "treequota": Topic = AgreementTopic.TreeQuota; break;
+                            case "becomelandholder": Topic = AgreementTopic.BecomeLandHolder; break;
+                            case "promotelandholder": Topic = AgreementTopic.PromoteLandHolder; break;
+                            default:
+                                Topic = AgreementTopic.Unknown;
+                                world.ParsingErrors.Report("Unknown Agreement Topic: " + property.Value);
+                                break;
+                        }
+                        break;
                     case "source": Source = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "destination": Destination = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
@@ -3401,11 +3461,14 @@ namespace LegendsViewer.Legends
             string eventString = GetYearTime();
             switch (Topic)
             {
-                case "treequota":
+                case AgreementTopic.TreeQuota:
                     eventString += "a lumber agreement between ";
                     break;
-                case "becomelandholder":
+                case AgreementTopic.BecomeLandHolder:
                     eventString += "the establishment of landed nobility agreement between ";
+                    break;
+                case AgreementTopic.PromoteLandHolder:
+                    eventString += "the elevation of the landed nobility agreement between ";
                     break;
                 default:
                     eventString += "UNKNOWN AGREEMENT";
@@ -3445,6 +3508,31 @@ namespace LegendsViewer.Legends
                     break;
             }
             eventString += ".";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public class AgreementFormed : WorldEvent
+    {
+        private string AgreementId { get; set; }
+
+        public AgreementFormed(List<Property> properties, World world) : base(properties, world)
+        {
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
+                {
+                    case "agreement_id":
+                        AgreementId = property.Value;
+                        break;
+                }
+            }
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            String eventString = this.GetYearTime() + " an unknown agreement was formed (" + AgreementId + "). ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -3837,7 +3925,7 @@ namespace LegendsViewer.Legends
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            String dispute = unknownDispute;
+            string dispute = unknownDispute;
             switch (Dispute)
             {
                 case Dispute.FishingRights:
@@ -3860,7 +3948,15 @@ namespace LegendsViewer.Legends
                     break;
             }
 
-            String eventString = this.GetYearTime() + Entity1.ToLink(link, pov) + " of " + Site1.ToLink(link, pov) + " and " + Entity2.ToLink(link, pov) + " of " + Site2.ToLink(link, pov) + " became embroiled in a dispute over " + dispute + ". ";
+            string eventString = GetYearTime();
+            eventString += Entity1 != null ? Entity1.ToLink(link, pov) : "UNKNOWN ENTITY";
+            eventString += " of ";
+            eventString += Site1 != null ? Site1.ToLink(link, pov) : "UNKNOWN SITE";
+            eventString += " and ";
+            eventString += Entity2 != null ? Entity2.ToLink(link, pov) : "UNKNOWN ENTITY";
+            eventString += " of ";
+            eventString += Site2 != null ? Site2.ToLink(link, pov) : "UNKNOWN SITE";
+            eventString += " became embroiled in a dispute over " + dispute + ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -3976,31 +4072,6 @@ namespace LegendsViewer.Legends
                 eventString += " of " + DefenderCiv.ToLink(link, pov);
             }
             eventString += " and destroyed " + Site.ToLink(link, pov) + ". ";
-            eventString += PrintParentCollection(link, pov);
-            return eventString;
-        }
-    }
-
-    public class AgreementFormed : WorldEvent
-    {
-        private String AgreementId { get; set; }
-
-        public AgreementFormed(List<Property> properties, World world) : base(properties, world)
-        {
-            foreach (Property property in properties)
-            {
-                switch (property.Name)
-                {
-                    case "agreement_id":
-                        AgreementId = property.Value;
-                        break;
-                }
-            }
-        }
-
-        public override string Print(bool link = true, DwarfObject pov = null)
-        {
-            String eventString = this.GetYearTime() + " an unknown agreement was formed (" + AgreementId + "). ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -4258,9 +4329,11 @@ namespace LegendsViewer.Legends
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            eventString += Civ.ToLink(link, pov);
-            eventString += " held a " + OccasionType.ToString().ToLower() + " in ";
-            eventString += Site.ToLink(link, pov);
+            eventString += Civ != null ? Civ.ToLink(link, pov) : "UNKNOWN CIV";
+            eventString += " held a ";
+            eventString += OccasionType.ToString().ToLower();
+            eventString += " in ";
+            eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
             eventString += " as part of UNKNOWN OCCASION (" + OccasionId + ") with UNKNOWN SCHEDULE(" + ScheduleId + ")";
             eventString += ".";
             return eventString;
@@ -4772,22 +4845,23 @@ namespace LegendsViewer.Legends
             string eventString = GetYearTime();
             if (PopNumberMoved > 200)
             {
-                eventString += " hundreds of";
+                eventString += " hundreds of ";
             }
             else if (PopNumberMoved > 24)
             {
-                eventString += " dozens of";
+                eventString += " dozens of ";
             }
             else
             {
-                eventString += " several";
+                eventString += " several ";
             }
-            eventString += " UNKNOWN RACE from ";
-            eventString += PopSourceRegion.ToLink(link, pov);
+            eventString += "UNKNOWN RACE";
+            eventString += " from ";
+            eventString += PopSourceRegion != null ? PopSourceRegion.ToLink(link, pov) : "UNKNOWN REGION";
             eventString += " joined with ";
-            eventString += JoinEntity.ToLink(link, pov);
+            eventString += JoinEntity != null ? JoinEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += " at ";
-            eventString += Site.ToLink(link, pov);
+            eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
             eventString += ".";
             return eventString;
         }
