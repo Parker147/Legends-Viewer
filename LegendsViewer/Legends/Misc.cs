@@ -129,6 +129,9 @@ namespace LegendsViewer.Legends
         [Description("Scared to death")]
         ScaredToDeath,
         Scuttled,
+        [Description("Killed by flying object")]
+        FlyingObject,
+        Slaughtered,
         Unknown
     }
 }

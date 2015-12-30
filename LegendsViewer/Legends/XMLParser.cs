@@ -34,6 +34,8 @@ namespace LegendsViewer.Legends
             if (File.Exists(xmlPlusFile))
             {
                 xmlPlusParser = new XMLPlusParser(world, xmlPlusFile);
+                World.Log.AppendLine("Found LEGENDS_PLUS.XML!");
+                World.Log.AppendLine("Parsed additional data...\n");
             }
         }
 
@@ -343,6 +345,7 @@ namespace LegendsViewer.Legends
                 case "artifact destroyed": World.Events.Add(new ArtifactDestroyed(properties, World)); break;
                 case "first contact": World.Events.Add(new FirstContact(properties, World)); break;
                 case "site retired": World.Events.Add(new SiteRetired(properties, World)); break;
+                case "agreement concluded": World.Events.Add(new AgreementConcluded(properties, World)); break;
                 case "hf disturbed structure":
                     break;
                 default: World.ParsingErrors.Report("Unknown Event: " + type);

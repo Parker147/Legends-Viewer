@@ -707,13 +707,21 @@ namespace LegendsViewer.Legends
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov);
-            if (NewJob == "standard")
+            if (OldJob != "standard" && NewJob != "standard")
+            {
+                eventString += " gave up being a " + OldJob + " to become a " + NewJob;
+            }
+            else if (NewJob != "standard")
+            {
+                eventString += " became a " + NewJob;
+            }
+            else if (OldJob != "standard")
             {
                 eventString += " stopped being a " + OldJob;
             }
             else
             {
-                eventString += " became a " + NewJob;
+                eventString += " became a peasant";
             }
             if (Site != null)
             {
@@ -1394,6 +1402,8 @@ namespace LegendsViewer.Legends
                             case "collapsed": Cause = DeathCause.Collapsed; break;
                             case "scared to death": Cause = DeathCause.ScaredToDeath; break;
                             case "scuttled": Cause = DeathCause.Scuttled; break;
+                            case "flying object": Cause = DeathCause.FlyingObject; break;
+                            case "slaughtered": Cause = DeathCause.Slaughtered; break;
                             default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("Unknown Death Cause: " + UnknownCause); break;
                         }
                         break;
@@ -1448,6 +1458,8 @@ namespace LegendsViewer.Legends
             else if (Cause == DeathCause.InACage) deathString = "died in a cage";
             else if (Cause == DeathCause.FrozenInWater) deathString = "was incased in ice";
             else if (Cause == DeathCause.Scuttled) deathString = "was scuttled";
+            else if (Cause == DeathCause.Slaughtered) deathString = "was slaughtered";
+            else if (Cause == DeathCause.FlyingObject) deathString = "was killed by a flying object";
             else if (Cause == DeathCause.Unknown) deathString = "died (" + UnknownCause + ")";
 
             if (Slayer != null || (SlayerRace != "UNKNOWN" && SlayerRace != "-1"))
@@ -2728,6 +2740,7 @@ namespace LegendsViewer.Legends
         public Entity MakerEntity { get; set; }
         public Site Site { get; set; }
         public string BuildingType { get; set; }
+        public string BuildingSubType { get; set; }
         public int BuildingCustom { get; set; }
 
         public MasterpieceArchConstructed(List<Property> properties, World world)
@@ -2745,6 +2758,7 @@ namespace LegendsViewer.Legends
                     case "maker_entity": if (MakerEntity == null) { MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                     case "building_type": BuildingType = property.Value; break;
+                    case "building_subtype": BuildingSubType = property.Value; break;
                     case "building_custom": BuildingCustom = Convert.ToInt32(property.Value); break;
                 }
             }
@@ -2757,7 +2771,14 @@ namespace LegendsViewer.Legends
             string eventString = GetYearTime();
             eventString += Maker != null ? Maker.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
             eventString += " constructed a masterful ";
-            eventString += !string.IsNullOrWhiteSpace(BuildingType) ? BuildingType : "UNKNOWN BUILDING";
+            if (!string.IsNullOrWhiteSpace(BuildingSubType) && BuildingSubType != "-1")
+            {
+                eventString += BuildingSubType;
+            }
+            else
+            {
+                eventString += !string.IsNullOrWhiteSpace(BuildingType) ? BuildingType : "UNKNOWN BUILDING";
+            }
             eventString += " for ";
             eventString += MakerEntity != null ? MakerEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += " in ";
@@ -2770,10 +2791,13 @@ namespace LegendsViewer.Legends
 
     public class MasterpieceEngraving : WorldEvent
     {
-        private int SkillAtTime;
-        public HistoricalFigure HistoricalFigure;
-        public Entity Civ;
-        public Site Site;
+        private int SkillAtTime { get; set; }
+        public HistoricalFigure Maker { get; set; }
+        public Entity MakerEntity { get; set; }
+        public Site Site { get; set; }
+        public int ArtID { get; set; }
+        public int ArtSubID { get; set; }
+
         public MasterpieceEngraving(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -2781,18 +2805,31 @@ namespace LegendsViewer.Legends
                 switch (property.Name)
                 {
                     case "skill_at_time": SkillAtTime = Convert.ToInt32(property.Value); break;
-                    case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
-                    case "entity_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "hfid": Maker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "entity_id": MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "maker": if (Maker == null) { Maker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "maker_entity": if (MakerEntity == null) { MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "skill_rating": SkillAtTime = Convert.ToInt32(property.Value); break;
+                    case "art_id": ArtID = Convert.ToInt32(property.Value); break;
+                    case "art_subid": ArtSubID = Convert.ToInt32(property.Value); break;
                 }
-            HistoricalFigure.AddEvent(this);
-            Civ.AddEvent(this);
+            Maker.AddEvent(this);
+            MakerEntity.AddEvent(this);
             Site.AddEvent(this);
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + "created a masterful engraving for" + Civ.ToLink(link, pov) +
-                " in " + Site.ToLink(link, pov) + ". ";
+            string eventString = GetYearTime();
+            eventString += Maker != null ? Maker.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
+            eventString += " created a masterful ";
+            eventString += "engraving";
+            eventString += " for ";
+            eventString += MakerEntity != null ? MakerEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
+            eventString += " in ";
+            eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
+            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -3328,6 +3365,85 @@ namespace LegendsViewer.Legends
             eventString += Destination != null ? Destination.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += " at ";
             eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
+            eventString += ".";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public class AgreementConcluded : WorldEvent
+    {
+        public Entity Source { get; set; }
+        public Entity Destination { get; set; }
+        public Site Site { get; set; }
+        public string Topic { get; set; }
+        public int Result { get; set; }
+
+        public AgreementConcluded(List<Property> properties, World world) : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "topic": Topic = property.Value; break;
+                    case "source": Source = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "destination": Destination = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "result": Result = Convert.ToInt32(property.Value); break;
+                }
+            Site.AddEvent(this);
+            Source.AddEvent(this);
+            Destination.AddEvent(this);
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = GetYearTime();
+            switch (Topic)
+            {
+                case "treequota":
+                    eventString += "a lumber agreement between ";
+                    break;
+                case "becomelandholder":
+                    eventString += "the establishment of landed nobility agreement between ";
+                    break;
+                default:
+                    eventString += "UNKNOWN AGREEMENT";
+                    break;
+            }
+            eventString += Source != null ? Source.ToLink(link, pov) : "UNKNOWN ENTITY";
+            eventString += " and ";
+            eventString += Destination != null ? Destination.ToLink(link, pov) : "UNKNOWN ENTITY";
+            eventString += " at ";
+            eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
+            eventString += " concluded";
+            switch (Result)
+            {
+                case -3:
+                    eventString += "  with miserable outcome";
+                    break;
+                case -2:
+                    eventString += " with a strong negative outcome";
+                    break;
+                case -1:
+                    eventString += " in an unsatisfactory fashion";
+                    break;
+                case 0:
+                    eventString += " fairly";
+                    break;
+                case 1:
+                    eventString += " with a positive outcome";
+                    break;
+                case 2:
+                    eventString += ", cementing bonds of mutual trust";
+                    break;
+                case 3:
+                    eventString += " with a very strong positive outcome";
+                    break;
+                default:
+                    eventString += " with an unknown outcome";
+                    break;
+            }
             eventString += ".";
             eventString += PrintParentCollection(link, pov);
             return eventString;
