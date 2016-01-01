@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
@@ -39,11 +38,49 @@ namespace LegendsViewer.Controls
         private void PrintTitle()
         {
             string title = Entity.ToLink(false);
-            if (Entity.IsCiv) title += " is a civilization of ";
-            else title += " is a group of ";
-            title += Entity.Race.ToLower();
+            if (Entity.IsCiv)
+            {
+                title += " is a civilization";
+            }
+            else
+            {
+                title += " is a ";
+                switch (Entity.Type)
+                {
+                    case EntityType.Civilization:
+                        title += "civilization";
+                        break;
+                    case EntityType.NomadicGroup:
+                        title += "nomadic group";
+                        break;
+                    case EntityType.MigratingGroup:
+                        title += "migrating group";
+                        break;
+                    case EntityType.Outcast:
+                        title += "collection of outcasts";
+                        break;
+                    case EntityType.Religion:
+                        title += "religion";
+                        break;
+                    case EntityType.SiteGovernment:
+                        title += "site government";
+                        break;
+                    case EntityType.PerformanceTroupe:
+                        title += "performance troupe";
+                        break;
+                    default:
+                        title += "group";
+                        break;
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(Entity.Race) && Entity.Race != "Unknown")
+            {
+                title += " of ";
+                title += Entity.Race.ToLower();
+            }
             if (Entity.Parent != null) title += " of " + Entity.Parent.ToLink(true, Entity);
-            HTML.AppendLine("<h1>"+title+"</h1></br>");
+            title += ".";
+            HTML.AppendLine("<h1>" + title + "</h1></br>");
 
             if (Entity.IsCiv)
                 HTML.AppendLine(Entity.PrintIdenticon(true) + LineBreak + LineBreak);
@@ -58,7 +95,7 @@ namespace LegendsViewer.Controls
                 mapTable.AddData(MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap));
                 mapTable.AddData(MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap));
                 mapTable.EndRow();
-                HTML.AppendLine(mapTable.GetTable()+"</br>");
+                HTML.AppendLine(mapTable.GetTable() + "</br>");
                 maps[0].Dispose();
                 maps[1].Dispose();
             }
@@ -201,7 +238,7 @@ namespace LegendsViewer.Controls
                     if (ownedSite.EndYear >= 0)
                     {
                         siteTable.AddData(ownedSite.EndCause);
-                        siteTable.AddData(ownedSite.EndYear.ToString(), 0 , TableDataAlign.Right);
+                        siteTable.AddData(ownedSite.EndYear.ToString(), 0, TableDataAlign.Right);
                     }
                     if (ownedSite.Ender != null)
                     {

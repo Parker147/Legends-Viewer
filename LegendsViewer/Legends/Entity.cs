@@ -9,13 +9,14 @@ namespace LegendsViewer.Legends
 {
     public enum EntityType // legends_plus.xml
     {
+        Unknown,
         Civilization,
         NomadicGroup,
         MigratingGroup,
         Outcast,
         Religion,
         SiteGovernment,
-        Unknown
+        PerformanceTroupe,
     }
 
     public class Entity : WorldObject
@@ -108,6 +109,7 @@ namespace LegendsViewer.Legends
         {
             Name = "";
             Race = "Unknown";
+            Type = EntityType.Unknown;
             Parent = null;
             Worshipped = new List<HistoricalFigure>();
             LeaderTypes = new List<string>();
@@ -124,8 +126,7 @@ namespace LegendsViewer.Legends
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "race":
-                        var race = property.Value.Replace("_", " ").Replace("man", "Men");
-                        Race = Formatting.InitCaps(race);
+                        Race = Formatting.MakePopulationPlural(Formatting.FormatRace(property.Value));
                         break;
                     case "type":
                         switch (property.Value)
@@ -147,6 +148,9 @@ namespace LegendsViewer.Legends
                                 break;
                             case "migratinggroup":
                                 Type = EntityType.MigratingGroup;
+                                break;
+                            case "performancetroupe":
+                                Type = EntityType.PerformanceTroupe;
                                 break;
                             default:
                                 Type = EntityType.Unknown;

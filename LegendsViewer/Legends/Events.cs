@@ -202,7 +202,7 @@ namespace LegendsViewer.Legends
                     case "hfid_target": HistoricalFigureTarget = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "link_type":
                         HistoricalFigureLinkType linkType = HistoricalFigureLinkType.Unknown;
-                        if (!Enum.TryParse(Formatting.InitCaps(property.Value), out linkType))
+                        if (!Enum.TryParse(Formatting.InitCaps(property.Value.Replace("_", " ")).Replace(" ", ""), out linkType))
                         {
                             LinkType = HistoricalFigureLinkType.Unknown;
                             world.ParsingErrors.Report("Unknown HF Link Type: " + property.Value);
@@ -1456,26 +1456,6 @@ namespace LegendsViewer.Legends
         {
             string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " ";
             string deathString = "";
-            if (Cause == DeathCause.Thirst) deathString = "died of thirst";
-            else if (Cause == DeathCause.OldAge) deathString = "died of old age";
-            else if (Cause == DeathCause.Suffocated) deathString = "suffocated";
-            else if (Cause == DeathCause.Bled) deathString = "bled to death";
-            else if (Cause == DeathCause.Cold) deathString = "froze to death";
-            else if (Cause == DeathCause.CrushedByABridge) deathString = "was crushed by a drawbridge";
-            else if (Cause == DeathCause.Drowned) deathString = "drowned";
-            else if (Cause == DeathCause.Starved) deathString = "starved to death";
-            else if (Cause == DeathCause.Infection) deathString = "succumbed to infection";
-            else if (Cause == DeathCause.CollidedWithAnObstacle) deathString = "died after colliding with an obstacle";
-            else if (Cause == DeathCause.PutToRest) deathString = "was put to rest";
-            else if (Cause == DeathCause.StarvedQuit) deathString = "starved";
-            else if (Cause == DeathCause.Trap) deathString = "was killed by a trap";
-            else if (Cause == DeathCause.CaveIn) deathString = "was crushed under a collapsing ceiling";
-            else if (Cause == DeathCause.InACage) deathString = "died in a cage";
-            else if (Cause == DeathCause.FrozenInWater) deathString = "was incased in ice";
-            else if (Cause == DeathCause.Scuttled) deathString = "was scuttled";
-            else if (Cause == DeathCause.Slaughtered) deathString = "was slaughtered";
-            else if (Cause == DeathCause.FlyingObject) deathString = "was killed by a flying object";
-            else if (Cause == DeathCause.Unknown) deathString = "died (" + UnknownCause + ")";
 
             if (Slayer != null || (SlayerRace != "UNKNOWN" && SlayerRace != "-1"))
             {
@@ -1499,6 +1479,36 @@ namespace LegendsViewer.Legends
                 else if (Cause == DeathCause.Collapsed) deathString = "collapsed, struck down by " + slayerString;
                 else if (Cause == DeathCause.ScaredToDeath) deathString = " was scared to death by " + slayerString;
                 else deathString += ", slain by " + slayerString;
+            }
+            else
+            {
+                if (Cause == DeathCause.Thirst) deathString = "died of thirst";
+                else if (Cause == DeathCause.OldAge) deathString = "died of old age";
+                else if (Cause == DeathCause.Suffocated) deathString = "suffocated";
+                else if (Cause == DeathCause.Bled) deathString = "bled to death";
+                else if (Cause == DeathCause.Cold) deathString = "froze to death";
+                else if (Cause == DeathCause.CrushedByABridge) deathString = "was crushed by a drawbridge";
+                else if (Cause == DeathCause.Drowned) deathString = "drowned";
+                else if (Cause == DeathCause.Starved) deathString = "starved to death";
+                else if (Cause == DeathCause.Infection) deathString = "succumbed to infection";
+                else if (Cause == DeathCause.CollidedWithAnObstacle) deathString = "died after colliding with an obstacle";
+                else if (Cause == DeathCause.PutToRest) deathString = "was put to rest";
+                else if (Cause == DeathCause.StarvedQuit) deathString = "starved";
+                else if (Cause == DeathCause.Trap) deathString = "was killed by a trap";
+                else if (Cause == DeathCause.CaveIn) deathString = "was crushed under a collapsing ceiling";
+                else if (Cause == DeathCause.InACage) deathString = "died in a cage";
+                else if (Cause == DeathCause.FrozenInWater) deathString = "was incased in ice";
+                else if (Cause == DeathCause.Scuttled) deathString = "was scuttled";
+                else if (Cause == DeathCause.Slaughtered) deathString = "was slaughtered";
+                else if (Cause == DeathCause.FlyingObject) deathString = "was killed by a flying object";
+                else if (Cause == DeathCause.ExecutedBuriedAlive) deathString = "was buried alive";
+                else if (Cause == DeathCause.ExecutedBurnedAlive) deathString = "was burned alive";
+                else if (Cause == DeathCause.ExecutedCrucified) deathString = "was crucified";
+                else if (Cause == DeathCause.ExecutedDrowned) deathString = "was drowned";
+                else if (Cause == DeathCause.ExecutedFedToBeasts) deathString = "was fed to beasts";
+                else if (Cause == DeathCause.ExecutedHackedToPieces) deathString = "was hacked to pieces";
+                else if (Cause == DeathCause.ExecutedBeheaded) deathString = "was beheaded";
+                else if (Cause == DeathCause.Unknown) deathString = "died (" + UnknownCause + ")";
             }
 
             eventString += deathString;
@@ -3287,19 +3297,20 @@ namespace LegendsViewer.Legends
                     case "civ": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "histfig": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "link_type":
-                        switch (property.Value)
+                        switch (property.Value.Replace("_", " "))
                         {
                             case "lair": LinkType = SiteLinkType.Lair; break;
                             case "hangout": LinkType = SiteLinkType.Hangout; break;
                             case "home site building": LinkType = SiteLinkType.HomeSiteBuilding; break;
                             case "home site underground": LinkType = SiteLinkType.HomeSiteUnderground; break;
                             case "home structure": LinkType = SiteLinkType.HomeStructure; break;
+                            case "seat_of_power":
                             case "seat of power": LinkType = SiteLinkType.SeatOfPower; break;
                             case "occupation": LinkType = SiteLinkType.Occupation; break;
-                            case "home_site_realization_building": LinkType = SiteLinkType.HomeSiteRealizationBuilding; break;
+                            case "home site realization building": LinkType = SiteLinkType.HomeSiteRealizationBuilding; break;
                             default:
                                 LinkType = SiteLinkType.Unknown;
-                                world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value);
+                                world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value.Replace("_", " "));
                                 break;
                         }
                         break;
@@ -3656,19 +3667,20 @@ namespace LegendsViewer.Legends
                     case "civ": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "histfig": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "link_type":
-                        switch (property.Value)
+                        switch (property.Value.Replace("_"," "))
                         {
                             case "lair": LinkType = SiteLinkType.Lair; break;
                             case "hangout": LinkType = SiteLinkType.Hangout; break;
+                            case "home_site_building":
                             case "home site building": LinkType = SiteLinkType.HomeSiteBuilding; break;
                             case "home site underground": LinkType = SiteLinkType.HomeSiteUnderground; break;
                             case "home structure": LinkType = SiteLinkType.HomeStructure; break;
                             case "seat of power": LinkType = SiteLinkType.SeatOfPower; break;
                             case "occupation": LinkType = SiteLinkType.Occupation; break;
-                            case "home_site_realization_building": LinkType = SiteLinkType.HomeSiteRealizationBuilding; break;
+                            case "home site realization building": LinkType = SiteLinkType.HomeSiteRealizationBuilding; break;
                             default:
                                 LinkType = SiteLinkType.Unknown;
-                                world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value);
+                                world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value.Replace("_", " "));
                                 break;
                         }
                         break;
@@ -4866,4 +4878,5 @@ namespace LegendsViewer.Legends
             return eventString;
         }
     }
+
 }

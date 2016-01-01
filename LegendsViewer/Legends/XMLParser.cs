@@ -371,6 +371,7 @@ namespace LegendsViewer.Legends
                 case "ceremony": World.EventCollections.Add(new CeremonyCollection(properties, World)); break;
                 case "performance": World.EventCollections.Add(new PerformanceCollection(properties, World)); break;
                 case "competition": World.EventCollections.Add(new CompetitionCollection(properties, World)); break;
+                case "purge": World.EventCollections.Add(new Purge(properties, World)); break;
                 default: World.ParsingErrors.Report("Unknown Event Collection: " + type); break;
             }
         }

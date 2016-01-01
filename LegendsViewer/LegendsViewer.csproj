@@ -91,7 +91,7 @@
     <Compile Include="Controls\HTML\Utilities\BrowserUtil.cs" />
     <Compile Include="Controls\HTML\Utilities\HTMLStyleUtil.cs" />
     <Compile Include="Controls\HTML\WorldConstructionPrinter.cs" />
-	<Compile Include="Controls\HTML\Utilities\SkillDictionary.cs" />
+    <Compile Include="Controls\HTML\Utilities\SkillDictionary.cs" />
     <Compile Include="Controls\Map\dlgPopulation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +182,7 @@
     <Compile Include="Legends\EventCollections\Occasion.cs" />
     <Compile Include="Legends\EventCollections\PerformanceCollection.cs" />
     <Compile Include="Legends\EventCollections\ProcessionCollection.cs" />
+    <Compile Include="Legends\EventCollections\Purge.cs" />
     <Compile Include="Legends\EventCollections\SiteConquered.cs" />
     <Compile Include="Legends\EventCollections\Theft.cs" />
     <Compile Include="Legends\EventCollections\War.cs" />
