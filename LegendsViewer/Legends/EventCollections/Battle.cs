@@ -270,7 +270,8 @@ namespace LegendsViewer.Legends
                     title += "&#13";
                     title += "Kills: " + DefenderDeathCount;
                     title += "&#13";
-                    title += Defender.PrintEntity(false) + " (Defender)";
+                    title += Defender != null ? Defender.PrintEntity(false) : "UNKNOWN";
+                    title += " (Defender)";
                     if (Victor == Defender) title += "(V)";
                     title += "&#13";
                     title += "Kills: " + AttackerDeathCount;

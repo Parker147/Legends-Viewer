@@ -85,6 +85,7 @@ namespace LegendsViewer
         new string[] {"agreement concluded",          "Agreement Concluded",                      ""},
         new string[] {"site tribute forced",          "Site Tribute Forced",                      ""},
         new string[] {"insurrection started",         "Insurrection Started",                     ""},
+        new string[] {"hf reach summit",              "Historical Figure Reach Summit",           ""},
         // new 0.42.XX events
         new string[] { "procession",                  "Procession",                               ""},
         new string[] { "ceremony",                    "Ceremony",                                 ""},
