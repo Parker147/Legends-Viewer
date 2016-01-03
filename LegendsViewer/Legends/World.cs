@@ -36,6 +36,8 @@ namespace LegendsViewer.Legends
         public List<Population> OutdoorPopulations = new List<Population>();
         public List<Population> UndergroundPopulations = new List<Population>();
 
+        public Dictionary<string, List<HistoricalFigure>> Breeds = new Dictionary<string, List<HistoricalFigure>>();
+
         public ParsingErrors ParsingErrors;
 
         public Bitmap Map, PageMiniMap, MiniMap;

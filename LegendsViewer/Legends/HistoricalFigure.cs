@@ -72,6 +72,7 @@ namespace LegendsViewer.Legends
         public bool Animated { get; set; }
         public string AnimatedType { get; set; }
         public bool Adventurer { get; set; }
+        public string BreedID { get; set; }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -91,10 +92,10 @@ namespace LegendsViewer.Legends
         {
             Initialize();
             List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
-            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter" };
+            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller" };
             List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
             List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
-            List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge", "rep_bonded", "rep_quarreler" };
+            List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge", "rep_bonded", "rep_quarreler", "rep_trade_partner" };
             foreach (Property property in properties)
                 switch (property.Name)
                 {
@@ -199,6 +200,20 @@ namespace LegendsViewer.Legends
                     case "adventurer":
                         Adventurer = true;
                         property.Known = true;
+                        break;
+                    case "breed_id":
+                        BreedID = property.Value;
+                        if (!string.IsNullOrWhiteSpace(BreedID))
+                        {
+                            if (world.Breeds.ContainsKey(BreedID))
+                            {
+                                world.Breeds[BreedID].Add(this);
+                            }
+                            else
+                            {
+                                world.Breeds.Add(BreedID, new List<HistoricalFigure>() { this });
+                            }
+                        }
                         break;
                 }
             if (Name == "") Name = "(Unnamed)";

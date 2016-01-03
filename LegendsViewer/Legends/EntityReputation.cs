@@ -20,6 +20,8 @@ namespace LegendsViewer.Legends
                     case "unsolved_murders": UnsolvedMurders = Convert.ToInt32(property.Value); break;
                     case "first_ageless_year": FirstSuspectedAgelessYear = Convert.ToInt32(property.Value); break;
                     case "first_ageless_season_count": FirstSuspectedAglessSeason = Formatting.TimeCountToSeason(Convert.ToInt32(property.Value)); break;
+                    default:
+                        break;
                 }
             }
         }

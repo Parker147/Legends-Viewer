@@ -2,7 +2,6 @@
 using System.Text;
 using LegendsViewer.Legends;
 using LegendsViewer.Controls.HTML.Utilities;
-using System.Collections.Generic;
 
 namespace LegendsViewer.Controls
 {
@@ -22,6 +21,7 @@ namespace LegendsViewer.Controls
             HTML = new StringBuilder();
             PrintTitle();
             PrintMiscInfo();
+            PrintBreedInfo();
             PrintPositions();
             PrintRelatedHistoricalFigures();
             PrintRelatedEntities();
@@ -33,6 +33,20 @@ namespace LegendsViewer.Controls
             PrintBeastAttacks();
             PrintEventLog(HistoricalFigure.Events, HistoricalFigure.Filters, HistoricalFigure);
             return HTML.ToString();
+        }
+
+        private void PrintBreedInfo()
+        {
+            if (!string.IsNullOrWhiteSpace(HistoricalFigure.BreedID))
+            {
+                HTML.AppendLine(Bold("Breed") + LineBreak);
+                HTML.AppendLine("<ol>");
+                foreach (HistoricalFigure hfOfSameBreed in World.Breeds[HistoricalFigure.BreedID])
+                {
+                    HTML.AppendLine("<li>" + hfOfSameBreed.ToLink() + "</li>");
+                }
+                HTML.AppendLine("</ol>");
+            }
         }
 
         public override string GetTitle()
