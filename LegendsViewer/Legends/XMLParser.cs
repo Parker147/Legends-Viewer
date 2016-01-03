@@ -346,8 +346,6 @@ namespace LegendsViewer.Legends
                 case "first contact": World.Events.Add(new FirstContact(properties, World)); break;
                 case "site retired": World.Events.Add(new SiteRetired(properties, World)); break;
                 case "agreement concluded": World.Events.Add(new AgreementConcluded(properties, World)); break;
-                case "hf disturbed structure":
-                    break;
                 default: World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
             }

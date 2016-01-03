@@ -132,6 +132,7 @@ namespace LegendsViewer.Legends
         [Description("Killed by flying object")]
         FlyingObject,
         Slaughtered,
+        Melted,
         Unknown
     }
 }

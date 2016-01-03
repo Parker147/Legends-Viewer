@@ -1372,6 +1372,7 @@ namespace LegendsViewer.Legends
             SlayerShooterItemID = -1;
             SlayerRace = "UNKNOWN";
             SlayerCaste = "UNKNOWN";
+            Cause = DeathCause.Unknown;
             foreach (Property property in properties)
                 switch (property.Name)
                 {
@@ -1414,6 +1415,7 @@ namespace LegendsViewer.Legends
                             case "scuttled": Cause = DeathCause.Scuttled; break;
                             case "flying object": Cause = DeathCause.FlyingObject; break;
                             case "slaughtered": Cause = DeathCause.Slaughtered; break;
+                            case "melt": Cause = DeathCause.Melted; break;
                             default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("Unknown Death Cause: " + UnknownCause); break;
                         }
                         break;
@@ -1508,6 +1510,7 @@ namespace LegendsViewer.Legends
                 else if (Cause == DeathCause.ExecutedFedToBeasts) deathString = "was fed to beasts";
                 else if (Cause == DeathCause.ExecutedHackedToPieces) deathString = "was hacked to pieces";
                 else if (Cause == DeathCause.ExecutedBeheaded) deathString = "was beheaded";
+                else if (Cause == DeathCause.Melted) deathString = "melted";
                 else if (Cause == DeathCause.Unknown) deathString = "died (" + UnknownCause + ")";
             }
 
@@ -3524,9 +3527,20 @@ namespace LegendsViewer.Legends
         }
     }
 
+    public enum AgreementReason
+    {
+        Unknown,
+        Whim,
+        ViolentDisagreement,
+        ArrivedAtLocation
+    }
+
     public class AgreementFormed : WorldEvent
     {
         private string AgreementId { get; set; }
+        public HistoricalFigure Concluder { get; set; }
+        private string AgreementSubjectId { get; set; }
+        private AgreementReason Reason { get; set; }
 
         public AgreementFormed(List<Property> properties, World world) : base(properties, world)
         {
@@ -3534,16 +3548,44 @@ namespace LegendsViewer.Legends
             {
                 switch (property.Name)
                 {
-                    case "agreement_id":
-                        AgreementId = property.Value;
+                    case "agreement_id": AgreementId = property.Value; break;
+                    case "concluder_hfid": Concluder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "agreement_subject_id": AgreementSubjectId = property.Value; break;
+                    case "reason":
+                        switch (property.Value)
+                        {
+                            case "arrived at location": Reason = AgreementReason.ArrivedAtLocation; break;
+                            case "violent disagreement": Reason = AgreementReason.ViolentDisagreement; break;
+                            case "whim": Reason = AgreementReason.Whim; break;
+                            default:
+                                Reason = AgreementReason.Unknown;
+                                world.ParsingErrors.Report("Unknown Agreement Reason: " + property.Value);
+                                break;
+                        }
                         break;
                 }
             }
+            Concluder.AddEvent(this);
         }
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            String eventString = this.GetYearTime() + " an unknown agreement was formed (" + AgreementId + "). ";
+            string eventString = GetYearTime();
+            eventString += Concluder != null ? Concluder.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
+            eventString += " formed an agreement";
+            switch (Reason)
+            {
+                case AgreementReason.Whim:
+                    eventString += " on a whim";
+                    break;
+                case AgreementReason.ViolentDisagreement:
+                    eventString += " a violent disagreement";
+                    break;
+                case AgreementReason.ArrivedAtLocation:
+                    eventString += " after arriving at the location";
+                    break;
+            }
+            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
