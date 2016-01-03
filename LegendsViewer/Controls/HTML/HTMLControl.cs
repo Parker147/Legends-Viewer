@@ -32,7 +32,7 @@ namespace LegendsViewer.Controls
                     Dock = DockStyle.Fill,
                     WebBrowserShortcutsEnabled = false,
                     DocumentText = Printer.GetHTMLPage(),
-                   
+                    ScriptErrorsSuppressed = true
                 };
                 HTMLBrowser.DocumentCompleted += AfterPageLoad;
                 HTMLBrowser.Navigating += BrowserNavigating;
@@ -75,13 +75,13 @@ namespace LegendsViewer.Controls
             if (e.Url.ToString() != "about:blank")
             {
                 string url = e.Url.ToString();
-                url = url.Substring(url.IndexOf(":") + 1, url.Length - url.IndexOf(":") -1); //remove "about:" at the beginning of the url
+                url = url.Substring(url.IndexOf(":") + 1, url.Length - url.IndexOf(":") - 1); //remove "about:" at the beginning of the url
                 if (!NavigateToNewControl(url))
-                    if(!NavigateToNewObjectPage(url))
+                    if (!NavigateToNewObjectPage(url))
                         throw new Exception("Could not navigate with url: " + url);
                 e.Cancel = true; //Prevent the browser from actually navigating to a new page
             }
-            
+
         }
 
         private bool NavigateToNewControl(string url)
