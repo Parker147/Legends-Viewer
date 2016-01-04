@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 
 namespace LegendsViewer.Legends
@@ -19,13 +17,10 @@ namespace LegendsViewer.Legends
             {
                 switch (property.Name)
                 {
-                    case "hfid":
-                        int id = Convert.ToInt32(property.Value);
-                        HistoricalFigure = world.GetHistoricalFigure(id);
-                        break;
+                    case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "link_strength": Strength = Convert.ToInt32(property.Value); break;
                     case "link_type":
-                        HistoricalFigureLinkType linkType = HistoricalFigureLinkType.Unknown;
+                        HistoricalFigureLinkType linkType;
                         if (Enum.TryParse(Formatting.InitCaps(property.Value).Replace(" ", ""), out linkType))
                         {
                             Type = linkType;
@@ -54,6 +49,7 @@ namespace LegendsViewer.Legends
 
     public enum HistoricalFigureLinkType
     {
+        Unknown,
         Apprentice,
         Master,
         [Description("Former Apprentice")]
@@ -72,7 +68,6 @@ namespace LegendsViewer.Legends
         ExSpouse,
         [Description("Traveling Companion")]
         Companion,
-        Unknown
     }
 
     public class EntityLink
@@ -108,7 +103,7 @@ namespace LegendsViewer.Legends
                         break;
                     case "link_strength": Strength = Convert.ToInt32(property.Value); break;
                     case "link_type":
-                        EntityLinkType linkType = EntityLinkType.Unknown;
+                        EntityLinkType linkType;
                         if (!Enum.TryParse(Formatting.InitCaps(property.Value), out linkType))
                         {
                             switch (property.Value)
@@ -123,7 +118,9 @@ namespace LegendsViewer.Legends
                             }
                         }
                         else
+                        {
                             Type = linkType;
+                        }
                         break;
                 }
             }
@@ -132,6 +129,7 @@ namespace LegendsViewer.Legends
 
     public enum EntityLinkType
     {
+        Unknown,
         Criminal,
         Enemy,
         Member,
@@ -148,7 +146,6 @@ namespace LegendsViewer.Legends
         Slave,
         [Description("Respected for heroic acts")]
         Hero,
-        Unknown
     }
 
     public class SiteLink

@@ -1485,6 +1485,7 @@ namespace LegendsViewer.Legends
                 else if (Cause == DeathCause.DrainedBlood) deathString = "was drained of blood by " + slayerString;
                 else if (Cause == DeathCause.Collapsed) deathString = "collapsed, struck down by " + slayerString;
                 else if (Cause == DeathCause.ScaredToDeath) deathString = " was scared to death by " + slayerString;
+                else if (Cause == DeathCause.Bled) deathString = " bled to death, slain by " + slayerString;
                 else deathString += ", slain by " + slayerString;
             }
             else

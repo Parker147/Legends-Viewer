@@ -245,6 +245,7 @@
             this.btnForward = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.hint = new System.Windows.Forms.ToolTip(this.components);
+            this.lblVersion = new System.Windows.Forms.Label();
             this.tcWorld.SuspendLayout();
             this.tpSummary.SuspendLayout();
             this.tpHF.SuspendLayout();
@@ -833,7 +834,7 @@
             this.tpHFEvents.Location = new System.Drawing.Point(4, 22);
             this.tpHFEvents.Name = "tpHFEvents";
             this.tpHFEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHFEvents.Size = new System.Drawing.Size(261, 510);
+            this.tpHFEvents.Size = new System.Drawing.Size(261, 492);
             this.tpHFEvents.TabIndex = 1;
             this.tpHFEvents.Text = "Events";
             this.tpHFEvents.UseVisualStyleBackColor = true;
@@ -1054,7 +1055,7 @@
             this.tpCivEvents.Location = new System.Drawing.Point(4, 22);
             this.tpCivEvents.Name = "tpCivEvents";
             this.tpCivEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCivEvents.Size = new System.Drawing.Size(261, 510);
+            this.tpCivEvents.Size = new System.Drawing.Size(261, 492);
             this.tpCivEvents.TabIndex = 1;
             this.tpCivEvents.Text = "Events";
             this.tpCivEvents.UseVisualStyleBackColor = true;
@@ -2798,11 +2799,24 @@
             this.btnClose.Visible = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // lblVersion
+            // 
+            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblVersion.Location = new System.Drawing.Point(950, 10);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(48, 13);
+            this.lblVersion.TabIndex = 34;
+            this.lblVersion.Text = "v1.00.00";
+            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // frmLegendsViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 562);
+            this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnForward);
             this.Controls.Add(this.btnBack);
@@ -2810,7 +2824,7 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI Symbol", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmLegendsViewer";
-            this.Text = "Legends Viewer 1.14";
+            this.Text = "Legends Viewer";
             this.Shown += new System.EventHandler(this.frmLegendsViewer_Shown);
             this.ResizeEnd += new System.EventHandler(this.frmLegendsViewer_ResizeEnd);
             this.tcWorld.ResumeLayout(false);
@@ -2906,6 +2920,7 @@
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -3127,6 +3142,7 @@
         private System.Windows.Forms.GroupBox groupBox16;
         private System.Windows.Forms.TabPage tpEraSearch;
         private System.Windows.Forms.TabControl tcEras;
+        private System.Windows.Forms.Label lblVersion;
     }
 }
 

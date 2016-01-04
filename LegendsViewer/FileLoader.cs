@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
@@ -149,7 +148,7 @@ namespace LegendsViewer
             ExtractedFiles = new List<string>();
 
             if (Environment.Is64BitProcess)
-                SevenZip.SevenZipExtractor.SetLibraryPath("7z64.dll");
+                SevenZipBase.SetLibraryPath("7z64.dll");
 
             try
             {
@@ -183,7 +182,7 @@ namespace LegendsViewer
                 return "";
         }
 
-        private void XMLClick(Object sender, EventArgs e)
+        private void XMLClick(object sender, EventArgs e)
         {
             AttemptLoadFrom(GetFile("Legends XML or Archive | *.*"));
         }
@@ -194,14 +193,12 @@ namespace LegendsViewer
                 Extract(file);
             else if (file.EndsWith(".xml"))
             {
-                XMLText.Text = file;
-                XMLState = FileState.Ready;
                 LocateOtherFiles(file);
             }
             Load();
         }
 
-        private void HistoryClick(Object sender, EventArgs e)
+        private void HistoryClick(object sender, EventArgs e)
         {
             string historyFile = GetFile("History Text | *.txt");
             if (historyFile != "")
@@ -212,7 +209,7 @@ namespace LegendsViewer
             Load();
         }
 
-        private void SitesClick(Object sender, EventArgs e)
+        private void SitesClick(object sender, EventArgs e)
         {
             string sitesFile = GetFile("Sites and Pops Text | *.txt");
             if (sitesFile != "")
@@ -223,7 +220,7 @@ namespace LegendsViewer
             Load();
         }
 
-        private void MapClick(Object sender, EventArgs e)
+        private void MapClick(object sender, EventArgs e)
         {
             string mapFile = GetFile("Map Image | *.jpg;*.jpeg;*.bmp;*.png;|All Files|*.*");
             if (mapFile != "")
@@ -243,20 +240,33 @@ namespace LegendsViewer
                 return;
             string directory = xmlFile.Substring(0, xmlFile.LastIndexOf("\\") + 1);
 
+            if (File.Exists(directory + region + "-legends.xml"))
+            {
+                XMLText.Text = directory + region + "-legends.xml";
+                XMLState = FileState.Ready;
+            }
+            else
+            {
+                XMLState = FileState.NotReady;
+            }
             if (File.Exists(directory + region + "-world_history.txt"))
             {
                 HistoryText.Text = directory + region + "-world_history.txt";
                 HistoryState = FileState.Ready;
             }
             else
+            {
                 HistoryState = FileState.NotReady;
+            }
             if (File.Exists(directory + region + "-world_sites_and_pops.txt"))
             {
                 SitesText.Text = directory + region + "-world_sites_and_pops.txt";
                 SitesState = FileState.Ready;
             }
             else
+            {
                 SitesState = FileState.NotReady;
+            }
             List<string> imageFiles = Directory.GetFiles(directory).Where(file => file.Contains("world") && file.Contains(region) && (file.EndsWith(".bmp") || file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg"))).ToList();
             if (imageFiles.Count == 1)
             {
@@ -264,7 +274,9 @@ namespace LegendsViewer
                 MapState = FileState.Ready;
             }
             else
+            {
                 MapState = FileState.NotReady;
+            }
 
         }
 
@@ -324,7 +336,9 @@ namespace LegendsViewer
         private void load_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             foreach (string delete in ExtractedFiles)
-                System.IO.File.Delete(delete);
+            {
+                File.Delete(delete);
+            }
             ExtractedFiles.Clear();
 
             if (e.Result != null)
@@ -365,9 +379,9 @@ namespace LegendsViewer
         {
             using (SevenZipExtractor extractor = new SevenZipExtractor(e.Argument as String))
             {
-                if (extractor.ArchiveFileNames.Count(file => file.EndsWith(".xml")) > 1 || extractor.ArchiveFileNames.Count(file => file.EndsWith(".xml")) == 0)
+                if (extractor.ArchiveFileNames.Count(file => file.EndsWith("-legends.xml")) > 1 || extractor.ArchiveFileNames.Count(file => file.EndsWith("-legends.xml")) == 0)
                     throw new Exception("Not enough or too many XML Files");
-                if (extractor.ArchiveFileNames.Count(file => file.EndsWith(".world_history.txt")) > 1 || extractor.ArchiveFileNames.Count(file => file.EndsWith("-world_history.txt")) == 0)
+                if (extractor.ArchiveFileNames.Count(file => file.EndsWith("-world_history.txt")) > 1 || extractor.ArchiveFileNames.Count(file => file.EndsWith("-world_history.txt")) == 0)
                     throw new Exception("Not enough or too many World History Text Files");
                 if (extractor.ArchiveFileNames.Count(file => file.EndsWith("-world_sites_and_pops.txt")) > 1 || extractor.ArchiveFileNames.Count(file => file.EndsWith("-world_sites_and_pops.txt")) == 0)
                     throw new Exception("Not enough or too many Site & Pops Text Files");
@@ -376,7 +390,7 @@ namespace LegendsViewer
 
                 string outputDirectory = new FileInfo(extractor.FileName).Directory.FullName;
 
-                string xml = extractor.ArchiveFileNames.Single(file => file.EndsWith(".xml"));
+                string xml = extractor.ArchiveFileNames.Single(file => file.EndsWith("-legends.xml"));
                 if (File.Exists(Path.Combine(outputDirectory, xml))) throw new Exception(xml + " already exists.");
                 extractor.ExtractFiles(outputDirectory, xml);
                 ExtractedFiles.Add(Path.Combine(outputDirectory, xml));
@@ -408,6 +422,11 @@ namespace LegendsViewer
                 if (File.Exists(Path.Combine(outputDirectory, map))) throw new Exception(map + " already exists.");
                 extractor.ExtractFiles(outputDirectory, map);
                 ExtractedFiles.Add(Path.Combine(outputDirectory, map));
+
+                string xmlplus = extractor.ArchiveFileNames.Single(file => file.EndsWith("-legends_plus.xml"));
+                if (File.Exists(Path.Combine(outputDirectory, xmlplus))) throw new Exception(xmlplus + " already exists.");
+                extractor.ExtractFiles(outputDirectory, xmlplus);
+                ExtractedFiles.Add(Path.Combine(outputDirectory, xmlplus));
             }
         }
         private void extract_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -418,7 +437,9 @@ namespace LegendsViewer
                 StatusLabel.ForeColor = Color.Red;
                 LogText.Text = e.Error.Message;
                 foreach (string delete in ExtractedFiles)
+                {
                     File.Delete(delete);
+                }
                 ExtractedFiles.Clear();
                 Working = false;
             }

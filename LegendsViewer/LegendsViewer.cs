@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using LegendsViewer.Controls.Query;
 using LegendsViewer.Legends;
 using LegendsViewer.Controls;
-using SevenZip;
-
+using System.Diagnostics;
 
 namespace LegendsViewer
 {
-   
+
     public partial class frmLegendsViewer : Form
     {
         private World world;
@@ -30,7 +25,7 @@ namespace LegendsViewer
         private ConqueringsList conqueringsSearch;
         private BeastAttackList beastAttackSearch;
 
-        string version = "1.14";
+        string version = "n/a";
         private TabPage[] EventTabs;
         Type[] EventTabTypes = new Type[]{typeof(HistoricalFigure), typeof(Site), typeof(Region),
                                             typeof(UndergroundRegion), typeof(Entity), typeof(War),
@@ -44,7 +39,14 @@ namespace LegendsViewer
         public frmLegendsViewer(string file = "")
         {
             InitializeComponent();
-            FileLoader = new LegendsViewer.FileLoader(this, btnXML, txtXML, btnHistory, txtHistory, btnSitePops, txtSitePops, btnMap, txtMap, lblStatus, txtLog);
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            version = fvi.FileVersion;
+
+            Text = "Legends Viewer";
+            lblVersion.Text = "v" + version;
+            FileLoader = new FileLoader(this, btnXML, txtXML, btnHistory, txtHistory, btnSitePops, txtSitePops, btnMap, txtMap, lblStatus, txtLog);
             EventTabs = new TabPage[] { tpHFEvents, tpSiteEvents, tpRegionEvents, tpURegionEvents, tpCivEvents, tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpEraEvents, tpBeastAttackEvents, tpArtifactsEvents };
             tcWorld.Height = ClientSize.Height;
             btnBack.Location = new Point(tcWorld.Right + 3, 3);
@@ -65,7 +67,7 @@ namespace LegendsViewer
 
         private void frmLegendsViewer_Shown(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(CommandFile))
+            if (!string.IsNullOrEmpty(CommandFile))
                 FileLoader.AttemptLoadFrom(CommandFile);
         }
 
@@ -89,7 +91,7 @@ namespace LegendsViewer
         {
             Array.Sort(AppHelpers.EventInfo, delegate(string[] a, string[] b)
             {
-                return String.Compare(a[1], b[1]);
+                return string.Compare(a[1], b[1]);
             });
             for (int eventTab = 0; eventTab < EventTabs.Count(); eventTab++)
             {
@@ -150,7 +152,6 @@ namespace LegendsViewer
                 eventCheck.Checked = true;
                 eventCheck.CheckedChanged += OnEventFilterCheck;
             }
-                
         }
 
         private void SelectAllEventCheckBoxes(object sender, EventArgs e)
@@ -662,13 +663,15 @@ namespace LegendsViewer
             txtHistory.Text = "World History Text";
             txtSitePops.Text = "Sites and Populations Text";
             txtMap.Text = "Map Image";
-            this.Text = "Legends Viewer " + version;
-            if (world != null) this.Text += " " + world.Name;
 
-            this.Text = "Legends Viewer " + version;
+            Text = "Legends Viewer";
+            if (world != null)
+            {
+                Text += " - " + world.Name;
+            }
 
             lblBattleList.Text = lblHFList.Text = lblSiteList.Text = lblWarList.Text = "All";
-            lblHFList.ForeColor = lblHFList.ForeColor = lblSiteList.ForeColor = lblWarList.ForeColor = Control.DefaultForeColor;
+            lblHFList.ForeColor = lblHFList.ForeColor = lblSiteList.ForeColor = lblWarList.ForeColor = DefaultForeColor;
             lblHFList.Font = lblHFList.Font = lblSiteList.Font = lblWarList.Font = new Font(lblHFList.Font.FontFamily, lblHFList.Font.Size, FontStyle.Regular);
 
             txtLog.Clear();
