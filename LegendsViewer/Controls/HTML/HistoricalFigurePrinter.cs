@@ -267,7 +267,11 @@ namespace LegendsViewer.Controls
                     if (reputation.UnsolvedMurders > 0)
                         HTML.AppendLine(ListItem + "Unsolved Murders: " + reputation.UnsolvedMurders);
                     if (reputation.FirstSuspectedAgelessYear > 0)
-                        HTML.AppendLine(ListItem + "First Suspected Ageless Year: " + reputation.FirstSuspectedAgelessYear + ", " + reputation.FirstSuspectedAglessSeason);
+                        HTML.AppendLine(ListItem + "First Suspected Ageless Year: " + reputation.FirstSuspectedAgelessYear + ", " + reputation.FirstSuspectedAgelessSeason);
+                    foreach (var item in reputation.Reputations)
+                    {
+                        HTML.AppendLine(ListItem + item.Key.GetDescription() + ": " + item.Value +"%");
+                    }
                     EndList(ListType.Unordered);
                 }
                 EndList(ListType.Unordered);

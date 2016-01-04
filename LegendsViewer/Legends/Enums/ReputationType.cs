@@ -1,0 +1,17 @@
+﻿using System.ComponentModel;
+
+namespace LegendsViewer.Legends.Enums
+{
+    public enum ReputationType
+    {
+        [Description("Enemy Fighter")]
+        EnemyFighter,
+        [Description("Trade Partner")]
+        TradePartner,
+        Killer,
+        Poet,
+        Bard,
+        Storyteller,
+        Dancer
+    }
+}

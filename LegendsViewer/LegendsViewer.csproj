@@ -169,6 +169,7 @@
     <Compile Include="Legends\EntityPopulation.cs" />
     <Compile Include="Legends\EntityReputation.cs" />
     <Compile Include="Legends\EntitySiteLink.cs" />
+    <Compile Include="Legends\Enums\ReputationType.cs" />
     <Compile Include="Legends\Era.cs" />
     <Compile Include="Legends\EventCollections\Abduction.cs" />
     <Compile Include="Legends\EventCollections\Battle.cs" />
