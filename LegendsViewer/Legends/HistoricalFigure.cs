@@ -92,7 +92,7 @@ namespace LegendsViewer.Legends
         {
             Initialize();
             List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
-            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller" };
+            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller", "rep_dancer" };
             List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
             List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
             List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge", "rep_bonded", "rep_quarreler", "rep_trade_partner" };

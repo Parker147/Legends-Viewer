@@ -366,13 +366,13 @@ namespace LegendsViewer.Legends
             while (min <= max)
             {
                 int mid = min + (max - min) / 2;
-                if (String.Compare(EntitiesByName[mid].Name, name, true) < 0)
+                if (string.Compare(EntitiesByName[mid].Name, name, true) < 0)
                     min = mid + 1;
-                else if (String.Compare(EntitiesByName[mid].Name, name, true) > 0)
+                else if (string.Compare(EntitiesByName[mid].Name, name, true) > 0)
                     max = mid - 1;
-                else if (mid == 0 && String.Compare(EntitiesByName[mid + 1].Name, name, true) != 0) return EntitiesByName[mid];
-                else if (mid == (EntitiesByName.Count - 1) && String.Compare(EntitiesByName[mid - 1].Name, name, true) != 0) return EntitiesByName[mid];
-                else if (String.Compare(EntitiesByName[mid - 1].Name, name, true) != 0 && String.Compare(EntitiesByName[mid + 1].Name, name, true) != 0)
+                else if (mid == 0 && string.Compare(EntitiesByName[mid + 1].Name, name, true) != 0) return EntitiesByName[mid];
+                else if (mid == (EntitiesByName.Count - 1) && string.Compare(EntitiesByName[mid - 1].Name, name, true) != 0) return EntitiesByName[mid];
+                else if (string.Compare(EntitiesByName[mid - 1].Name, name, true) != 0 && string.Compare(EntitiesByName[mid + 1].Name, name, true) != 0)
                     return EntitiesByName[mid];
                 else
                     throw new Exception("Duplicate Entity Name: " + name);

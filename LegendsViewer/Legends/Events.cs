@@ -100,6 +100,7 @@ namespace LegendsViewer.Legends
         Position,
         Prisoner,
         Slave,
+        Squad,
         Unknown
     }
     public class AddHFEntityLink : WorldEvent
@@ -141,6 +142,9 @@ namespace LegendsViewer.Legends
                             case "slave":
                                 LinkType = HfEntityLinkType.Slave;
                                 break;
+                            case "squad":
+                                LinkType = HfEntityLinkType.Squad;
+                                break;
                             default:
                                 world.ParsingErrors.Report("Unknown HfEntityLinkType: " + property.Value);
                                 break;
@@ -174,6 +178,7 @@ namespace LegendsViewer.Legends
                 case HfEntityLinkType.Member:
                     eventString += " became a member of ";
                     break;
+                case HfEntityLinkType.Squad:
                 case HfEntityLinkType.Position:
                     eventString += " became the " + Position + " of ";
                     break;
@@ -2455,6 +2460,9 @@ namespace LegendsViewer.Legends
                             case "slave":
                                 LinkType = HfEntityLinkType.Slave;
                                 break;
+                            case "squad":
+                                LinkType = HfEntityLinkType.Squad;
+                                break;
                             default:
                                 world.ParsingErrors.Report("Unknown HfEntityLinkType: " + property.Value);
                                 break;
@@ -2494,6 +2502,7 @@ namespace LegendsViewer.Legends
                 case HfEntityLinkType.Member:
                     eventString += " left ";
                     break;
+                case HfEntityLinkType.Squad:
                 case HfEntityLinkType.Position:
                     eventString += " stopped being the " + Position + " of ";
                     break;
@@ -2557,7 +2566,77 @@ namespace LegendsViewer.Legends
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
+    }
 
+    public class ArtifactTransformed : WorldEvent
+    {
+        public int UnitID { get; set; }
+        public Artifact NewArtifact { get; set; }
+        public Artifact OldArtifact { get; set; }
+        public HistoricalFigure HistoricalFigure { get; set; }
+        public Site Site { get; set; }
+
+        public ArtifactTransformed(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+                switch (property.Name)
+                {
+                    case "unit_id": UnitID = Convert.ToInt32(property.Value); break;
+                    case "new_artifact_id": NewArtifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
+                    case "old_artifact_id": OldArtifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
+                    case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                }
+            NewArtifact.AddEvent(this);
+            OldArtifact.AddEvent(this);
+            HistoricalFigure.AddEvent(this);
+            Site.AddEvent(this);
+        }
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = GetYearTime();
+            eventString += NewArtifact.ToLink(link, pov);
+                eventString += ", ";
+            if (!string.IsNullOrWhiteSpace(NewArtifact.Material))
+            {
+                eventString += NewArtifact.Material;
+            }
+            if (!string.IsNullOrWhiteSpace(NewArtifact.SubType))
+            {
+                eventString += " ";
+                eventString += NewArtifact.SubType;
+            }
+            else
+            {
+                eventString += " ";
+                eventString += !string.IsNullOrWhiteSpace(NewArtifact.Type) ? NewArtifact.Type : "UNKNOWN TYPE";
+            }
+            eventString += ", was made from ";
+            eventString += OldArtifact.ToLink(link, pov);
+            eventString += ", ";
+            if (!string.IsNullOrWhiteSpace(OldArtifact.Material))
+            {
+                eventString += OldArtifact.Material;
+            }
+            if (!string.IsNullOrWhiteSpace(OldArtifact.SubType))
+            {
+                eventString += " ";
+                eventString += OldArtifact.SubType;
+            }
+            else
+            {
+                eventString += " ";
+                eventString += !string.IsNullOrWhiteSpace(OldArtifact.Type) ? OldArtifact.Type : "UNKNOWN TYPE";
+            }
+            if (Site != null)
+                eventString += " in " + Site.ToLink(link, pov);
+            eventString += " by ";
+            eventString += HistoricalFigure != null ? HistoricalFigure.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
+            eventString += ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
     }
 
     public class DiplomatLost : WorldEvent
@@ -3041,6 +3120,63 @@ namespace LegendsViewer.Legends
             {
                 eventString += !string.IsNullOrWhiteSpace(ItemType) ? ItemType : "UNKNOWN ITEM";
             }
+            eventString += " for ";
+            eventString += MakerEntity != null ? MakerEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
+            eventString += " in ";
+            eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
+            eventString += ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+    }
+
+    public class MasterpieceDye : WorldEvent
+    {
+        private int SkillAtTime { get; set; }
+        public HistoricalFigure Maker { get; set; }
+        public Entity MakerEntity { get; set; }
+        public Site Site { get; set; }
+        public string ItemType { get; set; }
+        public string ItemSubType { get; set; }
+        public int MaterialType { get; set; }
+        public int MaterialIndex { get; set; }
+        public int DyeMaterialType { get; set; }
+        public int DyeMaterialIndex { get; set; }
+
+        public MasterpieceDye(List<Property> properties, World world)
+            : base(properties, world)
+        {
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
+                {
+                    case "skill_at_time": SkillAtTime = Convert.ToInt32(property.Value); break;
+                    case "hfid": Maker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "entity_id": MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "maker": if (Maker == null) { Maker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "maker_entity": if (MakerEntity == null) { MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "item_type": ItemType = property.Value.Replace("_", " "); break;
+                    case "item_subtype": ItemSubType = property.Value.Replace("_", " "); break;
+                    case "mat_type": MaterialType = Convert.ToInt32(property.Value); break;
+                    case "mat_index": MaterialIndex = Convert.ToInt32(property.Value); break;
+                    case "dye_mat_type": DyeMaterialType = Convert.ToInt32(property.Value); break;
+                    case "dye_mat_index": DyeMaterialIndex = Convert.ToInt32(property.Value); break;
+                }
+            }
+            Maker.AddEvent(this);
+            MakerEntity.AddEvent(this);
+            Site.AddEvent(this);
+        }
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = GetYearTime();
+            eventString += Maker != null ? Maker.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
+            eventString += " masterfully dyed a ";
+            eventString += "UNKNOWN ITEM";
+            eventString += " with ";
+            eventString += "UNKNOWN DYE";
             eventString += " for ";
             eventString += MakerEntity != null ? MakerEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += " in ";
@@ -3762,7 +3898,7 @@ namespace LegendsViewer.Legends
                     case "civ": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "histfig": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "link_type":
-                        switch (property.Value.Replace("_"," "))
+                        switch (property.Value.Replace("_", " "))
                         {
                             case "lair": LinkType = SiteLinkType.Lair; break;
                             case "hangout": LinkType = SiteLinkType.Hangout; break;
