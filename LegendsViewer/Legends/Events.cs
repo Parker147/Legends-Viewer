@@ -2505,7 +2505,7 @@ namespace LegendsViewer.Legends
             switch (LinkType)
             {
                 case HfEntityLinkType.Prisoner:
-                    eventString += " was released from ";
+                    eventString += " escaped from the prisons of ";
                     break;
                 case HfEntityLinkType.Slave:
                     eventString += " fled from ";

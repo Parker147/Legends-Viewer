@@ -233,7 +233,7 @@ namespace LegendsViewer.Controls
                 + "' title='" + desc.Token
                 + " | " + desc.Rank
                 + " | " + desc.Points
-                + "'>" + desc.Name + "</li>";
+                + "'>" + desc.Rank + " "+ desc.Name + "</li>";
         }
 
         protected void PrintPopulations(List<Population> populations)

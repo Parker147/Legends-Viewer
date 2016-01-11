@@ -134,6 +134,7 @@ td {
     height: 20px;
     position: relative;
     overflow: hidden;
+    cursor: default; 
 }
 
 .skills li:before {
@@ -175,7 +176,7 @@ li.unkno:before {
     text-shadow: -1px 0 0 #000, 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000;
 }
 
-.skills li:hover, li.unk, li.non {background-color: #ffffff;}
+.skills li:hover, li.unk, li.non {opacity:0.8;}
 li.stn, li.pmp {background-color: #c0c0c0;}
 li.doc, li.msc {background-color: #c49e9f;}
 li.frm, li.mlk {background-color: #dab587;}
