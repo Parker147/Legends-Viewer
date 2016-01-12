@@ -22,7 +22,7 @@ namespace LegendsViewer.Controls
 
         public override string Print()
         {
-            StringBuilder HTML = new StringBuilder();
+            HTML = new StringBuilder();
 
             HTML.AppendLine("<h1>" + GetTitle() + "</h1></br>");
 
