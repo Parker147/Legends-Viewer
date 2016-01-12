@@ -62,7 +62,7 @@ namespace LegendsViewer.Legends
             string monthName = monthNames[monthIndex];
             int dayIndex = 1 + (this.Seconds72 % (28 * 1200)) / 1200;
 
-            return yearTime + " (" + monthName + ", " + dayIndex.ToString() + ") ";
+            return yearTime + " (" + Formatting.AddOrdinal(dayIndex) + " of " + monthName + ") ";
         }
         public string PrintParentCollection(bool link = true, DwarfObject pov = null)
         {
@@ -513,15 +513,29 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Attacker.PrintEntity(true, pov) + " attacked ";
-            if (SiteEntity != null) eventString += SiteEntity.PrintEntity(true, pov);
-            else eventString += Defender.PrintEntity(true, pov);
+            string eventString = GetYearTime();
+            eventString += Attacker.PrintEntity(true, pov);
+            eventString += " attacked ";
+            if (SiteEntity != null)
+            {
+                eventString += SiteEntity.PrintEntity(true, pov);
+            }
+            else
+            {
+                eventString += Defender.PrintEntity(true, pov);
+            }
             eventString += " at " + Site.ToLink(link, pov) + ". ";
             if (AttackerGeneral != null)
-                eventString += AttackerGeneral.ToLink(link, pov) + " led the attack";
+            {
+                eventString += "Leader of the attack was ";
+                eventString += AttackerGeneral.ToLink(link, pov);
+            }
             if (DefenderGeneral != null)
-                eventString += ", and the defenders were led by " + DefenderGeneral.ToLink(link, pov);
-            else eventString += ". ";
+            {
+                eventString += ", and the defenders were led by ";
+                eventString += DefenderGeneral.ToLink(link, pov);
+            }
+            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
@@ -1183,8 +1197,22 @@ namespace LegendsViewer.Legends
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " attacked " + Defender.ToLink(link, pov) + " in " + Region.ToLink(link, pov) + ". " +
-                AttackerGeneral.ToLink(link, pov) + " led the attack, and the defenders were led by " + DefenderGeneral.ToLink(link, pov) + ". ";
+            string eventString = GetYearTime();
+            eventString += Attacker.ToLink(true, pov);
+            eventString += " attacked ";
+            eventString += Defender.ToLink(true, pov);
+            eventString += " in " + Region.ToLink(link, pov) + ". ";
+            if (AttackerGeneral != null)
+            {
+                eventString += "Leader of the attack was ";
+                eventString += AttackerGeneral.ToLink(link, pov);
+            }
+            if (DefenderGeneral != null)
+            {
+                eventString += ", and the defenders were led by ";
+                eventString += DefenderGeneral.ToLink(link, pov);
+            }
+            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }
