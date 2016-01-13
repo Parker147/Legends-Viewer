@@ -1,6 +1,6 @@
 # version format
 # {major_release}.{feature_release}.{minor_release}.{build}
-version: 1.14.03.{build}
+version: 1.15.01.{build}
 
 #######################
 #    BUILDS
