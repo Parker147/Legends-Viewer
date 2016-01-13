@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Controls.Query
 {

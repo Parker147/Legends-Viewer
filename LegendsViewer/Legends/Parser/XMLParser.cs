@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml;
 using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
 
-namespace LegendsViewer.Legends
+namespace LegendsViewer.Legends.Parser
 {
     class XMLParser
     {
@@ -311,14 +312,14 @@ namespace LegendsViewer.Legends
                 case "replaced structure": World.Events.Add(new ReplacedStructure(properties, World)); break;
                 case "site taken over": World.Events.Add(new SiteTakenOver(properties, World)); break;
                 case "entity relocate": World.Events.Add(new EntityRelocate(properties, World)); break;
-	            case "hf gains secret goal": World.Events.Add(new HFGainsSecretGoal(properties, World)); break;
-	            case "hf profaned structure": World.Events.Add(new HFProfanedStructure(properties, World)); break;
-	            case "hf does interaction": World.Events.Add(new HFDoesInteraction(properties, World)); break;
-	            case "entity primary criminals": World.Events.Add(new EntityPrimaryCriminals(properties, World)); break;
+                case "hf gains secret goal": World.Events.Add(new HFGainsSecretGoal(properties, World)); break;
+                case "hf profaned structure": World.Events.Add(new HFProfanedStructure(properties, World)); break;
+                case "hf does interaction": World.Events.Add(new HFDoesInteraction(properties, World)); break;
+                case "entity primary criminals": World.Events.Add(new EntityPrimaryCriminals(properties, World)); break;
                 case "hf confronted": World.Events.Add(new HFConfronted(properties, World)); break;
                 case "assume identity": World.Events.Add(new AssumeIdentity(properties, World)); break;
-	            case "entity law": World.Events.Add(new EntityLaw(properties, World)); break;
-	            case "change hf body state": World.Events.Add(new ChangeHFBodyState(properties, World)); break;
+                case "entity law": World.Events.Add(new EntityLaw(properties, World)); break;
+                case "change hf body state": World.Events.Add(new ChangeHFBodyState(properties, World)); break;
                 case "razed structure": World.Events.Add(new RazedStructure(properties, World)); break;
                 case "hf learns secret": World.Events.Add(new HFLearnsSecret(properties, World)); break;
                 case "artifact stored": World.Events.Add(new ArtifactStored(properties, World)); break;
@@ -427,10 +428,10 @@ namespace LegendsViewer.Legends
                 {
                     era.Events = World.Events.Where(events => events.Year >= era.StartYear && events.Year <= era.EndYear).OrderBy(events => events.Year).ToList();
                     era.Wars = World.EventCollections.OfType<War>().Where(war => (war.StartYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1) //entire war between
-                                                                                                    || (war.StartYear >= era.StartYear && war.StartYear <= era.EndYear) //war started before & ended
-                                                                                                    || (war.EndYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1) //war started during
-                                                                                                    || (war.StartYear <= era.StartYear && war.EndYear >= era.EndYear) //war started before & ended after
-                                                                                                    || (war.StartYear <= era.StartYear && war.EndYear == -1)).ToList();
+                                                                                 || (war.StartYear >= era.StartYear && war.StartYear <= era.EndYear) //war started before & ended
+                                                                                 || (war.EndYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1) //war started during
+                                                                                 || (war.StartYear <= era.StartYear && war.EndYear >= era.EndYear) //war started before & ended after
+                                                                                 || (war.StartYear <= era.StartYear && war.EndYear == -1)).ToList();
                 }
                 
             }
@@ -463,15 +464,24 @@ namespace LegendsViewer.Legends
                     if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
                     beastAttack.Beast.BeastAttacks.Add(beastAttack);
                 }
-                if (beastAttack.GetSubEvents().OfType<HFDied>().Count() > 1)
+                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<AddHFEntityLink>().Any())
+                {
+                    beastAttack.Beast = beastAttack.GetSubEvents().OfType<AddHFEntityLink>().First().HistoricalFigure;
+                    if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
+                    beastAttack.Beast.BeastAttacks.Add(beastAttack);
+                }
+                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HFDied>().Any())
                 {
                     var slayers = beastAttack.GetSubEvents().OfType<HFDied>().GroupBy(death => death.Slayer).Select(hf => new { HF = hf.Key, Count = hf.Count() });
                     if (slayers.Count(slayer => slayer.Count > 1) == 1)
                     {
                         HistoricalFigure beast = slayers.Single(slayer => slayer.Count > 1).HF;
                         beastAttack.Beast = beast;
+                        if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
+                        beastAttack.Beast.BeastAttacks.Add(beastAttack);
                     }
                 }
+
 
                 //Fill in some various event info from collections.
 
@@ -553,37 +563,5 @@ namespace LegendsViewer.Legends
                 }
             } 
         }
-    }
-
-    public class Property
-    {
-        public string Name = "";
-        private string _value = "";
-        public bool Known = false;
-        public List<Property> SubProperties = new List<Property>();
-        public string Value { get { Known = true; return _value; } set { _value = value; } }
-
-        public int ValueAsInt()
-        {
-            return Convert.ToInt32(Value);
-        }
-    }
-
-    //In order as they appear in the XML.
-    public enum Section
-    {
-        Unknown,
-        Junk,
-        Regions,
-        UndergroundRegions,
-        Sites,
-        WorldConstructions,
-        Artifacts,
-        HistoricalFigures,
-        EntityPopulations,
-        Entities,
-        Events,
-        EventCollections,
-        Eras
     }
 }

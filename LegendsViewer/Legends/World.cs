@@ -5,10 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Docuverse.Identicon;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
-
     public class World
     {
         public static Dictionary<string, Color> MainRaces = new Dictionary<string, Color>();

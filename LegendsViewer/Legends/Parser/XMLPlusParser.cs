@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml;
 
-namespace LegendsViewer.Legends
+namespace LegendsViewer.Legends.Parser
 {
     class XMLPlusParser : XMLParser
     {

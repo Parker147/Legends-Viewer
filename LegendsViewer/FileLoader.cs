@@ -9,6 +9,7 @@ using LegendsViewer.Legends;
 using SevenZip;
 using System.Xml;
 using System.Reflection;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer
 {

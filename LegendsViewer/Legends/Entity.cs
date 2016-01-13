@@ -4,21 +4,13 @@ using System.Drawing;
 using System.Linq;
 using Docuverse.Identicon;
 using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
-    public enum EntityType // legends_plus.xml
-    {
-        Unknown,
-        Civilization,
-        NomadicGroup,
-        MigratingGroup,
-        Outcast,
-        Religion,
-        SiteGovernment,
-        PerformanceTroupe,
-    }
-
     public class Entity : WorldObject
     {
         public string Name { get; set; }

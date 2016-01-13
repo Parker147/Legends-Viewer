@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
@@ -68,9 +71,13 @@ namespace LegendsViewer.Legends
         {
             public HistoricalFigure HistoricalFigure;
             public string Position;
+
             public Official(HistoricalFigure historicalFigure, string position)
-            { HistoricalFigure = historicalFigure; Position = position; }
+            {
+                HistoricalFigure = historicalFigure; Position = position;
+            }
         }
+
         public Site()
         {
             ID = -1;
@@ -96,8 +103,8 @@ namespace LegendsViewer.Legends
             Officials = new List<Official>();
             BeastAttacks = new List<BeastAttack>();
             Structures = new List<Structure>();
-            foreach(Property property in properties)
-                switch(property.Name)
+            foreach (Property property in properties)
+                switch (property.Name)
                 {
                     case "type": Type = Formatting.InitCaps(property.Value); break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;

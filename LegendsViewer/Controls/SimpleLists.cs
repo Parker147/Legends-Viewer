@@ -2,6 +2,9 @@
 using LegendsViewer.Legends;
 using System.Linq;
 using System.Text;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer
 {

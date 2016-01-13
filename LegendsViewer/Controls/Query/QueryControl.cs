@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using LegendsViewer.Legends;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Controls.Query
 {

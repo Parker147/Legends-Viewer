@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
 using System.Drawing;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Controls
 {

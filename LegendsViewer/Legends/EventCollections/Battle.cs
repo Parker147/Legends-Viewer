@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using LegendsViewer.Controls;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Parser;
 
-namespace LegendsViewer.Legends
+namespace LegendsViewer.Legends.EventCollections
 {
-    public enum BattleOutcome
-    {
-        [Description("Attacker Won")]
-        AttackerWon,
-        [Description("Defender Won")]
-        DefenderWon,
-        Unknown
-    }
     public class Battle : EventCollection
     {
         public string Name { get; set; }

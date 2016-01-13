@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using LegendsViewer.Legends;
 using System.Text;
 using LegendsViewer.Controls.Map;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Controls
 {

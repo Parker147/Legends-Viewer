@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
+using LegendsViewer.Legends.Events;
 
-namespace LegendsViewer.Legends
+namespace LegendsViewer.Legends.Parser
 {
     class SitesAndPopulationsParser
     {

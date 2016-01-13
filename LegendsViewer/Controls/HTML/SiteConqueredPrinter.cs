@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using LegendsViewer.Legends;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Controls
 {

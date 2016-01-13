@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {

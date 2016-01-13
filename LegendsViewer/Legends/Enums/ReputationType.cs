@@ -4,6 +4,7 @@ namespace LegendsViewer.Legends.Enums
 {
     public enum ReputationType
     {
+        Unknown,
         [Description("Enemy Fighter")]
         EnemyFighter,
         [Description("Trade Partner")]

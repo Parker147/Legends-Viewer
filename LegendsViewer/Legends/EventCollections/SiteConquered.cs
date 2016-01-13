@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Parser;
 
-namespace LegendsViewer.Legends
+namespace LegendsViewer.Legends.EventCollections
 {
-    public enum SiteConqueredType : int
-    {
-        Pillaging,
-        Destruction,
-        Conquest,
-        Unknown
-    };
-
     public class SiteConquered : EventCollection
     {
         public int Ordinal { get; set; }
@@ -27,7 +22,6 @@ namespace LegendsViewer.Legends
             get { return AllEvents.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
         public SiteConquered()
-            : base()
         {
             Initialize();
         }

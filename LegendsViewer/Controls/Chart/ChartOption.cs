@@ -1,0 +1,32 @@
+namespace LegendsViewer
+{
+    public enum ChartOption : byte
+    {
+        TimelineEvents,
+        TimelineEventsFiltered,
+        TimelineBattleDeaths,
+        TimelineActiveSites,
+        TimelineActiveSitesByRace,
+        TimelineAliveHFs,
+        TimeLineAliveHFSpecific,
+        TimelineActiveWars,
+        TimelineBattles,
+        TimelineBeastAttacks,
+        OtherEventTypes,
+        OtherKillsByRace,
+        OtherEntityPopulations,
+        OtherDeaths,
+        OtherSitePopulations,
+        OtherWarLosses,
+        OtherBattleRemaining,
+        WorldHFRaces,
+        WorldHFAlive,
+        WorldHFRemaining,
+        WorldSitePopulations,
+        WorldDeaths,
+        WorldSiteTypes,
+        WorldRegionTypes,
+        WorldOutdoorPopulations,
+        WorldUndergroundPopulations,
+    }
+}
