@@ -5,6 +5,7 @@ using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
+using System;
 
 namespace LegendsViewer.Controls
 {
@@ -25,6 +26,7 @@ namespace LegendsViewer.Controls
             PrintTitle();
             PrintMiscInfo();
             PrintBreedInfo();
+            PrintCurseLineage();
             PrintPositions();
             PrintRelatedHistoricalFigures();
             PrintRelatedEntities();
@@ -36,6 +38,48 @@ namespace LegendsViewer.Controls
             PrintBeastAttacks();
             PrintEventLog(HistoricalFigure.Events, HistoricalFigure.Filters, HistoricalFigure);
             return HTML.ToString();
+        }
+
+        private void PrintCurseLineage()
+        {
+            if (HistoricalFigure.ActiveInteractions.Any())
+            {
+                HistoricalFigure Curser = HistoricalFigure;
+                while (Curser.LineageCurseParent != null && !Curser.LineageCurseParent.Deity)
+                {
+                    Curser = Curser.LineageCurseParent;
+                }
+
+                HTML.AppendLine(Bold("Curse Lineage") + LineBreak);
+                HTML.AppendLine("<div class=\"tree\">");
+                HTML.AppendLine("<ul>");
+                HTML.AppendLine("<li>");
+                HTML.AppendLine(Curser.LineageCurseParent != null ? Curser.LineageCurseParent.ToShortLink(HistoricalFigure) : "<a href=\"#\">UNKNOWN DEITY</a>");
+                HTML.AppendLine("<ul>");
+                PrintLineageTreeLevel(Curser);
+                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</li>");
+                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</div>");
+                HTML.AppendLine("</br>");
+                HTML.AppendLine("</br>");
+            }
+        }
+
+        private void PrintLineageTreeLevel(HistoricalFigure curseBearer)
+        {
+            HTML.AppendLine("<li>");
+            HTML.AppendLine(curseBearer.ToShortLink(HistoricalFigure)); 
+            if (curseBearer.LineageCurseChilds.Any())
+            {
+                HTML.AppendLine("<ul>");
+                foreach (HistoricalFigure curseChild in curseBearer.LineageCurseChilds)
+                {
+                    PrintLineageTreeLevel(curseChild);
+                }
+                HTML.AppendLine("</ul>");
+            }
+            HTML.AppendLine("</li>");
         }
 
         private void PrintBreedInfo()

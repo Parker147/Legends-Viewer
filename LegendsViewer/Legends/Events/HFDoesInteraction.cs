@@ -35,9 +35,17 @@ namespace LegendsViewer.Legends.Events
                 }
             }
 
-            if (Target != null && !string.IsNullOrWhiteSpace(Interaction) && !Target.ActiveInteractions.Contains(Interaction))
+            if (Target != null && !string.IsNullOrWhiteSpace(Interaction))
             {
-                Target.ActiveInteractions.Add(Interaction);
+                if (!Target.ActiveInteractions.Contains(Interaction))
+                {
+                    Target.ActiveInteractions.Add(Interaction);
+                }
+                if (Doer != null)
+                {
+                    Doer.LineageCurseChilds.Add(Target);
+                    Target.LineageCurseParent = Doer;
+                }
             }
             Doer.AddEvent(this);
             Target.AddEvent(this);

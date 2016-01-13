@@ -38,6 +38,10 @@ namespace LegendsViewer.Legends
         public List<string> ActiveInteractions { get; set; }
         public List<string> InteractionKnowledge { get; set; }
         public string Goal { get; set; }
+
+        public HistoricalFigure LineageCurseParent { get; set; }
+        public List<HistoricalFigure> LineageCurseChilds { get; set; }
+
         public List<string> JourneyPets { get; set; }
         public string DeathCollectionType
         {
@@ -246,25 +250,21 @@ namespace LegendsViewer.Legends
             InteractionKnowledge = new List<string>();
             JourneyPets = new List<string>();
             HoldingArtifacts = new List<Artifact>();
+            LineageCurseChilds = new List<HistoricalFigure>();
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
-            if (this == HistoricalFigure.Unknown)
-                return this.Name;
+            if (this == Unknown)
+                return Name;
             if (link)
                 if ((pov == null || pov != this))
                 {
-                    string title = Caste + ", " + AssociatedType + " (" + BirthYear + " - ";
-                    if (DeathYear == -1) title += "Present)";
-                    else title += DeathYear + ")";
-                    title += "&#13Events: " + Events.Count;
+                    string title = getAnchorTitle();
                     if (pov != null && pov.GetType() == typeof(BeastAttack) && (pov as BeastAttack).Beast == this) //Highlight Beast when printing Beast Attack Log
-                        if (this.Name.IndexOf(" ") > 0)
-                            return "<a href=\"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name.Substring(0, this.Name.IndexOf(" ")) + "</font></a>";
-                        else return "<a href=\"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name + "</font></a>";
+                        return "<a href=\"hf#" + ID + "\" title=\"" + title + "\"><font color=#339900>" + (Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name) + "</font></a>";
                     else
-                        return "the " + GetRaceString() + " " + "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
+                        return "the " + GetRaceString() + " " + "<a href = \"hf#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                     return HTMLStyleUtil.CurrentDwarfObject(Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name);
@@ -272,6 +272,31 @@ namespace LegendsViewer.Legends
                 return GetRaceString() + " " + Name;
             else
                 return Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name;
+        }
+
+        private string getAnchorTitle()
+        {
+            string title = Caste + " " + GetRaceString() + " " + (AssociatedType != "Standard" ? AssociatedType : "") + " ";
+            if (!Deity)
+            {
+                title += "(" + BirthYear + " - " + (DeathYear == -1 ? "Present" : DeathYear.ToString()) + ")";
+            }
+            title += "&#13";
+            title += "Events: " + Events.Count;
+            return title;
+        }
+
+        public string ToShortLink(DwarfObject pov = null)
+        {
+            string dead = DeathYear != -1 ? " " + HTMLStyleUtil.SYMBOL_DEAD : "";
+            if ((pov == null || pov != this))
+            {
+                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " href=\"hf#" + ID + "\" title=\"" + getAnchorTitle() + "\">" + Name + dead + "</a>";
+            }
+            else
+            {
+                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " title=\"" + getAnchorTitle() + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + dead + "</a>";
+            }
         }
 
         public class Position
