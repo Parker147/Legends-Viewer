@@ -32,6 +32,10 @@ namespace LegendsViewer.Legends
         public List<Era> Eras = new List<Era>();
         public List<Artifact> Artifacts = new List<Artifact>();
         public List<WorldContruction> WorldContructions = new List<WorldContruction>();
+        public List<PoeticForm> PoeticForms = new List<PoeticForm>();
+        public List<MusicalForm> MusicalForms = new List<MusicalForm>();
+        public List<DanceForm> DanceForms = new List<DanceForm>();
+        public List<WrittenContent> WrittenContents = new List<WrittenContent>();
         public List<WorldEvent> Events = new List<WorldEvent>();
         public List<EventCollection> EventCollections = new List<EventCollection>();
         public List<Population> CivilizedPopulations = new List<Population>();
@@ -419,6 +423,86 @@ namespace LegendsViewer.Legends
                         max = mid - 1;
                     else
                         return WorldContructions[mid];
+                }
+                return null;
+            }
+        }
+        public PoeticForm GetPoeticForm(int id)
+        {
+            if (id == -1) return null;
+            else
+            {
+                int min = 0;
+                int max = PoeticForms.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > PoeticForms[mid].ID)
+                        min = mid + 1;
+                    else if (id < PoeticForms[mid].ID)
+                        max = mid - 1;
+                    else
+                        return PoeticForms[mid];
+                }
+                return null;
+            }
+        }
+        public MusicalForm GetMusicalForm(int id)
+        {
+            if (id == -1) return null;
+            else
+            {
+                int min = 0;
+                int max = MusicalForms.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > MusicalForms[mid].ID)
+                        min = mid + 1;
+                    else if (id < MusicalForms[mid].ID)
+                        max = mid - 1;
+                    else
+                        return MusicalForms[mid];
+                }
+                return null;
+            }
+        }
+        public DanceForm GetDanceForm(int id)
+        {
+            if (id == -1) return null;
+            else
+            {
+                int min = 0;
+                int max = DanceForms.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > DanceForms[mid].ID)
+                        min = mid + 1;
+                    else if (id < DanceForms[mid].ID)
+                        max = mid - 1;
+                    else
+                        return DanceForms[mid];
+                }
+                return null;
+            }
+        }
+        public WrittenContent GetWrittenContent(int id)
+        {
+            if (id == -1) return null;
+            else
+            {
+                int min = 0;
+                int max = WrittenContents.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > WrittenContents[mid].ID)
+                        min = mid + 1;
+                    else if (id < WrittenContents[mid].ID)
+                        max = mid - 1;
+                    else
+                        return WrittenContents[mid];
                 }
                 return null;
             }

@@ -18,6 +18,7 @@ namespace LegendsViewer.Legends.Events
         public string Circumstance { get; set; }
         public int CircumstanceId { get; set; }
         public FormType FormType { get; set; }
+        public ArtForm ArtForm { get; set; }
 
         public FormCreatedEvent(List<Property> properties, World world) : base(properties, world)
         {
@@ -67,20 +68,19 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = this.GetYearTime();
-            eventString += "UNKNOWN";
             switch (FormType)
             {
                 case FormType.Musical:
-                    eventString += " MUSICAL FORM ";
+                    eventString += ArtForm != null ? ArtForm.ToLink(link, pov) : "UNKNOWN MUSICAL FORM ";
                     break;
                 case FormType.Poetic:
-                    eventString += " POETIC FORM ";
+                    eventString += ArtForm != null ? ArtForm.ToLink(link, pov) : "UNKNOWN POETIC FORM ";
                     break;
                 case FormType.Dance:
-                    eventString += " DANCE FORM ";
+                    eventString += ArtForm != null ? ArtForm.ToLink(link, pov) : "UNKNOWN DANCE FORM ";
                     break;
                 default:
-                    eventString += " FORM ";
+                    eventString += "UNKNOWN FORM ";
                     break;
             }
             eventString += " was created by ";

@@ -53,9 +53,9 @@ namespace LegendsViewer.Legends
                 string linkedString = "";
                 if (pov != this)
                 {
-                    string title = "Events: " + this.Events.Count;
+                    string title = "Events: " + Events.Count;
 
-                    linkedString = "<a href = \"worldconstruction#" + this.ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = "<a href = \"worldconstruction#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                     linkedString = HTMLStyleUtil.CurrentDwarfObject(Name);

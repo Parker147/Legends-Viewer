@@ -291,11 +291,11 @@ namespace LegendsViewer.Legends
             string dead = DeathYear != -1 ? "<br/>" + HTMLStyleUtil.SYMBOL_DEAD : "";
             if ((pov == null || pov != this))
             {
-                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " href=\"hf#" + ID + "\" title=\"" + getAnchorTitle() + "\">" + Name + dead + "</a>";
+                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " href=\"hf#" + ID + "\" title=\"" + getAnchorTitle() + "\">" + Race + (Deity ? " Deity" : "") + "<br/>" + Name + dead + "</a>";
             }
             else
             {
-                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " title=\"" + getAnchorTitle() + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + dead + "</a>";
+                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " title=\"" + getAnchorTitle() + "\">" + Race + (Deity ? " Deity" : "") + "<br/>" + HTMLStyleUtil.CurrentDwarfObject(Name) + dead + "</a>";
             }
         }
 

@@ -9,7 +9,7 @@ namespace LegendsViewer.Legends.Events
         public Entity Civ { get; set; }
         public Site Site { get; set; }
         public WorldRegion Region { get; set; }
-        public string WrittenContent { get; set; }
+        public string WrittenContentID { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
         public string Reason { get; set; }
         public int ReasonId { get; set; }
@@ -17,6 +17,7 @@ namespace LegendsViewer.Legends.Events
         public HistoricalFigure CircumstanceHF { get; set; }
         public string Circumstance { get; set; }
         public int CircumstanceId { get; set; }
+        public WrittenContent WrittenContent { get; set; }
 
         public WrittenContentComposed(List<Property> properties, World world) : base(properties, world)
         {
@@ -33,7 +34,7 @@ namespace LegendsViewer.Legends.Events
                         HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
                         break;
                     case "wc_id":
-                        WrittenContent = property.Value;
+                        WrittenContentID = property.Value;
                         break;
                     case "reason":
                         Reason = property.Value;
@@ -65,12 +66,17 @@ namespace LegendsViewer.Legends.Events
                 CircumstanceHF = world.GetHistoricalFigure(CircumstanceId);
                 CircumstanceHF.AddEvent(this);
             }
+            if (!string.IsNullOrWhiteSpace(WrittenContentID))
+            {
+                WrittenContent = world.GetWrittenContent(Convert.ToInt32(WrittenContentID));
+                WrittenContent.AddEvent(this);
+            }
         }
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
-            eventString += "UNKNOWN WRITTEN CONTENT";
+            string eventString = GetYearTime();
+            eventString += WrittenContent != null ? WrittenContent.ToLink(link, pov) : "UNKNOWN WRITTEN CONTENT";
             eventString += " was authored by ";
             eventString += HistoricalFigure.ToLink(link, pov);
             if (Site != null)

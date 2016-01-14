@@ -113,6 +113,10 @@ namespace LegendsViewer.Legends.Parser
                 case "sites": return Section.Sites;
                 case "underground_regions": return Section.UndergroundRegions;
                 case "world_constructions": return Section.WorldConstructions;
+                case "poetic_forms": return Section.PoeticForms;
+                case "musical_forms": return Section.MusicalForms;
+                case "dance_forms": return Section.DanceForms;
+                case "written_contents": return Section.WrittenContent;
                 case "name":
                 case "altname":
                 case "xml":
@@ -255,6 +259,10 @@ namespace LegendsViewer.Legends.Parser
                 case Section.Eras: World.Eras.Add(new Era(properties, World)); break;
                 case Section.Artifacts: World.Artifacts.Add(new Artifact(properties, World)); break;
                 case Section.WorldConstructions: World.WorldContructions.Add(new WorldContruction(properties, World)); break;
+                case Section.PoeticForms: World.PoeticForms.Add(new PoeticForm(properties, World)); break;
+                case Section.MusicalForms: World.MusicalForms.Add(new MusicalForm(properties, World)); break;
+                case Section.DanceForms: World.DanceForms.Add(new DanceForm(properties, World)); break;
+                case Section.WrittenContent: World.WrittenContents.Add(new WrittenContent(properties, World)); break;
                 default: World.ParsingErrors.Report("Unknown XML Section: " + section.ToString()); break;
             }
         }
@@ -461,14 +469,10 @@ namespace LegendsViewer.Legends.Parser
                 if (beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Any())
                 {
                     beastAttack.Beast = beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First().HistoricalFigure1;
-                    if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
-                    beastAttack.Beast.BeastAttacks.Add(beastAttack);
                 }
                 if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<AddHFEntityLink>().Any())
                 {
                     beastAttack.Beast = beastAttack.GetSubEvents().OfType<AddHFEntityLink>().First().HistoricalFigure;
-                    if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
-                    beastAttack.Beast.BeastAttacks.Add(beastAttack);
                 }
                 if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HFDied>().Any())
                 {
@@ -477,8 +481,6 @@ namespace LegendsViewer.Legends.Parser
                     {
                         HistoricalFigure beast = slayers.Single(slayer => slayer.Count > 1).HF;
                         beastAttack.Beast = beast;
-                        if (beastAttack.Beast.BeastAttacks == null) beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
-                        beastAttack.Beast.BeastAttacks.Add(beastAttack);
                     }
                 }
 
@@ -540,6 +542,14 @@ namespace LegendsViewer.Legends.Parser
                             beastAttack.Beast.Events.Add(devoured);
                         }
                     }
+                }
+                if (beastAttack.Beast != null)
+                {
+                    if (beastAttack.Beast.BeastAttacks == null)
+                    {
+                        beastAttack.Beast.BeastAttacks = new List<BeastAttack>();
+                    }
+                    beastAttack.Beast.BeastAttacks.Add(beastAttack);
                 }
             }
 

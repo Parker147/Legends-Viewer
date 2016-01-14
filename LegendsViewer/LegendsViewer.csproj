@@ -167,7 +167,9 @@
     <Compile Include="LegendsViewer.Designer.cs">
       <DependentUpon>LegendsViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Legends\ArtForm.cs" />
     <Compile Include="Legends\Artifact.cs" />
+    <Compile Include="Legends\DanceForm.cs" />
     <Compile Include="Legends\DwarfObject.cs" />
     <Compile Include="Legends\Entity.cs" />
     <Compile Include="Legends\EntityEntityLink.cs" />
@@ -312,6 +314,7 @@
     <Compile Include="Legends\IdenticonRenderer.cs" />
     <Compile Include="Legends\Location.cs" />
     <Compile Include="Legends\Misc.cs" />
+    <Compile Include="Legends\MusicalForm.cs" />
     <Compile Include="Legends\OwnerPeriod.cs" />
     <Compile Include="Legends\Parser\HistoryParser.cs" />
     <Compile Include="Legends\Parser\ParsingErrors.cs" />
@@ -320,6 +323,7 @@
     <Compile Include="Legends\Parser\SitesAndPopsParser.cs" />
     <Compile Include="Legends\Parser\XMLParser.cs" />
     <Compile Include="Legends\Parser\XMLPlusParser.cs" />
+    <Compile Include="Legends\PoeticForm.cs" />
     <Compile Include="Legends\Population.cs" />
     <Compile Include="Legends\Region.cs" />
     <Compile Include="Legends\Site.cs" />
@@ -330,6 +334,7 @@
     <Compile Include="Legends\World.cs" />
     <Compile Include="Legends\WorldConstruction.cs" />
     <Compile Include="Legends\WorldObject.cs" />
+    <Compile Include="Legends\WrittenContent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\Map\dlgPopulation.resx">
