@@ -54,7 +54,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<div class=\"tree\">");
                 HTML.AppendLine("<ul>");
                 HTML.AppendLine("<li>");
-                HTML.AppendLine(Curser.LineageCurseParent != null ? Curser.LineageCurseParent.ToShortLink(HistoricalFigure) : "<a href=\"#\">UNKNOWN DEITY</a>");
+                HTML.AppendLine(Curser.LineageCurseParent != null ? Curser.LineageCurseParent.ToTreeLeafLink(HistoricalFigure) : "<a href=\"#\">UNKNOWN DEITY</a>");
                 HTML.AppendLine("<ul>");
                 PrintLineageTreeLevel(Curser);
                 HTML.AppendLine("</ul>");
@@ -69,7 +69,7 @@ namespace LegendsViewer.Controls
         private void PrintLineageTreeLevel(HistoricalFigure curseBearer)
         {
             HTML.AppendLine("<li>");
-            HTML.AppendLine(curseBearer.ToShortLink(HistoricalFigure)); 
+            HTML.AppendLine(curseBearer.ToTreeLeafLink(HistoricalFigure)); 
             if (curseBearer.LineageCurseChilds.Any())
             {
                 HTML.AppendLine("<ul>");

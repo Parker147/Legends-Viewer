@@ -286,9 +286,9 @@ namespace LegendsViewer.Legends
             return title;
         }
 
-        public string ToShortLink(DwarfObject pov = null)
+        public string ToTreeLeafLink(DwarfObject pov = null)
         {
-            string dead = DeathYear != -1 ? " " + HTMLStyleUtil.SYMBOL_DEAD : "";
+            string dead = DeathYear != -1 ? "<br/>" + HTMLStyleUtil.SYMBOL_DEAD : "";
             if ((pov == null || pov != this))
             {
                 return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " href=\"hf#" + ID + "\" title=\"" + getAnchorTitle() + "\">" + Name + dead + "</a>";
