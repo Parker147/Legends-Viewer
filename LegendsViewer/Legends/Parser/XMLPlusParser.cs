@@ -86,36 +86,44 @@ namespace LegendsViewer.Legends.Parser
                 return;
             }
 
-            Property id = existingProperties.SingleOrDefault(property => property.Name == "id");
-            Property currentId = CurrentItem.SingleOrDefault(property => property.Name == "id");
-            if (id != null && currentId != null && id.ValueAsInt().Equals(currentId.ValueAsInt()))
+            if (CurrentItem != null)
             {
-                foreach (var property in CurrentItem)
+                Property id = existingProperties.SingleOrDefault(property => property.Name == "id");
+                Property currentId = CurrentItem.SingleOrDefault(property => property.Name == "id");
+                if (id != null && currentId != null && id.ValueAsInt().Equals(currentId.ValueAsInt()))
                 {
-                    if (CurrentSection == Section.Entities && property.Name == "entity_link" || property.Name == "child")
+                    foreach (var property in CurrentItem)
                     {
-                        existingProperties.Add(property);
-                        continue;
-                    }
-                    Property matchingProperty = existingProperties.SingleOrDefault(p => p.Name == property.Name);
-                    if (CurrentSection == Section.Events && matchingProperty != null && matchingProperty.Name == "type")
-                    {
-                        continue;
-                    }
+                        if (CurrentSection == Section.Entities && property.Name == "entity_link" || property.Name == "child")
+                        {
+                            existingProperties.Add(property);
+                            continue;
+                        }
+                        if (CurrentSection == Section.Artifacts && property.Name == "writing")
+                        {
+                            existingProperties.Add(property);
+                            continue;
+                        }
+                        Property matchingProperty = existingProperties.SingleOrDefault(p => p.Name == property.Name);
+                        if (CurrentSection == Section.Events && matchingProperty != null && (matchingProperty.Name == "type" || matchingProperty.Name == "state"))
+                        {
+                            continue;
+                        }
 
-                    if (matchingProperty != null)
-                    {
-                        matchingProperty.Value = property.Value;
-                        matchingProperty.SubProperties.AddRange(property.SubProperties);
-                        matchingProperty.Known = false;
+                        if (matchingProperty != null)
+                        {
+                            matchingProperty.Value = property.Value;
+                            matchingProperty.SubProperties.AddRange(property.SubProperties);
+                            matchingProperty.Known = false;
+                        }
+                        else
+                        {
+                            existingProperties.Add(property);
+                        }
                     }
-                    else
-                    {
-                        existingProperties.Add(property);
-                    }
+                    CurrentItem = null;
+                    Parse();
                 }
-                CurrentItem = null;
-                Parse();
             }
         }
     }

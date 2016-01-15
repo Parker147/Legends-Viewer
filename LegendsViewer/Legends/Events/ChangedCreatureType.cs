@@ -20,6 +20,8 @@ namespace LegendsViewer.Legends.Events
                     case "new_caste": NewCaste = property.Value; break;
                     case "changee_hfid": Changee = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "changer_hfid": Changer = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "changee": if (Changee == null) { Changee = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "changer": if (Changer == null) { Changer = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                 }
             Changee.PreviousRace = OldRace;
             Changee.AddEvent(this);
