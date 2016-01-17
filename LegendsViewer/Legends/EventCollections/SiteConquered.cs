@@ -4,11 +4,14 @@ using System.Linq;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends.EventCollections
 {
     public class SiteConquered : EventCollection
     {
+        public string Icon = "<i class=\"glyphicon fa-fw glyphicon-pawn\"></i>";
+
         public int Ordinal { get; set; }
         public SiteConqueredType ConquerType { get; set; }
         public Site Site { get; set; }
@@ -69,21 +72,31 @@ namespace LegendsViewer.Legends.EventCollections
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
+            string name = "The " + GetOrdinal(Ordinal) + ConquerType + " of " + Site.ToLink(false);
             if (link)
             {
+                string title = Type;
+                title += "&#13";
+                title += Attacker.PrintEntity(false) + " (Attacker)(V)";
+                title += "&#13";
+                title += Defender.PrintEntity(false) + " (Defender)";
+
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = "<a href = \"collection#" + this.ID + "\"><font color=\"800000\">" + "The " + this.GetOrdinal(Ordinal) + ConquerType + " of " + Site.ToLink(false) + "</font></a>";
+                    linkedString = "<a href = \"collection#" + ID + "\" title=\"" + title + "\"><font color=\"6E5007\">" + name + "</font></a>";
                     if (pov != Battle) linkedString += " as a result of " + Battle.ToLink();
                 }
                 else
-                    linkedString = "<font color=\"Blue\">" + "The " + this.GetOrdinal(Ordinal) + ConquerType + " of " + Site.ToLink(false) + "</font>";
-
+                {
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(name) + "</a>";
+                }
                 return linkedString;
             }
             else
-                return "The " + this.GetOrdinal(Ordinal) + ConquerType + " of " + Site.ToLink(false);
+            {
+                return name;
+            }
         }
         public override string ToString()
         {

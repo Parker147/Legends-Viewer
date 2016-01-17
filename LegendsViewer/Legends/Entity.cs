@@ -79,7 +79,7 @@ namespace LegendsViewer.Legends
         public Color LineColor { get; set; }
         public Bitmap Identicon { get; set; }
 
-        public string Icon = "<i class=\"fa fa-fw fa-group\"></i> ";
+        public string Icon = "<i class=\"fa fa-fw fa-group\"></i>";
 
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents

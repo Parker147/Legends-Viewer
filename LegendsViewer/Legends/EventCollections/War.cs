@@ -4,11 +4,14 @@ using System.Linq;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends.EventCollections
 {
     public class War : EventCollection
     {
+        public string Icon = "<i class=\"glyphicon fa-fw glyphicon-queen\"></i>";
+
         public string Name { get; set; }
         public int Length { get; set; }
         public int DeathCount { get; set; }
@@ -114,22 +117,31 @@ namespace LegendsViewer.Legends.EventCollections
         {
             if (link)
             {
+                string title = Type;
+                title += "&#13";
+                title += Attacker.PrintEntity(false) + " (Attacker)";
+                title += "&#13";
+                title += Defender.PrintEntity(false) + " (Defender)";
+                title += "&#13";
+                title += "Deaths: " + DeathCount + " | (" + StartYear + " - " + (EndYear == -1 ? "Present" : EndYear.ToString()) + ")";
+
                 string linkedString = "";
                 if (pov != this)
                 {
-                    string title = Attacker.PrintEntity(false) + " (Attacker)&#13" + Defender.PrintEntity(false) + " (Defender)&#13Deaths: " + DeathCount + " | (" + StartYear + " - ";
-                    if (EndYear == -1) title += "Present)";
-                    else title += EndYear + ")";
-                    linkedString = "<a href = \"collection#" + this.ID + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
+                    linkedString = Icon + "<a href = \"collection#" + ID + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
                 }
                 else
-                    linkedString = "<font color=\"Blue\">" + Name + "</font>";
-
+                {
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                }
                 return linkedString;
             }
             else
+            {
                 return Name;
+            }
         }
+
         public override string ToString()
         {
             return Name;

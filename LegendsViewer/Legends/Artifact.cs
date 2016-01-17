@@ -9,7 +9,7 @@ namespace LegendsViewer.Legends
 {
     public class Artifact : WorldObject
     {
-        public static string Icon = "<i class=\"fa fa-fw fa-diamond\"></i> ";
+        public static string Icon = "<i class=\"fa fa-fw fa-diamond\"></i>";
 
         public string Name { get; set; }
         public string Item { get; set; }

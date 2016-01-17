@@ -11,6 +11,12 @@ namespace LegendsViewer.Legends
 {
     public class HistoricalFigure : WorldObject
     {
+        public static string ForceNatureIcon = "<i class=\"glyphicon fa-fw glyphicon-leaf\"></i>";
+        public static string DeityIcon = "<i class=\"fa fa-fw fa-sun-o\"></i>";
+        public static string NeuterIcon = "<i class=\"fa fa-fw fa-neuter\"></i>";
+        public static string FemaleIcon = "<i class=\"fa fa-fw fa-venus\"></i>";
+        public static string MaleIcon = "<i class=\"fa fa-fw fa-mars\"></i>";
+
         public static HistoricalFigure Unknown;
         public string Name { get; set; }
         public string Race { get; set; }
@@ -80,6 +86,7 @@ namespace LegendsViewer.Legends
         public string AnimatedType { get; set; }
         public bool Adventurer { get; set; }
         public string BreedID { get; set; }
+
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -258,20 +265,54 @@ namespace LegendsViewer.Legends
             if (this == Unknown)
                 return Name;
             if (link)
+            {
+                string icon = getIcon();
+                string title = getAnchorTitle();
                 if ((pov == null || pov != this))
                 {
-                    string title = getAnchorTitle();
                     if (pov != null && pov.GetType() == typeof(BeastAttack) && (pov as BeastAttack).Beast == this) //Highlight Beast when printing Beast Attack Log
-                        return "<a href=\"hf#" + ID + "\" title=\"" + title + "\"><font color=#339900>" + (Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name) + "</font></a>";
+                        return icon + "<a href=\"hf#" + ID + "\" title=\"" + title + "\"><font color=#339900>" + (Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name) + "</font></a>";
                     else
-                        return "the " + GetRaceString() + " " + "<a href = \"hf#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                        return "the " + GetRaceString() + " " + icon + "<a href=\"hf#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    return HTMLStyleUtil.CurrentDwarfObject(Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name);
+                {
+                    return "<a href=\"hf#" + ID + "\" title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name) + "</a>";
+                }
+            }
             else if ((pov == null || pov != this))
+            {
                 return GetRaceString() + " " + Name;
+            }
             else
+            {
                 return Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name;
+            }
+        }
+
+        private string getIcon()
+        {
+            if (Force)
+            {
+                return ForceNatureIcon;
+            }
+            if (Deity)
+            {
+                return DeityIcon;
+            }
+            if (Caste == "Female")
+            {
+                return FemaleIcon;
+            }
+            if (Caste == "Male")
+            {
+                return MaleIcon;
+            }
+            if (Caste == "Default")
+            {
+                return NeuterIcon;
+            }
+            return "";
         }
 
         private string getAnchorTitle()

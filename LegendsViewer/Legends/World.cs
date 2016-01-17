@@ -98,7 +98,12 @@ namespace LegendsViewer.Legends
             War.Filters = new List<string>();
             Battle.Filters = new List<string>();
             SiteConquered.Filters = new List<string>();
-            Era.Filters = new List<string>();
+            List<string> eraFilters = new List<string>();
+            foreach (var eventInfo in AppHelpers.EventInfo)
+            {
+                eraFilters.Add(eventInfo[0]);
+            }
+            Era.Filters = eraFilters;
             BeastAttack.Filters = new List<string>();
             Artifact.Filters = new List<string>();
 

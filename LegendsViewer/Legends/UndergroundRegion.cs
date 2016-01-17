@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
@@ -11,6 +10,8 @@ namespace LegendsViewer.Legends
 {
     public class UndergroundRegion : WorldObject
     {
+        public string Icon = "<i class=\"fa fa-fw fa-map\"></i>";
+
         public int Depth { get; set; }
         public string Type { get; set; }
         public List<Battle> Battles { get; set; }
@@ -50,16 +51,20 @@ namespace LegendsViewer.Legends
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
             string name;
-            if (this.Type == "Cavern") name = "the depths of the world";
-            else if (this.Type == "Underworld") name = "the Underworld";
-            else name = "an underground region (" + this.Type + ")";
+            if (Type == "Cavern") name = "the depths of the world";
+            else if (Type == "Underworld") name = "the Underworld";
+            else name = "an underground region (" + Type + ")";
 
             if (link)
             {
+                string title = Type;
+                title += "&#13";
+                title += "Events: " + Events.Count;
+
                 if (pov != this)
-                    return "<a href = \"uregion#" + this.ID + "\">" + name + "</a>";
+                    return Icon + "<a href = \"uregion#" + ID + "\" title=\"" + title + "\">" + name + "</a>";
                 else
-                    return HTMLStyleUtil.CurrentDwarfObject(name);
+                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(name) + "</a>";
             }
             else
                 return name;

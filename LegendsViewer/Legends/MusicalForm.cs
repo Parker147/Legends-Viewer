@@ -6,7 +6,7 @@ namespace LegendsViewer.Legends
 {
     public class MusicalForm : ArtForm
     {
-        public static string Icon = "<i class=\"fa fa-fw fa-music\"></i> ";
+        public static string Icon = "<i class=\"fa fa-fw fa-music\"></i>";
 
         public MusicalForm(List<Property> properties, World world)
             : base(properties, world)

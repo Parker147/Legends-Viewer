@@ -10,6 +10,8 @@ namespace LegendsViewer.Legends
 {
     public class WorldRegion : WorldObject
     {
+        public string Icon = "<i class=\"fa fa-fw fa-map-o\"></i>";
+
         public string Name { get; set; }
         public string Type { get; set; }
         public List<string> Deaths
@@ -44,7 +46,7 @@ namespace LegendsViewer.Legends
             Battles = new List<Battle>();
             Coordinates = new List<Location>();
             foreach (Property property in properties)
-                switch(property.Name)
+                switch (property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "type": Type = string.Intern(property.Value); break;
@@ -66,16 +68,23 @@ namespace LegendsViewer.Legends
         {
             if (link)
             {
+                string title = Type;
+                title += "&#13";
+                title += "Events: " + Events.Count;
+
                 if (pov != this)
                 {
-                    string title = Type + " | Events: " + Events.Count;
-                    return "<a href = \"region#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href = \"region#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    return HTMLStyleUtil.CurrentDwarfObject(Name);
+                {
+                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                }
             }
             else
-                return this.Name;
+            {
+                return Name;
+            }
         }
     }
 }

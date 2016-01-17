@@ -6,7 +6,7 @@ namespace LegendsViewer.Legends
 {
     public class PoeticForm : ArtForm
     {
-        public static string Icon = "<i class=\"fa fa-fw fa-sticky-note-o\"></i> ";
+        public static string Icon = "<i class=\"fa fa-fw fa-sticky-note-o\"></i>";
 
         public PoeticForm(List<Property> properties, World world)
             : base(properties, world)

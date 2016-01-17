@@ -52,31 +52,31 @@ namespace LegendsViewer.Legends
             switch (Type)
             {
                 case StructureType.MeadHall:
-                    icon = "<i class=\"fa fa-fw fa-beer\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-beer\"></i>";
                     break;
                 case StructureType.Market:
-                    icon = "<i class=\"fa fa-fw fa-balance-scale\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-balance-scale\"></i>";
                     break;
                 case StructureType.Keep:
-                    icon = "<i class=\"fa fa-fw fa-fort-awesome\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-fort-awesome\"></i>";
                     break;
                 case StructureType.Temple:
-                    icon = "<i class=\"fa fa-fw fa-university\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-university\"></i>";
                     break;
                 case StructureType.Dungeon:
-                    icon = "<i class=\"fa fa-fw fa-magnet fa-flip-vertical\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-magnet fa-flip-vertical\"></i>";
                     break;
                 case StructureType.InnTavern:
-                    icon = "<i class=\"fa fa-fw fa-cutlery\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-cutlery\"></i>";
                     break;
                 case StructureType.Tomb:
-                    icon = "<i class=\"fa fa-fw fa-youtube-play fa-rotate-270\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-youtube-play fa-rotate-270\"></i>";
                     break;
                 case StructureType.UnderworldSpire:
-                    icon = "<i class=\"fa fa-fw fa-indent fa-rotate-270\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-indent fa-rotate-270\"></i>";
                     break;
                 case StructureType.Library:
-                    icon = "<i class=\"fa fa-fw fa-graduation-cap\"></i> ";
+                    icon = "<i class=\"fa fa-fw fa-graduation-cap\"></i>";
                     break;
                 default:
                     icon = "";
@@ -98,7 +98,7 @@ namespace LegendsViewer.Legends
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\"><font color=\"#000000\">" + Name + "</font></a>";
                 }
                 else
                 {

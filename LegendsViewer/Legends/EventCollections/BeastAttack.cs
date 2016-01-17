@@ -9,7 +9,7 @@ namespace LegendsViewer.Legends.EventCollections
 {
     public class BeastAttack : EventCollection
     {
-        public static string Icon = "<i class=\"fa fa-fw fa-paw\"></i> ";
+        public string Icon = "<i class=\"glyphicon fa-fw glyphicon-knight\"></i>";
 
         public int Ordinal { get; set; }
         public Location Coordinates { get; set; }
@@ -86,7 +86,7 @@ namespace LegendsViewer.Legends.EventCollections
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a href = \"collection#" + ID + "\" title=\"" + title + "\">" + name + "</a>";
+                    linkedString = Icon + "<a href = \"collection#" + ID + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + name + "</font></a>";
                 }
                 else
                     linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(name) + "</a>";

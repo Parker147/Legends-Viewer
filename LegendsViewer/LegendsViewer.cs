@@ -105,7 +105,14 @@ namespace LegendsViewer
                     EventTabs[eventTab].Controls.Add(eventCheck);
                     string[] eventInfo = AppHelpers.EventInfo.Where(a => a[0] == eventType).Single();
                     eventCheck.Text = eventInfo[1];
-                    eventCheck.Checked = true;
+                    if (EventTabs[eventTab].Parent.Name == "tcEras")
+                    {
+                        eventCheck.Checked = false;
+                    }
+                    else
+                    {
+                        eventCheck.Checked = true;
+                    }
                     eventCheck.CheckedChanged += OnEventFilterCheck;
                     hint.SetToolTip(eventCheck, eventInfo[2]);
                     eventCheck.Location = new Point(10, 23 * count);

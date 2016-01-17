@@ -52,15 +52,15 @@ namespace LegendsViewer.Legends.Events
                     LinkType = HistoricalFigureLinkType.Prisoner;
             }
 
-            if (HistoricalFigure.Race == "Night Creature" || HistoricalFigureTarget.Race == "Night Creature")
-            {
-                if (LinkType == HistoricalFigureLinkType.Unknown)
-                {
-                    LinkType = HistoricalFigureLinkType.Spouse;
-                }
-                HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigureTarget, HistoricalFigureLinkType.ExSpouse));
-                HistoricalFigureTarget.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigure, HistoricalFigureLinkType.ExSpouse));
-            }
+            //if (HistoricalFigure.Race == "Night Creature" || HistoricalFigureTarget.Race == "Night Creature")
+            //{
+            //    if (LinkType == HistoricalFigureLinkType.Unknown)
+            //    {
+            //        LinkType = HistoricalFigureLinkType.Spouse;
+            //    }
+            //    HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigureTarget, HistoricalFigureLinkType.ExSpouse));
+            //    HistoricalFigureTarget.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigure, HistoricalFigureLinkType.ExSpouse));
+            //}
 
             HistoricalFigure.AddEvent(this);
             HistoricalFigureTarget.AddEvent(this);

@@ -10,7 +10,7 @@ namespace LegendsViewer.Legends
 {
     public class Site : WorldObject
     {
-        public string Icon = "<i class=\"fa fa-fw fa-home\"></i> ";
+        public string Icon = "<i class=\"fa fa-fw fa-home\"></i>";
 
         public string Type { get; set; }
         public SiteType SiteType { get; set; }
@@ -147,52 +147,52 @@ namespace LegendsViewer.Legends
             switch (SiteType)
             {
                 case SiteType.Cave:
-                    Icon = "<i class=\"fa fa-fw fa-circle\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-circle\"></i>";
                     break;
                 case SiteType.Fortress:
-                    Icon = "<i class=\"fa fa-fw fa-fort-awesome\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-fort-awesome\"></i>";
                     break;
                 case SiteType.ForestRetreat:
-                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tree-deciduous\"></i> ";
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tree-deciduous\"></i>";
                     break;
                 case SiteType.DarkFortress:
-                    Icon = "<i class=\"glyphicon fa-fw glyphicon-compressed fa-rotate-90\"></i> ";
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-compressed fa-rotate-90\"></i>";
                     break;
                 case SiteType.Town:
-                    Icon = "<i class=\"glyphicon fa-fw glyphicon-home\"></i> ";
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-home\"></i>";
                     break;
                 case SiteType.Hamlet:
-                    Icon = "<i class=\"fa fa-fw fa-home\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-home\"></i>";
                     break;
                 case SiteType.Vault:
-                    Icon = "<i class=\"fa fa-fw fa-key\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-key\"></i>";
                     break;
                 case SiteType.DarkPits:
-                    Icon = "<i class=\"fa fa-fw fa-chevron-circle-down\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-chevron-circle-down\"></i>";
                     break;
                 case SiteType.Hillocks:
-                    Icon = "<i class=\"glyphicon fa-fw glyphicon-grain\"></i> ";
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-grain\"></i>";
                     break;
                 case SiteType.Tomb:
-                    Icon = "<i class=\"fa fa-fw fa-archive fa-flip-vertical\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-archive fa-flip-vertical\"></i>";
                     break;
                 case SiteType.Tower:
-                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tower\"></i> ";
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tower\"></i>";
                     break;
                 case SiteType.MountainHalls:
-                    Icon = "<i class=\"fa fa-fw fa-gg-circle\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-gg-circle\"></i>";
                     break;
                 case SiteType.Camp:
-                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tent\"></i> ";
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tent\"></i>";
                     break;
                 case SiteType.Lair:
-                    Icon = "<i class=\"fa fa-fw fa-database\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-database\"></i>";
                     break;
                 case SiteType.Labyrinth:
-                    Icon = "<i class=\"fa fa-fw fa-ils fa-rotate-90\"></i> ";
+                    Icon = "<i class=\"fa fa-fw fa-ils fa-rotate-90\"></i>";
                     break;
                 case SiteType.Shrine:
-                    Icon = "<i class=\"glyphicon fa-fw glyphicon-screenshot\"></i> ";
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-screenshot\"></i>";
                     break;
             }
         }

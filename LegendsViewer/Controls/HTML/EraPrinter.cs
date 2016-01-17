@@ -8,7 +8,7 @@ using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Controls
 {
-    class EraPrinter : HTMLPrinter
+    public class EraPrinter : HTMLPrinter
     {
         Era Era;
 
