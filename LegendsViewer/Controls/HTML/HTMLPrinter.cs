@@ -53,6 +53,8 @@ namespace LegendsViewer.Controls
                 return new WorldConstructionPrinter(printObject as WorldContruction);
             if (printType == typeof(WrittenContent))
                 return new WrittenContentPrinter(printObject as WrittenContent, world);
+            if (printType == typeof(Structure))
+                return new StructurePrinter(printObject as Structure, world);
 
             if (printType == typeof(string))
                 return new StringPrinter(printObject as string);

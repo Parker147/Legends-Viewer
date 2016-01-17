@@ -24,13 +24,13 @@ namespace LegendsViewer.Legends.Events
 
             //Make sure period was lost by an event, otherwise unknown loss
             if (Site.OwnerHistory.Count == 0)
-                new OwnerPeriod(Site, null, 1, "UNKNOWN");
+                new OwnerPeriod(Site, null, 1, "founded");
             if (Site.OwnerHistory.Last().EndYear == -1)
             {
-                Site.OwnerHistory.Last().EndCause = "UNKNOWN";
-                Site.OwnerHistory.Last().EndYear = this.Year - 1;
+                Site.OwnerHistory.Last().EndCause = "abandoned";
+                Site.OwnerHistory.Last().EndYear = Year - 1;
             }
-            new OwnerPeriod(Site, SiteEntity, this.Year, "reclaimed");
+            new OwnerPeriod(Site, SiteEntity, Year, "reclaimed");
 
             Civ.AddEvent(this);
             if (SiteEntity != Civ)
@@ -39,7 +39,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
+            string eventString = GetYearTime();
             if (SiteEntity != null && SiteEntity != Civ) eventString += SiteEntity.ToLink(link, pov) + " of ";
             eventString += Civ.ToLink(link, pov) + " launched an expedition to reclaim " + Site.ToLink(link, pov) + ". ";
             eventString += PrintParentCollection(link, pov);

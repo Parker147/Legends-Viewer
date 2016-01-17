@@ -36,10 +36,10 @@ namespace LegendsViewer.Legends.Events
                 if (SiteEntity != null && SiteEntity != Defender)
                 {
                     SiteEntity.Parent = Defender;
-                    new OwnerPeriod(Site, SiteEntity, 1, "UNKNOWN");
+                    new OwnerPeriod(Site, SiteEntity, 1, "founded");
                 }
                 else
-                    new OwnerPeriod(Site, Defender, 1, "UNKNOWN");
+                    new OwnerPeriod(Site, Defender, 1, "founded");
 
             Site.OwnerHistory.Last().EndCause = "taken over";
             Site.OwnerHistory.Last().EndYear = this.Year;

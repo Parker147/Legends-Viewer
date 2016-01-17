@@ -51,10 +51,17 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool path = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
+            string eventString = GetYearTime();
             eventString += " a ";
             eventString += Material + " " + ItemType;
-            eventString += " was stolen from ";
+            eventString += " was stolen ";
+            if (Structure != null)
+            {
+                eventString += "from ";
+                eventString += Structure.ToLink(path, pov);
+                eventString += " ";
+            }
+            eventString += "in ";
             if (Site != null)
             {
                 eventString += Site.ToLink(path, pov);

@@ -135,7 +135,7 @@ namespace LegendsViewer.Legends
                         {
                             foreach (Property subProperty in property.SubProperties)
                             {
-                                Structures.Add(new Structure(subProperty.SubProperties, world));
+                                Structures.Add(new Structure(subProperty.SubProperties, world, this));
                                 subProperty.Known = true;
                             }
                         }

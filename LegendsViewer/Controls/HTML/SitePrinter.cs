@@ -112,7 +112,7 @@ namespace LegendsViewer.Controls
                     }
                     HTML.AppendLine("<li>" + ownerString + ", " + owner.StartCause + " " + Site.ToLink(true, Site) + " in " + owner.StartYear);
                     if (owner.EndYear >= 0)
-                        HTML.Append(" and <font color=\"Red\">" + owner.EndCause + "</font> in " + owner.EndYear);
+                        HTML.Append(" and it was " + owner.EndCause + " in " + owner.EndYear);
                     if (owner.Ender != null)
                     {
                         if (owner.Ender is Entity)
@@ -124,6 +124,7 @@ namespace LegendsViewer.Controls
                             HTML.Append(" by " + owner.Ender.ToLink(true, Site));
                         }
                     }
+                    HTML.AppendLine(".");
                 }
                 HTML.AppendLine("</ol>");
             }

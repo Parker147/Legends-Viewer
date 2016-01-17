@@ -247,7 +247,7 @@ namespace LegendsViewer.Legends.Parser
                         ChangeHFState lastSettledEvent = Site.Events.OfType<ChangeHFState>().LastOrDefault();
                         if (lastSettledEvent != null)
                         {
-                            new OwnerPeriod(Site, Owner, lastSettledEvent.Year, "settled in ");
+                            new OwnerPeriod(Site, Owner, lastSettledEvent.Year, "settled in");
                         }
                         else
                         {
@@ -260,7 +260,7 @@ namespace LegendsViewer.Legends.Parser
             if (Owner == null && Site.OwnerHistory.Count > 0 && Site.OwnerHistory.Last().EndYear == -1)
             {
                 Site.OwnerHistory.Last().EndYear = World.Events.Last().Year - 1;
-                Site.OwnerHistory.Last().EndCause = "UNKNOWN";
+                Site.OwnerHistory.Last().EndCause = "abandoned";
             }
         }
 

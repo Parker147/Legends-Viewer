@@ -36,6 +36,7 @@ namespace LegendsViewer.Legends
         public List<MusicalForm> MusicalForms = new List<MusicalForm>();
         public List<DanceForm> DanceForms = new List<DanceForm>();
         public List<WrittenContent> WrittenContents = new List<WrittenContent>();
+        public List<Structure> Structures = new List<Structure>();
         public List<WorldEvent> Events = new List<WorldEvent>();
         public List<EventCollection> EventCollections = new List<EventCollection>();
         public List<Population> CivilizedPopulations = new List<Population>();
@@ -512,6 +513,27 @@ namespace LegendsViewer.Legends
                 return null;
             }
         }
+        public Structure GetStructure(int id)
+        {
+            if (id == -1) return null;
+            else
+            {
+                int min = 0;
+                int max = Structures.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > Structures[mid].GlobalID)
+                        min = mid + 1;
+                    else if (id < Structures[mid].GlobalID)
+                        max = mid - 1;
+                    else
+                        return Structures[mid];
+                }
+                return null;
+            }
+        }
+
         public EventCollection GetEventCollection(int id)
         {
             int min = 0;

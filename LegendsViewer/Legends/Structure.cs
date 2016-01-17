@@ -12,14 +12,19 @@ namespace LegendsViewer.Legends
         public string Name { get; set; } // legends_plus.xml
         public string AltName { get; set; } // legends_plus.xml
         public StructureType Type { get; set; } // legends_plus.xml
-        public static List<string> Filters;
         public string Icon { get; set; }
+
+        public Site Site { get; set; }
+        
+        public int GlobalID { get; set; }
+
+        public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
 
-        public Structure(List<Property> properties, World world)
+        public Structure(List<Property> properties, World world, Site site)
             : base(properties, world)
         {
             Name = "UNKNOWN STRUCTURE";
@@ -83,6 +88,10 @@ namespace LegendsViewer.Legends
                     break;
             }
             Icon = icon;
+            Site = site;
+
+            GlobalID = world.Structures.Count;
+            world.Structures.Add(this);
         }
 
         public override string ToString() { return Name; }
@@ -98,7 +107,7 @@ namespace LegendsViewer.Legends
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\"><font color=\"#000000\">" + Name + "</font></a>";
+                    linkedString = Icon + "<a href = \"structure#" + GlobalID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                 {
