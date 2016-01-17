@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends.EventCollections
 {
     public class BeastAttack : EventCollection
     {
+        public static string Icon = "<i class=\"fa fa-fw fa-paw\"></i> ";
+
         public int Ordinal { get; set; }
         public Location Coordinates { get; set; }
         public WorldRegion Region { get; set; }
@@ -73,28 +76,35 @@ namespace LegendsViewer.Legends.EventCollections
             else if (Beast != null) name += Beast.Name;
             else name += "UNKNOWN BEAST";
             if (pov != Site) name += " in " + Site.ToLink(false);
+
             if (link)
             {
+                string title = "Beast Attack";
+                title += "&#13";
+                title += "Events: " + GetSubEvents().Count;
+
                 string linkedString = "";
                 if (pov != this)
                 {
-                    string title = "Events: " + GetSubEvents().Count;
-
-                    linkedString = "<a href = \"collection#" + this.ID + "\" title=\"" + title + "\"><font color=\"#336600\">" + name + "</font></a>";
+                    linkedString = Icon + "<a href = \"collection#" + ID + "\" title=\"" + title + "\">" + name + "</a>";
                 }
                 else
-                    linkedString = "<font color=\"Blue\">" + name + "</font>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(name) + "</a>";
                 return linkedString;
             }
             else
-                if (pov == this) return "Rampage of " + Beast.ToLink(false, Beast);
-            return name;
+            {
+                if (pov == this)
+                {
+                    return "Rampage of " + Beast.ToLink(false, Beast);
+                }
+                return name;
+            }
         }
 
         public override string ToString()
         {
             return ToLink(false);
         }
-
     }
 }

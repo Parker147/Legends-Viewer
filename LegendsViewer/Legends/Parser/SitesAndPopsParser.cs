@@ -231,9 +231,9 @@ namespace LegendsViewer.Legends.Parser
                             new OwnerPeriod(Site, Owner, lastKnownOwner.DeathYear, "after death of last owner (" + lastKnownOwner.DeathCause + ") took over");
                             found = true;
                         }
-                        else if (lastKnownOwner.Race == "Demon" && Site.Type == "Vault" && Owner is Entity)
+                        else if (Site.Type == "Vault" && Owner is Entity)
                         {
-                            // SPOILER Devil owns the place, Entity is a group of angles
+                            Site.OwnerHistory.Last().Owner = Owner;
                             found = true;
                         }
                     }

@@ -97,6 +97,7 @@
     <Compile Include="Controls\HTML\Utilities\HTMLStyleUtil.cs" />
     <Compile Include="Controls\HTML\WorldConstructionPrinter.cs" />
     <Compile Include="Controls\HTML\Utilities\SkillDictionary.cs" />
+    <Compile Include="Controls\HTML\WrittenContentPrinter.cs" />
     <Compile Include="Controls\Map\dlgPopulation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,10 +196,13 @@
     <Compile Include="Legends\Enums\HistoricalFigureLinkType.cs" />
     <Compile Include="Legends\Enums\InsurrectionOutcome.cs" />
     <Compile Include="Legends\Enums\OccasionType.cs" />
+    <Compile Include="Legends\Enums\ReferenceType.cs" />
     <Compile Include="Legends\Enums\ReputationType.cs" />
     <Compile Include="Legends\Enums\SecretGoal.cs" />
     <Compile Include="Legends\Enums\SiteConqueredType.cs" />
     <Compile Include="Legends\Enums\SiteLinkType.cs" />
+    <Compile Include="Legends\Enums\SiteType.cs" />
+    <Compile Include="Legends\Enums\StructureType.cs" />
     <Compile Include="Legends\Era.cs" />
     <Compile Include="Legends\EventCollections\Abduction.cs" />
     <Compile Include="Legends\EventCollections\Battle.cs" />
@@ -325,6 +329,7 @@
     <Compile Include="Legends\Parser\XMLPlusParser.cs" />
     <Compile Include="Legends\PoeticForm.cs" />
     <Compile Include="Legends\Population.cs" />
+    <Compile Include="Legends\Reference.cs" />
     <Compile Include="Legends\Region.cs" />
     <Compile Include="Legends\Site.cs" />
     <Compile Include="Legends\SiteLink.cs" />

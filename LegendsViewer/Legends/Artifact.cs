@@ -9,6 +9,8 @@ namespace LegendsViewer.Legends
 {
     public class Artifact : WorldObject
     {
+        public static string Icon = "<i class=\"fa fa-fw fa-diamond\"></i> ";
+
         public string Name { get; set; }
         public string Item { get; set; }
         public HistoricalFigure Creator { get; set; }
@@ -18,7 +20,7 @@ namespace LegendsViewer.Legends
         public string Material { get; set; } // legends_plus.xml
         public int PageCount { get; set; } // legends_plus.xml
 
-        public List<int> WrittenContents { get; set; } 
+        public List<int> WrittenContents { get; set; }
 
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
@@ -31,7 +33,8 @@ namespace LegendsViewer.Legends
         {
             Name = "Untitled";
             WrittenContents = new List<int>();
-            foreach(Property property in properties)
+
+            foreach (Property property in properties)
             {
                 switch (property.Name)
                 {
@@ -42,10 +45,9 @@ namespace LegendsViewer.Legends
                     case "item_description": Description = Formatting.InitCaps(property.Value); break;
                     case "mat": Material = property.Value; break;
                     case "page_count": PageCount = Convert.ToInt32(property.Value); break;
-                    case "writing": if(!WrittenContents.Contains(Convert.ToInt32(property.Value)))WrittenContents.Add(Convert.ToInt32(property.Value)); break;
+                    case "writing": if (!WrittenContents.Contains(Convert.ToInt32(property.Value))) WrittenContents.Add(Convert.ToInt32(property.Value)); break;
                 }
             }
-            Console.WriteLine();
         }
 
         public override string ToString() { return Name; }
@@ -54,16 +56,15 @@ namespace LegendsViewer.Legends
         {
             if (link)
             {
-                string linkedString = "";
+                string title = "Artifact" + (!string.IsNullOrEmpty(Type) ? ", " + Type : "");
+                title += "&#13";
+                title += "Events: " + Events.Count;
                 if (pov != this)
                 {
-                    string title = "Events: " + this.Events.Count;
-
-                    linkedString = "<a href = \"artifact#" + this.ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href = \"artifact#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    linkedString = HTMLStyleUtil.CurrentDwarfObject(Name);
-                return linkedString;
+                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
             else
                 return Name;

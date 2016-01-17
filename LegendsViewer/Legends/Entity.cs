@@ -79,6 +79,8 @@ namespace LegendsViewer.Legends
         public Color LineColor { get; set; }
         public Bitmap Identicon { get; set; }
 
+        public string Icon = "<i class=\"fa fa-fw fa-group\"></i> ";
+
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -181,12 +183,13 @@ namespace LegendsViewer.Legends
 
         public string PrintEntity(bool link = true, DwarfObject pov = null)
         {
-            string entityString = this.ToLink(link, pov);
-            if (this.Parent != null) entityString += " of " + Parent.ToLink(link, pov);
+            string entityString = ToLink(link, pov);
+            if (Parent != null)
+            {
+                entityString += " of " + Parent.ToLink(link, pov);
+            }
             return entityString;
         }
-
-
 
         //TODO: Check and possibly move logic
         public void AddOwnedSite(OwnerPeriod newSite)
@@ -241,36 +244,50 @@ namespace LegendsViewer.Legends
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
+            string coloredIcon;
+            if (IsCiv)
+            {
+                coloredIcon = PrintIdenticon() + " ";
+            }
+            else if (World.MainRaces.ContainsKey(Race))
+            {
+                Color civilizedPopColor = World.MainRaces.FirstOrDefault(r => r.Key == Race).Value;
+                coloredIcon = "<span class=\"fa-stack fa-lg\" style=\"font-size:smaller;\">";
+                coloredIcon += "<i class=\"fa fa-square fa-stack-2x\"></i>";
+                coloredIcon += "<i class=\"fa fa-group fa-stack-1x\" style=\"color:" + ColorTranslator.ToHtml(civilizedPopColor) + ";\"></i>";
+                coloredIcon += "</span>";
+            }
+            else
+            {
+                coloredIcon = "<span class=\"fa-stack fa-lg\" style=\"font-size:smaller;\">";
+                coloredIcon += "<i class=\"fa fa-square fa-stack-2x\"></i>";
+                coloredIcon += "<i class=\"fa fa-group fa-stack-1x fa-inverse\"></i>";
+                coloredIcon += "</span>";
+            }
+
             if (link)
             {
-                if (pov != this)
+                string title = "";
+                if (IsCiv)
                 {
-                    string title = "";
-                    if (IsCiv)
-                    {
-                        title = "Civilization of " + Race;
-                    }
-                    else
-                    {
-                        title = "Group of " + Race;
-                    }
-                    if (Parent != null)
-                    {
-                        title += ", of " + Parent.Name;
-                    }
-
-                    string entityLink = "<a href = \"entity#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
-                    if (IsCiv)
-                    {
-                        return PrintIdenticon() + " " + entityLink + " ";
-                    }
-                    else
-                    {
-                        return entityLink;
-                    }
+                    title = "Civilization of " + Race;
                 }
                 else
-                    return HTMLStyleUtil.CurrentDwarfObject(Name);
+                {
+                    title = "Group of " + Race;
+                }
+                if (Parent != null)
+                {
+                    title += ", of " + Parent.Name;
+                }
+                if (pov != this)
+                {
+                    return coloredIcon + "<a href = \"entity#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                }
+                else
+                {
+                    return coloredIcon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                }
             }
             else
                 return Name;

@@ -4,12 +4,16 @@ using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Legends.Enums;
 
 namespace LegendsViewer.Legends
 {
     public class Site : WorldObject
     {
+        public string Icon = "<i class=\"fa fa-fw fa-home\"></i> ";
+
         public string Type { get; set; }
+        public SiteType SiteType { get; set; }
         public string Name { get; set; }
         public string UntranslatedName { get; set; }
         public Location Coordinates { get; set; }
@@ -34,18 +38,7 @@ namespace LegendsViewer.Legends
         public List<DwarfObject> PreviousOwners { get { return OwnerHistory.Where(site => site.EndYear >= 0).Select(site => site.Owner).ToList(); } set { } }
         public List<Site> Connections { get; set; }
         public List<Population> Populations { get; set; }
-        //public List<string> PopulationsAsList
-        //{
-        //    get
-        //    {
-        //        List<string> populations = new List<string>();
-        //        foreach (Population population in Populations)
-        //            for (int i = 0; i < population.Count; i++)
-        //                populations.Add(population.Race);
-        //        return populations;
-        //    }
-        //    set { }
-        //}
+
         public List<Official> Officials { get; set; }
         public List<string> Deaths
         {
@@ -53,7 +46,7 @@ namespace LegendsViewer.Legends
             {
                 List<string> deaths = new List<string>();
                 deaths.AddRange(NotableDeaths.Select(death => death.Race));
-                //List<Battle.Squad> squads = Battles.SelectMany(battle => battle.AttackerSquads.Concat(battle.DefenderSquads)).ToList();
+
                 foreach (Battle.Squad squad in Battles.SelectMany(battle => battle.AttackerSquads.Concat(battle.DefenderSquads)).ToList())
                     for (int i = 0; i < squad.Deaths; i++)
                         deaths.Add(squad.Race);
@@ -105,9 +98,34 @@ namespace LegendsViewer.Legends
             BeastAttacks = new List<BeastAttack>();
             Structures = new List<Structure>();
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
-                    case "type": Type = Formatting.InitCaps(property.Value); break;
+                    case "type":
+                        Type = Formatting.InitCaps(property.Value);
+                        switch (property.Value)
+                        {
+                            case "cave": SiteType = SiteType.Cave; break;
+                            case "fortress": SiteType = SiteType.Fortress; break;
+                            case "forest retreat": SiteType = SiteType.ForestRetreat; break;
+                            case "dark fortress": SiteType = SiteType.DarkFortress; break;
+                            case "town": SiteType = SiteType.Town; break;
+                            case "hamlet": SiteType = SiteType.Hamlet; break;
+                            case "vault": SiteType = SiteType.Vault; break;
+                            case "dark pits": SiteType = SiteType.DarkPits; break;
+                            case "hillocks": SiteType = SiteType.Hillocks; break;
+                            case "tomb": SiteType = SiteType.Tomb; break;
+                            case "tower": SiteType = SiteType.Tower; break;
+                            case "mountain halls": SiteType = SiteType.MountainHalls; break;
+                            case "camp": SiteType = SiteType.Camp; break;
+                            case "lair": SiteType = SiteType.Lair; break;
+                            case "labyrinth": SiteType = SiteType.Labyrinth; break;
+                            case "shrine": SiteType = SiteType.Shrine; break;
+                            default:
+                                world.ParsingErrors.Report("Unknown Site SiteType: " + property.Value);
+                                break;
+                        }
+                        break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
                     case "structures":
@@ -125,6 +143,58 @@ namespace LegendsViewer.Legends
                     case "civ_id": property.Known = true; break;
                     case "cur_owner_id": property.Known = true; break;
                 }
+            }
+            switch (SiteType)
+            {
+                case SiteType.Cave:
+                    Icon = "<i class=\"fa fa-fw fa-circle\"></i> ";
+                    break;
+                case SiteType.Fortress:
+                    Icon = "<i class=\"fa fa-fw fa-fort-awesome\"></i> ";
+                    break;
+                case SiteType.ForestRetreat:
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tree-deciduous\"></i> ";
+                    break;
+                case SiteType.DarkFortress:
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-compressed fa-rotate-90\"></i> ";
+                    break;
+                case SiteType.Town:
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-home\"></i> ";
+                    break;
+                case SiteType.Hamlet:
+                    Icon = "<i class=\"fa fa-fw fa-home\"></i> ";
+                    break;
+                case SiteType.Vault:
+                    Icon = "<i class=\"fa fa-fw fa-key\"></i> ";
+                    break;
+                case SiteType.DarkPits:
+                    Icon = "<i class=\"fa fa-fw fa-chevron-circle-down\"></i> ";
+                    break;
+                case SiteType.Hillocks:
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-grain\"></i> ";
+                    break;
+                case SiteType.Tomb:
+                    Icon = "<i class=\"fa fa-fw fa-archive fa-flip-vertical\"></i> ";
+                    break;
+                case SiteType.Tower:
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tower\"></i> ";
+                    break;
+                case SiteType.MountainHalls:
+                    Icon = "<i class=\"fa fa-fw fa-gg-circle\"></i> ";
+                    break;
+                case SiteType.Camp:
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-tent\"></i> ";
+                    break;
+                case SiteType.Lair:
+                    Icon = "<i class=\"fa fa-fw fa-database\"></i> ";
+                    break;
+                case SiteType.Labyrinth:
+                    Icon = "<i class=\"fa fa-fw fa-ils fa-rotate-90\"></i> ";
+                    break;
+                case SiteType.Shrine:
+                    Icon = "<i class=\"glyphicon fa-fw glyphicon-screenshot\"></i> ";
+                    break;
+            }
         }
 
         public void AddConnection(Site connection)
@@ -138,17 +208,23 @@ namespace LegendsViewer.Legends
         {
             if (link)
             {
+                string title = Type;
+                title += "&#13";
+                title += "Events: " + Events.Count;
+
                 if (pov != this)
                 {
-                    string title = Type + "&#13Events: " + Events.Count;
-                    return "<a href = \"site#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
+                    return Icon + "<a href = \"site#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    return HTMLStyleUtil.CurrentDwarfObject(Name);
+                {
+                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                }
             }
             else
+            {
                 return Name;
+            }
         }
-
     }
 }

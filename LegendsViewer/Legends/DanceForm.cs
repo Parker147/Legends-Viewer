@@ -6,6 +6,8 @@ namespace LegendsViewer.Legends
 {
     public class DanceForm : ArtForm
     {
+        public static string Icon = "<i class=\"fa fa-fw fa-street-view\"></i> ";
+
         public DanceForm(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -22,14 +24,18 @@ namespace LegendsViewer.Legends
                     title += "&#13";
                     title += "Events: " + Events.Count;
 
-                    linkedString = "<a title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    linkedString = HTMLStyleUtil.CurrentDwarfObject(Name);
+                {
+                    linkedString = Icon + HTMLStyleUtil.CurrentDwarfObject(Name);
+                }
                 return linkedString;
             }
             else
+            {
                 return Name;
+            }
         }
     }
 }

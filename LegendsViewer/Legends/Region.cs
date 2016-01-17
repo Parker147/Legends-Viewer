@@ -69,7 +69,7 @@ namespace LegendsViewer.Legends
                 if (pov != this)
                 {
                     string title = Type + " | Events: " + Events.Count;
-                    return "<a href = \"region#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
+                    return "<a href = \"region#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                     return HTMLStyleUtil.CurrentDwarfObject(Name);

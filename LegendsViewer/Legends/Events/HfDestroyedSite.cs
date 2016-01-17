@@ -7,10 +7,10 @@ namespace LegendsViewer.Legends.Events
 {
     public class HfDestroyedSite : WorldEvent
     {
-        private HistoricalFigure Attacker { get; set; }
-        private Entity DefenderCiv { get; set; }
-        private Entity SiteCiv { get; set; }
-        private Site Site { get; set; }
+        public HistoricalFigure Attacker { get; set; }
+        public Entity DefenderCiv { get; set; }
+        public Entity SiteCiv { get; set; }
+        public Site Site { get; set; }
 
         public HfDestroyedSite(List<Property> properties, World world) : base(properties, world)
         {

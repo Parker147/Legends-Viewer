@@ -465,8 +465,17 @@ namespace LegendsViewer.Legends.Parser
             //Calculated here so it can look in Duel collections contained in beast attacks
             foreach (BeastAttack beastAttack in World.EventCollections.OfType<BeastAttack>())
             {
+                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HfAttackedSite>().Any())
+                {
+                    beastAttack.Beast = beastAttack.GetSubEvents().OfType<HfAttackedSite>().First().Attacker;
+                }
+                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HfDestroyedSite>().Any())
+                {
+                    beastAttack.Beast = beastAttack.GetSubEvents().OfType<HfDestroyedSite>().First().Attacker;
+                }
+
                 //Find Beast by looking at fights, Beast always engages the first fight in a Beast Attack?
-                if (beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Any())
+                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Any())
                 {
                     beastAttack.Beast = beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First().HistoricalFigure1;
                 }

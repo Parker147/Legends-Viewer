@@ -6,6 +6,8 @@ namespace LegendsViewer.Legends
 {
     public class PoeticForm : ArtForm
     {
+        public static string Icon = "<i class=\"fa fa-fw fa-sticky-note-o\"></i> ";
+
         public PoeticForm(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -15,21 +17,25 @@ namespace LegendsViewer.Legends
         {
             if (link)
             {
+                string title = "Poetic Form";
+                title += "&#13";
+                title += "Events: " + Events.Count;
+
                 string linkedString = "";
                 if (pov != this)
                 {
-                    string title = "Poetic Form";
-                    title += "&#13";
-                    title += "Events: " + Events.Count;
-
-                    linkedString = "<a title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    linkedString = HTMLStyleUtil.CurrentDwarfObject(Name);
+                {
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                }
                 return linkedString;
             }
             else
+            {
                 return Name;
+            }
         }
     }
 }

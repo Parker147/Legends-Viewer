@@ -104,6 +104,11 @@ namespace LegendsViewer.Legends.Parser
                             existingProperties.Add(property);
                             continue;
                         }
+                        if (CurrentSection == Section.WrittenContent && property.Name == "style")
+                        {
+                            existingProperties.Add(property);
+                            continue;
+                        }
                         Property matchingProperty = existingProperties.SingleOrDefault(p => p.Name == property.Name);
                         if (CurrentSection == Section.Events && matchingProperty != null && (matchingProperty.Name == "type" || matchingProperty.Name == "state"))
                         {

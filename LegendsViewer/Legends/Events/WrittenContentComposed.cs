@@ -64,7 +64,10 @@ namespace LegendsViewer.Legends.Events
             if (Circumstance == "pray to hf" || Circumstance == "dream about hf")
             {
                 CircumstanceHF = world.GetHistoricalFigure(CircumstanceId);
-                CircumstanceHF.AddEvent(this);
+                if (GlorifiedHF != null && GlorifiedHF != CircumstanceHF)
+                {
+                    CircumstanceHF.AddEvent(this);
+                }
             }
             if (!string.IsNullOrWhiteSpace(WrittenContentID))
             {

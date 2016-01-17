@@ -6,10 +6,10 @@ namespace LegendsViewer.Legends.Events
 {
     public class HfAttackedSite : WorldEvent
     {
-        private HistoricalFigure Attacker { get; set; }
-        private Entity DefenderCiv { get; set; }
-        private Entity SiteCiv { get; set; }
-        private Site Site { get; set; }
+        public HistoricalFigure Attacker { get; set; }
+        public Entity DefenderCiv { get; set; }
+        public Entity SiteCiv { get; set; }
+        public Site Site { get; set; }
 
         public HfAttackedSite(List<Property> properties, World world) : base(properties, world)
         {
@@ -38,8 +38,8 @@ namespace LegendsViewer.Legends.Events
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            String eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " attacked " + SiteCiv.ToLink(link, pov);
-            if (DefenderCiv != null)
+            string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " attacked " + SiteCiv.ToLink(link, pov);
+            if (DefenderCiv != null && DefenderCiv != SiteCiv)
             {
                 eventString += " of " + DefenderCiv.ToLink(link, pov);
             }

@@ -6,6 +6,8 @@ namespace LegendsViewer.Legends
 {
     public class MusicalForm : ArtForm
     {
+        public static string Icon = "<i class=\"fa fa-fw fa-music\"></i> ";
+
         public MusicalForm(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -15,21 +17,23 @@ namespace LegendsViewer.Legends
         {
             if (link)
             {
-                string linkedString = "";
+                string title = "Musical Form";
+                title += "&#13";
+                title += "Events: " + Events.Count;
+
                 if (pov != this)
                 {
-                    string title = "Musical Form";
-                    title += "&#13";
-                    title += "Events: " + Events.Count;
-
-                    linkedString = "<a title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    linkedString = HTMLStyleUtil.CurrentDwarfObject(Name);
-                return linkedString;
+                {
+                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                }
             }
             else
+            {
                 return Name;
+            }
         }
     }
 }
