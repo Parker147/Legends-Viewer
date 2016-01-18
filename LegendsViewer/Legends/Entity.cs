@@ -79,9 +79,42 @@ namespace LegendsViewer.Legends
         public Color LineColor { get; set; }
         public Bitmap Identicon { get; set; }
 
-        public string Icon = "<i class=\"fa fa-fw fa-group\"></i>";
+        private string _icon;
+        public string Icon
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_icon))
+                {
+                    string coloredIcon;
+                    if (IsCiv)
+                    {
+                        coloredIcon = PrintIdenticon() + " ";
+                    }
+                    else if (World.MainRaces.ContainsKey(Race))
+                    {
+                        Color civilizedPopColor = World.MainRaces.FirstOrDefault(r => r.Key == Race).Value;
+                        coloredIcon = "<span class=\"fa-stack fa-lg\" style=\"font-size:smaller;\">";
+                        coloredIcon += "<i class=\"fa fa-square fa-stack-2x\"></i>";
+                        coloredIcon += "<i class=\"fa fa-group fa-stack-1x\" style=\"color:" + ColorTranslator.ToHtml(civilizedPopColor) + ";\"></i>";
+                        coloredIcon += "</span>";
+                    }
+                    else
+                    {
+                        coloredIcon = "<span class=\"fa-stack fa-lg\" style=\"font-size:smaller;\">";
+                        coloredIcon += "<i class=\"fa fa-square fa-stack-2x\"></i>";
+                        coloredIcon += "<i class=\"fa fa-group fa-stack-1x fa-inverse\"></i>";
+                        coloredIcon += "</span>";
+                    }
+                    _icon = coloredIcon;
+                }
+                return _icon;
+            }
+            set { _icon = value; }
+        }
 
         public static List<string> Filters;
+
         public override List<WorldEvent> FilteredEvents
         {
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
@@ -178,7 +211,7 @@ namespace LegendsViewer.Legends
 
         public bool EqualsOrParentEquals(Entity entity)
         {
-            return this == entity || this.Parent == entity;
+            return this == entity || Parent == entity;
         }
 
         public string PrintEntity(bool link = true, DwarfObject pov = null)
@@ -194,17 +227,17 @@ namespace LegendsViewer.Legends
         //TODO: Check and possibly move logic
         public void AddOwnedSite(OwnerPeriod newSite)
         {
-            if (newSite.StartCause == "UNKNOWN" && SiteHistory.Where(s => s.Site == newSite.Site).Count() == 0)
+            if (newSite.StartCause == "UNKNOWN" && SiteHistory.All(s => s.Site != newSite.Site))
                 SiteHistory.Insert(0, newSite);
             else
-                this.SiteHistory.Add(newSite);
+                SiteHistory.Add(newSite);
 
             if (newSite.Owner != this)
-                this.Groups.Add((Entity)newSite.Owner);
-            if (this.Parent != null && this.Parent != null)
+                Groups.Add((Entity)newSite.Owner);
+            if (Parent != null && Parent != null)
             {
                 Parent.AddOwnedSite(newSite);
-                this.Race = Parent.Race;
+                Race = Parent.Race;
             }
         }
 
@@ -232,8 +265,7 @@ namespace LegendsViewer.Legends
                 printIdenticon += "\" align=absmiddle />";
                 return printIdenticon;
             }
-            else return "";
-
+            return "";
         }
 
         public Bitmap GetIdenticon(int size)
@@ -244,30 +276,9 @@ namespace LegendsViewer.Legends
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
-            string coloredIcon;
-            if (IsCiv)
-            {
-                coloredIcon = PrintIdenticon() + " ";
-            }
-            else if (World.MainRaces.ContainsKey(Race))
-            {
-                Color civilizedPopColor = World.MainRaces.FirstOrDefault(r => r.Key == Race).Value;
-                coloredIcon = "<span class=\"fa-stack fa-lg\" style=\"font-size:smaller;\">";
-                coloredIcon += "<i class=\"fa fa-square fa-stack-2x\"></i>";
-                coloredIcon += "<i class=\"fa fa-group fa-stack-1x\" style=\"color:" + ColorTranslator.ToHtml(civilizedPopColor) + ";\"></i>";
-                coloredIcon += "</span>";
-            }
-            else
-            {
-                coloredIcon = "<span class=\"fa-stack fa-lg\" style=\"font-size:smaller;\">";
-                coloredIcon += "<i class=\"fa fa-square fa-stack-2x\"></i>";
-                coloredIcon += "<i class=\"fa fa-group fa-stack-1x fa-inverse\"></i>";
-                coloredIcon += "</span>";
-            }
-
             if (link)
             {
-                string title = "";
+                string title;
                 if (IsCiv)
                 {
                     title = "Civilization of " + Race;
@@ -282,16 +293,11 @@ namespace LegendsViewer.Legends
                 }
                 if (pov != this)
                 {
-                    return coloredIcon + "<a href = \"entity#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href = \"entity#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
-                else
-                {
-                    return coloredIcon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
-                }
+                return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
-            else
-                return Name;
+            return Name;
         }
-
     }
 }
