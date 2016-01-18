@@ -86,6 +86,7 @@ namespace LegendsViewer.Legends
         public string AnimatedType { get; set; }
         public bool Adventurer { get; set; }
         public string BreedID { get; set; }
+        public int Sex { get; set; }
 
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
@@ -229,6 +230,7 @@ namespace LegendsViewer.Legends
                             }
                         }
                         break;
+                    case "sex": Convert.ToInt32(property.Value); break;
                 }
             if (Name == "") Name = "(Unnamed)";
         }

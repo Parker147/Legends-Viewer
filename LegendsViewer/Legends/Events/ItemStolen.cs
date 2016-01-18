@@ -23,7 +23,6 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             ItemType = "UNKNOWN ITEM";
-            Material = "UNKNOWN MATERIAL";
             foreach (Property property in properties)
             {
                 switch (property.Name)
@@ -53,7 +52,11 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = GetYearTime();
             eventString += " a ";
-            eventString += Material + " " + ItemType;
+            if (!string.IsNullOrWhiteSpace(Material))
+            {
+                eventString += Material + " ";
+            }
+            eventString += ItemType;
             eventString += " was stolen ";
             if (Structure != null)
             {

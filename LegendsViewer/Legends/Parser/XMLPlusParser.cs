@@ -94,7 +94,7 @@ namespace LegendsViewer.Legends.Parser
                 {
                     foreach (var property in CurrentItem)
                     {
-                        if (CurrentSection == Section.Entities && property.Name == "entity_link" || property.Name == "child")
+                        if (CurrentSection == Section.Entities && (property.Name == "entity_link" || property.Name == "child" || property.Name == "entity_position" || property.Name == "entity_position_assignment"))
                         {
                             existingProperties.Add(property);
                             continue;

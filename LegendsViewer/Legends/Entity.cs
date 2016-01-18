@@ -43,6 +43,8 @@ namespace LegendsViewer.Legends
         public EntityType Type { get; set; } // legends_plus.xml
         public List<EntitySiteLink> SiteLinks { get; set; } // legends_plus.xml
         public List<EntityEntityLink> EntityLinks { get; set; } // legends_plus.xml
+        public List<EntityPosition> EntityPositions { get; set; } // legends_plus.xml
+        public List<EntityPositionAssignment> EntityPositionAssignments { get; set; } // legends_plus.xml
 
         public List<War> Wars { get; set; }
         public List<War> WarsAttacking { get { return Wars.Where(war => war.Attacker == this).ToList(); } set { } }
@@ -147,6 +149,9 @@ namespace LegendsViewer.Legends
             EntityLinks = new List<EntityEntityLink>();
             Wars = new List<War>();
             Populations = new List<Population>();
+            EntityPositions = new List<EntityPosition>();
+            EntityPositionAssignments = new List<EntityPositionAssignment>();
+
             foreach (Property property in properties)
             {
                 switch (property.Name)
@@ -202,6 +207,11 @@ namespace LegendsViewer.Legends
                     case "worship_id":
                         property.Known = true;
                         break;
+                    case "claims":
+                        property.Known = true;
+                        break;
+                    case "entity_position": EntityPositions.Add(new EntityPosition(property.SubProperties, world)); break;
+                    case "entity_position_assignment": EntityPositionAssignments.Add(new EntityPositionAssignment(property.SubProperties, world)); break;
                 }
             }
         }

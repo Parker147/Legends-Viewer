@@ -29,6 +29,7 @@ namespace LegendsViewer.Controls
             HTML = new StringBuilder();
             PrintTitle();
             PrintLeaders();
+            PrintCurrentLeadership();
             PrintWorships();
             PrintWars();
             PrintSiteHistory();
@@ -107,7 +108,7 @@ namespace LegendsViewer.Controls
         {
             if (Entity.Leaders != null && Entity.Leaders.Count > 0)
             {
-                HTML.AppendLine(Bold("Leaders") + " " + MakeLink("[Load]", LinkOption.LoadEntityLeaders) + LineBreak);
+                HTML.AppendLine(Bold("Leaderhistory") + " " + MakeLink("[Load]", LinkOption.LoadEntityLeaders) + LineBreak);
                 foreach (string leaderType in Entity.LeaderTypes)
                 {
                     HTML.AppendLine(leaderType + "s" + LineBreak);
@@ -121,6 +122,65 @@ namespace LegendsViewer.Controls
                     }
                     HTML.AppendLine(leaderTable.GetTable() + LineBreak);
                 }
+            }
+        }
+
+        private void PrintCurrentLeadership()
+        {
+            if (Entity.EntityPositionAssignments.Any() && Entity.EntityPositionAssignments.Where(epa => epa.HistoricalFigure != null).Any())
+            {
+                HTML.AppendLine("<b>Current Leadership</b><br />");
+                HTML.AppendLine("<ul>");
+                foreach (EntityPositionAssignment assignment in Entity.EntityPositionAssignments)
+                {
+                    EntityPosition position = Entity.EntityPositions.FirstOrDefault(pos => pos.ID == assignment.PositionID);
+                    if (position != null && assignment.HistoricalFigure != null)
+                    {
+                        string positionName;
+                        if (assignment.HistoricalFigure.Caste == "Female" && !string.IsNullOrEmpty(position.NameFemale))
+                        {
+                            positionName = position.NameFemale;
+                        }
+                        else if (assignment.HistoricalFigure.Caste == "Male" && !string.IsNullOrEmpty(position.NameMale))
+                        {
+                            positionName = position.NameFemale;
+                        }
+                        else
+                        {
+                            positionName = position.Name;
+                        }
+
+                        HTML.AppendLine("<li>" + assignment.HistoricalFigure.ToLink() + ", " + positionName + "</li>");
+
+                        if (!string.IsNullOrEmpty(position.Spouse))
+                        {
+                            HistoricalFigureLink spouseLink = assignment.HistoricalFigure.RelatedHistoricalFigures.FirstOrDefault(hfLink => hfLink.Type == HistoricalFigureLinkType.Spouse);
+                            if (spouseLink != null)
+                            {
+                                HistoricalFigure spouse = spouseLink.HistoricalFigure;
+                                if (spouse != null)
+                                {
+                                    string spousePositionName;
+                                    if (spouse.Caste == "Female" && !string.IsNullOrEmpty(position.SpouseFemale))
+                                    {
+                                        spousePositionName = position.SpouseFemale;
+                                    }
+                                    else if (spouse.Caste == "Male" && !string.IsNullOrEmpty(position.SpouseMale))
+                                    {
+                                        spousePositionName = position.SpouseMale;
+                                    }
+                                    else
+                                    {
+                                        spousePositionName = position.Spouse;
+                                    }
+
+                                    HTML.AppendLine("<li>" + spouse.ToLink() + ", " + spousePositionName + "</li>");
+                                }
+                            }
+                        }
+                    }
+                }
+                HTML.AppendLine("</ul>");
             }
         }
 
