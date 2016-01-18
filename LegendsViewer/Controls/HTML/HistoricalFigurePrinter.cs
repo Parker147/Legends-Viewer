@@ -42,7 +42,7 @@ namespace LegendsViewer.Controls
 
         private void PrintCurseLineage()
         {
-            if (HistoricalFigure.ActiveInteractions.Any())
+            if (HistoricalFigure.ActiveInteractions.Any(interaction => interaction.Contains("CURSE")))
             {
                 HistoricalFigure Curser = HistoricalFigure;
                 while (Curser.LineageCurseParent != null && !Curser.LineageCurseParent.Deity)

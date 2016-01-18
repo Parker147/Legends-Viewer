@@ -45,6 +45,7 @@ namespace LegendsViewer.Legends
         public List<EntityEntityLink> EntityLinks { get; set; } // legends_plus.xml
         public List<EntityPosition> EntityPositions { get; set; } // legends_plus.xml
         public List<EntityPositionAssignment> EntityPositionAssignments { get; set; } // legends_plus.xml
+        public List<Location> Claims { get; set; } // legends_plus.xml
 
         public List<War> Wars { get; set; }
         public List<War> WarsAttacking { get { return Wars.Where(war => war.Attacker == this).ToList(); } set { } }
@@ -132,6 +133,9 @@ namespace LegendsViewer.Legends
             SiteHistory = new List<OwnerPeriod>();
             Wars = new List<War>();
             Populations = new List<Population>();
+            EntityPositions = new List<EntityPosition>();
+            EntityPositionAssignments = new List<EntityPositionAssignment>();
+            Claims = new List<Location>();
         }
         public Entity(List<Property> properties, World world)
             : base(properties, world)
@@ -151,6 +155,7 @@ namespace LegendsViewer.Legends
             Populations = new List<Population>();
             EntityPositions = new List<EntityPosition>();
             EntityPositionAssignments = new List<EntityPositionAssignment>();
+            Claims = new List<Location>();
 
             foreach (Property property in properties)
             {
@@ -208,10 +213,21 @@ namespace LegendsViewer.Legends
                         property.Known = true;
                         break;
                     case "claims":
-                        property.Known = true;
+                        string[] coordinateStrings = property.Value.Split(new char[] { '|' },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var coordinateString in coordinateStrings)
+                        {
+                            string[] xYCoordinates = coordinateString.Split(',');
+                            int x = Convert.ToInt32(xYCoordinates[0]);
+                            int y = Convert.ToInt32(xYCoordinates[1]);
+                            Claims.Add(new Location(x, y));
+                        }
                         break;
                     case "entity_position": EntityPositions.Add(new EntityPosition(property.SubProperties, world)); break;
                     case "entity_position_assignment": EntityPositionAssignments.Add(new EntityPositionAssignment(property.SubProperties, world)); break;
+                    case "histfig_id":
+                        property.Known = true; // historical figure == last known entitymember?
+                        break;
                 }
             }
         }
