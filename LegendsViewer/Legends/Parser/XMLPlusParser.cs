@@ -110,7 +110,8 @@ namespace LegendsViewer.Legends.Parser
                             continue;
                         }
                         Property matchingProperty = existingProperties.SingleOrDefault(p => p.Name == property.Name);
-                        if (CurrentSection == Section.Events && matchingProperty != null && (matchingProperty.Name == "type" || matchingProperty.Name == "state"))
+                        if (CurrentSection == Section.Events && matchingProperty != null && 
+                            (matchingProperty.Name == "type" || matchingProperty.Name == "state" || matchingProperty.Name == "slayer_race"))
                         {
                             continue;
                         }

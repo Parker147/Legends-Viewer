@@ -64,7 +64,7 @@ namespace LegendsViewer.Legends.Events
             switch (Relationship)
             {
                 case "apprentice":
-                    eventString += "an apprenticeship under";
+                    eventString += "an apprenticeship under ";
                     break;
                 default:
                     break;
