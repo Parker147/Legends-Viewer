@@ -31,7 +31,7 @@ namespace LegendsViewer.Legends
         public List<BeastAttack> BeastAttacks;
         public List<Era> Eras = new List<Era>();
         public List<Artifact> Artifacts = new List<Artifact>();
-        public List<WorldContruction> WorldContructions = new List<WorldContruction>();
+        public List<WorldConstruction> WorldContructions = new List<WorldConstruction>();
         public List<PoeticForm> PoeticForms = new List<PoeticForm>();
         public List<MusicalForm> MusicalForms = new List<MusicalForm>();
         public List<DanceForm> DanceForms = new List<DanceForm>();
@@ -107,6 +107,9 @@ namespace LegendsViewer.Legends
             Era.Filters = eraFilters;
             BeastAttack.Filters = new List<string>();
             Artifact.Filters = new List<string>();
+            WrittenContent.Filters = new List<string>();
+            WorldConstruction.Filters = new List<string>();
+            Structure.Filters = new List<string>();
 
             GenerateCivIdenticons();
 
@@ -413,7 +416,7 @@ namespace LegendsViewer.Legends
                 return null;
             }
         }
-        public WorldContruction GetWorldConstruction(int id)
+        public WorldConstruction GetWorldConstruction(int id)
         {
             if (id == -1) return null;
             else

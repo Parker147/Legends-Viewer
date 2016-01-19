@@ -5,9 +5,9 @@ namespace LegendsViewer.Controls
 {
     public class WorldConstructionPrinter : HTMLPrinter
     {
-        WorldContruction WorldContruction;
+        WorldConstruction WorldContruction;
 
-        public WorldConstructionPrinter(WorldContruction worldContruction)
+        public WorldConstructionPrinter(WorldConstruction worldContruction)
         {
             WorldContruction = worldContruction;
         }
@@ -17,7 +17,7 @@ namespace LegendsViewer.Controls
             HTML = new StringBuilder();
             HTML.AppendLine("<h1>" + WorldContruction.Name + "</h1><br />");
 
-            PrintEventLog(WorldContruction.Events, WorldContruction.Filters, WorldContruction);
+            PrintEventLog(WorldContruction.Events, WorldConstruction.Filters, WorldContruction);
             return HTML.ToString();
         }
 

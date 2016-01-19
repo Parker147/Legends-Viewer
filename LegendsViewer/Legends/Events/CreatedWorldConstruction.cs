@@ -8,7 +8,7 @@ namespace LegendsViewer.Legends.Events
     {
         public Entity Civ, SiteEntity;
         public Site Site1, Site2;
-        public WorldContruction WorldConstruction, MasterWorldConstruction;
+        public WorldConstruction WorldConstruction, MasterWorldConstruction;
         public CreatedWorldConstruction(List<Property> properties, World world)
             : base(properties, world)
         {
