@@ -8,6 +8,7 @@ using System.Drawing;
 using LegendsViewer;
 using LegendsViewer.Legends;
 using LegendsViewer.Controls;
+using LegendsViewer.Controls.Map;
 using LegendsViewer.Controls.Query;
 
 namespace LegendsViewer

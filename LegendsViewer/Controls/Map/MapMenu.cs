@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using LegendsViewer.Legends;
 using System.Drawing.Drawing2D;
+using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Controls

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using LegendsViewer.Legends;
 using System.Drawing;
+using System.Linq;
+using LegendsViewer.Legends;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.Map
 {
     public class PathMaker
     {
