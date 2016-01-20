@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Interfaces;
 using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
-    public class WorldConstruction : WorldObject
+    public class WorldConstruction : WorldObject, IHasCoordinates
     {
         public string Name { get; set; } // legends_plus.xml
         public string Type { get; set; } // legends_plus.xml

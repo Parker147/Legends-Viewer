@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Interfaces;
 using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
-    public class WorldRegion : WorldObject
+    public class WorldRegion : WorldObject, IHasCoordinates
     {
         public string Icon = "<i class=\"fa fa-fw fa-map-o\"></i>";
 

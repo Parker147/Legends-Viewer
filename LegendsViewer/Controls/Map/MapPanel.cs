@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using LegendsViewer.Legends;
 using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Interfaces;
 using SevenZip;
 
 namespace LegendsViewer.Controls.Map
@@ -195,28 +196,12 @@ namespace LegendsViewer.Controls.Map
                     if (defenderSite.Coordinates.X > ZoomBounds.Width) ZoomBounds.Width = defenderSite.Coordinates.X;
                 }
 
-                if (FocusObject.GetType() == typeof(WorldRegion))
+                if (FocusObject is IHasCoordinates)
                 {
-                    ZoomBounds.X = (FocusObject as WorldRegion).Coordinates.Min(coord => coord.X);
-                    ZoomBounds.Y = (FocusObject as WorldRegion).Coordinates.Min(coord => coord.Y);
-                    ZoomBounds.Width = (FocusObject as WorldRegion).Coordinates.Max(coord => coord.X);
-                    ZoomBounds.Height = (FocusObject as WorldRegion).Coordinates.Max(coord => coord.Y);
-                }
-
-                if (FocusObject.GetType() == typeof(UndergroundRegion))
-                {
-                    ZoomBounds.X = (FocusObject as UndergroundRegion).Coordinates.Min(coord => coord.X);
-                    ZoomBounds.Y = (FocusObject as UndergroundRegion).Coordinates.Min(coord => coord.Y);
-                    ZoomBounds.Width = (FocusObject as UndergroundRegion).Coordinates.Max(coord => coord.X);
-                    ZoomBounds.Height = (FocusObject as UndergroundRegion).Coordinates.Max(coord => coord.Y);
-                }
-
-                if (FocusObject.GetType() == typeof(WorldConstruction))
-                {
-                    ZoomBounds.X = (FocusObject as WorldConstruction).Coordinates.Min(coord => coord.X);
-                    ZoomBounds.Y = (FocusObject as WorldConstruction).Coordinates.Min(coord => coord.Y);
-                    ZoomBounds.Width = (FocusObject as WorldConstruction).Coordinates.Max(coord => coord.X);
-                    ZoomBounds.Height = (FocusObject as WorldConstruction).Coordinates.Max(coord => coord.Y);
+                    ZoomBounds.X = (FocusObject as IHasCoordinates).Coordinates.Min(coord => coord.X);
+                    ZoomBounds.Y = (FocusObject as IHasCoordinates).Coordinates.Min(coord => coord.Y);
+                    ZoomBounds.Width = (FocusObject as IHasCoordinates).Coordinates.Max(coord => coord.X);
+                    ZoomBounds.Height = (FocusObject as IHasCoordinates).Coordinates.Max(coord => coord.Y);
                 }
 
                 ZoomBounds.X = ZoomBounds.X * TileSize - TileSize / 2 - TileSize;
@@ -351,56 +336,44 @@ namespace LegendsViewer.Controls.Map
 
             foreach (var battle in BattleLocations)
             {
-                PointF battleLocation = new PointF();
-                battleLocation.X = (float)((battle.X * TileSize - Source.X) * PixelWidth);
-                battleLocation.Y = (float)((battle.Y * TileSize - Source.Y) * PixelHeight);
+                PointF battleLocation = new PointF
+                {
+                    X = (float) ((battle.X*TileSize - Source.X)*PixelWidth),
+                    Y = (float) ((battle.Y*TileSize - Source.Y)*PixelHeight)
+                };
                 using (Pen battlePen = new Pen(Color.FromArgb(175, Color.White), 2))
                     g.DrawEllipse(battlePen, battleLocation.X + scaleTileSize.Width / 4, battleLocation.Y + scaleTileSize.Height / 4, scaleTileSize.Width / 2, scaleTileSize.Height / 2);
             }
 
-            if (FocusObject != null && FocusObject.GetType() == typeof(WorldRegion))
+            if (FocusObject != null && FocusObject is IHasCoordinates)
             {
-                foreach (Location coord in ((WorldRegion) FocusObject).Coordinates)
+                foreach (Location coord in ((IHasCoordinates) FocusObject).Coordinates)
                 {
-                    PointF regionLocation = new PointF
+                    PointF loc = new PointF
                     {
                         X = (float) ((coord.X*TileSize - Source.X)*PixelWidth),
                         Y = (float) ((coord.Y*TileSize - Source.Y)*PixelHeight)
                     };
-                    using (Pen regionPen = new Pen(Color.FromArgb(255, Color.White), 2))
-                        g.DrawRectangle(regionPen, regionLocation.X, regionLocation.Y, scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
-                }
-            }
 
-            if (FocusObject != null && FocusObject.GetType() == typeof(UndergroundRegion))
-            {
-                foreach (Location coord in ((UndergroundRegion)FocusObject).Coordinates)
-                {
-                    PointF regionLocation = new PointF
+                    using (Pen pen = new Pen(Color.FromArgb(255, Color.White), 2))
                     {
-                        X = (float) ((coord.X*TileSize - Source.X)*PixelWidth),
-                        Y = (float) ((coord.Y*TileSize - Source.Y)*PixelHeight)
-                    };
-                    using (Pen regionPen = new Pen(Color.FromArgb(255, Color.SandyBrown), 2))
-                        g.DrawRectangle(regionPen, regionLocation.X, regionLocation.Y, scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
-                }
-            }
-
-            if (FocusObject != null && FocusObject.GetType() == typeof(WorldConstruction))
-            {
-                foreach (Location coord in ((WorldConstruction)FocusObject).Coordinates)
-                {
-                    PointF constructionLocation = new PointF
-                    {
-                        X = (float)((coord.X * TileSize - Source.X) * PixelWidth),
-                        Y = (float)((coord.Y * TileSize - Source.Y) * PixelHeight)
-                    };
-                    using (Pen regionPen = new Pen(Color.FromArgb(255, Color.Silver), 2))
-                    {
-                        g.FillRectangle(new SolidBrush(Color.Gold), constructionLocation.X, constructionLocation.Y,
+                        if (FocusObject.GetType() == typeof(WorldRegion))
+                        {
+                            g.FillRectangle(new SolidBrush(Color.LightGreen), loc.X, loc.Y,
+                                scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                        }
+                        else if (FocusObject.GetType() == typeof(UndergroundRegion))
+                        {
+                            g.FillRectangle(new SolidBrush(Color.SandyBrown), loc.X, loc.Y,
+                                scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                        }
+                        else if (FocusObject.GetType() == typeof(WorldConstruction))
+                        {
+                            g.FillRectangle(new SolidBrush(Color.Gold), loc.X, loc.Y,
+                                scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                        }
+                        g.DrawRectangle(pen, loc.X, loc.Y,
                             scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
-                        g.DrawRectangle(regionPen, constructionLocation.X, constructionLocation.Y,
-                            scaleTileSize.Width - (float) (4*PixelWidth), scaleTileSize.Height - (float) (4*PixelHeight));
                     }
                 }
             }

@@ -321,6 +321,7 @@
     <Compile Include="Legends\HistoricalFigure.cs" />
     <Compile Include="Legends\HistoricalFigureLink.cs" />
     <Compile Include="Legends\IdenticonRenderer.cs" />
+    <Compile Include="Legends\Interfaces\IHasCoordinates.cs" />
     <Compile Include="Legends\Location.cs" />
     <Compile Include="Legends\Misc.cs" />
     <Compile Include="Legends\MusicalForm.cs" />
