@@ -23,7 +23,10 @@ namespace LegendsViewer
         private EntitiesList entitySearch;
         private WarsList warSearch;
         private BattlesList battleSearch;
-        private ArtifactList artifactSearch;
+        private ArtifactsList artifactSearch;
+        private WrittenContentList writtenContentSearch;
+        private WorldConstructionsList worldConstructionSearch;
+        private StructuresList structureSearch;
         private ConqueringsList conqueringsSearch;
         private BeastAttackList beastAttackSearch;
 
@@ -32,7 +35,7 @@ namespace LegendsViewer
         Type[] EventTabTypes = new Type[]{typeof(HistoricalFigure), typeof(Site), typeof(Region),
                                             typeof(UndergroundRegion), typeof(Entity), typeof(War),
                                             typeof(Battle), typeof(SiteConquered), typeof(Era), typeof(BeastAttack),
-                                            typeof(Artifact)};                         
+                                            typeof(Artifact), typeof(WrittenContent), typeof(WorldConstruction), typeof(Structure)};                         
         private List<List<String>> TabEvents;
         DwarfTabControl Browser;
         private bool DontRefreshBrowserPages = true;
@@ -49,7 +52,7 @@ namespace LegendsViewer
             Text = "Legends Viewer";
             lblVersion.Text = "v" + version;
             FileLoader = new FileLoader(this, btnXML, txtXML, btnHistory, txtHistory, btnSitePops, txtSitePops, btnMap, txtMap, lblStatus, txtLog);
-            EventTabs = new TabPage[] { tpHFEvents, tpSiteEvents, tpRegionEvents, tpURegionEvents, tpCivEvents, tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpEraEvents, tpBeastAttackEvents, tpArtifactsEvents };
+            EventTabs = new TabPage[] { tpHFEvents, tpSiteEvents, tpRegionEvents, tpURegionEvents, tpCivEvents, tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpEraEvents, tpBeastAttackEvents, tpArtifactsEvents, tpWrittenContentEvents, tpWorldConstructionEvents, tpStructureEvents };
             tcWorld.Height = ClientSize.Height;
             btnBack.Location = new Point(tcWorld.Right + 3, 3);
             btnForward.Location = new Point(btnBack.Right + 3, 3);
@@ -181,7 +184,6 @@ namespace LegendsViewer
 
         private void listSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Browser.LoadPageControl(((sender as ListBox).SelectedItem as DwarfObject));
             Browser.Navigate(ControlOption.HTML, (sender as ListBox).SelectedItem);
         }
 
@@ -511,7 +513,10 @@ namespace LegendsViewer
             battleSearch = new BattlesList(world);
             conqueringsSearch = new ConqueringsList(world);
             beastAttackSearch = new BeastAttackList(world);
-            artifactSearch = new ArtifactList(world);
+            artifactSearch = new ArtifactsList(world);
+            writtenContentSearch = new WrittenContentList(world);
+            worldConstructionSearch = new WorldConstructionsList(world);
+            structureSearch = new StructuresList(world);
 
             dlgOpen.FileName = "";
 
@@ -586,6 +591,18 @@ namespace LegendsViewer
                                  group eventType by eventType.Type into type
                                  select type.Key;
 
+            var writtenContentEvents = from eventType in world.WrittenContents.SelectMany(element => element.Events)
+                                 group eventType by eventType.Type into type
+                                 select type.Key;
+
+            var worldConstructionEvents = from eventType in world.WorldContructions.SelectMany(element => element.Events)
+                                       group eventType by eventType.Type into type
+                                       select type.Key;
+
+            var structureEvents = from eventType in world.Structures.SelectMany(element => element.Events)
+                                       group eventType by eventType.Type into type
+                                       select type.Key;
+
             var eventTypes = from eventType in world.Events
                              group eventType by eventType.Type into type
                              select type.Key;
@@ -613,6 +630,12 @@ namespace LegendsViewer
                     TabEvents.Add(eventTypes.ToList());
                 else if (eventTabType == typeof(Artifact))
                     TabEvents.Add(artifactEvents.ToList());
+                else if (eventTabType == typeof(WrittenContent))
+                    TabEvents.Add(writtenContentEvents.ToList());
+                else if (eventTabType == typeof(WorldConstruction))
+                    TabEvents.Add(worldConstructionEvents.ToList());
+                else if (eventTabType == typeof(Structure))
+                    TabEvents.Add(structureEvents.ToList());
                 else if (eventTabType == typeof(BeastAttack))
                     TabEvents.Add(beastAttackEvents.ToList());
             }
@@ -739,6 +762,18 @@ namespace LegendsViewer
             listArtifactSearch.Items.Clear();
             radArtifactSortNone.Checked = true;
 
+            txtWrittenContentSearch.Clear();
+            listWrittenContentSearch.Items.Clear();
+            radWrittenContentSortNone.Checked = true;
+
+            txtWorldConstructionsSearch.Clear();
+            listWorldConstructionsSearch.Items.Clear();
+            radWorldConstructionsSortNone.Checked = true;
+
+            txtStructuresSearch.Clear();
+            listStructuresSearch.Items.Clear();
+            radStructuresSortNone.Checked = true;
+
             listEras.Items.Clear();
             numStart.Value = -1;
             numEraEnd.Value = 0;
@@ -824,15 +859,90 @@ namespace LegendsViewer
             }
         }
 
+        private void searchWrittenContentList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                writtenContentSearch.Name = txtWrittenContentSearch.Text;
+                writtenContentSearch.SortEvents = radWrittenContentSortEvents.Checked;
+                writtenContentSearch.SortFiltered = radWrittenContentSortFiltered.Checked;
+                IEnumerable<WrittenContent> list = writtenContentSearch.GetList();
+                listWrittenContentSearch.Items.Clear();
+                listWrittenContentSearch.Items.AddRange(list.ToArray());
+            }
+        }
+
+        private void searchWorldConstructionList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                worldConstructionSearch.Name = txtWorldConstructionsSearch.Text;
+                worldConstructionSearch.SortEvents = radWorldConstructionsSortEvents.Checked;
+                worldConstructionSearch.SortFiltered = radWorldConstructionsSortFiltered.Checked;
+                IEnumerable<WorldConstruction> list = worldConstructionSearch.GetList();
+                listWorldConstructionsSearch.Items.Clear();
+                listWorldConstructionsSearch.Items.AddRange(list.ToArray());
+            }
+        }
+
+        private void searchStructureList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                structureSearch.Name = txtStructuresSearch.Text;
+                structureSearch.SortEvents = radStructuresSortEvents.Checked;
+                structureSearch.SortFiltered = radStructuresSortFiltered.Checked;
+                IEnumerable<Structure> list = structureSearch.GetList();
+                listStructuresSearch.Items.Clear();
+                listStructuresSearch.Items.AddRange(list.ToArray());
+            }
+        }
+
         private void ResetArtifactBaseList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && world != null)
             {
                 lblArtifactList.Text = "All";
                 lblArtifactList.ForeColor = Control.DefaultForeColor;
-                lblArtifactList.Font = new Font(lblBattleList.Font.FontFamily, lblBattleList.Font.Size, FontStyle.Regular);
+                lblArtifactList.Font = new Font(lblArtifactList.Font.FontFamily, lblArtifactList.Font.Size, FontStyle.Regular);
                 artifactSearch.BaseList = world.Artifacts;
                 searchArtifactList(null, null);
+            }
+        }
+
+        private void ResetWrittenContentBaseList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                lblWrittenContentList.Text = "All";
+                lblWrittenContentList.ForeColor = Control.DefaultForeColor;
+                lblWrittenContentList.Font = new Font(lblWrittenContentList.Font.FontFamily, lblWrittenContentList.Font.Size, FontStyle.Regular);
+                writtenContentSearch.BaseList = world.WrittenContents;
+                searchWrittenContentList(null, null);
+            }
+        }
+
+        private void ResetWorldConstructionBaseList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                lblWorldConstructionsList.Text = "All";
+                lblWorldConstructionsList.ForeColor = Control.DefaultForeColor;
+                lblWorldConstructionsList.Font = new Font(lblWorldConstructionsList.Font.FontFamily, lblWorldConstructionsList.Font.Size, FontStyle.Regular);
+                worldConstructionSearch.BaseList = world.WorldContructions;
+                searchWorldConstructionList(null, null);
+            }
+        }
+
+        private void ResetStructureBaseList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                lblStructuresList.Text = "All";
+                lblStructuresList.ForeColor = Control.DefaultForeColor;
+                lblStructuresList.Font = new Font(lblStructuresList.Font.FontFamily, lblStructuresList.Font.Size, FontStyle.Regular);
+                structureSearch.BaseList = world.Structures;
+                searchStructureList(null, null);
             }
         }
     }

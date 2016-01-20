@@ -8,23 +8,23 @@ namespace LegendsViewer.Controls.HTML
 {
     public class WorldConstructionPrinter : HTMLPrinter
     {
-        WorldContruction WorldContruction;
+        WorldConstruction WorldConstruction;
         World World;
 
-        public WorldConstructionPrinter(WorldContruction worldContruction, World world)
+        public WorldConstructionPrinter(WorldConstruction worldConstruction, World world)
         {
-            WorldContruction = worldContruction;
+            WorldConstruction = worldConstruction;
             World = world;
         }
 
         public override string Print()
         {
             HTML = new StringBuilder();
-            HTML.AppendLine("<h1>" + WorldContruction.Name + "</h1><br />");
+            HTML.AppendLine("<h1>" + WorldConstruction.Name + "</h1><br />");
 
-            if (WorldContruction.Coordinates.Any())
+            if (WorldConstruction.Coordinates.Any())
             {
-                List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, WorldContruction);
+                List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, WorldConstruction);
 
                 HTML.AppendLine("<table>");
                 HTML.AppendLine("<tr>");
@@ -33,13 +33,13 @@ namespace LegendsViewer.Controls.HTML
                 HTML.AppendLine("</tr></table></br>");
             }
 
-            PrintEventLog(WorldContruction.Events, WorldContruction.Filters, WorldContruction);
+            PrintEventLog(WorldConstruction.Events, WorldConstruction.Filters, WorldConstruction);
             return HTML.ToString();
         }
 
         public override string GetTitle()
         {
-            return WorldContruction.Name;
+            return WorldConstruction.Name;
         }
     }
 }

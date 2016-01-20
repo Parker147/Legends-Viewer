@@ -7,7 +7,7 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
-    public class WorldContruction : WorldObject
+    public class WorldConstruction : WorldObject
     {
         public string Name { get; set; } // legends_plus.xml
         public string Type { get; set; } // legends_plus.xml
@@ -19,7 +19,7 @@ namespace LegendsViewer.Legends
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
 
-        public WorldContruction(List<Property> properties, World world)
+        public WorldConstruction(List<Property> properties, World world)
             : base(properties, world)
         {
             Name = "Untitled";

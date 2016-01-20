@@ -258,7 +258,7 @@ namespace LegendsViewer.Legends.Parser
                 case Section.Entities: World.Entities.Add(new Entity(properties, World)); break;
                 case Section.Eras: World.Eras.Add(new Era(properties, World)); break;
                 case Section.Artifacts: World.Artifacts.Add(new Artifact(properties, World)); break;
-                case Section.WorldConstructions: World.WorldContructions.Add(new WorldContruction(properties, World)); break;
+                case Section.WorldConstructions: World.WorldContructions.Add(new WorldConstruction(properties, World)); break;
                 case Section.PoeticForms: World.PoeticForms.Add(new PoeticForm(properties, World)); break;
                 case Section.MusicalForms: World.MusicalForms.Add(new MusicalForm(properties, World)); break;
                 case Section.DanceForms: World.DanceForms.Add(new DanceForm(properties, World)); break;

@@ -50,8 +50,8 @@ namespace LegendsViewer.Controls
                 return new WorldStatsPrinter(world);
             if (printType == typeof(Artifact))
                 return new ArtifactPrinter(printObject as Artifact);
-            if (printType == typeof(WorldContruction))
-                return new WorldConstructionPrinter(printObject as WorldContruction, world);
+            if (printType == typeof(WorldConstruction))
+                return new WorldConstructionPrinter(printObject as WorldConstruction, world);
             if (printType == typeof(WrittenContent))
                 return new WrittenContentPrinter(printObject as WrittenContent, world);
             if (printType == typeof(Structure))

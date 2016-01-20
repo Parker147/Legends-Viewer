@@ -129,7 +129,7 @@ namespace LegendsViewer.Controls.Map
             else if (FocusObject.GetType() == typeof(Entity) || FocusObject.GetType() == typeof(War)
                      || FocusObject.GetType() == typeof(Battle) || FocusObject.GetType() == typeof(SiteConquered)
                      || FocusObject.GetType() == typeof(WorldRegion) || FocusObject.GetType() == typeof(UndergroundRegion) 
-                     || FocusObject.GetType() == typeof(WorldContruction))
+                     || FocusObject.GetType() == typeof(WorldConstruction))
             {
                 List<Entity> entities = new List<Entity>();
                 if (FocusObject.GetType() == typeof(Entity))
@@ -211,12 +211,12 @@ namespace LegendsViewer.Controls.Map
                     ZoomBounds.Height = (FocusObject as UndergroundRegion).Coordinates.Max(coord => coord.Y);
                 }
 
-                if (FocusObject.GetType() == typeof(WorldContruction))
+                if (FocusObject.GetType() == typeof(WorldConstruction))
                 {
-                    ZoomBounds.X = (FocusObject as WorldContruction).Coordinates.Min(coord => coord.X);
-                    ZoomBounds.Y = (FocusObject as WorldContruction).Coordinates.Min(coord => coord.Y);
-                    ZoomBounds.Width = (FocusObject as WorldContruction).Coordinates.Max(coord => coord.X);
-                    ZoomBounds.Height = (FocusObject as WorldContruction).Coordinates.Max(coord => coord.Y);
+                    ZoomBounds.X = (FocusObject as WorldConstruction).Coordinates.Min(coord => coord.X);
+                    ZoomBounds.Y = (FocusObject as WorldConstruction).Coordinates.Min(coord => coord.Y);
+                    ZoomBounds.Width = (FocusObject as WorldConstruction).Coordinates.Max(coord => coord.X);
+                    ZoomBounds.Height = (FocusObject as WorldConstruction).Coordinates.Max(coord => coord.Y);
                 }
 
                 ZoomBounds.X = ZoomBounds.X * TileSize - TileSize / 2 - TileSize;
@@ -386,9 +386,9 @@ namespace LegendsViewer.Controls.Map
                 }
             }
 
-            if (FocusObject != null && FocusObject.GetType() == typeof(WorldContruction))
+            if (FocusObject != null && FocusObject.GetType() == typeof(WorldConstruction))
             {
-                foreach (Location coord in ((WorldContruction)FocusObject).Coordinates)
+                foreach (Location coord in ((WorldConstruction)FocusObject).Coordinates)
                 {
                     PointF constructionLocation = new PointF
                     {
