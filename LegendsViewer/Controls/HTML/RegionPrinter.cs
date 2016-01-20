@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
     class RegionPrinter : HTMLPrinter
     {
@@ -27,6 +29,17 @@ namespace LegendsViewer.Controls
             HTML = new StringBuilder();
 
             HTML.AppendLine("<h1>" + Region.Name + ", " + Region.Type + "</h1><br />");
+
+            if (Region.Coordinates.Any())
+            {
+                List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Region);
+
+                HTML.AppendLine("<table>");
+                HTML.AppendLine("<tr>");
+                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
+                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
+                HTML.AppendLine("</tr></table></br>");
+            }
 
             if (Region.Battles.Count(battle => !World.FilterBattles || battle.Notable) > 0)
             {

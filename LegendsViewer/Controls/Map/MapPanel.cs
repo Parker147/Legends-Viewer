@@ -127,7 +127,9 @@ namespace LegendsViewer.Controls.Map
                 ZoomCurrent = 0.85;
             }
             else if (FocusObject.GetType() == typeof(Entity) || FocusObject.GetType() == typeof(War)
-                     || FocusObject.GetType() == typeof(Battle) || FocusObject.GetType() == typeof(SiteConquered)) //Calculate zoom rectangle for civs / wars / battles
+                     || FocusObject.GetType() == typeof(Battle) || FocusObject.GetType() == typeof(SiteConquered)
+                     || FocusObject.GetType() == typeof(WorldRegion) || FocusObject.GetType() == typeof(UndergroundRegion) 
+                     || FocusObject.GetType() == typeof(WorldContruction))
             {
                 List<Entity> entities = new List<Entity>();
                 if (FocusObject.GetType() == typeof(Entity))
@@ -191,6 +193,30 @@ namespace LegendsViewer.Controls.Map
                     if (defenderSite.Coordinates.X < ZoomBounds.X) ZoomBounds.X = defenderSite.Coordinates.X;
                     if (defenderSite.Coordinates.Y > ZoomBounds.Height) ZoomBounds.Height = defenderSite.Coordinates.Y;
                     if (defenderSite.Coordinates.X > ZoomBounds.Width) ZoomBounds.Width = defenderSite.Coordinates.X;
+                }
+
+                if (FocusObject.GetType() == typeof(WorldRegion))
+                {
+                    ZoomBounds.X = (FocusObject as WorldRegion).Coordinates.Min(coord => coord.X);
+                    ZoomBounds.Y = (FocusObject as WorldRegion).Coordinates.Min(coord => coord.Y);
+                    ZoomBounds.Width = (FocusObject as WorldRegion).Coordinates.Max(coord => coord.X);
+                    ZoomBounds.Height = (FocusObject as WorldRegion).Coordinates.Max(coord => coord.Y);
+                }
+
+                if (FocusObject.GetType() == typeof(UndergroundRegion))
+                {
+                    ZoomBounds.X = (FocusObject as UndergroundRegion).Coordinates.Min(coord => coord.X);
+                    ZoomBounds.Y = (FocusObject as UndergroundRegion).Coordinates.Min(coord => coord.Y);
+                    ZoomBounds.Width = (FocusObject as UndergroundRegion).Coordinates.Max(coord => coord.X);
+                    ZoomBounds.Height = (FocusObject as UndergroundRegion).Coordinates.Max(coord => coord.Y);
+                }
+
+                if (FocusObject.GetType() == typeof(WorldContruction))
+                {
+                    ZoomBounds.X = (FocusObject as WorldContruction).Coordinates.Min(coord => coord.X);
+                    ZoomBounds.Y = (FocusObject as WorldContruction).Coordinates.Min(coord => coord.Y);
+                    ZoomBounds.Width = (FocusObject as WorldContruction).Coordinates.Max(coord => coord.X);
+                    ZoomBounds.Height = (FocusObject as WorldContruction).Coordinates.Max(coord => coord.Y);
                 }
 
                 ZoomBounds.X = ZoomBounds.X * TileSize - TileSize / 2 - TileSize;
@@ -330,6 +356,53 @@ namespace LegendsViewer.Controls.Map
                 battleLocation.Y = (float)((battle.Y * TileSize - Source.Y) * PixelHeight);
                 using (Pen battlePen = new Pen(Color.FromArgb(175, Color.White), 2))
                     g.DrawEllipse(battlePen, battleLocation.X + scaleTileSize.Width / 4, battleLocation.Y + scaleTileSize.Height / 4, scaleTileSize.Width / 2, scaleTileSize.Height / 2);
+            }
+
+            if (FocusObject != null && FocusObject.GetType() == typeof(WorldRegion))
+            {
+                foreach (Location coord in ((WorldRegion) FocusObject).Coordinates)
+                {
+                    PointF regionLocation = new PointF
+                    {
+                        X = (float) ((coord.X*TileSize - Source.X)*PixelWidth),
+                        Y = (float) ((coord.Y*TileSize - Source.Y)*PixelHeight)
+                    };
+                    using (Pen regionPen = new Pen(Color.FromArgb(255, Color.White), 2))
+                        g.DrawRectangle(regionPen, regionLocation.X, regionLocation.Y, scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                }
+            }
+
+            if (FocusObject != null && FocusObject.GetType() == typeof(UndergroundRegion))
+            {
+                foreach (Location coord in ((UndergroundRegion)FocusObject).Coordinates)
+                {
+                    PointF regionLocation = new PointF
+                    {
+                        X = (float) ((coord.X*TileSize - Source.X)*PixelWidth),
+                        Y = (float) ((coord.Y*TileSize - Source.Y)*PixelHeight)
+                    };
+                    using (Pen regionPen = new Pen(Color.FromArgb(255, Color.SandyBrown), 2))
+                        g.DrawRectangle(regionPen, regionLocation.X, regionLocation.Y, scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                }
+            }
+
+            if (FocusObject != null && FocusObject.GetType() == typeof(WorldContruction))
+            {
+                foreach (Location coord in ((WorldContruction)FocusObject).Coordinates)
+                {
+                    PointF constructionLocation = new PointF
+                    {
+                        X = (float)((coord.X * TileSize - Source.X) * PixelWidth),
+                        Y = (float)((coord.Y * TileSize - Source.Y) * PixelHeight)
+                    };
+                    using (Pen regionPen = new Pen(Color.FromArgb(255, Color.Silver), 2))
+                    {
+                        g.FillRectangle(new SolidBrush(Color.Gold), constructionLocation.X, constructionLocation.Y,
+                            scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                        g.DrawRectangle(regionPen, constructionLocation.X, constructionLocation.Y,
+                            scaleTileSize.Width - (float) (4*PixelWidth), scaleTileSize.Height - (float) (4*PixelHeight));
+                    }
+                }
             }
 
             if (FocusObject != null && FocusObject.GetType() == typeof(Battle)) DrawBattlePaths(g, FocusObject as Battle);

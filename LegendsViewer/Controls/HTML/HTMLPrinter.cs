@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
@@ -50,7 +51,7 @@ namespace LegendsViewer.Controls
             if (printType == typeof(Artifact))
                 return new ArtifactPrinter(printObject as Artifact);
             if (printType == typeof(WorldContruction))
-                return new WorldConstructionPrinter(printObject as WorldContruction);
+                return new WorldConstructionPrinter(printObject as WorldContruction, world);
             if (printType == typeof(WrittenContent))
                 return new WrittenContentPrinter(printObject as WrittenContent, world);
             if (printType == typeof(Structure))

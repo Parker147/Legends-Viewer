@@ -12,6 +12,7 @@ namespace LegendsViewer.Legends
         public string Name { get; set; } // legends_plus.xml
         public string Type { get; set; } // legends_plus.xml
         public List<Location> Coordinates { get; set; } // legends_plus.xml
+
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
