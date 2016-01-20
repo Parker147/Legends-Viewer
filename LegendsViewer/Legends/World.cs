@@ -20,6 +20,8 @@ namespace LegendsViewer.Legends
         public StringBuilder Log;
         public List<WorldRegion> Regions = new List<WorldRegion>();
         public List<UndergroundRegion> UndergroundRegions = new List<UndergroundRegion>();
+        public List<Landmass> Landmasses = new List<Landmass>();
+        public List<MountainPeak> MountainPeaks = new List<MountainPeak>();
         public List<Site> Sites = new List<Site>();
         public List<HistoricalFigure> HistoricalFigures = new List<HistoricalFigure>();
         public List<HistoricalFigure> HistoricalFiguresByName;

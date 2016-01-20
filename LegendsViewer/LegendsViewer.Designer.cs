@@ -1997,7 +1997,7 @@
             this.listWarSearch.FormattingEnabled = true;
             this.listWarSearch.Location = new System.Drawing.Point(3, 31);
             this.listWarSearch.Name = "listWarSearch";
-            this.listWarSearch.Size = new System.Drawing.Size(247, 173);
+            this.listWarSearch.Size = new System.Drawing.Size(247, 212);
             this.listWarSearch.TabIndex = 43;
             this.listWarSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2171,7 +2171,7 @@
             this.listBattleSearch.FormattingEnabled = true;
             this.listBattleSearch.Location = new System.Drawing.Point(3, 31);
             this.listBattleSearch.Name = "listBattleSearch";
-            this.listBattleSearch.Size = new System.Drawing.Size(247, 160);
+            this.listBattleSearch.Size = new System.Drawing.Size(247, 212);
             this.listBattleSearch.TabIndex = 43;
             this.listBattleSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2343,7 +2343,7 @@
             this.listConqueringSearch.FormattingEnabled = true;
             this.listConqueringSearch.Location = new System.Drawing.Point(3, 31);
             this.listConqueringSearch.Name = "listConqueringSearch";
-            this.listConqueringSearch.Size = new System.Drawing.Size(247, 173);
+            this.listConqueringSearch.Size = new System.Drawing.Size(247, 225);
             this.listConqueringSearch.TabIndex = 43;
             this.listConqueringSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2495,7 +2495,7 @@
             this.listBeastAttacks.FormattingEnabled = true;
             this.listBeastAttacks.Location = new System.Drawing.Point(3, 31);
             this.listBeastAttacks.Name = "listBeastAttacks";
-            this.listBeastAttacks.Size = new System.Drawing.Size(247, 160);
+            this.listBeastAttacks.Size = new System.Drawing.Size(247, 225);
             this.listBeastAttacks.TabIndex = 47;
             this.listBeastAttacks.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2650,7 +2650,7 @@
             this.listEras.FormattingEnabled = true;
             this.listEras.Location = new System.Drawing.Point(3, 31);
             this.listEras.Name = "listEras";
-            this.listEras.Size = new System.Drawing.Size(241, 121);
+            this.listEras.Size = new System.Drawing.Size(241, 212);
             this.listEras.TabIndex = 43;
             this.listEras.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2813,7 +2813,7 @@
             this.listArtifactSearch.FormattingEnabled = true;
             this.listArtifactSearch.Location = new System.Drawing.Point(3, 31);
             this.listArtifactSearch.Name = "listArtifactSearch";
-            this.listArtifactSearch.Size = new System.Drawing.Size(241, 108);
+            this.listArtifactSearch.Size = new System.Drawing.Size(241, 186);
             this.listArtifactSearch.TabIndex = 43;
             this.listArtifactSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2976,7 +2976,7 @@
             this.listWrittenContentSearch.FormattingEnabled = true;
             this.listWrittenContentSearch.Location = new System.Drawing.Point(3, 31);
             this.listWrittenContentSearch.Name = "listWrittenContentSearch";
-            this.listWrittenContentSearch.Size = new System.Drawing.Size(247, 108);
+            this.listWrittenContentSearch.Size = new System.Drawing.Size(247, 199);
             this.listWrittenContentSearch.TabIndex = 43;
             this.listWrittenContentSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -3137,7 +3137,7 @@
             this.listWorldConstructionsSearch.FormattingEnabled = true;
             this.listWorldConstructionsSearch.Location = new System.Drawing.Point(3, 31);
             this.listWorldConstructionsSearch.Name = "listWorldConstructionsSearch";
-            this.listWorldConstructionsSearch.Size = new System.Drawing.Size(247, 108);
+            this.listWorldConstructionsSearch.Size = new System.Drawing.Size(247, 199);
             this.listWorldConstructionsSearch.TabIndex = 43;
             this.listWorldConstructionsSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -3298,7 +3298,7 @@
             this.listStructuresSearch.FormattingEnabled = true;
             this.listStructuresSearch.Location = new System.Drawing.Point(3, 31);
             this.listStructuresSearch.Name = "listStructuresSearch";
-            this.listStructuresSearch.Size = new System.Drawing.Size(247, 121);
+            this.listStructuresSearch.Size = new System.Drawing.Size(247, 199);
             this.listStructuresSearch.TabIndex = 43;
             this.listStructuresSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 

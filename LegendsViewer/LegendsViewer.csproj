@@ -208,6 +208,7 @@
     <Compile Include="Legends\Enums\SiteLinkType.cs" />
     <Compile Include="Legends\Enums\SiteType.cs" />
     <Compile Include="Legends\Enums\StructureType.cs" />
+    <Compile Include="Legends\Enums\WorldConstructionType.cs" />
     <Compile Include="Legends\Era.cs" />
     <Compile Include="Legends\EventCollections\Abduction.cs" />
     <Compile Include="Legends\EventCollections\Battle.cs" />
@@ -322,8 +323,10 @@
     <Compile Include="Legends\HistoricalFigureLink.cs" />
     <Compile Include="Legends\IdenticonRenderer.cs" />
     <Compile Include="Legends\Interfaces\IHasCoordinates.cs" />
+    <Compile Include="Legends\Landmass.cs" />
     <Compile Include="Legends\Location.cs" />
     <Compile Include="Legends\Misc.cs" />
+    <Compile Include="Legends\MountainPeak.cs" />
     <Compile Include="Legends\MusicalForm.cs" />
     <Compile Include="Legends\OwnerPeriod.cs" />
     <Compile Include="Legends\Parser\HistoryParser.cs" />

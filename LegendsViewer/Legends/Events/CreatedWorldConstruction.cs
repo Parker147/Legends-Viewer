@@ -36,6 +36,17 @@ namespace LegendsViewer.Legends.Events
 
             Site1.AddConnection(Site2);
             Site2.AddConnection(Site1);
+
+            if (WorldConstruction != null)
+            {
+                WorldConstruction.Site1 = Site1;
+                WorldConstruction.Site2 = Site2;
+                if (MasterWorldConstruction != null)
+                {
+                    MasterWorldConstruction.Sections.Add(WorldConstruction);
+                    WorldConstruction.MasterConstruction = MasterWorldConstruction;
+                }
+            }
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
@@ -54,6 +65,7 @@ namespace LegendsViewer.Legends.Events
             eventString += Site1 != null ? Site1.ToLink(link, pov) : "UNKNOWN SITE";
             eventString += " and ";
             eventString += Site2 != null ? Site2.ToLink(link, pov) : "UNKNOWN SITE";
+            eventString += ".";
             return eventString;
         }
     }

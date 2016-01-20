@@ -38,12 +38,15 @@ namespace LegendsViewer.Legends
         }
         public WorldRegion()
         {
-            Name = "INVALID REGION"; Type = "INVALID";
+            Name = "INVALID REGION";
+            Type = "INVALID";
             Battles = new List<Battle>();
         }
         public WorldRegion(List<Property> properties, World world)
             : base(properties, world)
         {
+            Name = "UNKNOWN REGION";
+            Type = "INVALID";
             Battles = new List<Battle>();
             Coordinates = new List<Location>();
             foreach (Property property in properties)

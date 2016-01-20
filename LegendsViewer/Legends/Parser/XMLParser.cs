@@ -82,7 +82,7 @@ namespace LegendsViewer.Legends.Parser
                 {
                     XML.Read();
                 }
-                else if (CurrentSection == Section.Unknown)
+                else if (CurrentSection == Section.Unknown || CurrentSection == Section.Landmasses || CurrentSection == Section.MountainPeaks)
                     SkipSection();
                 else
                     ParseSection();
@@ -117,6 +117,8 @@ namespace LegendsViewer.Legends.Parser
                 case "musical_forms": return Section.MusicalForms;
                 case "dance_forms": return Section.DanceForms;
                 case "written_contents": return Section.WrittenContent;
+                case "landmasses": return Section.Landmasses;
+                case "mountain_peaks": return Section.MountainPeaks;
                 case "name":
                 case "altname":
                 case "xml":
@@ -263,6 +265,8 @@ namespace LegendsViewer.Legends.Parser
                 case Section.MusicalForms: World.MusicalForms.Add(new MusicalForm(properties, World)); break;
                 case Section.DanceForms: World.DanceForms.Add(new DanceForm(properties, World)); break;
                 case Section.WrittenContent: World.WrittenContents.Add(new WrittenContent(properties, World)); break;
+                case Section.Landmasses: World.Landmasses.Add(new Landmass(properties, World)); break;
+                case Section.MountainPeaks: World.MountainPeaks.Add(new MountainPeak(properties, World)); break;
                 default: World.ParsingErrors.Report("Unknown XML Section: " + section.ToString()); break;
             }
         }

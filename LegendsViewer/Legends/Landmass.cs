@@ -5,21 +5,15 @@ using System.Linq;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Interfaces;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Legends.Enums;
 
 namespace LegendsViewer.Legends
 {
-    public class WorldConstruction : WorldObject, IHasCoordinates
+    public class Landmass : WorldObject, IHasCoordinates
     {
         public string Name { get; set; } // legends_plus.xml
-        public WorldConstructionType Type { get; set; } // legends_plus.xml
         public List<Location> Coordinates { get; set; } // legends_plus.xml
-        public Site Site1 { get; set; } // legends_plus.xml
-        public Site Site2 { get; set; } // legends_plus.xml
-        public List<WorldConstruction> Sections { get; set; } // legends_plus.xml
-        public WorldConstruction MasterConstruction { get; set; } // legends_plus.xml
 
-        public string Icon = "<i class=\"fa fa-fw fa-puzzle-piece\"></i>";
+        public string Icon = "<i class=\"fa fa-fw fa-life-ring\"></i>";
 
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
@@ -27,40 +21,30 @@ namespace LegendsViewer.Legends
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
 
-        public WorldConstruction(List<Property> properties, World world)
+        public Landmass(List<Property> properties, World world)
             : base(properties, world)
         {
             Name = "Untitled";
             Coordinates = new List<Location>();
-            Sections = new List<WorldConstruction>();
+            string[] coordinateStrings;
             foreach (Property property in properties)
             {
                 switch (property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
-                    case "type":
-                        switch (property.Value)
+                    case "coord_1":
+                        coordinateStrings = property.Value.Split(new char[] { '|' },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var coordinateString in coordinateStrings)
                         {
-                            case "road":
-                                Type = WorldConstructionType.Road;
-                                Icon = "<i class=\"fa fa-fw fa-road\"></i>";
-                                break;
-                            case "bridge":
-                                Type = WorldConstructionType.Bridge;
-                                Icon = "<i class=\"glyphicon fa-fw glyphicon-menu-up\"></i>";
-                                break;
-                            case "tunnel":
-                                Type = WorldConstructionType.Tunnel;
-                                Icon = "<i class=\"glyphicon fa-fw glyphicon-oil\"></i>";
-                                break;
-                            default:
-                                Type = WorldConstructionType.Unknown;
-                                world.ParsingErrors.Report("Unknown WorldConstruction Type: " + property.Value);
-                                break;
+                            string[] xYCoordinates = coordinateString.Split(',');
+                            int x = Convert.ToInt32(xYCoordinates[0]);
+                            int y = Convert.ToInt32(xYCoordinates[1]);
+                            Coordinates.Add(new Location(x, y));
                         }
                         break;
-                    case "coords":
-                        string[] coordinateStrings = property.Value.Split(new char[] { '|' },
+                    case "coord_2":
+                        coordinateStrings = property.Value.Split(new char[] { '|' },
                             StringSplitOptions.RemoveEmptyEntries);
                         foreach (var coordinateString in coordinateStrings)
                         {
@@ -84,12 +68,11 @@ namespace LegendsViewer.Legends
                 if (pov != this)
                 {
                     string title = "";
-                    title += "World Construction";
-                    title += Type != WorldConstructionType.Unknown ? "" : ", " + Type;
+                    title += "Landmass";
                     title += "&#13";
                     title += "Events: " + Events.Count;
 
-                    linkedString = Icon + "<a href = \"worldconstruction#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href = \"landmass#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                     linkedString = Icon + HTMLStyleUtil.CurrentDwarfObject(Name);

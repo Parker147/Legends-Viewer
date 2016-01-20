@@ -129,7 +129,7 @@ namespace LegendsViewer.Controls.Map
             }
             else if (FocusObject.GetType() == typeof(Entity) || FocusObject.GetType() == typeof(War)
                      || FocusObject.GetType() == typeof(Battle) || FocusObject.GetType() == typeof(SiteConquered)
-                     || FocusObject.GetType() == typeof(WorldRegion) || FocusObject.GetType() == typeof(UndergroundRegion) 
+                     || FocusObject.GetType() == typeof(WorldRegion) || FocusObject.GetType() == typeof(UndergroundRegion)
                      || FocusObject.GetType() == typeof(WorldConstruction))
             {
                 List<Entity> entities = new List<Entity>();
@@ -338,8 +338,8 @@ namespace LegendsViewer.Controls.Map
             {
                 PointF battleLocation = new PointF
                 {
-                    X = (float) ((battle.X*TileSize - Source.X)*PixelWidth),
-                    Y = (float) ((battle.Y*TileSize - Source.Y)*PixelHeight)
+                    X = (float)((battle.X * TileSize - Source.X) * PixelWidth),
+                    Y = (float)((battle.Y * TileSize - Source.Y) * PixelHeight)
                 };
                 using (Pen battlePen = new Pen(Color.FromArgb(175, Color.White), 2))
                     g.DrawEllipse(battlePen, battleLocation.X + scaleTileSize.Width / 4, battleLocation.Y + scaleTileSize.Height / 4, scaleTileSize.Width / 2, scaleTileSize.Height / 2);
@@ -347,33 +347,34 @@ namespace LegendsViewer.Controls.Map
 
             if (FocusObject != null && FocusObject is IHasCoordinates)
             {
-                foreach (Location coord in ((IHasCoordinates) FocusObject).Coordinates)
+                float margin = (float)(4 * PixelWidth);
+                foreach (Location coord in ((IHasCoordinates)FocusObject).Coordinates)
                 {
                     PointF loc = new PointF
                     {
-                        X = (float) ((coord.X*TileSize - Source.X)*PixelWidth),
-                        Y = (float) ((coord.Y*TileSize - Source.Y)*PixelHeight)
+                        X = (float)((coord.X * TileSize - Source.X) * PixelWidth),
+                        Y = (float)((coord.Y * TileSize - Source.Y) * PixelHeight)
                     };
 
                     using (Pen pen = new Pen(Color.FromArgb(255, Color.White), 2))
                     {
                         if (FocusObject.GetType() == typeof(WorldRegion))
                         {
-                            g.FillRectangle(new SolidBrush(Color.LightGreen), loc.X, loc.Y,
-                                scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                            g.FillRectangle(new SolidBrush(Color.LightGreen), loc.X + margin, loc.Y + margin,
+                                scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                         }
                         else if (FocusObject.GetType() == typeof(UndergroundRegion))
                         {
-                            g.FillRectangle(new SolidBrush(Color.SandyBrown), loc.X, loc.Y,
-                                scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                            g.FillRectangle(new SolidBrush(Color.SandyBrown), loc.X + margin, loc.Y + margin,
+                                scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                         }
                         else if (FocusObject.GetType() == typeof(WorldConstruction))
                         {
-                            g.FillRectangle(new SolidBrush(Color.Gold), loc.X, loc.Y,
-                                scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                            g.FillRectangle(new SolidBrush(Color.Gold), loc.X + margin, loc.Y + margin,
+                                scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                         }
-                        g.DrawRectangle(pen, loc.X, loc.Y,
-                            scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                        g.DrawRectangle(pen, loc.X + margin, loc.Y + margin,
+                            scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                     }
                 }
             }
@@ -956,7 +957,7 @@ namespace LegendsViewer.Controls.Map
                 foreach (Site site in DisplayObjects.OfType<Site>().Where(site => site.Coordinates == tile && !addOptions.Contains(site)))
                     addOptions.Add(site);
 
-                if (FocusObject != null && FocusObject.GetType() == typeof(Battle) && ((Battle) FocusObject).Coordinates == tile) addOptions.Add(FocusObject as Battle);
+                if (FocusObject != null && FocusObject.GetType() == typeof(Battle) && ((Battle)FocusObject).Coordinates == tile) addOptions.Add(FocusObject as Battle);
                 foreach (Battle battle in DisplayObjects.OfType<War>().SelectMany(war => war.Collections).OfType<Battle>().Where(battle => battle != FocusObject && battle.StartYear == CurrentYear && battle.Coordinates == tile))
                     addOptions.Add(battle);
 

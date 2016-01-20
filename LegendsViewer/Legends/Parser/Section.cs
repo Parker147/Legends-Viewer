@@ -1,10 +1,12 @@
 namespace LegendsViewer.Legends.Parser
 {
-    //In order as they appear in the XML.
+    // !!! In order as they appear in the XML. !!!
     public enum Section
     {
         Unknown,
         Junk,
+        Landmasses,
+        MountainPeaks,
         Regions,
         UndergroundRegions,
         Sites,
@@ -21,4 +23,5 @@ namespace LegendsViewer.Legends.Parser
         EventCollections,
         Eras
     }
+    // !!! In order as they appear in the XML. !!!
 }

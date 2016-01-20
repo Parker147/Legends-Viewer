@@ -20,7 +20,7 @@ namespace LegendsViewer.Controls.HTML
         public override string Print()
         {
             HTML = new StringBuilder();
-            HTML.AppendLine("<h1>" + WorldConstruction.Name + "</h1><br />");
+            HTML.AppendLine("<h1>" + WorldConstruction.Name + ", " + WorldConstruction.Type + "</h1><br />");
 
             if (WorldConstruction.Coordinates.Any())
             {
@@ -31,6 +31,34 @@ namespace LegendsViewer.Controls.HTML
                 HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
                 HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
                 HTML.AppendLine("</tr></table></br>");
+            }
+
+            HTML.AppendLine("<b>Connects</b><br />");
+            HTML.AppendLine("<ul>");
+            HTML.AppendLine("<li>" + (WorldConstruction.Site1 != null ? WorldConstruction.Site1.ToLink() : "UNKNOWN SITE") + "</li>");
+            HTML.AppendLine("<li>" + (WorldConstruction.Site2 != null ? WorldConstruction.Site2.ToLink() : "UNKNOWN SITE") + "</li>");
+            HTML.AppendLine("</ul>");
+            HTML.AppendLine("</br>");
+
+            if (WorldConstruction.MasterConstruction != null)
+            {
+                HTML.AppendLine("<b>Part of</b><br />");
+                HTML.AppendLine("<ul>");
+                HTML.AppendLine("<li>" + WorldConstruction.MasterConstruction.ToLink() + ", " + WorldConstruction.MasterConstruction.Type + "</li>");
+                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</br>");
+            }
+
+            if (WorldConstruction.Sections.Any())
+            {
+                HTML.AppendLine("<b>Sections</b><br />");
+                HTML.AppendLine("<ul>");
+                foreach (WorldConstruction segment in WorldConstruction.Sections)
+                {
+                    HTML.AppendLine("<li>" + segment.ToLink() + ", " + segment.Type + "</li>");
+                }
+                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</br>");
             }
 
             PrintEventLog(WorldConstruction.Events, WorldConstruction.Filters, WorldConstruction);

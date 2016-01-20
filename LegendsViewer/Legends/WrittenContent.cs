@@ -17,7 +17,7 @@ namespace LegendsViewer.Legends
         public List<string> Styles { get; set; } // legends_plus.xml
         public List<Reference> References { get; set; } // legends_plus.xml
 
-        public string Icon = "<i class=\"fa fa-fw fa-book\"></i>";
+        public static string Icon = "<i class=\"fa fa-fw fa-book\"></i>";
 
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
