@@ -5,7 +5,6 @@ using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
-using System;
 
 namespace LegendsViewer.Controls
 {
@@ -27,6 +26,7 @@ namespace LegendsViewer.Controls
             PrintMiscInfo();
             PrintBreedInfo();
             PrintCurseLineage();
+            PrintFamilyGraph();
             PrintPositions();
             PrintRelatedHistoricalFigures();
             PrintRelatedEntities();
@@ -38,6 +38,104 @@ namespace LegendsViewer.Controls
             PrintBeastAttacks();
             PrintEventLog(HistoricalFigure.Events, HistoricalFigure.Filters, HistoricalFigure);
             return HTML.ToString();
+        }
+
+        private void PrintFamilyGraph()
+        {
+            if (HistoricalFigure.RelatedHistoricalFigures.Any(rel => rel.Type == HistoricalFigureLinkType.Mother ||
+                                                                     rel.Type == HistoricalFigureLinkType.Father ||
+                                                                     rel.Type == HistoricalFigureLinkType.Child))
+            {
+                string nodes = CreateNode(HistoricalFigure);
+                string edges = "";
+
+                GetFamilyDataParents(HistoricalFigure, ref nodes, ref edges);
+                GetFamilyDataChildren(HistoricalFigure, ref nodes, ref edges);
+
+                HTML.AppendLine(Bold("Family Tree") + LineBreak);
+                HTML.AppendLine("<div id=\"familygraph\" class=\"legends_graph\"></div>");
+                HTML.AppendLine("<script>" + CytoscapeJS + "</script>");
+                HTML.AppendLine("<script>");
+                HTML.AppendLine("window.familygraph_nodes = [");
+                HTML.AppendLine(nodes);
+                HTML.AppendLine("]");
+                HTML.AppendLine("window.familygraph_edges = [");
+                HTML.AppendLine(edges);
+                HTML.AppendLine("]");
+                HTML.AppendLine(FamilyGraphJS);
+                HTML.AppendLine("</script>");
+            }
+        }
+
+        private string CreateNode(HistoricalFigure hf)
+        {
+            string classes = "";
+            classes += hf.ActiveInteractions.Any(interaction => interaction.Contains("CURSE")) ? "cursed" : "";
+            classes += hf.Equals(HistoricalFigure) ? " current" : "";
+            string title = "";
+            title += hf.Race != HistoricalFigure.Race ? (hf.Race + " ") : "";
+            title += !string.IsNullOrWhiteSpace(hf.AssociatedType) && hf.AssociatedType != "Standard" ? hf.AssociatedType : "";
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                title += "\\n--------------------\\n";
+            }
+            title += hf.Name;
+            if (!hf.Alive)
+            {
+                title += "\\n✝";
+                classes += " dead";
+            }
+            string node = "{ data: { id: '" + hf.ID + "', name: '" + title + "', href: 'hf#" + hf.ID + "' , faveColor: '" + (hf.Caste == "Male" ? "#6FB1FC" : "#EDA1ED") + "' }, classes: '" + classes + "' },";
+            return node;
+        }
+
+        private void GetFamilyDataChildren(HistoricalFigure hf, ref string nodes, ref string edges)
+        {
+            foreach (HistoricalFigure child in hf.RelatedHistoricalFigures.Where(rel => rel.Type == HistoricalFigureLinkType.Child).Select(rel => rel.HistoricalFigure))
+            {
+                string node = CreateNode(child);
+                if (!nodes.Contains(node))
+                {
+                    nodes += node;
+                }
+                string edge = "{ data: { source: '" + hf.ID + "', target: '" + child.ID + "' } },";
+                if (!edges.Contains(edge))
+                {
+                    edges += edge;
+                }
+            }
+        }
+
+        private void GetFamilyDataParents(HistoricalFigure hf, ref string nodes, ref string edges)
+        {
+            foreach (HistoricalFigure mother in hf.RelatedHistoricalFigures.Where(rel => rel.Type == HistoricalFigureLinkType.Mother).Select(rel => rel.HistoricalFigure))
+            {
+                string node = CreateNode(mother);
+                if (!nodes.Contains(node))
+                {
+                    nodes += node;
+                }
+                string edge = "{ data: { source: '" + mother.ID + "', target: '" + hf.ID + "' } },";
+                if (!edges.Contains(edge))
+                {
+                    edges += edge;
+                }
+                GetFamilyDataParents(mother, ref nodes, ref edges);
+            }
+            foreach (HistoricalFigure father in hf.RelatedHistoricalFigures.Where(rel => rel.Type == HistoricalFigureLinkType.Father).Select(rel => rel.HistoricalFigure))
+            {
+                string node = CreateNode(father);
+                if (!nodes.Contains(node))
+                {
+                    nodes += node;
+                }
+                string edge = "{ data: { source: '" + father.ID + "', target: '" + hf.ID + "' } },";
+                if (!edges.Contains(edge))
+                {
+                    edges += edge;
+                }
+                GetFamilyDataParents(father, ref nodes, ref edges);
+            }
         }
 
         private void PrintCurseLineage()
@@ -54,7 +152,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<div class=\"tree\">");
                 HTML.AppendLine("<ul>");
                 HTML.AppendLine("<li>");
-                HTML.AppendLine(Curser.LineageCurseParent != null ? Curser.LineageCurseParent.ToTreeLeafLink(HistoricalFigure) : "<a href=\"#\">UNKNOWN DEITY</a>");
+                HTML.AppendLine(Curser.LineageCurseParent != null ? Curser.LineageCurseParent.ToTreeLeafLink(HistoricalFigure) : "<a>UNKNOWN DEITY</a>");
                 HTML.AppendLine("<ul>");
                 PrintLineageTreeLevel(Curser);
                 HTML.AppendLine("</ul>");
@@ -69,7 +167,7 @@ namespace LegendsViewer.Controls
         private void PrintLineageTreeLevel(HistoricalFigure curseBearer)
         {
             HTML.AppendLine("<li>");
-            HTML.AppendLine(curseBearer.ToTreeLeafLink(HistoricalFigure)); 
+            HTML.AppendLine(curseBearer.ToTreeLeafLink(HistoricalFigure));
             if (curseBearer.LineageCurseChilds.Any())
             {
                 HTML.AppendLine("<ul>");
@@ -111,9 +209,9 @@ namespace LegendsViewer.Controls
             if (HistoricalFigure.Deity)
             {
                 title = "Is a deity";
-                if (HistoricalFigure.WorshippedBy != null) 
+                if (HistoricalFigure.WorshippedBy != null)
                     title += " that occurs in the myths of " + HistoricalFigure.WorshippedBy.ToLink() + ". ";
-                else 
+                else
                     title += ". ";
                 title += HistoricalFigure.ToLink(false, HistoricalFigure) + " is most often depicted as a " + HistoricalFigure.GetRaceTitleString() + ". ";
             }
@@ -196,11 +294,11 @@ namespace LegendsViewer.Controls
             if (HistoricalFigure.HoldingArtifacts.Count > 0)
             {
                 string artifacts = "";
-                foreach(Artifact artifact in HistoricalFigure.HoldingArtifacts)
+                foreach (Artifact artifact in HistoricalFigure.HoldingArtifacts)
                 {
                     if (HistoricalFigure.HoldingArtifacts.Last() == artifact && HistoricalFigure.HoldingArtifacts.Count > 1)
                         artifacts += " and ";
-                    else if (artifacts.Length > 0) 
+                    else if (artifacts.Length > 0)
                         artifacts += ", ";
                     artifacts += artifact.ToLink();
                 }
@@ -289,15 +387,28 @@ namespace LegendsViewer.Controls
             if (HistoricalFigure.RelatedSites.Count > 0)
             {
                 HTML.AppendLine(Bold("Related Sites") + LineBreak);
-                StartList(ListType.Unordered);
+                HTML.AppendLine("<ul>");
                 foreach (SiteLink link in HistoricalFigure.RelatedSites)
                 {
-                    string linkString = link.Site.ToLink() + ", " + link.Type.GetDescription() + " (" + (link.Type == SiteLinkType.Occupation ? link.OccupationID : link.SubID) + ") ";
+                    HTML.AppendLine("<li>");
+                    HTML.AppendLine(link.Site.ToLink());
+                    HTML.AppendLine("<ul>");
+                    Structure structure = link.Site.Structures.FirstOrDefault(str => str.ID == link.SubID);
+                    string entityLink = "";
                     if (link.Entity != null)
-                        linkString += "" + link.Entity.ToLink();
-                    HTML.AppendLine(ListItem + linkString);
+                        entityLink += " (" + link.Entity.ToLink() + ")";
+                    if (link.Type != SiteLinkType.Unknown && link.Type != SiteLinkType.Occupation && structure != null)
+                    {
+                        HTML.AppendLine("<li>" + structure.ToLink() + ", " + link.Type.GetDescription() + entityLink + "</li>");
+                    }
+                    else
+                    {
+                        HTML.AppendLine("<li>" + link.Type.GetDescription() + entityLink + "</li>");
+                    }
+                    HTML.AppendLine("</ul>");
+                    HTML.AppendLine("</li>");
                 }
-                EndList(ListType.Unordered);
+                HTML.AppendLine("</ul>");
             }
         }
 
@@ -307,7 +418,7 @@ namespace LegendsViewer.Controls
             {
                 HTML.AppendLine(Bold("Entity Reputations") + LineBreak);
                 StartList(ListType.Unordered);
-                foreach(EntityReputation reputation in HistoricalFigure.Reputations)
+                foreach (EntityReputation reputation in HistoricalFigure.Reputations)
                 {
                     HTML.AppendLine(ListItem + reputation.Entity.PrintEntity() + ": ");
                     StartList(ListType.Unordered);
@@ -317,7 +428,7 @@ namespace LegendsViewer.Controls
                         HTML.AppendLine(ListItem + "First Suspected Ageless Year: " + reputation.FirstSuspectedAgelessYear + ", " + reputation.FirstSuspectedAgelessSeason);
                     foreach (var item in reputation.Reputations)
                     {
-                        HTML.AppendLine(ListItem + item.Key.GetDescription() + ": " + item.Value +"%");
+                        HTML.AppendLine(ListItem + item.Key.GetDescription() + ": " + item.Value + "%");
                     }
                     EndList(ListType.Unordered);
                 }

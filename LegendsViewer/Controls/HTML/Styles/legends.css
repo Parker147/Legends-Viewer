@@ -446,3 +446,11 @@ li.mil {
     font-family: Arial;
     color: #333;
 }
+
+.legends_graph {
+    left: 20px;
+    right: 20px;
+    height: 600px;
+    border: 1px solid lightgray;
+    margin-bottom:20px;
+}

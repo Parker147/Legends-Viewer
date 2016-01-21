@@ -166,6 +166,18 @@ namespace LegendsViewer
                 {
                     Controls.HTMLPrinter.ChartJS = reader.ReadToEnd();
                 }
+                var cytoscapejsName = "LegendsViewer.Controls.HTML.Scripts.cytoscape.min.js";
+                using (Stream stream = assembly.GetManifestResourceStream(cytoscapejsName))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    Controls.HTMLPrinter.CytoscapeJS = reader.ReadToEnd();
+                }
+                var familygraphjsName = "LegendsViewer.Controls.HTML.Scripts.familygraph.js";
+                using (Stream stream = assembly.GetManifestResourceStream(familygraphjsName))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    Controls.HTMLPrinter.FamilyGraphJS = reader.ReadToEnd();
+                }
             }
             catch (Exception ex)
             {
