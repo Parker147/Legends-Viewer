@@ -54,22 +54,39 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            if (Body != null)
+            if (HistoricalFigure != null)
             {
-                eventString += Body.ToLink(link, pov);
+                eventString += "the body of ";
+                if (Body != null)
+                {
+                    eventString += Body.ToLink(link, pov);
+                }
+                else
+                {
+                    eventString += "UNKNOWN HISTORICAL FIGURE";
+                }
+                eventString += " was animated by ";
+                eventString += HistoricalFigure.ToLink(link, pov);
             }
             else
             {
-                eventString += "UNKNOWN HISTORICAL FIGURE";
-            }
-            eventString += "'s body was abused by ";
-            if (Abuser != null)
-            {
-                eventString += Abuser.ToLink(link, pov);
-            }
-            else
-            {
-                eventString += "UNKNOWN ENTITY";
+                if (Body != null)
+                {
+                    eventString += Body.ToLink(link, pov);
+                }
+                else
+                {
+                    eventString += "UNKNOWN HISTORICAL FIGURE";
+                }
+                eventString += "'s body was abused by ";
+                if (Abuser != null)
+                {
+                    eventString += Abuser.ToLink(link, pov);
+                }
+                else
+                {
+                    eventString += "UNKNOWN ENTITY";
+                }
             }
             if (Site != null)
             {

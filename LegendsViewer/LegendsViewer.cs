@@ -27,6 +27,8 @@ namespace LegendsViewer
         private WrittenContentList writtenContentSearch;
         private WorldConstructionsList worldConstructionSearch;
         private StructuresList structureSearch;
+        private LandmassesList landmassSearch;
+        private MountainPeaksList mountainPeaksSearch;
         private ConqueringsList conqueringsSearch;
         private BeastAttackList beastAttackSearch;
 
@@ -35,7 +37,9 @@ namespace LegendsViewer
         Type[] EventTabTypes = new Type[]{typeof(HistoricalFigure), typeof(Site), typeof(Region),
                                             typeof(UndergroundRegion), typeof(Entity), typeof(War),
                                             typeof(Battle), typeof(SiteConquered), typeof(Era), typeof(BeastAttack),
-                                            typeof(Artifact), typeof(WrittenContent), typeof(WorldConstruction), typeof(Structure)};                         
+                                            typeof(Artifact), typeof(WrittenContent), typeof(WorldConstruction), typeof(Structure),
+                                            typeof(Landmass), typeof(MountainPeak),
+        };                         
         private List<List<String>> TabEvents;
         DwarfTabControl Browser;
         private bool DontRefreshBrowserPages = true;
@@ -52,7 +56,7 @@ namespace LegendsViewer
             Text = "Legends Viewer";
             lblVersion.Text = "v" + version;
             FileLoader = new FileLoader(this, btnXML, txtXML, btnHistory, txtHistory, btnSitePops, txtSitePops, btnMap, txtMap, lblStatus, txtLog);
-            EventTabs = new TabPage[] { tpHFEvents, tpSiteEvents, tpRegionEvents, tpURegionEvents, tpCivEvents, tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpEraEvents, tpBeastAttackEvents, tpArtifactsEvents, tpWrittenContentEvents, tpWorldConstructionEvents, tpStructureEvents };
+            EventTabs = new TabPage[] { tpHFEvents, tpSiteEvents, tpRegionEvents, tpURegionEvents, tpCivEvents, tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpEraEvents, tpBeastAttackEvents, tpArtifactsEvents, tpWrittenContentEvents, tpWorldConstructionEvents, tpStructureEvents, tpLandmassEvents, tpMountainPeakEvents };
             tcWorld.Height = ClientSize.Height;
             btnBack.Location = new Point(tcWorld.Right + 3, 3);
             btnForward.Location = new Point(btnBack.Right + 3, 3);
@@ -517,6 +521,8 @@ namespace LegendsViewer
             writtenContentSearch = new WrittenContentList(world);
             worldConstructionSearch = new WorldConstructionsList(world);
             structureSearch = new StructuresList(world);
+            landmassSearch = new LandmassesList(world);
+            mountainPeaksSearch = new MountainPeaksList(world);
 
             dlgOpen.FileName = "";
 
@@ -600,8 +606,16 @@ namespace LegendsViewer
                                        select type.Key;
 
             var structureEvents = from eventType in world.Structures.SelectMany(element => element.Events)
-                                       group eventType by eventType.Type into type
-                                       select type.Key;
+                                  group eventType by eventType.Type into type
+                                  select type.Key;
+
+            var landmassEvents = from eventType in world.Landmasses.SelectMany(element => element.Events)
+                                  group eventType by eventType.Type into type
+                                  select type.Key;
+
+            var mountainPeakEvents = from eventType in world.MountainPeaks.SelectMany(element => element.Events)
+                                  group eventType by eventType.Type into type
+                                  select type.Key;
 
             var eventTypes = from eventType in world.Events
                              group eventType by eventType.Type into type
@@ -636,6 +650,10 @@ namespace LegendsViewer
                     TabEvents.Add(worldConstructionEvents.ToList());
                 else if (eventTabType == typeof(Structure))
                     TabEvents.Add(structureEvents.ToList());
+                else if (eventTabType == typeof(Landmass))
+                    TabEvents.Add(landmassEvents.ToList());
+                else if (eventTabType == typeof(MountainPeak))
+                    TabEvents.Add(mountainPeakEvents.ToList());
                 else if (eventTabType == typeof(BeastAttack))
                     TabEvents.Add(beastAttackEvents.ToList());
             }
@@ -895,6 +913,32 @@ namespace LegendsViewer
                 IEnumerable<Structure> list = structureSearch.GetList();
                 listStructuresSearch.Items.Clear();
                 listStructuresSearch.Items.AddRange(list.ToArray());
+            }
+        }
+
+        private void searchLandmassList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                landmassSearch.Name = txtLandmassSearch.Text;
+                landmassSearch.sortEvents = radLandmassEvents.Checked;
+                landmassSearch.sortFiltered = radLandmassFiltered.Checked;
+                IEnumerable<Landmass> list = landmassSearch.getList();
+                listLandmassSearch.Items.Clear();
+                listLandmassSearch.Items.AddRange(list.ToArray());
+            }
+        }
+
+        private void searchMountainPeakList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && world != null)
+            {
+                mountainPeaksSearch.Name = txtMountainPeakSearch.Text;
+                mountainPeaksSearch.sortEvents = radMountainPeakEvents.Checked;
+                mountainPeaksSearch.sortFiltered = radMountainPeakFiltered.Checked;
+                IEnumerable<MountainPeak> list = mountainPeaksSearch.getList();
+                listMountainPeakSearch.Items.Clear();
+                listMountainPeakSearch.Items.AddRange(list.ToArray());
             }
         }
 

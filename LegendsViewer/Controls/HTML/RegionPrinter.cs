@@ -8,7 +8,7 @@ using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Controls.HTML
 {
-    class RegionPrinter : HTMLPrinter
+    public class RegionPrinter : HTMLPrinter
     {
         WorldRegion Region;
         World World;

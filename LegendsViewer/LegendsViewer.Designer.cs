@@ -288,6 +288,30 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.hint = new System.Windows.Forms.ToolTip(this.components);
             this.lblVersion = new System.Windows.Forms.Label();
+            this.tpLandmasses = new System.Windows.Forms.TabPage();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnLandmassSearch = new System.Windows.Forms.Button();
+            this.groupBox27 = new System.Windows.Forms.GroupBox();
+            this.groupBox28 = new System.Windows.Forms.GroupBox();
+            this.radLandmassFiltered = new System.Windows.Forms.RadioButton();
+            this.radLandmassNone = new System.Windows.Forms.RadioButton();
+            this.radLandmassEvents = new System.Windows.Forms.RadioButton();
+            this.txtLandmassSearch = new System.Windows.Forms.TextBox();
+            this.listLandmassSearch = new System.Windows.Forms.ListBox();
+            this.tpLandmassEvents = new System.Windows.Forms.TabPage();
+            this.tbMountainPeaks = new System.Windows.Forms.TabPage();
+            this.tabControl3 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnMountainPeakSearch = new System.Windows.Forms.Button();
+            this.groupBox29 = new System.Windows.Forms.GroupBox();
+            this.groupBox30 = new System.Windows.Forms.GroupBox();
+            this.radMountainPeakFiltered = new System.Windows.Forms.RadioButton();
+            this.radMountainPeakNone = new System.Windows.Forms.RadioButton();
+            this.radMountainPeakEvents = new System.Windows.Forms.RadioButton();
+            this.txtMountainPeakSearch = new System.Windows.Forms.TextBox();
+            this.listMountainPeakSearch = new System.Windows.Forms.ListBox();
+            this.tpMountainPeakEvents = new System.Windows.Forms.TabPage();
             this.tcWorld.SuspendLayout();
             this.tpSummary.SuspendLayout();
             this.tpHF.SuspendLayout();
@@ -367,6 +391,16 @@
             this.tpStructureSearch.SuspendLayout();
             this.groupBox25.SuspendLayout();
             this.groupBox26.SuspendLayout();
+            this.tpLandmasses.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.groupBox27.SuspendLayout();
+            this.groupBox28.SuspendLayout();
+            this.tbMountainPeaks.SuspendLayout();
+            this.tabControl3.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox29.SuspendLayout();
+            this.groupBox30.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcWorld
@@ -563,10 +597,10 @@
             // tpHF
             // 
             this.tpHF.Controls.Add(this.tcHF);
-            this.tpHF.Location = new System.Drawing.Point(4, 40);
+            this.tpHF.Location = new System.Drawing.Point(4, 22);
             this.tpHF.Margin = new System.Windows.Forms.Padding(0);
             this.tpHF.Name = "tpHF";
-            this.tpHF.Size = new System.Drawing.Size(269, 518);
+            this.tpHF.Size = new System.Drawing.Size(269, 536);
             this.tpHF.TabIndex = 1;
             this.tpHF.Text = "Historical Figures";
             this.tpHF.UseVisualStyleBackColor = true;
@@ -581,7 +615,7 @@
             this.tcHF.Name = "tcHF";
             this.tcHF.Padding = new System.Drawing.Point(0, 0);
             this.tcHF.SelectedIndex = 0;
-            this.tcHF.Size = new System.Drawing.Size(269, 518);
+            this.tcHF.Size = new System.Drawing.Size(269, 536);
             this.tcHF.TabIndex = 0;
             // 
             // tpHFSearch
@@ -595,7 +629,7 @@
             this.tpHFSearch.Location = new System.Drawing.Point(4, 22);
             this.tpHFSearch.Margin = new System.Windows.Forms.Padding(0);
             this.tpHFSearch.Name = "tpHFSearch";
-            this.tpHFSearch.Size = new System.Drawing.Size(261, 492);
+            this.tpHFSearch.Size = new System.Drawing.Size(261, 510);
             this.tpHFSearch.TabIndex = 0;
             this.tpHFSearch.Text = "Search";
             this.tpHFSearch.UseVisualStyleBackColor = true;
@@ -603,7 +637,7 @@
             // btnHFListReset
             // 
             this.btnHFListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnHFListReset.Location = new System.Drawing.Point(6, 236);
+            this.btnHFListReset.Location = new System.Drawing.Point(6, 254);
             this.btnHFListReset.Name = "btnHFListReset";
             this.btnHFListReset.Size = new System.Drawing.Size(50, 20);
             this.btnHFListReset.TabIndex = 41;
@@ -614,7 +648,7 @@
             // lblHFList
             // 
             this.lblHFList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblHFList.Location = new System.Drawing.Point(61, 241);
+            this.lblHFList.Location = new System.Drawing.Point(61, 259);
             this.lblHFList.Name = "lblHFList";
             this.lblHFList.Size = new System.Drawing.Size(192, 36);
             this.lblHFList.TabIndex = 40;
@@ -638,7 +672,7 @@
             this.grpHFFilter.Controls.Add(this.chkAlive);
             this.grpHFFilter.Controls.Add(this.chkGhost);
             this.grpHFFilter.Controls.Add(this.chkDeity);
-            this.grpHFFilter.Location = new System.Drawing.Point(3, 280);
+            this.grpHFFilter.Location = new System.Drawing.Point(3, 298);
             this.grpHFFilter.Name = "grpHFFilter";
             this.grpHFFilter.Size = new System.Drawing.Size(254, 209);
             this.grpHFFilter.TabIndex = 33;
@@ -871,7 +905,7 @@
             this.listHFSearch.HorizontalScrollbar = true;
             this.listHFSearch.Location = new System.Drawing.Point(3, 31);
             this.listHFSearch.Name = "listHFSearch";
-            this.listHFSearch.Size = new System.Drawing.Size(256, 160);
+            this.listHFSearch.Size = new System.Drawing.Size(256, 173);
             this.listHFSearch.TabIndex = 31;
             this.listHFSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -899,9 +933,9 @@
             // tpCivs
             // 
             this.tpCivs.Controls.Add(this.tcCivs);
-            this.tpCivs.Location = new System.Drawing.Point(4, 40);
+            this.tpCivs.Location = new System.Drawing.Point(4, 22);
             this.tpCivs.Name = "tpCivs";
-            this.tpCivs.Size = new System.Drawing.Size(269, 518);
+            this.tpCivs.Size = new System.Drawing.Size(269, 536);
             this.tpCivs.TabIndex = 5;
             this.tpCivs.Text = "Civs and entities";
             this.tpCivs.UseVisualStyleBackColor = true;
@@ -914,7 +948,7 @@
             this.tcCivs.Location = new System.Drawing.Point(0, 0);
             this.tcCivs.Name = "tcCivs";
             this.tcCivs.SelectedIndex = 0;
-            this.tcCivs.Size = new System.Drawing.Size(269, 518);
+            this.tcCivs.Size = new System.Drawing.Size(269, 536);
             this.tcCivs.TabIndex = 0;
             // 
             // tpCivSearch
@@ -926,7 +960,7 @@
             this.tpCivSearch.Location = new System.Drawing.Point(4, 22);
             this.tpCivSearch.Name = "tpCivSearch";
             this.tpCivSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCivSearch.Size = new System.Drawing.Size(261, 492);
+            this.tpCivSearch.Size = new System.Drawing.Size(261, 510);
             this.tpCivSearch.TabIndex = 0;
             this.tpCivSearch.Text = "Search";
             this.tpCivSearch.UseVisualStyleBackColor = true;
@@ -939,7 +973,7 @@
             this.groupBox4.Controls.Add(this.groupBox9);
             this.groupBox4.Controls.Add(this.chkCiv);
             this.groupBox4.Controls.Add(this.cmbCivRace);
-            this.groupBox4.Location = new System.Drawing.Point(3, 311);
+            this.groupBox4.Location = new System.Drawing.Point(3, 329);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(254, 175);
             this.groupBox4.TabIndex = 37;
@@ -1092,7 +1126,7 @@
             this.listCivSearch.FormattingEnabled = true;
             this.listCivSearch.Location = new System.Drawing.Point(3, 31);
             this.listCivSearch.Name = "listCivSearch";
-            this.listCivSearch.Size = new System.Drawing.Size(256, 238);
+            this.listCivSearch.Size = new System.Drawing.Size(256, 251);
             this.listCivSearch.TabIndex = 35;
             this.listCivSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1394,15 +1428,18 @@
             this.tpRegions.Name = "tpRegions";
             this.tpRegions.Size = new System.Drawing.Size(269, 518);
             this.tpRegions.TabIndex = 3;
-            this.tpRegions.Text = "Regions";
+            this.tpRegions.Text = "Geography";
             this.tpRegions.UseVisualStyleBackColor = true;
             // 
             // tcRegionsSub
             // 
             this.tcRegionsSub.Controls.Add(this.tpOverworld);
             this.tcRegionsSub.Controls.Add(this.tpUnderground);
+            this.tcRegionsSub.Controls.Add(this.tpLandmasses);
+            this.tcRegionsSub.Controls.Add(this.tbMountainPeaks);
             this.tcRegionsSub.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcRegionsSub.Location = new System.Drawing.Point(0, 0);
+            this.tcRegionsSub.Multiline = true;
             this.tcRegionsSub.Name = "tcRegionsSub";
             this.tcRegionsSub.SelectedIndex = 0;
             this.tcRegionsSub.Size = new System.Drawing.Size(269, 518);
@@ -1412,12 +1449,12 @@
             // tpOverworld
             // 
             this.tpOverworld.Controls.Add(this.tcRegions);
-            this.tpOverworld.Location = new System.Drawing.Point(4, 22);
+            this.tpOverworld.Location = new System.Drawing.Point(4, 40);
             this.tpOverworld.Name = "tpOverworld";
             this.tpOverworld.Padding = new System.Windows.Forms.Padding(3);
-            this.tpOverworld.Size = new System.Drawing.Size(261, 492);
+            this.tpOverworld.Size = new System.Drawing.Size(261, 474);
             this.tpOverworld.TabIndex = 0;
-            this.tpOverworld.Text = "Overworld";
+            this.tpOverworld.Text = "Regions";
             this.tpOverworld.UseVisualStyleBackColor = true;
             // 
             // tcRegions
@@ -1428,7 +1465,7 @@
             this.tcRegions.Location = new System.Drawing.Point(3, 3);
             this.tcRegions.Name = "tcRegions";
             this.tcRegions.SelectedIndex = 0;
-            this.tcRegions.Size = new System.Drawing.Size(255, 486);
+            this.tcRegions.Size = new System.Drawing.Size(255, 468);
             this.tcRegions.TabIndex = 1;
             // 
             // tpRegionSearch
@@ -1440,7 +1477,7 @@
             this.tpRegionSearch.Location = new System.Drawing.Point(4, 22);
             this.tpRegionSearch.Name = "tpRegionSearch";
             this.tpRegionSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRegionSearch.Size = new System.Drawing.Size(247, 460);
+            this.tpRegionSearch.Size = new System.Drawing.Size(247, 442);
             this.tpRegionSearch.TabIndex = 0;
             this.tpRegionSearch.Text = "Search";
             this.tpRegionSearch.UseVisualStyleBackColor = true;
@@ -1452,7 +1489,7 @@
             this.groupBox2.Controls.Add(this.groupBox7);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.cmbRegionType);
-            this.groupBox2.Location = new System.Drawing.Point(3, 270);
+            this.groupBox2.Location = new System.Drawing.Point(3, 252);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(240, 163);
             this.groupBox2.TabIndex = 34;
@@ -1571,7 +1608,7 @@
             this.listRegionSearch.FormattingEnabled = true;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listRegionSearch.Name = "listRegionSearch";
-            this.listRegionSearch.Size = new System.Drawing.Size(242, 212);
+            this.listRegionSearch.Size = new System.Drawing.Size(242, 186);
             this.listRegionSearch.TabIndex = 32;
             this.listRegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -3359,6 +3396,285 @@
             this.lblVersion.Text = "v1.00.00";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // tpLandmasses
+            // 
+            this.tpLandmasses.Controls.Add(this.tabControl2);
+            this.tpLandmasses.Location = new System.Drawing.Point(4, 22);
+            this.tpLandmasses.Name = "tpLandmasses";
+            this.tpLandmasses.Size = new System.Drawing.Size(261, 492);
+            this.tpLandmasses.TabIndex = 2;
+            this.tpLandmasses.Text = "Landmasses";
+            this.tpLandmasses.UseVisualStyleBackColor = true;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage1);
+            this.tabControl2.Controls.Add(this.tpLandmassEvents);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(261, 492);
+            this.tabControl2.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.btnLandmassSearch);
+            this.tabPage1.Controls.Add(this.groupBox27);
+            this.tabPage1.Controls.Add(this.txtLandmassSearch);
+            this.tabPage1.Controls.Add(this.listLandmassSearch);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(253, 466);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Search";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnLandmassSearch
+            // 
+            this.btnLandmassSearch.Location = new System.Drawing.Point(3, 3);
+            this.btnLandmassSearch.Name = "btnLandmassSearch";
+            this.btnLandmassSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnLandmassSearch.TabIndex = 46;
+            this.btnLandmassSearch.Text = "Search";
+            this.btnLandmassSearch.UseVisualStyleBackColor = true;
+            this.btnLandmassSearch.TextChanged += new System.EventHandler(this.searchLandmassList);
+            this.btnLandmassSearch.Click += new System.EventHandler(this.searchLandmassList);
+            // 
+            // groupBox27
+            // 
+            this.groupBox27.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox27.Controls.Add(this.groupBox28);
+            this.groupBox27.Location = new System.Drawing.Point(3, 296);
+            this.groupBox27.Name = "groupBox27";
+            this.groupBox27.Size = new System.Drawing.Size(247, 164);
+            this.groupBox27.TabIndex = 45;
+            this.groupBox27.TabStop = false;
+            this.groupBox27.Text = "Filter / Sort";
+            // 
+            // groupBox28
+            // 
+            this.groupBox28.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox28.Controls.Add(this.radLandmassFiltered);
+            this.groupBox28.Controls.Add(this.radLandmassNone);
+            this.groupBox28.Controls.Add(this.radLandmassEvents);
+            this.groupBox28.Location = new System.Drawing.Point(133, 19);
+            this.groupBox28.Name = "groupBox28";
+            this.groupBox28.Size = new System.Drawing.Size(108, 126);
+            this.groupBox28.TabIndex = 15;
+            this.groupBox28.TabStop = false;
+            this.groupBox28.Text = "Sort By";
+            // 
+            // radLandmassFiltered
+            // 
+            this.radLandmassFiltered.AutoSize = true;
+            this.radLandmassFiltered.Location = new System.Drawing.Point(6, 42);
+            this.radLandmassFiltered.Name = "radLandmassFiltered";
+            this.radLandmassFiltered.Size = new System.Drawing.Size(100, 17);
+            this.radLandmassFiltered.TabIndex = 16;
+            this.radLandmassFiltered.TabStop = true;
+            this.radLandmassFiltered.Text = "Filtered Events";
+            this.radLandmassFiltered.UseVisualStyleBackColor = true;
+            this.radLandmassFiltered.CheckedChanged += new System.EventHandler(this.searchLandmassList);
+            // 
+            // radLandmassNone
+            // 
+            this.radLandmassNone.AutoSize = true;
+            this.radLandmassNone.Checked = true;
+            this.radLandmassNone.Location = new System.Drawing.Point(6, 65);
+            this.radLandmassNone.Name = "radLandmassNone";
+            this.radLandmassNone.Size = new System.Drawing.Size(53, 17);
+            this.radLandmassNone.TabIndex = 14;
+            this.radLandmassNone.TabStop = true;
+            this.radLandmassNone.Text = "None";
+            this.radLandmassNone.UseVisualStyleBackColor = true;
+            this.radLandmassNone.CheckedChanged += new System.EventHandler(this.searchLandmassList);
+            // 
+            // radLandmassEvents
+            // 
+            this.radLandmassEvents.AutoSize = true;
+            this.radLandmassEvents.Location = new System.Drawing.Point(6, 19);
+            this.radLandmassEvents.Name = "radLandmassEvents";
+            this.radLandmassEvents.Size = new System.Drawing.Size(58, 17);
+            this.radLandmassEvents.TabIndex = 13;
+            this.radLandmassEvents.Text = "Events";
+            this.radLandmassEvents.UseVisualStyleBackColor = true;
+            this.radLandmassEvents.CheckedChanged += new System.EventHandler(this.searchLandmassList);
+            // 
+            // txtLandmassSearch
+            // 
+            this.txtLandmassSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLandmassSearch.Location = new System.Drawing.Point(81, 5);
+            this.txtLandmassSearch.Name = "txtLandmassSearch";
+            this.txtLandmassSearch.Size = new System.Drawing.Size(169, 22);
+            this.txtLandmassSearch.TabIndex = 44;
+            this.txtLandmassSearch.TextChanged += new System.EventHandler(this.searchLandmassList);
+            // 
+            // listLandmassSearch
+            // 
+            this.listLandmassSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listLandmassSearch.FormattingEnabled = true;
+            this.listLandmassSearch.Location = new System.Drawing.Point(3, 31);
+            this.listLandmassSearch.Name = "listLandmassSearch";
+            this.listLandmassSearch.Size = new System.Drawing.Size(247, 251);
+            this.listLandmassSearch.TabIndex = 43;
+            this.listLandmassSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
+            // 
+            // tpLandmassEvents
+            // 
+            this.tpLandmassEvents.Location = new System.Drawing.Point(4, 22);
+            this.tpLandmassEvents.Name = "tpLandmassEvents";
+            this.tpLandmassEvents.Padding = new System.Windows.Forms.Padding(3);
+            this.tpLandmassEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpLandmassEvents.TabIndex = 1;
+            this.tpLandmassEvents.Text = "Events";
+            this.tpLandmassEvents.UseVisualStyleBackColor = true;
+            // 
+            // tbMountainPeaks
+            // 
+            this.tbMountainPeaks.Controls.Add(this.tabControl3);
+            this.tbMountainPeaks.Location = new System.Drawing.Point(4, 40);
+            this.tbMountainPeaks.Name = "tbMountainPeaks";
+            this.tbMountainPeaks.Size = new System.Drawing.Size(261, 474);
+            this.tbMountainPeaks.TabIndex = 3;
+            this.tbMountainPeaks.Text = "Mountains";
+            this.tbMountainPeaks.UseVisualStyleBackColor = true;
+            // 
+            // tabControl3
+            // 
+            this.tabControl3.Controls.Add(this.tabPage3);
+            this.tabControl3.Controls.Add(this.tpMountainPeakEvents);
+            this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl3.Location = new System.Drawing.Point(0, 0);
+            this.tabControl3.Name = "tabControl3";
+            this.tabControl3.SelectedIndex = 0;
+            this.tabControl3.Size = new System.Drawing.Size(261, 474);
+            this.tabControl3.TabIndex = 6;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.btnMountainPeakSearch);
+            this.tabPage3.Controls.Add(this.groupBox29);
+            this.tabPage3.Controls.Add(this.txtMountainPeakSearch);
+            this.tabPage3.Controls.Add(this.listMountainPeakSearch);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(253, 448);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "Search";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnMountainPeakSearch
+            // 
+            this.btnMountainPeakSearch.Location = new System.Drawing.Point(3, 3);
+            this.btnMountainPeakSearch.Name = "btnMountainPeakSearch";
+            this.btnMountainPeakSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnMountainPeakSearch.TabIndex = 46;
+            this.btnMountainPeakSearch.Text = "Search";
+            this.btnMountainPeakSearch.UseVisualStyleBackColor = true;
+            this.btnMountainPeakSearch.Click += new System.EventHandler(this.searchMountainPeakList);
+            // 
+            // groupBox29
+            // 
+            this.groupBox29.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox29.Controls.Add(this.groupBox30);
+            this.groupBox29.Location = new System.Drawing.Point(3, 278);
+            this.groupBox29.Name = "groupBox29";
+            this.groupBox29.Size = new System.Drawing.Size(247, 164);
+            this.groupBox29.TabIndex = 45;
+            this.groupBox29.TabStop = false;
+            this.groupBox29.Text = "Filter / Sort";
+            // 
+            // groupBox30
+            // 
+            this.groupBox30.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox30.Controls.Add(this.radMountainPeakFiltered);
+            this.groupBox30.Controls.Add(this.radMountainPeakNone);
+            this.groupBox30.Controls.Add(this.radMountainPeakEvents);
+            this.groupBox30.Location = new System.Drawing.Point(133, 19);
+            this.groupBox30.Name = "groupBox30";
+            this.groupBox30.Size = new System.Drawing.Size(108, 126);
+            this.groupBox30.TabIndex = 15;
+            this.groupBox30.TabStop = false;
+            this.groupBox30.Text = "Sort By";
+            // 
+            // radMountainPeakFiltered
+            // 
+            this.radMountainPeakFiltered.AutoSize = true;
+            this.radMountainPeakFiltered.Location = new System.Drawing.Point(6, 42);
+            this.radMountainPeakFiltered.Name = "radMountainPeakFiltered";
+            this.radMountainPeakFiltered.Size = new System.Drawing.Size(100, 17);
+            this.radMountainPeakFiltered.TabIndex = 16;
+            this.radMountainPeakFiltered.TabStop = true;
+            this.radMountainPeakFiltered.Text = "Filtered Events";
+            this.radMountainPeakFiltered.UseVisualStyleBackColor = true;
+            this.radMountainPeakFiltered.CheckedChanged += new System.EventHandler(this.searchMountainPeakList);
+            // 
+            // radMountainPeakNone
+            // 
+            this.radMountainPeakNone.AutoSize = true;
+            this.radMountainPeakNone.Checked = true;
+            this.radMountainPeakNone.Location = new System.Drawing.Point(6, 65);
+            this.radMountainPeakNone.Name = "radMountainPeakNone";
+            this.radMountainPeakNone.Size = new System.Drawing.Size(53, 17);
+            this.radMountainPeakNone.TabIndex = 14;
+            this.radMountainPeakNone.TabStop = true;
+            this.radMountainPeakNone.Text = "None";
+            this.radMountainPeakNone.UseVisualStyleBackColor = true;
+            this.radMountainPeakNone.CheckedChanged += new System.EventHandler(this.searchMountainPeakList);
+            // 
+            // radMountainPeakEvents
+            // 
+            this.radMountainPeakEvents.AutoSize = true;
+            this.radMountainPeakEvents.Location = new System.Drawing.Point(6, 19);
+            this.radMountainPeakEvents.Name = "radMountainPeakEvents";
+            this.radMountainPeakEvents.Size = new System.Drawing.Size(58, 17);
+            this.radMountainPeakEvents.TabIndex = 13;
+            this.radMountainPeakEvents.Text = "Events";
+            this.radMountainPeakEvents.UseVisualStyleBackColor = true;
+            this.radMountainPeakEvents.CheckedChanged += new System.EventHandler(this.searchMountainPeakList);
+            // 
+            // txtMountainPeakSearch
+            // 
+            this.txtMountainPeakSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMountainPeakSearch.Location = new System.Drawing.Point(81, 5);
+            this.txtMountainPeakSearch.Name = "txtMountainPeakSearch";
+            this.txtMountainPeakSearch.Size = new System.Drawing.Size(169, 22);
+            this.txtMountainPeakSearch.TabIndex = 44;
+            this.txtMountainPeakSearch.TextChanged += new System.EventHandler(this.searchMountainPeakList);
+            // 
+            // listMountainPeakSearch
+            // 
+            this.listMountainPeakSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listMountainPeakSearch.FormattingEnabled = true;
+            this.listMountainPeakSearch.Location = new System.Drawing.Point(3, 31);
+            this.listMountainPeakSearch.Name = "listMountainPeakSearch";
+            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 225);
+            this.listMountainPeakSearch.TabIndex = 43;
+            this.listMountainPeakSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
+            // 
+            // tpMountainPeakEvents
+            // 
+            this.tpMountainPeakEvents.Location = new System.Drawing.Point(4, 22);
+            this.tpMountainPeakEvents.Name = "tpMountainPeakEvents";
+            this.tpMountainPeakEvents.Padding = new System.Windows.Forms.Padding(3);
+            this.tpMountainPeakEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpMountainPeakEvents.TabIndex = 1;
+            this.tpMountainPeakEvents.Text = "Events";
+            this.tpMountainPeakEvents.UseVisualStyleBackColor = true;
+            // 
             // frmLegendsViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3488,6 +3804,20 @@
             this.groupBox25.ResumeLayout(false);
             this.groupBox26.ResumeLayout(false);
             this.groupBox26.PerformLayout();
+            this.tpLandmasses.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.groupBox27.ResumeLayout(false);
+            this.groupBox28.ResumeLayout(false);
+            this.groupBox28.PerformLayout();
+            this.tbMountainPeaks.ResumeLayout(false);
+            this.tabControl3.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.groupBox29.ResumeLayout(false);
+            this.groupBox30.ResumeLayout(false);
+            this.groupBox30.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3754,6 +4084,30 @@
         private System.Windows.Forms.TextBox txtStructuresSearch;
         private System.Windows.Forms.ListBox listStructuresSearch;
         private System.Windows.Forms.TabPage tpStructureEvents;
+        private System.Windows.Forms.TabPage tpLandmasses;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button btnLandmassSearch;
+        private System.Windows.Forms.GroupBox groupBox27;
+        private System.Windows.Forms.GroupBox groupBox28;
+        private System.Windows.Forms.RadioButton radLandmassFiltered;
+        private System.Windows.Forms.RadioButton radLandmassNone;
+        private System.Windows.Forms.RadioButton radLandmassEvents;
+        private System.Windows.Forms.TextBox txtLandmassSearch;
+        private System.Windows.Forms.ListBox listLandmassSearch;
+        private System.Windows.Forms.TabPage tpLandmassEvents;
+        private System.Windows.Forms.TabPage tbMountainPeaks;
+        private System.Windows.Forms.TabControl tabControl3;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button btnMountainPeakSearch;
+        private System.Windows.Forms.GroupBox groupBox29;
+        private System.Windows.Forms.GroupBox groupBox30;
+        private System.Windows.Forms.RadioButton radMountainPeakFiltered;
+        private System.Windows.Forms.RadioButton radMountainPeakNone;
+        private System.Windows.Forms.RadioButton radMountainPeakEvents;
+        private System.Windows.Forms.TextBox txtMountainPeakSearch;
+        private System.Windows.Forms.ListBox listMountainPeakSearch;
+        private System.Windows.Forms.TabPage tpMountainPeakEvents;
     }
 }
 

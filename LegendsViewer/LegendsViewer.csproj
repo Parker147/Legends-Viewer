@@ -93,6 +93,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\HTML\ArtifactPrinter.cs" />
+    <Compile Include="Controls\HTML\LandmassPrinter.cs" />
+    <Compile Include="Controls\HTML\MountainPeakPrinter.cs" />
     <Compile Include="Controls\HTML\StructurePrinter.cs" />
     <Compile Include="Controls\HTML\Utilities\BrowserUtil.cs" />
     <Compile Include="Controls\HTML\Utilities\HTMLStyleUtil.cs" />

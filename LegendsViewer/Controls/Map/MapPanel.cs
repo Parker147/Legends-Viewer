@@ -130,7 +130,8 @@ namespace LegendsViewer.Controls.Map
             else if (FocusObject.GetType() == typeof(Entity) || FocusObject.GetType() == typeof(War)
                      || FocusObject.GetType() == typeof(Battle) || FocusObject.GetType() == typeof(SiteConquered)
                      || FocusObject.GetType() == typeof(WorldRegion) || FocusObject.GetType() == typeof(UndergroundRegion)
-                     || FocusObject.GetType() == typeof(WorldConstruction))
+                     || FocusObject.GetType() == typeof(WorldConstruction) || FocusObject.GetType() == typeof(Landmass) ||
+                     FocusObject.GetType() == typeof(MountainPeak))
             {
                 List<Entity> entities = new List<Entity>();
                 if (FocusObject.GetType() == typeof(Entity))
@@ -348,33 +349,60 @@ namespace LegendsViewer.Controls.Map
             if (FocusObject != null && FocusObject is IHasCoordinates)
             {
                 float margin = (float)(4 * PixelWidth);
-                foreach (Location coord in ((IHasCoordinates)FocusObject).Coordinates)
+                if (FocusObject.GetType() == typeof(Landmass))
                 {
-                    PointF loc = new PointF
+                    PointF startloc = new PointF
                     {
-                        X = (float)((coord.X * TileSize - Source.X) * PixelWidth),
-                        Y = (float)((coord.Y * TileSize - Source.Y) * PixelHeight)
+                        X = (float)((((IHasCoordinates)FocusObject).Coordinates[0].X * TileSize - Source.X) * PixelWidth),
+                        Y = (float)((((IHasCoordinates)FocusObject).Coordinates[0].Y * TileSize - Source.Y) * PixelHeight)
+                    };
+                    PointF endloc = new PointF
+                    {
+                        X = (float)((((IHasCoordinates)FocusObject).Coordinates[1].X * TileSize - Source.X) * PixelWidth),
+                        Y = (float)((((IHasCoordinates)FocusObject).Coordinates[1].Y * TileSize - Source.Y) * PixelHeight)
                     };
 
                     using (Pen pen = new Pen(Color.FromArgb(255, Color.White), 2))
                     {
-                        if (FocusObject.GetType() == typeof(WorldRegion))
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)), startloc.X, startloc.Y, endloc.X - startloc.X + scaleTileSize.Width, endloc.Y - startloc.Y + scaleTileSize.Height);
+                        g.DrawRectangle(pen, startloc.X, startloc.Y, endloc.X - startloc.X + scaleTileSize.Width, endloc.Y - startloc.Y + scaleTileSize.Height);
+                    }
+                }
+                else
+                {
+                    foreach (Location coord in ((IHasCoordinates)FocusObject).Coordinates)
+                    {
+                        PointF loc = new PointF
                         {
-                            g.FillRectangle(new SolidBrush(Color.LightGreen), loc.X + margin, loc.Y + margin,
+                            X = (float)((coord.X * TileSize - Source.X) * PixelWidth),
+                            Y = (float)((coord.Y * TileSize - Source.Y) * PixelHeight)
+                        };
+
+                        using (Pen pen = new Pen(Color.FromArgb(255, Color.White), 2))
+                        {
+                            if (FocusObject.GetType() == typeof(WorldRegion))
+                            {
+                                g.FillRectangle(new SolidBrush(Color.LightGreen), loc.X + margin, loc.Y + margin,
+                                    scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
+                            }
+                            else if (FocusObject.GetType() == typeof(UndergroundRegion))
+                            {
+                                g.FillRectangle(new SolidBrush(Color.SandyBrown), loc.X + margin, loc.Y + margin,
+                                    scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
+                            }
+                            else if (FocusObject.GetType() == typeof(WorldConstruction))
+                            {
+                                g.FillRectangle(new SolidBrush(Color.Gold), loc.X + margin, loc.Y + margin,
+                                    scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
+                            }
+                            else if (FocusObject.GetType() == typeof(MountainPeak))
+                            {
+                                g.FillRectangle(new SolidBrush(Color.CornflowerBlue), loc.X + margin, loc.Y + margin,
+                                    scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
+                            }
+                            g.DrawRectangle(pen, loc.X + margin, loc.Y + margin,
                                 scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                         }
-                        else if (FocusObject.GetType() == typeof(UndergroundRegion))
-                        {
-                            g.FillRectangle(new SolidBrush(Color.SandyBrown), loc.X + margin, loc.Y + margin,
-                                scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
-                        }
-                        else if (FocusObject.GetType() == typeof(WorldConstruction))
-                        {
-                            g.FillRectangle(new SolidBrush(Color.Gold), loc.X + margin, loc.Y + margin,
-                                scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
-                        }
-                        g.DrawRectangle(pen, loc.X + margin, loc.Y + margin,
-                            scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                     }
                 }
             }

@@ -100,6 +100,40 @@ namespace LegendsViewer
         }
     }
 
+    public class LandmassesList
+    {
+        private World world;
+        public string Name;
+        public bool sortEvents, sortFiltered;
+        public List<Landmass> BaseList;
+        public LandmassesList(World setWorld) { world = setWorld; BaseList = world.Landmasses; }
+        public IEnumerable<Landmass> getList()
+        {
+            IEnumerable<Landmass> filtered = BaseList;
+            if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (sortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
+            if (sortFiltered) filtered = filtered.OrderByDescending(element => element.Events.Count(ev => !Landmass.Filters.Contains(ev.Type)));
+            return filtered;
+        }
+    }
+
+    public class MountainPeaksList
+    {
+        private World world;
+        public string Name;
+        public bool sortEvents, sortFiltered;
+        public List<MountainPeak> BaseList;
+        public MountainPeaksList(World setWorld) { world = setWorld; BaseList = world.MountainPeaks; }
+        public IEnumerable<MountainPeak> getList()
+        {
+            IEnumerable<MountainPeak> filtered = BaseList;
+            if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (sortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
+            if (sortFiltered) filtered = filtered.OrderByDescending(element => element.Events.Count(ev => !MountainPeak.Filters.Contains(ev.Type)));
+            return filtered;
+        }
+    }
+
     public class EntitiesList
     {
         private World world;

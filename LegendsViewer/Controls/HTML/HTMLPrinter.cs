@@ -58,6 +58,10 @@ namespace LegendsViewer.Controls
                 return new WrittenContentPrinter(printObject as WrittenContent, world);
             if (printType == typeof(Structure))
                 return new StructurePrinter(printObject as Structure, world);
+            if (printType == typeof(Landmass))
+                return new LandmassPrinter(printObject as Landmass, world);
+            if (printType == typeof(MountainPeak))
+                return new MountainPeakPrinter(printObject as MountainPeak, world);
 
             if (printType == typeof(string))
                 return new StringPrinter(printObject as string);

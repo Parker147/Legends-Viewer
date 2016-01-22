@@ -52,16 +52,6 @@ namespace LegendsViewer.Legends.Events
                     LinkType = HistoricalFigureLinkType.Prisoner;
             }
 
-            //if (HistoricalFigure.Race == "Night Creature" || HistoricalFigureTarget.Race == "Night Creature")
-            //{
-            //    if (LinkType == HistoricalFigureLinkType.Unknown)
-            //    {
-            //        LinkType = HistoricalFigureLinkType.Spouse;
-            //    }
-            //    HistoricalFigure.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigureTarget, HistoricalFigureLinkType.ExSpouse));
-            //    HistoricalFigureTarget.RelatedHistoricalFigures.Add(new HistoricalFigureLink(HistoricalFigure, HistoricalFigureLinkType.ExSpouse));
-            //}
-
             HistoricalFigure.AddEvent(this);
             HistoricalFigureTarget.AddEvent(this);
         }
@@ -90,13 +80,13 @@ namespace LegendsViewer.Legends.Events
                         eventString += " began an apprenticeship under ";
                     break;
                 case HistoricalFigureLinkType.FormerApprentice:
-                    if (pov == HistoricalFigureTarget)
+                    if (pov == HistoricalFigure)
                         eventString += " ceased being the apprentice of ";
                     else
                         eventString += " ceased being the master of ";
                     break;
                 case HistoricalFigureLinkType.FormerMaster:
-                    if (pov == HistoricalFigureTarget)
+                    if (pov == HistoricalFigure)
                         eventString += " ceased being the master of ";
                     else
                         eventString += " ceased being the apprentice of ";
