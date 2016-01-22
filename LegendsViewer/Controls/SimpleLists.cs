@@ -236,7 +236,7 @@ namespace LegendsViewer
     public class WorldConstructionsList
     {
         private World World;
-        public string Name;
+        public string Name, Type;
         public bool SortEvents, SortFiltered;
         public List<WorldConstruction> BaseList;
         public WorldConstructionsList(World world) { World = world; BaseList = world.WorldContructions; }
@@ -244,6 +244,7 @@ namespace LegendsViewer
         {
             IEnumerable<WorldConstruction> filtered = BaseList;
             if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (Type != "All") filtered = filtered.Where(element => element.Type.GetDescription() == Type);
             if (SortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
             if (SortFiltered) filtered = filtered.OrderByDescending(element => element.FilteredEvents.Count(ev => !WorldConstruction.Filters.Contains(ev.Type)));
             return filtered;
@@ -253,7 +254,7 @@ namespace LegendsViewer
     public class StructuresList
     {
         private World World;
-        public string Name;
+        public string Name, Type;
         public bool SortEvents, SortFiltered;
         public List<Structure> BaseList;
         public StructuresList(World world) { World = world; BaseList = world.Structures; }
@@ -261,6 +262,7 @@ namespace LegendsViewer
         {
             IEnumerable<Structure> filtered = BaseList;
             if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (Type != "All") filtered = filtered.Where(element => element.Type.GetDescription() == Type);
             if (SortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
             if (SortFiltered) filtered = filtered.OrderByDescending(element => element.FilteredEvents.Count(ev => !Structure.Filters.Contains(ev.Type)));
             return filtered;

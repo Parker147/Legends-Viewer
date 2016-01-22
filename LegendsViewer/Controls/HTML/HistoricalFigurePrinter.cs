@@ -74,6 +74,10 @@ namespace LegendsViewer.Controls
             classes += hf.Equals(HistoricalFigure) ? " current" : "";
             string title = "";
             title += hf.Race != HistoricalFigure.Race ? (hf.Race + " ") : "";
+            if (hf.ActiveInteractions.Any(it => it.Contains("VAMPIRE")))
+                title += "Vampire ";
+            if (hf.ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
+                title += "Werebeast ";
             title += !string.IsNullOrWhiteSpace(hf.AssociatedType) && hf.AssociatedType != "Standard" ? hf.AssociatedType : "";
             if (!string.IsNullOrWhiteSpace(title))
             {

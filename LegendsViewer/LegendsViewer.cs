@@ -565,6 +565,16 @@ namespace LegendsViewer
             var civPopulationTypes = from civPopulation in populationTypes
                                      where world.Entities.Count(entity => entity.Populations.Count(population => population.Race == civPopulation.Key) > 0) > 0
                                      select civPopulation;
+            var structures = from structure in world.Structures
+                             orderby structure.Type.GetDescription()
+                             group structure by structure.Type.GetDescription() into structuretype
+                             select structuretype;
+            var worldconstructions = from construction in world.WorldContructions
+                             orderby construction.Type.GetDescription()
+                             group construction by construction.Type.GetDescription() into constructiontype
+                             select constructiontype;
+
+
             var historicalFigureEvents = from eventType in world.HistoricalFigures.SelectMany(hf => hf.Events)
                                          group eventType by eventType.Type into type
                                          select type.Key;
@@ -693,6 +703,12 @@ namespace LegendsViewer
             cmbEntityPopulation.Items.Add("All"); cmbEntityPopulation.SelectedIndex = 0;
             foreach(var civPopulation in civPopulationTypes)
                 cmbEntityPopulation.Items.Add(civPopulation.Key);
+            cmbStructureType.Items.Add("All"); cmbStructureType.SelectedIndex = 0;
+            foreach (var structure in structures)
+                cmbStructureType.Items.Add(structure.Key);
+            cmbConstructionType.Items.Add("All"); cmbConstructionType.SelectedIndex = 0;
+            foreach (var construction in worldconstructions)
+                cmbConstructionType.Items.Add(construction.Key);
 
 
             numStart.Maximum = numEraEnd.Value = numEraEnd.Maximum = world.Events.Last().Year;
@@ -785,10 +801,12 @@ namespace LegendsViewer
             radWrittenContentSortNone.Checked = true;
 
             txtWorldConstructionsSearch.Clear();
+            cmbConstructionType.Items.Clear();
             listWorldConstructionsSearch.Items.Clear();
             radWorldConstructionsSortNone.Checked = true;
 
             txtStructuresSearch.Clear();
+            cmbStructureType.Items.Clear();
             listStructuresSearch.Items.Clear();
             radStructuresSortNone.Checked = true;
 
@@ -895,6 +913,7 @@ namespace LegendsViewer
             if (!FileLoader.Working && world != null)
             {
                 worldConstructionSearch.Name = txtWorldConstructionsSearch.Text;
+                worldConstructionSearch.Type = cmbConstructionType.SelectedItem.ToString();
                 worldConstructionSearch.SortEvents = radWorldConstructionsSortEvents.Checked;
                 worldConstructionSearch.SortFiltered = radWorldConstructionsSortFiltered.Checked;
                 IEnumerable<WorldConstruction> list = worldConstructionSearch.GetList();
@@ -908,6 +927,7 @@ namespace LegendsViewer
             if (!FileLoader.Working && world != null)
             {
                 structureSearch.Name = txtStructuresSearch.Text;
+                structureSearch.Type = cmbStructureType.SelectedItem.ToString();
                 structureSearch.SortEvents = radStructuresSortEvents.Checked;
                 structureSearch.SortFiltered = radStructuresSortFiltered.Checked;
                 IEnumerable<Structure> list = structureSearch.GetList();
@@ -939,54 +959,6 @@ namespace LegendsViewer
                 IEnumerable<MountainPeak> list = mountainPeaksSearch.getList();
                 listMountainPeakSearch.Items.Clear();
                 listMountainPeakSearch.Items.AddRange(list.ToArray());
-            }
-        }
-
-        private void ResetArtifactBaseList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && world != null)
-            {
-                lblArtifactList.Text = "All";
-                lblArtifactList.ForeColor = Control.DefaultForeColor;
-                lblArtifactList.Font = new Font(lblArtifactList.Font.FontFamily, lblArtifactList.Font.Size, FontStyle.Regular);
-                artifactSearch.BaseList = world.Artifacts;
-                searchArtifactList(null, null);
-            }
-        }
-
-        private void ResetWrittenContentBaseList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && world != null)
-            {
-                lblWrittenContentList.Text = "All";
-                lblWrittenContentList.ForeColor = Control.DefaultForeColor;
-                lblWrittenContentList.Font = new Font(lblWrittenContentList.Font.FontFamily, lblWrittenContentList.Font.Size, FontStyle.Regular);
-                writtenContentSearch.BaseList = world.WrittenContents;
-                searchWrittenContentList(null, null);
-            }
-        }
-
-        private void ResetWorldConstructionBaseList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && world != null)
-            {
-                lblWorldConstructionsList.Text = "All";
-                lblWorldConstructionsList.ForeColor = Control.DefaultForeColor;
-                lblWorldConstructionsList.Font = new Font(lblWorldConstructionsList.Font.FontFamily, lblWorldConstructionsList.Font.Size, FontStyle.Regular);
-                worldConstructionSearch.BaseList = world.WorldContructions;
-                searchWorldConstructionList(null, null);
-            }
-        }
-
-        private void ResetStructureBaseList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && world != null)
-            {
-                lblStructuresList.Text = "All";
-                lblStructuresList.ForeColor = Control.DefaultForeColor;
-                lblStructuresList.Font = new Font(lblStructuresList.Font.FontFamily, lblStructuresList.Font.Size, FontStyle.Regular);
-                structureSearch.BaseList = world.Structures;
-                searchStructureList(null, null);
             }
         }
     }
