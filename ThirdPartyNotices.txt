@@ -9,9 +9,10 @@ This project incorporates components from the projects listed below.
 
 1.	SevenZipSharp (https://sevenzipsharp.codeplex.com/)
 2.	Chart.js (http://www.chartjs.org/)
+3.         Cytoscape.js (http://js.cytoscape.org/)
 
 
-SevenZipSharp License:
+SevenZipSharp & Cytoscape.js License:
            GNU LESSER GENERAL PUBLIC LICENSE
                       Version 3, 29 June 2007
 
