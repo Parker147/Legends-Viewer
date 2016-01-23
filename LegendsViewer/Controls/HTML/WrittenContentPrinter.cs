@@ -20,7 +20,36 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
-            HTML.AppendLine("<h1>" + WrittenContent.Name + "</h1><br />");
+            HTML.AppendLine("<h1>" + WrittenContent.Name + "</h1>");
+            string type = null;
+            if (WrittenContent.Type != WrittenContentType.Unknown)
+            {
+                type = WrittenContent.Type.GetDescription();
+                string firstWord = WrittenContent.Styles.Count > 0 ? WrittenContent.Styles.First() : type;
+                if (firstWord.StartsWith("A") || firstWord.StartsWith("E") || firstWord.StartsWith("I") || firstWord.StartsWith("O") || firstWord.StartsWith("U"))
+                {
+                    HTML.AppendLine("<b>An ");
+                }
+                else
+                {
+                    HTML.AppendLine("<b>A ");
+                }
+                for (int i = 0; i < WrittenContent.Styles.Count; i++)
+                {
+                    if (i != 0)
+                    {
+                        HTML.AppendLine(", ");
+                    }
+                    HTML.AppendLine(WrittenContent.Styles[i].ToLower());
+                    if (i == WrittenContent.Styles.Count - 1)
+                    {
+                        HTML.AppendLine(" ");
+                    }
+                }
+                HTML.AppendLine(type.ToLower() + " written by " + WrittenContent.Author.ToLink() + ".</b>");
+                HTML.AppendLine("<br/>");
+            }
+            HTML.AppendLine("<br/>");
 
             PrintReferences();
             PrintEventLog(WrittenContent.Events, WrittenContent.Filters, WrittenContent);

@@ -570,9 +570,13 @@ namespace LegendsViewer
                              group structure by structure.Type.GetDescription() into structuretype
                              select structuretype;
             var worldconstructions = from construction in world.WorldContructions
-                             orderby construction.Type.GetDescription()
-                             group construction by construction.Type.GetDescription() into constructiontype
-                             select constructiontype;
+                                     orderby construction.Type.GetDescription()
+                                     group construction by construction.Type.GetDescription() into constructiontype
+                                     select constructiontype;
+            var writtencontents = from writtenContent in world.WrittenContents
+                                     orderby writtenContent.Type.GetDescription()
+                                     group writtenContent by writtenContent.Type.GetDescription() into writtenContentType
+                                     select writtenContentType;
 
 
             var historicalFigureEvents = from eventType in world.HistoricalFigures.SelectMany(hf => hf.Events)
@@ -709,6 +713,9 @@ namespace LegendsViewer
             cmbConstructionType.Items.Add("All"); cmbConstructionType.SelectedIndex = 0;
             foreach (var construction in worldconstructions)
                 cmbConstructionType.Items.Add(construction.Key);
+            cmbWrittenContentType.Items.Add("All"); cmbWrittenContentType.SelectedIndex = 0;
+            foreach (var writtencontent in writtencontents)
+                cmbWrittenContentType.Items.Add(writtencontent.Key);
 
 
             numStart.Maximum = numEraEnd.Value = numEraEnd.Maximum = world.Events.Last().Year;
@@ -797,6 +804,7 @@ namespace LegendsViewer
             radArtifactSortNone.Checked = true;
 
             txtWrittenContentSearch.Clear();
+            cmbWrittenContentType.Items.Clear();
             listWrittenContentSearch.Items.Clear();
             radWrittenContentSortNone.Checked = true;
 
@@ -900,6 +908,7 @@ namespace LegendsViewer
             if (!FileLoader.Working && world != null)
             {
                 writtenContentSearch.Name = txtWrittenContentSearch.Text;
+                writtenContentSearch.Type = cmbWrittenContentType.SelectedItem.ToString();
                 writtenContentSearch.SortEvents = radWrittenContentSortEvents.Checked;
                 writtenContentSearch.SortFiltered = radWrittenContentSortFiltered.Checked;
                 IEnumerable<WrittenContent> list = writtenContentSearch.GetList();

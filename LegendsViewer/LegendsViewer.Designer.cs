@@ -279,6 +279,8 @@
             this.tpWorldConstructionSearch = new System.Windows.Forms.TabPage();
             this.btnWorldConstructionsSearch = new System.Windows.Forms.Button();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cmbConstructionType = new System.Windows.Forms.ComboBox();
             this.groupBox24 = new System.Windows.Forms.GroupBox();
             this.radWorldConstructionsSortFiltered = new System.Windows.Forms.RadioButton();
             this.radWorldConstructionsSortNone = new System.Windows.Forms.RadioButton();
@@ -306,8 +308,8 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.hint = new System.Windows.Forms.ToolTip(this.components);
             this.lblVersion = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbConstructionType = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbWrittenContentType = new System.Windows.Forms.ComboBox();
             this.tcWorld.SuspendLayout();
             this.tpSummary.SuspendLayout();
             this.tpHF.SuspendLayout();
@@ -1604,7 +1606,7 @@
             this.listRegionSearch.FormattingEnabled = true;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listRegionSearch.Name = "listRegionSearch";
-            this.listRegionSearch.Size = new System.Drawing.Size(242, 160);
+            this.listRegionSearch.Size = new System.Drawing.Size(242, 147);
             this.listRegionSearch.TabIndex = 32;
             this.listRegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1764,7 +1766,7 @@
             this.listURegionSearch.FormattingEnabled = true;
             this.listURegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listURegionSearch.Name = "listURegionSearch";
-            this.listURegionSearch.Size = new System.Drawing.Size(242, 173);
+            this.listURegionSearch.Size = new System.Drawing.Size(242, 160);
             this.listURegionSearch.TabIndex = 32;
             this.listURegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1905,7 +1907,7 @@
             this.listLandmassSearch.FormattingEnabled = true;
             this.listLandmassSearch.Location = new System.Drawing.Point(3, 31);
             this.listLandmassSearch.Name = "listLandmassSearch";
-            this.listLandmassSearch.Size = new System.Drawing.Size(247, 212);
+            this.listLandmassSearch.Size = new System.Drawing.Size(247, 199);
             this.listLandmassSearch.TabIndex = 43;
             this.listLandmassSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2044,7 +2046,7 @@
             this.listMountainPeakSearch.FormattingEnabled = true;
             this.listMountainPeakSearch.Location = new System.Drawing.Point(3, 31);
             this.listMountainPeakSearch.Name = "listMountainPeakSearch";
-            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 199);
+            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 186);
             this.listMountainPeakSearch.TabIndex = 43;
             this.listMountainPeakSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -3166,6 +3168,8 @@
             // 
             this.groupBox21.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox21.Controls.Add(this.label8);
+            this.groupBox21.Controls.Add(this.cmbWrittenContentType);
             this.groupBox21.Controls.Add(this.groupBox22);
             this.groupBox21.Location = new System.Drawing.Point(3, 278);
             this.groupBox21.Name = "groupBox21";
@@ -3316,6 +3320,24 @@
             this.groupBox23.TabIndex = 45;
             this.groupBox23.TabStop = false;
             this.groupBox23.Text = "Filter / Sort";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 19);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(30, 13);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "Type";
+            // 
+            // cmbConstructionType
+            // 
+            this.cmbConstructionType.FormattingEnabled = true;
+            this.cmbConstructionType.Location = new System.Drawing.Point(6, 35);
+            this.cmbConstructionType.Name = "cmbConstructionType";
+            this.cmbConstructionType.Size = new System.Drawing.Size(121, 21);
+            this.cmbConstructionType.TabIndex = 18;
+            this.cmbConstructionType.SelectedIndexChanged += new System.EventHandler(this.searchWorldConstructionList);
             // 
             // groupBox24
             // 
@@ -3605,23 +3627,23 @@
             this.lblVersion.Text = "v1.00.00";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label7
+            // label8
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 19);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(30, 13);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "Type";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 19);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(30, 13);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Type";
             // 
-            // cmbConstructionType
+            // cmbWrittenContentType
             // 
-            this.cmbConstructionType.FormattingEnabled = true;
-            this.cmbConstructionType.Location = new System.Drawing.Point(6, 35);
-            this.cmbConstructionType.Name = "cmbConstructionType";
-            this.cmbConstructionType.Size = new System.Drawing.Size(121, 21);
-            this.cmbConstructionType.TabIndex = 18;
-            this.cmbConstructionType.SelectedIndexChanged += new System.EventHandler(this.searchWorldConstructionList);
+            this.cmbWrittenContentType.FormattingEnabled = true;
+            this.cmbWrittenContentType.Location = new System.Drawing.Point(6, 35);
+            this.cmbWrittenContentType.Name = "cmbWrittenContentType";
+            this.cmbWrittenContentType.Size = new System.Drawing.Size(121, 21);
+            this.cmbWrittenContentType.TabIndex = 18;
+            this.cmbWrittenContentType.SelectedIndexChanged += new System.EventHandler(this.searchWrittenContentList);
             // 
             // frmLegendsViewer
             // 
@@ -3750,6 +3772,7 @@
             this.tpWrittenContentSearch.ResumeLayout(false);
             this.tpWrittenContentSearch.PerformLayout();
             this.groupBox21.ResumeLayout(false);
+            this.groupBox21.PerformLayout();
             this.groupBox22.ResumeLayout(false);
             this.groupBox22.PerformLayout();
             this.tpWorldConstructions.ResumeLayout(false);
@@ -4054,6 +4077,8 @@
         private System.Windows.Forms.ComboBox cmbStructureType;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbConstructionType;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cmbWrittenContentType;
     }
 }
 

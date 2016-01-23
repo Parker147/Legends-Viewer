@@ -219,7 +219,7 @@ namespace LegendsViewer
     public class WrittenContentList
     {
         private World World;
-        public string Name;
+        public string Name, Type;
         public bool SortEvents, SortFiltered;
         public List<WrittenContent> BaseList;
         public WrittenContentList(World world) { World = world; BaseList = world.WrittenContents; }
@@ -227,6 +227,7 @@ namespace LegendsViewer
         {
             IEnumerable<WrittenContent> filtered = BaseList;
             if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (Type != "All") filtered = filtered.Where(element => element.Type.GetDescription() == Type);
             if (SortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
             if (SortFiltered) filtered = filtered.OrderByDescending(element => element.FilteredEvents.Count(ev => !WrittenContent.Filters.Contains(ev.Type)));
             return filtered;

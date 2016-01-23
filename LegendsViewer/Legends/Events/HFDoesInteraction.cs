@@ -47,6 +47,17 @@ namespace LegendsViewer.Legends.Events
                     Target.LineageCurseParent = Doer;
                 }
             }
+            if (Target != null && !string.IsNullOrWhiteSpace(InteractionAction))
+            {
+                if (InteractionAction.Contains(", passing on the "))
+                {
+                    Target.Interaction = InteractionAction.Replace(", passing on the ", "");
+                }
+                else if(InteractionString.Contains(" to assume the form of a "))
+                {
+                    Target.Interaction = InteractionString.Replace(" to assume the form of a ", "").Replace("-like", "").Replace(" every full moon", " curse");
+                }
+            }
             Doer.AddEvent(this);
             Target.AddEvent(this);
             Region.AddEvent(this);

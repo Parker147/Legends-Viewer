@@ -4,6 +4,7 @@ using System.Linq;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
 using System;
+using LegendsViewer.Legends.Enums;
 
 namespace LegendsViewer.Legends
 {
@@ -12,7 +13,7 @@ namespace LegendsViewer.Legends
         public string Name { get; set; } // legends_plus.xml
         public int PageStart { get; set; } // legends_plus.xml
         public int PageEnd { get; set; } // legends_plus.xml
-        public string Type { get; set; } // legends_plus.xml
+        public WrittenContentType Type { get; set; } // legends_plus.xml
         public HistoricalFigure Author { get; set; } // legends_plus.xml
         public List<string> Styles { get; set; } // legends_plus.xml
         public List<Reference> References { get; set; } // legends_plus.xml
@@ -40,7 +41,31 @@ namespace LegendsViewer.Legends
                     case "page_start": PageStart = Convert.ToInt32(property.Value); break;
                     case "page_end": PageEnd = Convert.ToInt32(property.Value); break;
                     case "reference": References.Add(new Reference(property.SubProperties, world)); break;
-                    case "type": Type = property.Value; break;
+                    case "type":
+                        switch (property.Value)
+                        {
+                            case "Autobiography": Type = WrittenContentType.Autobiography; break;
+                            case "Biography": Type = WrittenContentType.Biography; break;
+                            case "Chronicle": Type = WrittenContentType.Chronicle; break;
+                            case "Dialog": Type = WrittenContentType.Dialog; break;
+                            case "Essay": Type = WrittenContentType.Essay; break;
+                            case "Guide": Type = WrittenContentType.Guide; break;
+                            case "Letter": Type = WrittenContentType.Letter; break;
+                            case "Manual": Type = WrittenContentType.Manual; break;
+                            case "Novel": Type = WrittenContentType.Novel; break;
+                            case "Play": Type = WrittenContentType.Play; break;
+                            case "Poem": Type = WrittenContentType.Poem; break;
+                            case "ShortStory": Type = WrittenContentType.ShortStory; break;
+                            default:
+                                Type = WrittenContentType.Unknown;
+                                int typeID;
+                                if (!int.TryParse(property.Value, out typeID))
+                                {
+                                    world.ParsingErrors.Report("Unknown WrittenContent WrittenContentType: " + property.Value);
+                                }
+                                break;
+                        }
+                        break;
                     case "author": Author = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "style": Styles.Add(property.Value); break;
                 }
@@ -57,10 +82,9 @@ namespace LegendsViewer.Legends
             if (link)
             {
                 string type = null;
-                int typeId;
-                if (!int.TryParse(Type, out typeId))
+                if (Type != WrittenContentType.Unknown)
                 {
-                    type = Type;
+                    type = Type.GetDescription();
                 }
                 string title = "Written Content";
                 title += string.IsNullOrWhiteSpace(type) ? "" : ", " + type;

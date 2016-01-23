@@ -44,6 +44,7 @@ namespace LegendsViewer.Legends
         public List<string> ActiveInteractions { get; set; }
         public List<string> InteractionKnowledge { get; set; }
         public string Goal { get; set; }
+        public string Interaction { get; set; }
 
         public HistoricalFigure LineageCurseParent { get; set; }
         public List<HistoricalFigure> LineageCurseChilds { get; set; }

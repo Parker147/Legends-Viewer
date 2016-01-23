@@ -151,8 +151,12 @@ namespace LegendsViewer.Controls
                 {
                     Curser = Curser.LineageCurseParent;
                 }
-
-                HTML.AppendLine(Bold("Curse Lineage") + LineBreak);
+                string curse = "Curse";
+                if (!string.IsNullOrWhiteSpace(HistoricalFigure.Interaction))
+                {
+                    curse = Formatting.InitCaps(HistoricalFigure.Interaction);
+                }
+                HTML.AppendLine(Bold(curse + " Lineage") + LineBreak);
                 HTML.AppendLine("<div class=\"tree\">");
                 HTML.AppendLine("<ul>");
                 HTML.AppendLine("<li>");

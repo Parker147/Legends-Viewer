@@ -211,6 +211,7 @@
     <Compile Include="Legends\Enums\SiteType.cs" />
     <Compile Include="Legends\Enums\StructureType.cs" />
     <Compile Include="Legends\Enums\WorldConstructionType.cs" />
+    <Compile Include="Legends\Enums\WrittenContentType.cs" />
     <Compile Include="Legends\Era.cs" />
     <Compile Include="Legends\EventCollections\Abduction.cs" />
     <Compile Include="Legends\EventCollections\Battle.cs" />
