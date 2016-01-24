@@ -550,7 +550,7 @@ namespace LegendsViewer
                            orderby uregion.Type
                            group uregion by uregion.Type into uregiontype
                            select uregiontype;
-            var civRaces = from civ in world.Entities
+            var civRaces = from civ in world.Entities.Where(entity => !string.IsNullOrWhiteSpace(entity.Name))
                            orderby civ.Race
                            group civ by civ.Race into civRace
                            select civRace;
