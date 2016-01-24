@@ -29,6 +29,10 @@ namespace LegendsViewer
         private const string HistoryTextDefault = "World History Text";
         private const string SitesTextDefault = "Sites and Populations Text";
         private const string MapTextDefault = "Map Image";
+
+        public static string SaveDirectory { get; set; }
+        public static string SaveID { get; set; }
+
         private FileState XMLState 
         {
             get { return _xmlState;}
@@ -252,6 +256,9 @@ namespace LegendsViewer
             else
                 return;
             string directory = xmlFile.Substring(0, xmlFile.LastIndexOf("\\") + 1);
+
+            SaveDirectory = directory;
+            SaveID = region;
 
             if (File.Exists(directory + region + "-legends.xml"))
             {

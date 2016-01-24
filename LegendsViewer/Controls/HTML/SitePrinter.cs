@@ -6,6 +6,9 @@ using LegendsViewer.Legends;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
+using System.IO;
+using System.Drawing;
+using System;
 
 namespace LegendsViewer.Controls
 {
@@ -36,6 +39,7 @@ namespace LegendsViewer.Controls
 
             HTML.AppendLine("<table>");
             HTML.AppendLine("<tr>");
+            PrintSiteMap();
             HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
             HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
             HTML.AppendLine("</tr></table></br>");
@@ -175,6 +179,45 @@ namespace LegendsViewer.Controls
             PrintEventLog(Site.Events, Site.Filters, Site);
 
             return HTML.ToString();
+        }
+
+        private void PrintSiteMap()
+        {
+            string sitemapPath = FileLoader.SaveDirectory + FileLoader.SaveID + "-site_map-" + Site.ID;
+            if (File.Exists(sitemapPath + ".bmp"))
+            {
+                CreateSitemapBitmap(sitemapPath + ".bmp");
+            }
+            else if (File.Exists(sitemapPath + ".png"))
+            {
+                CreateSitemapBitmap(sitemapPath + ".png");
+            }
+            else if (File.Exists(sitemapPath + ".jpg"))
+            {
+                CreateSitemapBitmap(sitemapPath + ".jpg");
+            }
+            else if (File.Exists(sitemapPath + ".jpeg"))
+            {
+                CreateSitemapBitmap(sitemapPath + ".jpeg");
+            }
+        }
+
+        private void CreateSitemapBitmap(string sitemapPath)
+        {
+            Bitmap sitemap = null;
+            Bitmap Map = null;
+            using (FileStream mapStream = new FileStream(sitemapPath, FileMode.Open))
+            {
+                Map = new Bitmap(mapStream);
+            }
+            if (Map != null)
+            {
+                Formatting.ResizeImage(Map, ref sitemap, 250, 250, true, true);
+            }
+            if (sitemap != null)
+            {
+                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(sitemap), LinkOption.LoadMap) + "</td>");
+            }
         }
     }
 }
