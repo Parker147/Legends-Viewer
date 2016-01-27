@@ -218,9 +218,12 @@ namespace LegendsViewer.Legends
                         foreach (var coordinateString in coordinateStrings)
                         {
                             string[] xYCoordinates = coordinateString.Split(',');
-                            int x = Convert.ToInt32(xYCoordinates[0]);
-                            int y = Convert.ToInt32(xYCoordinates[1]);
-                            Claims.Add(new Location(x, y));
+                            if (xYCoordinates.Length == 2)
+                            {
+                                int x = Convert.ToInt32(xYCoordinates[0]);
+                                int y = Convert.ToInt32(xYCoordinates[1]);
+                                Claims.Add(new Location(x, y));
+                            }
                         }
                         break;
                     case "entity_position": EntityPositions.Add(new EntityPosition(property.SubProperties, world)); break;
