@@ -90,6 +90,11 @@ namespace LegendsViewer.Legends.Parser
             {
                 Property id = existingProperties.SingleOrDefault(property => property.Name == "id");
                 Property currentId = CurrentItem.SingleOrDefault(property => property.Name == "id");
+                while (currentId != null && currentId.ValueAsInt() < 0)
+                {
+                    CurrentItem = ParseItem();
+                    if (CurrentItem != null) currentId = CurrentItem.SingleOrDefault(property => property.Name == "id");
+                }
                 if (id != null && currentId != null && id.ValueAsInt().Equals(currentId.ValueAsInt()))
                 {
                     foreach (var property in CurrentItem)
