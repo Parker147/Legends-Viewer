@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends.Events
         public Entity MakerEntity { get; set; }
         public Site Site { get; set; }
         public int ItemID { get; set; }
+        public string ItemType { get; set; }
         public string ItemSubType { get; set; }
 
         public MasterpieceFood(List<Property> properties, World world)
@@ -27,6 +28,7 @@ namespace LegendsViewer.Legends.Events
                     case "maker": if (Maker == null) { Maker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                     case "maker_entity": if (MakerEntity == null) { MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "item_type": ItemType = property.Value; break;
                     case "item_subtype": ItemSubType = property.Value; break;
                     case "item_id": ItemID = Convert.ToInt32(property.Value); break;
                 }

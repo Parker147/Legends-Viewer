@@ -12,8 +12,10 @@ namespace LegendsViewer.Legends.Events
         public Site Site { get; set; }
         public string ItemType { get; set; }
         public string ItemSubType { get; set; }
+        public string Material { get; set; }
         public int MaterialType { get; set; }
         public int MaterialIndex { get; set; }
+        public string DyeMaterial { get; set; }
         public int DyeMaterialType { get; set; }
         public int DyeMaterialIndex { get; set; }
 
@@ -33,8 +35,10 @@ namespace LegendsViewer.Legends.Events
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                     case "item_type": ItemType = property.Value.Replace("_", " "); break;
                     case "item_subtype": ItemSubType = property.Value.Replace("_", " "); break;
+                    case "mat": Material = property.Value.Replace("_", " "); break;
                     case "mat_type": MaterialType = Convert.ToInt32(property.Value); break;
                     case "mat_index": MaterialIndex = Convert.ToInt32(property.Value); break;
+                    case "dye_mat": DyeMaterial = property.Value.Replace("_", " "); break;
                     case "dye_mat_type": DyeMaterialType = Convert.ToInt32(property.Value); break;
                     case "dye_mat_index": DyeMaterialIndex = Convert.ToInt32(property.Value); break;
                 }
@@ -48,9 +52,17 @@ namespace LegendsViewer.Legends.Events
             string eventString = GetYearTime();
             eventString += Maker != null ? Maker.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
             eventString += " masterfully dyed a ";
-            eventString += "UNKNOWN ITEM";
+            eventString += !string.IsNullOrWhiteSpace(Material) ? Material + " " : "";
+            if (!string.IsNullOrWhiteSpace(ItemSubType) && ItemSubType != "-1")
+            {
+                eventString += ItemSubType;
+            }
+            else
+            {
+                eventString += !string.IsNullOrWhiteSpace(ItemType) ? ItemType : "UNKNOWN ITEM";
+            }
             eventString += " with ";
-            eventString += "UNKNOWN DYE";
+            eventString += !string.IsNullOrWhiteSpace(DyeMaterial) ? DyeMaterial : "UNKNOWN DYE";
             eventString += " for ";
             eventString += MakerEntity != null ? MakerEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += " in ";

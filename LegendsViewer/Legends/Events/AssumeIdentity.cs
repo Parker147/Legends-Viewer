@@ -18,8 +18,10 @@ namespace LegendsViewer.Legends.Events
                 switch (property.Name)
                 {
                     case "trickster_hfid": Trickster = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
-                    case "identity_id": property.Known = true; Identity = HistoricalFigure.Unknown; break; //Bad ID, so unknown for now.
+                    case "identity_id": property.Known = true; Identity = HistoricalFigure.Unknown; break; // TODO Bad ID, so unknown for now.
                     case "target_enid": Target = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "trickster": if (Trickster == null) { Trickster = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "target": if (Target == null) { Target = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                 }
             }
 
