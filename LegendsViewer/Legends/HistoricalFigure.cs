@@ -399,6 +399,8 @@ namespace LegendsViewer.Legends
                 return hfraceString + " vampire";
             if (ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
                 return hfraceString + " werebeast";
+            if (ActiveInteractions.Any(it => it.Contains("SECRET")))
+                return hfraceString + " necromancer";
 
             return hfraceString;
         }
@@ -413,6 +415,8 @@ namespace LegendsViewer.Legends
                 return Race.ToLower() + " vampire";
             if (ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
                 return Race.ToLower() + " werebeast";
+            if (ActiveInteractions.Any(it => it.Contains("SECRET")))
+                return Race.ToLower() + " necromancer";
             return Race.ToLower();
         }
     }

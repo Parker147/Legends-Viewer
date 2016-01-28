@@ -27,7 +27,7 @@ namespace LegendsViewer.Legends.Events
                         HistoricalFigure = world.GetHistoricalFigure(property.ValueAsInt());
                         break;
                     case "link_type":
-                        switch (property.Value)
+                        switch (property.Value.Replace("_"," "))
                         {
                             case "position":
                                 LinkType = HfEntityLinkType.Position;
@@ -46,6 +46,9 @@ namespace LegendsViewer.Legends.Events
                                 break;
                             case "squad":
                                 LinkType = HfEntityLinkType.Squad;
+                                break;
+                            case "former member":
+                                LinkType = HfEntityLinkType.FormerMember;
                                 break;
                             default:
                                 world.ParsingErrors.Report("Unknown HfEntityLinkType: " + property.Value);
@@ -79,6 +82,9 @@ namespace LegendsViewer.Legends.Events
                     break;
                 case HfEntityLinkType.Member:
                     eventString += " became a member of ";
+                    break;
+                case HfEntityLinkType.FormerMember:
+                    eventString += " became a former member of ";
                     break;
                 case HfEntityLinkType.Squad:
                 case HfEntityLinkType.Position:

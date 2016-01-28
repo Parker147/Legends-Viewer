@@ -39,7 +39,7 @@ namespace LegendsViewer
                                             typeof(Battle), typeof(SiteConquered), typeof(Era), typeof(BeastAttack),
                                             typeof(Artifact), typeof(WrittenContent), typeof(WorldConstruction), typeof(Structure),
                                             typeof(Landmass), typeof(MountainPeak),
-        };                         
+        };
         private List<List<String>> TabEvents;
         DwarfTabControl Browser;
         private bool DontRefreshBrowserPages = true;
@@ -62,7 +62,7 @@ namespace LegendsViewer
             btnForward.Location = new Point(btnBack.Right + 3, 3);
             Browser = new DwarfTabControl(world);
             Browser.Location = new Point(tcWorld.Right, btnBack.Bottom + 3);
-            Browser.Size = new Size(ClientSize.Width - Browser.Left , ClientSize.Height - Browser.Top);
+            Browser.Size = new Size(ClientSize.Width - Browser.Left, ClientSize.Height - Browser.Top);
             Browser.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right);
             Controls.Add(Browser);
             foreach (TabPage tp in tcWorld.TabPages)
@@ -98,7 +98,7 @@ namespace LegendsViewer
 
         private void GenerateEventFilterCheckBoxes()
         {
-            Array.Sort(AppHelpers.EventInfo, delegate(string[] a, string[] b)
+            Array.Sort(AppHelpers.EventInfo, delegate (string[] a, string[] b)
             {
                 return string.Compare(a[1], b[1]);
             });
@@ -146,7 +146,7 @@ namespace LegendsViewer
                 eventTab.Controls.Clear();
         }
 
-        
+
         private void OnEventFilterCheck(object sender, EventArgs e)
         {
             CheckBox eventCheck = (sender as CheckBox);
@@ -159,7 +159,7 @@ namespace LegendsViewer
                     eventFilter.Remove(eventInfo[0]);
                 else
                     eventFilter.Add(eventInfo[0]);
-                if(!DontRefreshBrowserPages)
+                if (!DontRefreshBrowserPages)
                     Browser.RefreshAll(EventTabTypes[eventPageIndex]);
             }
             else
@@ -174,7 +174,7 @@ namespace LegendsViewer
         {
             Button selectButton = (sender as Button);
             DontRefreshBrowserPages = true;
-            foreach(CheckBox checkEvent in selectButton.Parent.Controls.OfType<CheckBox>())
+            foreach (CheckBox checkEvent in selectButton.Parent.Controls.OfType<CheckBox>())
             {
                 if (selectButton.Text == "Select All")
                     checkEvent.Checked = true;
@@ -183,7 +183,7 @@ namespace LegendsViewer
             }
             Browser.RefreshAll(EventTabTypes[Array.IndexOf(EventTabs, selectButton.Parent)]);
             DontRefreshBrowserPages = false;
-                    
+
         }
 
         private void listSearch_SelectedIndexChanged(object sender, EventArgs e)
@@ -249,9 +249,9 @@ namespace LegendsViewer
                 searchHFList(null, null);
             }
         }
-		
-		private void searchSiteList(object sender, EventArgs e)
-		{
+
+        private void searchSiteList(object sender, EventArgs e)
+        {
             if (!FileLoader.Working && world != null)
             {
                 if (sender == cmbSitePopulation && !radSiteSortPopulation.Checked) radSiteSortPopulation.Checked = true;
@@ -273,7 +273,7 @@ namespace LegendsViewer
                     listSiteSearch.Items.AddRange(list.ToArray());
                 }
             }
-		}
+        }
 
         public void ChangeSiteBaseList(List<Site> list, string listName)
         {
@@ -304,8 +304,8 @@ namespace LegendsViewer
             }
         }
 
-		private void searchRegionList(object sender, EventArgs e)
-		{
+        private void searchRegionList(object sender, EventArgs e)
+        {
             if (!FileLoader.Working && world != null)
             {
                 regionSearch.name = txtRegionSearch.Text;
@@ -318,10 +318,10 @@ namespace LegendsViewer
                 listRegionSearch.Items.Clear();
                 listRegionSearch.Items.AddRange(list.ToArray());
             }
-		}
+        }
 
-		private void searchURegionList(object sender, EventArgs e)
-		{
+        private void searchURegionList(object sender, EventArgs e)
+        {
             if (!FileLoader.Working && world != null)
             {
                 uRegionSearch.type = cmbURegionType.SelectedItem.ToString();
@@ -331,16 +331,17 @@ namespace LegendsViewer
                 listURegionSearch.Items.Clear();
                 listURegionSearch.Items.AddRange(list.ToArray());
             }
-		}
+        }
 
-		private void searchEntityList(object sender, EventArgs e)
-		{
+        private void searchEntityList(object sender, EventArgs e)
+        {
             if (!FileLoader.Working && world != null)
             {
                 if (sender == cmbEntityPopulation && !radEntitySortPopulation.Checked) radEntitySortPopulation.Checked = true;
                 else
                 {
                     entitySearch.name = txtCivSearch.Text;
+                    entitySearch.Type = cmbEntityType.SelectedItem.ToString();
                     entitySearch.race = cmbCivRace.SelectedItem.ToString();
                     entitySearch.civs = chkCiv.Checked;
                     entitySearch.PopulationType = cmbEntityPopulation.SelectedItem.ToString();
@@ -354,7 +355,7 @@ namespace LegendsViewer
                     listCivSearch.Items.AddRange(list.ToArray());
                 }
             }
-		}
+        }
 
         private void searchWarList(object sender, EventArgs e)
         {
@@ -574,62 +575,70 @@ namespace LegendsViewer
                                      group construction by construction.Type.GetDescription() into constructiontype
                                      select constructiontype;
             var writtencontents = from writtenContent in world.WrittenContents
-                                     orderby writtenContent.Type.GetDescription()
-                                     group writtenContent by writtenContent.Type.GetDescription() into writtenContentType
-                                     select writtenContentType;
+                                  orderby writtenContent.Type.GetDescription()
+                                  group writtenContent by writtenContent.Type.GetDescription() into writtenContentType
+                                  select writtenContentType;
+            var artifacts = from artifact in world.Artifacts
+                            orderby artifact.Type.GetDescription()
+                            group artifact by artifact.Type.GetDescription() into artifactType
+                            select artifactType;
+            var entites = from entity in world.Entities
+                            orderby entity.Type.GetDescription()
+                            group entity by entity.Type.GetDescription() into entityType
+                          select entityType;
 
 
             var historicalFigureEvents = from eventType in world.HistoricalFigures.SelectMany(hf => hf.Events)
                                          group eventType by eventType.Type into type
                                          select type.Key;
             var siteEvents = from eventType in world.Sites.SelectMany(site => site.Events)
-                                         group eventType by eventType.Type into type
-                                         select type.Key;
+                             group eventType by eventType.Type into type
+                             select type.Key;
             var regionEvents = from eventType in world.Regions.SelectMany(region => region.Events)
-                                         group eventType by eventType.Type into type
-                                         select type.Key;
+                               group eventType by eventType.Type into type
+                               select type.Key;
             var undergroundRegionEvents = from eventType in world.UndergroundRegions.SelectMany(uRegion => uRegion.Events)
-                                         group eventType by eventType.Type into type
-                                         select type.Key;
+                                          group eventType by eventType.Type into type
+                                          select type.Key;
             var entityEvents = from eventType in world.Entities.SelectMany(hf => hf.Events)
-                                         group eventType by eventType.Type into type
-                                         select type.Key;
+                               group eventType by eventType.Type into type
+                               select type.Key;
             var warEvents = from eventType in world.EventCollections.OfType<War>().SelectMany(war => war.GetSubEvents())
-                                         group eventType by eventType.Type into type
-                                         select type.Key;
+                            group eventType by eventType.Type into type
+                            select type.Key;
             var battleEvents = from eventType in world.EventCollections.OfType<Battle>().SelectMany(battle => battle.GetSubEvents())
-                                         group eventType by eventType.Type into type
-                                         select type.Key;
+                               group eventType by eventType.Type into type
+                               select type.Key;
             var conqueringEvents = from eventType in world.EventCollections.OfType<SiteConquered>().SelectMany(conquering => conquering.GetSubEvents())
-                                         group eventType by eventType.Type into type
-                                         select type.Key;
-            var beastAttackEvents = from eventType in world.EventCollections.OfType<BeastAttack>().SelectMany(beastAttack => beastAttack.GetSubEvents())
                                    group eventType by eventType.Type into type
                                    select type.Key;
+            var beastAttackEvents = from eventType in world.EventCollections.OfType<BeastAttack>().SelectMany(beastAttack => beastAttack.GetSubEvents())
+                                    group eventType by eventType.Type into type
+                                    select type.Key;
 
             var artifactEvents = from eventType in world.Artifacts.SelectMany(artifact => artifact.Events)
                                  group eventType by eventType.Type into type
                                  select type.Key;
 
             var writtenContentEvents = from eventType in world.WrittenContents.SelectMany(element => element.Events)
-                                 group eventType by eventType.Type into type
-                                 select type.Key;
-
-            var worldConstructionEvents = from eventType in world.WorldContructions.SelectMany(element => element.Events)
                                        group eventType by eventType.Type into type
                                        select type.Key;
+
+            var worldConstructionEvents = from eventType in world.WorldContructions.SelectMany(element => element.Events)
+                                          group eventType by eventType.Type into type
+                                          select type.Key;
 
             var structureEvents = from eventType in world.Structures.SelectMany(element => element.Events)
                                   group eventType by eventType.Type into type
                                   select type.Key;
 
             var landmassEvents = from eventType in world.Landmasses.SelectMany(element => element.Events)
-                                  group eventType by eventType.Type into type
-                                  select type.Key;
+                                 group eventType by eventType.Type into type
+                                 select type.Key;
 
             var mountainPeakEvents = from eventType in world.MountainPeaks.SelectMany(element => element.Events)
-                                  group eventType by eventType.Type into type
-                                  select type.Key;
+                                     group eventType by eventType.Type into type
+                                     select type.Key;
 
             var eventTypes = from eventType in world.Events
                              group eventType by eventType.Type into type
@@ -705,7 +714,7 @@ namespace LegendsViewer
             foreach (var populationType in populationTypes)
                 cmbSitePopulation.Items.Add(populationType.Key);
             cmbEntityPopulation.Items.Add("All"); cmbEntityPopulation.SelectedIndex = 0;
-            foreach(var civPopulation in civPopulationTypes)
+            foreach (var civPopulation in civPopulationTypes)
                 cmbEntityPopulation.Items.Add(civPopulation.Key);
             cmbStructureType.Items.Add("All"); cmbStructureType.SelectedIndex = 0;
             foreach (var structure in structures)
@@ -716,10 +725,16 @@ namespace LegendsViewer
             cmbWrittenContentType.Items.Add("All"); cmbWrittenContentType.SelectedIndex = 0;
             foreach (var writtencontent in writtencontents)
                 cmbWrittenContentType.Items.Add(writtencontent.Key);
+            cmbArtifactType.Items.Add("All"); cmbArtifactType.SelectedIndex = 0;
+            foreach (var artifact in artifacts)
+                cmbArtifactType.Items.Add(Formatting.InitCaps(artifact.Key));
+            cmbEntityType.Items.Add("All"); cmbEntityType.SelectedIndex = 0;
+            foreach (var entity in entites)
+                cmbEntityType.Items.Add(entity.Key);
 
 
             numStart.Maximum = numEraEnd.Value = numEraEnd.Maximum = world.Events.Last().Year;
-            
+
 
             DontRefreshBrowserPages = true;
             foreach (CheckBox eraCheck in tpEraEvents.Controls.OfType<CheckBox>())
@@ -752,7 +767,7 @@ namespace LegendsViewer
 
             RemoveEventFilterCheckBoxes();
             if (TabEvents != null)
-            TabEvents.Clear();
+                TabEvents.Clear();
 
             txtHFSearch.Clear();
             listHFSearch.Items.Clear();
@@ -779,6 +794,7 @@ namespace LegendsViewer
 
             txtCivSearch.Clear();
             listCivSearch.Items.Clear();
+            cmbEntityType.Items.Clear();
             cmbCivRace.Items.Clear();
             cmbEntityPopulation.Items.Clear();
             chkCiv.Checked = false;
@@ -800,6 +816,7 @@ namespace LegendsViewer
             radConqueringSortNone.Checked = true;
 
             txtArtifactSearch.Clear();
+            cmbArtifactType.Items.Clear();
             listArtifactSearch.Items.Clear();
             radArtifactSortNone.Checked = true;
 
@@ -837,7 +854,7 @@ namespace LegendsViewer
         }
         private void btnClose_Click(object sender, EventArgs e)
         {
-            if(Browser != null)
+            if (Browser != null)
                 Browser.CloseTab();
         }
 
@@ -895,6 +912,7 @@ namespace LegendsViewer
             if (!FileLoader.Working && world != null)
             {
                 artifactSearch.Name = txtArtifactSearch.Text;
+                artifactSearch.Type = cmbArtifactType.SelectedItem.ToString();
                 artifactSearch.SortEvents = radArtifactSortEvents.Checked;
                 artifactSearch.SortFiltered = radArtifactSortFiltered.Checked;
                 IEnumerable<Artifact> list = artifactSearch.GetList();

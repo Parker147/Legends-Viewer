@@ -64,7 +64,7 @@ namespace LegendsViewer.Controls
                         title += "collection of outcasts";
                         break;
                     case EntityType.Religion:
-                        title += "religion";
+                        title += "religious group";
                         break;
                     case EntityType.SiteGovernment:
                         title += "site government";

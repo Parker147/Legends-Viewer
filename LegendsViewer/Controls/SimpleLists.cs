@@ -137,6 +137,7 @@ namespace LegendsViewer
     public class EntitiesList
     {
         private World world;
+        public string Type;
         public string name, race, PopulationType;
         public bool sortEvents, sortSites, civs, sortFiltered, sortWars, SortPopulation;
         public List<Entity> BaseList;
@@ -145,6 +146,7 @@ namespace LegendsViewer
         {
             IEnumerable<Entity> filtered = BaseList.Where(entity => entity.Name != "");
             if (name != "") filtered = filtered.Where(e => e.Name.ToLower().Contains(name.ToLower()));
+            if (Type != "All") filtered = filtered.Where(element => element.Type.GetDescription() == Type);
             if (race != "All") filtered = filtered.Where(e => e.Race == race);
             if (civs) filtered = filtered.Where(e => e.IsCiv);
             if (sortSites) filtered = filtered.OrderByDescending(civ => civ.SiteHistory.Count);
@@ -202,16 +204,17 @@ namespace LegendsViewer
     public class ArtifactsList
     {
         private World World;
-        public string Name;
+        public string Name, Type;
         public bool SortEvents, SortFiltered;
         public List<Artifact> BaseList;
         public ArtifactsList(World world) { World = world; BaseList = world.Artifacts; }
         public IEnumerable<Artifact> GetList()
         {
             IEnumerable<Artifact> filtered = BaseList;
-            if (Name != "") filtered = filtered.Where(artifact => artifact.Name.ToLower().Contains(Name.ToLower()));
-            if (SortEvents) filtered = filtered.OrderByDescending(artifact => artifact.Events.Count);
-            if (SortFiltered) filtered = filtered.OrderByDescending(artifact => artifact.FilteredEvents.Count(ev => !Artifact.Filters.Contains(ev.Type)));
+            if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (Type != "All") filtered = filtered.Where(element => element.Type.GetDescription().ToLower() == Type.ToLower());
+            if (SortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
+            if (SortFiltered) filtered = filtered.OrderByDescending(element => element.FilteredEvents.Count(ev => !Artifact.Filters.Contains(ev.Type)));
             return filtered;
         }
     }

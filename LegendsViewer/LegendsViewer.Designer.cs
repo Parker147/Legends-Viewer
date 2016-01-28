@@ -255,6 +255,8 @@
             this.tpArtifactsSearch = new System.Windows.Forms.TabPage();
             this.btnArtifactSearch = new System.Windows.Forms.Button();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cmbArtifactType = new System.Windows.Forms.ComboBox();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
             this.radArtifactSortFiltered = new System.Windows.Forms.RadioButton();
             this.radArtifactSortNone = new System.Windows.Forms.RadioButton();
@@ -267,6 +269,8 @@
             this.tpWrittenContentSearch = new System.Windows.Forms.TabPage();
             this.btnWrittenContentSearch = new System.Windows.Forms.Button();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbWrittenContentType = new System.Windows.Forms.ComboBox();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
             this.radWrittenContentSortFiltered = new System.Windows.Forms.RadioButton();
             this.radWrittenContentSortNone = new System.Windows.Forms.RadioButton();
@@ -308,8 +312,8 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.hint = new System.Windows.Forms.ToolTip(this.components);
             this.lblVersion = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cmbWrittenContentType = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cmbEntityType = new System.Windows.Forms.ComboBox();
             this.tcWorld.SuspendLayout();
             this.tpSummary.SuspendLayout();
             this.tpHF.SuspendLayout();
@@ -967,13 +971,15 @@
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Controls.Add(this.cmbEntityType);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.groupBox9);
             this.groupBox4.Controls.Add(this.chkCiv);
             this.groupBox4.Controls.Add(this.cmbCivRace);
-            this.groupBox4.Location = new System.Drawing.Point(3, 311);
+            this.groupBox4.Location = new System.Drawing.Point(3, 262);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(254, 175);
+            this.groupBox4.Size = new System.Drawing.Size(254, 224);
             this.groupBox4.TabIndex = 37;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Filter / Sort";
@@ -981,7 +987,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Location = new System.Drawing.Point(9, 69);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 16;
@@ -998,7 +1004,7 @@
             this.groupBox9.Controls.Add(this.radCivSites);
             this.groupBox9.Controls.Add(this.radEntityNone);
             this.groupBox9.Controls.Add(this.radEntitySortEvents);
-            this.groupBox9.Location = new System.Drawing.Point(6, 62);
+            this.groupBox9.Location = new System.Drawing.Point(6, 111);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(240, 107);
             this.groupBox9.TabIndex = 15;
@@ -1089,7 +1095,7 @@
             // chkCiv
             // 
             this.chkCiv.AutoSize = true;
-            this.chkCiv.Location = new System.Drawing.Point(147, 34);
+            this.chkCiv.Location = new System.Drawing.Point(153, 87);
             this.chkCiv.Name = "chkCiv";
             this.chkCiv.Size = new System.Drawing.Size(87, 17);
             this.chkCiv.TabIndex = 14;
@@ -1100,7 +1106,7 @@
             // cmbCivRace
             // 
             this.cmbCivRace.FormattingEnabled = true;
-            this.cmbCivRace.Location = new System.Drawing.Point(6, 32);
+            this.cmbCivRace.Location = new System.Drawing.Point(9, 85);
             this.cmbCivRace.Name = "cmbCivRace";
             this.cmbCivRace.Size = new System.Drawing.Size(121, 21);
             this.cmbCivRace.TabIndex = 13;
@@ -1606,7 +1612,7 @@
             this.listRegionSearch.FormattingEnabled = true;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listRegionSearch.Name = "listRegionSearch";
-            this.listRegionSearch.Size = new System.Drawing.Size(242, 147);
+            this.listRegionSearch.Size = new System.Drawing.Size(242, 121);
             this.listRegionSearch.TabIndex = 32;
             this.listRegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1766,7 +1772,7 @@
             this.listURegionSearch.FormattingEnabled = true;
             this.listURegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listURegionSearch.Name = "listURegionSearch";
-            this.listURegionSearch.Size = new System.Drawing.Size(242, 160);
+            this.listURegionSearch.Size = new System.Drawing.Size(242, 134);
             this.listURegionSearch.TabIndex = 32;
             this.listURegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1907,7 +1913,7 @@
             this.listLandmassSearch.FormattingEnabled = true;
             this.listLandmassSearch.Location = new System.Drawing.Point(3, 31);
             this.listLandmassSearch.Name = "listLandmassSearch";
-            this.listLandmassSearch.Size = new System.Drawing.Size(247, 199);
+            this.listLandmassSearch.Size = new System.Drawing.Size(247, 173);
             this.listLandmassSearch.TabIndex = 43;
             this.listLandmassSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2046,7 +2052,7 @@
             this.listMountainPeakSearch.FormattingEnabled = true;
             this.listMountainPeakSearch.Location = new System.Drawing.Point(3, 31);
             this.listMountainPeakSearch.Name = "listMountainPeakSearch";
-            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 186);
+            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 160);
             this.listMountainPeakSearch.TabIndex = 43;
             this.listMountainPeakSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -3029,6 +3035,8 @@
             // 
             this.groupBox19.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox19.Controls.Add(this.label9);
+            this.groupBox19.Controls.Add(this.cmbArtifactType);
             this.groupBox19.Controls.Add(this.groupBox20);
             this.groupBox19.Location = new System.Drawing.Point(3, 272);
             this.groupBox19.Name = "groupBox19";
@@ -3036,6 +3044,24 @@
             this.groupBox19.TabIndex = 45;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Filter / Sort";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 19);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(30, 13);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "Type";
+            // 
+            // cmbArtifactType
+            // 
+            this.cmbArtifactType.FormattingEnabled = true;
+            this.cmbArtifactType.Location = new System.Drawing.Point(6, 35);
+            this.cmbArtifactType.Name = "cmbArtifactType";
+            this.cmbArtifactType.Size = new System.Drawing.Size(121, 21);
+            this.cmbArtifactType.TabIndex = 18;
+            this.cmbArtifactType.SelectedIndexChanged += new System.EventHandler(this.searchArtifactList);
             // 
             // groupBox20
             // 
@@ -3177,6 +3203,24 @@
             this.groupBox21.TabIndex = 45;
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "Filter / Sort";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 19);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(30, 13);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Type";
+            // 
+            // cmbWrittenContentType
+            // 
+            this.cmbWrittenContentType.FormattingEnabled = true;
+            this.cmbWrittenContentType.Location = new System.Drawing.Point(6, 35);
+            this.cmbWrittenContentType.Name = "cmbWrittenContentType";
+            this.cmbWrittenContentType.Size = new System.Drawing.Size(121, 21);
+            this.cmbWrittenContentType.TabIndex = 18;
+            this.cmbWrittenContentType.SelectedIndexChanged += new System.EventHandler(this.searchWrittenContentList);
             // 
             // groupBox22
             // 
@@ -3627,23 +3671,23 @@
             this.lblVersion.Text = "v1.00.00";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label8
+            // label10
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 19);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(30, 13);
-            this.label8.TabIndex = 19;
-            this.label8.Text = "Type";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(9, 28);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(30, 13);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "Type";
             // 
-            // cmbWrittenContentType
+            // cmbEntityType
             // 
-            this.cmbWrittenContentType.FormattingEnabled = true;
-            this.cmbWrittenContentType.Location = new System.Drawing.Point(6, 35);
-            this.cmbWrittenContentType.Name = "cmbWrittenContentType";
-            this.cmbWrittenContentType.Size = new System.Drawing.Size(121, 21);
-            this.cmbWrittenContentType.TabIndex = 18;
-            this.cmbWrittenContentType.SelectedIndexChanged += new System.EventHandler(this.searchWrittenContentList);
+            this.cmbEntityType.FormattingEnabled = true;
+            this.cmbEntityType.Location = new System.Drawing.Point(9, 44);
+            this.cmbEntityType.Name = "cmbEntityType";
+            this.cmbEntityType.Size = new System.Drawing.Size(121, 21);
+            this.cmbEntityType.TabIndex = 20;
+            this.cmbEntityType.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
             // 
             // frmLegendsViewer
             // 
@@ -3765,6 +3809,7 @@
             this.tpArtifactsSearch.ResumeLayout(false);
             this.tpArtifactsSearch.PerformLayout();
             this.groupBox19.ResumeLayout(false);
+            this.groupBox19.PerformLayout();
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
             this.tpWrittenContent.ResumeLayout(false);
@@ -4079,6 +4124,10 @@
         private System.Windows.Forms.ComboBox cmbConstructionType;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cmbWrittenContentType;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cmbArtifactType;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cmbEntityType;
     }
 }
 

@@ -5,6 +5,7 @@ namespace LegendsViewer.Legends.Enums
         Unknown,
         Enemy,
         Member,
+        FormerMember,
         Position,
         Prisoner,
         Slave,

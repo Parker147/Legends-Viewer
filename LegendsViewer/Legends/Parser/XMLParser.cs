@@ -250,24 +250,32 @@ namespace LegendsViewer.Legends.Parser
 
         public void AddFromXMLSection(Section section, List<Property> properties)
         {
-            switch (section)
+            try
             {
-                case Section.Regions: World.Regions.Add(new WorldRegion(properties, World)); break;
-                case Section.UndergroundRegions: World.UndergroundRegions.Add(new UndergroundRegion(properties, World)); break;
-                case Section.Sites: World.Sites.Add(new Site(properties, World)); break;
-                case Section.HistoricalFigures: World.HistoricalFigures.Add(new HistoricalFigure(properties, World)); break;
-                case Section.EntityPopulations: World.EntityPopulations.Add(new EntityPopulation(properties, World)); break;
-                case Section.Entities: World.Entities.Add(new Entity(properties, World)); break;
-                case Section.Eras: World.Eras.Add(new Era(properties, World)); break;
-                case Section.Artifacts: World.Artifacts.Add(new Artifact(properties, World)); break;
-                case Section.WorldConstructions: World.WorldContructions.Add(new WorldConstruction(properties, World)); break;
-                case Section.PoeticForms: World.PoeticForms.Add(new PoeticForm(properties, World)); break;
-                case Section.MusicalForms: World.MusicalForms.Add(new MusicalForm(properties, World)); break;
-                case Section.DanceForms: World.DanceForms.Add(new DanceForm(properties, World)); break;
-                case Section.WrittenContent: World.WrittenContents.Add(new WrittenContent(properties, World)); break;
-                case Section.Landmasses: World.Landmasses.Add(new Landmass(properties, World)); break;
-                case Section.MountainPeaks: World.MountainPeaks.Add(new MountainPeak(properties, World)); break;
-                default: World.ParsingErrors.Report("Unknown XML Section: " + section.ToString()); break;
+                switch (section)
+                {
+                    case Section.Regions: World.Regions.Add(new WorldRegion(properties, World)); break;
+                    case Section.UndergroundRegions: World.UndergroundRegions.Add(new UndergroundRegion(properties, World)); break;
+                    case Section.Sites: World.Sites.Add(new Site(properties, World)); break;
+                    case Section.HistoricalFigures: World.HistoricalFigures.Add(new HistoricalFigure(properties, World)); break;
+                    case Section.EntityPopulations: World.EntityPopulations.Add(new EntityPopulation(properties, World)); break;
+                    case Section.Entities: World.Entities.Add(new Entity(properties, World)); break;
+                    case Section.Eras: World.Eras.Add(new Era(properties, World)); break;
+                    case Section.Artifacts: World.Artifacts.Add(new Artifact(properties, World)); break;
+                    case Section.WorldConstructions: World.WorldContructions.Add(new WorldConstruction(properties, World)); break;
+                    case Section.PoeticForms: World.PoeticForms.Add(new PoeticForm(properties, World)); break;
+                    case Section.MusicalForms: World.MusicalForms.Add(new MusicalForm(properties, World)); break;
+                    case Section.DanceForms: World.DanceForms.Add(new DanceForm(properties, World)); break;
+                    case Section.WrittenContent: World.WrittenContents.Add(new WrittenContent(properties, World)); break;
+                    case Section.Landmasses: World.Landmasses.Add(new Landmass(properties, World)); break;
+                    case Section.MountainPeaks: World.MountainPeaks.Add(new MountainPeak(properties, World)); break;
+                    default: World.ParsingErrors.Report("Unknown XML Section: " + section.ToString()); break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                World.ParsingErrors.Report("ERROR Parsing Section: " + section);
             }
         }
 
@@ -379,24 +387,32 @@ namespace LegendsViewer.Legends.Parser
 
         private void AddEventCollection(string type, List<Property> properties)
         {
-            switch (type)
+            try
             {
-                case "abduction": World.EventCollections.Add(new Abduction(properties, World)); break;
-                case "battle": World.EventCollections.Add(new Battle(properties, World)); break;
-                case "beast attack": World.EventCollections.Add(new BeastAttack(properties, World)); break;
-                case "duel": World.EventCollections.Add(new Duel(properties, World)); break;
-                case "journey": World.EventCollections.Add(new Journey(properties, World)); break;
-                case "site conquered": World.EventCollections.Add(new SiteConquered(properties, World)); break;
-                case "theft": World.EventCollections.Add(new Theft(properties, World)); break;
-                case "war": World.EventCollections.Add(new War(properties, World)); break;
-                case "insurrection": World.EventCollections.Add(new Insurrection(properties, World)); break;
-                case "occasion": World.EventCollections.Add(new Occasion(properties, World)); break;
-                case "procession": World.EventCollections.Add(new ProcessionCollection(properties, World)); break;
-                case "ceremony": World.EventCollections.Add(new CeremonyCollection(properties, World)); break;
-                case "performance": World.EventCollections.Add(new PerformanceCollection(properties, World)); break;
-                case "competition": World.EventCollections.Add(new CompetitionCollection(properties, World)); break;
-                case "purge": World.EventCollections.Add(new Purge(properties, World)); break;
-                default: World.ParsingErrors.Report("Unknown Event Collection: " + type); break;
+                switch (type)
+                {
+                    case "abduction": World.EventCollections.Add(new Abduction(properties, World)); break;
+                    case "battle": World.EventCollections.Add(new Battle(properties, World)); break;
+                    case "beast attack": World.EventCollections.Add(new BeastAttack(properties, World)); break;
+                    case "duel": World.EventCollections.Add(new Duel(properties, World)); break;
+                    case "journey": World.EventCollections.Add(new Journey(properties, World)); break;
+                    case "site conquered": World.EventCollections.Add(new SiteConquered(properties, World)); break;
+                    case "theft": World.EventCollections.Add(new Theft(properties, World)); break;
+                    case "war": World.EventCollections.Add(new War(properties, World)); break;
+                    case "insurrection": World.EventCollections.Add(new Insurrection(properties, World)); break;
+                    case "occasion": World.EventCollections.Add(new Occasion(properties, World)); break;
+                    case "procession": World.EventCollections.Add(new ProcessionCollection(properties, World)); break;
+                    case "ceremony": World.EventCollections.Add(new CeremonyCollection(properties, World)); break;
+                    case "performance": World.EventCollections.Add(new PerformanceCollection(properties, World)); break;
+                    case "competition": World.EventCollections.Add(new CompetitionCollection(properties, World)); break;
+                    case "purge": World.EventCollections.Add(new Purge(properties, World)); break;
+                    default: World.ParsingErrors.Report("Unknown Event Collection: " + type); break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                World.ParsingErrors.Report("ERROR Parsing Event Collection: " + type);
             }
         }
 
