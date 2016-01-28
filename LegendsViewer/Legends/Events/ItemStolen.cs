@@ -9,10 +9,11 @@ namespace LegendsViewer.Legends.Events
     {
         public int StructureID { get; set; }
         public Structure Structure { get; set; }
+        public int Item { get; set; }
         public string ItemType { get; set; }
-        public int ItemSubType { get; set; }
+        public string ItemSubType { get; set; }
         public string Material { get; set; }
-        public int MaterialTypeID { get; set; }
+        public int MaterialType { get; set; }
         public int MaterialIndex { get; set; }
         public HistoricalFigure Thief { get; set; }
         public Entity Entity { get; set; }
@@ -30,11 +31,12 @@ namespace LegendsViewer.Legends.Events
                     case "histfig": Thief = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "entity": Entity = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "item": Item = Convert.ToInt32(property.Value); break;
                     case "item_type": ItemType = property.Value.Replace("_", " "); break;
+                    case "item_subtype": ItemSubType = property.Value; break;
                     case "mat": Material = property.Value; break;
-                    case "item_subtype": ItemSubType = Convert.ToInt32(property.Value); break;
-                    case "mattype": MaterialIndex = Convert.ToInt32(property.Value); break;
-                    case "matindex": ItemSubType = Convert.ToInt32(property.Value); break;
+                    case "mattype": MaterialType = Convert.ToInt32(property.Value); break;
+                    case "matindex": MaterialIndex = Convert.ToInt32(property.Value); break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                     case "structure": StructureID = Convert.ToInt32(property.Value); break;
                 }

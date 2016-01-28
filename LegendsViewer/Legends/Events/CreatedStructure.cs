@@ -56,8 +56,11 @@ namespace LegendsViewer.Legends.Events
             }
             else
             {
-                eventString += SiteEntity != null ? SiteEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
-                eventString += " of ";
+                if (SiteEntity != null)
+                {
+                    eventString += SiteEntity.ToLink(link, pov);
+                    eventString += " of ";
+                }
                 eventString += Civ != null ? Civ.ToLink(link, pov) : "UNKNOWN CIV";
                 eventString += " constructed ";
                 eventString += Structure != null ? Structure.ToLink(link, pov) : "UNKNOWN STRUCTURE";

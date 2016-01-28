@@ -65,6 +65,7 @@ namespace LegendsViewer
         new string[] {"entity relocate",              "Entity Relocated",                         ""},
         new string[] {"hf gains secret goal",         "Historical Figure Gained Secret Goal",     ""},
         new string[] {"hf profaned structure",        "Historical Figure Profaned structure",     ""},
+        new string[] {"hf disturbed structure",       "Historical Figure Disturbed structure",    ""},
         new string[] {"hf does interaction",          "Historical Figure Did Interaction",        ""},
         new string[] {"entity primary criminals",     "Entity Became Primary Criminals",          ""},
         new string[] {"hf confronted",                "Historical Figure Confronted",             ""},

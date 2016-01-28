@@ -270,6 +270,7 @@
     <Compile Include="Legends\Events\HFConfronted.cs" />
     <Compile Include="Legends\Events\HfDestroyedSite.cs" />
     <Compile Include="Legends\Events\HFDied.cs" />
+    <Compile Include="Legends\Events\HFDisturbedStructure.cs" />
     <Compile Include="Legends\Events\HFDoesInteraction.cs" />
     <Compile Include="Legends\Events\HFGainsSecretGoal.cs" />
     <Compile Include="Legends\Events\HFLearnsSecret.cs" />
