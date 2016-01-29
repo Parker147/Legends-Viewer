@@ -32,6 +32,7 @@ namespace LegendsViewer.Legends
             : base(properties, world)
         {
             Name = "Untitled";
+            Type = "Artifact";
             WrittenContents = new List<int>();
 
             foreach (Property property in properties)
@@ -63,11 +64,9 @@ namespace LegendsViewer.Legends
                 {
                     return Icon + "<a href = \"artifact#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
-                else
-                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
-            else
-                return Name;
+            return Name;
         }
     }
 }

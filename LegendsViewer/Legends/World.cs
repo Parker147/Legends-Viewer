@@ -636,10 +636,11 @@ namespace LegendsViewer.Legends
                 Property link = HFtoEntityLinks[i];
                 HistoricalFigure hf = HFtoEntityLinkHFs[i];
                 EntityLink relatedEntity = new EntityLink(link.SubProperties, this);
-                if (relatedEntity.Entity == null)
-                    continue;
-                else if (relatedEntity.Type != EntityLinkType.Enemy || (relatedEntity.Type == EntityLinkType.Enemy && relatedEntity.Entity.IsCiv))
-                    hf.RelatedEntities.Add(relatedEntity);
+                if (relatedEntity.Entity != null)
+                {
+                    if (relatedEntity.Type != EntityLinkType.Enemy || (relatedEntity.Type == EntityLinkType.Enemy && relatedEntity.Entity.IsCiv))
+                        hf.RelatedEntities.Add(relatedEntity);
+                }
             }
 
             HFtoEntityLinkHFs.Clear();

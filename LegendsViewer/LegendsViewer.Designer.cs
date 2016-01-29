@@ -78,6 +78,8 @@
             this.tcCivs = new System.Windows.Forms.TabControl();
             this.tpCivSearch = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cmbEntityType = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.cmbEntityPopulation = new System.Windows.Forms.ComboBox();
@@ -176,8 +178,6 @@
             this.tpWars = new System.Windows.Forms.TabPage();
             this.tcWars = new System.Windows.Forms.TabControl();
             this.tpWarSearch = new System.Windows.Forms.TabPage();
-            this.btnWarListReset = new System.Windows.Forms.Button();
-            this.lblWarList = new System.Windows.Forms.Label();
             this.btnWarSearch = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.chkFilterWarfare = new System.Windows.Forms.CheckBox();
@@ -196,8 +196,6 @@
             this.tpBattles = new System.Windows.Forms.TabPage();
             this.tcBattles = new System.Windows.Forms.TabControl();
             this.tpBattlesSearch = new System.Windows.Forms.TabPage();
-            this.btnBattleListReset = new System.Windows.Forms.Button();
-            this.lblBattleList = new System.Windows.Forms.Label();
             this.btnBattleSearch = new System.Windows.Forms.Button();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -312,8 +310,6 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.hint = new System.Windows.Forms.ToolTip(this.components);
             this.lblVersion = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cmbEntityType = new System.Windows.Forms.ComboBox();
             this.tcWorld.SuspendLayout();
             this.tpSummary.SuspendLayout();
             this.tpHF.SuspendLayout();
@@ -462,9 +458,9 @@
             // btnChart
             // 
             this.btnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnChart.Location = new System.Drawing.Point(188, 458);
+            this.btnChart.Location = new System.Drawing.Point(181, 458);
             this.btnChart.Name = "btnChart";
-            this.btnChart.Size = new System.Drawing.Size(75, 23);
+            this.btnChart.Size = new System.Drawing.Size(82, 23);
             this.btnChart.TabIndex = 18;
             this.btnChart.Text = "Show Charts";
             this.btnChart.UseVisualStyleBackColor = true;
@@ -475,7 +471,7 @@
             this.btnStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnStats.Location = new System.Drawing.Point(11, 458);
             this.btnStats.Name = "btnStats";
-            this.btnStats.Size = new System.Drawing.Size(75, 23);
+            this.btnStats.Size = new System.Drawing.Size(83, 23);
             this.btnStats.TabIndex = 17;
             this.btnStats.Text = "World Stats";
             this.btnStats.UseVisualStyleBackColor = true;
@@ -907,7 +903,7 @@
             this.listHFSearch.HorizontalScrollbar = true;
             this.listHFSearch.Location = new System.Drawing.Point(3, 31);
             this.listHFSearch.Name = "listHFSearch";
-            this.listHFSearch.Size = new System.Drawing.Size(256, 147);
+            this.listHFSearch.Size = new System.Drawing.Size(256, 199);
             this.listHFSearch.TabIndex = 31;
             this.listHFSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -983,6 +979,24 @@
             this.groupBox4.TabIndex = 37;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Filter / Sort";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(9, 28);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(30, 13);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "Type";
+            // 
+            // cmbEntityType
+            // 
+            this.cmbEntityType.FormattingEnabled = true;
+            this.cmbEntityType.Location = new System.Drawing.Point(9, 44);
+            this.cmbEntityType.Name = "cmbEntityType";
+            this.cmbEntityType.Size = new System.Drawing.Size(121, 21);
+            this.cmbEntityType.TabIndex = 20;
+            this.cmbEntityType.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
             // 
             // label1
             // 
@@ -1400,7 +1414,7 @@
             this.listSiteSearch.FormattingEnabled = true;
             this.listSiteSearch.Location = new System.Drawing.Point(3, 31);
             this.listSiteSearch.Name = "listSiteSearch";
-            this.listSiteSearch.Size = new System.Drawing.Size(256, 186);
+            this.listSiteSearch.Size = new System.Drawing.Size(256, 199);
             this.listSiteSearch.TabIndex = 32;
             this.listSiteSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1612,7 +1626,7 @@
             this.listRegionSearch.FormattingEnabled = true;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listRegionSearch.Name = "listRegionSearch";
-            this.listRegionSearch.Size = new System.Drawing.Size(242, 121);
+            this.listRegionSearch.Size = new System.Drawing.Size(242, 199);
             this.listRegionSearch.TabIndex = 32;
             this.listRegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1772,7 +1786,7 @@
             this.listURegionSearch.FormattingEnabled = true;
             this.listURegionSearch.Location = new System.Drawing.Point(3, 31);
             this.listURegionSearch.Name = "listURegionSearch";
-            this.listURegionSearch.Size = new System.Drawing.Size(242, 134);
+            this.listURegionSearch.Size = new System.Drawing.Size(242, 199);
             this.listURegionSearch.TabIndex = 32;
             this.listURegionSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -1913,7 +1927,7 @@
             this.listLandmassSearch.FormattingEnabled = true;
             this.listLandmassSearch.Location = new System.Drawing.Point(3, 31);
             this.listLandmassSearch.Name = "listLandmassSearch";
-            this.listLandmassSearch.Size = new System.Drawing.Size(247, 173);
+            this.listLandmassSearch.Size = new System.Drawing.Size(247, 225);
             this.listLandmassSearch.TabIndex = 43;
             this.listLandmassSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2052,7 +2066,7 @@
             this.listMountainPeakSearch.FormattingEnabled = true;
             this.listMountainPeakSearch.Location = new System.Drawing.Point(3, 31);
             this.listMountainPeakSearch.Name = "listMountainPeakSearch";
-            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 160);
+            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 225);
             this.listMountainPeakSearch.TabIndex = 43;
             this.listMountainPeakSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2115,8 +2129,6 @@
             // 
             // tpWarSearch
             // 
-            this.tpWarSearch.Controls.Add(this.btnWarListReset);
-            this.tpWarSearch.Controls.Add(this.lblWarList);
             this.tpWarSearch.Controls.Add(this.btnWarSearch);
             this.tpWarSearch.Controls.Add(this.groupBox10);
             this.tpWarSearch.Controls.Add(this.txtWarSearch);
@@ -2128,26 +2140,6 @@
             this.tpWarSearch.TabIndex = 0;
             this.tpWarSearch.Text = "Search";
             this.tpWarSearch.UseVisualStyleBackColor = true;
-            // 
-            // btnWarListReset
-            // 
-            this.btnWarListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnWarListReset.Location = new System.Drawing.Point(5, 252);
-            this.btnWarListReset.Name = "btnWarListReset";
-            this.btnWarListReset.Size = new System.Drawing.Size(50, 20);
-            this.btnWarListReset.TabIndex = 48;
-            this.btnWarListReset.Text = "Reset";
-            this.btnWarListReset.UseVisualStyleBackColor = true;
-            this.btnWarListReset.Click += new System.EventHandler(this.ResetWarBaseList);
-            // 
-            // lblWarList
-            // 
-            this.lblWarList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblWarList.Location = new System.Drawing.Point(61, 257);
-            this.lblWarList.Name = "lblWarList";
-            this.lblWarList.Size = new System.Drawing.Size(189, 36);
-            this.lblWarList.TabIndex = 47;
-            this.lblWarList.Text = "All";
             // 
             // btnWarSearch
             // 
@@ -2317,7 +2309,7 @@
             this.listWarSearch.FormattingEnabled = true;
             this.listWarSearch.Location = new System.Drawing.Point(3, 31);
             this.listWarSearch.Name = "listWarSearch";
-            this.listWarSearch.Size = new System.Drawing.Size(247, 212);
+            this.listWarSearch.Size = new System.Drawing.Size(247, 251);
             this.listWarSearch.TabIndex = 43;
             this.listWarSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2354,8 +2346,6 @@
             // 
             // tpBattlesSearch
             // 
-            this.tpBattlesSearch.Controls.Add(this.btnBattleListReset);
-            this.tpBattlesSearch.Controls.Add(this.lblBattleList);
             this.tpBattlesSearch.Controls.Add(this.btnBattleSearch);
             this.tpBattlesSearch.Controls.Add(this.groupBox12);
             this.tpBattlesSearch.Controls.Add(this.txtBattleSearch);
@@ -2367,26 +2357,6 @@
             this.tpBattlesSearch.TabIndex = 0;
             this.tpBattlesSearch.Text = "Search";
             this.tpBattlesSearch.UseVisualStyleBackColor = true;
-            // 
-            // btnBattleListReset
-            // 
-            this.btnBattleListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBattleListReset.Location = new System.Drawing.Point(5, 252);
-            this.btnBattleListReset.Name = "btnBattleListReset";
-            this.btnBattleListReset.Size = new System.Drawing.Size(50, 20);
-            this.btnBattleListReset.TabIndex = 48;
-            this.btnBattleListReset.Text = "Reset";
-            this.btnBattleListReset.UseVisualStyleBackColor = true;
-            this.btnBattleListReset.Click += new System.EventHandler(this.ResetBattleBaseList);
-            // 
-            // lblBattleList
-            // 
-            this.lblBattleList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblBattleList.Location = new System.Drawing.Point(61, 257);
-            this.lblBattleList.Name = "lblBattleList";
-            this.lblBattleList.Size = new System.Drawing.Size(189, 36);
-            this.lblBattleList.TabIndex = 47;
-            this.lblBattleList.Text = "All";
             // 
             // btnBattleSearch
             // 
@@ -2491,7 +2461,7 @@
             this.listBattleSearch.FormattingEnabled = true;
             this.listBattleSearch.Location = new System.Drawing.Point(3, 31);
             this.listBattleSearch.Name = "listBattleSearch";
-            this.listBattleSearch.Size = new System.Drawing.Size(247, 212);
+            this.listBattleSearch.Size = new System.Drawing.Size(247, 251);
             this.listBattleSearch.TabIndex = 43;
             this.listBattleSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2663,7 +2633,7 @@
             this.listConqueringSearch.FormattingEnabled = true;
             this.listConqueringSearch.Location = new System.Drawing.Point(3, 31);
             this.listConqueringSearch.Name = "listConqueringSearch";
-            this.listConqueringSearch.Size = new System.Drawing.Size(247, 225);
+            this.listConqueringSearch.Size = new System.Drawing.Size(247, 251);
             this.listConqueringSearch.TabIndex = 43;
             this.listConqueringSearch.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2815,7 +2785,7 @@
             this.listBeastAttacks.FormattingEnabled = true;
             this.listBeastAttacks.Location = new System.Drawing.Point(3, 31);
             this.listBeastAttacks.Name = "listBeastAttacks";
-            this.listBeastAttacks.Size = new System.Drawing.Size(247, 225);
+            this.listBeastAttacks.Size = new System.Drawing.Size(247, 251);
             this.listBeastAttacks.TabIndex = 47;
             this.listBeastAttacks.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -2970,7 +2940,7 @@
             this.listEras.FormattingEnabled = true;
             this.listEras.Location = new System.Drawing.Point(3, 31);
             this.listEras.Name = "listEras";
-            this.listEras.Size = new System.Drawing.Size(241, 212);
+            this.listEras.Size = new System.Drawing.Size(241, 225);
             this.listEras.TabIndex = 43;
             this.listEras.SelectedIndexChanged += new System.EventHandler(this.listSearch_SelectedIndexChanged);
             // 
@@ -3670,24 +3640,7 @@
             this.lblVersion.TabIndex = 34;
             this.lblVersion.Text = "v1.00.00";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(9, 28);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(30, 13);
-            this.label10.TabIndex = 21;
-            this.label10.Text = "Type";
-            // 
-            // cmbEntityType
-            // 
-            this.cmbEntityType.FormattingEnabled = true;
-            this.cmbEntityType.Location = new System.Drawing.Point(9, 44);
-            this.cmbEntityType.Name = "cmbEntityType";
-            this.cmbEntityType.Size = new System.Drawing.Size(121, 21);
-            this.cmbEntityType.TabIndex = 20;
-            this.cmbEntityType.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
+            this.lblVersion.Click += new System.EventHandler(this.open_readme);
             // 
             // frmLegendsViewer
             // 
@@ -3977,10 +3930,6 @@
         private System.Windows.Forms.Label lblHFList;
         private System.Windows.Forms.Button btnSiteListReset;
         private System.Windows.Forms.Label lblSiteList;
-        private System.Windows.Forms.Button btnWarListReset;
-        private System.Windows.Forms.Label lblWarList;
-        private System.Windows.Forms.Button btnBattleListReset;
-        private System.Windows.Forms.Label lblBattleList;
         private System.Windows.Forms.RadioButton radSiteSortDeaths;
         private System.Windows.Forms.RadioButton radWarsSortConquerings;
         private System.Windows.Forms.TabPage tpBeastAttacks;

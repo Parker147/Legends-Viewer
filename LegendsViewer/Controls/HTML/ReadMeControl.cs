@@ -22,6 +22,8 @@ namespace LegendsViewer.Controls.HTML
         {
             if (HTMLBrowser == null || HTMLBrowser.IsDisposed)
             {
+                BrowserUtil.SetBrowserEmulationMode();
+
                 string markdown;
                 string githubMarkdownCSS;
                 var assembly = Assembly.GetExecutingAssembly();
@@ -42,15 +44,15 @@ namespace LegendsViewer.Controls.HTML
                 webClient.Headers.Add("Content-Type", "text/x-markdown");
                 var readme = webClient.UploadString("https://api.github.com/markdown/raw", "POST", markdown);
 
-                var html  = "<html>";
-                html     += "<head>";
-                html     += "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
-                html     += "<style>" + githubMarkdownCSS + "</style>";
-                html     += "<style>.markdown-body { margin: 0 auto; padding: 20px; } </style>";
-                html     += "</head>";
-                html     += "<body><div class='markdown-body'>" + readme + "</div></body>";
-                html     += "</html>";
-                
+                var html = "<html>";
+                html += "<head>";
+                html += "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
+                html += "<style>" + githubMarkdownCSS + "</style>";
+                html += "<style>.markdown-body { margin: 0 auto; padding: 20px; } </style>";
+                html += "</head>";
+                html += "<body><div class='markdown-body'>" + readme + "</div></body>";
+                html += "</html>";
+
                 HTMLBrowser = new WebBrowser
                 {
                     Dock = DockStyle.Fill,

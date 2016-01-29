@@ -72,8 +72,6 @@ namespace LegendsViewer
             if (file != "")
                 CommandFile = file;
 
-            BrowserUtil.SetBrowserEmulationMode();
-
             Browser.Navigate(ControlOption.ReadMe);
 
             hint.SetToolTip(chkFilterWarfare, "Unnotable Battle = Attackers outnumber defenders 10 to 1 and win and suffer < 10% losses. \nUnnotable Conquering = All Pillagings.");
@@ -380,35 +378,6 @@ namespace LegendsViewer
             }
         }
 
-        public void ChangeWarBaseList(List<War> list, string listName)
-        {
-            FileLoader.Working = true;
-            lblWarList.Text = listName;
-            lblWarList.ForeColor = Color.Blue;
-            lblWarList.Font = new Font(lblWarList.Font.FontFamily, lblWarList.Font.Size, FontStyle.Bold);
-            warSearch.BaseList = list;
-            txtWarSearch.Clear();
-            chkWarOngoing.Checked = false;
-            radWarSortNone.Checked = true;
-            tcWorld.SelectedTab = tpWarfare;
-            tcWarfare.SelectedTab = tpWars;
-            tcWars.SelectedTab = tpWarSearch;
-            searchHFList(null, null);
-            FileLoader.Working = false;
-        }
-
-        public void ResetWarBaseList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && world != null)
-            {
-                lblWarList.Text = "All";
-                lblWarList.ForeColor = Control.DefaultForeColor;
-                lblWarList.Font = new Font(lblWarList.Font.FontFamily, lblWarList.Font.Size, FontStyle.Regular);
-                warSearch.BaseList = world.EventCollections.OfType<War>().ToList();
-                searchWarList(null, null);
-            }
-        }
-
         private void searchBattleList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && world != null)
@@ -426,9 +395,6 @@ namespace LegendsViewer
         public void ChangeBattleBaseList(List<Battle> list, string listName)
         {
             FileLoader.Working = true;
-            lblBattleList.Text = listName;
-            lblBattleList.ForeColor = Color.Blue;
-            lblBattleList.Font = new Font(lblBattleList.Font.FontFamily, lblBattleList.Font.Size, FontStyle.Bold);
             battleSearch.BaseList = list;
             txtBattleSearch.Clear();
 
@@ -438,18 +404,6 @@ namespace LegendsViewer
             tcBattles.SelectedTab = tpBattlesSearch;
             searchBattleList(null, null);
             FileLoader.Working = false;
-        }
-
-        public void ResetBattleBaseList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && world != null)
-            {
-                lblBattleList.Text = "All";
-                lblBattleList.ForeColor = Control.DefaultForeColor;
-                lblBattleList.Font = new Font(lblBattleList.Font.FontFamily, lblBattleList.Font.Size, FontStyle.Regular);
-                battleSearch.BaseList = world.EventCollections.OfType<Battle>().ToList();
-                searchBattleList(null, null);
-            }
         }
 
         private void searchConqueringList(object sender, EventArgs e)
@@ -584,8 +538,8 @@ namespace LegendsViewer
                                   group writtenContent by writtenContent.Type.GetDescription() into writtenContentType
                                   select writtenContentType;
             var artifacts = from artifact in world.Artifacts
-                            orderby artifact.Type.GetDescription()
-                            group artifact by artifact.Type.GetDescription() into artifactType
+                            orderby artifact.Type
+                            group artifact by artifact.Type into artifactType
                             select artifactType;
             var entites = from entity in world.Entities
                             orderby entity.Type.GetDescription()
@@ -762,10 +716,6 @@ namespace LegendsViewer
             {
                 Text += " - " + world.Name;
             }
-
-            lblBattleList.Text = lblHFList.Text = lblSiteList.Text = lblWarList.Text = "All";
-            lblHFList.ForeColor = lblHFList.ForeColor = lblSiteList.ForeColor = lblWarList.ForeColor = DefaultForeColor;
-            lblHFList.Font = lblHFList.Font = lblSiteList.Font = lblWarList.Font = new Font(lblHFList.Font.FontFamily, lblHFList.Font.Size, FontStyle.Regular);
 
             txtLog.Clear();
             if (Browser != null) Browser.Reset();
@@ -992,6 +942,11 @@ namespace LegendsViewer
                 listMountainPeakSearch.Items.Clear();
                 listMountainPeakSearch.Items.AddRange(list.ToArray());
             }
+        }
+
+        private void open_readme(object sender, EventArgs e)
+        {
+            Browser.Navigate(ControlOption.ReadMe);
         }
     }
 }

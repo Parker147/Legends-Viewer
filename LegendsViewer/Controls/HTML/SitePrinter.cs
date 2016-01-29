@@ -171,8 +171,17 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<b>Deaths</b> " + MakeLink("[Load]", LinkOption.LoadSiteDeaths) + LineBreak);
                 HTML.AppendLine("<ol>");
                 foreach (HFDied death in Site.Events.OfType<HFDied>())
-                    HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause + ")");
-                HTML.AppendLine("<li>Population in Battle: " + Site.Warfare.OfType<Battle>().Sum(battle => battle.AttackerSquads.Sum(squad => squad.Deaths) + battle.DefenderSquads.Sum(squad => squad.Deaths)));
+                    HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
+                var popInBattle =
+                    Site.Warfare.OfType<Battle>()
+                        .Sum(
+                            battle =>
+                                battle.AttackerSquads.Sum(squad => squad.Deaths) +
+                                battle.DefenderSquads.Sum(squad => squad.Deaths));
+                if (popInBattle > 0)
+                {
+                    HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                }
                 HTML.AppendLine("</ol>");
             }
 

@@ -84,6 +84,7 @@ namespace LegendsViewer.Legends.Events
                             case "flying object": Cause = DeathCause.FlyingObject; break;
                             case "slaughtered": Cause = DeathCause.Slaughtered; break;
                             case "melt": Cause = DeathCause.Melted; break;
+                            case "spikes": Cause = DeathCause.Spikes; break;
                             default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("Unknown Death Cause: " + UnknownCause); break;
                         }
                         break;
@@ -124,7 +125,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " ";
+            string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov) + " ";
             string deathString = "";
 
             if (Slayer != null || (SlayerRace != "UNKNOWN" && SlayerRace != "-1"))
@@ -149,6 +150,7 @@ namespace LegendsViewer.Legends.Events
                 else if (Cause == DeathCause.Collapsed) deathString = "collapsed, struck down by " + slayerString;
                 else if (Cause == DeathCause.ScaredToDeath) deathString = " was scared to death by " + slayerString;
                 else if (Cause == DeathCause.Bled) deathString = " bled to death, slain by " + slayerString;
+                else if (Cause == DeathCause.Spikes) deathString = " was impaled by " + slayerString;
                 else deathString += ", slain by " + slayerString;
             }
             else
@@ -180,6 +182,7 @@ namespace LegendsViewer.Legends.Events
                 else if (Cause == DeathCause.ExecutedHackedToPieces) deathString = "was hacked to pieces";
                 else if (Cause == DeathCause.ExecutedBeheaded) deathString = "was beheaded";
                 else if (Cause == DeathCause.Melted) deathString = "melted";
+                else if (Cause == DeathCause.Spikes) deathString = "was impaled";
                 else if (Cause == DeathCause.Unknown) deathString = "died (" + UnknownCause + ")";
             }
 
