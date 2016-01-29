@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using LegendsViewer.Legends;
 using LegendsViewer.Controls;
 using System.Diagnostics;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends.EventCollections;
 
@@ -70,6 +71,10 @@ namespace LegendsViewer
                     HideTabControlBorder(tabControl);
             if (file != "")
                 CommandFile = file;
+
+            BrowserUtil.SetBrowserEmulationMode();
+
+            Browser.Navigate(ControlOption.ReadMe);
 
             hint.SetToolTip(chkFilterWarfare, "Unnotable Battle = Attackers outnumber defenders 10 to 1 and win and suffer < 10% losses. \nUnnotable Conquering = All Pillagings.");
         }

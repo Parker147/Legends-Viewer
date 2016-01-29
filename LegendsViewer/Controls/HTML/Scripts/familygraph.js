@@ -14,16 +14,18 @@
             .css({
                 'shape': 'roundrectangle',
                 'width': 120,
+// ReSharper disable InvalidValue
                 'height': 'label',
                 'content': 'data(name)',
+                'background-color': 'data(faveColor)',
+                'text-wrap': 'wrap',
+// ReSharper restore InvalidValue
                 'font-family': 'Helvetica',
                 'font-size': 12,
                 'text-valign': 'center',
-                'text-wrap': 'wrap',
                 'text-max-width': 100,
                 'padding-top': 5,
                 'padding-bottom': 5,
-                'background-color': 'data(faveColor)',
                 'color': '#ffffff',
                 'border-width': 1,
                 'border-style': 'solid',
