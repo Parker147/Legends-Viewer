@@ -1,6 +1,6 @@
 # version format
 # {major_release}.{feature_release}.{minor_release}.{build}
-version: 1.16.00.{build}
+version: 1.16.02.{build}
 
 #######################
 #    BUILDS
@@ -73,7 +73,7 @@ assembly_info:
 
 # on successful build
 on_success:
-  - ps: $folder = "$($env:APPVEYOR_BUILD_FOLDER)\LegendsViewer\bin\"; New-Item -Path "$($folder)\Output" -ItemType "directory"; Get-ChildItem "$($folder)\Debug\*.exe", "$($folder)\Debug\*.dll", "$($folder)\Debug\ReadMe.txt" | Copy-Item -Destination "$($folder)\Output"; Push-AppveyorArtifact "$($folder)\Output\LegendsViewer.exe" -FileName "LegendsViewer.exe" -DeploymentName "Executable Only"; [Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem"); [System.IO.Compression.ZipFile]::CreateFromDirectory("$($folder)\Output", "$($folder)\FullRelease.zip", [System.IO.Compression.CompressionLevel]::Optimal, $false); Push-AppveyorArtifact "$($folder)\FullRelease.zip" -FileName "Full Release.zip" -DeploymentName "Full Release"  
+  - ps: $folder = "$($env:APPVEYOR_BUILD_FOLDER)\LegendsViewer\bin\"; New-Item -Path "$($folder)\Output" -ItemType "directory"; Get-ChildItem "$($folder)\Debug\*.exe", "$($folder)\Debug\*.dll" | Copy-Item -Destination "$($folder)\Output"; Push-AppveyorArtifact "$($folder)\Output\LegendsViewer.exe" -FileName "LegendsViewer.exe" -DeploymentName "Executable Only"; [Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem"); [System.IO.Compression.ZipFile]::CreateFromDirectory("$($folder)\Output", "$($folder)\FullRelease.zip", [System.IO.Compression.CompressionLevel]::Optimal, $false); Push-AppveyorArtifact "$($folder)\FullRelease.zip" -FileName "Full Release.zip" -DeploymentName "Full Release"  
   
 # on build failure
 #on_failure:

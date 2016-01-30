@@ -8,6 +8,7 @@ using System.Drawing;
 using LegendsViewer;
 using LegendsViewer.Legends;
 using LegendsViewer.Controls;
+using LegendsViewer.Controls.HTML;
 using LegendsViewer.Controls.Map;
 using LegendsViewer.Controls.Query;
 
@@ -34,6 +35,8 @@ namespace LegendsViewer
                     newControl = new MapControl(World, navigateObject, this); break;
                 case ControlOption.Search:
                     newControl = new SearchControl(this); break;
+                case ControlOption.ReadMe:
+                    newControl = new ReadMeControl(this); break;
             }
 
             if (newControl != null)

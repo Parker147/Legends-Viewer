@@ -60,5 +60,6 @@ namespace LegendsViewer.Legends.Enums
         FlyingObject,
         Slaughtered,
         Melted,
+        Spikes
     }
 }

@@ -15,6 +15,20 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
+            //var assembly = Assembly.GetExecutingAssembly();
+            //var resourceName = "LegendsViewer.README.md";
+            //var markdown = "";
+            //using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            //using (StreamReader reader = new StreamReader(stream))
+            //{
+            //    markdown = reader.ReadToEnd();
+            //}
+            //var webClient = new WebClient();
+            //webClient.Headers.Add("User-Agent", "ghmd-renderer");
+            //webClient.Headers.Add("Content-Type", "text/x-markdown");
+            //var html =  webClient.UploadString("https://api.github.com/markdown/raw", "POST", markdown);
+
+            //return "<html><head><title>readme</title><link rel='stylesheet' href='https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css'><style>.markdown-body { min-width: 200px; max-width: 790px; margin: 0 auto; padding: 45px; } </style> </head> <body class='markdown-body'>" + html + "</body></html>";
             HTML.AppendLine("<h1>" + Artifact.Name + (!string.IsNullOrWhiteSpace(Artifact.Item) ? " \"" + Artifact.Item + "\"" : "") + "</h1>");
             if (!string.IsNullOrWhiteSpace(Artifact.Type))
             {
