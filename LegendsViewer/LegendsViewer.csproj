@@ -82,8 +82,9 @@
     </Reference>
     <Reference Include="System.Xml">
     </Reference>
-    <Reference Include="WFC">
-      <HintPath>D:\Downloads\Legends-Viewer-1.16.2-figment\LegendsViewer\WFC.dll</HintPath>
+    <Reference Include="WFC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\WFC.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -499,6 +500,7 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="WFC.dll" />
     <EmbeddedResource Include="Controls\HTML\Styles\github-markdown.css" />
     <EmbeddedResource Include="Controls\HTML\Scripts\cytoscape.min.js" />
     <EmbeddedResource Include="Controls\HTML\Scripts\familygraph.js" />
