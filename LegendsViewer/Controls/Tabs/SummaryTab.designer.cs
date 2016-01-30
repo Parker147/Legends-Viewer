@@ -83,7 +83,8 @@
             // 
             // btnChart
             // 
-            this.btnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnChart.AutoSize = true;
             this.btnChart.Location = new System.Drawing.Point(180, 458);
             this.btnChart.Name = "btnChart";
             this.btnChart.Size = new System.Drawing.Size(82, 23);
@@ -95,6 +96,7 @@
             // btnStats
             // 
             this.btnStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnStats.AutoSize = true;
             this.btnStats.Location = new System.Drawing.Point(10, 458);
             this.btnStats.Name = "btnStats";
             this.btnStats.Size = new System.Drawing.Size(83, 23);
@@ -106,6 +108,7 @@
             // btnShowMap
             // 
             this.btnShowMap.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnShowMap.AutoSize = true;
             this.btnShowMap.Location = new System.Drawing.Point(99, 458);
             this.btnShowMap.Name = "btnShowMap";
             this.btnShowMap.Size = new System.Drawing.Size(75, 23);

@@ -103,6 +103,7 @@
     <Compile Include="Controls\HTML\ArtifactPrinter.cs" />
     <Compile Include="Controls\HTML\LandmassPrinter.cs" />
     <Compile Include="Controls\HTML\MountainPeakPrinter.cs" />
+    <Compile Include="Controls\HTML\ReadMeControl.cs" />
     <Compile Include="Controls\HTML\StructurePrinter.cs" />
     <Compile Include="Controls\HTML\Utilities\BrowserUtil.cs" />
     <Compile Include="Controls\HTML\Utilities\HTMLStyleUtil.cs" />
@@ -452,6 +453,9 @@
     <EmbeddedResource Include="LegendsViewer.resx">
       <DependentUpon>LegendsViewer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\README.md">
+      <Link>README.md</Link>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -495,6 +499,7 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Controls\HTML\Styles\github-markdown.css" />
     <EmbeddedResource Include="Controls\HTML\Scripts\cytoscape.min.js" />
     <EmbeddedResource Include="Controls\HTML\Scripts\familygraph.js" />
     <EmbeddedResource Include="Controls\HTML\Styles\legends.css" />

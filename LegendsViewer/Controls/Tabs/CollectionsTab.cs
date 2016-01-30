@@ -23,7 +23,6 @@ namespace LegendsViewer.Controls.Tabs
         public CollectionsTab()
         {
             InitializeComponent();
-
         }
 
 
@@ -58,7 +57,7 @@ namespace LegendsViewer.Controls.Tabs
                              orderby structure.Type.GetDescription()
                              group structure by structure.Type.GetDescription() into structuretype
                              select structuretype;
-            var worldconstructions = from construction in World.WorldContructions
+            var worldconstructions = from construction in World.WorldConstructions
                                      orderby construction.Type.GetDescription()
                                      group construction by construction.Type.GetDescription() into constructiontype
                                      select constructiontype;
@@ -109,7 +108,7 @@ namespace LegendsViewer.Controls.Tabs
                                        group eventType by eventType.Type into type
                                        select type.Key;
 
-            var worldConstructionEvents = from eventType in World.WorldContructions.SelectMany(element => element.Events)
+            var worldConstructionEvents = from eventType in World.WorldConstructions.SelectMany(element => element.Events)
                                           group eventType by eventType.Type into type
                                           select type.Key;
 
@@ -219,7 +218,16 @@ namespace LegendsViewer.Controls.Tabs
 
         private void searchWorldConstructionList(object sender, EventArgs e)
         {
-
+            if (!FileLoader.Working && World != null)
+            {
+                worldConstructionSearch.Name = txtWorldConstructionsSearch.Text;
+                worldConstructionSearch.Type = cmbConstructionType.SelectedItem.ToString();
+                worldConstructionSearch.SortEvents = radWorldConstructionsSortEvents.Checked;
+                worldConstructionSearch.SortFiltered = radWorldConstructionsSortFiltered.Checked;
+                IEnumerable<WorldConstruction> list = worldConstructionSearch.GetList();
+                listWorldConstructionsSearch.Items.Clear();
+                listWorldConstructionsSearch.Items.AddRange(list.ToArray());
+            }
         }
 
         private void searchStructureList(object sender, EventArgs e)

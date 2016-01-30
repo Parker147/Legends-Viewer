@@ -33,7 +33,7 @@ namespace LegendsViewer.Legends
         public List<BeastAttack> BeastAttacks;
         public List<Era> Eras = new List<Era>();
         public List<Artifact> Artifacts = new List<Artifact>();
-        public List<WorldConstruction> WorldContructions = new List<WorldConstruction>();
+        public List<WorldConstruction> WorldConstructions = new List<WorldConstruction>();
         public List<PoeticForm> PoeticForms = new List<PoeticForm>();
         public List<MusicalForm> MusicalForms = new List<MusicalForm>();
         public List<DanceForm> DanceForms = new List<DanceForm>();
@@ -431,16 +431,16 @@ namespace LegendsViewer.Legends
             else
             {
                 int min = 0;
-                int max = WorldContructions.Count - 1;
+                int max = WorldConstructions.Count - 1;
                 while (min <= max)
                 {
                     int mid = min + (max - min) / 2;
-                    if (id > WorldContructions[mid].ID)
+                    if (id > WorldConstructions[mid].ID)
                         min = mid + 1;
-                    else if (id < WorldContructions[mid].ID)
+                    else if (id < WorldConstructions[mid].ID)
                         max = mid - 1;
                     else
-                        return WorldContructions[mid];
+                        return WorldConstructions[mid];
                 }
                 return null;
             }

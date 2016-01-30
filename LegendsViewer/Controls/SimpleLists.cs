@@ -246,7 +246,7 @@ namespace LegendsViewer
         public string Name, Type;
         public bool SortEvents, SortFiltered;
         public List<WorldConstruction> BaseList;
-        public WorldConstructionsList(World world) { World = world; BaseList = world.WorldContructions; }
+        public WorldConstructionsList(World world) { World = world; BaseList = world.WorldConstructions; }
         public IEnumerable<WorldConstruction> GetList()
         {
             IEnumerable<WorldConstruction> filtered = BaseList;
