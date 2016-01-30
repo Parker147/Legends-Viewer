@@ -500,7 +500,9 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="WFC.dll" />
+    <Content Include="WFC.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Controls\HTML\Styles\github-markdown.css" />
     <EmbeddedResource Include="Controls\HTML\Scripts\cytoscape.min.js" />
     <EmbeddedResource Include="Controls\HTML\Scripts\familygraph.js" />
