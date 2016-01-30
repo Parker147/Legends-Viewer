@@ -32,6 +32,10 @@
             this.tpOverworld = new System.Windows.Forms.TabPage();
             this.tcRegions = new System.Windows.Forms.TabControl();
             this.tpRegionSearch = new System.Windows.Forms.TabPage();
+            this.lblShownResults = new System.Windows.Forms.Label();
+            this.listRegionSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.radRegionSortDeaths = new System.Windows.Forms.RadioButton();
@@ -42,7 +46,6 @@
             this.label27 = new System.Windows.Forms.Label();
             this.cmbRegionType = new System.Windows.Forms.ComboBox();
             this.txtRegionSearch = new System.Windows.Forms.TextBox();
-            this.listRegionSearch = new System.Windows.Forms.ListBox();
             this.btnRegionSearch = new System.Windows.Forms.Button();
             this.tpRegionEvents = new System.Windows.Forms.TabPage();
             this.tpUnderground = new System.Windows.Forms.TabPage();
@@ -86,6 +89,7 @@
             this.tpOverworld.SuspendLayout();
             this.tcRegions.SuspendLayout();
             this.tpRegionSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listRegionSearch)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.tpUnderground.SuspendLayout();
@@ -144,9 +148,10 @@
             // 
             // tpRegionSearch
             // 
+            this.tpRegionSearch.Controls.Add(this.lblShownResults);
+            this.tpRegionSearch.Controls.Add(this.listRegionSearch);
             this.tpRegionSearch.Controls.Add(this.groupBox2);
             this.tpRegionSearch.Controls.Add(this.txtRegionSearch);
-            this.tpRegionSearch.Controls.Add(this.listRegionSearch);
             this.tpRegionSearch.Controls.Add(this.btnRegionSearch);
             this.tpRegionSearch.Location = new System.Drawing.Point(4, 22);
             this.tpRegionSearch.Name = "tpRegionSearch";
@@ -156,6 +161,69 @@
             this.tpRegionSearch.Text = "Search";
             this.tpRegionSearch.UseVisualStyleBackColor = true;
             // 
+            // lblShownResults
+            // 
+            this.lblShownResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShownResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShownResults.Location = new System.Drawing.Point(161, 280);
+            this.lblShownResults.Name = "lblShownResults";
+            this.lblShownResults.Size = new System.Drawing.Size(80, 11);
+            this.lblShownResults.TabIndex = 54;
+            this.lblShownResults.Text = "0 / 0";
+            this.lblShownResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblShownResults, "Results Shown");
+            // 
+            // listRegionSearch
+            // 
+            this.listRegionSearch.AllColumns.Add(this.olvName);
+            this.listRegionSearch.AllColumns.Add(this.olvType);
+            this.listRegionSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listRegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listRegionSearch.CellEditUseWholeCell = false;
+            this.listRegionSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvName,
+            this.olvType});
+            this.listRegionSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listRegionSearch.FullRowSelect = true;
+            this.listRegionSearch.GridLines = true;
+            this.listRegionSearch.HeaderWordWrap = true;
+            this.listRegionSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listRegionSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listRegionSearch.Location = new System.Drawing.Point(3, 32);
+            this.listRegionSearch.Name = "listRegionSearch";
+            this.listRegionSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listRegionSearch.ShowCommandMenuOnRightClick = true;
+            this.listRegionSearch.ShowImagesOnSubItems = true;
+            this.listRegionSearch.ShowItemCountOnGroups = true;
+            this.listRegionSearch.Size = new System.Drawing.Size(240, 245);
+            this.listRegionSearch.TabIndex = 53;
+            this.listRegionSearch.UseAlternatingBackColors = true;
+            this.listRegionSearch.UseCompatibleStateImageBehavior = false;
+            this.listRegionSearch.UseFiltering = true;
+            this.listRegionSearch.UseHotItem = true;
+            this.listRegionSearch.UseHyperlinks = true;
+            this.listRegionSearch.View = System.Windows.Forms.View.Details;
+            this.listRegionSearch.SelectedIndexChanged += new System.EventHandler(this.listRegionSearch_SelectedIndexChanged);
+            // 
+            // olvName
+            // 
+            this.olvName.AspectName = "Name";
+            this.olvName.IsEditable = false;
+            this.olvName.MinimumWidth = 50;
+            this.olvName.Text = "Name";
+            this.olvName.UseInitialLetterForGroup = true;
+            this.olvName.Width = 145;
+            // 
+            // olvType
+            // 
+            this.olvType.AspectName = "Type";
+            this.olvType.IsEditable = false;
+            this.olvType.Text = "Type";
+            this.olvType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvType.Width = 75;
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -163,7 +231,7 @@
             this.groupBox2.Controls.Add(this.groupBox7);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.cmbRegionType);
-            this.groupBox2.Location = new System.Drawing.Point(3, 270);
+            this.groupBox2.Location = new System.Drawing.Point(3, 294);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(240, 163);
             this.groupBox2.TabIndex = 34;
@@ -273,18 +341,6 @@
             this.txtRegionSearch.Size = new System.Drawing.Size(163, 20);
             this.txtRegionSearch.TabIndex = 33;
             this.txtRegionSearch.TextChanged += new System.EventHandler(this.searchRegionList);
-            // 
-            // listRegionSearch
-            // 
-            this.listRegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listRegionSearch.FormattingEnabled = true;
-            this.listRegionSearch.Location = new System.Drawing.Point(3, 31);
-            this.listRegionSearch.Name = "listRegionSearch";
-            this.listRegionSearch.Size = new System.Drawing.Size(242, 225);
-            this.listRegionSearch.TabIndex = 32;
-            this.listRegionSearch.SelectedIndexChanged += new System.EventHandler(this.listRegionSearch_SelectedIndexChanged);
             // 
             // btnRegionSearch
             // 
@@ -746,6 +802,7 @@
             this.tcRegions.ResumeLayout(false);
             this.tpRegionSearch.ResumeLayout(false);
             this.tpRegionSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listRegionSearch)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -791,7 +848,6 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.ComboBox cmbRegionType;
         private System.Windows.Forms.TextBox txtRegionSearch;
-        private System.Windows.Forms.ListBox listRegionSearch;
         private System.Windows.Forms.Button btnRegionSearch;
         private System.Windows.Forms.TabPage tpRegionEvents;
         private System.Windows.Forms.TabPage tpUnderground;
@@ -831,5 +887,9 @@
         private System.Windows.Forms.TextBox txtMountainPeakSearch;
         private System.Windows.Forms.ListBox listMountainPeakSearch;
         private System.Windows.Forms.TabPage tpMountainPeakEvents;
+        private System.Windows.Forms.Label lblShownResults;
+        private BrightIdeasSoftware.OLVColumn olvName;
+        private BrightIdeasSoftware.OLVColumn olvType;
+        private BrightIdeasSoftware.ObjectListView listRegionSearch;
     }
 }

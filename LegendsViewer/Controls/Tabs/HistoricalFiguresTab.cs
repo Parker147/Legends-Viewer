@@ -132,7 +132,7 @@ namespace LegendsViewer.Controls.Tabs
                 IEnumerable<HistoricalFigure> list = hfSearch.GetList();
                 var results = list.ToArray();
                 listHFSearch.SetObjects(results);
-                listHFSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                //listHFSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                 UpdateCounts(results.Length, hfSearch.BaseList.Count);
             }
         }
@@ -208,11 +208,6 @@ namespace LegendsViewer.Controls.Tabs
         private void UpdateCounts(int shown, int total)
         {
             lblShownResults.Text = $"{shown} / {total}";
-        }
-
-        private void listHFSearch_SizeChanged(object sender, EventArgs e)
-        {
-            //listHFSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
     }
 }

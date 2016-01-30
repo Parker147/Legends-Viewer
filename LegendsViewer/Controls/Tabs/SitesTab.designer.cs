@@ -31,6 +31,7 @@
             this.tcSites = new System.Windows.Forms.TabControl();
             this.tpSiteSearch = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblShownResults = new System.Windows.Forms.Label();
             this.btnSiteSearch = new System.Windows.Forms.Button();
             this.listSiteSearch = new BrightIdeasSoftware.ObjectListView();
             this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -87,6 +88,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lblShownResults);
             this.panel1.Controls.Add(this.btnSiteSearch);
             this.panel1.Controls.Add(this.listSiteSearch);
             this.panel1.Controls.Add(this.txtSiteSearch);
@@ -97,6 +99,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(261, 259);
             this.panel1.TabIndex = 45;
+            // 
+            // lblShownResults
+            // 
+            this.lblShownResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShownResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShownResults.Location = new System.Drawing.Point(163, 222);
+            this.lblShownResults.Name = "lblShownResults";
+            this.lblShownResults.Size = new System.Drawing.Size(95, 10);
+            this.lblShownResults.TabIndex = 52;
+            this.lblShownResults.Text = "0 / 0";
+            this.lblShownResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblShownResults, "Results Shown");
             // 
             // btnSiteSearch
             // 
@@ -149,7 +163,7 @@
             this.olvName.MinimumWidth = 50;
             this.olvName.Text = "Name";
             this.olvName.UseInitialLetterForGroup = true;
-            this.olvName.Width = 159;
+            this.olvName.Width = 145;
             // 
             // olvType
             // 
@@ -157,7 +171,7 @@
             this.olvType.IsEditable = false;
             this.olvType.Text = "Type";
             this.olvType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.olvType.Width = 79;
+            this.olvType.Width = 85;
             // 
             // txtSiteSearch
             // 
@@ -172,16 +186,16 @@
             // lblSiteList
             // 
             this.lblSiteList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSiteList.Location = new System.Drawing.Point(53, 226);
+            this.lblSiteList.Location = new System.Drawing.Point(59, 233);
             this.lblSiteList.Name = "lblSiteList";
-            this.lblSiteList.Size = new System.Drawing.Size(202, 29);
+            this.lblSiteList.Size = new System.Drawing.Size(179, 20);
             this.lblSiteList.TabIndex = 42;
             this.lblSiteList.Text = "All";
             // 
             // btnSiteListReset
             // 
             this.btnSiteListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSiteListReset.Location = new System.Drawing.Point(3, 227);
+            this.btnSiteListReset.Location = new System.Drawing.Point(3, 229);
             this.btnSiteListReset.Name = "btnSiteListReset";
             this.btnSiteListReset.Size = new System.Drawing.Size(50, 20);
             this.btnSiteListReset.TabIndex = 43;
@@ -424,8 +438,6 @@
 
         private System.Windows.Forms.TabControl tcSites;
         private System.Windows.Forms.TabPage tpSiteSearch;
-        private System.Windows.Forms.Button btnSiteListReset;
-        private System.Windows.Forms.Label lblSiteList;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.RadioButton radSiteBeastAttacks;
@@ -448,5 +460,8 @@
         private BrightIdeasSoftware.OLVColumn olvName;
         private BrightIdeasSoftware.OLVColumn olvType;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnSiteListReset;
+        private System.Windows.Forms.Label lblSiteList;
+        private System.Windows.Forms.Label lblShownResults;
     }
 }

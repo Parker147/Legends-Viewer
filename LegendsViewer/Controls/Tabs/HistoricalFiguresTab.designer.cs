@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.baseRenderer1 = new BrightIdeasSoftware.BaseRenderer();
             this.tcHF = new System.Windows.Forms.TabControl();
             this.tpHFSearch = new System.Windows.Forms.TabPage();
             this.listPanel = new System.Windows.Forms.Panel();
@@ -63,7 +64,6 @@
             this.chkGhost = new System.Windows.Forms.CheckBox();
             this.chkDeity = new System.Windows.Forms.CheckBox();
             this.tpHFEvents = new System.Windows.Forms.TabPage();
-            this.baseRenderer1 = new BrightIdeasSoftware.BaseRenderer();
             this.tcHF.SuspendLayout();
             this.tpHFSearch.SuspendLayout();
             this.listPanel.SuspendLayout();
@@ -117,7 +117,7 @@
             // 
             this.lblShownResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShownResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShownResults.Location = new System.Drawing.Point(138, 201);
+            this.lblShownResults.Location = new System.Drawing.Point(140, 219);
             this.lblShownResults.Name = "lblShownResults";
             this.lblShownResults.Size = new System.Drawing.Size(95, 10);
             this.lblShownResults.TabIndex = 44;
@@ -130,7 +130,7 @@
             this.lnkMaxResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkMaxResults.AutoSize = true;
             this.lnkMaxResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkMaxResults.Location = new System.Drawing.Point(241, 201);
+            this.lnkMaxResults.Location = new System.Drawing.Point(241, 219);
             this.lnkMaxResults.Name = "lnkMaxResults";
             this.lnkMaxResults.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lnkMaxResults.Size = new System.Drawing.Size(17, 9);
@@ -185,7 +185,7 @@
             this.listHFSearch.ShowCommandMenuOnRightClick = true;
             this.listHFSearch.ShowImagesOnSubItems = true;
             this.listHFSearch.ShowItemCountOnGroups = true;
-            this.listHFSearch.Size = new System.Drawing.Size(255, 166);
+            this.listHFSearch.Size = new System.Drawing.Size(255, 186);
             this.listHFSearch.TabIndex = 42;
             this.listHFSearch.UseAlternatingBackColors = true;
             this.listHFSearch.UseCompatibleStateImageBehavior = false;
@@ -194,7 +194,6 @@
             this.listHFSearch.UseHyperlinks = true;
             this.listHFSearch.View = System.Windows.Forms.View.Details;
             this.listHFSearch.SelectedIndexChanged += new System.EventHandler(this.listHFSearch_SelectedIndexChanged);
-            this.listHFSearch.SizeChanged += new System.EventHandler(this.listHFSearch_SizeChanged);
             // 
             // olvName
             // 
@@ -203,7 +202,7 @@
             this.olvName.MinimumWidth = 50;
             this.olvName.Text = "Name";
             this.olvName.UseInitialLetterForGroup = true;
-            this.olvName.Width = 159;
+            this.olvName.Width = 140;
             // 
             // olvRace
             // 
@@ -211,22 +210,22 @@
             this.olvRace.IsEditable = false;
             this.olvRace.Text = "Race";
             this.olvRace.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.olvRace.Width = 79;
+            this.olvRace.Width = 95;
             // 
             // lblHFList
             // 
             this.lblHFList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblHFList.Location = new System.Drawing.Point(56, 212);
+            this.lblHFList.Location = new System.Drawing.Point(59, 229);
             this.lblHFList.Name = "lblHFList";
-            this.lblHFList.Size = new System.Drawing.Size(196, 36);
+            this.lblHFList.Size = new System.Drawing.Size(196, 22);
             this.lblHFList.TabIndex = 40;
             this.lblHFList.Text = "All";
             // 
             // btnHFListReset
             // 
             this.btnHFListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnHFListReset.Location = new System.Drawing.Point(3, 212);
+            this.btnHFListReset.Location = new System.Drawing.Point(3, 225);
             this.btnHFListReset.Name = "btnHFListReset";
             this.btnHFListReset.Size = new System.Drawing.Size(50, 20);
             this.btnHFListReset.TabIndex = 41;

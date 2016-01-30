@@ -5,7 +5,6 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using LegendsViewer.Legends;
@@ -21,9 +20,7 @@ namespace LegendsViewer.Controls.Tabs
         public SitesTab()
         {
             InitializeComponent();
-
         }
-
 
         internal override void InitializeTab()
         {
@@ -63,7 +60,13 @@ namespace LegendsViewer.Controls.Tabs
                 Text = "Beast Attacks", TextAlign = HorizontalAlignment.Right, IsVisible = false,
                 AspectGetter = item => ((Site)item).BeastAttacks.Count
             });
-           
+            listSiteSearch.AllColumns.Add(new OLVColumn
+            {
+                Text = "Events",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
+                AspectGetter = rowObject => ((Site)rowObject).Events.Count
+            });
         }
 
         internal override void AfterLoad(World world)
@@ -100,7 +103,6 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void ResetTab()
         {
-
             lblSiteList.Text = "All";
             lblSiteList.ForeColor = DefaultForeColor;
             lblSiteList.Font = new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
@@ -111,8 +113,6 @@ namespace LegendsViewer.Controls.Tabs
             cmbSitePopulation.Items.Clear();
             radSiteNone.Checked = true;
         }
-
-
 
         private void searchSiteList(object sender, EventArgs e)
         {
@@ -133,10 +133,17 @@ namespace LegendsViewer.Controls.Tabs
                     siteSearch.SortDeaths = radSiteSortDeaths.Checked;
                     siteSearch.SortBeastAttacks = radSiteBeastAttacks.Checked;
                     IEnumerable<Site> list = siteSearch.getList();
-                    listSiteSearch.SetObjects(list.ToArray());
-                    listSiteSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    var results = list.ToArray();
+                    listSiteSearch.SetObjects(results);
+                    //listSiteSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    UpdateCounts(results.Length, siteSearch.BaseList.Count);
                 }
             }
+        }
+
+        private void UpdateCounts(int shown, int total)
+        {
+            lblShownResults.Text = $"{shown} / {total}";
         }
 
         public void ChangeSiteBaseList(List<Site> list, string listName)

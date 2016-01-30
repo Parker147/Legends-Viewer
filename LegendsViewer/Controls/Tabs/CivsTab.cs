@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
 using LegendsViewer.Legends;
+using BrightIdeasSoftware;
 
 namespace LegendsViewer.Controls.Tabs
 {
@@ -19,15 +17,29 @@ namespace LegendsViewer.Controls.Tabs
         public CivsTab()
         {
             InitializeComponent();
-
         }
-
 
         internal override void InitializeTab()
         {
             EventTabs = new TabPage[] { tpCivEvents};
             EventTabTypes = new Type[] { typeof(Entity) };
 
+            listCivSearch.AllColumns.Add(new OLVColumn { AspectName = "Race", IsVisible = false, Text = "Race", TextAlign = HorizontalAlignment.Left });
+            listCivSearch.AllColumns.Add(new OLVColumn
+            {
+                Text = "Events",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
+                AspectGetter = rowObject => ((Entity)rowObject).Events.Count
+            });
+            listCivSearch.AllColumns.Add(new OLVColumn
+            {
+                Text = "Sites",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
+                AspectGetter = rowObject => ((Entity)rowObject).CurrentSites.Count
+            });
+            listCivSearch.ShowGroups = false;
         }
 
         internal override void AfterLoad(World world)
@@ -70,14 +82,12 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void ResetTab()
         {
-
             txtCivSearch.Clear();
             listCivSearch.Items.Clear();
             cmbCivRace.Items.Clear();
             cmbEntityPopulation.Items.Clear();
             chkCiv.Checked = false;
             radEntityNone.Checked = true;
-
         }
 
         private void searchEntityList(object sender, EventArgs e)
@@ -97,28 +107,24 @@ namespace LegendsViewer.Controls.Tabs
                     entitySearch.sortFiltered = radCivSortFiltered.Checked;
                     entitySearch.sortWars = radCivSortWars.Checked;
                     entitySearch.SortPopulation = radEntitySortPopulation.Checked;
+
                     IEnumerable<Entity> list = entitySearch.getList();
-                    listCivSearch.Items.Clear();
-                    listCivSearch.Items.AddRange(list.ToArray());
+                    var results = list.ToArray();
+                    listCivSearch.SetObjects(results);
+                    //listCivSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    UpdateCounts(results.Length, entitySearch.BaseList.Count);
                 }
             }
-        }
-
-        public void resetCivBaseList(object sender, EventArgs e)
-        {
-            //if (!FileLoader.Working && World != null)
-            //{
-            //    lblHFList.Text = "All";
-            //    lblHFList.ForeColor = Control.DefaultForeColor;
-            //    lblHFList.Font = new Font(lblHFList.Font.FontFamily, lblHFList.Font.Size, FontStyle.Regular);
-            //    hfSearch.BaseList = World.HistoricalFigures;
-            //    searchHFList(null, null);
-            //}
         }
 
         private void listCivSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
             listSearch_SelectedIndexChanged(sender, e);
+        }
+
+        private void UpdateCounts(int shown, int total)
+        {
+            lblShownResults.Text = $"{shown} / {total}";
         }
     }
 }

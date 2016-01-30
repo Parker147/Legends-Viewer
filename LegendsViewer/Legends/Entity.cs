@@ -41,6 +41,7 @@ namespace LegendsViewer.Legends
         public List<Site> Sites { get { return SiteHistory.Select(site => site.Site).ToList(); } set { } }
 
         public EntityType Type { get; set; } // legends_plus.xml
+        public string TypeAsString { get { return Type.GetDescription(); } set { } }
         public List<EntitySiteLink> SiteLinks { get; set; } // legends_plus.xml
         public List<EntityEntityLink> EntityLinks { get; set; } // legends_plus.xml
         public List<EntityPosition> EntityPositions { get; set; } // legends_plus.xml

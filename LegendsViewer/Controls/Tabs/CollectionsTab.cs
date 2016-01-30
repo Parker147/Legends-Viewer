@@ -174,11 +174,17 @@ namespace LegendsViewer.Controls.Tabs
                 artifactSearch.Type = cbmArtTypeFilter.SelectedIndex == 0 ? null : cbmArtTypeFilter.SelectedItem.ToString();
                 artifactSearch.Material = cbmArtMatFilter.SelectedIndex == 0 ? null : cbmArtMatFilter.SelectedItem.ToString();
                 IEnumerable<Artifact> list = artifactSearch.GetList();
-                listArtifactSearch.SetObjects(list.ToArray());
-                listArtifactSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                var results = list.ToArray();
+                listArtifactSearch.SetObjects(results);
+                //listArtifactSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                UpdateCounts(results.Length, artifactSearch.BaseList.Count);
             }
         }
 
+        private void UpdateCounts(int shown, int total)
+        {
+            lblShownResults.Text = $"{shown} / {total}";
+        }
 
         private void btnEraShow_Click(object sender, EventArgs e)
         {

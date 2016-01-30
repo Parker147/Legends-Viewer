@@ -32,7 +32,7 @@ namespace LegendsViewer.Legends
             : base(properties, world)
         {
             Name = "Untitled";
-            Type = "Artifact";
+            Type = "Unknown";
             WrittenContents = new List<int>();
 
             foreach (Property property in properties)
@@ -41,7 +41,7 @@ namespace LegendsViewer.Legends
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "item": Item = Formatting.InitCaps(property.Value); break;
-                    case "item_type": Type = property.Value; break;
+                    case "item_type": Type = Formatting.InitCaps(property.Value); break;
                     case "item_subtype": SubType = property.Value; break;
                     case "item_description": Description = Formatting.InitCaps(property.Value); break;
                     case "mat": Material = property.Value; break;

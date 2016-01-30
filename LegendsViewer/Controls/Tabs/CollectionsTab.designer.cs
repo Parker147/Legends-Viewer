@@ -103,6 +103,7 @@
             this.txtStructuresSearch = new System.Windows.Forms.TextBox();
             this.listStructuresSearch = new System.Windows.Forms.ListBox();
             this.tpStructureEvents = new System.Windows.Forms.TabPage();
+            this.lblShownResults = new System.Windows.Forms.Label();
             this.tcCollections.SuspendLayout();
             this.tpEras.SuspendLayout();
             this.tcEras.SuspendLayout();
@@ -272,7 +273,7 @@
             this.tpEraEvents.Location = new System.Drawing.Point(4, 22);
             this.tpEraEvents.Name = "tpEraEvents";
             this.tpEraEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEraEvents.Size = new System.Drawing.Size(247, 442);
+            this.tpEraEvents.Size = new System.Drawing.Size(253, 448);
             this.tpEraEvents.TabIndex = 1;
             this.tpEraEvents.Text = "Events";
             this.tpEraEvents.UseVisualStyleBackColor = true;
@@ -300,6 +301,7 @@
             // 
             // tpArtifactsSearch
             // 
+            this.tpArtifactsSearch.Controls.Add(this.lblShownResults);
             this.tpArtifactsSearch.Controls.Add(this.listArtifactSearch);
             this.tpArtifactsSearch.Controls.Add(this.btnArtifactListReset);
             this.tpArtifactsSearch.Controls.Add(this.lblArtifactList);
@@ -332,13 +334,13 @@
             this.listArtifactSearch.HeaderWordWrap = true;
             this.listArtifactSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
             this.listArtifactSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
-            this.listArtifactSearch.Location = new System.Drawing.Point(0, 30);
+            this.listArtifactSearch.Location = new System.Drawing.Point(3, 30);
             this.listArtifactSearch.Name = "listArtifactSearch";
             this.listArtifactSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.listArtifactSearch.ShowCommandMenuOnRightClick = true;
             this.listArtifactSearch.ShowImagesOnSubItems = true;
             this.listArtifactSearch.ShowItemCountOnGroups = true;
-            this.listArtifactSearch.Size = new System.Drawing.Size(253, 267);
+            this.listArtifactSearch.Size = new System.Drawing.Size(247, 267);
             this.listArtifactSearch.TabIndex = 49;
             this.listArtifactSearch.UseAlternatingBackColors = true;
             this.listArtifactSearch.UseCompatibleStateImageBehavior = false;
@@ -355,7 +357,7 @@
             this.olvName.MinimumWidth = 50;
             this.olvName.Text = "Name";
             this.olvName.UseInitialLetterForGroup = true;
-            this.olvName.Width = 159;
+            this.olvName.Width = 155;
             // 
             // olvType
             // 
@@ -363,12 +365,12 @@
             this.olvType.IsEditable = false;
             this.olvType.Text = "Type";
             this.olvType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.olvType.Width = 79;
+            this.olvType.Width = 70;
             // 
             // btnArtifactListReset
             // 
             this.btnArtifactListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnArtifactListReset.Location = new System.Drawing.Point(3, 303);
+            this.btnArtifactListReset.Location = new System.Drawing.Point(3, 305);
             this.btnArtifactListReset.Name = "btnArtifactListReset";
             this.btnArtifactListReset.Size = new System.Drawing.Size(50, 20);
             this.btnArtifactListReset.TabIndex = 48;
@@ -379,9 +381,9 @@
             // lblArtifactList
             // 
             this.lblArtifactList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblArtifactList.Location = new System.Drawing.Point(58, 305);
+            this.lblArtifactList.Location = new System.Drawing.Point(58, 309);
             this.lblArtifactList.Name = "lblArtifactList";
-            this.lblArtifactList.Size = new System.Drawing.Size(189, 24);
+            this.lblArtifactList.Size = new System.Drawing.Size(189, 20);
             this.lblArtifactList.TabIndex = 47;
             this.lblArtifactList.Text = "All";
             // 
@@ -514,7 +516,7 @@
             this.tpArtifactsEvents.Location = new System.Drawing.Point(4, 22);
             this.tpArtifactsEvents.Name = "tpArtifactsEvents";
             this.tpArtifactsEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpArtifactsEvents.Size = new System.Drawing.Size(247, 442);
+            this.tpArtifactsEvents.Size = new System.Drawing.Size(253, 448);
             this.tpArtifactsEvents.TabIndex = 1;
             this.tpArtifactsEvents.Text = "Events";
             this.tpArtifactsEvents.UseVisualStyleBackColor = true;
@@ -999,6 +1001,18 @@
             this.tpStructureEvents.Text = "Events";
             this.tpStructureEvents.UseVisualStyleBackColor = true;
             // 
+            // lblShownResults
+            // 
+            this.lblShownResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShownResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShownResults.Location = new System.Drawing.Point(155, 300);
+            this.lblShownResults.Name = "lblShownResults";
+            this.lblShownResults.Size = new System.Drawing.Size(95, 10);
+            this.lblShownResults.TabIndex = 53;
+            this.lblShownResults.Text = "0 / 0";
+            this.lblShownResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblShownResults, "Results Shown");
+            // 
             // CollectionsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1127,5 +1141,6 @@
         private BrightIdeasSoftware.ObjectListView listArtifactSearch;
         private BrightIdeasSoftware.OLVColumn olvName;
         private BrightIdeasSoftware.OLVColumn olvType;
+        private System.Windows.Forms.Label lblShownResults;
     }
 }

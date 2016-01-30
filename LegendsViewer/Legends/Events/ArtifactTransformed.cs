@@ -46,7 +46,7 @@ namespace LegendsViewer.Legends.Events
             else
             {
                 eventString += " ";
-                eventString += !string.IsNullOrWhiteSpace(NewArtifact.Type) ? NewArtifact.Type : "UNKNOWN TYPE";
+                eventString += !string.IsNullOrWhiteSpace(NewArtifact.Type) ? NewArtifact.Type.ToLower() : "UNKNOWN TYPE";
             }
             eventString += ", was made from ";
             eventString += OldArtifact.ToLink(link, pov);
@@ -63,7 +63,7 @@ namespace LegendsViewer.Legends.Events
             else
             {
                 eventString += " ";
-                eventString += !string.IsNullOrWhiteSpace(OldArtifact.Type) ? OldArtifact.Type : "UNKNOWN TYPE";
+                eventString += !string.IsNullOrWhiteSpace(OldArtifact.Type) ? OldArtifact.Type.ToLower() : "UNKNOWN TYPE";
             }
             if (Site != null)
                 eventString += " in " + Site.ToLink(link, pov);

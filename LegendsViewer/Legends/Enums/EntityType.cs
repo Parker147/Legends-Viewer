@@ -6,17 +6,17 @@ namespace LegendsViewer.Legends.Enums
     {
         Unknown,
         Civilization,
-        [Description("Nomadic Group")]
+        [Description("Nomads")]
         NomadicGroup,
-        [Description("Migrating Group")]
+        [Description("Migrants")]
         MigratingGroup,
         [Description("Outcasts")]
         Outcast,
-        [Description("Religious Group")]
+        [Description("Religion")]
         Religion,
-        [Description("Site Government")]
+        [Description("Government")]
         SiteGovernment,
-        [Description("Performance Troupe")]
+        [Description("Performers")]
         PerformanceTroupe,
     }
 }

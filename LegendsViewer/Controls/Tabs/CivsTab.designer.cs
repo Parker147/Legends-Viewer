@@ -30,6 +30,10 @@
         {
             this.tcCivs = new System.Windows.Forms.TabControl();
             this.tpCivSearch = new System.Windows.Forms.TabPage();
+            this.lblShownResults = new System.Windows.Forms.Label();
+            this.listCivSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbEntityType = new System.Windows.Forms.ComboBox();
@@ -45,11 +49,11 @@
             this.chkCiv = new System.Windows.Forms.CheckBox();
             this.cmbCivRace = new System.Windows.Forms.ComboBox();
             this.txtCivSearch = new System.Windows.Forms.TextBox();
-            this.listCivSearch = new System.Windows.Forms.ListBox();
             this.btnCivSearch = new System.Windows.Forms.Button();
             this.tpCivEvents = new System.Windows.Forms.TabPage();
             this.tcCivs.SuspendLayout();
             this.tpCivSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listCivSearch)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.SuspendLayout();
@@ -67,9 +71,10 @@
             // 
             // tpCivSearch
             // 
+            this.tpCivSearch.Controls.Add(this.lblShownResults);
+            this.tpCivSearch.Controls.Add(this.listCivSearch);
             this.tpCivSearch.Controls.Add(this.groupBox4);
             this.tpCivSearch.Controls.Add(this.txtCivSearch);
-            this.tpCivSearch.Controls.Add(this.listCivSearch);
             this.tpCivSearch.Controls.Add(this.btnCivSearch);
             this.tpCivSearch.Location = new System.Drawing.Point(4, 22);
             this.tpCivSearch.Name = "tpCivSearch";
@@ -78,6 +83,67 @@
             this.tpCivSearch.TabIndex = 0;
             this.tpCivSearch.Text = "Search";
             this.tpCivSearch.UseVisualStyleBackColor = true;
+            // 
+            // lblShownResults
+            // 
+            this.lblShownResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShownResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShownResults.Location = new System.Drawing.Point(160, 262);
+            this.lblShownResults.Name = "lblShownResults";
+            this.lblShownResults.Size = new System.Drawing.Size(95, 10);
+            this.lblShownResults.TabIndex = 51;
+            this.lblShownResults.Text = "0 / 0";
+            this.lblShownResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblShownResults, "Results Shown");
+            // 
+            // listCivSearch
+            // 
+            this.listCivSearch.AllColumns.Add(this.olvName);
+            this.listCivSearch.AllColumns.Add(this.olvType);
+            this.listCivSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listCivSearch.CellEditUseWholeCell = false;
+            this.listCivSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvName,
+            this.olvType});
+            this.listCivSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listCivSearch.FullRowSelect = true;
+            this.listCivSearch.GridLines = true;
+            this.listCivSearch.HeaderWordWrap = true;
+            this.listCivSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listCivSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listCivSearch.Location = new System.Drawing.Point(3, 31);
+            this.listCivSearch.Name = "listCivSearch";
+            this.listCivSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listCivSearch.ShowCommandMenuOnRightClick = true;
+            this.listCivSearch.ShowImagesOnSubItems = true;
+            this.listCivSearch.ShowItemCountOnGroups = true;
+            this.listCivSearch.Size = new System.Drawing.Size(253, 228);
+            this.listCivSearch.TabIndex = 50;
+            this.listCivSearch.UseAlternatingBackColors = true;
+            this.listCivSearch.UseCompatibleStateImageBehavior = false;
+            this.listCivSearch.UseFiltering = true;
+            this.listCivSearch.UseHotItem = true;
+            this.listCivSearch.UseHyperlinks = true;
+            this.listCivSearch.View = System.Windows.Forms.View.Details;
+            this.listCivSearch.SelectedIndexChanged += new System.EventHandler(this.listCivSearch_SelectedIndexChanged);
+            // 
+            // olvName
+            // 
+            this.olvName.AspectName = "Name";
+            this.olvName.IsEditable = false;
+            this.olvName.MinimumWidth = 50;
+            this.olvName.Text = "Name";
+            this.olvName.UseInitialLetterForGroup = true;
+            this.olvName.Width = 145;
+            // 
+            // olvType
+            // 
+            this.olvType.AspectName = "TypeAsString";
+            this.olvType.Text = "Type";
+            this.olvType.Width = 85;
             // 
             // groupBox4
             // 
@@ -252,18 +318,6 @@
             this.txtCivSearch.TabIndex = 36;
             this.txtCivSearch.TextChanged += new System.EventHandler(this.searchEntityList);
             // 
-            // listCivSearch
-            // 
-            this.listCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listCivSearch.FormattingEnabled = true;
-            this.listCivSearch.Location = new System.Drawing.Point(3, 31);
-            this.listCivSearch.Name = "listCivSearch";
-            this.listCivSearch.Size = new System.Drawing.Size(256, 212);
-            this.listCivSearch.TabIndex = 35;
-            this.listCivSearch.SelectedIndexChanged += new System.EventHandler(this.listCivSearch_SelectedIndexChanged);
-            // 
             // btnCivSearch
             // 
             this.btnCivSearch.Location = new System.Drawing.Point(3, 3);
@@ -294,6 +348,7 @@
             this.tcCivs.ResumeLayout(false);
             this.tpCivSearch.ResumeLayout(false);
             this.tpCivSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listCivSearch)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox9.ResumeLayout(false);
@@ -319,10 +374,13 @@
         private System.Windows.Forms.CheckBox chkCiv;
         private System.Windows.Forms.ComboBox cmbCivRace;
         private System.Windows.Forms.TextBox txtCivSearch;
-        private System.Windows.Forms.ListBox listCivSearch;
         private System.Windows.Forms.Button btnCivSearch;
         private System.Windows.Forms.TabPage tpCivEvents;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbEntityType;
+        private BrightIdeasSoftware.OLVColumn olvName;
+        private BrightIdeasSoftware.ObjectListView listCivSearch;
+        private BrightIdeasSoftware.OLVColumn olvType;
+        private System.Windows.Forms.Label lblShownResults;
     }
 }
