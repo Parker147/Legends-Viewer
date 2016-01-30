@@ -147,9 +147,9 @@ namespace LegendsViewer
         public IEnumerable<Entity> getList()
         {
             IEnumerable<Entity> filtered = BaseList.Where(entity => entity.Name != "");
-            if (!string.IsNullOrWhiteSpace(Type)) filtered = filtered.Where(e => e.Name.ToLower().Contains(name.ToLower()));
-            if (!string.IsNullOrWhiteSpace(Type) && Type != "All") filtered = filtered.Where(element => element.Type.GetDescription() == Type);
-            if (!string.IsNullOrWhiteSpace(Type) && race != "All") filtered = filtered.Where(e => e.Race == race);
+            if (name != "") filtered = filtered.Where(e => e.Name.ToLower().Contains(name.ToLower()));
+            if (Type != "All") filtered = filtered.Where(element => element.Type.GetDescription() == Type);
+            if (race != "All") filtered = filtered.Where(e => e.Race == race);
             if (civs) filtered = filtered.Where(e => e.IsCiv);
             if (sortSites) filtered = filtered.OrderByDescending(civ => civ.SiteHistory.Count);
             if (sortEvents) filtered = filtered.OrderByDescending(e => e.Events.Count);

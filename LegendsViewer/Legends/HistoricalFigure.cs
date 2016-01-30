@@ -82,7 +82,6 @@ namespace LegendsViewer.Legends
         public bool Force { get; set; }
         public bool Zombie { get; set; }
         public bool Ghost { get; set; }
-        public bool Beast { get; set; }
         public bool Animated { get; set; }
         public string AnimatedType { get; set; }
         public bool Adventurer { get; set; }

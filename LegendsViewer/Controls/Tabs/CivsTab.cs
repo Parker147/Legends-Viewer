@@ -46,6 +46,10 @@ namespace LegendsViewer.Controls.Tabs
             var civPopulationTypes = from civPopulation in populationTypes
                                      where World.Entities.Count(entity => entity.Populations.Count(population => population.Race == civPopulation.Key) > 0) > 0
                                      select civPopulation;
+            var entites = from entity in world.Entities
+                          orderby entity.Type.GetDescription()
+                          group entity by entity.Type.GetDescription() into entityType
+                          select entityType;
 
             cmbCivRace.Items.Add("All"); cmbCivRace.SelectedIndex = 0;
             foreach (var civRace in civRaces)
@@ -53,6 +57,9 @@ namespace LegendsViewer.Controls.Tabs
             cmbEntityPopulation.Items.Add("All"); cmbEntityPopulation.SelectedIndex = 0;
             foreach (var civPopulation in civPopulationTypes)
                 cmbEntityPopulation.Items.Add(civPopulation.Key);
+            cmbEntityType.Items.Add("All"); cmbEntityType.SelectedIndex = 0;
+            foreach (var entity in entites)
+                cmbEntityType.Items.Add(entity.Key);
 
             var entityEvents = from eventType in World.Entities.SelectMany(hf => hf.Events)
                                group eventType by eventType.Type into type
@@ -81,6 +88,7 @@ namespace LegendsViewer.Controls.Tabs
                 else
                 {
                     entitySearch.name = txtCivSearch.Text;
+                    entitySearch.Type = cmbEntityType.SelectedItem.ToString();
                     entitySearch.race = cmbCivRace.SelectedItem.ToString();
                     entitySearch.civs = chkCiv.Checked;
                     entitySearch.PopulationType = cmbEntityPopulation.SelectedItem.ToString();

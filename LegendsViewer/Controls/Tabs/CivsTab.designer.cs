@@ -31,6 +31,8 @@
             this.tcCivs = new System.Windows.Forms.TabControl();
             this.tpCivSearch = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbEntityType = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.cmbEntityPopulation = new System.Windows.Forms.ComboBox();
@@ -81,21 +83,41 @@
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Controls.Add(this.cmbEntityType);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.groupBox9);
             this.groupBox4.Controls.Add(this.chkCiv);
             this.groupBox4.Controls.Add(this.cmbCivRace);
-            this.groupBox4.Location = new System.Drawing.Point(3, 293);
+            this.groupBox4.Location = new System.Drawing.Point(3, 275);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(254, 175);
+            this.groupBox4.Size = new System.Drawing.Size(254, 211);
             this.groupBox4.TabIndex = 37;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Filter / Sort";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(31, 13);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Type";
+            // 
+            // cmbEntityType
+            // 
+            this.cmbEntityType.FormattingEnabled = true;
+            this.cmbEntityType.Location = new System.Drawing.Point(6, 32);
+            this.cmbEntityType.Name = "cmbEntityType";
+            this.cmbEntityType.Size = new System.Drawing.Size(121, 21);
+            this.cmbEntityType.TabIndex = 17;
+            this.cmbEntityType.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Location = new System.Drawing.Point(6, 56);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 16;
@@ -112,7 +134,7 @@
             this.groupBox9.Controls.Add(this.radCivSites);
             this.groupBox9.Controls.Add(this.radEntityNone);
             this.groupBox9.Controls.Add(this.radEntitySortEvents);
-            this.groupBox9.Location = new System.Drawing.Point(6, 62);
+            this.groupBox9.Location = new System.Drawing.Point(6, 98);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(240, 107);
             this.groupBox9.TabIndex = 15;
@@ -203,7 +225,7 @@
             // chkCiv
             // 
             this.chkCiv.AutoSize = true;
-            this.chkCiv.Location = new System.Drawing.Point(147, 34);
+            this.chkCiv.Location = new System.Drawing.Point(160, 75);
             this.chkCiv.Name = "chkCiv";
             this.chkCiv.Size = new System.Drawing.Size(80, 17);
             this.chkCiv.TabIndex = 14;
@@ -214,7 +236,7 @@
             // cmbCivRace
             // 
             this.cmbCivRace.FormattingEnabled = true;
-            this.cmbCivRace.Location = new System.Drawing.Point(6, 32);
+            this.cmbCivRace.Location = new System.Drawing.Point(6, 72);
             this.cmbCivRace.Name = "cmbCivRace";
             this.cmbCivRace.Size = new System.Drawing.Size(121, 21);
             this.cmbCivRace.TabIndex = 13;
@@ -238,7 +260,7 @@
             this.listCivSearch.FormattingEnabled = true;
             this.listCivSearch.Location = new System.Drawing.Point(3, 31);
             this.listCivSearch.Name = "listCivSearch";
-            this.listCivSearch.Size = new System.Drawing.Size(256, 251);
+            this.listCivSearch.Size = new System.Drawing.Size(256, 212);
             this.listCivSearch.TabIndex = 35;
             this.listCivSearch.SelectedIndexChanged += new System.EventHandler(this.listCivSearch_SelectedIndexChanged);
             // 
@@ -300,5 +322,7 @@
         private System.Windows.Forms.ListBox listCivSearch;
         private System.Windows.Forms.Button btnCivSearch;
         private System.Windows.Forms.TabPage tpCivEvents;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmbEntityType;
     }
 }

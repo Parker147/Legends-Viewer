@@ -38,7 +38,6 @@ namespace LegendsViewer.Controls.Tabs
             listHFSearch.AllColumns.Add(new OLVColumn { AspectName = "Force", IsVisible = false, Text = "Force", TextAlign = HorizontalAlignment.Center, CheckBoxes = true });
             listHFSearch.AllColumns.Add(new OLVColumn { AspectName = "Zombie", IsVisible = false, Text = "Zombie", TextAlign = HorizontalAlignment.Center, CheckBoxes = true });
             listHFSearch.AllColumns.Add(new OLVColumn { AspectName = "Ghost", IsVisible = false, Text = "Ghost", TextAlign = HorizontalAlignment.Center, CheckBoxes = true });
-            listHFSearch.AllColumns.Add(new OLVColumn { AspectName = "Beast", IsVisible = false, Text = "Beast", TextAlign = HorizontalAlignment.Center, CheckBoxes = true });
             listHFSearch.AllColumns.Add(new OLVColumn { AspectName = "Animated", IsVisible = false, Text = "Animated", TextAlign = HorizontalAlignment.Center, CheckBoxes = true });
             listHFSearch.AllColumns.Add(new OLVColumn { AspectName = "Adventurer", IsVisible = false, Text = "Adventurer", TextAlign = HorizontalAlignment.Center, CheckBoxes = true });
             listHFSearch.AllColumns.Add(new OLVColumn
