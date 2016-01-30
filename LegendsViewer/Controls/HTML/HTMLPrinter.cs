@@ -394,7 +394,8 @@ namespace LegendsViewer.Controls
         HTML,
         Map,
         Chart,
-        Search
+        Search,
+        ReadMe
     }
 
     public class TableMaker

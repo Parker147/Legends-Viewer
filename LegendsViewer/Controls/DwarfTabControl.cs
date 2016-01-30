@@ -32,7 +32,7 @@ namespace LegendsViewer
                     newControl = new ChartControl(World, navigateObject as DwarfObject, this); break;
                 case ControlOption.Map:
                     newControl = new MapControl(World, navigateObject, this); break;
-                case  ControlOption.Search:
+                case ControlOption.Search:
                     newControl = new SearchControl(this); break;
             }
 

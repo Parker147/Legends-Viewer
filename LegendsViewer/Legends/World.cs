@@ -75,7 +75,7 @@ namespace LegendsViewer.Legends
         private List<Entity> EntityEntityLinkEntities = new List<Entity>();// legends_plus.xml
         private List<Property> EntityEntityLinks = new List<Property>();// legends_plus.xml
 
-        public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile)
+        public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile, string xmlPlusFile)
         {
             MainRaces.Clear();
             ParsingErrors = new ParsingErrors();
@@ -87,6 +87,13 @@ namespace LegendsViewer.Legends
 
             XMLParser xml = new XMLParser(this, xmlFile);
             xml.Parse();
+
+            if (!string.IsNullOrEmpty(xmlPlusFile))
+            {
+                var xmlPlus = new XMLPlusParser(this, xmlPlusFile);
+                xmlPlus.Parse();
+            }
+
             HistoryParser history = new HistoryParser(this, historyFile);
             Log.Append(history.Parse());
             SitesAndPopulationsParser sitesAndPopulations = new SitesAndPopulationsParser(this, sitesAndPopulationsFile);

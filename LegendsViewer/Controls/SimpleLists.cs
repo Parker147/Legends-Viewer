@@ -11,8 +11,9 @@ namespace LegendsViewer
     public class HistoricalFigureList
     {
         private World World;
-        public bool deity, vampire, force, werebeast, ghost, alive, Leader, sortKills, sortEvents, sortFiltered, sortBattles;
+        public bool deity, vampire, force, werebeast, ghost, alive, Leader, sortKills, sortEvents, sortFiltered, sortBattles, sortMiscKills;
         public string name, race, caste, type;
+        public static int MaxResults = 500;
         public List<HistoricalFigure> BaseList;
         public HistoricalFigureList(World setWorld) { World = setWorld; BaseList = World.HistoricalFigures; }
         public IEnumerable<HistoricalFigure> GetList()
@@ -23,17 +24,18 @@ namespace LegendsViewer
             if (caste != "All") filtered = filtered.Where(hf => hf.Caste == caste);
             if (type != "All") filtered = filtered.Where(hf => hf.AssociatedType == type);
             if (deity) filtered = filtered.Where(hf => hf.Deity);
-            if (vampire) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(it => it.Contains("VAMPIRE")));
-            if (werebeast) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(it => it.Contains("WEREBEAST")));
+            if (vampire) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(x => x.Contains("VAMPIRE")));
+            if (werebeast) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(x => x.Contains("WEREBEAST")));
             if (force) filtered = filtered.Where(hf => hf.Force);
             if (ghost) filtered = filtered.Where(hf => hf.Ghost);
             if (Leader) filtered = filtered.Where(hf => hf.Positions.Count > 0);
             if (alive) filtered = filtered.Where(hf => hf.DeathYear == -1);
             if (sortKills) filtered = filtered.OrderByDescending(hf => hf.NotableKills.Count);
             if (sortEvents) filtered = filtered.OrderByDescending(hf => hf.Events.Count);
+            if (sortMiscKills) filtered = filtered.OrderByDescending(hf => hf.Reputations.Sum(ev => ev.UnsolvedMurders));
             if (sortFiltered) filtered = filtered.OrderByDescending(hf => hf.Events.Count(ev => !HistoricalFigure.Filters.Contains(ev.Type)));
             if (sortBattles) filtered = filtered.OrderByDescending(hf => hf.Battles.Count(battle => !World.FilterBattles || battle.Notable));
-            return filtered.Take(500);
+            return MaxResults > 0 ? filtered.Take(MaxResults) : filtered;
         }
     }
 
@@ -145,9 +147,9 @@ namespace LegendsViewer
         public IEnumerable<Entity> getList()
         {
             IEnumerable<Entity> filtered = BaseList.Where(entity => entity.Name != "");
-            if (name != "") filtered = filtered.Where(e => e.Name.ToLower().Contains(name.ToLower()));
-            if (Type != "All") filtered = filtered.Where(element => element.Type.GetDescription() == Type);
-            if (race != "All") filtered = filtered.Where(e => e.Race == race);
+            if (!string.IsNullOrWhiteSpace(Type)) filtered = filtered.Where(e => e.Name.ToLower().Contains(name.ToLower()));
+            if (!string.IsNullOrWhiteSpace(Type) && Type != "All") filtered = filtered.Where(element => element.Type.GetDescription() == Type);
+            if (!string.IsNullOrWhiteSpace(Type) && race != "All") filtered = filtered.Where(e => e.Race == race);
             if (civs) filtered = filtered.Where(e => e.IsCiv);
             if (sortSites) filtered = filtered.OrderByDescending(civ => civ.SiteHistory.Count);
             if (sortEvents) filtered = filtered.OrderByDescending(e => e.Events.Count);
@@ -204,17 +206,18 @@ namespace LegendsViewer
     public class ArtifactsList
     {
         private World World;
-        public string Name, Type;
+        public string Name, Type, Material;
         public bool SortEvents, SortFiltered;
         public List<Artifact> BaseList;
         public ArtifactsList(World world) { World = world; BaseList = world.Artifacts; }
         public IEnumerable<Artifact> GetList()
         {
             IEnumerable<Artifact> filtered = BaseList;
-            if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
-            if (Type != "All") filtered = filtered.Where(element => element.Type.GetDescription().ToLower() == Type.ToLower());
-            if (SortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
-            if (SortFiltered) filtered = filtered.OrderByDescending(element => element.FilteredEvents.Count(ev => !Artifact.Filters.Contains(ev.Type)));
+            if (Name != "") filtered = filtered.Where(artifact => artifact.Name.ToLower().Contains(Name.ToLower()));
+            if (!string.IsNullOrEmpty(Type) && Type != "All") filtered = filtered.Where(artifact => artifact.Type.ToLower().Contains(Type.ToLower()));
+            if (!string.IsNullOrEmpty(Material)) filtered = filtered.Where(artifact => artifact.Material.ToLower().Contains(Material.ToLower()));
+            if (SortEvents) filtered = filtered.OrderByDescending(artifact => artifact.Events.Count);
+            if (SortFiltered) filtered = filtered.OrderByDescending(artifact => artifact.FilteredEvents.Count(ev => !Artifact.Filters.Contains(ev.Type)));
             return filtered;
         }
     }
