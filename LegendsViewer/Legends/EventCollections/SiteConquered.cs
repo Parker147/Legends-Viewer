@@ -12,6 +12,9 @@ namespace LegendsViewer.Legends.EventCollections
     {
         public string Icon = "<i class=\"glyphicon fa-fw glyphicon-pawn\"></i>";
 
+        public string Name { get { return GetOrdinal(Ordinal) + ConquerType + " of " + Site.Name; } set { } }
+        public int DeathCount { get { return Deaths.Count; } set { } }
+
         public int Ordinal { get; set; }
         public SiteConqueredType ConquerType { get; set; }
         public Site Site { get; set; }

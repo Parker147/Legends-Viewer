@@ -201,7 +201,7 @@
             // 
             this.listEraSearch.AllColumns.Add(this.olvColumn7);
             this.listEraSearch.AllColumns.Add(this.olvColumn8);
-            this.listEraSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listEraSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listEraSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -386,7 +386,7 @@
             // 
             this.listArtifactSearch.AllColumns.Add(this.olvName);
             this.listArtifactSearch.AllColumns.Add(this.olvType);
-            this.listArtifactSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listArtifactSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listArtifactSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -639,7 +639,7 @@
             // 
             this.listWrittenContentSearch.AllColumns.Add(this.olvColumn1);
             this.listWrittenContentSearch.AllColumns.Add(this.olvColumn2);
-            this.listWrittenContentSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listWrittenContentSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listWrittenContentSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -851,7 +851,7 @@
             // 
             this.listWorldConstructionsSearch.AllColumns.Add(this.olvColumn5);
             this.listWorldConstructionsSearch.AllColumns.Add(this.olvColumn6);
-            this.listWorldConstructionsSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listWorldConstructionsSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listWorldConstructionsSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -1063,7 +1063,7 @@
             // 
             this.listStructureSearch.AllColumns.Add(this.olvColumn3);
             this.listStructureSearch.AllColumns.Add(this.olvColumn4);
-            this.listStructureSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listStructureSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listStructureSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));

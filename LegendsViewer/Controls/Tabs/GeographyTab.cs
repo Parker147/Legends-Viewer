@@ -49,6 +49,10 @@ namespace LegendsViewer.Controls.Tabs
             listRegionSearch.ShowGroups = false;
 
             listURegionSearch.ShowGroups = false;
+
+            listLandmassesSearch.ShowGroups = false;
+
+            listMountainPeakSearch.ShowGroups = false;
         }
 
         internal override void AfterLoad(World world)
@@ -146,7 +150,7 @@ namespace LegendsViewer.Controls.Tabs
                 IEnumerable<UndergroundRegion> list = uRegionSearch.getList();
                 var results = list.ToArray();
                 listURegionSearch.SetObjects(results);
-                UpdateCounts(lblURegionResults, results.Length, regionSearch.BaseList.Count);
+                UpdateCounts(lblURegionResults, results.Length, uRegionSearch.BaseList.Count);
             }
         }
 
@@ -159,8 +163,9 @@ namespace LegendsViewer.Controls.Tabs
                 landmassSearch.sortEvents = radLandmassEvents.Checked;
                 landmassSearch.sortFiltered = radLandmassFiltered.Checked;
                 IEnumerable<Landmass> list = landmassSearch.getList();
-                listLandmassSearch.Items.Clear();
-                listLandmassSearch.Items.AddRange(list.ToArray());
+                var results = list.ToArray();
+                listLandmassesSearch.SetObjects(results);
+                UpdateCounts(lblLandmassResults, results.Length, landmassSearch.BaseList.Count);
             }
         }
 
@@ -172,8 +177,9 @@ namespace LegendsViewer.Controls.Tabs
                 mountainPeaksSearch.sortEvents = radMountainPeakEvents.Checked;
                 mountainPeaksSearch.sortFiltered = radMountainPeakFiltered.Checked;
                 IEnumerable<MountainPeak> list = mountainPeaksSearch.getList();
-                listMountainPeakSearch.Items.Clear();
-                listMountainPeakSearch.Items.AddRange(list.ToArray());
+                var results = list.ToArray();
+                listMountainPeakSearch.SetObjects(results);
+                UpdateCounts(lblMountainPeakResults, results.Length, mountainPeaksSearch.BaseList.Count);
             }
         }
 

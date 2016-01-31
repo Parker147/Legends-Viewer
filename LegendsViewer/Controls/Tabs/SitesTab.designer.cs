@@ -126,7 +126,7 @@
             // 
             this.listSiteSearch.AllColumns.Add(this.olvName);
             this.listSiteSearch.AllColumns.Add(this.olvType);
-            this.listSiteSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listSiteSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listSiteSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));

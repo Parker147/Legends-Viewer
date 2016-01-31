@@ -69,6 +69,9 @@
             this.tpLandmasses = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblLandmassResults = new System.Windows.Forms.Label();
+            this.listLandmassesSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnLandmassSearch = new System.Windows.Forms.Button();
             this.groupBox27 = new System.Windows.Forms.GroupBox();
             this.groupBox28 = new System.Windows.Forms.GroupBox();
@@ -76,11 +79,14 @@
             this.radLandmassNone = new System.Windows.Forms.RadioButton();
             this.radLandmassEvents = new System.Windows.Forms.RadioButton();
             this.txtLandmassSearch = new System.Windows.Forms.TextBox();
-            this.listLandmassSearch = new System.Windows.Forms.ListBox();
             this.tpLandmassEvents = new System.Windows.Forms.TabPage();
             this.tbMountainPeaks = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lblMountainPeakResults = new System.Windows.Forms.Label();
+            this.listMountainPeakSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnMountainPeakSearch = new System.Windows.Forms.Button();
             this.groupBox29 = new System.Windows.Forms.GroupBox();
             this.groupBox30 = new System.Windows.Forms.GroupBox();
@@ -88,7 +94,6 @@
             this.radMountainPeakNone = new System.Windows.Forms.RadioButton();
             this.radMountainPeakEvents = new System.Windows.Forms.RadioButton();
             this.txtMountainPeakSearch = new System.Windows.Forms.TextBox();
-            this.listMountainPeakSearch = new System.Windows.Forms.ListBox();
             this.tpMountainPeakEvents = new System.Windows.Forms.TabPage();
             this.tcRegionsSub.SuspendLayout();
             this.tpOverworld.SuspendLayout();
@@ -106,11 +111,13 @@
             this.tpLandmasses.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listLandmassesSearch)).BeginInit();
             this.groupBox27.SuspendLayout();
             this.groupBox28.SuspendLayout();
             this.tbMountainPeaks.SuspendLayout();
             this.tabControl3.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listMountainPeakSearch)).BeginInit();
             this.groupBox29.SuspendLayout();
             this.groupBox30.SuspendLayout();
             this.SuspendLayout();
@@ -183,7 +190,7 @@
             // 
             this.listRegionSearch.AllColumns.Add(this.olvName);
             this.listRegionSearch.AllColumns.Add(this.olvType);
-            this.listRegionSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listRegionSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listRegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -423,7 +430,7 @@
             this.listURegionSearch.AllColumns.Add(this.olvColumn2);
             this.listURegionSearch.AllColumns.Add(this.olvColumn3);
             this.listURegionSearch.AllColumns.Add(this.olvColumn4);
-            this.listURegionSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listURegionSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listURegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -611,10 +618,11 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.lblLandmassResults);
+            this.tabPage1.Controls.Add(this.listLandmassesSearch);
             this.tabPage1.Controls.Add(this.btnLandmassSearch);
             this.tabPage1.Controls.Add(this.groupBox27);
             this.tabPage1.Controls.Add(this.txtLandmassSearch);
-            this.tabPage1.Controls.Add(this.listLandmassSearch);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -622,6 +630,59 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Search";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // lblLandmassResults
+            // 
+            this.lblLandmassResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblLandmassResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLandmassResults.Location = new System.Drawing.Point(167, 279);
+            this.lblLandmassResults.Name = "lblLandmassResults";
+            this.lblLandmassResults.Size = new System.Drawing.Size(80, 11);
+            this.lblLandmassResults.TabIndex = 56;
+            this.lblLandmassResults.Text = "0 / 0";
+            this.lblLandmassResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblLandmassResults, "Results Shown");
+            // 
+            // listLandmassesSearch
+            // 
+            this.listLandmassesSearch.AllColumns.Add(this.olvColumn5);
+            this.listLandmassesSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.listLandmassesSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listLandmassesSearch.CellEditUseWholeCell = false;
+            this.listLandmassesSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn5});
+            this.listLandmassesSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listLandmassesSearch.FullRowSelect = true;
+            this.listLandmassesSearch.GridLines = true;
+            this.listLandmassesSearch.HeaderWordWrap = true;
+            this.listLandmassesSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listLandmassesSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listLandmassesSearch.Location = new System.Drawing.Point(3, 31);
+            this.listLandmassesSearch.Name = "listLandmassesSearch";
+            this.listLandmassesSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listLandmassesSearch.ShowCommandMenuOnRightClick = true;
+            this.listLandmassesSearch.ShowImagesOnSubItems = true;
+            this.listLandmassesSearch.ShowItemCountOnGroups = true;
+            this.listLandmassesSearch.Size = new System.Drawing.Size(247, 245);
+            this.listLandmassesSearch.TabIndex = 55;
+            this.listLandmassesSearch.UseAlternatingBackColors = true;
+            this.listLandmassesSearch.UseCompatibleStateImageBehavior = false;
+            this.listLandmassesSearch.UseFiltering = true;
+            this.listLandmassesSearch.UseHotItem = true;
+            this.listLandmassesSearch.UseHyperlinks = true;
+            this.listLandmassesSearch.View = System.Windows.Forms.View.Details;
+            this.listLandmassesSearch.SelectedIndexChanged += new System.EventHandler(this.listLandmassSearch_SelectedIndexChanged);
+            // 
+            // olvColumn5
+            // 
+            this.olvColumn5.AspectName = "Name";
+            this.olvColumn5.IsEditable = false;
+            this.olvColumn5.MinimumWidth = 50;
+            this.olvColumn5.Text = "Name";
+            this.olvColumn5.UseInitialLetterForGroup = true;
+            this.olvColumn5.Width = 220;
             // 
             // btnLandmassSearch
             // 
@@ -705,18 +766,6 @@
             this.txtLandmassSearch.TabIndex = 44;
             this.txtLandmassSearch.TextChanged += new System.EventHandler(this.searchLandmassList);
             // 
-            // listLandmassSearch
-            // 
-            this.listLandmassSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listLandmassSearch.FormattingEnabled = true;
-            this.listLandmassSearch.Location = new System.Drawing.Point(3, 31);
-            this.listLandmassSearch.Name = "listLandmassSearch";
-            this.listLandmassSearch.Size = new System.Drawing.Size(247, 264);
-            this.listLandmassSearch.TabIndex = 43;
-            this.listLandmassSearch.SelectedIndexChanged += new System.EventHandler(this.listLandmassSearch_SelectedIndexChanged);
-            // 
             // tpLandmassEvents
             // 
             this.tpLandmassEvents.Location = new System.Drawing.Point(4, 22);
@@ -750,10 +799,11 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.lblMountainPeakResults);
+            this.tabPage3.Controls.Add(this.listMountainPeakSearch);
             this.tabPage3.Controls.Add(this.btnMountainPeakSearch);
             this.tabPage3.Controls.Add(this.groupBox29);
             this.tabPage3.Controls.Add(this.txtMountainPeakSearch);
-            this.tabPage3.Controls.Add(this.listMountainPeakSearch);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -761,6 +811,69 @@
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Search";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // lblMountainPeakResults
+            // 
+            this.lblMountainPeakResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMountainPeakResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMountainPeakResults.Location = new System.Drawing.Point(160, 282);
+            this.lblMountainPeakResults.Name = "lblMountainPeakResults";
+            this.lblMountainPeakResults.Size = new System.Drawing.Size(87, 11);
+            this.lblMountainPeakResults.TabIndex = 56;
+            this.lblMountainPeakResults.Text = "0 / 0";
+            this.lblMountainPeakResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblMountainPeakResults, "Results Shown");
+            // 
+            // listMountainPeakSearch
+            // 
+            this.listMountainPeakSearch.AllColumns.Add(this.olvColumn6);
+            this.listMountainPeakSearch.AllColumns.Add(this.olvColumn7);
+            this.listMountainPeakSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.listMountainPeakSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listMountainPeakSearch.CellEditUseWholeCell = false;
+            this.listMountainPeakSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn6,
+            this.olvColumn7});
+            this.listMountainPeakSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listMountainPeakSearch.FullRowSelect = true;
+            this.listMountainPeakSearch.GridLines = true;
+            this.listMountainPeakSearch.HeaderWordWrap = true;
+            this.listMountainPeakSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listMountainPeakSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listMountainPeakSearch.Location = new System.Drawing.Point(3, 31);
+            this.listMountainPeakSearch.Name = "listMountainPeakSearch";
+            this.listMountainPeakSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listMountainPeakSearch.ShowCommandMenuOnRightClick = true;
+            this.listMountainPeakSearch.ShowImagesOnSubItems = true;
+            this.listMountainPeakSearch.ShowItemCountOnGroups = true;
+            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 248);
+            this.listMountainPeakSearch.TabIndex = 55;
+            this.listMountainPeakSearch.UseAlternatingBackColors = true;
+            this.listMountainPeakSearch.UseCompatibleStateImageBehavior = false;
+            this.listMountainPeakSearch.UseFiltering = true;
+            this.listMountainPeakSearch.UseHotItem = true;
+            this.listMountainPeakSearch.UseHyperlinks = true;
+            this.listMountainPeakSearch.View = System.Windows.Forms.View.Details;
+            this.listMountainPeakSearch.SelectedIndexChanged += new System.EventHandler(this.listMountainPeakSearch_SelectedIndexChanged);
+            // 
+            // olvColumn6
+            // 
+            this.olvColumn6.AspectName = "Name";
+            this.olvColumn6.IsEditable = false;
+            this.olvColumn6.MinimumWidth = 50;
+            this.olvColumn6.Text = "Name";
+            this.olvColumn6.UseInitialLetterForGroup = true;
+            this.olvColumn6.Width = 145;
+            // 
+            // olvColumn7
+            // 
+            this.olvColumn7.AspectName = "HeightMeter";
+            this.olvColumn7.IsEditable = false;
+            this.olvColumn7.Text = "Height";
+            this.olvColumn7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvColumn7.Width = 75;
             // 
             // btnMountainPeakSearch
             // 
@@ -844,18 +957,6 @@
             this.txtMountainPeakSearch.TabIndex = 44;
             this.txtMountainPeakSearch.TextChanged += new System.EventHandler(this.searchMountainPeakList);
             // 
-            // listMountainPeakSearch
-            // 
-            this.listMountainPeakSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listMountainPeakSearch.FormattingEnabled = true;
-            this.listMountainPeakSearch.Location = new System.Drawing.Point(3, 31);
-            this.listMountainPeakSearch.Name = "listMountainPeakSearch";
-            this.listMountainPeakSearch.Size = new System.Drawing.Size(247, 251);
-            this.listMountainPeakSearch.TabIndex = 43;
-            this.listMountainPeakSearch.SelectedIndexChanged += new System.EventHandler(this.listMountainPeakSearch_SelectedIndexChanged);
-            // 
             // tpMountainPeakEvents
             // 
             this.tpMountainPeakEvents.Location = new System.Drawing.Point(4, 22);
@@ -894,6 +995,7 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listLandmassesSearch)).EndInit();
             this.groupBox27.ResumeLayout(false);
             this.groupBox28.ResumeLayout(false);
             this.groupBox28.PerformLayout();
@@ -901,6 +1003,7 @@
             this.tabControl3.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listMountainPeakSearch)).EndInit();
             this.groupBox29.ResumeLayout(false);
             this.groupBox30.ResumeLayout(false);
             this.groupBox30.PerformLayout();
@@ -948,7 +1051,6 @@
         private System.Windows.Forms.RadioButton radLandmassNone;
         private System.Windows.Forms.RadioButton radLandmassEvents;
         private System.Windows.Forms.TextBox txtLandmassSearch;
-        private System.Windows.Forms.ListBox listLandmassSearch;
         private System.Windows.Forms.TabPage tpLandmassEvents;
         private System.Windows.Forms.TabPage tbMountainPeaks;
         private System.Windows.Forms.TabControl tabControl3;
@@ -960,7 +1062,6 @@
         private System.Windows.Forms.RadioButton radMountainPeakNone;
         private System.Windows.Forms.RadioButton radMountainPeakEvents;
         private System.Windows.Forms.TextBox txtMountainPeakSearch;
-        private System.Windows.Forms.ListBox listMountainPeakSearch;
         private System.Windows.Forms.TabPage tpMountainPeakEvents;
         private System.Windows.Forms.Label lblShownResults;
         private BrightIdeasSoftware.OLVColumn olvName;
@@ -972,5 +1073,12 @@
         private BrightIdeasSoftware.ObjectListView listURegionSearch;
         private BrightIdeasSoftware.OLVColumn olvColumn3;
         private BrightIdeasSoftware.OLVColumn olvColumn4;
+        private System.Windows.Forms.Label lblLandmassResults;
+        private BrightIdeasSoftware.ObjectListView listLandmassesSearch;
+        private BrightIdeasSoftware.OLVColumn olvColumn5;
+        private System.Windows.Forms.Label lblMountainPeakResults;
+        private BrightIdeasSoftware.OLVColumn olvColumn6;
+        private BrightIdeasSoftware.OLVColumn olvColumn7;
+        private BrightIdeasSoftware.ObjectListView listMountainPeakSearch;
     }
 }

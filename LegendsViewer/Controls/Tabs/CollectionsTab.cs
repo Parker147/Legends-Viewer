@@ -263,7 +263,7 @@ namespace LegendsViewer.Controls.Tabs
                 IEnumerable<Structure> list = structureSearch.GetList();
                 var results = list.ToArray();
                 listStructureSearch.SetObjects(list.ToArray());
-                UpdateCounts(lblStructureResults, results.Length, writtenContentSearch.BaseList.Count);
+                UpdateCounts(lblStructureResults, results.Length, structureSearch.BaseList.Count);
             }
         }
 

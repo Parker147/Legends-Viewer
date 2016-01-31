@@ -11,6 +11,9 @@ namespace LegendsViewer.Legends.EventCollections
     {
         public string Icon = "<i class=\"glyphicon fa-fw glyphicon-knight\"></i>";
 
+        public string Name { get { return GetOrdinal(Ordinal) + "Rampage of " + (Beast != null ? Beast.Name : "UNKNOWN BEAST"); } set { } }
+        public int DeathCount { get { return Deaths.Count; } set { } }
+
         public int Ordinal { get; set; }
         public Location Coordinates { get; set; }
         public WorldRegion Region { get; set; }

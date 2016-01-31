@@ -165,7 +165,7 @@
             // 
             this.listHFSearch.AllColumns.Add(this.olvName);
             this.listHFSearch.AllColumns.Add(this.olvRace);
-            this.listHFSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listHFSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listHFSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));

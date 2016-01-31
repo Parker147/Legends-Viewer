@@ -32,6 +32,10 @@
             this.tpWars = new System.Windows.Forms.TabPage();
             this.tcWars = new System.Windows.Forms.TabControl();
             this.tpWarSearch = new System.Windows.Forms.TabPage();
+            this.lblWarResults = new System.Windows.Forms.Label();
+            this.listWarSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvDeaths = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnWarListReset = new System.Windows.Forms.Button();
             this.lblWarList = new System.Windows.Forms.Label();
             this.btnWarSearch = new System.Windows.Forms.Button();
@@ -47,11 +51,14 @@
             this.radWarSortNone = new System.Windows.Forms.RadioButton();
             this.radWarSortEvents = new System.Windows.Forms.RadioButton();
             this.txtWarSearch = new System.Windows.Forms.TextBox();
-            this.listWarSearch = new System.Windows.Forms.ListBox();
             this.tpWarEvents = new System.Windows.Forms.TabPage();
             this.tpBattles = new System.Windows.Forms.TabPage();
             this.tcBattles = new System.Windows.Forms.TabControl();
             this.tpBattlesSearch = new System.Windows.Forms.TabPage();
+            this.lblBattleResults = new System.Windows.Forms.Label();
+            this.listBattleSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnBattleListReset = new System.Windows.Forms.Button();
             this.lblBattleList = new System.Windows.Forms.Label();
             this.btnBattleSearch = new System.Windows.Forms.Button();
@@ -62,11 +69,13 @@
             this.radBattleSortNone = new System.Windows.Forms.RadioButton();
             this.radBattleSortEvents = new System.Windows.Forms.RadioButton();
             this.txtBattleSearch = new System.Windows.Forms.TextBox();
-            this.listBattleSearch = new System.Windows.Forms.ListBox();
             this.tpBattlesEvents = new System.Windows.Forms.TabPage();
             this.tpConquerins = new System.Windows.Forms.TabPage();
             this.tcConquerings = new System.Windows.Forms.TabControl();
             this.tpConqueringsSearch = new System.Windows.Forms.TabPage();
+            this.lblConqueringResult = new System.Windows.Forms.Label();
+            this.listConqueringSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnConqueringSearch = new System.Windows.Forms.Button();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -77,11 +86,14 @@
             this.radConqueringSortNone = new System.Windows.Forms.RadioButton();
             this.radConqueringSortEvents = new System.Windows.Forms.RadioButton();
             this.txtConqueringSearch = new System.Windows.Forms.TextBox();
-            this.listConqueringSearch = new System.Windows.Forms.ListBox();
             this.tpConqueringsEvents = new System.Windows.Forms.TabPage();
             this.tpBeastAttacks = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpBeastAttackSearch = new System.Windows.Forms.TabPage();
+            this.lblBeastAttackResults = new System.Windows.Forms.Label();
+            this.listBeastAttackSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnBeastAttacksSearch = new System.Windows.Forms.Button();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
@@ -90,27 +102,31 @@
             this.radBeastAttacksNone = new System.Windows.Forms.RadioButton();
             this.radBeastAttacksEvents = new System.Windows.Forms.RadioButton();
             this.txtBeastAttacksSearch = new System.Windows.Forms.TextBox();
-            this.listBeastAttacks = new System.Windows.Forms.ListBox();
             this.tpBeastAttackEvents = new System.Windows.Forms.TabPage();
+            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tcWarfare.SuspendLayout();
             this.tpWars.SuspendLayout();
             this.tcWars.SuspendLayout();
             this.tpWarSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listWarSearch)).BeginInit();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.tpBattles.SuspendLayout();
             this.tcBattles.SuspendLayout();
             this.tpBattlesSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listBattleSearch)).BeginInit();
             this.groupBox12.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.tpConquerins.SuspendLayout();
             this.tcConquerings.SuspendLayout();
             this.tpConqueringsSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listConqueringSearch)).BeginInit();
             this.groupBox14.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.tpBeastAttacks.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpBeastAttackSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listBeastAttackSearch)).BeginInit();
             this.groupBox18.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.SuspendLayout();
@@ -154,12 +170,13 @@
             // 
             // tpWarSearch
             // 
+            this.tpWarSearch.Controls.Add(this.lblWarResults);
+            this.tpWarSearch.Controls.Add(this.listWarSearch);
             this.tpWarSearch.Controls.Add(this.btnWarListReset);
             this.tpWarSearch.Controls.Add(this.lblWarList);
             this.tpWarSearch.Controls.Add(this.btnWarSearch);
             this.tpWarSearch.Controls.Add(this.groupBox10);
             this.tpWarSearch.Controls.Add(this.txtWarSearch);
-            this.tpWarSearch.Controls.Add(this.listWarSearch);
             this.tpWarSearch.Location = new System.Drawing.Point(4, 22);
             this.tpWarSearch.Name = "tpWarSearch";
             this.tpWarSearch.Size = new System.Drawing.Size(253, 466);
@@ -167,10 +184,73 @@
             this.tpWarSearch.Text = "Search";
             this.tpWarSearch.UseVisualStyleBackColor = true;
             // 
+            // lblWarResults
+            // 
+            this.lblWarResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWarResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWarResults.Location = new System.Drawing.Point(163, 270);
+            this.lblWarResults.Name = "lblWarResults";
+            this.lblWarResults.Size = new System.Drawing.Size(87, 11);
+            this.lblWarResults.TabIndex = 56;
+            this.lblWarResults.Text = "0 / 0";
+            this.lblWarResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblWarResults, "Results Shown");
+            // 
+            // listWarSearch
+            // 
+            this.listWarSearch.AllColumns.Add(this.olvName);
+            this.listWarSearch.AllColumns.Add(this.olvDeaths);
+            this.listWarSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.listWarSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listWarSearch.CellEditUseWholeCell = false;
+            this.listWarSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvName,
+            this.olvDeaths});
+            this.listWarSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listWarSearch.FullRowSelect = true;
+            this.listWarSearch.GridLines = true;
+            this.listWarSearch.HeaderWordWrap = true;
+            this.listWarSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listWarSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listWarSearch.Location = new System.Drawing.Point(3, 31);
+            this.listWarSearch.Name = "listWarSearch";
+            this.listWarSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listWarSearch.ShowCommandMenuOnRightClick = true;
+            this.listWarSearch.ShowImagesOnSubItems = true;
+            this.listWarSearch.ShowItemCountOnGroups = true;
+            this.listWarSearch.Size = new System.Drawing.Size(247, 236);
+            this.listWarSearch.TabIndex = 55;
+            this.listWarSearch.UseAlternatingBackColors = true;
+            this.listWarSearch.UseCompatibleStateImageBehavior = false;
+            this.listWarSearch.UseFiltering = true;
+            this.listWarSearch.UseHotItem = true;
+            this.listWarSearch.UseHyperlinks = true;
+            this.listWarSearch.View = System.Windows.Forms.View.Details;
+            this.listWarSearch.SelectedIndexChanged += new System.EventHandler(this.listWarSearch_SelectedIndexChanged);
+            // 
+            // olvName
+            // 
+            this.olvName.AspectName = "Name";
+            this.olvName.IsEditable = false;
+            this.olvName.MinimumWidth = 50;
+            this.olvName.Text = "Name";
+            this.olvName.UseInitialLetterForGroup = true;
+            this.olvName.Width = 175;
+            // 
+            // olvDeaths
+            // 
+            this.olvDeaths.AspectName = "DeathCount";
+            this.olvDeaths.IsEditable = false;
+            this.olvDeaths.Text = "Deaths";
+            this.olvDeaths.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvDeaths.Width = 50;
+            // 
             // btnWarListReset
             // 
             this.btnWarListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnWarListReset.Location = new System.Drawing.Point(3, 255);
+            this.btnWarListReset.Location = new System.Drawing.Point(0, 273);
             this.btnWarListReset.Name = "btnWarListReset";
             this.btnWarListReset.Size = new System.Drawing.Size(50, 20);
             this.btnWarListReset.TabIndex = 48;
@@ -181,9 +261,9 @@
             // lblWarList
             // 
             this.lblWarList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblWarList.Location = new System.Drawing.Point(56, 257);
+            this.lblWarList.Location = new System.Drawing.Point(56, 277);
             this.lblWarList.Name = "lblWarList";
-            this.lblWarList.Size = new System.Drawing.Size(189, 36);
+            this.lblWarList.Size = new System.Drawing.Size(189, 19);
             this.lblWarList.TabIndex = 47;
             this.lblWarList.Text = "All";
             // 
@@ -204,9 +284,9 @@
             this.groupBox10.Controls.Add(this.chkFilterWarfare);
             this.groupBox10.Controls.Add(this.chkWarOngoing);
             this.groupBox10.Controls.Add(this.groupBox11);
-            this.groupBox10.Location = new System.Drawing.Point(0, 299);
+            this.groupBox10.Location = new System.Drawing.Point(3, 299);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(252, 164);
+            this.groupBox10.Size = new System.Drawing.Size(247, 164);
             this.groupBox10.TabIndex = 45;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Filter / Sort";
@@ -247,7 +327,7 @@
             this.groupBox11.Controls.Add(this.radWarSortEvents);
             this.groupBox11.Location = new System.Drawing.Point(6, 19);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(240, 115);
+            this.groupBox11.Size = new System.Drawing.Size(235, 115);
             this.groupBox11.TabIndex = 15;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Sort By";
@@ -347,18 +427,6 @@
             this.txtWarSearch.TabIndex = 44;
             this.txtWarSearch.TextChanged += new System.EventHandler(this.searchWarList);
             // 
-            // listWarSearch
-            // 
-            this.listWarSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listWarSearch.FormattingEnabled = true;
-            this.listWarSearch.Location = new System.Drawing.Point(3, 30);
-            this.listWarSearch.Name = "listWarSearch";
-            this.listWarSearch.Size = new System.Drawing.Size(247, 212);
-            this.listWarSearch.TabIndex = 43;
-            this.listWarSearch.SelectedIndexChanged += new System.EventHandler(this.listWarSearch_SelectedIndexChanged);
-            // 
             // tpWarEvents
             // 
             this.tpWarEvents.Location = new System.Drawing.Point(4, 22);
@@ -392,12 +460,13 @@
             // 
             // tpBattlesSearch
             // 
+            this.tpBattlesSearch.Controls.Add(this.lblBattleResults);
+            this.tpBattlesSearch.Controls.Add(this.listBattleSearch);
             this.tpBattlesSearch.Controls.Add(this.btnBattleListReset);
             this.tpBattlesSearch.Controls.Add(this.lblBattleList);
             this.tpBattlesSearch.Controls.Add(this.btnBattleSearch);
             this.tpBattlesSearch.Controls.Add(this.groupBox12);
             this.tpBattlesSearch.Controls.Add(this.txtBattleSearch);
-            this.tpBattlesSearch.Controls.Add(this.listBattleSearch);
             this.tpBattlesSearch.Location = new System.Drawing.Point(4, 22);
             this.tpBattlesSearch.Name = "tpBattlesSearch";
             this.tpBattlesSearch.Padding = new System.Windows.Forms.Padding(3);
@@ -406,10 +475,73 @@
             this.tpBattlesSearch.Text = "Search";
             this.tpBattlesSearch.UseVisualStyleBackColor = true;
             // 
+            // lblBattleResults
+            // 
+            this.lblBattleResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblBattleResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBattleResults.Location = new System.Drawing.Point(163, 270);
+            this.lblBattleResults.Name = "lblBattleResults";
+            this.lblBattleResults.Size = new System.Drawing.Size(87, 11);
+            this.lblBattleResults.TabIndex = 58;
+            this.lblBattleResults.Text = "0 / 0";
+            this.lblBattleResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblBattleResults, "Results Shown");
+            // 
+            // listBattleSearch
+            // 
+            this.listBattleSearch.AllColumns.Add(this.olvColumn1);
+            this.listBattleSearch.AllColumns.Add(this.olvColumn2);
+            this.listBattleSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.listBattleSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBattleSearch.CellEditUseWholeCell = false;
+            this.listBattleSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn1,
+            this.olvColumn2});
+            this.listBattleSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listBattleSearch.FullRowSelect = true;
+            this.listBattleSearch.GridLines = true;
+            this.listBattleSearch.HeaderWordWrap = true;
+            this.listBattleSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listBattleSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listBattleSearch.Location = new System.Drawing.Point(3, 31);
+            this.listBattleSearch.Name = "listBattleSearch";
+            this.listBattleSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listBattleSearch.ShowCommandMenuOnRightClick = true;
+            this.listBattleSearch.ShowImagesOnSubItems = true;
+            this.listBattleSearch.ShowItemCountOnGroups = true;
+            this.listBattleSearch.Size = new System.Drawing.Size(247, 236);
+            this.listBattleSearch.TabIndex = 57;
+            this.listBattleSearch.UseAlternatingBackColors = true;
+            this.listBattleSearch.UseCompatibleStateImageBehavior = false;
+            this.listBattleSearch.UseFiltering = true;
+            this.listBattleSearch.UseHotItem = true;
+            this.listBattleSearch.UseHyperlinks = true;
+            this.listBattleSearch.View = System.Windows.Forms.View.Details;
+            this.listBattleSearch.SelectedIndexChanged += new System.EventHandler(this.listBattleSearch_SelectedIndexChanged);
+            // 
+            // olvColumn1
+            // 
+            this.olvColumn1.AspectName = "Name";
+            this.olvColumn1.IsEditable = false;
+            this.olvColumn1.MinimumWidth = 50;
+            this.olvColumn1.Text = "Name";
+            this.olvColumn1.UseInitialLetterForGroup = true;
+            this.olvColumn1.Width = 175;
+            // 
+            // olvColumn2
+            // 
+            this.olvColumn2.AspectName = "DeathCount";
+            this.olvColumn2.IsEditable = false;
+            this.olvColumn2.Text = "Deaths";
+            this.olvColumn2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvColumn2.Width = 50;
+            // 
             // btnBattleListReset
             // 
             this.btnBattleListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBattleListReset.Location = new System.Drawing.Point(3, 255);
+            this.btnBattleListReset.Location = new System.Drawing.Point(3, 273);
             this.btnBattleListReset.Name = "btnBattleListReset";
             this.btnBattleListReset.Size = new System.Drawing.Size(50, 20);
             this.btnBattleListReset.TabIndex = 48;
@@ -420,9 +552,9 @@
             // lblBattleList
             // 
             this.lblBattleList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblBattleList.Location = new System.Drawing.Point(56, 257);
+            this.lblBattleList.Location = new System.Drawing.Point(57, 277);
             this.lblBattleList.Name = "lblBattleList";
-            this.lblBattleList.Size = new System.Drawing.Size(189, 36);
+            this.lblBattleList.Size = new System.Drawing.Size(189, 20);
             this.lblBattleList.TabIndex = 47;
             this.lblBattleList.Text = "All";
             // 
@@ -441,9 +573,9 @@
             this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox12.Controls.Add(this.groupBox13);
-            this.groupBox12.Location = new System.Drawing.Point(0, 299);
+            this.groupBox12.Location = new System.Drawing.Point(3, 299);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(252, 164);
+            this.groupBox12.Size = new System.Drawing.Size(247, 164);
             this.groupBox12.TabIndex = 45;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Filter / Sort";
@@ -458,7 +590,7 @@
             this.groupBox13.Controls.Add(this.radBattleSortEvents);
             this.groupBox13.Location = new System.Drawing.Point(133, 19);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(113, 126);
+            this.groupBox13.Size = new System.Drawing.Size(108, 126);
             this.groupBox13.TabIndex = 15;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Sort By";
@@ -521,18 +653,6 @@
             this.txtBattleSearch.TabIndex = 44;
             this.txtBattleSearch.TextChanged += new System.EventHandler(this.searchBattleList);
             // 
-            // listBattleSearch
-            // 
-            this.listBattleSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBattleSearch.FormattingEnabled = true;
-            this.listBattleSearch.Location = new System.Drawing.Point(3, 30);
-            this.listBattleSearch.Name = "listBattleSearch";
-            this.listBattleSearch.Size = new System.Drawing.Size(247, 212);
-            this.listBattleSearch.TabIndex = 43;
-            this.listBattleSearch.SelectedIndexChanged += new System.EventHandler(this.listBattleSearch_SelectedIndexChanged);
-            // 
             // tpBattlesEvents
             // 
             this.tpBattlesEvents.Location = new System.Drawing.Point(4, 22);
@@ -566,10 +686,11 @@
             // 
             // tpConqueringsSearch
             // 
+            this.tpConqueringsSearch.Controls.Add(this.lblConqueringResult);
+            this.tpConqueringsSearch.Controls.Add(this.listConqueringSearch);
             this.tpConqueringsSearch.Controls.Add(this.btnConqueringSearch);
             this.tpConqueringsSearch.Controls.Add(this.groupBox14);
             this.tpConqueringsSearch.Controls.Add(this.txtConqueringSearch);
-            this.tpConqueringsSearch.Controls.Add(this.listConqueringSearch);
             this.tpConqueringsSearch.Location = new System.Drawing.Point(4, 22);
             this.tpConqueringsSearch.Name = "tpConqueringsSearch";
             this.tpConqueringsSearch.Padding = new System.Windows.Forms.Padding(3);
@@ -577,6 +698,61 @@
             this.tpConqueringsSearch.TabIndex = 0;
             this.tpConqueringsSearch.Text = "Search";
             this.tpConqueringsSearch.UseVisualStyleBackColor = true;
+            // 
+            // lblConqueringResult
+            // 
+            this.lblConqueringResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblConqueringResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblConqueringResult.Location = new System.Drawing.Point(163, 285);
+            this.lblConqueringResult.Name = "lblConqueringResult";
+            this.lblConqueringResult.Size = new System.Drawing.Size(87, 11);
+            this.lblConqueringResult.TabIndex = 60;
+            this.lblConqueringResult.Text = "0 / 0";
+            this.lblConqueringResult.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblConqueringResult, "Results Shown");
+            // 
+            // listConqueringSearch
+            // 
+            this.listConqueringSearch.AllColumns.Add(this.olvColumn3);
+            this.listConqueringSearch.AllColumns.Add(this.olvColumn6);
+            this.listConqueringSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.listConqueringSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listConqueringSearch.CellEditUseWholeCell = false;
+            this.listConqueringSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn3,
+            this.olvColumn6});
+            this.listConqueringSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listConqueringSearch.FullRowSelect = true;
+            this.listConqueringSearch.GridLines = true;
+            this.listConqueringSearch.HeaderWordWrap = true;
+            this.listConqueringSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listConqueringSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listConqueringSearch.Location = new System.Drawing.Point(3, 32);
+            this.listConqueringSearch.Name = "listConqueringSearch";
+            this.listConqueringSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listConqueringSearch.ShowCommandMenuOnRightClick = true;
+            this.listConqueringSearch.ShowImagesOnSubItems = true;
+            this.listConqueringSearch.ShowItemCountOnGroups = true;
+            this.listConqueringSearch.Size = new System.Drawing.Size(247, 250);
+            this.listConqueringSearch.TabIndex = 59;
+            this.listConqueringSearch.UseAlternatingBackColors = true;
+            this.listConqueringSearch.UseCompatibleStateImageBehavior = false;
+            this.listConqueringSearch.UseFiltering = true;
+            this.listConqueringSearch.UseHotItem = true;
+            this.listConqueringSearch.UseHyperlinks = true;
+            this.listConqueringSearch.View = System.Windows.Forms.View.Details;
+            this.listConqueringSearch.SelectedIndexChanged += new System.EventHandler(this.listConqueringSearch_SelectedIndexChanged);
+            // 
+            // olvColumn3
+            // 
+            this.olvColumn3.AspectName = "Name";
+            this.olvColumn3.IsEditable = false;
+            this.olvColumn3.MinimumWidth = 50;
+            this.olvColumn3.Text = "Name";
+            this.olvColumn3.UseInitialLetterForGroup = true;
+            this.olvColumn3.Width = 175;
             // 
             // btnConqueringSearch
             // 
@@ -693,18 +869,6 @@
             this.txtConqueringSearch.TabIndex = 44;
             this.txtConqueringSearch.TextChanged += new System.EventHandler(this.searchConqueringList);
             // 
-            // listConqueringSearch
-            // 
-            this.listConqueringSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listConqueringSearch.FormattingEnabled = true;
-            this.listConqueringSearch.Location = new System.Drawing.Point(3, 31);
-            this.listConqueringSearch.Name = "listConqueringSearch";
-            this.listConqueringSearch.Size = new System.Drawing.Size(247, 225);
-            this.listConqueringSearch.TabIndex = 43;
-            this.listConqueringSearch.SelectedIndexChanged += new System.EventHandler(this.listConqueringSearch_SelectedIndexChanged);
-            // 
             // tpConqueringsEvents
             // 
             this.tpConqueringsEvents.Location = new System.Drawing.Point(4, 22);
@@ -738,10 +902,11 @@
             // 
             // tpBeastAttackSearch
             // 
+            this.tpBeastAttackSearch.Controls.Add(this.lblBeastAttackResults);
+            this.tpBeastAttackSearch.Controls.Add(this.listBeastAttackSearch);
             this.tpBeastAttackSearch.Controls.Add(this.btnBeastAttacksSearch);
             this.tpBeastAttackSearch.Controls.Add(this.groupBox18);
             this.tpBeastAttackSearch.Controls.Add(this.txtBeastAttacksSearch);
-            this.tpBeastAttackSearch.Controls.Add(this.listBeastAttacks);
             this.tpBeastAttackSearch.Location = new System.Drawing.Point(4, 22);
             this.tpBeastAttackSearch.Name = "tpBeastAttackSearch";
             this.tpBeastAttackSearch.Padding = new System.Windows.Forms.Padding(3);
@@ -749,6 +914,69 @@
             this.tpBeastAttackSearch.TabIndex = 0;
             this.tpBeastAttackSearch.Text = "Search";
             this.tpBeastAttackSearch.UseVisualStyleBackColor = true;
+            // 
+            // lblBeastAttackResults
+            // 
+            this.lblBeastAttackResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblBeastAttackResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBeastAttackResults.Location = new System.Drawing.Point(163, 285);
+            this.lblBeastAttackResults.Name = "lblBeastAttackResults";
+            this.lblBeastAttackResults.Size = new System.Drawing.Size(87, 11);
+            this.lblBeastAttackResults.TabIndex = 58;
+            this.lblBeastAttackResults.Text = "0 / 0";
+            this.lblBeastAttackResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblBeastAttackResults, "Results Shown");
+            // 
+            // listBeastAttackSearch
+            // 
+            this.listBeastAttackSearch.AllColumns.Add(this.olvColumn4);
+            this.listBeastAttackSearch.AllColumns.Add(this.olvColumn5);
+            this.listBeastAttackSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.listBeastAttackSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBeastAttackSearch.CellEditUseWholeCell = false;
+            this.listBeastAttackSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn4,
+            this.olvColumn5});
+            this.listBeastAttackSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listBeastAttackSearch.FullRowSelect = true;
+            this.listBeastAttackSearch.GridLines = true;
+            this.listBeastAttackSearch.HeaderWordWrap = true;
+            this.listBeastAttackSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listBeastAttackSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listBeastAttackSearch.Location = new System.Drawing.Point(3, 31);
+            this.listBeastAttackSearch.Name = "listBeastAttackSearch";
+            this.listBeastAttackSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listBeastAttackSearch.ShowCommandMenuOnRightClick = true;
+            this.listBeastAttackSearch.ShowImagesOnSubItems = true;
+            this.listBeastAttackSearch.ShowItemCountOnGroups = true;
+            this.listBeastAttackSearch.Size = new System.Drawing.Size(247, 251);
+            this.listBeastAttackSearch.TabIndex = 57;
+            this.listBeastAttackSearch.UseAlternatingBackColors = true;
+            this.listBeastAttackSearch.UseCompatibleStateImageBehavior = false;
+            this.listBeastAttackSearch.UseFiltering = true;
+            this.listBeastAttackSearch.UseHotItem = true;
+            this.listBeastAttackSearch.UseHyperlinks = true;
+            this.listBeastAttackSearch.View = System.Windows.Forms.View.Details;
+            this.listBeastAttackSearch.SelectedIndexChanged += new System.EventHandler(this.listBeastAttacks_SelectedIndexChanged);
+            // 
+            // olvColumn4
+            // 
+            this.olvColumn4.AspectName = "Name";
+            this.olvColumn4.IsEditable = false;
+            this.olvColumn4.MinimumWidth = 50;
+            this.olvColumn4.Text = "Name";
+            this.olvColumn4.UseInitialLetterForGroup = true;
+            this.olvColumn4.Width = 175;
+            // 
+            // olvColumn5
+            // 
+            this.olvColumn5.AspectName = "DeathCount";
+            this.olvColumn5.IsEditable = false;
+            this.olvColumn5.Text = "Deaths";
+            this.olvColumn5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvColumn5.Width = 50;
             // 
             // btnBeastAttacksSearch
             // 
@@ -765,9 +993,9 @@
             this.groupBox18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox18.Controls.Add(this.groupBox17);
-            this.groupBox18.Location = new System.Drawing.Point(0, 299);
+            this.groupBox18.Location = new System.Drawing.Point(3, 299);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(252, 164);
+            this.groupBox18.Size = new System.Drawing.Size(247, 164);
             this.groupBox18.TabIndex = 49;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Filter / Sort";
@@ -782,7 +1010,7 @@
             this.groupBox17.Controls.Add(this.radBeastAttacksEvents);
             this.groupBox17.Location = new System.Drawing.Point(133, 19);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(113, 126);
+            this.groupBox17.Size = new System.Drawing.Size(108, 126);
             this.groupBox17.TabIndex = 15;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Sort By";
@@ -845,18 +1073,6 @@
             this.txtBeastAttacksSearch.TabIndex = 48;
             this.txtBeastAttacksSearch.TextChanged += new System.EventHandler(this.searchbeastAttackList);
             // 
-            // listBeastAttacks
-            // 
-            this.listBeastAttacks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBeastAttacks.FormattingEnabled = true;
-            this.listBeastAttacks.Location = new System.Drawing.Point(3, 31);
-            this.listBeastAttacks.Name = "listBeastAttacks";
-            this.listBeastAttacks.Size = new System.Drawing.Size(247, 225);
-            this.listBeastAttacks.TabIndex = 47;
-            this.listBeastAttacks.SelectedIndexChanged += new System.EventHandler(this.listBeastAttacks_SelectedIndexChanged);
-            // 
             // tpBeastAttackEvents
             // 
             this.tpBeastAttackEvents.Location = new System.Drawing.Point(4, 22);
@@ -866,6 +1082,13 @@
             this.tpBeastAttackEvents.TabIndex = 1;
             this.tpBeastAttackEvents.Text = "Events";
             this.tpBeastAttackEvents.UseVisualStyleBackColor = true;
+            // 
+            // olvColumn6
+            // 
+            this.olvColumn6.AspectName = "DeathCount";
+            this.olvColumn6.Text = "Deaths";
+            this.olvColumn6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvColumn6.Width = 50;
             // 
             // WarfareTab
             // 
@@ -878,6 +1101,7 @@
             this.tcWars.ResumeLayout(false);
             this.tpWarSearch.ResumeLayout(false);
             this.tpWarSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listWarSearch)).EndInit();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -886,6 +1110,7 @@
             this.tcBattles.ResumeLayout(false);
             this.tpBattlesSearch.ResumeLayout(false);
             this.tpBattlesSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listBattleSearch)).EndInit();
             this.groupBox12.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
@@ -893,6 +1118,7 @@
             this.tcConquerings.ResumeLayout(false);
             this.tpConqueringsSearch.ResumeLayout(false);
             this.tpConqueringsSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listConqueringSearch)).EndInit();
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             this.groupBox15.ResumeLayout(false);
@@ -901,6 +1127,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tpBeastAttackSearch.ResumeLayout(false);
             this.tpBeastAttackSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listBeastAttackSearch)).EndInit();
             this.groupBox18.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
             this.groupBox17.PerformLayout();
@@ -929,7 +1156,6 @@
         private System.Windows.Forms.RadioButton radWarSortNone;
         private System.Windows.Forms.RadioButton radWarSortEvents;
         private System.Windows.Forms.TextBox txtWarSearch;
-        private System.Windows.Forms.ListBox listWarSearch;
         private System.Windows.Forms.TabPage tpWarEvents;
         private System.Windows.Forms.TabPage tpBattles;
         private System.Windows.Forms.TabControl tcBattles;
@@ -944,7 +1170,6 @@
         private System.Windows.Forms.RadioButton radBattleSortNone;
         private System.Windows.Forms.RadioButton radBattleSortEvents;
         private System.Windows.Forms.TextBox txtBattleSearch;
-        private System.Windows.Forms.ListBox listBattleSearch;
         private System.Windows.Forms.TabPage tpBattlesEvents;
         private System.Windows.Forms.TabPage tpConquerins;
         private System.Windows.Forms.TabControl tcConquerings;
@@ -959,7 +1184,6 @@
         private System.Windows.Forms.RadioButton radConqueringSortNone;
         private System.Windows.Forms.RadioButton radConqueringSortEvents;
         private System.Windows.Forms.TextBox txtConqueringSearch;
-        private System.Windows.Forms.ListBox listConqueringSearch;
         private System.Windows.Forms.TabPage tpConqueringsEvents;
         private System.Windows.Forms.TabPage tpBeastAttacks;
         private System.Windows.Forms.TabControl tabControl1;
@@ -972,7 +1196,22 @@
         private System.Windows.Forms.RadioButton radBeastAttacksNone;
         private System.Windows.Forms.RadioButton radBeastAttacksEvents;
         private System.Windows.Forms.TextBox txtBeastAttacksSearch;
-        private System.Windows.Forms.ListBox listBeastAttacks;
         private System.Windows.Forms.TabPage tpBeastAttackEvents;
+        private System.Windows.Forms.Label lblWarResults;
+        private BrightIdeasSoftware.OLVColumn olvName;
+        private BrightIdeasSoftware.OLVColumn olvDeaths;
+        private BrightIdeasSoftware.ObjectListView listWarSearch;
+        private System.Windows.Forms.Label lblBattleResults;
+        private BrightIdeasSoftware.OLVColumn olvColumn1;
+        private BrightIdeasSoftware.OLVColumn olvColumn2;
+        private BrightIdeasSoftware.ObjectListView listBattleSearch;
+        private System.Windows.Forms.Label lblConqueringResult;
+        private BrightIdeasSoftware.OLVColumn olvColumn3;
+        private BrightIdeasSoftware.ObjectListView listConqueringSearch;
+        private System.Windows.Forms.Label lblBeastAttackResults;
+        private BrightIdeasSoftware.ObjectListView listBeastAttackSearch;
+        private BrightIdeasSoftware.OLVColumn olvColumn5;
+        private BrightIdeasSoftware.OLVColumn olvColumn4;
+        private BrightIdeasSoftware.OLVColumn olvColumn6;
     }
 }

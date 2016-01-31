@@ -24,7 +24,6 @@ namespace LegendsViewer.Controls.Tabs
         public WarfareTab()
         {
             InitializeComponent();
-
         }
 
 
@@ -35,6 +34,13 @@ namespace LegendsViewer.Controls.Tabs
             EventTabs = new TabPage[] {tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpBeastAttackEvents};
             EventTabTypes = new Type[]{typeof(War), typeof(Battle), typeof(SiteConquered), typeof(BeastAttack)};
 
+            listWarSearch.ShowGroups = false;
+
+            listBattleSearch.ShowGroups = false;
+
+            listConqueringSearch.ShowGroups = false;
+
+            listBeastAttackSearch.ShowGroups = false;
         }
 
         internal override void ResetEvents() { }
@@ -119,9 +125,15 @@ namespace LegendsViewer.Controls.Tabs
                 warSearch.SortWarfare = radWarSortWarfare.Checked;
                 warSearch.SortConquerings = radWarsSortConquerings.Checked;
                 IEnumerable<War> list = warSearch.GetList();
-                listWarSearch.Items.Clear();
-                listWarSearch.Items.AddRange(list.ToArray());
+                var results = list.ToArray();
+                listWarSearch.SetObjects(results);
+                UpdateCounts(lblWarResults, results.Length, warSearch.BaseList.Count);
             }
+        }
+
+        private void UpdateCounts(Label label, int shown, int total)
+        {
+            label.Text = $"{shown} / {total}";
         }
 
         public void ChangeWarBaseList(List<War> list, string listName)
@@ -162,8 +174,9 @@ namespace LegendsViewer.Controls.Tabs
                 battleSearch.SortFiltered = radBattleSortFiltered.Checked;
                 battleSearch.SortDeaths = radBattleSortDeaths.Checked;
                 IEnumerable<Battle> list = battleSearch.GetList();
-                listBattleSearch.Items.Clear();
-                listBattleSearch.Items.AddRange(list.ToArray());
+                var results = list.ToArray();
+                listBattleSearch.SetObjects(results);
+                UpdateCounts(lblBattleResults, results.Length, battleSearch.BaseList.Count);
             }
         }
 
@@ -206,8 +219,9 @@ namespace LegendsViewer.Controls.Tabs
                 conqueringsSearch.SortSite = radConqueringSortSite.Checked;
                 conqueringsSearch.Type = cmbConqueringType.SelectedItem.ToString();
                 IEnumerable<SiteConquered> list = conqueringsSearch.GetList();
-                listConqueringSearch.Items.Clear();
-                listConqueringSearch.Items.AddRange(list.ToArray());
+                var results = list.ToArray();
+                listConqueringSearch.SetObjects(results);
+                UpdateCounts(lblConqueringResult, results.Length, conqueringsSearch.BaseList.Count);
             }
         }
 
@@ -220,8 +234,9 @@ namespace LegendsViewer.Controls.Tabs
                 beastAttackSearch.SortFiltered = radBeastAttacksFiltered.Checked;
                 beastAttackSearch.SortDeaths = radBeastAttacksDeaths.Checked;
                 IEnumerable<BeastAttack> list = beastAttackSearch.GetList();
-                listBeastAttacks.Items.Clear();
-                listBeastAttacks.Items.AddRange(list.ToArray());
+                var results = list.ToArray();
+                listBeastAttackSearch.SetObjects(results);
+                UpdateCounts(lblBeastAttackResults, results.Length, beastAttackSearch.BaseList.Count);
             }
         }
 

@@ -100,7 +100,7 @@
             // 
             this.listCivSearch.AllColumns.Add(this.olvName);
             this.listCivSearch.AllColumns.Add(this.olvType);
-            this.listCivSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listCivSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listCivSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));

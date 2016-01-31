@@ -286,7 +286,7 @@ namespace LegendsViewer
         public IEnumerable<SiteConquered> GetList()
         {
             IEnumerable<SiteConquered> filtered = BaseList;// Where(conquering => !World.FilterBattles || conquering.Notable);
-            if (Name != "") filtered = filtered.Where(pillaging => pillaging.Site.Name.ToLower().Contains(Name.ToLower()));
+            if (Name != "") filtered = filtered.Where(pillaging => pillaging.Name.ToLower().Contains(Name.ToLower()));
             if (Type != "All") filtered = filtered.Where(conquering => conquering.ConquerType.ToString() == Type);
             if (SortEvents) filtered = filtered.OrderByDescending(pillaging => pillaging.GetSubEvents().Count);
             if (SortFiltered) filtered = filtered.OrderByDescending(pillaging => pillaging.GetSubEvents().Count(ev => !SiteConquered.Filters.Contains(ev.Type)));
@@ -305,7 +305,7 @@ namespace LegendsViewer
         public IEnumerable<BeastAttack> GetList()
         {
             IEnumerable<BeastAttack> filtered = BaseList;
-            if (Name != "") filtered = filtered.Where(beastAttack => beastAttack.ToString().ToLower().Contains(Name.ToLower()));
+            if (Name != "") filtered = filtered.Where(beastAttack => beastAttack.Name.ToLower().Contains(Name.ToLower()));
             if (SortEvents) filtered = filtered.OrderByDescending(beastAttack => beastAttack.GetSubEvents().Count);
             if (SortFiltered) filtered = filtered.OrderByDescending(beastAttack => beastAttack.GetSubEvents().Count(ev => !BeastAttack.Filters.Contains(ev.Type)));
             if (SortDeaths) filtered = filtered.OrderByDescending(beastAttack => beastAttack.GetSubEvents().OfType<HFDied>().Count());
