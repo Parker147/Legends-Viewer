@@ -51,6 +51,12 @@
             this.tpUnderground = new System.Windows.Forms.TabPage();
             this.tcURegions = new System.Windows.Forms.TabControl();
             this.tpURegionSearch = new System.Windows.Forms.TabPage();
+            this.lblURegionResults = new System.Windows.Forms.Label();
+            this.listURegionSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnURegionSearch = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -59,7 +65,6 @@
             this.radURegionSortEvents = new System.Windows.Forms.RadioButton();
             this.label28 = new System.Windows.Forms.Label();
             this.cmbURegionType = new System.Windows.Forms.ComboBox();
-            this.listURegionSearch = new System.Windows.Forms.ListBox();
             this.tpURegionEvents = new System.Windows.Forms.TabPage();
             this.tpLandmasses = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -95,6 +100,7 @@
             this.tpUnderground.SuspendLayout();
             this.tcURegions.SuspendLayout();
             this.tpURegionSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listURegionSearch)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.tpLandmasses.SuspendLayout();
@@ -387,9 +393,10 @@
             // 
             // tpURegionSearch
             // 
+            this.tpURegionSearch.Controls.Add(this.lblURegionResults);
+            this.tpURegionSearch.Controls.Add(this.listURegionSearch);
             this.tpURegionSearch.Controls.Add(this.btnURegionSearch);
             this.tpURegionSearch.Controls.Add(this.groupBox3);
-            this.tpURegionSearch.Controls.Add(this.listURegionSearch);
             this.tpURegionSearch.Location = new System.Drawing.Point(4, 22);
             this.tpURegionSearch.Name = "tpURegionSearch";
             this.tpURegionSearch.Padding = new System.Windows.Forms.Padding(3);
@@ -397,6 +404,86 @@
             this.tpURegionSearch.TabIndex = 0;
             this.tpURegionSearch.Text = "Search";
             this.tpURegionSearch.UseVisualStyleBackColor = true;
+            // 
+            // lblURegionResults
+            // 
+            this.lblURegionResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblURegionResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblURegionResults.Location = new System.Drawing.Point(161, 280);
+            this.lblURegionResults.Name = "lblURegionResults";
+            this.lblURegionResults.Size = new System.Drawing.Size(80, 11);
+            this.lblURegionResults.TabIndex = 56;
+            this.lblURegionResults.Text = "0 / 0";
+            this.lblURegionResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblURegionResults, "Results Shown");
+            // 
+            // listURegionSearch
+            // 
+            this.listURegionSearch.AllColumns.Add(this.olvColumn1);
+            this.listURegionSearch.AllColumns.Add(this.olvColumn2);
+            this.listURegionSearch.AllColumns.Add(this.olvColumn3);
+            this.listURegionSearch.AllColumns.Add(this.olvColumn4);
+            this.listURegionSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listURegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listURegionSearch.CellEditUseWholeCell = false;
+            this.listURegionSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn1,
+            this.olvColumn2,
+            this.olvColumn3,
+            this.olvColumn4});
+            this.listURegionSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listURegionSearch.FullRowSelect = true;
+            this.listURegionSearch.GridLines = true;
+            this.listURegionSearch.HeaderWordWrap = true;
+            this.listURegionSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listURegionSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listURegionSearch.Location = new System.Drawing.Point(3, 32);
+            this.listURegionSearch.Name = "listURegionSearch";
+            this.listURegionSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listURegionSearch.ShowCommandMenuOnRightClick = true;
+            this.listURegionSearch.ShowImagesOnSubItems = true;
+            this.listURegionSearch.ShowItemCountOnGroups = true;
+            this.listURegionSearch.Size = new System.Drawing.Size(240, 245);
+            this.listURegionSearch.TabIndex = 55;
+            this.listURegionSearch.UseAlternatingBackColors = true;
+            this.listURegionSearch.UseCompatibleStateImageBehavior = false;
+            this.listURegionSearch.UseFiltering = true;
+            this.listURegionSearch.UseHotItem = true;
+            this.listURegionSearch.UseHyperlinks = true;
+            this.listURegionSearch.View = System.Windows.Forms.View.Details;
+            this.listURegionSearch.SelectedIndexChanged += new System.EventHandler(this.listURegionSearch_SelectedIndexChanged);
+            // 
+            // olvColumn1
+            // 
+            this.olvColumn1.AspectName = "ID";
+            this.olvColumn1.IsEditable = false;
+            this.olvColumn1.Text = "ID";
+            this.olvColumn1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvColumn1.Width = 30;
+            // 
+            // olvColumn2
+            // 
+            this.olvColumn2.AspectName = "Type";
+            this.olvColumn2.IsEditable = false;
+            this.olvColumn2.Text = "Type";
+            this.olvColumn2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColumn2.Width = 90;
+            // 
+            // olvColumn3
+            // 
+            this.olvColumn3.AspectName = "Depth";
+            this.olvColumn3.Text = "Depth";
+            this.olvColumn3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvColumn3.Width = 45;
+            // 
+            // olvColumn4
+            // 
+            this.olvColumn4.AspectName = "EventCount";
+            this.olvColumn4.Text = "Events";
+            this.olvColumn4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvColumn4.Width = 55;
             // 
             // btnURegionSearch
             // 
@@ -415,7 +502,7 @@
             this.groupBox3.Controls.Add(this.groupBox8);
             this.groupBox3.Controls.Add(this.label28);
             this.groupBox3.Controls.Add(this.cmbURegionType);
-            this.groupBox3.Location = new System.Drawing.Point(3, 271);
+            this.groupBox3.Location = new System.Drawing.Point(3, 292);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(240, 162);
             this.groupBox3.TabIndex = 33;
@@ -489,18 +576,6 @@
             this.cmbURegionType.Size = new System.Drawing.Size(121, 21);
             this.cmbURegionType.TabIndex = 0;
             this.cmbURegionType.SelectedIndexChanged += new System.EventHandler(this.searchURegionList);
-            // 
-            // listURegionSearch
-            // 
-            this.listURegionSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listURegionSearch.FormattingEnabled = true;
-            this.listURegionSearch.Location = new System.Drawing.Point(3, 31);
-            this.listURegionSearch.Name = "listURegionSearch";
-            this.listURegionSearch.Size = new System.Drawing.Size(242, 225);
-            this.listURegionSearch.TabIndex = 32;
-            this.listURegionSearch.SelectedIndexChanged += new System.EventHandler(this.listURegionSearch_SelectedIndexChanged);
             // 
             // tpURegionEvents
             // 
@@ -810,6 +885,7 @@
             this.tpUnderground.ResumeLayout(false);
             this.tcURegions.ResumeLayout(false);
             this.tpURegionSearch.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.listURegionSearch)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox8.ResumeLayout(false);
@@ -861,7 +937,6 @@
         private System.Windows.Forms.RadioButton radURegionSortEvents;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.ComboBox cmbURegionType;
-        private System.Windows.Forms.ListBox listURegionSearch;
         private System.Windows.Forms.TabPage tpURegionEvents;
         private System.Windows.Forms.TabPage tpLandmasses;
         private System.Windows.Forms.TabControl tabControl2;
@@ -891,5 +966,11 @@
         private BrightIdeasSoftware.OLVColumn olvName;
         private BrightIdeasSoftware.OLVColumn olvType;
         private BrightIdeasSoftware.ObjectListView listRegionSearch;
+        private System.Windows.Forms.Label lblURegionResults;
+        private BrightIdeasSoftware.OLVColumn olvColumn1;
+        private BrightIdeasSoftware.OLVColumn olvColumn2;
+        private BrightIdeasSoftware.ObjectListView listURegionSearch;
+        private BrightIdeasSoftware.OLVColumn olvColumn3;
+        private BrightIdeasSoftware.OLVColumn olvColumn4;
     }
 }

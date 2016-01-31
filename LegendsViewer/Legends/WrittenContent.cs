@@ -17,6 +17,7 @@ namespace LegendsViewer.Legends
         public HistoricalFigure Author { get; set; } // legends_plus.xml
         public List<string> Styles { get; set; } // legends_plus.xml
         public List<Reference> References { get; set; } // legends_plus.xml
+        public int PageCount { get { return PageEnd - PageStart + 1; } set { } }
 
         public static string Icon = "<i class=\"fa fa-fw fa-book\"></i>";
 

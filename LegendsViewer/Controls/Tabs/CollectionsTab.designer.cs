@@ -32,6 +32,9 @@
             this.tpEras = new System.Windows.Forms.TabPage();
             this.tcEras = new System.Windows.Forms.TabControl();
             this.tpEraSearch = new System.Windows.Forms.TabPage();
+            this.listEraSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn8 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.btnEraShow = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -39,11 +42,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.numStart = new System.Windows.Forms.NumericUpDown();
             this.numEraEnd = new System.Windows.Forms.NumericUpDown();
-            this.listEras = new System.Windows.Forms.ListBox();
             this.tpEraEvents = new System.Windows.Forms.TabPage();
             this.tpArtifacts = new System.Windows.Forms.TabPage();
             this.tcArtifacts = new System.Windows.Forms.TabControl();
             this.tpArtifactsSearch = new System.Windows.Forms.TabPage();
+            this.lblArtifactResults = new System.Windows.Forms.Label();
             this.listArtifactSearch = new BrightIdeasSoftware.ObjectListView();
             this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -64,6 +67,10 @@
             this.tpWrittenContent = new System.Windows.Forms.TabPage();
             this.tcWrittenContent = new System.Windows.Forms.TabControl();
             this.tpWrittenContentSearch = new System.Windows.Forms.TabPage();
+            this.lblWrittenContentResults = new System.Windows.Forms.Label();
+            this.listWrittenContentSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnWrittenContentSearch = new System.Windows.Forms.Button();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -73,11 +80,14 @@
             this.radWrittenContentSortNone = new System.Windows.Forms.RadioButton();
             this.radWrittenContentSortEvents = new System.Windows.Forms.RadioButton();
             this.txtWrittenContentSearch = new System.Windows.Forms.TextBox();
-            this.listWrittenContentSearch = new System.Windows.Forms.ListBox();
             this.tpWrittenContentEvents = new System.Windows.Forms.TabPage();
             this.tpWorldConstructions = new System.Windows.Forms.TabPage();
             this.tcWorldConstructions = new System.Windows.Forms.TabControl();
             this.tpWorldConstructionSearch = new System.Windows.Forms.TabPage();
+            this.lblWorldConstructionResult = new System.Windows.Forms.Label();
+            this.listWorldConstructionsSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnWorldConstructionsSearch = new System.Windows.Forms.Button();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -87,11 +97,14 @@
             this.radWorldConstructionsSortNone = new System.Windows.Forms.RadioButton();
             this.radWorldConstructionsSortEvents = new System.Windows.Forms.RadioButton();
             this.txtWorldConstructionsSearch = new System.Windows.Forms.TextBox();
-            this.listWorldConstructionsSearch = new System.Windows.Forms.ListBox();
             this.tpWorldConstructionEvents = new System.Windows.Forms.TabPage();
             this.tpStructures = new System.Windows.Forms.TabPage();
             this.tcStructures = new System.Windows.Forms.TabControl();
             this.tpStructureSearch = new System.Windows.Forms.TabPage();
+            this.lblStructureResults = new System.Windows.Forms.Label();
+            this.listStructureSearch = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btnStructuresSearch = new System.Windows.Forms.Button();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -101,13 +114,12 @@
             this.radStructuresSortNone = new System.Windows.Forms.RadioButton();
             this.radStructuresSortEvents = new System.Windows.Forms.RadioButton();
             this.txtStructuresSearch = new System.Windows.Forms.TextBox();
-            this.listStructuresSearch = new System.Windows.Forms.ListBox();
             this.tpStructureEvents = new System.Windows.Forms.TabPage();
-            this.lblShownResults = new System.Windows.Forms.Label();
             this.tcCollections.SuspendLayout();
             this.tpEras.SuspendLayout();
             this.tcEras.SuspendLayout();
             this.tpEraSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listEraSearch)).BeginInit();
             this.groupBox16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numEraEnd)).BeginInit();
@@ -120,16 +132,19 @@
             this.tpWrittenContent.SuspendLayout();
             this.tcWrittenContent.SuspendLayout();
             this.tpWrittenContentSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listWrittenContentSearch)).BeginInit();
             this.groupBox21.SuspendLayout();
             this.groupBox22.SuspendLayout();
             this.tpWorldConstructions.SuspendLayout();
             this.tcWorldConstructions.SuspendLayout();
             this.tpWorldConstructionSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listWorldConstructionsSearch)).BeginInit();
             this.groupBox23.SuspendLayout();
             this.groupBox24.SuspendLayout();
             this.tpStructures.SuspendLayout();
             this.tcStructures.SuspendLayout();
             this.tpStructureSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listStructureSearch)).BeginInit();
             this.groupBox25.SuspendLayout();
             this.groupBox26.SuspendLayout();
             this.SuspendLayout();
@@ -173,14 +188,65 @@
             // 
             // tpEraSearch
             // 
+            this.tpEraSearch.Controls.Add(this.listEraSearch);
             this.tpEraSearch.Controls.Add(this.groupBox16);
-            this.tpEraSearch.Controls.Add(this.listEras);
             this.tpEraSearch.Location = new System.Drawing.Point(4, 22);
             this.tpEraSearch.Name = "tpEraSearch";
             this.tpEraSearch.Size = new System.Drawing.Size(253, 448);
             this.tpEraSearch.TabIndex = 0;
             this.tpEraSearch.Text = "Search";
             this.tpEraSearch.UseVisualStyleBackColor = true;
+            // 
+            // listEraSearch
+            // 
+            this.listEraSearch.AllColumns.Add(this.olvColumn7);
+            this.listEraSearch.AllColumns.Add(this.olvColumn8);
+            this.listEraSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listEraSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listEraSearch.CellEditUseWholeCell = false;
+            this.listEraSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn7,
+            this.olvColumn8});
+            this.listEraSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listEraSearch.FullRowSelect = true;
+            this.listEraSearch.GridLines = true;
+            this.listEraSearch.HeaderWordWrap = true;
+            this.listEraSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listEraSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listEraSearch.Location = new System.Drawing.Point(3, 3);
+            this.listEraSearch.Name = "listEraSearch";
+            this.listEraSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listEraSearch.ShowCommandMenuOnRightClick = true;
+            this.listEraSearch.ShowImagesOnSubItems = true;
+            this.listEraSearch.ShowItemCountOnGroups = true;
+            this.listEraSearch.Size = new System.Drawing.Size(247, 340);
+            this.listEraSearch.TabIndex = 60;
+            this.listEraSearch.UseAlternatingBackColors = true;
+            this.listEraSearch.UseCompatibleStateImageBehavior = false;
+            this.listEraSearch.UseFiltering = true;
+            this.listEraSearch.UseHotItem = true;
+            this.listEraSearch.UseHyperlinks = true;
+            this.listEraSearch.View = System.Windows.Forms.View.Details;
+            this.listEraSearch.SelectedIndexChanged += new System.EventHandler(this.listEras_SelectedIndexChanged);
+            // 
+            // olvColumn7
+            // 
+            this.olvColumn7.AspectName = "Name";
+            this.olvColumn7.IsEditable = false;
+            this.olvColumn7.MinimumWidth = 50;
+            this.olvColumn7.Text = "Name";
+            this.olvColumn7.UseInitialLetterForGroup = true;
+            this.olvColumn7.Width = 155;
+            // 
+            // olvColumn8
+            // 
+            this.olvColumn8.AspectName = "EventCount";
+            this.olvColumn8.IsEditable = false;
+            this.olvColumn8.Text = "Events";
+            this.olvColumn8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColumn8.Width = 70;
             // 
             // groupBox16
             // 
@@ -192,9 +258,9 @@
             this.groupBox16.Controls.Add(this.label3);
             this.groupBox16.Controls.Add(this.numStart);
             this.groupBox16.Controls.Add(this.numEraEnd);
-            this.groupBox16.Location = new System.Drawing.Point(0, 281);
+            this.groupBox16.Location = new System.Drawing.Point(3, 360);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(253, 164);
+            this.groupBox16.Size = new System.Drawing.Size(250, 85);
             this.groupBox16.TabIndex = 45;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Filter / Sort";
@@ -255,18 +321,6 @@
             this.numEraEnd.Size = new System.Drawing.Size(80, 20);
             this.numEraEnd.TabIndex = 20;
             // 
-            // listEras
-            // 
-            this.listEras.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listEras.FormattingEnabled = true;
-            this.listEras.Location = new System.Drawing.Point(3, 28);
-            this.listEras.Name = "listEras";
-            this.listEras.Size = new System.Drawing.Size(250, 212);
-            this.listEras.TabIndex = 43;
-            this.listEras.SelectedIndexChanged += new System.EventHandler(this.listEras_SelectedIndexChanged);
-            // 
             // tpEraEvents
             // 
             this.tpEraEvents.AutoScroll = true;
@@ -301,7 +355,7 @@
             // 
             // tpArtifactsSearch
             // 
-            this.tpArtifactsSearch.Controls.Add(this.lblShownResults);
+            this.tpArtifactsSearch.Controls.Add(this.lblArtifactResults);
             this.tpArtifactsSearch.Controls.Add(this.listArtifactSearch);
             this.tpArtifactsSearch.Controls.Add(this.btnArtifactListReset);
             this.tpArtifactsSearch.Controls.Add(this.lblArtifactList);
@@ -315,6 +369,18 @@
             this.tpArtifactsSearch.TabIndex = 0;
             this.tpArtifactsSearch.Text = "Search";
             this.tpArtifactsSearch.UseVisualStyleBackColor = true;
+            // 
+            // lblArtifactResults
+            // 
+            this.lblArtifactResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblArtifactResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblArtifactResults.Location = new System.Drawing.Point(155, 300);
+            this.lblArtifactResults.Name = "lblArtifactResults";
+            this.lblArtifactResults.Size = new System.Drawing.Size(95, 10);
+            this.lblArtifactResults.TabIndex = 53;
+            this.lblArtifactResults.Text = "0 / 0";
+            this.lblArtifactResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblArtifactResults, "Results Shown");
             // 
             // listArtifactSearch
             // 
@@ -544,10 +610,11 @@
             // 
             // tpWrittenContentSearch
             // 
+            this.tpWrittenContentSearch.Controls.Add(this.lblWrittenContentResults);
+            this.tpWrittenContentSearch.Controls.Add(this.listWrittenContentSearch);
             this.tpWrittenContentSearch.Controls.Add(this.btnWrittenContentSearch);
             this.tpWrittenContentSearch.Controls.Add(this.groupBox21);
             this.tpWrittenContentSearch.Controls.Add(this.txtWrittenContentSearch);
-            this.tpWrittenContentSearch.Controls.Add(this.listWrittenContentSearch);
             this.tpWrittenContentSearch.Location = new System.Drawing.Point(4, 22);
             this.tpWrittenContentSearch.Name = "tpWrittenContentSearch";
             this.tpWrittenContentSearch.Padding = new System.Windows.Forms.Padding(3);
@@ -555,6 +622,69 @@
             this.tpWrittenContentSearch.TabIndex = 0;
             this.tpWrittenContentSearch.Text = "Search";
             this.tpWrittenContentSearch.UseVisualStyleBackColor = true;
+            // 
+            // lblWrittenContentResults
+            // 
+            this.lblWrittenContentResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWrittenContentResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWrittenContentResults.Location = new System.Drawing.Point(155, 265);
+            this.lblWrittenContentResults.Name = "lblWrittenContentResults";
+            this.lblWrittenContentResults.Size = new System.Drawing.Size(95, 10);
+            this.lblWrittenContentResults.TabIndex = 55;
+            this.lblWrittenContentResults.Text = "0 / 0";
+            this.lblWrittenContentResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblWrittenContentResults, "Results Shown");
+            // 
+            // listWrittenContentSearch
+            // 
+            this.listWrittenContentSearch.AllColumns.Add(this.olvColumn1);
+            this.listWrittenContentSearch.AllColumns.Add(this.olvColumn2);
+            this.listWrittenContentSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listWrittenContentSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listWrittenContentSearch.CellEditUseWholeCell = false;
+            this.listWrittenContentSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn1,
+            this.olvColumn2});
+            this.listWrittenContentSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listWrittenContentSearch.FullRowSelect = true;
+            this.listWrittenContentSearch.GridLines = true;
+            this.listWrittenContentSearch.HeaderWordWrap = true;
+            this.listWrittenContentSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listWrittenContentSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listWrittenContentSearch.Location = new System.Drawing.Point(3, 27);
+            this.listWrittenContentSearch.Name = "listWrittenContentSearch";
+            this.listWrittenContentSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listWrittenContentSearch.ShowCommandMenuOnRightClick = true;
+            this.listWrittenContentSearch.ShowImagesOnSubItems = true;
+            this.listWrittenContentSearch.ShowItemCountOnGroups = true;
+            this.listWrittenContentSearch.Size = new System.Drawing.Size(247, 233);
+            this.listWrittenContentSearch.TabIndex = 54;
+            this.listWrittenContentSearch.UseAlternatingBackColors = true;
+            this.listWrittenContentSearch.UseCompatibleStateImageBehavior = false;
+            this.listWrittenContentSearch.UseFiltering = true;
+            this.listWrittenContentSearch.UseHotItem = true;
+            this.listWrittenContentSearch.UseHyperlinks = true;
+            this.listWrittenContentSearch.View = System.Windows.Forms.View.Details;
+            this.listWrittenContentSearch.SelectedIndexChanged += new System.EventHandler(this.listWrittenContentSearch_SelectedIndexChanged);
+            // 
+            // olvColumn1
+            // 
+            this.olvColumn1.AspectName = "Name";
+            this.olvColumn1.IsEditable = false;
+            this.olvColumn1.MinimumWidth = 50;
+            this.olvColumn1.Text = "Name";
+            this.olvColumn1.UseInitialLetterForGroup = true;
+            this.olvColumn1.Width = 155;
+            // 
+            // olvColumn2
+            // 
+            this.olvColumn2.AspectName = "Type";
+            this.olvColumn2.IsEditable = false;
+            this.olvColumn2.Text = "Type";
+            this.olvColumn2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColumn2.Width = 70;
             // 
             // btnWrittenContentSearch
             // 
@@ -659,18 +789,6 @@
             this.txtWrittenContentSearch.TabIndex = 44;
             this.txtWrittenContentSearch.TextChanged += new System.EventHandler(this.searchWrittenContentList);
             // 
-            // listWrittenContentSearch
-            // 
-            this.listWrittenContentSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listWrittenContentSearch.FormattingEnabled = true;
-            this.listWrittenContentSearch.Location = new System.Drawing.Point(3, 31);
-            this.listWrittenContentSearch.Name = "listWrittenContentSearch";
-            this.listWrittenContentSearch.Size = new System.Drawing.Size(247, 225);
-            this.listWrittenContentSearch.TabIndex = 43;
-            this.listWrittenContentSearch.SelectedIndexChanged += new System.EventHandler(this.listWrittenContentSearch_SelectedIndexChanged);
-            // 
             // tpWrittenContentEvents
             // 
             this.tpWrittenContentEvents.Location = new System.Drawing.Point(4, 22);
@@ -704,10 +822,11 @@
             // 
             // tpWorldConstructionSearch
             // 
+            this.tpWorldConstructionSearch.Controls.Add(this.lblWorldConstructionResult);
+            this.tpWorldConstructionSearch.Controls.Add(this.listWorldConstructionsSearch);
             this.tpWorldConstructionSearch.Controls.Add(this.btnWorldConstructionsSearch);
             this.tpWorldConstructionSearch.Controls.Add(this.groupBox23);
             this.tpWorldConstructionSearch.Controls.Add(this.txtWorldConstructionsSearch);
-            this.tpWorldConstructionSearch.Controls.Add(this.listWorldConstructionsSearch);
             this.tpWorldConstructionSearch.Location = new System.Drawing.Point(4, 22);
             this.tpWorldConstructionSearch.Name = "tpWorldConstructionSearch";
             this.tpWorldConstructionSearch.Padding = new System.Windows.Forms.Padding(3);
@@ -715,6 +834,69 @@
             this.tpWorldConstructionSearch.TabIndex = 0;
             this.tpWorldConstructionSearch.Text = "Search";
             this.tpWorldConstructionSearch.UseVisualStyleBackColor = true;
+            // 
+            // lblWorldConstructionResult
+            // 
+            this.lblWorldConstructionResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWorldConstructionResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWorldConstructionResult.Location = new System.Drawing.Point(155, 269);
+            this.lblWorldConstructionResult.Name = "lblWorldConstructionResult";
+            this.lblWorldConstructionResult.Size = new System.Drawing.Size(95, 10);
+            this.lblWorldConstructionResult.TabIndex = 59;
+            this.lblWorldConstructionResult.Text = "0 / 0";
+            this.lblWorldConstructionResult.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblWorldConstructionResult, "Results Shown");
+            // 
+            // listWorldConstructionsSearch
+            // 
+            this.listWorldConstructionsSearch.AllColumns.Add(this.olvColumn5);
+            this.listWorldConstructionsSearch.AllColumns.Add(this.olvColumn6);
+            this.listWorldConstructionsSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listWorldConstructionsSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listWorldConstructionsSearch.CellEditUseWholeCell = false;
+            this.listWorldConstructionsSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn5,
+            this.olvColumn6});
+            this.listWorldConstructionsSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listWorldConstructionsSearch.FullRowSelect = true;
+            this.listWorldConstructionsSearch.GridLines = true;
+            this.listWorldConstructionsSearch.HeaderWordWrap = true;
+            this.listWorldConstructionsSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listWorldConstructionsSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listWorldConstructionsSearch.Location = new System.Drawing.Point(3, 31);
+            this.listWorldConstructionsSearch.Name = "listWorldConstructionsSearch";
+            this.listWorldConstructionsSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listWorldConstructionsSearch.ShowCommandMenuOnRightClick = true;
+            this.listWorldConstructionsSearch.ShowImagesOnSubItems = true;
+            this.listWorldConstructionsSearch.ShowItemCountOnGroups = true;
+            this.listWorldConstructionsSearch.Size = new System.Drawing.Size(247, 233);
+            this.listWorldConstructionsSearch.TabIndex = 58;
+            this.listWorldConstructionsSearch.UseAlternatingBackColors = true;
+            this.listWorldConstructionsSearch.UseCompatibleStateImageBehavior = false;
+            this.listWorldConstructionsSearch.UseFiltering = true;
+            this.listWorldConstructionsSearch.UseHotItem = true;
+            this.listWorldConstructionsSearch.UseHyperlinks = true;
+            this.listWorldConstructionsSearch.View = System.Windows.Forms.View.Details;
+            this.listWorldConstructionsSearch.SelectedIndexChanged += new System.EventHandler(this.listWorldConstructionsSearch_SelectedIndexChanged);
+            // 
+            // olvColumn5
+            // 
+            this.olvColumn5.AspectName = "Name";
+            this.olvColumn5.IsEditable = false;
+            this.olvColumn5.MinimumWidth = 50;
+            this.olvColumn5.Text = "Name";
+            this.olvColumn5.UseInitialLetterForGroup = true;
+            this.olvColumn5.Width = 155;
+            // 
+            // olvColumn6
+            // 
+            this.olvColumn6.AspectName = "TypeAsString";
+            this.olvColumn6.IsEditable = false;
+            this.olvColumn6.Text = "Type";
+            this.olvColumn6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColumn6.Width = 70;
             // 
             // btnWorldConstructionsSearch
             // 
@@ -819,18 +1001,6 @@
             this.txtWorldConstructionsSearch.TabIndex = 44;
             this.txtWorldConstructionsSearch.TextChanged += new System.EventHandler(this.searchWorldConstructionList);
             // 
-            // listWorldConstructionsSearch
-            // 
-            this.listWorldConstructionsSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listWorldConstructionsSearch.FormattingEnabled = true;
-            this.listWorldConstructionsSearch.Location = new System.Drawing.Point(3, 31);
-            this.listWorldConstructionsSearch.Name = "listWorldConstructionsSearch";
-            this.listWorldConstructionsSearch.Size = new System.Drawing.Size(247, 225);
-            this.listWorldConstructionsSearch.TabIndex = 43;
-            this.listWorldConstructionsSearch.SelectedIndexChanged += new System.EventHandler(this.listWorldConstructionsSearch_SelectedIndexChanged);
-            // 
             // tpWorldConstructionEvents
             // 
             this.tpWorldConstructionEvents.Location = new System.Drawing.Point(4, 22);
@@ -864,10 +1034,11 @@
             // 
             // tpStructureSearch
             // 
+            this.tpStructureSearch.Controls.Add(this.lblStructureResults);
+            this.tpStructureSearch.Controls.Add(this.listStructureSearch);
             this.tpStructureSearch.Controls.Add(this.btnStructuresSearch);
             this.tpStructureSearch.Controls.Add(this.groupBox25);
             this.tpStructureSearch.Controls.Add(this.txtStructuresSearch);
-            this.tpStructureSearch.Controls.Add(this.listStructuresSearch);
             this.tpStructureSearch.Location = new System.Drawing.Point(4, 22);
             this.tpStructureSearch.Name = "tpStructureSearch";
             this.tpStructureSearch.Padding = new System.Windows.Forms.Padding(3);
@@ -875,6 +1046,69 @@
             this.tpStructureSearch.TabIndex = 0;
             this.tpStructureSearch.Text = "Search";
             this.tpStructureSearch.UseVisualStyleBackColor = true;
+            // 
+            // lblStructureResults
+            // 
+            this.lblStructureResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblStructureResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStructureResults.Location = new System.Drawing.Point(155, 269);
+            this.lblStructureResults.Name = "lblStructureResults";
+            this.lblStructureResults.Size = new System.Drawing.Size(95, 10);
+            this.lblStructureResults.TabIndex = 57;
+            this.lblStructureResults.Text = "0 / 0";
+            this.lblStructureResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lblStructureResults, "Results Shown");
+            // 
+            // listStructureSearch
+            // 
+            this.listStructureSearch.AllColumns.Add(this.olvColumn3);
+            this.listStructureSearch.AllColumns.Add(this.olvColumn4);
+            this.listStructureSearch.AlternateRowBackColor = System.Drawing.SystemColors.Info;
+            this.listStructureSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listStructureSearch.CellEditUseWholeCell = false;
+            this.listStructureSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn3,
+            this.olvColumn4});
+            this.listStructureSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listStructureSearch.FullRowSelect = true;
+            this.listStructureSearch.GridLines = true;
+            this.listStructureSearch.HeaderWordWrap = true;
+            this.listStructureSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listStructureSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listStructureSearch.Location = new System.Drawing.Point(3, 31);
+            this.listStructureSearch.Name = "listStructureSearch";
+            this.listStructureSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.listStructureSearch.ShowCommandMenuOnRightClick = true;
+            this.listStructureSearch.ShowImagesOnSubItems = true;
+            this.listStructureSearch.ShowItemCountOnGroups = true;
+            this.listStructureSearch.Size = new System.Drawing.Size(247, 233);
+            this.listStructureSearch.TabIndex = 56;
+            this.listStructureSearch.UseAlternatingBackColors = true;
+            this.listStructureSearch.UseCompatibleStateImageBehavior = false;
+            this.listStructureSearch.UseFiltering = true;
+            this.listStructureSearch.UseHotItem = true;
+            this.listStructureSearch.UseHyperlinks = true;
+            this.listStructureSearch.View = System.Windows.Forms.View.Details;
+            this.listStructureSearch.SelectedIndexChanged += new System.EventHandler(this.listStructuresSearch_SelectedIndexChanged);
+            // 
+            // olvColumn3
+            // 
+            this.olvColumn3.AspectName = "Name";
+            this.olvColumn3.IsEditable = false;
+            this.olvColumn3.MinimumWidth = 50;
+            this.olvColumn3.Text = "Name";
+            this.olvColumn3.UseInitialLetterForGroup = true;
+            this.olvColumn3.Width = 155;
+            // 
+            // olvColumn4
+            // 
+            this.olvColumn4.AspectName = "TypeAsString";
+            this.olvColumn4.IsEditable = false;
+            this.olvColumn4.Text = "Type";
+            this.olvColumn4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColumn4.Width = 70;
             // 
             // btnStructuresSearch
             // 
@@ -979,18 +1213,6 @@
             this.txtStructuresSearch.TabIndex = 44;
             this.txtStructuresSearch.TextChanged += new System.EventHandler(this.searchStructureList);
             // 
-            // listStructuresSearch
-            // 
-            this.listStructuresSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listStructuresSearch.FormattingEnabled = true;
-            this.listStructuresSearch.Location = new System.Drawing.Point(3, 31);
-            this.listStructuresSearch.Name = "listStructuresSearch";
-            this.listStructuresSearch.Size = new System.Drawing.Size(247, 238);
-            this.listStructuresSearch.TabIndex = 43;
-            this.listStructuresSearch.SelectedIndexChanged += new System.EventHandler(this.listStructuresSearch_SelectedIndexChanged);
-            // 
             // tpStructureEvents
             // 
             this.tpStructureEvents.Location = new System.Drawing.Point(4, 22);
@@ -1000,18 +1222,6 @@
             this.tpStructureEvents.TabIndex = 1;
             this.tpStructureEvents.Text = "Events";
             this.tpStructureEvents.UseVisualStyleBackColor = true;
-            // 
-            // lblShownResults
-            // 
-            this.lblShownResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblShownResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShownResults.Location = new System.Drawing.Point(155, 300);
-            this.lblShownResults.Name = "lblShownResults";
-            this.lblShownResults.Size = new System.Drawing.Size(95, 10);
-            this.lblShownResults.TabIndex = 53;
-            this.lblShownResults.Text = "0 / 0";
-            this.lblShownResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.hint.SetToolTip(this.lblShownResults, "Results Shown");
             // 
             // CollectionsTab
             // 
@@ -1023,6 +1233,7 @@
             this.tpEras.ResumeLayout(false);
             this.tcEras.ResumeLayout(false);
             this.tpEraSearch.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.listEraSearch)).EndInit();
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numStart)).EndInit();
@@ -1040,6 +1251,7 @@
             this.tcWrittenContent.ResumeLayout(false);
             this.tpWrittenContentSearch.ResumeLayout(false);
             this.tpWrittenContentSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listWrittenContentSearch)).EndInit();
             this.groupBox21.ResumeLayout(false);
             this.groupBox21.PerformLayout();
             this.groupBox22.ResumeLayout(false);
@@ -1048,6 +1260,7 @@
             this.tcWorldConstructions.ResumeLayout(false);
             this.tpWorldConstructionSearch.ResumeLayout(false);
             this.tpWorldConstructionSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listWorldConstructionsSearch)).EndInit();
             this.groupBox23.ResumeLayout(false);
             this.groupBox23.PerformLayout();
             this.groupBox24.ResumeLayout(false);
@@ -1056,6 +1269,7 @@
             this.tcStructures.ResumeLayout(false);
             this.tpStructureSearch.ResumeLayout(false);
             this.tpStructureSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listStructureSearch)).EndInit();
             this.groupBox25.ResumeLayout(false);
             this.groupBox25.PerformLayout();
             this.groupBox26.ResumeLayout(false);
@@ -1077,7 +1291,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numStart;
         private System.Windows.Forms.NumericUpDown numEraEnd;
-        private System.Windows.Forms.ListBox listEras;
         private System.Windows.Forms.TabPage tpEraEvents;
         private System.Windows.Forms.TabPage tpArtifacts;
         private System.Windows.Forms.TabControl tcArtifacts;
@@ -1108,7 +1321,6 @@
         private System.Windows.Forms.RadioButton radWrittenContentSortNone;
         private System.Windows.Forms.RadioButton radWrittenContentSortEvents;
         private System.Windows.Forms.TextBox txtWrittenContentSearch;
-        private System.Windows.Forms.ListBox listWrittenContentSearch;
         private System.Windows.Forms.TabPage tpWrittenContentEvents;
         private System.Windows.Forms.TabPage tpWorldConstructions;
         private System.Windows.Forms.TabControl tcWorldConstructions;
@@ -1122,7 +1334,6 @@
         private System.Windows.Forms.RadioButton radWorldConstructionsSortNone;
         private System.Windows.Forms.RadioButton radWorldConstructionsSortEvents;
         private System.Windows.Forms.TextBox txtWorldConstructionsSearch;
-        private System.Windows.Forms.ListBox listWorldConstructionsSearch;
         private System.Windows.Forms.TabPage tpWorldConstructionEvents;
         private System.Windows.Forms.TabPage tpStructures;
         private System.Windows.Forms.TabControl tcStructures;
@@ -1136,11 +1347,25 @@
         private System.Windows.Forms.RadioButton radStructuresSortNone;
         private System.Windows.Forms.RadioButton radStructuresSortEvents;
         private System.Windows.Forms.TextBox txtStructuresSearch;
-        private System.Windows.Forms.ListBox listStructuresSearch;
         private System.Windows.Forms.TabPage tpStructureEvents;
         private BrightIdeasSoftware.ObjectListView listArtifactSearch;
         private BrightIdeasSoftware.OLVColumn olvName;
         private BrightIdeasSoftware.OLVColumn olvType;
-        private System.Windows.Forms.Label lblShownResults;
+        private System.Windows.Forms.Label lblArtifactResults;
+        private System.Windows.Forms.Label lblWrittenContentResults;
+        private BrightIdeasSoftware.OLVColumn olvColumn1;
+        private BrightIdeasSoftware.OLVColumn olvColumn2;
+        private BrightIdeasSoftware.ObjectListView listWrittenContentSearch;
+        private System.Windows.Forms.Label lblStructureResults;
+        private BrightIdeasSoftware.ObjectListView listStructureSearch;
+        private BrightIdeasSoftware.OLVColumn olvColumn3;
+        private BrightIdeasSoftware.OLVColumn olvColumn4;
+        private System.Windows.Forms.Label lblWorldConstructionResult;
+        private BrightIdeasSoftware.OLVColumn olvColumn5;
+        private BrightIdeasSoftware.OLVColumn olvColumn6;
+        private BrightIdeasSoftware.ObjectListView listWorldConstructionsSearch;
+        private BrightIdeasSoftware.ObjectListView listEraSearch;
+        private BrightIdeasSoftware.OLVColumn olvColumn7;
+        private BrightIdeasSoftware.OLVColumn olvColumn8;
     }
 }

@@ -13,6 +13,7 @@ namespace LegendsViewer.Legends
     {
         public string Name { get; set; } // legends_plus.xml
         public WorldConstructionType Type { get; set; } // legends_plus.xml
+        public string TypeAsString { get { return Type.GetDescription(); } set { } }
         public List<Location> Coordinates { get; set; } // legends_plus.xml
         public Site Site1 { get; set; } // legends_plus.xml
         public Site Site2 { get; set; } // legends_plus.xml

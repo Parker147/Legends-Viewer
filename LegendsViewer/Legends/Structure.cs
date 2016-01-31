@@ -12,6 +12,7 @@ namespace LegendsViewer.Legends
         public string Name { get; set; } // legends_plus.xml
         public string AltName { get; set; } // legends_plus.xml
         public StructureType Type { get; set; } // legends_plus.xml
+        public string TypeAsString { get { return Type.GetDescription(); } set { } }
         public string Icon { get; set; }
 
         public Site Site { get; set; }

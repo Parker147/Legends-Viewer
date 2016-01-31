@@ -8,6 +8,7 @@ namespace LegendsViewer.Legends
     public abstract class WorldObject : DwarfObject
     {
         public List<WorldEvent> Events { get; set; }
+        public int EventCount { get { return Events.Count; } set { } }
         public int ID { get; set; }
         protected WorldObject(List<Property> properties, World world)
         {

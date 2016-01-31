@@ -32,7 +32,6 @@ namespace LegendsViewer.Controls.Tabs
             EventTabs = new TabPage[] { tpRegionEvents, tpURegionEvents, tpLandmassEvents, tpMountainPeakEvents };
             EventTabTypes = new Type[] { typeof(Region), typeof(UndergroundRegion), typeof(Landmass), typeof(MountainPeak) };
 
-            listRegionSearch.ShowGroups = false;
             listRegionSearch.AllColumns.Add(new OLVColumn
             {
                 Text = "Deaths",
@@ -47,6 +46,9 @@ namespace LegendsViewer.Controls.Tabs
                 IsVisible = false,
                 AspectGetter = rowObject => ((WorldRegion)rowObject).Events.Count
             });
+            listRegionSearch.ShowGroups = false;
+
+            listURegionSearch.ShowGroups = false;
         }
 
         internal override void AfterLoad(World world)
@@ -125,13 +127,13 @@ namespace LegendsViewer.Controls.Tabs
                 var results = list.ToArray();
                 listRegionSearch.SetObjects(results);
                 //listRegionSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-                UpdateCounts(results.Length, regionSearch.BaseList.Count);
+                UpdateCounts(lblShownResults, results.Length, regionSearch.BaseList.Count);
             }
         }
 
-        private void UpdateCounts(int shown, int total)
+        private void UpdateCounts(Label label, int shown, int total)
         {
-            lblShownResults.Text = $"{shown} / {total}";
+            label.Text = $"{shown} / {total}";
         }
 
         private void searchURegionList(object sender, EventArgs e)
@@ -142,8 +144,9 @@ namespace LegendsViewer.Controls.Tabs
                 uRegionSearch.sortEvents = radURegionSortEvents.Checked;
                 uRegionSearch.sortFiltered = radURegionSortFiltered.Checked;
                 IEnumerable<UndergroundRegion> list = uRegionSearch.getList();
-                listURegionSearch.Items.Clear();
-                listURegionSearch.Items.AddRange(list.ToArray());
+                var results = list.ToArray();
+                listURegionSearch.SetObjects(results);
+                UpdateCounts(lblURegionResults, results.Length, regionSearch.BaseList.Count);
             }
         }
 
