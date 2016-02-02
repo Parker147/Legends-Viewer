@@ -23,11 +23,11 @@ namespace LegendsViewer.Legends
                 {
                     case "id": ID = Convert.ToInt32(property.Value); break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;
-                    case "name_female": NameFemale = Formatting.InitCaps(property.Value); break;
                     case "name_male": NameMale = Formatting.InitCaps(property.Value); break;
+                    case "name_female": NameFemale = Formatting.InitCaps(property.Value); break;
                     case "spouse": Spouse = Formatting.InitCaps(property.Value); break;
-                    case "spouse_male": SpouseFemale = Formatting.InitCaps(property.Value); break;
-                    case "spouse_female": SpouseMale = Formatting.InitCaps(property.Value); break;
+                    case "spouse_male": SpouseMale = Formatting.InitCaps(property.Value); break;
+                    case "spouse_female": SpouseFemale = Formatting.InitCaps(property.Value); break;
                 }
             }
 

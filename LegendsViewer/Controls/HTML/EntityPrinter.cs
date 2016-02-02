@@ -144,7 +144,7 @@ namespace LegendsViewer.Controls
                         }
                         else if (assignment.HistoricalFigure.Caste == "Male" && !string.IsNullOrEmpty(position.NameMale))
                         {
-                            positionName = position.NameFemale;
+                            positionName = position.NameMale;
                         }
                         else
                         {
