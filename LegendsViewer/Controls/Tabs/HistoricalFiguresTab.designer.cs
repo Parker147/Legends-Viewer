@@ -38,7 +38,6 @@
             this.txtHFSearch = new System.Windows.Forms.TextBox();
             this.listHFSearch = new BrightIdeasSoftware.ObjectListView();
             this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvRace = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.lblHFList = new System.Windows.Forms.Label();
             this.btnHFListReset = new System.Windows.Forms.Button();
             this.filterPanel = new WFC.RichPanel();
@@ -164,15 +163,13 @@
             // listHFSearch
             // 
             this.listHFSearch.AllColumns.Add(this.olvName);
-            this.listHFSearch.AllColumns.Add(this.olvRace);
             this.listHFSearch.AlternateRowBackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listHFSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listHFSearch.CellEditUseWholeCell = false;
             this.listHFSearch.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvName,
-            this.olvRace});
+            this.olvName});
             this.listHFSearch.Cursor = System.Windows.Forms.Cursors.Default;
             this.listHFSearch.FullRowSelect = true;
             this.listHFSearch.GridLines = true;
@@ -202,15 +199,7 @@
             this.olvName.MinimumWidth = 50;
             this.olvName.Text = "Name";
             this.olvName.UseInitialLetterForGroup = true;
-            this.olvName.Width = 140;
-            // 
-            // olvRace
-            // 
-            this.olvRace.AspectName = "Race";
-            this.olvRace.IsEditable = false;
-            this.olvRace.Text = "Race";
-            this.olvRace.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.olvRace.Width = 95;
+            this.olvName.Width = 235;
             // 
             // lblHFList
             // 
@@ -569,7 +558,6 @@
         private System.Windows.Forms.TabPage tpHFEvents;
         private BrightIdeasSoftware.ObjectListView listHFSearch;
         private BrightIdeasSoftware.OLVColumn olvName;
-        private BrightIdeasSoftware.OLVColumn olvRace;
         private WFC.RichPanel filterPanel;
         private BrightIdeasSoftware.BaseRenderer baseRenderer1;
         private System.Windows.Forms.Panel listPanel;
