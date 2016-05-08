@@ -35,10 +35,13 @@ namespace LegendsViewer.Controls
 
             foreach (Population civilizedPop in World.CivilizedPopulations)
             {
-                Color civilizedPopColor = World.MainRaces.First(r => r.Key == civilizedPop.Race).Value;
-                Color highlightPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, 0.1f);
-                Color darkenedPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, -0.1f);
-                HTML.AppendLine("{ value: " + civilizedPop.Count + ", color: \""+ ColorTranslator.ToHtml(darkenedPopColor) +"\", highlight: \""+ ColorTranslator.ToHtml(highlightPopColor) + "\", label: \"" + civilizedPop.Race + "\" }, ");
+                if (World.MainRaces.ContainsKey(civilizedPop.Race))
+                {
+                    Color civilizedPopColor = World.MainRaces.First(r => r.Key == civilizedPop.Race).Value;
+                    Color highlightPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, 0.1f);
+                    Color darkenedPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, -0.1f);
+                    HTML.AppendLine("{ value: " + civilizedPop.Count + ", color: \"" + ColorTranslator.ToHtml(darkenedPopColor) + "\", highlight: \"" + ColorTranslator.ToHtml(highlightPopColor) + "\", label: \"" + civilizedPop.Race + "\" }, ");
+                }
             }
 
             HTML.AppendLine("]");
