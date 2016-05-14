@@ -12,16 +12,28 @@ namespace LegendsViewer.Legends
             string[] parts = name.Split(new string[] { " " }, StringSplitOptions.None);
             string capName = "";
             if (all)
+            {
                 foreach (string part in parts)
                 {
-                    if (capName.Length > 0) capName += " ";
-                    if (((part != "the" && part != "of") || (capName.Length == 0)) && part.Length > 0)
-                        capName += part.ToUpper()[0] + part.Substring(1, part.Length - 1);
+                    if (capName.Length > 0)
+                    {
+                        capName += " ";
+                    }
+                    if (part.StartsWith("`") && part.Length > 1)
+                    {
+                        capName += part.Substring(0, 1) + part.Substring(1, 1).ToUpper() + part.Substring(2, part.Length - 2);
+                    }
+                    else if (((part != "the" && part != "of") || (capName.Length == 0)) && part.Length > 0)
+                    {
+                        capName += part.Substring(0, 1).ToUpper() + part.Substring(1, part.Length - 1);
+                    }
                     else
+                    {
                         capName += part.ToLower();
+                    }
                 }
+            }
             return capName;
-
         }
 
         public static string MakePopulationPlural(string population)

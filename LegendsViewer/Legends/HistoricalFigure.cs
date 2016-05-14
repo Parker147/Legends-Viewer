@@ -119,7 +119,7 @@ namespace LegendsViewer.Legends
                     case "birth_seconds72": BirthSeconds72 = Convert.ToInt32(property.Value); break;
                     case "death_year": DeathYear = Convert.ToInt32(property.Value); break;
                     case "death_seconds72": DeathSeconds72 = Convert.ToInt32(property.Value); break;
-                    case "name": Name = String.Intern(Formatting.InitCaps(property.Value)); break;
+                    case "name": Name = String.Intern(Formatting.InitCaps(property.Value.Replace("'", "`"))); break;
                     case "race": Race = String.Intern(Formatting.FormatRace(property.Value)); break;
                     case "caste": Caste = Formatting.InitCaps(property.Value.ToLower().Replace('_', ' ')); break;
                     case "associated_type": AssociatedType = Formatting.InitCaps(property.Value.ToLower().Replace('_', ' ')); break;

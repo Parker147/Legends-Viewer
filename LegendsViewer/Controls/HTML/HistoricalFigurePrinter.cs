@@ -5,6 +5,7 @@ using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
+using System.Net;
 
 namespace LegendsViewer.Controls
 {
@@ -89,7 +90,7 @@ namespace LegendsViewer.Controls
                 title += "\\n✝";
                 classes += " dead";
             }
-            string node = "{ data: { id: '" + hf.ID + "', name: '" + title + "', href: 'hf#" + hf.ID + "' , faveColor: '" + (hf.Caste == "Male" ? "#6FB1FC" : "#EDA1ED") + "' }, classes: '" + classes + "' },";
+            string node = "{ data: { id: '" + hf.ID + "', name: '" + WebUtility.HtmlEncode(title) + "', href: 'hf#" + hf.ID + "' , faveColor: '" + (hf.Caste == "Male" ? "#6FB1FC" : "#EDA1ED") + "' }, classes: '" + classes + "' },";
             return node;
         }
 
