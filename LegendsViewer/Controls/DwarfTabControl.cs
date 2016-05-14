@@ -447,8 +447,4 @@ namespace LegendsViewer
         #endregion
 
     }
-
-
-
-
 }

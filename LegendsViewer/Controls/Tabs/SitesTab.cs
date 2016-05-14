@@ -24,6 +24,9 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void InitializeTab()
         {
+            EventTabs = new TabPage[] { tpSiteEvents };
+            EventTabTypes = new Type[] { typeof(Site) };
+
             listSiteSearch.ShowGroups = false;
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
