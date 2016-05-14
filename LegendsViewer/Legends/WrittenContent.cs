@@ -57,6 +57,8 @@ namespace LegendsViewer.Legends
                             case "Play": Type = WrittenContentType.Play; break;
                             case "Poem": Type = WrittenContentType.Poem; break;
                             case "ShortStory": Type = WrittenContentType.ShortStory; break;
+                            case "MusicalComposition": Type = WrittenContentType.MusicalComposition; break;
+                            case "Choreography": Type = WrittenContentType.Choreography; break;
                             default:
                                 Type = WrittenContentType.Unknown;
                                 int typeID;

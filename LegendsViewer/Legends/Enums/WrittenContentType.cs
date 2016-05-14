@@ -18,5 +18,8 @@ namespace LegendsViewer.Legends.Enums
         Poem,
         [Description("Short Story")]
         ShortStory,
+        Choreography,
+        [Description("Musical Composition")]
+        MusicalComposition
     }
 }
