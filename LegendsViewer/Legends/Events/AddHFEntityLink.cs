@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Parser;
+using System.Linq;
+using LegendsViewer.Legends.Interfaces;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class AddHFEntityLink : WorldEvent
+    public class AddHFEntityLink : WorldEvent, IFeatured
     {
         public Entity Entity;
         public HistoricalFigure HistoricalFigure;
@@ -64,6 +66,7 @@ namespace LegendsViewer.Legends.Events
             HistoricalFigure.AddEvent(this);
             Entity.AddEvent(this);
         }
+
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = this.GetYearTime();
@@ -88,7 +91,16 @@ namespace LegendsViewer.Legends.Events
                     break;
                 case HfEntityLinkType.Squad:
                 case HfEntityLinkType.Position:
-                    eventString += " became the " + Position + " of ";
+                    EntityPosition position = Entity.EntityPositions.FirstOrDefault(pos => pos.Name.ToLower() == Position.ToLower());
+                    if (position != null)
+                    {
+                        string positionName = position.GetTitleByCaste(HistoricalFigure.Caste);
+                        eventString += " became the " + positionName + " of ";
+                    }
+                    else
+                    {
+                        eventString += " became the " + Position + " of ";
+                    }
                     break;
                 default:
                     eventString += " linked to ";
@@ -97,6 +109,30 @@ namespace LegendsViewer.Legends.Events
 
             eventString += Entity.ToLink(link, pov) + ". ";
             eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+
+        public string PrintFeature(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = "";
+            eventString += "the ascention of ";
+            if (HistoricalFigure != null) eventString += HistoricalFigure.ToLink(link, pov);
+            else eventString += "UNKNOWN HISTORICAL FIGURE";
+            eventString += " to the position of ";
+            EntityPosition position = Entity.EntityPositions.FirstOrDefault(pos => pos.Name.ToLower() == Position.ToLower());
+            if (position != null)
+            {
+                string positionName = position.GetTitleByCaste(HistoricalFigure.Caste);
+                eventString += positionName;
+            }
+            else
+            {
+                eventString += Position;
+            }
+            eventString += " of ";
+            eventString += Entity.ToLink(link, pov);
+            eventString += " in ";
+            eventString += Year;
             return eventString;
         }
     }

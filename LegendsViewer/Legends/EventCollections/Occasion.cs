@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends.EventCollections
         public Entity Civ { get; set; }
         public string Ordinal { get; set; }
         public int OccasionId { get; set; }
+        public EntityOccasion EntityOccasion { get; set; }
 
         public List<string> Filters;
         public override List<WorldEvent> FilteredEvents
@@ -21,12 +22,18 @@ namespace LegendsViewer.Legends.EventCollections
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
-                    case "ordinal": Ordinal = String.Intern(property.Value); break;
+                    case "ordinal": Ordinal = string.Intern(property.Value); break;
                     case "occasion_id": OccasionId = Convert.ToInt32(property.Value); break;
                 }
+            }
+            if (Civ != null && Civ.Occassions.Any())
+            {
+                EntityOccasion = Civ.Occassions.ElementAt(OccasionId);
+            }
         }
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {

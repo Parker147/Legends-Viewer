@@ -137,19 +137,7 @@ namespace LegendsViewer.Controls
                     EntityPosition position = Entity.EntityPositions.FirstOrDefault(pos => pos.ID == assignment.PositionID);
                     if (position != null && assignment.HistoricalFigure != null)
                     {
-                        string positionName;
-                        if (assignment.HistoricalFigure.Caste == "Female" && !string.IsNullOrEmpty(position.NameFemale))
-                        {
-                            positionName = position.NameFemale;
-                        }
-                        else if (assignment.HistoricalFigure.Caste == "Male" && !string.IsNullOrEmpty(position.NameMale))
-                        {
-                            positionName = position.NameMale;
-                        }
-                        else
-                        {
-                            positionName = position.Name;
-                        }
+                        string positionName = position.GetTitleByCaste(assignment.HistoricalFigure.Caste);
 
                         HTML.AppendLine("<li>" + assignment.HistoricalFigure.ToLink() + ", " + positionName + "</li>");
 
@@ -161,20 +149,7 @@ namespace LegendsViewer.Controls
                                 HistoricalFigure spouse = spouseLink.HistoricalFigure;
                                 if (spouse != null)
                                 {
-                                    string spousePositionName;
-                                    if (spouse.Caste == "Female" && !string.IsNullOrEmpty(position.SpouseFemale))
-                                    {
-                                        spousePositionName = position.SpouseFemale;
-                                    }
-                                    else if (spouse.Caste == "Male" && !string.IsNullOrEmpty(position.SpouseMale))
-                                    {
-                                        spousePositionName = position.SpouseMale;
-                                    }
-                                    else
-                                    {
-                                        spousePositionName = position.Spouse;
-                                    }
-
+                                    string spousePositionName = position.GetTitleByCaste(spouse.Caste, true);
                                     HTML.AppendLine("<li>" + spouse.ToLink() + ", " + spousePositionName + "</li>");
                                 }
                             }

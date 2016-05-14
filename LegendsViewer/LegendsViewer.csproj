@@ -240,6 +240,7 @@
     <Compile Include="Legends\Entity.cs" />
     <Compile Include="Legends\EntityEntityLink.cs" />
     <Compile Include="Legends\EntityLink.cs" />
+    <Compile Include="Legends\EntityOccasion.cs" />
     <Compile Include="Legends\EntityPopulation.cs" />
     <Compile Include="Legends\EntityPosition.cs" />
     <Compile Include="Legends\EntityPositionAssignment.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Legends\Enums\OccasionType.cs" />
     <Compile Include="Legends\Enums\ReferenceType.cs" />
     <Compile Include="Legends\Enums\ReputationType.cs" />
+    <Compile Include="Legends\Enums\ScheduleType.cs" />
     <Compile Include="Legends\Enums\SecretGoal.cs" />
     <Compile Include="Legends\Enums\SiteConqueredType.cs" />
     <Compile Include="Legends\Enums\SiteLinkType.cs" />
@@ -382,10 +384,12 @@
     <Compile Include="Legends\Events\SiteTributeForced.cs" />
     <Compile Include="Legends\Events\WorldEvent.cs" />
     <Compile Include="Legends\Events\WrittenContentComposed.cs" />
+    <Compile Include="Legends\Feature.cs" />
     <Compile Include="Legends\Formatting.cs" />
     <Compile Include="Legends\HistoricalFigure.cs" />
     <Compile Include="Legends\HistoricalFigureLink.cs" />
     <Compile Include="Legends\IdenticonRenderer.cs" />
+    <Compile Include="Legends\Interfaces\IFeatured.cs" />
     <Compile Include="Legends\Interfaces\IHasCoordinates.cs" />
     <Compile Include="Legends\Landmass.cs" />
     <Compile Include="Legends\Location.cs" />
@@ -404,6 +408,7 @@
     <Compile Include="Legends\Population.cs" />
     <Compile Include="Legends\Reference.cs" />
     <Compile Include="Legends\Region.cs" />
+    <Compile Include="Legends\Schedule.cs" />
     <Compile Include="Legends\Site.cs" />
     <Compile Include="Legends\SiteLink.cs" />
     <Compile Include="Legends\Skill.cs" />

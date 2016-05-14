@@ -64,7 +64,7 @@ namespace LegendsViewer.Legends
                                 int typeID;
                                 if (!int.TryParse(property.Value, out typeID))
                                 {
-                                    world.ParsingErrors.Report("Unknown WrittenContent WrittenContentType: " + property.Value);
+                                    property.Known = false;
                                 }
                                 break;
                         }

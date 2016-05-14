@@ -227,26 +227,27 @@ namespace LegendsViewer.Legends.Parser
                 AddEvent(eventType, properties);
             }
 
+            string path = CurrentSection.ToString();
+            if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
+                path += eventType + "/";
+
+            CheckKnownStateOfProperties(path, properties);
+        }
+
+        public void CheckKnownStateOfProperties(string path, List<Property> properties)
+        {
             foreach (Property property in properties)
             {
-                string section = "";
-                if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
-                    section = eventType;
-                else
-                    section = CurrentSection.ToString();
-
                 if (!property.Known && property.SubProperties.Count == 0)
                 {
-                    World.ParsingErrors.Report("Unknown " + section + " Property: " + property.Name, property.Value);
+                    World.ParsingErrors.Report("|==> "+path + " \nUnknown Property: " + property.Name, property.Value);
                 }
-                foreach (Property subProperty in property.SubProperties)
+                if (property.SubProperties.Any())
                 {
-                    if (!subProperty.Known)
-                        World.ParsingErrors.Report("Unknown " + section + " Property: " + property.Name + " - " + subProperty.Name, subProperty.Value);
+                    CheckKnownStateOfProperties(path + "/" + property.Name, property.SubProperties);
                 }
             }
         }
-
 
         public void AddFromXMLSection(Section section, List<Property> properties)
         {
@@ -471,7 +472,7 @@ namespace LegendsViewer.Legends.Parser
                                                                                  || (war.StartYear <= era.StartYear && war.EndYear >= era.EndYear) //war started before & ended after
                                                                                  || (war.StartYear <= era.StartYear && war.EndYear == -1)).ToList();
                 }
-                
+
             }
         }
 
@@ -610,7 +611,7 @@ namespace LegendsViewer.Legends.Parser
                         break;
                     }
                 }
-            } 
+            }
         }
     }
 }

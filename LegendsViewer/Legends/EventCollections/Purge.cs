@@ -29,7 +29,6 @@ namespace LegendsViewer.Legends.EventCollections
                     case "adjective": Adjective = property.Value; break;
                 }
             }
-            Console.WriteLine();
         }
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {

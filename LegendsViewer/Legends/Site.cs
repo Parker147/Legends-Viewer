@@ -122,7 +122,7 @@ namespace LegendsViewer.Legends
                             case "labyrinth": SiteType = SiteType.Labyrinth; break;
                             case "shrine": SiteType = SiteType.Shrine; break;
                             default:
-                                world.ParsingErrors.Report("Unknown Site SiteType: " + property.Value);
+                                property.Known = false;
                                 break;
                         }
                         break;

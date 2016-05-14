@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Parser;
+using System.Linq;
+using LegendsViewer.Legends.Interfaces;
 
 namespace LegendsViewer.Legends.Events
 {
@@ -14,10 +16,13 @@ namespace LegendsViewer.Legends.Events
         public int OccasionId { get; set; }
         public int ScheduleId { get; set; }
         public OccasionType OccasionType { get; set; }
+        public EntityOccasion EntityOccasion { get; set; }
+        public Schedule Schedule { get; set; }
 
         public OccasionEvent(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "civ_id":
@@ -39,6 +44,28 @@ namespace LegendsViewer.Legends.Events
                         ScheduleId = Convert.ToInt32(property.Value);
                         break;
                 }
+            }
+
+            if (Civ != null && Civ.Occassions.Any())
+            {
+                EntityOccasion = Civ.Occassions.ElementAt(OccasionId);
+                if (EntityOccasion != null)
+                {
+                    Schedule = EntityOccasion.Schedules.ElementAt(ScheduleId);
+                    
+                    // DEBUG
+
+                    //if (Schedule.Reference != -1 && Schedule.Type == ScheduleType.Storytelling)
+                    //{
+                    //    WorldEvent worldEvent = World.GetEvent(Schedule.Reference) as WorldEvent;
+                    //    if (!(worldEvent is IFeatured))
+                    //    {
+                    //        world.ParsingErrors.Report("Unknown Occasion Feature - worldEvent.Type: " + worldEvent.Type);
+                    //    }
+                    //}
+                }
+            }
+
             Civ.AddEvent(this);
             Site.AddEvent(this);
             Region.AddEvent(this);
@@ -50,11 +77,76 @@ namespace LegendsViewer.Legends.Events
             string eventString = GetYearTime();
             eventString += Civ != null ? Civ.ToLink(link, pov) : "UNKNOWN CIV";
             eventString += " held a ";
-            eventString += OccasionType.ToString().ToLower();
+            if (Schedule != null)
+            {
+                if (!string.IsNullOrWhiteSpace(Schedule.ItemType) || !string.IsNullOrWhiteSpace(Schedule.ItemSubType))
+                {
+                    eventString += !string.IsNullOrWhiteSpace(Schedule.ItemSubType) ? Schedule.ItemSubType : Schedule.ItemType;
+                    eventString += " ";
+                }
+            }
+            eventString += Schedule != null ? Schedule.Type.GetDescription().ToLower() :OccasionType.ToString().ToLower();
+            if (Schedule != null)
+            {
+                switch (Schedule.Type)
+                {
+                    case ScheduleType.PoetryRecital:
+                        if (Schedule.Reference != -1)
+                        {
+                            PoeticForm form = World.GetPoeticForm(Schedule.Reference);
+                            eventString += " of ";
+                            eventString += form != null ? form.ToLink(link, pov) : "UNKNOWN POETRICFORM";
+                        }
+                        break;
+                    case ScheduleType.MusicalPerformance:
+                        if (Schedule.Reference != -1)
+                        {
+                            MusicalForm form = World.GetMusicalForm(Schedule.Reference);
+                            eventString += " of ";
+                            eventString += form != null ? form.ToLink(link, pov) : "UNKNOWN MUSICALFORM";
+                        }
+                        break;
+                    case ScheduleType.DancePerformance:
+                        if (Schedule.Reference != -1)
+                        {
+                            DanceForm form = World.GetDanceForm(Schedule.Reference);
+                            eventString += " of ";
+                            eventString += form != null ? form.ToLink(link, pov) : "UNKNOWN DANCEFORM";
+                        }
+                        break;
+                    case ScheduleType.Storytelling:
+                        if (Schedule.Reference != -1)
+                        {
+                            WorldEvent worldEvent = World.GetEvent(Schedule.Reference) as WorldEvent;
+                            if (worldEvent is IFeatured)
+                            {
+                                eventString += " of ";
+                                eventString += worldEvent != null ? ((IFeatured)worldEvent).PrintFeature() : "UNKNOWN EVENT";
+                            }
+                        }
+                        break;
+                }
+            }
             eventString += " in ";
             eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
-            //eventString += " as part of UNKNOWN OCCASION (" + OccasionId + ") with UNKNOWN SCHEDULE(" + ScheduleId + ")";
+            eventString += " as part of ";
+            eventString += EntityOccasion != null ? EntityOccasion.ToLink(link, pov) : "UNKNOWN OCCASION";
             eventString += ".";
+            if (Schedule != null)
+            {
+                switch (Schedule.Type)
+                {
+                    case ScheduleType.Procession:
+                        Structure startStructure = Site.Structures.FirstOrDefault(s => s.ID == Schedule.Reference);
+                        Structure endStructure = Site.Structures.FirstOrDefault(s => s.ID == Schedule.Reference2);
+                        eventString += " It started at ";
+                        eventString += startStructure != null ? startStructure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
+                        eventString += " and ended at ";
+                        eventString += endStructure != null ? endStructure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
+                        eventString += ".";
+                        break;
+                }
+            }
             return eventString;
         }
     }

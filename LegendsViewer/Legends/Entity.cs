@@ -47,6 +47,7 @@ namespace LegendsViewer.Legends
         public List<EntityPosition> EntityPositions { get; set; } // legends_plus.xml
         public List<EntityPositionAssignment> EntityPositionAssignments { get; set; } // legends_plus.xml
         public List<Location> Claims { get; set; } // legends_plus.xml
+        public List<EntityOccasion> Occassions { get; set; } // legends_plus.xml
 
         public List<War> Wars { get; set; }
         public List<War> WarsAttacking { get { return Wars.Where(war => war.Attacker == this).ToList(); } set { } }
@@ -157,6 +158,7 @@ namespace LegendsViewer.Legends
             EntityPositions = new List<EntityPosition>();
             EntityPositionAssignments = new List<EntityPositionAssignment>();
             Claims = new List<Location>();
+            Occassions = new List<EntityOccasion>();
 
             foreach (Property property in properties)
             {
@@ -192,7 +194,7 @@ namespace LegendsViewer.Legends
                                 break;
                             default:
                                 Type = EntityType.Unknown;
-                                world.ParsingErrors.Report("Unknown Entity Type: " + property.Value);
+                                property.Known = false;
                                 break;
                         }
                         break;
@@ -231,6 +233,13 @@ namespace LegendsViewer.Legends
                     case "entity_position_assignment": EntityPositionAssignments.Add(new EntityPositionAssignment(property.SubProperties, world)); break;
                     case "histfig_id":
                         property.Known = true; // historical figure == last known entitymember?
+                        break;
+                    case "occasion":
+                        property.Known = true;
+                        if (property.SubProperties.Any())
+                        {
+                            Occassions.Add(new EntityOccasion(property.SubProperties, world, this));
+                        }
                         break;
                 }
             }

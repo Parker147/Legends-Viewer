@@ -48,7 +48,7 @@ namespace LegendsViewer.Legends
                             case "underworld_spire": Type = StructureType.UnderworldSpire; break;
                             case "library": Type = StructureType.Library; break;
                             default:
-                                world.ParsingErrors.Report("Unknown Structure StructureType: " + property.Value);
+                                property.Known = false;
                                 break;
                         }
                         break;

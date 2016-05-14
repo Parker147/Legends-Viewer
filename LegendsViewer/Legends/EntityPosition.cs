@@ -30,7 +30,42 @@ namespace LegendsViewer.Legends
                     case "spouse_female": SpouseFemale = Formatting.InitCaps(property.Value); break;
                 }
             }
+        }
 
+        public string GetTitleByCaste(string caste, bool isSpouse = false)
+        {
+            string positionName;
+            if (isSpouse)
+            {
+                if (caste == "Female" && !string.IsNullOrEmpty(SpouseFemale))
+                {
+                    positionName = SpouseFemale;
+                }
+                else if (caste == "Male" && !string.IsNullOrEmpty(SpouseMale))
+                {
+                    positionName = SpouseMale;
+                }
+                else
+                {
+                    positionName = Spouse;
+                }
+            }
+            else
+            {
+                if (caste == "Female" && !string.IsNullOrEmpty(NameFemale))
+                {
+                    positionName = NameFemale;
+                }
+                else if (caste == "Male" && !string.IsNullOrEmpty(NameMale))
+                {
+                    positionName = NameMale;
+                }
+                else
+                {
+                    positionName = Name;
+                }
+            }
+            return positionName;
         }
     }
 }

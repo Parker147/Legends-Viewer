@@ -56,7 +56,7 @@ namespace LegendsViewer.Legends
                                 break;
                             default:
                                 Type = WorldConstructionType.Unknown;
-                                world.ParsingErrors.Report("Unknown WorldConstruction Type: " + property.Value);
+                                property.Known = false;
                                 break;
                         }
                         break;

@@ -335,11 +335,21 @@ namespace LegendsViewer.Controls
             {
                 HTML.AppendLine(Bold("Positions") + LineBreak);
                 StartList(ListType.Ordered);
-                foreach (HistoricalFigure.Position position in HistoricalFigure.Positions)
+                foreach (HistoricalFigure.Position hfposition in HistoricalFigure.Positions)
                 {
-                    HTML.AppendLine(ListItem + position.Title + " of " + position.Entity.PrintEntity() + " (" + position.Began + " - ");
-                    if (position.Ended == -1) HTML.Append("Present)");
-                    else HTML.Append(position.Ended + ")");
+                    HTML.AppendLine("<li>");
+                    EntityPosition position = hfposition.Entity.EntityPositions.FirstOrDefault(pos => pos.Name.ToLower() == hfposition.Title.ToLower());
+                    if (position != null)
+                    {
+                        string positionName = position.GetTitleByCaste(HistoricalFigure.Caste);
+                        HTML.Append(positionName);
+                    }
+                    else
+                    {
+                        HTML.Append(hfposition.Title + " of " + hfposition.Entity.PrintEntity() + " (" + hfposition.Began + " - ");
+                    }
+                    string end = hfposition.Ended == -1 ? "Present" : hfposition.Ended.ToString();
+                    HTML.Append(" of " + hfposition.Entity.PrintEntity() + " (" + hfposition.Began + " - " + end + ")");
                 }
                 EndList(ListType.Ordered);
             }
@@ -378,7 +388,18 @@ namespace LegendsViewer.Controls
                         linkString += " " + link.Strength + "%";
                     if (link.StartYear > -1)
                     {
-                        linkString += " " + link.PositionID + ", " + link.StartYear + "-";
+                        //linkString += " ";
+                        //EntityPosition position = link.Entity.EntityPositions.FirstOrDefault(pos => pos.ID == link.PositionID);
+                        //if (position != null)
+                        //{
+                        //    string positionName = position.GetTitleByCaste(HistoricalFigure.Caste);
+                        //    linkString += positionName;
+                        //}
+                        //else
+                        //{
+                        //    linkString += link.PositionID;
+                        //}
+                        linkString += ", " + link.StartYear + "-";
                         if (link.EndYear > -1)
                             linkString += link.EndYear;
                         else

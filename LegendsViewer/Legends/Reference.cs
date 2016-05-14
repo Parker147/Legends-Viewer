@@ -36,7 +36,7 @@ namespace LegendsViewer.Legends
                             case "ABSTRACT_BUILDING": Type = ReferenceType.AbstractBuilding; break;
                             case "ARTIFACT": Type = ReferenceType.Artifact; break;
                             default:
-                                world.ParsingErrors.Report("Unknown WrittenContent ReferenceType: " + property.Value);
+                                property.Known = false;
                                 break;
                         }
                         break;

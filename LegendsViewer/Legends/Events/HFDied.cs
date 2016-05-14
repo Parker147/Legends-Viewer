@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Legends.Interfaces;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFDied : WorldEvent
+    public class HFDied : WorldEvent, IFeatured
     {
         public HistoricalFigure Slayer { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
@@ -123,9 +124,29 @@ namespace LegendsViewer.Legends.Events
             UndergroundRegion.AddEvent(this);
             Artifact.AddEvent(this);
         }
+
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov) + " ";
+            string eventString = GetYearTime();
+            eventString += GetDeathString(link, pov);
+            eventString += ". ";
+            eventString += PrintParentCollection(link, pov);
+            return eventString;
+        }
+        
+        public string PrintFeature(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = "";
+            eventString += GetDeathString(link, pov);
+            eventString += " in ";
+            eventString += Year;
+            return eventString;
+        }
+
+        private string GetDeathString(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = "";
+            eventString += HistoricalFigure.ToLink(link, pov) + " ";
             string deathString = "";
 
             if (Slayer != null || (SlayerRace != "UNKNOWN" && SlayerRace != "-1"))
@@ -220,8 +241,6 @@ namespace LegendsViewer.Legends.Events
             if (Site != null) eventString += " in " + Site.ToLink(link, pov);
             else if (Region != null) eventString += " in " + Region.ToLink(link, pov);
             else if (UndergroundRegion != null) eventString += " in " + UndergroundRegion.ToLink(link, pov);
-            eventString += ". ";
-            eventString += PrintParentCollection(link, pov);
             return eventString;
         }
     }
