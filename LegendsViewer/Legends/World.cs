@@ -98,7 +98,9 @@ namespace LegendsViewer.Legends
             Log.Append(history.Parse());
             SitesAndPopulationsParser sitesAndPopulations = new SitesAndPopulationsParser(this, sitesAndPopulationsFile);
             sitesAndPopulations.Parse();
+
             ProcessHFtoEntityLinks();
+            ResolveStructureProperties();
 
             HistoricalFigure.Filters = new List<string>();
             Site.Filters = new List<string>();
@@ -610,6 +612,7 @@ namespace LegendsViewer.Legends
         #endregion
 
         #region AfterXMLSectionProcessing
+
         public void AddHFtoHFLink(HistoricalFigure hf, Property link)
         {
             HFtoHFLinkHFs.Add(hf);
@@ -749,6 +752,14 @@ namespace LegendsViewer.Legends
             }
             UsedIdentityHFs.Clear();
             UsedIdentityIDs.Clear();
+        }
+
+        public void ResolveStructureProperties()
+        {
+            foreach (Structure structure in Structures)
+            {
+                structure.Resolve(this);
+            }
         }
 
         #endregion

@@ -4,6 +4,7 @@ using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Controls.HTML.Utilities;
+using System;
 
 namespace LegendsViewer.Legends
 {
@@ -12,11 +13,18 @@ namespace LegendsViewer.Legends
         public string Name { get; set; } // legends_plus.xml
         public string AltName { get; set; } // legends_plus.xml
         public StructureType Type { get; set; } // legends_plus.xml
+        public List<int> InhabitantIDs { get; set; } // legends_plus.xml
+        public List<HistoricalFigure> Inhabitants { get; set; } // legends_plus.xml
+        public int DeityID { get; set; } // legends_plus.xml
+        public HistoricalFigure Deity { get; set; } // legends_plus.xml
+        public int ReligionID { get; set; } // legends_plus.xml
+        public Entity Religion { get; set; } // legends_plus.xml
+        public DungeonType DungeonType { get; set; } // legends_plus.xml
         public string TypeAsString { get { return Type.GetDescription(); } set { } }
         public string Icon { get; set; }
 
         public Site Site { get; set; }
-        
+
         public int GlobalID { get; set; }
 
         public static List<string> Filters;
@@ -29,12 +37,30 @@ namespace LegendsViewer.Legends
             : base(properties, world)
         {
             Name = "UNKNOWN STRUCTURE";
+            InhabitantIDs = new List<int>();
+            DeityID = -1;
+            ReligionID = -1;
+
             foreach (Property property in properties)
             {
                 switch (property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "name2": AltName = Formatting.InitCaps(property.Value); break;
+                    case "inhabitant": InhabitantIDs.Add(Convert.ToInt32(property.Value)); break;
+                    case "deity": DeityID = Convert.ToInt32(property.Value); break;
+                    case "religion": ReligionID = Convert.ToInt32(property.Value); break;
+                    case "dungeon_type":
+                        switch (property.Value)
+                        {
+                            case "0": DungeonType = DungeonType.Dungeon; break;
+                            case "1": DungeonType = DungeonType.Sewers; break;
+                            case "2": DungeonType = DungeonType.Catacombs; break;
+                            default:
+                                property.Known = false;
+                                break;
+                        }
+                        break;
                     case "type":
                         switch (property.Value)
                         {
@@ -95,13 +121,42 @@ namespace LegendsViewer.Legends
             world.Structures.Add(this);
         }
 
+        public void Resolve(World world)
+        {
+            Inhabitants = new List<HistoricalFigure>();
+            if (InhabitantIDs.Any())
+            {
+                foreach (int InhabitantID in InhabitantIDs)
+                {
+                    Inhabitants.Add(world.GetHistoricalFigure(InhabitantID));
+                }
+            }
+            if (DeityID != -1)
+            {
+                Deity = world.GetHistoricalFigure(DeityID);
+            }
+            if (ReligionID != -1)
+            {
+                Religion = world.GetEntity(ReligionID);
+            }
+        }
+
+
         public override string ToString() { return Name; }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
             if (link)
             {
-                string title = Type.GetDescription();
+                string title = "";
+                if (DungeonType != DungeonType.Unknown)
+                {
+                    title += DungeonType.GetDescription();
+                }
+                else
+                {
+                    title += Type.GetDescription();
+                }
                 title += "&#13";
                 title += "Events: " + Events.Count;
 

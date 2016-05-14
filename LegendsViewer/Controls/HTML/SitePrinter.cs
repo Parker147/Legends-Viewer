@@ -35,7 +35,7 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<h1>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</h1>");
             HTML.AppendLine("<b>" + Site.ToLink(false) + " is a " + Site.Type + "</b><br /><br />");
 
-            List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Site);
+            List<Bitmap> maps = MapPanel.CreateBitmaps(World, Site);
 
             HTML.AppendLine("<table>");
             HTML.AppendLine("<tr>");
@@ -50,7 +50,16 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<ul>");
                 foreach (Structure structure in Site.Structures)
                 {
-                    HTML.AppendLine("<li>" + structure.ToLink() + ", " + structure.Type.GetDescription() + "</li>");
+                    HTML.AppendLine("<li>" + structure.ToLink() + ", ");
+                    if (structure.DungeonType != DungeonType.Unknown)
+                    {
+                        HTML.AppendLine(structure.DungeonType.GetDescription());
+                    }
+                    else
+                    {
+                        HTML.AppendLine(structure.Type.GetDescription());
+                    }
+                    HTML.AppendLine("</li>");
                 }
                 HTML.AppendLine("</ul>");
             }
