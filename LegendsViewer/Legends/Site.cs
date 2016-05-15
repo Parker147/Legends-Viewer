@@ -121,6 +121,7 @@ namespace LegendsViewer.Legends
                             case "lair": SiteType = SiteType.Lair; break;
                             case "labyrinth": SiteType = SiteType.Labyrinth; break;
                             case "shrine": SiteType = SiteType.Shrine; break;
+                            case "important location": SiteType = SiteType.ImportantLocation; break;
                             default:
                                 property.Known = false;
                                 break;

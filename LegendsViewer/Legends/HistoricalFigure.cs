@@ -11,6 +11,12 @@ namespace LegendsViewer.Legends
 {
     public class HistoricalFigure : WorldObject
     {
+        private static List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
+        private static List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller", "rep_dancer", "rep_loyal_soldier" };
+        private static List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
+        private static List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
+        private static List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "known_identity_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge", "rep_bonded", "rep_quarreler", "rep_trade_partner", "rep_psychopath", "rep_storyteller", "rep_loyal_soldier" };
+
         public static string ForceNatureIcon = "<i class=\"glyphicon fa-fw glyphicon-leaf\"></i>";
         public static string DeityIcon = "<i class=\"fa fa-fw fa-sun-o\"></i>";
         public static string NeuterIcon = "<i class=\"fa fa-fw fa-neuter\"></i>";
@@ -106,11 +112,6 @@ namespace LegendsViewer.Legends
             : base(properties, world)
         {
             Initialize();
-            List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
-            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller", "rep_dancer" };
-            List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
-            List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
-            List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "known_identity_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge", "rep_bonded", "rep_quarreler", "rep_trade_partner", "rep_psychopath", "rep_storyteller" };
             foreach (Property property in properties)
                 switch (property.Name)
                 {
@@ -119,8 +120,8 @@ namespace LegendsViewer.Legends
                     case "birth_seconds72": BirthSeconds72 = Convert.ToInt32(property.Value); break;
                     case "death_year": DeathYear = Convert.ToInt32(property.Value); break;
                     case "death_seconds72": DeathSeconds72 = Convert.ToInt32(property.Value); break;
-                    case "name": Name = String.Intern(Formatting.InitCaps(property.Value.Replace("'", "`"))); break;
-                    case "race": Race = String.Intern(Formatting.FormatRace(property.Value)); break;
+                    case "name": Name = string.Intern(Formatting.InitCaps(property.Value.Replace("'", "`"))); break;
+                    case "race": Race = string.Intern(Formatting.FormatRace(property.Value)); break;
                     case "caste": Caste = Formatting.InitCaps(property.Value.ToLower().Replace('_', ' ')); break;
                     case "associated_type": AssociatedType = Formatting.InitCaps(property.Value.ToLower().Replace('_', ' ')); break;
                     case "deity": Deity = true; property.Known = true; break;
@@ -188,34 +189,18 @@ namespace LegendsViewer.Legends
                         }
                         break;
                     case "hf_skill": Skills.Add(new Skill(property.SubProperties)); break;
-                    case "active_interaction":
-                        ActiveInteractions.Add(property.Value);
-                        break;
-                    case "interaction_knowledge":
-                        InteractionKnowledge.Add(property.Value);
-                        break;
+                    case "active_interaction": ActiveInteractions.Add(property.Value); break;
+                    case "interaction_knowledge": InteractionKnowledge.Add(property.Value); break;
                     case "animated": Animated = true; property.Known = true; break;
-                    case "animated_string":
-                        if (AnimatedType != "") throw new Exception("Animated Type already exists.");
-                        AnimatedType = Formatting.InitCaps(property.Value); break;
+                    case "animated_string": if (AnimatedType != "") throw new Exception("Animated Type already exists."); AnimatedType = Formatting.InitCaps(property.Value); break;
                     case "journey_pet": JourneyPets.Add(Formatting.FormatRace(property.Value)); break;
                     case "goal": Goal = Formatting.InitCaps(property.Value); break;
-                    case "sphere":
-                        Spheres.Add(property.Value); break;
-                    case "current_identity_id":
-                        world.AddHFCurrentIdentity(this, Convert.ToInt32(property.Value));
-                        break;
-                    case "used_identity_id":
-                        world.AddHFUsedIdentity(this, Convert.ToInt32(property.Value));
-                        break;
-                    case "ent_pop_id":
-                        EntityPopulation = world.GetEntityPopulation(Convert.ToInt32(property.Value)); break;
-                    case "holds_artifact":
-                        HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
-                    case "adventurer":
-                        Adventurer = true;
-                        property.Known = true;
-                        break;
+                    case "sphere": Spheres.Add(property.Value); break;
+                    case "current_identity_id": world.AddHFCurrentIdentity(this, Convert.ToInt32(property.Value)); break;
+                    case "used_identity_id": world.AddHFUsedIdentity(this, Convert.ToInt32(property.Value)); break;
+                    case "ent_pop_id": EntityPopulation = world.GetEntityPopulation(Convert.ToInt32(property.Value)); break;
+                    case "holds_artifact": HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
+                    case "adventurer": Adventurer = true; property.Known = true; break;
                     case "breed_id":
                         BreedID = property.Value;
                         if (!string.IsNullOrWhiteSpace(BreedID))
