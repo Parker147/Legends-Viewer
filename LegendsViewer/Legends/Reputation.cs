@@ -22,6 +22,7 @@ namespace LegendsViewer.Legends
                 case "rep_psychopath": Type = ReputationType.Psychopath; Convert.ToInt32(property.Value); break;
                 case "rep_storyteller": Type = ReputationType.Storyteller; Convert.ToInt32(property.Value); break;
                 case "rep_loyal_soldier": Type = ReputationType.LoyalSoldier; Convert.ToInt32(property.Value); break;
+                case "rep_bully": Type = ReputationType.Bully; Convert.ToInt32(property.Value); break;
             }
         }
 

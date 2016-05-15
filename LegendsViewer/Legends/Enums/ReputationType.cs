@@ -21,6 +21,7 @@ namespace LegendsViewer.Legends.Enums
         Quarreler,
         Psychopath,
         [Description("Loyal Soldier")]
-        LoyalSoldier
+        LoyalSoldier,
+        Bully
     }
 }

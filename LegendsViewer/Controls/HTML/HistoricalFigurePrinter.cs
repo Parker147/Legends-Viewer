@@ -389,17 +389,25 @@ namespace LegendsViewer.Controls
                         linkString += " " + link.Strength + "%";
                     if (link.StartYear > -1)
                     {
-                        //linkString += " ";
-                        //EntityPosition position = link.Entity.EntityPositions.FirstOrDefault(pos => pos.ID == link.PositionID);
-                        //if (position != null)
-                        //{
-                        //    string positionName = position.GetTitleByCaste(HistoricalFigure.Caste);
-                        //    linkString += positionName;
-                        //}
-                        //else
-                        //{
-                        //    linkString += link.PositionID;
-                        //}
+                        linkString += " ";
+                        var hfposition = HistoricalFigure.Positions.FirstOrDefault(hfpos => hfpos.Began == link.StartYear && hfpos.Ended == link.EndYear);
+                        if (hfposition != null)
+                        {
+                            EntityPosition position = link.Entity.EntityPositions.FirstOrDefault(pos => pos.Name == hfposition.Title);
+                            if (position != null)
+                            {
+                                string positionName = position.GetTitleByCaste(HistoricalFigure.Caste);
+                                linkString += positionName;
+                            }
+                            else
+                            {
+                                linkString += hfposition.Title;
+                            }
+                        }
+                        else
+                        {
+                            linkString += link.PositionID;
+                        }
                         linkString += ", " + link.StartYear + "-";
                         if (link.EndYear > -1)
                             linkString += link.EndYear;
