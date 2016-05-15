@@ -15,7 +15,6 @@ namespace LegendsViewer.Legends
         private static List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller", "rep_dancer", "rep_loyal_soldier" };
         private static List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
         private static List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
-        private static List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "known_identity_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge", "rep_bonded", "rep_quarreler", "rep_trade_partner", "rep_psychopath", "rep_storyteller", "rep_loyal_soldier" };
 
         public static string ForceNatureIcon = "<i class=\"glyphicon fa-fw glyphicon-leaf\"></i>";
         public static string DeityIcon = "<i class=\"fa fa-fw fa-sun-o\"></i>";
@@ -38,6 +37,7 @@ namespace LegendsViewer.Legends
         public List<HistoricalFigureLink> RelatedHistoricalFigures { get; set; }
         public List<EntityLink> RelatedEntities { get; set; }
         public List<EntityReputation> Reputations { get; set; }
+        public List<RelationshipProfileHF> RelationshipProfiles { get; set; }
         public List<SiteLink> RelatedSites { get; set; }
         public List<Skill> Skills { get; set; }
         public int Age { get; set; }
@@ -172,12 +172,7 @@ namespace LegendsViewer.Legends
                         break;
                     case "relationship_profile_hf":
                         property.Known = true;
-                        foreach (string subPropertyName in knownRelationshipProfileProperties)
-                        {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
-                        }
+                        RelationshipProfiles.Add(new RelationshipProfileHF(property.SubProperties));
                         break;
                     case "site_link":
                         world.AddHFtoSiteLink(this, property);
@@ -235,6 +230,7 @@ namespace LegendsViewer.Legends
             RelatedHistoricalFigures = new List<HistoricalFigureLink>();
             RelatedEntities = new List<EntityLink>();
             Reputations = new List<EntityReputation>();
+            RelationshipProfiles = new List<RelationshipProfileHF>();
             RelatedSites = new List<SiteLink>();
             Skills = new List<Skill>();
             AnimatedType = "";

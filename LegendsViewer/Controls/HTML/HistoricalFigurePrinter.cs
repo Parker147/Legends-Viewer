@@ -30,6 +30,7 @@ namespace LegendsViewer.Controls
             PrintFamilyGraph();
             PrintPositions();
             PrintRelatedHistoricalFigures();
+            PrintRelationships();
             PrintRelatedEntities();
             PrintReputations();
             PrintRelatedSites();
@@ -437,6 +438,30 @@ namespace LegendsViewer.Controls
                     }
                     HTML.AppendLine("</ul>");
                     HTML.AppendLine("</li>");
+                }
+                HTML.AppendLine("</ul>");
+            }
+        }
+
+        private void PrintRelationships()
+        {
+            if (HistoricalFigure.RelationshipProfiles.Count > 0)
+            {
+                HTML.AppendLine(Bold("Relationships") + LineBreak);
+                HTML.AppendLine("<ul>");
+                foreach (var relationshipProfile in HistoricalFigure.RelationshipProfiles)
+                {
+                    HistoricalFigure hf = World.GetHistoricalFigure(relationshipProfile.HistoricalFigureID);
+                    if (hf != null)
+                    {
+                        HTML.AppendLine("<li>");
+                        HTML.AppendLine(hf.ToLink());
+                        foreach (var reputation in relationshipProfile.Reputations)
+                        {
+                            HTML.Append(", " + reputation.Print() + " ");
+                        }
+                        HTML.AppendLine("</li>");
+                    }
                 }
                 HTML.AppendLine("</ul>");
             }

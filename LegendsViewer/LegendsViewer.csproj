@@ -409,6 +409,8 @@
     <Compile Include="Legends\Population.cs" />
     <Compile Include="Legends\Reference.cs" />
     <Compile Include="Legends\Region.cs" />
+    <Compile Include="Legends\RelationshipProfileHF.cs" />
+    <Compile Include="Legends\Reputation.cs" />
     <Compile Include="Legends\Schedule.cs" />
     <Compile Include="Legends\Site.cs" />
     <Compile Include="Legends\SiteLink.cs" />

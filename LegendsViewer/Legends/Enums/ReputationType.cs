@@ -13,6 +13,14 @@ namespace LegendsViewer.Legends.Enums
         Poet,
         Bard,
         Storyteller,
-        Dancer
+        Dancer,
+        Friendly,
+        Buddy,
+        Grudge,
+        Bonded,
+        Quarreler,
+        Psychopath,
+        [Description("Loyal Soldier")]
+        LoyalSoldier
     }
 }
