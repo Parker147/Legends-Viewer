@@ -101,6 +101,8 @@ namespace LegendsViewer.Legends
 
             ProcessHFtoEntityLinks();
             ResolveStructureProperties();
+            ResolveMountainPeakToRegionLinks();
+            ResolveSiteToRegionLinks();
 
             HistoricalFigure.Filters = new List<string>();
             Site.Filters = new List<string>();
@@ -759,6 +761,38 @@ namespace LegendsViewer.Legends
             foreach (Structure structure in Structures)
             {
                 structure.Resolve(this);
+            }
+        }
+
+        public void ResolveMountainPeakToRegionLinks()
+        {
+            foreach (MountainPeak peak in MountainPeaks)
+            {
+                foreach (WorldRegion region in Regions)
+                {
+                    if (region.Coordinates.Contains(peak.Coordinates[0]))
+                    {
+                        peak.Region = region;
+                        region.MountainPeaks.Add(peak);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void ResolveSiteToRegionLinks()
+        {
+            foreach (Site site in Sites)
+            {
+                foreach (WorldRegion region in Regions)
+                {
+                    if (region.Coordinates.Contains(site.Coordinates))
+                    {
+                        site.Region = region;
+                        region.Sites.Add(site);
+                        break;
+                    }
+                }
             }
         }
 

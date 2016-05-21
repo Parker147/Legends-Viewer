@@ -73,6 +73,28 @@ namespace LegendsViewer.Controls.HTML
             if (World.FilterBattles && Region.Battles.Count(battle => !battle.Notable) > 0)
                 HTML.AppendLine("<b>Battles</b> (Unnotable): " + Region.Battles.Count(battle => !battle.Notable) + "</br></br>");
 
+            if (Region.Sites.Any())
+            {
+                HTML.AppendLine("<b>Sites</b> " + LineBreak);
+                HTML.AppendLine("<ul>");
+                foreach (Site site in Region.Sites)
+                {
+                    HTML.AppendLine("<li>" + site.ToLink() + ", " + site.SiteType.GetDescription() + "</li>");
+                }
+                HTML.AppendLine("</ul>");
+            }
+
+            if (Region.MountainPeaks.Any())
+            {
+                HTML.AppendLine("<b>Mountain Peaks</b> " + LineBreak);
+                HTML.AppendLine("<ul>");
+                foreach (MountainPeak peak in Region.MountainPeaks)
+                {
+                    HTML.AppendLine("<li>" + peak.ToLink() + ", " + peak.Height + " tiles ~ " + (3 * peak.Height) + " m</li>");
+                }
+                HTML.AppendLine("</ul>");
+            }
+
             if (Region.Events.OfType<HFDied>().Any() || Region.Battles.Count > 0)
             {
                 HTML.AppendLine("<b>Deaths</b> " + MakeLink("[Load]", LinkOption.LoadRegionDeaths) + LineBreak);

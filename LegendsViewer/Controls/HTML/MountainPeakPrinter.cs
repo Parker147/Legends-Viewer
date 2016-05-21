@@ -39,6 +39,17 @@ namespace LegendsViewer.Controls.HTML
                 HTML.AppendLine("</tr></table></br>");
             }
 
+            if (MountainPeak.Region != null)
+            {
+                HTML.AppendLine("<b>Geography</b><br/>");
+                HTML.AppendLine("<ul>");
+                if (MountainPeak.Region != null)
+                {
+                    HTML.AppendLine("<li>Region: " + MountainPeak.Region.ToLink() + ", " + MountainPeak.Region.Type.GetDescription() + "</li>");
+                }
+                HTML.AppendLine("</ul>");
+            }
+
             if (MountainPeak.Height > 0)
             {
                 HTML.AppendLine(Bold("Height of " + MountainPeak.ToLink(true, MountainPeak)) + LineBreak);

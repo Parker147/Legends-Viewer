@@ -15,6 +15,7 @@ namespace LegendsViewer.Legends
         public string Icon = "<i class=\"fa fa-fw fa-home\"></i>";
 
         public string Type { get; set; }
+        public WorldRegion Region { get; set; }
         public SiteType SiteType { get; set; }
         public string Name { get; set; }
         public string UntranslatedName { get; set; }

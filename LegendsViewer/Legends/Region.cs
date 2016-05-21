@@ -31,6 +31,9 @@ namespace LegendsViewer.Legends
         public List<HistoricalFigure> NotableDeaths { get { return Events.OfType<HFDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
         public List<Battle> Battles { get; set; }
         public List<Location> Coordinates { get; set; } // legends_plus.xml
+        public List<Site> Sites { get; set; } // legends_plus.xml
+        public List<MountainPeak> MountainPeaks { get; set; } // legends_plus.xml
+
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -41,6 +44,9 @@ namespace LegendsViewer.Legends
             Name = "INVALID REGION";
             Type = "INVALID";
             Battles = new List<Battle>();
+            Coordinates = new List<Location>();
+            Sites = new List<Site>();
+            MountainPeaks = new List<MountainPeak>();
         }
         public WorldRegion(List<Property> properties, World world)
             : base(properties, world)
@@ -49,6 +55,8 @@ namespace LegendsViewer.Legends
             Type = "INVALID";
             Battles = new List<Battle>();
             Coordinates = new List<Location>();
+            Sites = new List<Site>();
+            MountainPeaks = new List<MountainPeak>();
             foreach (Property property in properties)
                 switch (property.Name)
                 {

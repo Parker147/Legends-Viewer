@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends
     public class MountainPeak : WorldObject, IHasCoordinates
     {
         public string Name { get; set; } // legends_plus.xml
+        public WorldRegion Region { get; set; }
         public List<Location> Coordinates { get; set; } // legends_plus.xml
         public int Height { get; set; } // legends_plus.xml
         public string HeightMeter { get { return (Height * 3)+" m"; } set { } } // legends_plus.xml
