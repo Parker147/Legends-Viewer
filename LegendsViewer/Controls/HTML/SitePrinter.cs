@@ -44,6 +44,17 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
             HTML.AppendLine("</tr></table></br>");
 
+            if (Site.Rectangle != null)
+            {
+                HTML.AppendLine("<b>Geography</b><br/>");
+                HTML.AppendLine("<ul>");
+                HTML.AppendLine("<li>Position: X " + Site.Rectangle.X + " Y " + Site.Rectangle.Y + "</li>");
+                if (Site.Rectangle.Width != 0 && Site.Rectangle.Height != 0)
+                {
+                    HTML.AppendLine("<li>Size: " + Site.Rectangle.Width + " x " + Site.Rectangle.Height + "</li>");
+                }
+                HTML.AppendLine("</ul>");
+            }
             if (Site.Structures.Any())
             {
                 HTML.AppendLine("<b>Structures</b><br/>");

@@ -5,6 +5,8 @@ using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
 using LegendsViewer.Legends.Enums;
+using System.Drawing;
+using System;
 
 namespace LegendsViewer.Legends
 {
@@ -17,6 +19,7 @@ namespace LegendsViewer.Legends
         public string Name { get; set; }
         public string UntranslatedName { get; set; }
         public Location Coordinates { get; set; }
+        public Rectangle Rectangle { get; set; }
         public bool HasStructures { get; set; }
         public List<Structure> Structures { get; set; }
         public List<EventCollection> Warfare { get; set; }
@@ -143,6 +146,22 @@ namespace LegendsViewer.Legends
                         break;
                     case "civ_id": property.Known = true; break;
                     case "cur_owner_id": property.Known = true; break;
+                    case "rectangle":
+                        char[] delimiterChars = { ':', ',' };
+                        string[] rectArray = property.Value.Split(delimiterChars);
+                        if (rectArray.Length == 4)
+                        {
+                            int x0 = Convert.ToInt32(rectArray[0]);
+                            int y0 = Convert.ToInt32(rectArray[1]);
+                            int x1 = Convert.ToInt32(rectArray[2]);
+                            int y1 = Convert.ToInt32(rectArray[3]);
+                            Rectangle = new Rectangle(x0, y0, x1 - x0, y1 - y0);
+                        }
+                        else
+                        {
+                            property.Known = false;
+                        }
+                        break;
                 }
             }
             switch (SiteType)

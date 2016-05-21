@@ -62,7 +62,7 @@ namespace LegendsViewer.Legends
                             default:
                                 Type = WrittenContentType.Unknown;
                                 int typeID;
-                                if (!int.TryParse(property.Value, out typeID))
+                                if (!int.TryParse(property.Value.Replace("unknown ", ""), out typeID))
                                 {
                                     property.Known = false;
                                 }
