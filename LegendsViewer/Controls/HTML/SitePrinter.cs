@@ -124,7 +124,8 @@ namespace LegendsViewer.Controls
                             ownerString = owner.Owner.ToLink(true, Site);
                         }
                     }
-                    HTML.AppendLine("<li>" + ownerString + ", " + owner.StartCause + " " + Site.ToLink(true, Site) + " in " + owner.StartYear);
+                    string startyear = owner.StartYear == -1 ? "a time before time" : owner.StartYear.ToString();
+                    HTML.AppendLine("<li>" + ownerString + ", " + owner.StartCause + " " + Site.ToLink(true, Site) + " in " + startyear);
                     if (owner.EndYear >= 0)
                         HTML.Append(" and it was " + owner.EndCause + " in " + owner.EndYear);
                     if (owner.Ender != null)

@@ -300,7 +300,9 @@ namespace LegendsViewer.Legends
 
         private string getAnchorTitle()
         {
-            string title = Caste + " " + GetRaceString() + " " + (AssociatedType != "Standard" ? AssociatedType : "") + " ";
+            string title = (Caste != "Default" ? Caste + " " : "");
+            title += (title != "" ? GetRaceString() : Formatting.InitCaps(GetRaceString())) + " ";
+            title += (AssociatedType != "Standard" ? AssociatedType : "") + " ";
             if (!Deity)
             {
                 title += "(" + BirthYear + " - " + (DeathYear == -1 ? "Present" : DeathYear.ToString()) + ")";
@@ -350,10 +352,10 @@ namespace LegendsViewer.Legends
 
         public string CasteNoun(bool owner = false)
         {
-            if (this.Caste.ToLower() == "male")
+            if (Caste.ToLower() == "male")
                 if (owner) return "his";
                 else return "he";
-            else if (this.Caste.ToLower() == "female")
+            else if (Caste.ToLower() == "female")
                 if (owner) return "her";
                 else return "she";
             else
@@ -367,11 +369,16 @@ namespace LegendsViewer.Legends
             if (Race == "Night Creature" && PreviousRace != "")
                 return PreviousRace.ToLower() + " turned night creature";
 
-            if (Ghost) hfraceString += "ghostly ";
-            if (Skeleton) hfraceString += "skeletal ";
-            if (Zombie) hfraceString += "zombie ";
-            if (Caste.ToUpper() == "MALE") hfraceString += "male ";
-            else if (Caste.ToUpper() == "FEMALE") hfraceString += "female ";
+            if (Ghost)
+                hfraceString += "ghostly ";
+            if (Skeleton)
+                hfraceString += "skeletal ";
+            if (Zombie)
+                hfraceString += "zombie ";
+            if (Caste.ToUpper() == "MALE")
+                hfraceString += "male ";
+            else if (Caste.ToUpper() == "FEMALE")
+                hfraceString += "female ";
 
             hfraceString += Race.ToLower();
 
