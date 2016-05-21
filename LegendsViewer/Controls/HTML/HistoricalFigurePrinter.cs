@@ -6,6 +6,7 @@ using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using System.Net;
+using System.Collections.Generic;
 
 namespace LegendsViewer.Controls
 {
@@ -206,10 +207,7 @@ namespace LegendsViewer.Controls
 
         public override string GetTitle()
         {
-            if (HistoricalFigure.Name.IndexOf(" ") > 0)
-                return HistoricalFigure.Name.Substring(0, HistoricalFigure.Name.IndexOf(" ") + 1);
-            else
-                return HistoricalFigure.Name;
+            return HistoricalFigure.Name;
         }
 
         private void PrintTitle()
@@ -358,21 +356,27 @@ namespace LegendsViewer.Controls
 
         private void PrintRelatedHistoricalFigures()
         {
-            if (HistoricalFigure.RelatedHistoricalFigures.Count > 0)
+            PrintRelatedHFs("Worshipped Deities", HistoricalFigure.RelatedHistoricalFigures.Where(hf => hf.Type == HistoricalFigureLinkType.Deity).OrderByDescending(hfl => hfl.Strength).ToList());
+            PrintRelatedHFs("Related Historical Figures", HistoricalFigure.RelatedHistoricalFigures.Where(hf => hf.Type != HistoricalFigureLinkType.Deity).ToList());
+        }
+
+        private void PrintRelatedHFs(string title, List<HistoricalFigureLink> relations)
+        {
+            if (relations.Any())
             {
-                HTML.AppendLine(Bold("Related Historical Figures") + LineBreak);
-                StartList(ListType.Unordered);
-                foreach (HistoricalFigureLink relation in HistoricalFigure.RelatedHistoricalFigures)
+                HTML.AppendLine(Bold(title) + LineBreak);
+                HTML.AppendLine("<ul>");
+                foreach (HistoricalFigureLink relation in relations)
                 {
-                    string hf = "UNKNOWN";
+                    string hf = "UNKNOWN HISTORICAL FIGURE";
                     if (relation.HistoricalFigure != null)
                         hf = relation.HistoricalFigure.ToLink();
                     string relationString = hf + ", " + relation.Type.GetDescription();
                     if (relation.Type == HistoricalFigureLinkType.Deity)
                         relationString += " (" + relation.Strength + "%)";
-                    HTML.AppendLine(ListItem + relationString);
+                    HTML.AppendLine("<li>" + relationString + "</li>");
                 }
-                EndList(ListType.Unordered);
+                HTML.AppendLine("</ul>");
             }
         }
 
@@ -406,7 +410,7 @@ namespace LegendsViewer.Controls
                         }
                         else
                         {
-                            linkString += link.PositionID;
+                            linkString += "Noble";
                         }
                         linkString += ", " + link.StartYear + "-";
                         if (link.EndYear > -1)
