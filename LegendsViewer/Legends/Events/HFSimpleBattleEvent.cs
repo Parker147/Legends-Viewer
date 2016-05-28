@@ -32,7 +32,7 @@ namespace LegendsViewer.Legends.Events
                             case "ambushed": SubType = HFSimpleBattleType.Ambushed; break;
                             case "corner": SubType = HFSimpleBattleType.Cornered; break;
                             case "surprised": SubType = HFSimpleBattleType.Surprised; break;
-                            default: SubType = HFSimpleBattleType.Unknown; UnknownSubType = property.Value; world.ParsingErrors.Report("Unknown HF Battle SubType: " + UnknownSubType); break;
+                            default: SubType = HFSimpleBattleType.Unknown; UnknownSubType = property.Value; property.Known = false; break;
                         }
                         break;
                     case "group_1_hfid": HistoricalFigure1 = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
@@ -59,10 +59,10 @@ namespace LegendsViewer.Legends.Events
             else if (SubType == HFSimpleBattleType.Scuffle) eventString += " fought with " + HistoricalFigure2.ToLink(link, pov) + ". While defeated, the latter escaped unscathed";
             else if (SubType == HFSimpleBattleType.Attacked) eventString += " attacked " + HistoricalFigure2.ToLink(link, pov);
             else if (SubType == HFSimpleBattleType.Confronted) eventString += " confronted " + HistoricalFigure2.ToLink(link, pov);
-            else if (SubType == HFSimpleBattleType.HappenedUpon) eventString += " happened upon " + HistoricalFigure2.ToLink();
-            else if (SubType == HFSimpleBattleType.Ambushed) eventString += " ambushed " + HistoricalFigure2.ToLink();
-            else if (SubType == HFSimpleBattleType.Cornered) eventString += " cornered " + HistoricalFigure2.ToLink();
-            else if (SubType == HFSimpleBattleType.Surprised) eventString += " suprised " + HistoricalFigure2.ToLink();
+            else if (SubType == HFSimpleBattleType.HappenedUpon) eventString += " happened upon " + HistoricalFigure2.ToLink(link, pov);
+            else if (SubType == HFSimpleBattleType.Ambushed) eventString += " ambushed " + HistoricalFigure2.ToLink(link, pov);
+            else if (SubType == HFSimpleBattleType.Cornered) eventString += " cornered " + HistoricalFigure2.ToLink(link, pov);
+            else if (SubType == HFSimpleBattleType.Surprised) eventString += " suprised " + HistoricalFigure2.ToLink(link, pov);
             else eventString += " fought (" + UnknownSubType + ") " + HistoricalFigure2.ToLink(link, pov);
             eventString += ". ";
             eventString += PrintParentCollection(link, pov);

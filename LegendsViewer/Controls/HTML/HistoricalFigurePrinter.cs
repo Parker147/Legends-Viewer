@@ -248,7 +248,10 @@ namespace LegendsViewer.Controls
                     title += ". ";
             }
             HTML.AppendLine("<b>" + title + "</b></br>");
-            HTML.AppendLine("<b>Caste:</b> " + HistoricalFigure.Caste + "</br>");
+            if (!string.IsNullOrWhiteSpace(HistoricalFigure.Caste) && HistoricalFigure.Caste != "Default")
+            {
+                HTML.AppendLine("<b>Caste:</b> " + HistoricalFigure.Caste + "</br>");
+            }
             if (!string.IsNullOrWhiteSpace(HistoricalFigure.AssociatedType) && HistoricalFigure.AssociatedType != "Standard")
             {
                 HTML.AppendLine("<b>Type:</b> " + HistoricalFigure.AssociatedType + "</br>");
@@ -576,7 +579,7 @@ namespace LegendsViewer.Controls
                     if (battle.NotableAttackers.Contains(HistoricalFigure))
                     {
                         battleTable.AddData("against");
-                        battleTable.AddData(battle.Defender.PrintEntity(), 0, TableDataAlign.Right);
+                        battleTable.AddData(battle.Defender.PrintEntity());
                         if (battle.Victor == battle.Attacker)
                             battleTable.AddData("and won");
                         else
@@ -585,7 +588,7 @@ namespace LegendsViewer.Controls
                     else if (battle.NotableDefenders.Contains(HistoricalFigure))
                     {
                         battleTable.AddData("against");
-                        battleTable.AddData(battle.Attacker.PrintEntity(), 0, TableDataAlign.Right);
+                        battleTable.AddData(battle.Attacker.PrintEntity());
                         if (battle.Victor == battle.Defender)
                             battleTable.AddData("and won");
                         else

@@ -87,8 +87,21 @@ namespace LegendsViewer.Legends.Parser
 
         private void ReadSite()
         {
-            Site = World.GetSite(Convert.ToInt32(CurrentLine.Substring(0, CurrentLine.IndexOf(":"))));
-            Site.UntranslatedName = Formatting.InitCaps(Formatting.ReplaceNonAscii(CurrentLine.Substring(CurrentLine.IndexOf(' ') + 1, CurrentLine.IndexOf(',') - CurrentLine.IndexOf(' ') - 1)));
+            string siteID = CurrentLine.Substring(0, CurrentLine.IndexOf(":"));
+            Site = World.GetSite(Convert.ToInt32(siteID));
+            if (Site != null)
+            {
+                string untranslatedName = Formatting.InitCaps(Formatting.ReplaceNonAscii(CurrentLine.Substring(CurrentLine.IndexOf(' ') + 1, CurrentLine.IndexOf(',') - CurrentLine.IndexOf(' ') - 1)));
+                if (!string.IsNullOrWhiteSpace(Site.Name))
+                {
+                    Site.UntranslatedName = untranslatedName;
+                }
+                else
+                {
+                    // string name = Formatting.InitCaps(Formatting.ReplaceNonAscii(CurrentLine.Substring(CurrentLine.IndexOf('\"') + 1, CurrentLine.LastIndexOf('\"') - CurrentLine.IndexOf('\"') - 1)));
+                    // TODO v0.43.XX has invalid information for important locations and advmode camps
+                }
+            }
             Owner = null;
             ReadLine();
         }

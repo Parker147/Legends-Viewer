@@ -77,8 +77,8 @@ namespace LegendsViewer.Controls.Tabs
             base.AfterLoad(world);
             siteSearch = new SitesList(World);
 
-
             var sites = from site in World.Sites
+                        where !string.IsNullOrWhiteSpace(site.Name)
                         orderby site.Type
                         group site by site.Type into sitetype
                         select sitetype;
@@ -88,7 +88,9 @@ namespace LegendsViewer.Controls.Tabs
                                   group population by population.Race into type
                                   select type;
 
-            cmbSiteType.Items.Add("All"); cmbSiteType.SelectedIndex = 0;
+            cmbSiteType.Items.Add("All");
+            cmbSiteType.SelectedIndex = 0;
+
             foreach (var site in sites)
                 cmbSiteType.Items.Add(site.Key);
 
@@ -138,7 +140,6 @@ namespace LegendsViewer.Controls.Tabs
                     IEnumerable<Site> list = siteSearch.getList();
                     var results = list.ToArray();
                     listSiteSearch.SetObjects(results);
-                    //listSiteSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     UpdateCounts(results.Length, siteSearch.BaseList.Count);
                 }
             }
@@ -149,23 +150,6 @@ namespace LegendsViewer.Controls.Tabs
             lblShownResults.Text = $"{shown} / {total}";
         }
 
-        public void ChangeSiteBaseList(List<Site> list, string listName)
-        {
-            FileLoader.Working = true;
-            lblSiteList.Text = listName;
-            lblSiteList.ForeColor = Color.Blue;
-            lblSiteList.Font = new Font(lblSiteList.Font.FontFamily, lblSiteList.Font.Size, FontStyle.Bold);
-            siteSearch.BaseList = list;
-            txtSiteSearch.Clear();
-            cmbSiteType.SelectedIndex = 0;
-            cmbSitePopulation.SelectedIndex = 0;
-            radSiteNone.Checked = true;
-            //tcWorld.SelectedTab = tpSites;
-            tcSites.SelectedTab = tpSiteSearch;
-            searchSiteList(null, null);
-            FileLoader.Working = false;
-        }
-
         public void ResetSiteBaseList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
@@ -173,7 +157,7 @@ namespace LegendsViewer.Controls.Tabs
                 lblSiteList.Text = "All";
                 lblSiteList.ForeColor = Control.DefaultForeColor;
                 lblSiteList.Font = new Font(lblSiteList.Font.FontFamily, lblSiteList.Font.Size, FontStyle.Regular);
-                siteSearch.BaseList = World.Sites;
+                siteSearch.BaseList = World.Sites.Where(site => !string.IsNullOrWhiteSpace(site.Name)).ToList();
                 searchSiteList(null, null);
             }
         }

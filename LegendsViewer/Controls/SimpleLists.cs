@@ -45,7 +45,7 @@ namespace LegendsViewer
         public string name, type, PopulationType;
         public bool sortEvents, sortOwners, sortFiltered, sortWarfare, SortPopulation, SortConnections, SortDeaths, SortBeastAttacks;
         public List<Site> BaseList;
-        public SitesList(World setWorld) { World = setWorld; BaseList = World.Sites; }
+        public SitesList(World setWorld) { World = setWorld; BaseList = World.Sites.Where(site => !string.IsNullOrWhiteSpace(site.Name)).ToList(); }
         public IEnumerable<Site> getList()
         {
             IEnumerable<Site> filtered = BaseList;
