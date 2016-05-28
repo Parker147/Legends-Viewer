@@ -11,6 +11,8 @@ namespace LegendsViewer.Legends.Events
         public Site Site;
         public WorldRegion Region;
         public UndergroundRegion UndergroundRegion;
+        public bool RaisedBefore { get; set; }
+
         public HFRevived(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -22,6 +24,7 @@ namespace LegendsViewer.Legends.Events
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
+                    case "raised_before": RaisedBefore = true; property.Known = true;  break;
                 }
             HistoricalFigure.AddEvent(this);
             Site.AddEvent(this);
@@ -30,7 +33,34 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " came back from the dead as a " + Ghost + " in " + Site.ToLink(link, pov) + ". ";
+            string eventString = GetYearTime();
+            eventString += HistoricalFigure.ToLink(link, pov);
+            if (RaisedBefore)
+            {
+                eventString += " came back from the dead once more, this time as a " + Ghost;
+            }
+            else
+            {
+                eventString += " came back from the dead as a " + Ghost;
+            }
+            eventString += " in ";
+            if (Site != null)
+            {
+                eventString += Site.ToLink(link, pov);
+            }
+            else if (Region != null)
+            {
+                eventString += Region.ToLink(link, pov);
+            }
+            else if (UndergroundRegion != null)
+            {
+                eventString += UndergroundRegion.ToLink(link, pov);
+            }
+            else
+            {
+                eventString += "UNKNOWN LOCATION";
+            }
+            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
             return eventString;
         }

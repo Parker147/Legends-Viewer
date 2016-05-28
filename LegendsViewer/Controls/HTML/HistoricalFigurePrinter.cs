@@ -246,11 +246,14 @@ namespace LegendsViewer.Controls
                 }
                 if (!title.EndsWith(". "))
                     title += ". ";
-                title += LineBreak + "Caste: " + HistoricalFigure.Caste + LineBreak + "Type: " + HistoricalFigure.AssociatedType;
             }
             HTML.AppendLine("<b>" + title + "</b></br>");
+            HTML.AppendLine("<b>Caste:</b> " + HistoricalFigure.Caste + "</br>");
+            if (!string.IsNullOrWhiteSpace(HistoricalFigure.AssociatedType) && HistoricalFigure.AssociatedType != "Standard")
+            {
+                HTML.AppendLine("<b>Type:</b> " + HistoricalFigure.AssociatedType + "</br>");
+            }
         }
-
 
         private void PrintMiscInfo()
         {

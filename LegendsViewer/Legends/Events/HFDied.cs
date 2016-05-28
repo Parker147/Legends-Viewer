@@ -86,7 +86,8 @@ namespace LegendsViewer.Legends.Events
                             case "slaughtered": Cause = DeathCause.Slaughtered; break;
                             case "melt": Cause = DeathCause.Melted; break;
                             case "spikes": Cause = DeathCause.Spikes; break;
-                            default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("Unknown Death Cause: " + UnknownCause); break;
+                            case "heat": Cause = DeathCause.Heat; break;
+                            default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("|==> Events 'hf died'/ \nUnknown Death Cause: " + UnknownCause); break;
                         }
                         break;
                     case "slayer_race": SlayerRace = Formatting.FormatRace(property.Value); break;
@@ -204,6 +205,7 @@ namespace LegendsViewer.Legends.Events
                 else if (Cause == DeathCause.ExecutedBeheaded) deathString = "was beheaded";
                 else if (Cause == DeathCause.Melted) deathString = "melted";
                 else if (Cause == DeathCause.Spikes) deathString = "was impaled";
+                else if (Cause == DeathCause.Heat) deathString = "died in the heat";
                 else if (Cause == DeathCause.Unknown) deathString = "died (" + UnknownCause + ")";
             }
 

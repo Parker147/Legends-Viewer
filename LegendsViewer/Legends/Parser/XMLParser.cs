@@ -229,7 +229,7 @@ namespace LegendsViewer.Legends.Parser
 
             string path = CurrentSection.ToString();
             if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
-                path += eventType + "/";
+                path += " '"+eventType + "'/";
 
             CheckKnownStateOfProperties(path, properties);
         }
