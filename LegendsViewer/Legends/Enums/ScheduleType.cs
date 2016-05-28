@@ -26,5 +26,7 @@ namespace LegendsViewer.Legends.Enums
         PoetryCompetition,
         [Description("Dance Competition")]
         DanceCompetition,
+        [Description("Musical Competition")]
+        MusicalCompetition,
     }
 }

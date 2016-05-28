@@ -48,6 +48,7 @@ namespace LegendsViewer.Legends
                             case "gladiatory_competition": Type = ScheduleType.GladiatoryCompetition; break;
                             case "poetry_competition": Type = ScheduleType.PoetryCompetition; break;
                             case "dance_competition": Type = ScheduleType.DanceCompetition; break;
+                            case "musical_competition": Type = ScheduleType.MusicalCompetition; break;
                             default:
                                 property.Known = false;
                                 break;

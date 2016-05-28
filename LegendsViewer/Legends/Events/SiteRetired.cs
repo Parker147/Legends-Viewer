@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends.Parser;
+using System.Linq;
 
 namespace LegendsViewer.Legends.Events
 {
@@ -23,6 +24,16 @@ namespace LegendsViewer.Legends.Events
                     case "first": First = property.Value; break;
                 }
             }
+            Site.OwnerHistory.Last().EndYear = this.Year;
+            Site.OwnerHistory.Last().EndCause = "retired";
+            if (SiteCiv != null)
+            {
+                SiteCiv.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
+                SiteCiv.SiteHistory.Last(s => s.Site == Site).EndCause = "retired";
+            }
+            Civ.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
+            Civ.SiteHistory.Last(s => s.Site == Site).EndCause = "retired";
+
             Site.AddEvent(this);
             Civ.AddEvent(this);
             SiteCiv.AddEvent(this);
