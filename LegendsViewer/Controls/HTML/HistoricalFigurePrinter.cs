@@ -467,7 +467,7 @@ namespace LegendsViewer.Controls
             {
                 HTML.AppendLine(Bold("Relationships") + LineBreak);
                 HTML.AppendLine("<ul>");
-                foreach (var relationshipProfile in HistoricalFigure.RelationshipProfiles)
+                foreach (var relationshipProfile in HistoricalFigure.RelationshipProfiles.OrderByDescending(profile => profile.Reputations.OrderBy(rep => rep.Strength).FirstOrDefault()?.Strength))
                 {
                     HistoricalFigure hf = World.GetHistoricalFigure(relationshipProfile.HistoricalFigureID);
                     if (hf != null)

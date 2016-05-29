@@ -47,8 +47,9 @@ namespace LegendsViewer.Controls.HTML
                     webClient.Headers.Add("Content-Type", "text/x-markdown");
                     readme = webClient.UploadString("https://api.github.com/markdown/raw", "POST", markdown);
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Console.WriteLine(ex.ToString());
                 }
                 var html = "<html>";
                 html += "<head>";

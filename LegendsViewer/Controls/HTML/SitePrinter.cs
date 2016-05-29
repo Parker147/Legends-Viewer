@@ -228,6 +228,7 @@ namespace LegendsViewer.Controls
         private void PrintSiteMap()
         {
             string sitemapPath = FileLoader.SaveDirectory + FileLoader.SaveID + "-site_map-" + Site.ID;
+            string sitemapPathFromProcessScript = FileLoader.SaveDirectory + "site_maps\\" + FileLoader.SaveID + "-site_map-" + Site.ID;
             if (File.Exists(sitemapPath + ".bmp"))
             {
                 CreateSitemapBitmap(sitemapPath + ".bmp");
@@ -243,6 +244,22 @@ namespace LegendsViewer.Controls
             else if (File.Exists(sitemapPath + ".jpeg"))
             {
                 CreateSitemapBitmap(sitemapPath + ".jpeg");
+            }
+            else if (File.Exists(sitemapPathFromProcessScript + ".bmp"))
+            {
+                CreateSitemapBitmap(sitemapPathFromProcessScript + ".bmp");
+            }
+            else if (File.Exists(sitemapPathFromProcessScript + ".png"))
+            {
+                CreateSitemapBitmap(sitemapPathFromProcessScript + ".png");
+            }
+            else if (File.Exists(sitemapPathFromProcessScript + ".jpg"))
+            {
+                CreateSitemapBitmap(sitemapPathFromProcessScript + ".jpg");
+            }
+            else if (File.Exists(sitemapPathFromProcessScript + ".jpeg"))
+            {
+                CreateSitemapBitmap(sitemapPathFromProcessScript + ".jpeg");
             }
         }
 
