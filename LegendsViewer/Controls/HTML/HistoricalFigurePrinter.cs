@@ -27,8 +27,8 @@ namespace LegendsViewer.Controls
             PrintTitle();
             PrintMiscInfo();
             PrintBreedInfo();
-            PrintCurseLineage();
             PrintFamilyGraph();
+            PrintCurseLineage();
             PrintPositions();
             PrintRelatedHistoricalFigures();
             PrintRelationships();
@@ -72,20 +72,39 @@ namespace LegendsViewer.Controls
 
         private string CreateNode(HistoricalFigure hf)
         {
-            string classes = "";
-            classes += hf.ActiveInteractions.Any(interaction => interaction.Contains("CURSE")) ? "cursed" : "";
-            classes += hf.Equals(HistoricalFigure) ? " current" : "";
+            string classes = hf.Equals(HistoricalFigure) ? " current" : "";
+
             string title = "";
-            title += hf.Race != HistoricalFigure.Race ? (hf.Race + " ") : "";
-            if (hf.ActiveInteractions.Any(it => it.Contains("VAMPIRE")))
-                title += "Vampire ";
-            if (hf.ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
-                title += "Werebeast ";
-            title += !string.IsNullOrWhiteSpace(hf.AssociatedType) && hf.AssociatedType != "Standard" ? hf.AssociatedType : "";
-            if (!string.IsNullOrWhiteSpace(title))
+            if (hf.Positions.Any())
             {
+                title += hf.GetLastNoblePosition();
                 title += "\\n--------------------\\n";
+                classes += " leader";
             }
+            title += hf.Race != HistoricalFigure.Race ? (hf.Race + " ") : "";
+
+            string description = "";
+            if (hf.ActiveInteractions.Any(it => it.Contains("VAMPIRE")))
+            {
+                description += "Vampire ";
+                classes += " vampire";
+            }
+            if (hf.ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
+            {
+                description += "Werebeast ";
+                classes += " werebeast";
+            }
+            if (hf.ActiveInteractions.Any(it => it.Contains("SECRET")))
+            {
+                description += "Necromancer ";
+                classes += " necromancer";
+            }
+            description += !string.IsNullOrWhiteSpace(hf.AssociatedType) && hf.AssociatedType != "Standard" ? hf.AssociatedType : "";
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                description += "\\n--------------------\\n";
+            }
+            title += description;
             title += hf.Name;
             if (!hf.Alive)
             {

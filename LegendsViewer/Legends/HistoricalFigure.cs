@@ -300,15 +300,46 @@ namespace LegendsViewer.Legends
 
         private string getAnchorTitle()
         {
-            string title = (Caste != "Default" ? Caste + " " : "");
-            title += (title != "" ? GetRaceString() : Formatting.InitCaps(GetRaceString())) + " ";
-            title += (AssociatedType != "Standard" ? AssociatedType : "") + " ";
-            if (!Deity)
+            string title = "";
+            if (Positions.Any())
             {
-                title += "(" + BirthYear + " - " + (DeathYear == -1 ? "Present" : DeathYear.ToString()) + ")";
+                title += GetLastNoblePosition();
+                title += "&#13";
+            }
+            if (!string.IsNullOrWhiteSpace(AssociatedType) && AssociatedType != "Standard")
+            {
+                title += AssociatedType;
+                title += "&#13";
+            }
+            title += (!string.IsNullOrWhiteSpace(Caste) && Caste != "Default" ? Caste + " " : "");
+            title += Formatting.InitCaps(GetRaceString());
+            if (!Deity && !Force)
+            {
+                title += " (" + BirthYear + " - " + (DeathYear == -1 ? "Present" : DeathYear.ToString()) + ")";
             }
             title += "&#13";
             title += "Events: " + Events.Count;
+            return title;
+        }
+
+        public string GetLastNoblePosition()
+        {
+            string title = "";
+            if (Positions.Any())
+            {
+                string positionName = "";
+                var hfposition = Positions.Last();
+                EntityPosition position = hfposition.Entity.EntityPositions.FirstOrDefault(pos => pos.Name.ToLower() == hfposition.Title.ToLower());
+                if (position != null)
+                {
+                    positionName = position.GetTitleByCaste(Caste);
+                }
+                else
+                {
+                    positionName = hfposition.Title;
+                }
+                title += (hfposition.Ended == -1 ? "" : "Former ") + positionName + " of " + hfposition.Entity.Name;
+            }
             return title;
         }
 
@@ -396,6 +427,8 @@ namespace LegendsViewer.Legends
         {
             if (Deity)
                 return Race.ToLower() + " deity";
+            if (Force)
+                return "Force";
             if (Race == "Night Creature" && PreviousRace != "")
                 return PreviousRace.ToLower() + " turned night creature";
             if (ActiveInteractions.Any(it => it.Contains("VAMPIRE")))
