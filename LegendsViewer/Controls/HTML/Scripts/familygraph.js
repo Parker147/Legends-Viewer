@@ -128,6 +128,9 @@
         },
 
         layout: {
+            //name: 'dagre',
+            //fit: false,
+            //padding: 30,
             name: 'breadthfirst',
             fit: false,
             directed: true,

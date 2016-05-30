@@ -23,6 +23,7 @@ namespace LegendsViewer.Controls
         public static string LegendsCSS;
         public static string ChartJS;
         public static string CytoscapeJS;
+        public static string CytoscapeJSDagre;
         public static string FamilyGraphJS;
 
         public static HTMLPrinter GetPrinter(object printObject, World world)

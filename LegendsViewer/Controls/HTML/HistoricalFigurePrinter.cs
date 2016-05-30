@@ -58,6 +58,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine(Bold("Family Tree") + LineBreak);
                 HTML.AppendLine("<div id=\"familygraph\" class=\"legends_graph\"></div>");
                 HTML.AppendLine("<script>" + CytoscapeJS + "</script>");
+                HTML.AppendLine("<script>" + CytoscapeJSDagre + "</script>");
                 HTML.AppendLine("<script>");
                 HTML.AppendLine("window.familygraph_nodes = [");
                 HTML.AppendLine(nodes);

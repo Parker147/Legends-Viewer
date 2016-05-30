@@ -213,6 +213,12 @@ namespace LegendsViewer
                 {
                     Controls.HTMLPrinter.CytoscapeJS = reader.ReadToEnd();
                 }
+                var cytoscapejsDagreName = "LegendsViewer.Controls.HTML.Scripts.cytoscape-dagre.js";
+                using (Stream stream = assembly.GetManifestResourceStream(cytoscapejsDagreName))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    Controls.HTMLPrinter.CytoscapeJSDagre = reader.ReadToEnd();
+                }
                 var familygraphjsName = "LegendsViewer.Controls.HTML.Scripts.familygraph.js";
                 using (Stream stream = assembly.GetManifestResourceStream(familygraphjsName))
                 using (StreamReader reader = new StreamReader(stream))

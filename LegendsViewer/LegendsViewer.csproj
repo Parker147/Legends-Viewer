@@ -507,6 +507,7 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Controls\HTML\Scripts\cytoscape-dagre.js" />
     <Content Include="ObjectListView.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
