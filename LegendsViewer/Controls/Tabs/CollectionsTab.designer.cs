@@ -213,8 +213,8 @@
             this.listEraSearch.FullRowSelect = true;
             this.listEraSearch.GridLines = true;
             this.listEraSearch.HeaderWordWrap = true;
-            this.listEraSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listEraSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listEraSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listEraSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listEraSearch.Location = new System.Drawing.Point(3, 3);
             this.listEraSearch.Name = "listEraSearch";
             this.listEraSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -398,8 +398,8 @@
             this.listArtifactSearch.FullRowSelect = true;
             this.listArtifactSearch.GridLines = true;
             this.listArtifactSearch.HeaderWordWrap = true;
-            this.listArtifactSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listArtifactSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listArtifactSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listArtifactSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listArtifactSearch.Location = new System.Drawing.Point(3, 30);
             this.listArtifactSearch.Name = "listArtifactSearch";
             this.listArtifactSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -651,8 +651,8 @@
             this.listWrittenContentSearch.FullRowSelect = true;
             this.listWrittenContentSearch.GridLines = true;
             this.listWrittenContentSearch.HeaderWordWrap = true;
-            this.listWrittenContentSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listWrittenContentSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listWrittenContentSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listWrittenContentSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listWrittenContentSearch.Location = new System.Drawing.Point(3, 27);
             this.listWrittenContentSearch.Name = "listWrittenContentSearch";
             this.listWrittenContentSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -863,8 +863,8 @@
             this.listWorldConstructionsSearch.FullRowSelect = true;
             this.listWorldConstructionsSearch.GridLines = true;
             this.listWorldConstructionsSearch.HeaderWordWrap = true;
-            this.listWorldConstructionsSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listWorldConstructionsSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listWorldConstructionsSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listWorldConstructionsSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listWorldConstructionsSearch.Location = new System.Drawing.Point(3, 31);
             this.listWorldConstructionsSearch.Name = "listWorldConstructionsSearch";
             this.listWorldConstructionsSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -1075,8 +1075,8 @@
             this.listStructureSearch.FullRowSelect = true;
             this.listStructureSearch.GridLines = true;
             this.listStructureSearch.HeaderWordWrap = true;
-            this.listStructureSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listStructureSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listStructureSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listStructureSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listStructureSearch.Location = new System.Drawing.Point(3, 31);
             this.listStructureSearch.Name = "listStructureSearch";
             this.listStructureSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;

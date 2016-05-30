@@ -138,8 +138,8 @@
             this.listSiteSearch.FullRowSelect = true;
             this.listSiteSearch.GridLines = true;
             this.listSiteSearch.HeaderWordWrap = true;
-            this.listSiteSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listSiteSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listSiteSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listSiteSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listSiteSearch.Location = new System.Drawing.Point(3, 30);
             this.listSiteSearch.Name = "listSiteSearch";
             this.listSiteSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;

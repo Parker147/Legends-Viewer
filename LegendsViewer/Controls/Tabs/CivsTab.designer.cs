@@ -112,8 +112,8 @@
             this.listCivSearch.FullRowSelect = true;
             this.listCivSearch.GridLines = true;
             this.listCivSearch.HeaderWordWrap = true;
-            this.listCivSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listCivSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listCivSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listCivSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listCivSearch.Location = new System.Drawing.Point(3, 31);
             this.listCivSearch.Name = "listCivSearch";
             this.listCivSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;

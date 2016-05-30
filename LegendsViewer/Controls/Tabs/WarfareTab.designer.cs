@@ -212,8 +212,8 @@
             this.listWarSearch.FullRowSelect = true;
             this.listWarSearch.GridLines = true;
             this.listWarSearch.HeaderWordWrap = true;
-            this.listWarSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listWarSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listWarSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listWarSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listWarSearch.Location = new System.Drawing.Point(3, 31);
             this.listWarSearch.Name = "listWarSearch";
             this.listWarSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -503,8 +503,8 @@
             this.listBattleSearch.FullRowSelect = true;
             this.listBattleSearch.GridLines = true;
             this.listBattleSearch.HeaderWordWrap = true;
-            this.listBattleSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listBattleSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listBattleSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listBattleSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listBattleSearch.Location = new System.Drawing.Point(3, 31);
             this.listBattleSearch.Name = "listBattleSearch";
             this.listBattleSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -727,8 +727,8 @@
             this.listConqueringSearch.FullRowSelect = true;
             this.listConqueringSearch.GridLines = true;
             this.listConqueringSearch.HeaderWordWrap = true;
-            this.listConqueringSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listConqueringSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listConqueringSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listConqueringSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listConqueringSearch.Location = new System.Drawing.Point(3, 32);
             this.listConqueringSearch.Name = "listConqueringSearch";
             this.listConqueringSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -943,8 +943,8 @@
             this.listBeastAttackSearch.FullRowSelect = true;
             this.listBeastAttackSearch.GridLines = true;
             this.listBeastAttackSearch.HeaderWordWrap = true;
-            this.listBeastAttackSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listBeastAttackSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listBeastAttackSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listBeastAttackSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listBeastAttackSearch.Location = new System.Drawing.Point(3, 31);
             this.listBeastAttackSearch.Name = "listBeastAttackSearch";
             this.listBeastAttackSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
