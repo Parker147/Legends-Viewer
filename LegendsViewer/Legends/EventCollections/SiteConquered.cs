@@ -80,9 +80,15 @@ namespace LegendsViewer.Legends.EventCollections
             {
                 string title = Type;
                 title += "&#13";
-                title += Attacker.PrintEntity(false) + " (Attacker)(V)";
-                title += "&#13";
-                title += Defender.PrintEntity(false) + " (Defender)";
+                if (Attacker != null)
+                {
+                    title += Attacker.PrintEntity(false) + " (Attacker)(V)";
+                    title += "&#13";
+                }
+                if (Defender != null)
+                {
+                    title += Defender.PrintEntity(false) + " (Defender)";
+                }
 
                 string linkedString = "";
                 if (pov != this)

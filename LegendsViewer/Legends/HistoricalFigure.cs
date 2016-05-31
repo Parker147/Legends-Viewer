@@ -212,7 +212,17 @@ namespace LegendsViewer.Legends
                         break;
                     case "sex": Convert.ToInt32(property.Value); break;
                 }
-            if (Name == "") Name = "(Unnamed)";
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                if (!string.IsNullOrWhiteSpace(AnimatedType))
+                {
+                    Name = Formatting.InitCaps(AnimatedType);
+                }
+                else
+                {
+                    Name = "(Unnamed)";
+                }
+            }
         }
 
         private void Initialize()
