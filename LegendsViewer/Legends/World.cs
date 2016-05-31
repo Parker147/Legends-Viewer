@@ -762,7 +762,7 @@ namespace LegendsViewer.Legends
             UsedIdentityIDs.Clear();
         }
 
-        public void ResolveStructureProperties()
+        private void ResolveStructureProperties()
         {
             foreach (Structure structure in Structures)
             {
@@ -770,7 +770,7 @@ namespace LegendsViewer.Legends
             }
         }
 
-        public void ResolveMountainPeakToRegionLinks()
+        private void ResolveMountainPeakToRegionLinks()
         {
             foreach (MountainPeak peak in MountainPeaks)
             {
@@ -786,7 +786,7 @@ namespace LegendsViewer.Legends
             }
         }
 
-        public void ResolveSiteToRegionLinks()
+        private void ResolveSiteToRegionLinks()
         {
             foreach (Site site in Sites)
             {

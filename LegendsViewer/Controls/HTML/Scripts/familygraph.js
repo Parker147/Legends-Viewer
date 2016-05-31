@@ -54,7 +54,7 @@
                 'padding-left': 30,
                 'padding-right': 30,
                 'border-style': 'dotted',
-                'text-weight': 'bold',
+                'text-weight': 'bold'
             })
           .selector('node.werebeast')
             .css({
@@ -70,7 +70,7 @@
                 'padding-left': 30,
                 'padding-right': 30,
                 'border-style': 'dotted',
-                'text-weight': 'bold',
+                'text-weight': 'bold'
             })
           .selector('node.necromancer')
             .css({
@@ -86,7 +86,7 @@
                 'padding-left': 30,
                 'padding-right': 30,
                 'border-style': 'dotted',
-                'text-weight': 'bold',
+                'text-weight': 'bold'
             })
           .selector('node.leader')
             .css({
@@ -104,12 +104,12 @@
                 'padding-bottom': 15,
                 'border-width': 2,
                 'border-style': 'dotted',
-                'text-weight': 'bold',
+                'text-weight': 'bold'
             })
           .selector('node.current')
             .css({
                 'border-style': 'dashed',
-                'color': '#222299',
+                'color': '#222299'
             })
           .selector('node.dead')
             .css({
@@ -132,21 +132,17 @@
 
         elements: {
             nodes: window.familygraph_nodes,
-            edges: window.familygraph_edges,
+            edges: window.familygraph_edges
         },
 
         layout: {
-            //name: 'dagre',
-            //fit: false,
-            //padding: 30,
-            name: 'breadthfirst',
+            name: 'dagre',
             fit: false,
-            directed: true,
-            padding: 10,
-            spacingFactor: 1.1,
-            avoidOverlap: true,
+            padding: 30
         }
     });
+
+    cy.center();
 
     cy.on('tap', 'node', function () {
         window.location.href = this.data('href');

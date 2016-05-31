@@ -12,8 +12,8 @@ namespace LegendsViewer.Controls
 {
     public class HistoricalFigureHTMLPrinter : HTMLPrinter
     {
-        World World;
-        HistoricalFigure HistoricalFigure;
+        private readonly World World;
+        private readonly HistoricalFigure HistoricalFigure;
 
         public HistoricalFigureHTMLPrinter(HistoricalFigure hf, World world)
         {
