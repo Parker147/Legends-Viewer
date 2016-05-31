@@ -121,6 +121,7 @@ namespace LegendsViewer.Controls.Tabs
                 hfSearch.force = chkForce.Checked;
                 hfSearch.vampire = chkVampire.Checked;
                 hfSearch.werebeast = chkWerebeast.Checked;
+                hfSearch.necromancer = chkNecromancer.Checked;
                 hfSearch.ghost = chkGhost.Checked;
                 hfSearch.alive = chkAlive.Checked;
                 hfSearch.Leader = chkHFLeader.Checked;
@@ -136,25 +137,6 @@ namespace LegendsViewer.Controls.Tabs
                 //listHFSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                 UpdateCounts(results.Length, hfSearch.BaseList.Count);
             }
-        }
-
-        public void ChangeHFBaseList(List<HistoricalFigure> list, string listName)
-        {
-            FileLoader.Working = true;
-            lblHFList.Text = listName;
-            lblHFList.ForeColor = Color.Blue;
-            lblHFList.Font = new Font(lblHFList.Font.FontFamily, lblHFList.Font.Size, FontStyle.Bold);
-            hfSearch.BaseList = list;
-            txtHFSearch.Clear();
-            chkAlive.Checked = chkDeity.Checked = chkForce.Checked = chkGhost.Checked = chkVampire.Checked = chkWerebeast.Checked = chkHFLeader.Checked = false;
-            cmbRace.SelectedIndex = 0;
-            cmbCaste.SelectedIndex = 0;
-            cmbType.SelectedIndex = 0;
-            radHFNone.Checked = true;
-            //tcWorld.SelectedTab = tpHF;
-            tcHF.SelectedTab = tpHFSearch;
-            searchHFList(null, null);
-            FileLoader.Working = false;
         }
 
         public void ResetHFBaseList(object sender, EventArgs e)
