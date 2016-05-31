@@ -11,7 +11,7 @@ namespace LegendsViewer
     public class HistoricalFigureList
     {
         private World World;
-        public bool deity, vampire, force, werebeast, necromancer, ghost, alive, Leader, sortKills, sortEvents, sortFiltered, sortBattles, sortMiscKills;
+        public bool deity, vampire, force, werebeast, necromancer, animated, ghost, alive, Leader, sortKills, sortEvents, sortFiltered, sortBattles, sortMiscKills;
         public string name, race, caste, type;
         public static int MaxResults = 500;
         public List<HistoricalFigure> BaseList;
@@ -26,7 +26,8 @@ namespace LegendsViewer
             if (deity) filtered = filtered.Where(hf => hf.Deity);
             if (vampire) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(x => x.Contains("VAMPIRE")));
             if (werebeast) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(x => x.Contains("WEREBEAST")));
-            if (necromancer) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(x => x.Contains("SECRET")));
+            if (necromancer) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(x => x.Contains("SECRET") && !x.Contains("ANIMATE")));
+            if (animated) filtered = filtered.Where(hf => hf.ActiveInteractions.Any(x => x.Contains("ANIMATE")));
             if (force) filtered = filtered.Where(hf => hf.Force);
             if (ghost) filtered = filtered.Where(hf => hf.Ghost);
             if (Leader) filtered = filtered.Where(hf => hf.Positions.Count > 0);

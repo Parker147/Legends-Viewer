@@ -417,8 +417,10 @@ namespace LegendsViewer.Legends
                 return hfraceString + " vampire";
             if (ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
                 return hfraceString + " werebeast";
-            if (ActiveInteractions.Any(it => it.Contains("SECRET")))
+            if (ActiveInteractions.Any(it => it.Contains("SECRET") && !it.Contains("ANIMATE")))
                 return hfraceString + " necromancer";
+            if (ActiveInteractions.Any(it => it.Contains("ANIMATE")))
+                return hfraceString + " animated corpse";
 
             return hfraceString;
         }
@@ -435,8 +437,10 @@ namespace LegendsViewer.Legends
                 return Race.ToLower() + " vampire";
             if (ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
                 return Race.ToLower() + " werebeast";
-            if (ActiveInteractions.Any(it => it.Contains("SECRET")))
+            if (ActiveInteractions.Any(it => it.Contains("SECRET") && !it.Contains("ANIMATE")))
                 return Race.ToLower() + " necromancer";
+            if (ActiveInteractions.Any(it => it.Contains("ANIMATE")))
+                return Race.ToLower() + " animated corpse";
             return Race.ToLower();
         }
     }

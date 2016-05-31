@@ -95,7 +95,7 @@ namespace LegendsViewer.Controls
                 description += "Werebeast ";
                 classes += " werebeast";
             }
-            if (hf.ActiveInteractions.Any(it => it.Contains("SECRET")))
+            if (hf.ActiveInteractions.Any(it => it.Contains("SECRET") && !it.Contains("ANIMATE")))
             {
                 description += "Necromancer ";
                 classes += " necromancer";

@@ -122,6 +122,7 @@ namespace LegendsViewer.Controls.Tabs
                 hfSearch.vampire = chkVampire.Checked;
                 hfSearch.werebeast = chkWerebeast.Checked;
                 hfSearch.necromancer = chkNecromancer.Checked;
+                hfSearch.animated = chkAnimated.Checked;
                 hfSearch.ghost = chkGhost.Checked;
                 hfSearch.alive = chkAlive.Checked;
                 hfSearch.Leader = chkHFLeader.Checked;

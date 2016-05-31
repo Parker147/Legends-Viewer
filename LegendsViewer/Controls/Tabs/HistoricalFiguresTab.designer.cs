@@ -42,6 +42,7 @@
             this.btnHFListReset = new System.Windows.Forms.Button();
             this.filterPanel = new WFC.RichPanel();
             this.grpHFFilter = new System.Windows.Forms.GroupBox();
+            this.chkNecromancer = new System.Windows.Forms.CheckBox();
             this.chkWerebeast = new System.Windows.Forms.CheckBox();
             this.chkVampire = new System.Windows.Forms.CheckBox();
             this.chkHFLeader = new System.Windows.Forms.CheckBox();
@@ -63,7 +64,7 @@
             this.chkGhost = new System.Windows.Forms.CheckBox();
             this.chkDeity = new System.Windows.Forms.CheckBox();
             this.tpHFEvents = new System.Windows.Forms.TabPage();
-            this.chkNecromancer = new System.Windows.Forms.CheckBox();
+            this.chkAnimated = new System.Windows.Forms.CheckBox();
             this.tcHF.SuspendLayout();
             this.tpHFSearch.SuspendLayout();
             this.listPanel.SuspendLayout();
@@ -110,14 +111,14 @@
             this.listPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listPanel.Location = new System.Drawing.Point(0, 0);
             this.listPanel.Name = "listPanel";
-            this.listPanel.Size = new System.Drawing.Size(261, 225);
+            this.listPanel.Size = new System.Drawing.Size(261, 206);
             this.listPanel.TabIndex = 44;
             // 
             // lblShownResults
             // 
             this.lblShownResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShownResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShownResults.Location = new System.Drawing.Point(140, 193);
+            this.lblShownResults.Location = new System.Drawing.Point(140, 174);
             this.lblShownResults.Name = "lblShownResults";
             this.lblShownResults.Size = new System.Drawing.Size(95, 10);
             this.lblShownResults.TabIndex = 44;
@@ -130,7 +131,7 @@
             this.lnkMaxResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkMaxResults.AutoSize = true;
             this.lnkMaxResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkMaxResults.Location = new System.Drawing.Point(241, 193);
+            this.lnkMaxResults.Location = new System.Drawing.Point(241, 174);
             this.lnkMaxResults.Name = "lnkMaxResults";
             this.lnkMaxResults.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lnkMaxResults.Size = new System.Drawing.Size(17, 9);
@@ -183,7 +184,7 @@
             this.listHFSearch.ShowCommandMenuOnRightClick = true;
             this.listHFSearch.ShowImagesOnSubItems = true;
             this.listHFSearch.ShowItemCountOnGroups = true;
-            this.listHFSearch.Size = new System.Drawing.Size(255, 160);
+            this.listHFSearch.Size = new System.Drawing.Size(255, 141);
             this.listHFSearch.TabIndex = 42;
             this.listHFSearch.UseAlternatingBackColors = true;
             this.listHFSearch.UseCompatibleStateImageBehavior = false;
@@ -206,7 +207,7 @@
             // 
             this.lblHFList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblHFList.Location = new System.Drawing.Point(59, 203);
+            this.lblHFList.Location = new System.Drawing.Point(59, 184);
             this.lblHFList.Name = "lblHFList";
             this.lblHFList.Size = new System.Drawing.Size(196, 22);
             this.lblHFList.TabIndex = 40;
@@ -215,7 +216,7 @@
             // btnHFListReset
             // 
             this.btnHFListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnHFListReset.Location = new System.Drawing.Point(3, 199);
+            this.btnHFListReset.Location = new System.Drawing.Point(3, 180);
             this.btnHFListReset.Name = "btnHFListReset";
             this.btnHFListReset.Size = new System.Drawing.Size(50, 20);
             this.btnHFListReset.TabIndex = 41;
@@ -239,13 +240,13 @@
             this.filterPanel.HeaderText = "Filter / Sort";
             this.filterPanel.HeaderTextAlign = WFC.Utils.Align.Left;
             this.filterPanel.HeaderTextColor = System.Drawing.Color.Black;
-            this.filterPanel.Location = new System.Drawing.Point(0, 225);
+            this.filterPanel.Location = new System.Drawing.Point(0, 206);
             this.filterPanel.Name = "filterPanel";
             this.filterPanel.RoundCornerType = WFC.Utils.RoundRectType.Upper;
             this.filterPanel.SeparatorColor = System.Drawing.Color.Gray;
             this.filterPanel.SeparatorPos = WFC.RichPanel.SeparatorPosition.Bottom;
             this.filterPanel.ShadowOffSet = 0;
-            this.filterPanel.Size = new System.Drawing.Size(261, 267);
+            this.filterPanel.Size = new System.Drawing.Size(261, 286);
             this.filterPanel.TabIndex = 43;
             this.filterPanel.OnPanelExpand += new System.EventHandler(this.filterPanel_OnPanelExpand);
             // 
@@ -253,6 +254,7 @@
             // 
             this.grpHFFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpHFFilter.Controls.Add(this.chkAnimated);
             this.grpHFFilter.Controls.Add(this.chkNecromancer);
             this.grpHFFilter.Controls.Add(this.chkWerebeast);
             this.grpHFFilter.Controls.Add(this.chkVampire);
@@ -268,13 +270,24 @@
             this.grpHFFilter.Controls.Add(this.chkAlive);
             this.grpHFFilter.Controls.Add(this.chkGhost);
             this.grpHFFilter.Controls.Add(this.chkDeity);
-            this.grpHFFilter.Location = new System.Drawing.Point(3, 31);
+            this.grpHFFilter.Location = new System.Drawing.Point(3, 30);
             this.grpHFFilter.MinimumSize = new System.Drawing.Size(249, 209);
             this.grpHFFilter.Name = "grpHFFilter";
-            this.grpHFFilter.Size = new System.Drawing.Size(249, 233);
+            this.grpHFFilter.Size = new System.Drawing.Size(249, 253);
             this.grpHFFilter.TabIndex = 33;
             this.grpHFFilter.TabStop = false;
             this.grpHFFilter.Text = "Filter / Sort";
+            // 
+            // chkNecromancer
+            // 
+            this.chkNecromancer.AutoSize = true;
+            this.chkNecromancer.Location = new System.Drawing.Point(6, 206);
+            this.chkNecromancer.Name = "chkNecromancer";
+            this.chkNecromancer.Size = new System.Drawing.Size(90, 17);
+            this.chkNecromancer.TabIndex = 20;
+            this.chkNecromancer.Text = "Necromancer";
+            this.chkNecromancer.UseVisualStyleBackColor = true;
+            this.chkNecromancer.CheckedChanged += new System.EventHandler(this.searchHFList);
             // 
             // chkWerebeast
             // 
@@ -398,7 +411,7 @@
             // chkForce
             // 
             this.chkForce.AutoSize = true;
-            this.chkForce.Location = new System.Drawing.Point(192, 183);
+            this.chkForce.Location = new System.Drawing.Point(192, 229);
             this.chkForce.Name = "chkForce";
             this.chkForce.Size = new System.Drawing.Size(53, 17);
             this.chkForce.TabIndex = 15;
@@ -466,7 +479,7 @@
             // chkAlive
             // 
             this.chkAlive.AutoSize = true;
-            this.chkAlive.Location = new System.Drawing.Point(133, 206);
+            this.chkAlive.Location = new System.Drawing.Point(133, 229);
             this.chkAlive.Name = "chkAlive";
             this.chkAlive.Size = new System.Drawing.Size(49, 17);
             this.chkAlive.TabIndex = 4;
@@ -477,7 +490,7 @@
             // chkGhost
             // 
             this.chkGhost.AutoSize = true;
-            this.chkGhost.Location = new System.Drawing.Point(133, 183);
+            this.chkGhost.Location = new System.Drawing.Point(133, 206);
             this.chkGhost.Name = "chkGhost";
             this.chkGhost.Size = new System.Drawing.Size(54, 17);
             this.chkGhost.TabIndex = 3;
@@ -507,16 +520,16 @@
             this.tpHFEvents.Text = "Events";
             this.tpHFEvents.UseVisualStyleBackColor = true;
             // 
-            // chkNecromancer
+            // chkAnimated
             // 
-            this.chkNecromancer.AutoSize = true;
-            this.chkNecromancer.Location = new System.Drawing.Point(6, 206);
-            this.chkNecromancer.Name = "chkNecromancer";
-            this.chkNecromancer.Size = new System.Drawing.Size(90, 17);
-            this.chkNecromancer.TabIndex = 20;
-            this.chkNecromancer.Text = "Necromancer";
-            this.chkNecromancer.UseVisualStyleBackColor = true;
-            this.chkNecromancer.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkAnimated.AutoSize = true;
+            this.chkAnimated.Location = new System.Drawing.Point(6, 229);
+            this.chkAnimated.Name = "chkAnimated";
+            this.chkAnimated.Size = new System.Drawing.Size(106, 17);
+            this.chkAnimated.TabIndex = 21;
+            this.chkAnimated.Text = "Animated Corpse";
+            this.chkAnimated.UseVisualStyleBackColor = true;
+            this.chkAnimated.CheckedChanged += new System.EventHandler(this.searchHFList);
             // 
             // HistoricalFiguresTab
             // 
@@ -577,5 +590,6 @@
         private System.Windows.Forms.LinkLabel lnkMaxResults;
         private System.Windows.Forms.Label lblShownResults;
         private System.Windows.Forms.CheckBox chkNecromancer;
+        private System.Windows.Forms.CheckBox chkAnimated;
     }
 }
