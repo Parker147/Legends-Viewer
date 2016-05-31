@@ -728,8 +728,11 @@ namespace LegendsViewer.Legends
             {
                 HistoricalFigure hf = CurrentIdentityHFs[i];
                 int id = CurrentIdentityIDs[i];
-                if (hf.CurrentIdentity != null)
-                    throw new Exception("Current Identity already exists.");
+                HistoricalFigure currentIdentity = GetHistoricalFigure(id);
+                if (hf.CurrentIdentity != null && hf.CurrentIdentity != currentIdentity)
+                {
+                    ParsingErrors.Report("|==> Historical Figure: " + hf.Name + " \nCurrentIdentity Conflict: " + hf.CurrentIdentity.Name + "|" + currentIdentity.Name);
+                }
                 hf.CurrentIdentity = GetHistoricalFigure(id);
             }
             CurrentIdentityHFs.Clear();
@@ -748,8 +751,11 @@ namespace LegendsViewer.Legends
             {
                 HistoricalFigure hf = UsedIdentityHFs[i];
                 int id = UsedIdentityIDs[i];
-                if (hf.UsedIdentity != null)
-                    throw new Exception("UsedIdentity already exists.");
+                HistoricalFigure usedIdentity = GetHistoricalFigure(id);
+                if (hf.UsedIdentity != null && hf.UsedIdentity != usedIdentity)
+                {
+                    ParsingErrors.Report("|==> Historical Figure: " + hf.Name + " \nUsedIdentity Conflict: " + hf.UsedIdentity.Name + "|" + usedIdentity.Name);
+                }
                 hf.UsedIdentity = GetHistoricalFigure(id);
             }
             UsedIdentityHFs.Clear();

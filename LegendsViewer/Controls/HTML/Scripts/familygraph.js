@@ -45,7 +45,9 @@
                 'shape': 'hexagon',
                 'background-blacken': 0.2,
                 'background-image': vampire,
+                // ReSharper disable InvalidValue
                 'background-clip': 'none',
+                // ReSharper restore InvalidValue
                 'background-width': '24px',
                 'background-height': '24px',
                 'background-position-x': '-15px',
@@ -59,7 +61,9 @@
                 'shape': 'hexagon',
                 'background-blacken': 0.1,
                 'background-image': werebeast,
+                // ReSharper disable InvalidValue
                 'background-clip': 'none',
+                // ReSharper restore InvalidValue
                 'background-width': '24px',
                 'background-height': '24px',
                 'background-position-x': '-15px',
@@ -73,7 +77,9 @@
                 'shape': 'hexagon',
                 'background-blacken': 0.1,
                 'background-image': necromancer,
+                // ReSharper disable InvalidValue
                 'background-clip': 'none',
+                // ReSharper restore InvalidValue
                 'background-width': '24px',
                 'background-height': '24px',
                 'background-position-x': '-15px',
@@ -86,7 +92,9 @@
             .css({
                 'shape': 'octagon',
                 'background-image': leader,
+                // ReSharper disable InvalidValue
                 'background-clip': 'none',
+                // ReSharper restore InvalidValue
                 'background-width': '24px',
                 'background-height': '24px',
                 'background-position-x': '-20px',
