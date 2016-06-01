@@ -212,7 +212,7 @@ namespace LegendsViewer.Legends.Parser
         {
             string eventType = "";
             if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
-                eventType = properties.First(property => property.Name == "type").Value;
+                eventType = properties.Find(property => property.Name == "type").Value;
 
             if (CurrentSection != Section.Events && CurrentSection != Section.EventCollections)
             {
@@ -242,7 +242,7 @@ namespace LegendsViewer.Legends.Parser
                 {
                     World.ParsingErrors.Report("|==> "+path + " \nUnknown Property: " + property.Name, property.Value);
                 }
-                if (property.SubProperties.Any())
+                if (property.SubProperties.Count > 0)
                 {
                     CheckKnownStateOfProperties(path + "/" + property.Name, property.SubProperties);
                 }
@@ -275,7 +275,6 @@ namespace LegendsViewer.Legends.Parser
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
                 World.ParsingErrors.Report("ERROR Parsing Section: " + section);
             }
         }

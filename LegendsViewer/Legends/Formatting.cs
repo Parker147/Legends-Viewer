@@ -1,39 +1,14 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 
 namespace LegendsViewer.Legends
 {
     public static class Formatting
     {
-        public static string InitCaps(string name, bool all = true)
+        public static string InitCaps(string name)
         {
-            if (name.Length == 0) return name;
-            name = name.Trim();
-            string[] parts = name.Split(new string[] { " " }, StringSplitOptions.None);
-            string capName = "";
-            if (all)
-            {
-                foreach (string part in parts)
-                {
-                    if (capName.Length > 0)
-                    {
-                        capName += " ";
-                    }
-                    if (part.StartsWith("`") && part.Length > 1)
-                    {
-                        capName += part.Substring(0, 1) + part.Substring(1, 1).ToUpper() + part.Substring(2, part.Length - 2);
-                    }
-                    else if (((part != "the" && part != "of") || (capName.Length == 0)) && part.Length > 0)
-                    {
-                        capName += part.Substring(0, 1).ToUpper() + part.Substring(1, part.Length - 1);
-                    }
-                    else
-                    {
-                        capName += part.ToLower();
-                    }
-                }
-            }
-            return capName;
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name).Replace(" The", " the").Replace(" Of", " of");
         }
 
         public static string MakePopulationPlural(string population)
