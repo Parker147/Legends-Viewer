@@ -176,8 +176,8 @@
             this.listHFSearch.FullRowSelect = true;
             this.listHFSearch.GridLines = true;
             this.listHFSearch.HeaderWordWrap = true;
-            this.listHFSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listHFSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listHFSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listHFSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listHFSearch.Location = new System.Drawing.Point(3, 30);
             this.listHFSearch.Name = "listHFSearch";
             this.listHFSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
