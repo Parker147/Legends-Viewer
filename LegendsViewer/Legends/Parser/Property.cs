@@ -5,11 +5,24 @@ namespace LegendsViewer.Legends.Parser
 {
     public class Property
     {
-        public string Name = "";
-        private string _value = "";
-        public bool Known = false;
-        public List<Property> SubProperties = new List<Property>();
-        public string Value { get { Known = true; return _value; } set { _value = value; } }
+        public string Name;
+        public bool Known;
+
+        public List<Property> SubProperties { get; set; }
+
+        private string _value;
+        public string Value
+        {
+            get
+            {
+                Known = true;
+                return _value ?? string.Empty;
+            }
+            set
+            {
+                _value = value;
+            }
+        }
 
         public int ValueAsInt()
         {

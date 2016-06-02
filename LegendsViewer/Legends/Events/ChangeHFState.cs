@@ -15,12 +15,12 @@ namespace LegendsViewer.Legends.Events
         public Location Coordinates { get; set; }
         public HFState State { get; set; }
         public int SubState { get; set; }
-        private string UnknownState { get; set; }
 
         public ChangeHFState(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "state":
@@ -34,7 +34,7 @@ namespace LegendsViewer.Legends.Events
                             case "thief": State = HFState.Thief; break;
                             case "hunting": State = HFState.Hunting; break;
                             case "visiting": State = HFState.Visiting; break;
-                            default: State = HFState.Unknown; UnknownState = property.Value; world.ParsingErrors.Report("Unknown HF State: " + UnknownState); break;
+                            default: State = HFState.Unknown; property.Known = false; break;
                         }
                         break;
                     case "substate": SubState = Convert.ToInt32(property.Value); break;
@@ -43,8 +43,9 @@ namespace LegendsViewer.Legends.Events
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                 }
+            }
             if (HistoricalFigure != null)
             {
                 HistoricalFigure.AddEvent(this);
@@ -57,6 +58,7 @@ namespace LegendsViewer.Legends.Events
             Region.AddEvent(this);
             UndergroundRegion.AddEvent(this);
         }
+
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov);
@@ -83,7 +85,7 @@ namespace LegendsViewer.Legends.Events
             else if (State == HFState.Visiting) eventString += " visited ";
             else
             {
-                eventString += " " + UnknownState + " in ";
+                eventString += " changed state in ";
             }
             if (Site != null) eventString += Site.ToLink(link, pov);
             else if (Region != null) eventString += Region.ToLink(link, pov);

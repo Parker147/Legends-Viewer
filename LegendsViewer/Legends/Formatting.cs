@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 
 namespace LegendsViewer.Legends
 {
@@ -85,9 +87,8 @@ namespace LegendsViewer.Legends
 
         public static Location ConvertToLocation(string coordinates)
         {
-            int x = Convert.ToInt32(coordinates.Substring(0, coordinates.IndexOf(",")));
-            int y = Convert.ToInt32(coordinates.Substring(coordinates.IndexOf(",") + 1, coordinates.Length - coordinates.IndexOf(",") - 1));
-            return new Location(x, y);
+            int[] coords = Array.ConvertAll(coordinates.Split(','), int.Parse); // 0.520
+            return new Location(coords[0], coords[1]); 
         }
 
         public static void ResizeImage(Bitmap source, ref Bitmap dest, int height, int width, bool keepRatio, bool smooth = true)

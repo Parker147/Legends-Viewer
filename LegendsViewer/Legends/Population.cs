@@ -52,6 +52,11 @@
 
         public string Race { get; set; }
         public int Count { get; set; }
-        public Population(string type, int count) { Race = type; Count = count; }
+
+        public Population(string type, int count)
+        {
+            Race = type;
+            Count = count;
+        }
     }
 }

@@ -16,11 +16,11 @@ namespace LegendsViewer.Legends
         private static List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
         private static List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
 
-        public static string ForceNatureIcon = "<i class=\"glyphicon fa-fw glyphicon-leaf\"></i>";
-        public static string DeityIcon = "<i class=\"fa fa-fw fa-sun-o\"></i>";
-        public static string NeuterIcon = "<i class=\"fa fa-fw fa-neuter\"></i>";
-        public static string FemaleIcon = "<i class=\"fa fa-fw fa-venus\"></i>";
-        public static string MaleIcon = "<i class=\"fa fa-fw fa-mars\"></i>";
+        public static readonly string ForceNatureIcon = "<i class=\"glyphicon fa-fw glyphicon-leaf\"></i>";
+        public static readonly string DeityIcon = "<i class=\"fa fa-fw fa-sun-o\"></i>";
+        public static readonly string NeuterIcon = "<i class=\"fa fa-fw fa-neuter\"></i>";
+        public static readonly string FemaleIcon = "<i class=\"fa fa-fw fa-venus\"></i>";
+        public static readonly string MaleIcon = "<i class=\"fa fa-fw fa-mars\"></i>";
 
         public static HistoricalFigure Unknown;
         public string Name { get; set; }
@@ -133,57 +133,69 @@ namespace LegendsViewer.Legends
                         world.AddHFtoHFLink(this, property);
                         property.Known = true;
                         List<string> knownSubProperties = new List<string>() { "hfid", "link_strength", "link_type" };
-                        foreach (string subPropertyName in knownSubProperties)
-                        {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
-                        }
+                        if (property.SubProperties != null)
+                            foreach (string subPropertyName in knownSubProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                    subProperty.Known = true;
+                            }
                         break;
                     case "entity_link":
                     case "entity_former_position_link":
                     case "entity_position_link":
                         world.AddHFtoEntityLink(this, property);
-                        foreach (string subPropertyName in knownEntitySubProperties)
-                        {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
-                        }
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            foreach (string subPropertyName in knownEntitySubProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                    subProperty.Known = true;
+                            }
                         break;
                     case "entity_reputation":
                         world.AddReputation(this, property);
-                        foreach (string subPropertyName in knownReputationSubProperties)
-                        {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
-                        }
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            foreach (string subPropertyName in knownReputationSubProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                    subProperty.Known = true;
+                            }
                         break;
                     case "entity_squad_link":
                     case "entity_former_squad_link":
                         property.Known = true;
-                        foreach (string subPropertyName in knownEntitySquadLinkProperties)
-                        {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
-                        }
+                        if (property.SubProperties != null)
+                            foreach (string subPropertyName in knownEntitySquadLinkProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                    subProperty.Known = true;
+                            }
                         break;
                     case "relationship_profile_hf":
                         property.Known = true;
-                        RelationshipProfiles.Add(new RelationshipProfileHF(property.SubProperties));
+                        if (property.SubProperties != null)
+                            RelationshipProfiles.Add(new RelationshipProfileHF(property.SubProperties));
                         break;
                     case "site_link":
                         world.AddHFtoSiteLink(this, property);
-                        foreach (string subPropertyName in knownSiteLinkSubProperties)
-                        {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
-                        }
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            foreach (string subPropertyName in knownSiteLinkSubProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                    subProperty.Known = true;
+                            }
                         break;
-                    case "hf_skill": Skills.Add(new Skill(property.SubProperties)); break;
+                    case "hf_skill":
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            Skills.Add(new Skill(property.SubProperties)); break;
                     case "active_interaction": ActiveInteractions.Add(string.Intern(property.Value)); break;
                     case "interaction_knowledge": InteractionKnowledge.Add(string.Intern(property.Value)); break;
                     case "animated": Animated = true; property.Known = true; break;
@@ -210,8 +222,7 @@ namespace LegendsViewer.Legends
                             }
                         }
                         break;
-                    case "sex":
-                        property.Known = true; break;
+                    case "sex": property.Known = true; break;
                 }
             if (string.IsNullOrWhiteSpace(Name))
             {

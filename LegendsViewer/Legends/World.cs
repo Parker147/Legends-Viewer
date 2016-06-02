@@ -263,60 +263,6 @@ namespace LegendsViewer.Legends
 
         #region GetWorldItemsFunctions
 
-        public WorldRegion GetRegion(int id)
-        {
-            if (id == -1) return null;
-            else
-            {
-                int cur = id;
-                while (cur >= 0 && cur <= Regions.Count - 1)
-                {
-                    if (id > Regions[cur].ID)
-                        cur++;
-                    else if (id < Regions[cur].ID)
-                        cur--;
-                    else
-                        return Regions[cur];
-                }
-                return null;
-            }
-        }
-        public UndergroundRegion GetUndergroundRegion(int id)
-        {
-            if (id == -1) return null;
-            else
-            {
-                int cur = id;
-                while (cur >= 0 && cur <= UndergroundRegions.Count - 1)
-                {
-                    if (id > UndergroundRegions[cur].ID)
-                        cur++;
-                    else if (id < UndergroundRegions[cur].ID)
-                        cur--;
-                    else
-                        return UndergroundRegions[cur];
-                }
-                return null;
-            }
-        }
-        public HistoricalFigure GetHistoricalFigure(int id)
-        {
-            if (id == -1) return null;
-            else
-            {
-                int cur = id;
-                while (cur >= 0 && cur <= HistoricalFigures.Count - 1)
-                {
-                    if (id > HistoricalFigures[cur].ID)
-                        cur++;
-                    else if (id < HistoricalFigures[cur].ID)
-                        cur--;
-                    else
-                        return HistoricalFigures[cur];
-                }
-                return HistoricalFigure.Unknown;
-            }
-        }
         public HistoricalFigure GetHistoricalFigure(string name)
         {
             int min = 0;
@@ -339,24 +285,7 @@ namespace LegendsViewer.Legends
             }
             throw new Exception("Couldn't Find Historical Figure: " + name);
         }
-        public Entity GetEntity(int id)
-        {
-            if (id == -1) return null;
-            else
-            {
-                int cur = id;
-                while (cur >= 0 && cur <= Entities.Count - 1)
-                {
-                    if (id > Entities[cur].ID)
-                        cur++;
-                    else if (id < Entities[cur].ID)
-                        cur--;
-                    else
-                        return Entities[cur];
-                }
-                return null;
-            }
-        }
+
         public Entity GetEntity(string name)
         {
             int min = 0;
@@ -376,11 +305,164 @@ namespace LegendsViewer.Legends
                     throw new Exception("Duplicate Entity Name: " + name);
             }
             throw new Exception("Couldn't Find Entity: " + name);
-
         }
+
+        public WorldRegion GetRegion(int id)
+        {
+            if (id == -1) return null;
+            if (id >= Regions.Count)
+            {
+                int min = 0;
+                int max = Regions.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > Regions[mid].ID)
+                        min = mid + 1;
+                    else if (id < Regions[mid].ID)
+                        max = mid - 1;
+                    else
+                        return Regions[mid];
+                }
+                return null;
+            }
+            else
+            {
+                int cur = id;
+                while (cur >= 0 && cur <= Regions.Count - 1)
+                {
+                    if (id > Regions[cur].ID)
+                        cur++;
+                    else if (id < Regions[cur].ID)
+                        cur--;
+                    else
+                        return Regions[cur];
+                }
+                return null;
+            }
+        }
+        public UndergroundRegion GetUndergroundRegion(int id)
+        {
+            if (id == -1) return null;
+            if (id >= UndergroundRegions.Count)
+            {
+                int min = 0;
+                int max = UndergroundRegions.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > UndergroundRegions[mid].ID)
+                        min = mid + 1;
+                    else if (id < UndergroundRegions[mid].ID)
+                        max = mid - 1;
+                    else
+                        return UndergroundRegions[mid];
+                }
+                return null;
+            }
+            else
+            {
+                int cur = id;
+                while (cur >= 0 && cur <= UndergroundRegions.Count - 1)
+                {
+                    if (id > UndergroundRegions[cur].ID)
+                        cur++;
+                    else if (id < UndergroundRegions[cur].ID)
+                        cur--;
+                    else
+                        return UndergroundRegions[cur];
+                }
+                return null;
+            }
+        }
+        public HistoricalFigure GetHistoricalFigure(int id)
+        {
+            if (id == -1) return null;
+            if (id >= HistoricalFigures.Count)
+            {
+                int min = 0;
+                int max = HistoricalFigures.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > HistoricalFigures[mid].ID)
+                        min = mid + 1;
+                    else if (id < HistoricalFigures[mid].ID)
+                        max = mid - 1;
+                    else
+                        return HistoricalFigures[mid];
+                }
+                return HistoricalFigure.Unknown;
+            }
+            else
+            {
+                int cur = id;
+                while (cur >= 0 && cur <= HistoricalFigures.Count - 1)
+                {
+                    if (id > HistoricalFigures[cur].ID)
+                        cur++;
+                    else if (id < HistoricalFigures[cur].ID)
+                        cur--;
+                    else
+                        return HistoricalFigures[cur];
+                }
+                return HistoricalFigure.Unknown;
+            }
+        }
+        public Entity GetEntity(int id)
+        {
+            if (id == -1) return null;
+            if (id >= Entities.Count)
+            {
+                int min = 0;
+                int max = Entities.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > Entities[mid].ID)
+                        min = mid + 1;
+                    else if (id < Entities[mid].ID)
+                        max = mid - 1;
+                    else
+                        return Entities[mid];
+                }
+                return null;
+            }
+            else
+            {
+                int cur = id;
+                while (cur >= 0 && cur <= Entities.Count - 1)
+                {
+                    if (id > Entities[cur].ID)
+                        cur++;
+                    else if (id < Entities[cur].ID)
+                        cur--;
+                    else
+                        return Entities[cur];
+                }
+                return null;
+            }
+        }
+
         public Artifact GetArtifact(int id)
         {
             if (id == -1) return null;
+            if (id >= Artifacts.Count)
+            {
+                int min = 0;
+                int max = Artifacts.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > Artifacts[mid].ID)
+                        min = mid + 1;
+                    else if (id < Artifacts[mid].ID)
+                        max = mid - 1;
+                    else
+                        return Artifacts[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -396,9 +478,26 @@ namespace LegendsViewer.Legends
                 return null;
             }
         }
+
         public WorldConstruction GetWorldConstruction(int id)
         {
             if (id == -1) return null;
+            if (id >= WorldConstructions.Count)
+            {
+                int min = 0;
+                int max = WorldConstructions.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > WorldConstructions[mid].ID)
+                        min = mid + 1;
+                    else if (id < WorldConstructions[mid].ID)
+                        max = mid - 1;
+                    else
+                        return WorldConstructions[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -417,6 +516,22 @@ namespace LegendsViewer.Legends
         public PoeticForm GetPoeticForm(int id)
         {
             if (id == -1) return null;
+            if (id >= PoeticForms.Count)
+            {
+                int min = 0;
+                int max = PoeticForms.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > PoeticForms[mid].ID)
+                        min = mid + 1;
+                    else if (id < PoeticForms[mid].ID)
+                        max = mid - 1;
+                    else
+                        return PoeticForms[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -435,6 +550,22 @@ namespace LegendsViewer.Legends
         public MusicalForm GetMusicalForm(int id)
         {
             if (id == -1) return null;
+            if (id >= MusicalForms.Count)
+            {
+                int min = 0;
+                int max = MusicalForms.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > MusicalForms[mid].ID)
+                        min = mid + 1;
+                    else if (id < MusicalForms[mid].ID)
+                        max = mid - 1;
+                    else
+                        return MusicalForms[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -453,6 +584,22 @@ namespace LegendsViewer.Legends
         public DanceForm GetDanceForm(int id)
         {
             if (id == -1) return null;
+            if (id >= DanceForms.Count)
+            {
+                int min = 0;
+                int max = DanceForms.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > DanceForms[mid].ID)
+                        min = mid + 1;
+                    else if (id < DanceForms[mid].ID)
+                        max = mid - 1;
+                    else
+                        return DanceForms[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -471,6 +618,22 @@ namespace LegendsViewer.Legends
         public WrittenContent GetWrittenContent(int id)
         {
             if (id == -1) return null;
+            if (id >= WrittenContents.Count)
+            {
+                int min = 0;
+                int max = WrittenContents.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > WrittenContents[mid].ID)
+                        min = mid + 1;
+                    else if (id < WrittenContents[mid].ID)
+                        max = mid - 1;
+                    else
+                        return WrittenContents[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -489,6 +652,22 @@ namespace LegendsViewer.Legends
         public Structure GetStructure(int id)
         {
             if (id == -1) return null;
+            if (id >= Structures.Count)
+            {
+                int min = 0;
+                int max = Structures.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > Structures[mid].GlobalID)
+                        min = mid + 1;
+                    else if (id < Structures[mid].GlobalID)
+                        max = mid - 1;
+                    else
+                        return Structures[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -508,6 +687,22 @@ namespace LegendsViewer.Legends
         public EventCollection GetEventCollection(int id)
         {
             if (id == -1) return null;
+            if (id >= EventCollections.Count)
+            {
+                int min = 0;
+                int max = EventCollections.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > EventCollections[mid].ID)
+                        min = mid + 1;
+                    else if (id < EventCollections[mid].ID)
+                        max = mid - 1;
+                    else
+                        return EventCollections[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -527,6 +722,22 @@ namespace LegendsViewer.Legends
         public WorldEvent GetEvent(int id)
         {
             if (id == -1) return null;
+            if (id >= Events.Count)
+            {
+                int min = 0;
+                int max = Events.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > Events[mid].ID)
+                        min = mid + 1;
+                    else if (id < Events[mid].ID)
+                        max = mid - 1;
+                    else
+                        return Events[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -546,6 +757,22 @@ namespace LegendsViewer.Legends
         public EntityPopulation GetEntityPopulation(int id)
         {
             if (id == -1) return null;
+            if (id >= EntityPopulations.Count)
+            {
+                int min = 0;
+                int max = EntityPopulations.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > EntityPopulations[mid].ID)
+                        min = mid + 1;
+                    else if (id < EntityPopulations[mid].ID)
+                        max = mid - 1;
+                    else
+                        return EntityPopulations[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id;
@@ -566,6 +793,22 @@ namespace LegendsViewer.Legends
         {
             // Sites start with id = 1 in xml instead of 0 like every other object
             if (id <= 0) return null;
+            if (id > Sites.Count)
+            {
+                int min = 0;
+                int max = Sites.Count - 1;
+                while (min <= max)
+                {
+                    int mid = min + (max - min) / 2;
+                    if (id > Sites[mid].ID)
+                        min = mid + 1;
+                    else if (id < Sites[mid].ID)
+                        max = mid - 1;
+                    else
+                        return Sites[mid];
+                }
+                return null;
+            }
             else
             {
                 int cur = id - 1;

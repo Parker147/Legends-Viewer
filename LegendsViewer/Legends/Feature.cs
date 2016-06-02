@@ -25,7 +25,7 @@ namespace LegendsViewer.Legends
             {
                 switch (property.Name)
                 {
-                    case "type": Type = property.Value; break;
+                    case "type": Type = string.Intern(property.Value); break;
                     case "reference": Reference = Convert.ToInt32(property.Value); break;
                 }
             }

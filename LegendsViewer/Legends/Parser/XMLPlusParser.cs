@@ -88,12 +88,12 @@ namespace LegendsViewer.Legends.Parser
 
             if (CurrentItem != null)
             {
-                Property id = existingProperties.SingleOrDefault(property => property.Name == "id");
-                Property currentId = CurrentItem.SingleOrDefault(property => property.Name == "id");
+                Property id = existingProperties.Find(property => property.Name == "id");
+                Property currentId = CurrentItem.Find(property => property.Name == "id");
                 while (currentId != null && currentId.ValueAsInt() < 0)
                 {
                     CurrentItem = ParseItem();
-                    if (CurrentItem != null) currentId = CurrentItem.SingleOrDefault(property => property.Name == "id");
+                    if (CurrentItem != null) currentId = CurrentItem.Find(property => property.Name == "id");
                 }
                 if (id != null && currentId != null && id.ValueAsInt().Equals(currentId.ValueAsInt()))
                 {
@@ -114,7 +114,7 @@ namespace LegendsViewer.Legends.Parser
                             existingProperties.Add(property);
                             continue;
                         }
-                        Property matchingProperty = existingProperties.SingleOrDefault(p => p.Name == property.Name);
+                        Property matchingProperty = existingProperties.Find(p => p.Name == property.Name);
                         if (CurrentSection == Section.Events && matchingProperty != null && 
                             (matchingProperty.Name == "type" || matchingProperty.Name == "state" || matchingProperty.Name == "slayer_race"))
                         {
@@ -124,8 +124,15 @@ namespace LegendsViewer.Legends.Parser
                         if (matchingProperty != null)
                         {
                             matchingProperty.Value = property.Value;
-                            matchingProperty.SubProperties.AddRange(property.SubProperties);
                             matchingProperty.Known = false;
+                            if (matchingProperty.SubProperties == null)
+                            {
+                                matchingProperty.SubProperties = property.SubProperties;
+                            }
+                            else
+                            {
+                                matchingProperty.SubProperties.AddRange(property.SubProperties);
+                            }
                         }
                         else
                         {

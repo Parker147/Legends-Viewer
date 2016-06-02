@@ -41,7 +41,10 @@ namespace LegendsViewer.Legends
                     case "title": Name = Formatting.InitCaps(property.Value); break;
                     case "page_start": PageStart = Convert.ToInt32(property.Value); break;
                     case "page_end": PageEnd = Convert.ToInt32(property.Value); break;
-                    case "reference": References.Add(new Reference(property.SubProperties, world)); break;
+                    case "reference":
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            References.Add(new Reference(property.SubProperties, world)); break;
                     case "type":
                         switch (property.Value)
                         {

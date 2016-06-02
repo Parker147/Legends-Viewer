@@ -202,22 +202,24 @@ namespace LegendsViewer.Legends
                         property.Known = true;
                         break;
                     case "site_link":
-                        SiteLinks.Add(new EntitySiteLink(property.SubProperties, world));
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            SiteLinks.Add(new EntitySiteLink(property.SubProperties, world));
                         break;
                     case "entity_link":
                         property.Known = true;
-                        foreach (Property subProperty in property.SubProperties)
-                        {
-                            subProperty.Known = true;
-                        }
+                        if (property.SubProperties != null)
+                            foreach (Property subProperty in property.SubProperties)
+                            {
+                                subProperty.Known = true;
+                            }
                         world.AddEntityEntityLink(this, property);
                         break;
                     case "worship_id":
                         property.Known = true;
                         break;
                     case "claims":
-                        string[] coordinateStrings = property.Value.Split(new char[] { '|' },
-                            StringSplitOptions.RemoveEmptyEntries);
+                        string[] coordinateStrings = property.Value.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (var coordinateString in coordinateStrings)
                         {
                             string[] xYCoordinates = coordinateString.Split(',');
@@ -229,17 +231,21 @@ namespace LegendsViewer.Legends
                             }
                         }
                         break;
-                    case "entity_position": EntityPositions.Add(new EntityPosition(property.SubProperties, world)); break;
-                    case "entity_position_assignment": EntityPositionAssignments.Add(new EntityPositionAssignment(property.SubProperties, world)); break;
+                    case "entity_position":
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            EntityPositions.Add(new EntityPosition(property.SubProperties, world)); break;
+                    case "entity_position_assignment":
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            EntityPositionAssignments.Add(new EntityPositionAssignment(property.SubProperties, world)); break;
                     case "histfig_id":
                         property.Known = true; // historical figure == last known entitymember?
                         break;
                     case "occasion":
                         property.Known = true;
-                        if (property.SubProperties.Any())
-                        {
+                        if (property.SubProperties != null)
                             Occassions.Add(new EntityOccasion(property.SubProperties, world, this));
-                        }
                         break;
                 }
             }

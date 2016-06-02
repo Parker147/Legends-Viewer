@@ -17,7 +17,7 @@ namespace LegendsViewer.Legends
             foreach(Property property in properties)
                 switch(property.Name)
                 {
-                    case "id": ID = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "id": ID = Convert.ToInt32(property.Value); break;
                     default: break;
                 }
         }

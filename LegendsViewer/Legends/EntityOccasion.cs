@@ -39,7 +39,7 @@ namespace LegendsViewer.Legends
                     case "event": EventId = Convert.ToInt32(property.Value); break;
                     case "schedule":
                         property.Known = true;
-                        if (property.SubProperties.Any())
+                        if (property.SubProperties != null)
                         {
                             Schedules.Add(new Schedule(property.SubProperties, world));
                         }

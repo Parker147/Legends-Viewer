@@ -136,12 +136,12 @@ namespace LegendsViewer.Legends
                     case "structures":
                         HasStructures = true;
                         property.Known = true;
-                        if (property.SubProperties.Any())
+                        if (property.SubProperties != null)
                         {
                             foreach (Property subProperty in property.SubProperties)
                             {
-                                Structures.Add(new Structure(subProperty.SubProperties, world, this));
                                 subProperty.Known = true;
+                                Structures.Add(new Structure(subProperty.SubProperties, world, this));
                             }
                         }
                         break;

@@ -54,11 +54,14 @@ namespace LegendsViewer.Legends
                                 break;
                         }
                         break;
-                    case "feature": Features.Add(new Feature(property.SubProperties, world)); break;
+                    case "feature":
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                            Features.Add(new Feature(property.SubProperties, world)); break;
                     case "reference": Reference = Convert.ToInt32(property.Value); break;
                     case "reference2": Reference2 = Convert.ToInt32(property.Value); break;
-                    case "item_type": ItemType = property.Value; break;
-                    case "item_subtype": ItemSubType = property.Value; break;
+                    case "item_type": ItemType = string.Intern(property.Value); break;
+                    case "item_subtype": ItemSubType = string.Intern(property.Value); break;
                 }
             }
         }

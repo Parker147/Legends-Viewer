@@ -10,10 +10,10 @@ namespace LegendsViewer.Legends
 {
     public class Landmass : WorldObject, IHasCoordinates
     {
+        public static readonly string Icon = "<i class=\"fa fa-fw fa-life-ring\"></i>";
+
         public string Name { get; set; } // legends_plus.xml
         public List<Location> Coordinates { get; set; } // legends_plus.xml
-
-        public string Icon = "<i class=\"fa fa-fw fa-life-ring\"></i>";
 
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents

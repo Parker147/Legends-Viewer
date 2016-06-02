@@ -11,7 +11,7 @@ using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Legends.Parser
 {
-    class XMLParser
+    public class XMLParser
     {
         protected World World;
         protected XmlTextReader XML;
@@ -19,7 +19,6 @@ namespace LegendsViewer.Legends.Parser
         protected Section CurrentSection = Section.Unknown;
         protected string CurrentItemName = "";
         private XMLPlusParser xmlPlusParser;
-
 
         protected XMLParser(string xmlFile)
         {
@@ -175,18 +174,17 @@ namespace LegendsViewer.Legends.Parser
         {
             Property property = new Property();
 
-            if (string.IsNullOrWhiteSpace(XML.Name))
+            if (string.IsNullOrEmpty(XML.Name))
             {
                 return null;
             }
 
-            if (XML.IsEmptyElement) //Need this for bugged XML properties that only have and end element like "</deity>" for historical figures.
+            if (XML.IsEmptyElement) 
             {
                 property.Name = XML.Name;
                 XML.ReadStartElement();
                 return property;
             }
-
             property.Name = XML.Name;
             XML.ReadStartElement();
 
@@ -197,6 +195,8 @@ namespace LegendsViewer.Legends.Parser
             }
             else if (XML.NodeType == XmlNodeType.Element)
             {
+                property.SubProperties = new List<Property>();
+
                 while (XML.NodeType != XmlNodeType.EndElement)
                 {
                     property.SubProperties.Add(ParseProperty());
@@ -205,7 +205,6 @@ namespace LegendsViewer.Legends.Parser
 
             XML.ReadEndElement();
             return property;
-
         }
 
         protected void AddItemToWorld(List<Property> properties)
@@ -229,7 +228,7 @@ namespace LegendsViewer.Legends.Parser
 
             string path = CurrentSection.ToString();
             if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
-                path += " '"+eventType + "'/";
+                path += " '" + eventType + "'/";
 
             CheckKnownStateOfProperties(path, properties);
         }
@@ -238,11 +237,11 @@ namespace LegendsViewer.Legends.Parser
         {
             foreach (Property property in properties)
             {
-                if (!property.Known && property.SubProperties.Count == 0)
+                if (!property.Known)
                 {
-                    World.ParsingErrors.Report("|==> "+path + " \nUnknown Property: " + property.Name, property.Value);
+                    World.ParsingErrors.Report("|==> " + path + " \nUnknown Property: " + property.Name, property.Value);
                 }
-                if (property.SubProperties.Count > 0)
+                if (property.SubProperties != null)
                 {
                     CheckKnownStateOfProperties(path + "/" + property.Name, property.SubProperties);
                 }
