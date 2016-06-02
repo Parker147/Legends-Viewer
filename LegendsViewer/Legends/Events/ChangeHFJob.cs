@@ -24,8 +24,8 @@ namespace LegendsViewer.Legends.Events
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
-                    case "new_job": NewJob = property.Value.Replace("_", " "); break;
-                    case "old_job": OldJob = property.Value.Replace("_", " "); break;
+                    case "new_job": NewJob = string.Intern(property.Value.Replace("_", " ")); break;
+                    case "old_job": OldJob = string.Intern(property.Value.Replace("_", " ")); break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                 }
             HistoricalFigure.AddEvent(this);

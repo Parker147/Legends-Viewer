@@ -120,10 +120,10 @@ namespace LegendsViewer.Legends
                     case "birth_seconds72": BirthSeconds72 = Convert.ToInt32(property.Value); break;
                     case "death_year": DeathYear = Convert.ToInt32(property.Value); break;
                     case "death_seconds72": DeathSeconds72 = Convert.ToInt32(property.Value); break;
-                    case "name": Name = string.Intern(Formatting.InitCaps(property.Value.Replace("'", "`"))); break;
+                    case "name": Name = Formatting.InitCaps(property.Value.Replace("'", "`")); break;
                     case "race": Race = string.Intern(Formatting.FormatRace(property.Value)); break;
-                    case "caste": Caste = Formatting.InitCaps(property.Value.ToLower().Replace('_', ' ')); break;
-                    case "associated_type": AssociatedType = Formatting.InitCaps(property.Value.ToLower().Replace('_', ' ')); break;
+                    case "caste": Caste = string.Intern(Formatting.InitCaps(property.Value.ToLower().Replace('_', ' '))); break;
+                    case "associated_type": AssociatedType = string.Intern(Formatting.InitCaps(property.Value.ToLower().Replace('_', ' '))); break;
                     case "deity": Deity = true; property.Known = true; break;
                     case "skeleton": Skeleton = true; property.Known = true; break;
                     case "force": Force = true; property.Known = true; break;
@@ -184,8 +184,8 @@ namespace LegendsViewer.Legends
                         }
                         break;
                     case "hf_skill": Skills.Add(new Skill(property.SubProperties)); break;
-                    case "active_interaction": ActiveInteractions.Add(property.Value); break;
-                    case "interaction_knowledge": InteractionKnowledge.Add(property.Value); break;
+                    case "active_interaction": ActiveInteractions.Add(string.Intern(property.Value)); break;
+                    case "interaction_knowledge": InteractionKnowledge.Add(string.Intern(property.Value)); break;
                     case "animated": Animated = true; property.Known = true; break;
                     case "animated_string": if (AnimatedType != "") throw new Exception("Animated Type already exists."); AnimatedType = Formatting.InitCaps(property.Value); break;
                     case "journey_pet": JourneyPets.Add(Formatting.FormatRace(property.Value)); break;
@@ -210,7 +210,8 @@ namespace LegendsViewer.Legends
                             }
                         }
                         break;
-                    case "sex": Convert.ToInt32(property.Value); break;
+                    case "sex":
+                        property.Known = true; break;
                 }
             if (string.IsNullOrWhiteSpace(Name))
             {

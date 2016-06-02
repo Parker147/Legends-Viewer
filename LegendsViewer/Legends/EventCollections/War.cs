@@ -10,7 +10,7 @@ namespace LegendsViewer.Legends.EventCollections
 {
     public class War : EventCollection
     {
-        public string Icon = "<i class=\"glyphicon fa-fw glyphicon-queen\"></i>";
+        public static readonly string Icon = "<i class=\"glyphicon fa-fw glyphicon-queen\"></i>";
 
         public string Name { get; set; }
         public int Length { get; set; }

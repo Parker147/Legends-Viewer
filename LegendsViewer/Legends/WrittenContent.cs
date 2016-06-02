@@ -70,7 +70,7 @@ namespace LegendsViewer.Legends
                         }
                         break;
                     case "author": Author = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
-                    case "style": Styles.Add(property.Value); break;
+                    case "style": Styles.Add(string.Intern(property.Value)); break;
                 }
             }
         }

@@ -9,7 +9,7 @@ namespace LegendsViewer.Legends.EventCollections
 {
     public class BeastAttack : EventCollection
     {
-        public string Icon = "<i class=\"glyphicon fa-fw glyphicon-knight\"></i>";
+        public static readonly string Icon = "<i class=\"glyphicon fa-fw glyphicon-knight\"></i>";
 
         public string Name { get { return GetOrdinal(Ordinal) + "Rampage of " + (Beast != null ? Beast.Name : "UNKNOWN BEAST"); } set { } }
         public int DeathCount { get { return Deaths.Count; } set { } }
@@ -34,11 +34,7 @@ namespace LegendsViewer.Legends.EventCollections
         {
             get { return AllEvents.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
-        public BeastAttack()
-            : base()
-        {
-            Initialize();
-        }
+
         public BeastAttack(List<Property> properties, World world)
             : base(properties, world)
         {

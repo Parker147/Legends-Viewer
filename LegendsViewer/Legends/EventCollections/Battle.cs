@@ -10,7 +10,7 @@ namespace LegendsViewer.Legends.EventCollections
 {
     public class Battle : EventCollection
     {
-        public string Icon = "<i class=\"glyphicon fa-fw glyphicon-bishop\"></i>";
+        public static readonly string Icon = "<i class=\"glyphicon fa-fw glyphicon-bishop\"></i>";
 
         public string Name { get; set; }
         public BattleOutcome Outcome { get; set; }
@@ -29,57 +29,16 @@ namespace LegendsViewer.Legends.EventCollections
         public List<HistoricalFigure> NonCombatants { get; set; }
         public List<Squad> AttackerSquads { get; set; }
         public List<Squad> DefenderSquads { get; set; }
-        public int AttackerCount { get { return NotableAttackers.Count + AttackerSquads.Sum(squad => squad.Numbers); } set { } }
-        public int DefenderCount { get { return NotableDefenders.Count + DefenderSquads.Sum(squad => squad.Numbers); } set { } }
         public int AttackersRemainingCount { get { return Attackers.Sum(squad => squad.Numbers - squad.Deaths); } set { } }
         public int DefendersRemainingCount { get { return Defenders.Sum(squad => squad.Numbers - squad.Deaths); } set { } }
         public int DeathCount { get { return AttackerDeathCount + DefenderDeathCount; } set { } }
         public List<string> Deaths { get; set; }
-        public List<HistoricalFigure> NotableDeaths { get { return NotableAttackers.Where(attacker => GetSubEvents().OfType<HFDied>().Count(death => death.HistoricalFigure == attacker) > 0).Concat(NotableDefenders.Where(defender => GetSubEvents().OfType<HFDied>().Count(death => death.HistoricalFigure == defender) > 0)).ToList(); } set { } }
         public int AttackerDeathCount { get; set; }
         public int DefenderDeathCount { get; set; }
-        public double AttackersToDefenders
-        {
-            get
-            {
-                if (AttackerCount == 0 && DefenderCount == 0) return 0;
-                if (DefenderCount == 0) return double.MaxValue;
-                return Math.Round(AttackerCount / Convert.ToDouble(DefenderCount), 2);
-            }
-            set { }
-        }
-        public double AttackersToDefendersRemaining
-        {
-            get
-            {
-                if (AttackersRemainingCount == 0 && DefendersRemainingCount == 0) return 0;
-                if (DefendersRemainingCount == 0) return double.MaxValue;
-                return Math.Round(AttackersRemainingCount / Convert.ToDouble(DefendersRemainingCount), 2);
-            }
-            set { }
-        }
-        public double AttackerToDefenderKills
-        {
-            get
-            {
-                if (AttackerDeathCount == 0 && DefenderDeathCount == 0) return 0;
-                if (AttackerDeathCount == 0) return double.MaxValue;
-                return Math.Round(DefenderDeathCount / Convert.ToDouble(AttackerDeathCount), 2);
-            }
-            set { }
-        }
 
-        public List<string> AttackersAsList
-        {
-            get;
-            set;
-        }
+        public List<string> AttackersAsList { get; set; }
 
-        public List<string> DefendersAsList
-        {
-            get;
-            set;
-        }
+        public List<string> DefendersAsList { get; set; }
 
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
@@ -93,18 +52,16 @@ namespace LegendsViewer.Legends.EventCollections
 
             Initialize();
 
-            List<string> attackerSquadRace, defenderSquadRace;
-            List<int> attackerSquadEntityPopulation, attackerSquadNumbers, attackerSquadDeaths, attackerSquadSite,
-                         defenderSquadEntityPopulation, defenderSquadNumbers, defenderSquadDeaths, defenderSquadSite;
-            NotableAttackers = new List<HistoricalFigure>(); NotableDefenders = new List<HistoricalFigure>();
-            AttackerSquads = new List<Squad>(); DefenderSquads = new List<Squad>();
-            attackerSquadRace = new List<string>(); attackerSquadEntityPopulation = new List<int>(); attackerSquadNumbers = new List<int>(); attackerSquadDeaths = new List<int>();
-            attackerSquadSite = new List<int>();
-            defenderSquadRace = new List<string>(); defenderSquadEntityPopulation = new List<int>(); defenderSquadNumbers = new List<int>(); defenderSquadDeaths = new List<int>();
-            defenderSquadSite = new List<int>();
-            Attackers = new List<Squad>();
-            Defenders = new List<Squad>();
-            NonCombatants = new List<HistoricalFigure>();
+            var attackerSquadRace = new List<string>();
+            var attackerSquadEntityPopulation = new List<int>();
+            var attackerSquadNumbers = new List<int>();
+            var attackerSquadDeaths = new List<int>();
+            var attackerSquadSite = new List<int>();
+            var defenderSquadRace = new List<string>();
+            var defenderSquadEntityPopulation = new List<int>();
+            var defenderSquadNumbers = new List<int>();
+            var defenderSquadDeaths = new List<int>();
+            var defenderSquadSite = new List<int>();
             foreach (Property property in properties)
                 switch (property.Name)
                 {
@@ -234,6 +191,14 @@ namespace LegendsViewer.Legends.EventCollections
             Coordinates = new Location(0, 0);
             AttackerDeathCount = 0;
             DefenderDeathCount = 0;
+
+            NotableAttackers = new List<HistoricalFigure>();
+            NotableDefenders = new List<HistoricalFigure>();
+            AttackerSquads = new List<Squad>();
+            DefenderSquads = new List<Squad>();
+            Attackers = new List<Squad>();
+            Defenders = new List<Squad>();
+            NonCombatants = new List<HistoricalFigure>();
         }
 
         public class Squad
@@ -245,7 +210,7 @@ namespace LegendsViewer.Legends.EventCollections
             public int Population { get; set; }
             public Squad(string race, int numbers, int deaths, int site, int population)
             {
-                Race = String.Intern(race);
+                Race = string.Intern(race);
                 Numbers = numbers;
                 Deaths = deaths;
                 Site = site;
@@ -259,21 +224,22 @@ namespace LegendsViewer.Legends.EventCollections
             {
                 string title = Type;
                 title += "&#13";
-                title += Attacker.PrintEntity(false) + " (Attacker)";
+                title += Attacker != null ? Attacker.PrintEntity(false) : "UNKNOWN";
+                title += " (Attacker)";
                 if (Victor == Attacker) title += "(V)";
                 title += "&#13";
-                title += "Kills: " + DefenderDeathCount;
+                title += "Kills: " + DefenderDeathCount.ToString();
                 title += "&#13";
                 title += Defender != null ? Defender.PrintEntity(false) : "UNKNOWN";
                 title += " (Defender)";
                 if (Victor == Defender) title += "(V)";
                 title += "&#13";
-                title += "Kills: " + AttackerDeathCount;
+                title += "Kills: " + AttackerDeathCount.ToString();
 
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a href = \"collection#" + ID + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
+                    linkedString = Icon + "<a href = \"collection#" + ID.ToString() + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
                 }
                 else
                 {
@@ -281,15 +247,12 @@ namespace LegendsViewer.Legends.EventCollections
                 }
                 return linkedString;
             }
-            else
-            {
-                return Name;
-            }
+            return Name;
         }
+
         public override string ToString()
         {
             return Name;
         }
-
     }
 }

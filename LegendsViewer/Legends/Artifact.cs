@@ -41,10 +41,10 @@ namespace LegendsViewer.Legends
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "item": Item = Formatting.InitCaps(property.Value); break;
-                    case "item_type": Type = Formatting.InitCaps(property.Value); break;
-                    case "item_subtype": SubType = property.Value; break;
+                    case "item_type": Type = string.Intern(Formatting.InitCaps(property.Value)); break;
+                    case "item_subtype": SubType = string.Intern(property.Value); break;
                     case "item_description": Description = Formatting.InitCaps(property.Value); break;
-                    case "mat": Material = property.Value; break;
+                    case "mat": Material = string.Intern(property.Value); break;
                     case "page_count": PageCount = Convert.ToInt32(property.Value); break;
                     case "writing": if (!WrittenContents.Contains(Convert.ToInt32(property.Value))) WrittenContents.Add(Convert.ToInt32(property.Value)); break;
                 }
