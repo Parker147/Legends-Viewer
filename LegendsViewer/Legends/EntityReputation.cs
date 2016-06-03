@@ -30,6 +30,8 @@ namespace LegendsViewer.Legends
                     case "rep_bard": Reputations.Add(ReputationType.Bard, Convert.ToInt32(property.Value)); break;
                     case "rep_storyteller": Reputations.Add(ReputationType.Storyteller, Convert.ToInt32(property.Value)); break;
                     case "rep_dancer": Reputations.Add(ReputationType.Dancer, Convert.ToInt32(property.Value)); break;
+                    case "rep_hero": Reputations.Add(ReputationType.Hero, Convert.ToInt32(property.Value)); break;
+                    case "rep_hunter": Reputations.Add(ReputationType.Hunter, Convert.ToInt32(property.Value)); break;
                 }
             }
         }

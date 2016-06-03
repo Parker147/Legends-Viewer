@@ -22,6 +22,8 @@ namespace LegendsViewer.Legends.Enums
         Psychopath,
         [Description("Loyal Soldier")]
         LoyalSoldier,
-        Bully
+        Bully,
+        Hero,
+        Hunter
     }
 }

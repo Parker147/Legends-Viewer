@@ -12,7 +12,7 @@ namespace LegendsViewer.Legends
     public class HistoricalFigure : WorldObject
     {
         private static List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
-        private static List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller", "rep_dancer", "rep_loyal_soldier" };
+        private static List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller", "rep_dancer", "rep_loyal_soldier", "rep_hero", "rep_hunter" };
         private static List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
         private static List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
 

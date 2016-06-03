@@ -266,6 +266,7 @@ namespace LegendsViewer.Legends
 
         public HistoricalFigure GetHistoricalFigure(string name)
         {
+            name = Formatting.InitCaps(name.Replace("'", "`"));
             int min = 0;
             int max = HistoricalFigures.Count - 1;
             while (min <= max)
@@ -289,6 +290,7 @@ namespace LegendsViewer.Legends
 
         public Entity GetEntity(string name)
         {
+            name = Formatting.InitCaps(name);
             int min = 0;
             int max = EntitiesByName.Count - 1;
             while (min <= max)
@@ -687,23 +689,26 @@ namespace LegendsViewer.Legends
 
         private void ResolveHFToEntityPopulation()
         {
-            for (int i = 0; i < HistoricalFigures.Count; i++)
+            if (EntityPopulations.Any(ep => ep.Entity != null))
             {
-                if (HistoricalFigures[i].EntityPopulationID != -1)
+                for (int i = 0; i < HistoricalFigures.Count; i++)
                 {
-                    HistoricalFigures[i].EntityPopulation = GetEntityPopulation(HistoricalFigures[i].EntityPopulationID);
-                    if (HistoricalFigures[i].EntityPopulation != null)
+                    if (HistoricalFigures[i].EntityPopulationID != -1)
                     {
-                        if (HistoricalFigures[i].EntityPopulation.Member == null)
+                        HistoricalFigures[i].EntityPopulation = GetEntityPopulation(HistoricalFigures[i].EntityPopulationID);
+                        if (HistoricalFigures[i].EntityPopulation != null)
                         {
-                            HistoricalFigures[i].EntityPopulation.Member = new List<HistoricalFigure>();
+                            if (HistoricalFigures[i].EntityPopulation.Member == null)
+                            {
+                                HistoricalFigures[i].EntityPopulation.Member = new List<HistoricalFigure>();
+                            }
+                            if (HistoricalFigures[i].EntityPopulation.EntityID != -1 && HistoricalFigures[i].EntityPopulation.Entity == null)
+                            {
+                                HistoricalFigures[i].EntityPopulation.Entity =
+                                    GetEntity(HistoricalFigures[i].EntityPopulation.EntityID);
+                            }
+                            HistoricalFigures[i].EntityPopulation.Member.Add(HistoricalFigures[i]);
                         }
-                        if (HistoricalFigures[i].EntityPopulation.EntityID != -1 && HistoricalFigures[i].EntityPopulation.Entity == null)
-                        {
-                            HistoricalFigures[i].EntityPopulation.Entity =
-                                GetEntity(HistoricalFigures[i].EntityPopulation.EntityID);
-                        }
-                        HistoricalFigures[i].EntityPopulation.Member.Add(HistoricalFigures[i]);
                     }
                 }
             }
