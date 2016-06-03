@@ -67,8 +67,9 @@ namespace LegendsViewer.Controls
             {
                 string nodes = CreateNode(HistoricalFigure);
                 string edges = "";
-
-                GetFamilyDataParents(HistoricalFigure, ref nodes, ref edges);
+                int mothertreesize = 0;
+                int fathertreesize = 0;
+                GetFamilyDataParents(HistoricalFigure, ref nodes, ref edges, ref mothertreesize, ref fathertreesize);
                 GetFamilyDataChildren(HistoricalFigure, ref nodes, ref edges);
 
                 HTML.AppendLine(Bold("Family Tree") + LineBreak);
@@ -149,7 +150,7 @@ namespace LegendsViewer.Controls
             }
         }
 
-        private void GetFamilyDataParents(HistoricalFigure hf, ref string nodes, ref string edges)
+        private void GetFamilyDataParents(HistoricalFigure hf, ref string nodes, ref string edges, ref int mothertreesize, ref int fathertreesize)
         {
             foreach (HistoricalFigure mother in hf.RelatedHistoricalFigures.Where(rel => rel.Type == HistoricalFigureLinkType.Mother).Select(rel => rel.HistoricalFigure))
             {
@@ -157,13 +158,17 @@ namespace LegendsViewer.Controls
                 if (!nodes.Contains(node))
                 {
                     nodes += node;
+                    mothertreesize++;
                 }
                 string edge = "{ data: { source: '" + mother.ID + "', target: '" + hf.ID + "' } },";
                 if (!edges.Contains(edge))
                 {
                     edges += edge;
                 }
-                GetFamilyDataParents(mother, ref nodes, ref edges);
+                if (mothertreesize < 64)
+                {
+                    GetFamilyDataParents(mother, ref nodes, ref edges, ref mothertreesize, ref fathertreesize);
+                }
             }
             foreach (HistoricalFigure father in hf.RelatedHistoricalFigures.Where(rel => rel.Type == HistoricalFigureLinkType.Father).Select(rel => rel.HistoricalFigure))
             {
@@ -171,13 +176,17 @@ namespace LegendsViewer.Controls
                 if (!nodes.Contains(node))
                 {
                     nodes += node;
+                    fathertreesize++;
                 }
                 string edge = "{ data: { source: '" + father.ID + "', target: '" + hf.ID + "' } },";
                 if (!edges.Contains(edge))
                 {
                     edges += edge;
                 }
-                GetFamilyDataParents(father, ref nodes, ref edges);
+                if (fathertreesize < 64)
+                {
+                    GetFamilyDataParents(father, ref nodes, ref edges, ref mothertreesize, ref fathertreesize);
+                }
             }
         }
 
@@ -651,8 +660,15 @@ namespace LegendsViewer.Controls
             {
                 HTML.AppendLine(Bold("Kills") + " " + MakeLink("[Load]", LinkOption.LoadHFKills));
                 StartList(ListType.Ordered);
-                foreach (HFDied kill in HistoricalFigure.NotableKills)
-                    HTML.AppendLine(ListItem + kill.HistoricalFigure.ToLink() + ", in " + kill.Year + " (" + kill.Cause.GetDescription() + ")" + LineBreak);
+                if (HistoricalFigure.NotableKills.Count > 100)
+                {
+                    HTML.AppendLine("<li>" + HistoricalFigure.NotableKills.Count +" notable kills" + LineBreak);
+                }
+                else
+                {
+                    foreach (HFDied kill in HistoricalFigure.NotableKills)
+                        HTML.AppendLine("<li>" + kill.HistoricalFigure.ToLink() + ", in " + kill.Year + " (" + kill.Cause.GetDescription() + ")</li>" + LineBreak);
+                }
                 EndList(ListType.Ordered);
             }
         }

@@ -361,10 +361,18 @@ namespace LegendsViewer.Controls
                 return;
             }
             HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + "<br/><br/>");
+
+            int i = 0;
             foreach (var e in events)
             {
                 if (filters == null || !filters.Contains(e.Type))
                 {
+                    i++;
+                    if (i == 500)
+                    {
+                        HTML.AppendLine("<b>Too many events! Please filter the events in the events tab on the left.</b><br /><br />");
+                        return;
+                    }
                     HTML.AppendLine(e.Print(true, dfo) + "<br /><br />");
                 }
             }

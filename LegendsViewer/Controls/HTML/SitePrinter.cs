@@ -201,12 +201,22 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("</ol>");
             }
 
-            if (Site.Events.OfType<HFDied>().Any() || Site.Warfare.OfType<Battle>().Any())
+            int siteDeath = Site.Events.OfType<HFDied>().Count();
+            if (siteDeath > 0 || Site.Warfare.OfType<Battle>().Any())
             {
-                HTML.AppendLine("<b>Deaths</b> " + MakeLink("[Load]", LinkOption.LoadSiteDeaths) + LineBreak);
+                HTML.AppendLine("<b>Deaths</b> " + LineBreak);
                 HTML.AppendLine("<ol>");
-                foreach (HFDied death in Site.Events.OfType<HFDied>())
-                    HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
+                if (siteDeath > 100)
+                {
+                    HTML.AppendLine("<li>Population died in this site: " + siteDeath);
+                }
+                else
+                {
+                    foreach (HFDied death in Site.Events.OfType<HFDied>())
+                    {
+                        HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
+                    }
+                }
                 var popInBattle =
                     Site.Warfare.OfType<Battle>()
                         .Sum(

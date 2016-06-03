@@ -313,7 +313,7 @@ namespace LegendsViewer.Legends
 
         public WorldRegion GetRegion(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < Regions.Count && Regions[id].ID == id)
             {
                 return Regions[id];
@@ -322,7 +322,7 @@ namespace LegendsViewer.Legends
         }
         public UndergroundRegion GetUndergroundRegion(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < UndergroundRegions.Count && UndergroundRegions[id].ID == id)
             {
                 return UndergroundRegions[id];
@@ -331,7 +331,7 @@ namespace LegendsViewer.Legends
         }
         public HistoricalFigure GetHistoricalFigure(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < HistoricalFigures.Count && HistoricalFigures[id].ID == id)
             {
                 return HistoricalFigures[id];
@@ -340,7 +340,7 @@ namespace LegendsViewer.Legends
         }
         public Entity GetEntity(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < Entities.Count && Entities[id].ID == id)
             {
                 return Entities[id];
@@ -350,7 +350,7 @@ namespace LegendsViewer.Legends
 
         public Artifact GetArtifact(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < Artifacts.Count && Artifacts[id].ID == id)
             {
                 return Artifacts[id];
@@ -359,7 +359,7 @@ namespace LegendsViewer.Legends
         }
         public PoeticForm GetPoeticForm(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < PoeticForms.Count && PoeticForms[id].ID == id)
             {
                 return PoeticForms[id];
@@ -368,7 +368,7 @@ namespace LegendsViewer.Legends
         }
         public MusicalForm GetMusicalForm(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < MusicalForms.Count && MusicalForms[id].ID == id)
             {
                 return MusicalForms[id];
@@ -377,7 +377,7 @@ namespace LegendsViewer.Legends
         }
         public DanceForm GetDanceForm(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < DanceForms.Count && DanceForms[id].ID == id)
             {
                 return DanceForms[id];
@@ -386,7 +386,7 @@ namespace LegendsViewer.Legends
         }
         public WrittenContent GetWrittenContent(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < WrittenContents.Count && WrittenContents[id].ID == id)
             {
                 return WrittenContents[id];
@@ -396,7 +396,7 @@ namespace LegendsViewer.Legends
 
         public EntityPopulation GetEntityPopulation(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < EntityPopulations.Count && EntityPopulations[id].ID == id)
             {
                 return EntityPopulations[id];
@@ -406,7 +406,7 @@ namespace LegendsViewer.Legends
 
         public EventCollection GetEventCollection(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < EventCollections.Count && EventCollections[id].ID == id)
             {
                 return EventCollections[id];
@@ -428,7 +428,7 @@ namespace LegendsViewer.Legends
 
         public WorldEvent GetEvent(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < Events.Count && Events[id].ID == id)
             {
                 return Events[id];
@@ -450,7 +450,7 @@ namespace LegendsViewer.Legends
 
         public Structure GetStructure(int id)
         {
-            if (id == -1) return null;
+            if (id < 0) return null;
             if (id < Structures.Count && Structures[id].GlobalID == id)
             {
                 return Structures[id];
