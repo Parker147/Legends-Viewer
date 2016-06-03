@@ -334,7 +334,7 @@ namespace LegendsViewer.Legends
             {
                 return HistoricalFigures[id];
             }
-            return HistoricalFigures.GetWorldObject(id);
+            return HistoricalFigures.GetWorldObject(id) ?? HistoricalFigure.Unknown;
         }
         public Entity GetEntity(int id)
         {
@@ -705,7 +705,7 @@ namespace LegendsViewer.Legends
                         }
                         HistoricalFigures[i].EntityPopulation.Member.Add(HistoricalFigures[i]);
                     }
-                }   
+                }
             }
         }
 

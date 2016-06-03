@@ -103,7 +103,7 @@ namespace LegendsViewer.Legends
         public HistoricalFigure()
         {
             Initialize();
-            Name = "UNKNOWN HISTORICAL FIGURE";
+            Name = "an unknown creature";
             Race = "UNKNOWN";
             Caste = "UNKNOWN";
             AssociatedType = "UNKNOWN";

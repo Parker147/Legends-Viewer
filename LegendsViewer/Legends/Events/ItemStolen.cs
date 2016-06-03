@@ -82,7 +82,7 @@ namespace LegendsViewer.Legends.Events
             }
             else
             {
-                eventString += "UNKNOWN HISTORICAL FIGURE";
+                eventString += "an unknown creature";
             }
 
             if (ReturnSite != null)
