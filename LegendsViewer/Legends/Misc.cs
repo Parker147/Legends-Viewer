@@ -1,4 +1,5 @@
-﻿using LegendsViewer.Legends.Events;
+﻿using System.Collections.Generic;
+using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Legends
 {
@@ -10,6 +11,23 @@ namespace LegendsViewer.Legends
             {
                 worldObject.Events.Add(worldEvent);
             }
+        }
+
+        public static T GetWorldObject<T>(this List<T> list, int id) where T : WorldObject
+        {
+            int min = 0;
+            int max = list.Count - 1;
+            while (min <= max)
+            {
+                int mid = min + (max - min) / 2;
+                if (id > list[mid].ID)
+                    min = mid + 1;
+                else if (id < list[mid].ID)
+                    max = mid - 1;
+                else
+                    return list[mid];
+            }
+            return null;
         }
     }
 }

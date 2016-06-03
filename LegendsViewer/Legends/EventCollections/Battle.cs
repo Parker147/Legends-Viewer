@@ -65,20 +65,28 @@ namespace LegendsViewer.Legends.EventCollections
             foreach (Property property in properties)
                 switch (property.Name)
                 {
-                    case "outcome": switch (property.Value)
+                    case "outcome":
+                        switch (property.Value)
                         {
                             case "attacker won": Outcome = BattleOutcome.AttackerWon; break;
                             case "defender won": Outcome = BattleOutcome.DefenderWon; break;
                             default: Outcome = BattleOutcome.Unknown; world.ParsingErrors.Report("Unknown Battle Outcome: " + property.Value); break;
-                        } break;
+                        }
+                        break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
                     case "war_eventcol": ParentCollection = world.GetEventCollection(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "attacking_hfid": NotableAttackers.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value))); break;
-                    case "defending_hfid": NotableDefenders.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value))); break;
+                    case "attacking_hfid":
+                        HistoricalFigure attacker = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        NotableAttackers.Add(attacker ?? HistoricalFigure.Unknown);
+                        break;
+                    case "defending_hfid":
+                        HistoricalFigure defender = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        NotableDefenders.Add(defender ?? HistoricalFigure.Unknown);
+                        break;
                     case "attacking_squad_race": attackerSquadRace.Add(Formatting.FormatRace(property.Value)); break;
                     case "attacking_squad_entity_pop": attackerSquadEntityPopulation.Add(Convert.ToInt32(property.Value)); break;
                     case "attacking_squad_number": attackerSquadNumbers.Add(Convert.ToInt32(property.Value)); break;
@@ -89,7 +97,10 @@ namespace LegendsViewer.Legends.EventCollections
                     case "defending_squad_number": defenderSquadNumbers.Add(Convert.ToInt32(property.Value)); break;
                     case "defending_squad_deaths": defenderSquadDeaths.Add(Convert.ToInt32(property.Value)); break;
                     case "defending_squad_site": defenderSquadSite.Add(Convert.ToInt32(property.Value)); break;
-                    case "noncom_hfid": NonCombatants.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value))); break;
+                    case "noncom_hfid":
+                        HistoricalFigure nonCombatant = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        NonCombatants.Add(nonCombatant ?? HistoricalFigure.Unknown);
+                        break;
                 }
 
             if (Collection.OfType<AttackedSite>().Any())

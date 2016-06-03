@@ -32,6 +32,7 @@ namespace LegendsViewer.Controls
             PrintPositions();
             PrintRelatedHistoricalFigures();
             PrintRelationships();
+            PrintRelatedPopulation();
             PrintRelatedEntities();
             PrintReputations();
             PrintRelatedSites();
@@ -41,6 +42,21 @@ namespace LegendsViewer.Controls
             PrintBeastAttacks();
             PrintEventLog(HistoricalFigure.Events, HistoricalFigure.Filters, HistoricalFigure);
             return HTML.ToString();
+        }
+
+        private void PrintRelatedPopulation()
+        {
+            if (HistoricalFigure.EntityPopulation != null)
+            {
+                HTML.AppendLine(Bold("Related Population: ") + LineBreak);
+
+                HTML.AppendLine("<ul>");
+                HTML.AppendLine("<li>");
+                HTML.AppendLine(HistoricalFigure.EntityPopulation.Entity.ToLink());
+                HTML.AppendLine(" (" + Formatting.MakePopulationPlural(Formatting.InitCaps(HistoricalFigure.EntityPopulation.Race.Replace("_", " "))) + ")");
+                HTML.AppendLine("</li>");
+                HTML.AppendLine("</ul>");
+            }
         }
 
         private void PrintFamilyGraph()

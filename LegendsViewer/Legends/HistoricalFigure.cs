@@ -28,6 +28,7 @@ namespace LegendsViewer.Legends
         public string PreviousRace { get; set; }
         public string Caste { get; set; }
         public string AssociatedType { get; set; }
+        public int EntityPopulationID { get; set; }
         public EntityPopulation EntityPopulation { get; set; }
         public HFState CurrentState { get; set; }
         public HistoricalFigure UsedIdentity { get; set; }
@@ -205,7 +206,7 @@ namespace LegendsViewer.Legends
                     case "sphere": Spheres.Add(property.Value); break;
                     case "current_identity_id": world.AddHFCurrentIdentity(this, Convert.ToInt32(property.Value)); break;
                     case "used_identity_id": world.AddHFUsedIdentity(this, Convert.ToInt32(property.Value)); break;
-                    case "ent_pop_id": EntityPopulation = world.GetEntityPopulation(Convert.ToInt32(property.Value)); break;
+                    case "ent_pop_id": EntityPopulationID = Convert.ToInt32(property.Value); break;
                     case "holds_artifact": HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
                     case "adventurer": Adventurer = true; property.Known = true; break;
                     case "breed_id":
@@ -239,7 +240,7 @@ namespace LegendsViewer.Legends
 
         private void Initialize()
         {
-            Appeared = BirthYear = BirthSeconds72 = DeathYear = DeathSeconds72 = -1;
+            Appeared = BirthYear = BirthSeconds72 = DeathYear = DeathSeconds72 = EntityPopulationID = -1;
             Name = Race = Caste = AssociatedType = "";
             DeathCause = DeathCause.None;
             CurrentState = HFState.None;
