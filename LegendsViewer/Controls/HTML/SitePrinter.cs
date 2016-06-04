@@ -208,7 +208,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<ol>");
                 if (siteDeath > 100)
                 {
-                    HTML.AppendLine("<li>Population died in this site: " + siteDeath);
+                    HTML.AppendLine("<li>Population died at this site: " + siteDeath);
                 }
                 else
                 {

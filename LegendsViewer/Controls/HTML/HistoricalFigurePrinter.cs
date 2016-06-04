@@ -154,39 +154,41 @@ namespace LegendsViewer.Controls
         {
             foreach (HistoricalFigure mother in hf.RelatedHistoricalFigures.Where(rel => rel.Type == HistoricalFigureLinkType.Mother).Select(rel => rel.HistoricalFigure))
             {
+                mothertreesize++;
                 string node = CreateNode(mother);
                 if (!nodes.Contains(node))
                 {
                     nodes += node;
-                    mothertreesize++;
                 }
                 string edge = "{ data: { source: '" + mother.ID + "', target: '" + hf.ID + "' } },";
                 if (!edges.Contains(edge))
                 {
                     edges += edge;
                 }
-                if (mothertreesize < 64)
+                if (mothertreesize < 3)
                 {
                     GetFamilyDataParents(mother, ref nodes, ref edges, ref mothertreesize, ref fathertreesize);
                 }
+                mothertreesize--;
             }
             foreach (HistoricalFigure father in hf.RelatedHistoricalFigures.Where(rel => rel.Type == HistoricalFigureLinkType.Father).Select(rel => rel.HistoricalFigure))
             {
+                fathertreesize++;
                 string node = CreateNode(father);
                 if (!nodes.Contains(node))
                 {
                     nodes += node;
-                    fathertreesize++;
                 }
                 string edge = "{ data: { source: '" + father.ID + "', target: '" + hf.ID + "' } },";
                 if (!edges.Contains(edge))
                 {
                     edges += edge;
                 }
-                if (fathertreesize < 64)
+                if (fathertreesize < 3)
                 {
                     GetFamilyDataParents(father, ref nodes, ref edges, ref mothertreesize, ref fathertreesize);
                 }
+                fathertreesize--;
             }
         }
 
@@ -511,7 +513,7 @@ namespace LegendsViewer.Controls
             if (HistoricalFigure.RelationshipProfiles.Count > 0)
             {
                 HTML.AppendLine(Bold("Relationships") + LineBreak);
-                HTML.AppendLine("<ul>");
+                HTML.AppendLine("<ol>");
                 foreach (var relationshipProfile in HistoricalFigure.RelationshipProfiles.OrderByDescending(profile => profile.Reputations.OrderBy(rep => rep.Strength).FirstOrDefault()?.Strength))
                 {
                     HistoricalFigure hf = World.GetHistoricalFigure(relationshipProfile.HistoricalFigureID);
@@ -526,7 +528,7 @@ namespace LegendsViewer.Controls
                         HTML.AppendLine("</li>");
                     }
                 }
-                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</ol>");
             }
         }
 
@@ -662,12 +664,12 @@ namespace LegendsViewer.Controls
                 StartList(ListType.Ordered);
                 if (HistoricalFigure.NotableKills.Count > 100)
                 {
-                    HTML.AppendLine("<li>" + HistoricalFigure.NotableKills.Count +" notable kills" + LineBreak);
+                    HTML.AppendLine("<li>" + HistoricalFigure.NotableKills.Count + " notable kills</li>");
                 }
                 else
                 {
                     foreach (HFDied kill in HistoricalFigure.NotableKills)
-                        HTML.AppendLine("<li>" + kill.HistoricalFigure.ToLink() + ", in " + kill.Year + " (" + kill.Cause.GetDescription() + ")</li>" + LineBreak);
+                        HTML.AppendLine("<li>" + kill.HistoricalFigure.ToLink() + ", in " + kill.Year + " (" + kill.Cause.GetDescription() + ")</li>");
                 }
                 EndList(ListType.Ordered);
             }
