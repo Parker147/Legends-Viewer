@@ -117,6 +117,11 @@ namespace LegendsViewer.Controls
                 description += "Necromancer ";
                 classes += " necromancer";
             }
+            if (hf.Ghost)
+            {
+                description += "Ghost ";
+                classes += " ghost";
+            }
             description += !string.IsNullOrWhiteSpace(hf.AssociatedType) && hf.AssociatedType != "Standard" ? hf.AssociatedType : "";
             if (!string.IsNullOrWhiteSpace(description))
             {
