@@ -8,7 +8,6 @@ using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using System.IO;
 using System.Drawing;
-using System;
 
 namespace LegendsViewer.Controls
 {
@@ -192,42 +191,57 @@ namespace LegendsViewer.Controls
             if (Site.BeastAttacks != null && Site.BeastAttacks.Count > 0)
             {
                 HTML.AppendLine("<b>Beast Attacks</b>");
-                HTML.AppendLine("<ol>");
-                foreach (BeastAttack attack in Site.BeastAttacks)
+                if (Site.BeastAttacks.Count > 100)
                 {
-                    HTML.AppendLine("<li>" + attack.StartYear + ", " + attack.ToLink(true, Site));
-                    if (attack.GetSubEvents().OfType<HFDied>().Any()) HTML.Append(" (Deaths: " + attack.GetSubEvents().OfType<HFDied>().Count() + ")");
+                    HTML.AppendLine("<ul>");
+                    HTML.AppendLine("<li>Rampages at this site: " + Site.BeastAttacks.Count);
+                    HTML.AppendLine("</ul>");
                 }
-                HTML.AppendLine("</ol>");
+                else
+                {
+                    HTML.AppendLine("<ol>");
+                    foreach (BeastAttack attack in Site.BeastAttacks)
+                    {
+                        HTML.AppendLine("<li>" + attack.StartYear + ", " + attack.ToLink(true, Site));
+                        if (attack.GetSubEvents().OfType<HFDied>().Any()) HTML.Append(" (Deaths: " + attack.GetSubEvents().OfType<HFDied>().Count() + ")");
+                    }
+                    HTML.AppendLine("</ol>");
+                }
             }
 
             int siteDeath = Site.Events.OfType<HFDied>().Count();
             if (siteDeath > 0 || Site.Warfare.OfType<Battle>().Any())
             {
-                HTML.AppendLine("<b>Deaths</b> " + LineBreak);
-                HTML.AppendLine("<ol>");
-                if (siteDeath > 100)
-                {
-                    HTML.AppendLine("<li>Population died at this site: " + siteDeath);
-                }
-                else
-                {
-                    foreach (HFDied death in Site.Events.OfType<HFDied>())
-                    {
-                        HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
-                    }
-                }
                 var popInBattle =
                     Site.Warfare.OfType<Battle>()
                         .Sum(
                             battle =>
                                 battle.AttackerSquads.Sum(squad => squad.Deaths) +
                                 battle.DefenderSquads.Sum(squad => squad.Deaths));
-                if (popInBattle > 0)
+                HTML.AppendLine("<b>Deaths</b> " + LineBreak);
+                if (siteDeath > 100)
                 {
-                    HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                    HTML.AppendLine("<ul>");
+                    HTML.AppendLine("<li>Population died at this site: " + siteDeath);
+                    if (popInBattle > 0)
+                    {
+                        HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                    }
+                    HTML.AppendLine("</ul>");
                 }
-                HTML.AppendLine("</ol>");
+                else
+                {
+                    HTML.AppendLine("<ol>");
+                    foreach (HFDied death in Site.Events.OfType<HFDied>())
+                    {
+                        HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
+                    }
+                    if (popInBattle > 0)
+                    {
+                        HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                    }
+                    HTML.AppendLine("</ol>");
+                }
             }
 
             PrintEventLog(Site.Events, Site.Filters, Site);
