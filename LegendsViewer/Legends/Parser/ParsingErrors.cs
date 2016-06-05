@@ -32,5 +32,4 @@ namespace LegendsViewer.Legends.Parser
             return Log.ToString();
         }
     }
-
 }

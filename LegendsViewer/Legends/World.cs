@@ -9,6 +9,7 @@ using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
+using System.Diagnostics;
 
 namespace LegendsViewer.Legends
 {
@@ -77,11 +78,14 @@ namespace LegendsViewer.Legends
 
         public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile, string xmlPlusFile)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             MainRaces.Clear();
             ParsingErrors = new ParsingErrors();
             Log = new StringBuilder();
-            Log.AppendLine("Start: " + DateTime.Now.ToLongTimeString());
-            Log.AppendLine();
+            //Log.AppendLine("Start: " + DateTime.Now.ToLongTimeString());
+            //Log.AppendLine();
 
             CreateUnknowns();
 
@@ -130,7 +134,9 @@ namespace LegendsViewer.Legends
             GenerateMaps(mapFile);
 
             Log.AppendLine(ParsingErrors.Print());
-            Log.AppendLine("Finish: " + DateTime.Now.ToLongTimeString());
+            //Log.AppendLine("Finish: " + DateTime.Now.ToLongTimeString());
+            sw.Stop();
+            Log.AppendLine("Duration: " + string.Format("{0} secs, {1:D3} ms ", sw.Elapsed.Seconds + (sw.Elapsed.Minutes * 60), sw.Elapsed.Milliseconds));
         }
 
         private void GenerateCivIdenticons()
