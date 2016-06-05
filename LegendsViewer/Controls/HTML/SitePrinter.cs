@@ -209,8 +209,8 @@ namespace LegendsViewer.Controls
                 }
             }
 
-            int siteDeath = Site.Events.OfType<HFDied>().Count();
-            if (siteDeath > 0 || Site.Warfare.OfType<Battle>().Any())
+            int deathCount = Site.Events.OfType<HFDied>().Count();
+            if (deathCount > 0 || Site.Warfare.OfType<Battle>().Any())
             {
                 var popInBattle =
                     Site.Warfare.OfType<Battle>()
@@ -219,13 +219,13 @@ namespace LegendsViewer.Controls
                                 battle.AttackerSquads.Sum(squad => squad.Deaths) +
                                 battle.DefenderSquads.Sum(squad => squad.Deaths));
                 HTML.AppendLine("<b>Deaths</b> " + LineBreak);
-                if (siteDeath > 100)
+                if (deathCount > 100)
                 {
                     HTML.AppendLine("<ul>");
-                    HTML.AppendLine("<li>Population died at this site: " + siteDeath);
+                    HTML.AppendLine("<li>Historical figures died at this site: " + deathCount);
                     if (popInBattle > 0)
                     {
-                        HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                        HTML.AppendLine("<li>Population died in Battle: " + popInBattle);
                     }
                     HTML.AppendLine("</ul>");
                 }

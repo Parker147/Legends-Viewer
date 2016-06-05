@@ -35,6 +35,7 @@ namespace LegendsViewer.Legends
                             case "SUBREGION": Type = ReferenceType.Subregion; break;
                             case "ABSTRACT_BUILDING": Type = ReferenceType.AbstractBuilding; break;
                             case "ARTIFACT": Type = ReferenceType.Artifact; break;
+                            case "SPHERE": Type = ReferenceType.Sphere; break;
                             default:
                                 property.Known = false;
                                 break;

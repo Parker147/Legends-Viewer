@@ -118,6 +118,9 @@ namespace LegendsViewer.Controls
                             case ReferenceType.Artifact:
                                 ReferencedObject = World.GetArtifact(reference.ID);
                                 break;
+                            case ReferenceType.Sphere:
+                                HTML.AppendLine("<li>" + reference.Type + ": " + reference.ID + "</li>");
+                                break;
                         }
                         if (ReferencedObject != null)
                         {

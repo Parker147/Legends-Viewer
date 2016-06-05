@@ -95,24 +95,39 @@ namespace LegendsViewer.Controls.HTML
                 HTML.AppendLine("</ul>");
             }
 
-            if (Region.Events.OfType<HFDied>().Any() || Region.Battles.Count > 0)
+            int deathCount = Region.Events.OfType<HFDied>().Count();
+            if (deathCount > 0 || Region.Battles.Count > 0)
             {
-                HTML.AppendLine("<b>Deaths</b> " + MakeLink("[Load]", LinkOption.LoadRegionDeaths) + LineBreak);
-                HTML.AppendLine("<ol>");
-                foreach (HFDied death in Region.Events.OfType<HFDied>())
-                    HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
-
                 var popInBattle =
                     Region.Battles
                         .Sum(
                             battle =>
                                 battle.AttackerSquads.Sum(squad => squad.Deaths) +
                                 battle.DefenderSquads.Sum(squad => squad.Deaths));
-                if (popInBattle > 0)
+                HTML.AppendLine("<b>Deaths</b> " + LineBreak);
+                if (deathCount > 100)
                 {
-                    HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                    HTML.AppendLine("<ul>");
+                    HTML.AppendLine("<li>Historical figures died in this Region: " + deathCount);
+                    if (popInBattle > 0)
+                    {
+                        HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                    }
+                    HTML.AppendLine("</ul>");
                 }
-                HTML.AppendLine("</ol>");
+                else
+                {
+                    HTML.AppendLine("<ol>");
+                    foreach (HFDied death in Region.Events.OfType<HFDied>())
+                    {
+                        HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
+                    }
+                    if (popInBattle > 0)
+                    {
+                        HTML.AppendLine("<li>Population died in Battle: " + popInBattle);
+                    }
+                    HTML.AppendLine("</ol>");
+                }
             }
 
             PrintEventLog(Region.Events, WorldRegion.Filters, Region);

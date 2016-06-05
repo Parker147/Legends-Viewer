@@ -61,6 +61,9 @@ namespace LegendsViewer.Legends.Enums
         Slaughtered,
         Melted,
         Spikes,
-        Heat
+        Heat,
+        Vanish,
+        [Description("Encased in cooling magma")]
+        CoolingMagma
     }
 }
