@@ -119,7 +119,6 @@ namespace LegendsViewer
             {
                 v.GenerateEventFilterCheckBoxes();
             }
-            
 
             FileLoader.Working = false;
         }

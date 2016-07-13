@@ -30,14 +30,13 @@
         {
             this.tcSites = new System.Windows.Forms.TabControl();
             this.tpSiteSearch = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.listPanel = new System.Windows.Forms.Panel();
             this.lblShownResults = new System.Windows.Forms.Label();
             this.btnSiteSearch = new System.Windows.Forms.Button();
             this.listSiteSearch = new BrightIdeasSoftware.ObjectListView();
             this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.txtSiteSearch = new System.Windows.Forms.TextBox();
-            this.lblSiteList = new System.Windows.Forms.Label();
             this.btnSiteListReset = new System.Windows.Forms.Button();
             this.filterPanel = new WFC.RichPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -55,9 +54,10 @@
             this.label26 = new System.Windows.Forms.Label();
             this.cmbSiteType = new System.Windows.Forms.ComboBox();
             this.tpSiteEvents = new System.Windows.Forms.TabPage();
+            this.lnkMaxResults = new System.Windows.Forms.LinkLabel();
             this.tcSites.SuspendLayout();
             this.tpSiteSearch.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.listPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listSiteSearch)).BeginInit();
             this.filterPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -77,7 +77,7 @@
             // 
             // tpSiteSearch
             // 
-            this.tpSiteSearch.Controls.Add(this.panel1);
+            this.tpSiteSearch.Controls.Add(this.listPanel);
             this.tpSiteSearch.Controls.Add(this.filterPanel);
             this.tpSiteSearch.Location = new System.Drawing.Point(4, 22);
             this.tpSiteSearch.Name = "tpSiteSearch";
@@ -86,25 +86,25 @@
             this.tpSiteSearch.Text = "Search";
             this.tpSiteSearch.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // listPanel
             // 
-            this.panel1.Controls.Add(this.lblShownResults);
-            this.panel1.Controls.Add(this.btnSiteSearch);
-            this.panel1.Controls.Add(this.listSiteSearch);
-            this.panel1.Controls.Add(this.txtSiteSearch);
-            this.panel1.Controls.Add(this.lblSiteList);
-            this.panel1.Controls.Add(this.btnSiteListReset);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(261, 259);
-            this.panel1.TabIndex = 45;
+            this.listPanel.Controls.Add(this.lnkMaxResults);
+            this.listPanel.Controls.Add(this.lblShownResults);
+            this.listPanel.Controls.Add(this.btnSiteSearch);
+            this.listPanel.Controls.Add(this.listSiteSearch);
+            this.listPanel.Controls.Add(this.txtSiteSearch);
+            this.listPanel.Controls.Add(this.btnSiteListReset);
+            this.listPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listPanel.Location = new System.Drawing.Point(0, 0);
+            this.listPanel.Name = "listPanel";
+            this.listPanel.Size = new System.Drawing.Size(261, 259);
+            this.listPanel.TabIndex = 45;
             // 
             // lblShownResults
             // 
             this.lblShownResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShownResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShownResults.Location = new System.Drawing.Point(163, 222);
+            this.lblShownResults.Location = new System.Drawing.Point(138, 222);
             this.lblShownResults.Name = "lblShownResults";
             this.lblShownResults.Size = new System.Drawing.Size(95, 10);
             this.lblShownResults.TabIndex = 52;
@@ -138,8 +138,8 @@
             this.listSiteSearch.FullRowSelect = true;
             this.listSiteSearch.GridLines = true;
             this.listSiteSearch.HeaderWordWrap = true;
-            this.listSiteSearch.SelectedBackColor = System.Drawing.Color.Empty;
-            this.listSiteSearch.SelectedForeColor = System.Drawing.Color.Empty;
+            this.listSiteSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listSiteSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.listSiteSearch.Location = new System.Drawing.Point(3, 30);
             this.listSiteSearch.Name = "listSiteSearch";
             this.listSiteSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -182,15 +182,6 @@
             this.txtSiteSearch.Size = new System.Drawing.Size(177, 20);
             this.txtSiteSearch.TabIndex = 33;
             this.txtSiteSearch.TextChanged += new System.EventHandler(this.searchSiteList);
-            // 
-            // lblSiteList
-            // 
-            this.lblSiteList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSiteList.Location = new System.Drawing.Point(59, 233);
-            this.lblSiteList.Name = "lblSiteList";
-            this.lblSiteList.Size = new System.Drawing.Size(179, 20);
-            this.lblSiteList.TabIndex = 42;
-            this.lblSiteList.Text = "All";
             // 
             // btnSiteListReset
             // 
@@ -413,6 +404,22 @@
             this.tpSiteEvents.Text = "Events";
             this.tpSiteEvents.UseVisualStyleBackColor = true;
             // 
+            // lnkMaxResults
+            // 
+            this.lnkMaxResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkMaxResults.AutoSize = true;
+            this.lnkMaxResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkMaxResults.Location = new System.Drawing.Point(241, 222);
+            this.lnkMaxResults.Name = "lnkMaxResults";
+            this.lnkMaxResults.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lnkMaxResults.Size = new System.Drawing.Size(17, 9);
+            this.lnkMaxResults.TabIndex = 53;
+            this.lnkMaxResults.TabStop = true;
+            this.lnkMaxResults.Text = "500";
+            this.lnkMaxResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.hint.SetToolTip(this.lnkMaxResults, "Maximum number of results");
+            this.lnkMaxResults.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkMaxResults_LinkClicked);
+            // 
             // SitesTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -422,8 +429,8 @@
             this.tcSites.ResumeLayout(false);
             this.tpSiteSearch.ResumeLayout(false);
             this.tpSiteSearch.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.listPanel.ResumeLayout(false);
+            this.listPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listSiteSearch)).EndInit();
             this.filterPanel.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -459,9 +466,9 @@
         private BrightIdeasSoftware.ObjectListView listSiteSearch;
         private BrightIdeasSoftware.OLVColumn olvName;
         private BrightIdeasSoftware.OLVColumn olvType;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel listPanel;
         private System.Windows.Forms.Button btnSiteListReset;
-        private System.Windows.Forms.Label lblSiteList;
         private System.Windows.Forms.Label lblShownResults;
+        private System.Windows.Forms.LinkLabel lnkMaxResults;
     }
 }

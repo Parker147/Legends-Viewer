@@ -38,10 +38,10 @@
             this.txtHFSearch = new System.Windows.Forms.TextBox();
             this.listHFSearch = new BrightIdeasSoftware.ObjectListView();
             this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.lblHFList = new System.Windows.Forms.Label();
             this.btnHFListReset = new System.Windows.Forms.Button();
             this.filterPanel = new WFC.RichPanel();
             this.grpHFFilter = new System.Windows.Forms.GroupBox();
+            this.chkAnimated = new System.Windows.Forms.CheckBox();
             this.chkNecromancer = new System.Windows.Forms.CheckBox();
             this.chkWerebeast = new System.Windows.Forms.CheckBox();
             this.chkVampire = new System.Windows.Forms.CheckBox();
@@ -64,7 +64,6 @@
             this.chkGhost = new System.Windows.Forms.CheckBox();
             this.chkDeity = new System.Windows.Forms.CheckBox();
             this.tpHFEvents = new System.Windows.Forms.TabPage();
-            this.chkAnimated = new System.Windows.Forms.CheckBox();
             this.tcHF.SuspendLayout();
             this.tpHFSearch.SuspendLayout();
             this.listPanel.SuspendLayout();
@@ -106,7 +105,6 @@
             this.listPanel.Controls.Add(this.btnHFSearch);
             this.listPanel.Controls.Add(this.txtHFSearch);
             this.listPanel.Controls.Add(this.listHFSearch);
-            this.listPanel.Controls.Add(this.lblHFList);
             this.listPanel.Controls.Add(this.btnHFListReset);
             this.listPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listPanel.Location = new System.Drawing.Point(0, 0);
@@ -176,8 +174,8 @@
             this.listHFSearch.FullRowSelect = true;
             this.listHFSearch.GridLines = true;
             this.listHFSearch.HeaderWordWrap = true;
-            this.listHFSearch.SelectedBackColor = System.Drawing.Color.Empty;
-            this.listHFSearch.SelectedForeColor = System.Drawing.Color.Empty;
+            this.listHFSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listHFSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.listHFSearch.Location = new System.Drawing.Point(3, 30);
             this.listHFSearch.Name = "listHFSearch";
             this.listHFSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -202,16 +200,6 @@
             this.olvName.Text = "Name";
             this.olvName.UseInitialLetterForGroup = true;
             this.olvName.Width = 235;
-            // 
-            // lblHFList
-            // 
-            this.lblHFList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblHFList.Location = new System.Drawing.Point(59, 184);
-            this.lblHFList.Name = "lblHFList";
-            this.lblHFList.Size = new System.Drawing.Size(196, 22);
-            this.lblHFList.TabIndex = 40;
-            this.lblHFList.Text = "All";
             // 
             // btnHFListReset
             // 
@@ -277,6 +265,17 @@
             this.grpHFFilter.TabIndex = 33;
             this.grpHFFilter.TabStop = false;
             this.grpHFFilter.Text = "Filter / Sort";
+            // 
+            // chkAnimated
+            // 
+            this.chkAnimated.AutoSize = true;
+            this.chkAnimated.Location = new System.Drawing.Point(6, 229);
+            this.chkAnimated.Name = "chkAnimated";
+            this.chkAnimated.Size = new System.Drawing.Size(106, 17);
+            this.chkAnimated.TabIndex = 21;
+            this.chkAnimated.Text = "Animated Corpse";
+            this.chkAnimated.UseVisualStyleBackColor = true;
+            this.chkAnimated.CheckedChanged += new System.EventHandler(this.searchHFList);
             // 
             // chkNecromancer
             // 
@@ -520,17 +519,6 @@
             this.tpHFEvents.Text = "Events";
             this.tpHFEvents.UseVisualStyleBackColor = true;
             // 
-            // chkAnimated
-            // 
-            this.chkAnimated.AutoSize = true;
-            this.chkAnimated.Location = new System.Drawing.Point(6, 229);
-            this.chkAnimated.Name = "chkAnimated";
-            this.chkAnimated.Size = new System.Drawing.Size(106, 17);
-            this.chkAnimated.TabIndex = 21;
-            this.chkAnimated.Text = "Animated Corpse";
-            this.chkAnimated.UseVisualStyleBackColor = true;
-            this.chkAnimated.CheckedChanged += new System.EventHandler(this.searchHFList);
-            // 
             // HistoricalFiguresTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -557,7 +545,6 @@
         private System.Windows.Forms.TabControl tcHF;
         private System.Windows.Forms.TabPage tpHFSearch;
         private System.Windows.Forms.Button btnHFListReset;
-        private System.Windows.Forms.Label lblHFList;
         private System.Windows.Forms.GroupBox grpHFFilter;
         private System.Windows.Forms.CheckBox chkWerebeast;
         private System.Windows.Forms.CheckBox chkVampire;

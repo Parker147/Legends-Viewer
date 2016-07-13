@@ -117,8 +117,8 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 warSearch.Name = txtWarSearch.Text;
-                warSearch.SortEvents = radWarSortEvents.Checked;
-                warSearch.SortFiltered = radWarSortFiltered.Checked;
+                warSearch.sortEvents = radWarSortEvents.Checked;
+                warSearch.sortFiltered = radWarSortFiltered.Checked;
                 warSearch.SortLength = radWarLength.Checked;
                 warSearch.SortDeaths = radWarDeaths.Checked;
                 warSearch.Ongoing = chkWarOngoing.Checked;
@@ -170,8 +170,8 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 battleSearch.Name = txtBattleSearch.Text;
-                battleSearch.SortEvents = radBattleSortEvents.Checked;
-                battleSearch.SortFiltered = radBattleSortFiltered.Checked;
+                battleSearch.sortEvents = radBattleSortEvents.Checked;
+                battleSearch.sortFiltered = radBattleSortFiltered.Checked;
                 battleSearch.SortDeaths = radBattleSortDeaths.Checked;
                 IEnumerable<Battle> list = battleSearch.GetList();
                 var results = list.ToArray();
@@ -214,8 +214,8 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 conqueringsSearch.Name = txtConqueringSearch.Text;
-                conqueringsSearch.SortEvents = radConqueringSortEvents.Checked;
-                conqueringsSearch.SortFiltered = radConqueringSortFiltered.Checked;
+                conqueringsSearch.sortEvents = radConqueringSortEvents.Checked;
+                conqueringsSearch.sortFiltered = radConqueringSortFiltered.Checked;
                 conqueringsSearch.SortSite = radConqueringSortSite.Checked;
                 conqueringsSearch.Type = cmbConqueringType.SelectedItem.ToString();
                 IEnumerable<SiteConquered> list = conqueringsSearch.GetList();
@@ -230,8 +230,8 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 beastAttackSearch.Name = txtBeastAttacksSearch.Text;
-                beastAttackSearch.SortEvents = radBeastAttacksEvents.Checked;
-                beastAttackSearch.SortFiltered = radBeastAttacksFiltered.Checked;
+                beastAttackSearch.sortEvents = radBeastAttacksEvents.Checked;
+                beastAttackSearch.sortFiltered = radBeastAttacksFiltered.Checked;
                 beastAttackSearch.SortDeaths = radBeastAttacksDeaths.Checked;
                 IEnumerable<BeastAttack> list = beastAttackSearch.GetList();
                 var results = list.ToArray();

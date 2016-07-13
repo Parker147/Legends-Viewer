@@ -184,8 +184,8 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 artifactSearch.Name = txtArtifactSearch.Text;
-                artifactSearch.SortEvents = radArtifactSortEvents.Checked;
-                artifactSearch.SortFiltered = radArtifactSortFiltered.Checked;
+                artifactSearch.sortEvents = radArtifactSortEvents.Checked;
+                artifactSearch.sortFiltered = radArtifactSortFiltered.Checked;
                 artifactSearch.Type = cbmArtTypeFilter.SelectedIndex == 0 ? null : cbmArtTypeFilter.SelectedItem.ToString();
                 artifactSearch.Material = cbmArtMatFilter.SelectedIndex == 0 ? null : cbmArtMatFilter.SelectedItem.ToString();
                 IEnumerable<Artifact> list = artifactSearch.GetList();
@@ -215,7 +215,6 @@ namespace LegendsViewer.Controls.Tabs
                 lblArtifactList.Text = "All";
                 lblArtifactList.ForeColor = Control.DefaultForeColor;
                 lblArtifactList.Font = new Font(lblArtifactList.Font.FontFamily, lblArtifactList.Font.Size, FontStyle.Regular);
-                artifactSearch.BaseList = World.Artifacts;
                 cbmArtTypeFilter.SelectedIndex = 0;
                 cbmArtMatFilter.SelectedIndex = 0;
                 searchArtifactList(null, null);
@@ -228,8 +227,8 @@ namespace LegendsViewer.Controls.Tabs
             {
                 writtenContentSearch.Name = txtWrittenContentSearch.Text;
                 writtenContentSearch.Type = cmbWrittenContentType.SelectedItem.ToString();
-                writtenContentSearch.SortEvents = radWrittenContentSortEvents.Checked;
-                writtenContentSearch.SortFiltered = radWrittenContentSortFiltered.Checked;
+                writtenContentSearch.sortEvents = radWrittenContentSortEvents.Checked;
+                writtenContentSearch.sortFiltered = radWrittenContentSortFiltered.Checked;
                 IEnumerable<WrittenContent> list = writtenContentSearch.GetList();
                 var results = list.ToArray();
                 listWrittenContentSearch.SetObjects(results);
@@ -243,8 +242,8 @@ namespace LegendsViewer.Controls.Tabs
             {
                 worldConstructionSearch.Name = txtWorldConstructionsSearch.Text;
                 worldConstructionSearch.Type = cmbConstructionType.SelectedItem.ToString();
-                worldConstructionSearch.SortEvents = radWorldConstructionsSortEvents.Checked;
-                worldConstructionSearch.SortFiltered = radWorldConstructionsSortFiltered.Checked;
+                worldConstructionSearch.sortEvents = radWorldConstructionsSortEvents.Checked;
+                worldConstructionSearch.sortFiltered = radWorldConstructionsSortFiltered.Checked;
                 IEnumerable<WorldConstruction> list = worldConstructionSearch.GetList();
                 var results = list.ToArray();
                 listWorldConstructionsSearch.SetObjects(results);
@@ -258,8 +257,8 @@ namespace LegendsViewer.Controls.Tabs
             {
                 structureSearch.Name = txtStructuresSearch.Text;
                 structureSearch.Type = cmbStructureType.SelectedItem.ToString();
-                structureSearch.SortEvents = radStructuresSortEvents.Checked;
-                structureSearch.SortFiltered = radStructuresSortFiltered.Checked;
+                structureSearch.sortEvents = radStructuresSortEvents.Checked;
+                structureSearch.sortFiltered = radStructuresSortFiltered.Checked;
                 IEnumerable<Structure> list = structureSearch.GetList();
                 var results = list.ToArray();
                 listStructureSearch.SetObjects(list.ToArray());

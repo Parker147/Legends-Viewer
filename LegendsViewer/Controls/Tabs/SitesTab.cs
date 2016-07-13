@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Drawing;
-using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using LegendsViewer.Legends;
@@ -12,7 +11,7 @@ using WFC;
 
 namespace LegendsViewer.Controls.Tabs
 {
-    [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof (IDesigner))]
+    [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof(IDesigner))]
     public partial class SitesTab : BaseSearchTab
     {
         private SitesList siteSearch;
@@ -24,43 +23,59 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void InitializeTab()
         {
+            lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
+
             EventTabs = new TabPage[] { tpSiteEvents };
             EventTabTypes = new Type[] { typeof(Site) };
 
             listSiteSearch.ShowGroups = false;
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
-                Text = "Structures", TextAlign = HorizontalAlignment.Right, IsVisible = false,
+                Text = "Structures",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
                 AspectGetter = item => ((Site)item).Structures.Count
             });
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
-                Text = "Warfare", TextAlign = HorizontalAlignment.Right, IsVisible = false,
+                Text = "Warfare",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
                 AspectGetter = item => ((Site)item).Warfare.Count
             });
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
-                Text = "Battles", TextAlign = HorizontalAlignment.Right, IsVisible = false,
+                Text = "Battles",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
                 AspectGetter = item => ((Site)item).Battles.Count
             });
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
-                Text = "Conquerings", TextAlign = HorizontalAlignment.Right, IsVisible = false,
+                Text = "Conquerings",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
                 AspectGetter = item => ((Site)item).Conquerings.Count
             });
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
-                Text = "Current Owner", TextAlign = HorizontalAlignment.Right, IsVisible = false,
+                Text = "Current Owner",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
                 AspectGetter = item => ((Site)item).CurrentOwner?.Print(false)
             });
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
-                Text = "Deaths", TextAlign = HorizontalAlignment.Right, IsVisible = false,
+                Text = "Deaths",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
                 AspectGetter = item => ((Site)item).Deaths.Count
             });
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
-                Text = "Beast Attacks", TextAlign = HorizontalAlignment.Right, IsVisible = false,
+                Text = "Beast Attacks",
+                TextAlign = HorizontalAlignment.Right,
+                IsVisible = false,
                 AspectGetter = item => ((Site)item).BeastAttacks.Count
             });
             listSiteSearch.AllColumns.Add(new OLVColumn
@@ -108,10 +123,6 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void ResetTab()
         {
-            lblSiteList.Text = "All";
-            lblSiteList.ForeColor = DefaultForeColor;
-            lblSiteList.Font = new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
-
             txtSiteSearch.Clear();
             listSiteSearch.Items.Clear();
             cmbSiteType.Items.Clear();
@@ -154,10 +165,32 @@ namespace LegendsViewer.Controls.Tabs
         {
             if (!FileLoader.Working && World != null)
             {
-                lblSiteList.Text = "All";
-                lblSiteList.ForeColor = Control.DefaultForeColor;
-                lblSiteList.Font = new Font(lblSiteList.Font.FontFamily, lblSiteList.Font.Size, FontStyle.Regular);
-                siteSearch.BaseList = World.Sites.Where(site => !string.IsNullOrWhiteSpace(site.Name)).ToList();
+                txtSiteSearch.Clear();
+                cmbSiteType.SelectedIndex = 0;
+                cmbSitePopulation.SelectedIndex = 0;
+                radSiteNone.Checked = true;
+            }
+        }
+
+        private void lnkMaxResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // InputBox with value validation - first define validation delegate, which
+            // returns empty string for valid values and error message for invalid values
+            InputBoxValidation validation = delegate (string val)
+            {
+                if (val == "") return "Value cannot be empty.";
+                if (!(new Regex(@"^[0-9]+$")).IsMatch(val)) return "Value is not valid.";
+                return "";
+            };
+
+            string value = WorldObjectList.MaxResults.ToString();
+            if (InputBox.Show("Max Results:", "Enter maximum search results. (0 for All)", ref value, validation) == DialogResult.OK)
+            {
+                WorldObjectList.MaxResults = int.Parse(value);
+                lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
+                lnkMaxResults.Left = listPanel.Right - lnkMaxResults.Width - 3;
+                lblShownResults.Left = lnkMaxResults.Left - lblShownResults.Width - 3;
+                listSearch_SelectedIndexChanged(this, EventArgs.Empty);
                 searchSiteList(null, null);
             }
         }

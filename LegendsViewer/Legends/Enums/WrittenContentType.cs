@@ -20,6 +20,10 @@ namespace LegendsViewer.Legends.Enums
         ShortStory,
         Choreography,
         [Description("Musical Composition")]
-        MusicalComposition
+        MusicalComposition,
+        [Description("Star Chart")]
+        StarChart,
+        [Description("Cultural History")]
+        CulturalHistory
     }
 }

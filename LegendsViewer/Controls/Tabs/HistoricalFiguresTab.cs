@@ -28,7 +28,7 @@ namespace LegendsViewer.Controls.Tabs
         {
             EventTabs = new TabPage[] { tpHFEvents };
             EventTabTypes = new Type[] { typeof(HistoricalFigure) };
-            lnkMaxResults.Text = HistoricalFigureList.MaxResults.ToString();
+            lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
             listHFSearch.ShowGroups = false;
 
             listHFSearch.AllColumns.Add(new OLVColumn { AspectName = "Race", IsVisible = false, Text = "Race", TextAlign = HorizontalAlignment.Left });
@@ -94,16 +94,19 @@ namespace LegendsViewer.Controls.Tabs
         {
             txtHFSearch.Clear();
             listHFSearch.SetObjects(new object[0]);
-            chkAlive.Checked = chkDeity.Checked = chkGhost.Checked = chkVampire.Checked = chkWerebeast.Checked = chkForce.Checked = chkHFLeader.Checked = false;
+            chkDeity.Checked = false;
+            chkForce.Checked = false;
+            chkVampire.Checked = false;
+            chkWerebeast.Checked = false;
+            chkNecromancer.Checked = false;
+            chkAnimated.Checked = false;
+            chkGhost.Checked = false;
+            chkAlive.Checked = false;
+            chkHFLeader.Checked = false;
             cmbRace.Items.Clear();
             cmbCaste.Items.Clear();
             cmbType.Items.Clear();
             radHFNone.Checked = true;
-
-            lblHFList.Text = "All";
-            lblHFList.ForeColor = lblHFList.ForeColor = DefaultForeColor;
-            lblHFList.Font = lblHFList.Font = new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
-
         }
 
         private void searchHFList(object sender, EventArgs e)
@@ -144,11 +147,20 @@ namespace LegendsViewer.Controls.Tabs
         {
             if (!FileLoader.Working && World != null)
             {
-                lblHFList.Text = "All";
-                lblHFList.ForeColor = Control.DefaultForeColor;
-                lblHFList.Font = new Font(lblHFList.Font.FontFamily, lblHFList.Font.Size, FontStyle.Regular);
-                hfSearch.BaseList = World.HistoricalFigures;
-                searchHFList(null, null);
+                txtHFSearch.Clear();
+                cmbRace.SelectedIndex = 0;
+                cmbCaste.SelectedIndex = 0;
+                cmbType.SelectedIndex = 0;
+                chkDeity.Checked = false;
+                chkForce.Checked = false;
+                chkVampire.Checked = false;
+                chkWerebeast.Checked = false;
+                chkNecromancer.Checked = false;
+                chkAnimated.Checked = false;
+                chkGhost.Checked = false;
+                chkAlive.Checked = false;
+                chkHFLeader.Checked = false;
+                radHFNone.Checked = true;
             }
         }
 
@@ -178,14 +190,15 @@ namespace LegendsViewer.Controls.Tabs
                 return "";
             };
 
-            string value = HistoricalFigureList.MaxResults.ToString();
+            string value = WorldObjectList.MaxResults.ToString();
             if (InputBox.Show("Max Results:", "Enter maximum search results. (0 for All)", ref value, validation) == DialogResult.OK)
             {
-                HistoricalFigureList.MaxResults = int.Parse(value);
-                lnkMaxResults.Text = HistoricalFigureList.MaxResults.ToString();
+                WorldObjectList.MaxResults = int.Parse(value);
+                lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
                 lnkMaxResults.Left = listPanel.Right - lnkMaxResults.Width - 3;
                 lblShownResults.Left = lnkMaxResults.Left - lblShownResults.Width - 3;
                 listSearch_SelectedIndexChanged(this, EventArgs.Empty);
+                searchHFList(null, null);
             }
         }
 
