@@ -64,8 +64,19 @@ namespace LegendsViewer.Legends
                             case "Choreography": Type = WrittenContentType.Choreography; break;
                             case "CulturalHistory": Type = WrittenContentType.CulturalHistory; break;
                             case "StarChart": Type = WrittenContentType.StarChart; break;
+                            case "ComparativeBiography": Type = WrittenContentType.ComparativeBiography; break;
+                            case "CulturalComparison": Type = WrittenContentType.CulturalComparison; break;
+                            case "Atlas": Type = WrittenContentType.Atlas; break;
+                            case "TreatiseOnTechnologicalEvolution": Type = WrittenContentType.TreatiseOnTechnologicalEvolution; break;
+                            case "AlternateHistory": Type = WrittenContentType.AlternateHistory; break;
+                            case "StarCatalogue": Type = WrittenContentType.StarCatalogue; break;
+                            case "Dictionary": Type = WrittenContentType.Dictionary; break;
+                            case "Genealogy": Type = WrittenContentType.Genealogy; break;
+                            case "Encyclopedia": Type = WrittenContentType.Encyclopedia; break;
+                            case "BiographicalDictionary": Type = WrittenContentType.BiographicalDictionary; break;
                             default:
                                 Type = WrittenContentType.Unknown;
+                                //world.ParsingErrors.Report("|==> WrittenContentType: " + property.Value);
                                 int typeID;
                                 if (!int.TryParse(property.Value.Replace("unknown ", ""), out typeID))
                                 {

@@ -24,6 +24,22 @@ namespace LegendsViewer.Legends.Enums
         [Description("Star Chart")]
         StarChart,
         [Description("Cultural History")]
-        CulturalHistory
+        CulturalHistory,
+        [Description("Comparative Biography")]
+        ComparativeBiography,
+        [Description("Cultural Comparison")]
+        CulturalComparison,
+        Atlas,
+        [Description("Treatise On Technological Evolution")]
+        TreatiseOnTechnologicalEvolution,
+        [Description("Alternate History")]
+        AlternateHistory,
+        [Description("Star Catalogue")]
+        StarCatalogue,
+        Dictionary,
+        Genealogy,
+        Encyclopedia,
+        [Description("Biographical Dictionary")]
+        BiographicalDictionary
     }
 }
