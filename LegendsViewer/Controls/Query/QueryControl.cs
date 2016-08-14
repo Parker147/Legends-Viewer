@@ -501,7 +501,6 @@ namespace LegendsViewer.Controls.Query
                 Browser.Navigate(ControlOption.Map, Results);
             }
         }
-
     }
 
     public class SearchControl : PageControl

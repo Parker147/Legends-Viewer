@@ -22,10 +22,17 @@ namespace LegendsViewer.Controls
             TabControl = tabControl;
         }
 
+        ~HTMLControl()
+        {
+            this.Dispose(false);
+        }
+
+
         public override Control GetControl()
         {
             if (HTMLBrowser == null || HTMLBrowser.IsDisposed)
             {
+                lastNav = DateTime.UtcNow;
                 BrowserUtil.SetBrowserEmulationMode();
                 HTMLBrowser = new WebBrowser
                 {
@@ -47,23 +54,30 @@ namespace LegendsViewer.Controls
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!this.disposed)
             {
-                if (HTMLBrowser != null)
+                if (disposing)
                 {
-                    int newerBrowsers = 0;
-                    try
+                    if (HTMLBrowser != null)
                     {
-                        newerBrowsers = HTMLBrowser.Document.GetElementsByTagName("HTML")[0].ScrollTop;
-                    }
-                    catch (Exception)
-                    {
-                    }
-                    BrowserScrollPosition = newerBrowsers > HTMLBrowser.Document.Body.ScrollTop ? newerBrowsers : HTMLBrowser.Document.Body.ScrollTop;
+                        int newerBrowsers = 0;
+                        try
+                        {
+                            newerBrowsers = HTMLBrowser.Document.GetElementsByTagName("HTML")[0].ScrollTop;
+                        }
+                        catch (Exception)
+                        {
+                        }
+                        BrowserScrollPosition = newerBrowsers > HTMLBrowser.Document.Body.ScrollTop
+                            ? newerBrowsers
+                            : HTMLBrowser.Document.Body.ScrollTop;
 
-                    HTMLBrowser.Dispose();
-                    HTMLBrowser = null;
+                        HTMLBrowser.Dispose();
+                        HTMLBrowser = null;
+                    }
                 }
+                base.Dispose(disposing);
+                this.disposed = true;
             }
         }
 
@@ -76,10 +90,12 @@ namespace LegendsViewer.Controls
 
         }
 
+        private DateTime lastNav;
         private void AfterPageLoad(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
             (sender as WebBrowser).Document.Window.ScrollTo(0, BrowserScrollPosition);
             (sender as WebBrowser).Focus();
+            Console.WriteLine((DateTime.UtcNow - lastNav).TotalMilliseconds);
             GC.Collect();
         }
 
@@ -161,5 +177,11 @@ namespace LegendsViewer.Controls
         }
 
         //e.Cancel = true;
+        public void DisposePrinter()
+        {
+
+            Printer.DeleteTemporaryFiles();
+            Printer.Dispose();
+        }
     }
 }

@@ -5,11 +5,13 @@ namespace LegendsViewer
     public static class LocalFileProvider
     {
 
-        public static string LocalPrefix = "";
+        public static readonly string LocalPrefix = "";
+        public static readonly string RootFolder = "";
 
         static LocalFileProvider()
         {
-            LocalPrefix = "file:///" + AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\').Replace("\\", "/") + "/";
+            RootFolder = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
+            LocalPrefix = "file:///" + RootFolder.Replace("\\", "/") + "/";
         }
     }
 }

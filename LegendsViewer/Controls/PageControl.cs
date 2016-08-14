@@ -10,6 +10,9 @@ namespace LegendsViewer
     {
         public DwarfTabControl TabControl;
         public string Title;
+
+        internal bool disposed;
+
         public abstract Control GetControl();
 
         public void Dispose()

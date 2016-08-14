@@ -50,18 +50,27 @@ namespace LegendsViewer.Controls.Map
 
         protected override void Dispose(bool disposing)
         {
-            if (MapPanel != null)
+            if (!disposed)
             {
-                MapScale = MapPanel.ZoomCurrent;
-                Center = MapPanel.Center;
-                CivsToggled = MapPanel.CivsToggled;
-                SitesToggled = MapPanel.SitesToggled;
-                WarsToggled = MapPanel.WarsToggled;
-                BattlesToggled = MapPanel.BattlesToggled;
-                CurrentYear = MapPanel.CurrentYear;
-                if (MapPanel.Overlay != null) MapPanel.Overlay.Dispose();
-                MapPanel.Dispose();
-                MapPanel = null;
+                if (disposing)
+                {
+                    if (MapPanel != null)
+                    {
+                        MapScale = MapPanel.ZoomCurrent;
+                        Center = MapPanel.Center;
+                        CivsToggled = MapPanel.CivsToggled;
+                        SitesToggled = MapPanel.SitesToggled;
+                        WarsToggled = MapPanel.WarsToggled;
+                        BattlesToggled = MapPanel.BattlesToggled;
+                        CurrentYear = MapPanel.CurrentYear;
+                        if (MapPanel.Overlay != null) MapPanel.Overlay.Dispose();
+                        MapPanel.Dispose();
+                        MapPanel = null;
+                    }
+
+                }
+                base.Dispose(disposing);
+                this.disposed = true;
             }
         }
     }

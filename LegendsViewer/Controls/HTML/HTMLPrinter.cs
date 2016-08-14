@@ -4,6 +4,7 @@ using LegendsViewer.Legends;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LegendsViewer.Controls.HTML;
 using LegendsViewer.Controls.HTML.Utilities;
@@ -12,13 +13,22 @@ using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Controls
 {
-    public abstract class HTMLPrinter
+    public abstract class HTMLPrinter : IDisposable
     {
+        private bool disposed;
         protected StringBuilder HTML;
         protected const string LineBreak = "</br>";
         protected const string ListItem = "<li>";
+
+        protected HTMLPrinter()
+        {
+            disposed = false;
+        }
+
         public abstract string GetTitle();
         public abstract string Print();
+
+        private readonly List<string> temporaryFiles = new List<string>();
 
         public static HTMLPrinter GetPrinter(object printObject, World world)
         {
@@ -166,23 +176,41 @@ namespace LegendsViewer.Controls
 
         protected string BitmapToHTML(Bitmap image)
         {
-            int imageSectionCount = 5;
+            int imageSectionCount = 2;
             Size imageSectionSize = new Size(image.Width / imageSectionCount, image.Height / imageSectionCount);
             string html = "";
-            for (int row = 0; row < imageSectionCount; row++)
+            using (Bitmap section = new Bitmap(imageSectionSize.Width, imageSectionSize.Height))
             {
-                for (int column = 0; column < imageSectionCount; column++)
+                using (Graphics drawSection = Graphics.FromImage(section))
                 {
-                    using (Bitmap section = new Bitmap(imageSectionSize.Width, imageSectionSize.Height))
+                    for (int row = 0; row < imageSectionCount; row++)
                     {
-                        using (Graphics drawSection = Graphics.FromImage(section))
+                        for (int column = 0; column < imageSectionCount; column++)
                         {
-                            drawSection.DrawImage(image, new Rectangle(new Point(0, 0), section.Size), new Rectangle(new Point(section.Size.Width * column, section.Size.Height * row), section.Size), GraphicsUnit.Pixel);
-                            html += StringToImageHTML(BitmapToString(section));
+                            drawSection.DrawImage(image, new Rectangle(new Point(0, 0), section.Size),
+                                new Rectangle(new Point(section.Size.Width*column, section.Size.Height*row),
+                                    section.Size), GraphicsUnit.Pixel);
+                            string tempName = "";
+                            while (true)
+                            {
+                                tempName = Path.Combine(LocalFileProvider.RootFolder, "temp",
+                                    Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + this.GetTitle()+ ".png");
+                                if (!File.Exists(tempName))
+                                {
+                                    break;
+                                }
+                            }
+                            if (!Directory.Exists(Path.GetDirectoryName(tempName)))
+                            {
+                                Directory.CreateDirectory(Path.GetDirectoryName(tempName));
+                            }
+                            section.Save(tempName);
+                            html += ImageToHTML("temp/" + Path.GetFileName(tempName));
+                            temporaryFiles.Add(tempName);
                         }
+                        html += "</br>";
                     }
                 }
-                html += "</br>";
             }
             image.Dispose();
             return html;
@@ -201,11 +229,9 @@ namespace LegendsViewer.Controls
             return imageString;
         }
 
-        protected string StringToImageHTML(string image)
+        protected string ImageToHTML(string image)
         {
-            string html = "<img src=\"data:image/gif;base64,";
-            html += image;
-            html += "\" align=absmiddle />";
+            string html = "<img src=\""+LocalFileProvider.LocalPrefix+image+"\" align=absmiddle />";
             return html;
         }
 
@@ -346,6 +372,39 @@ namespace LegendsViewer.Controls
                     HTML.AppendLine(e.Print(true, dfo) + "<br /><br />");
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            disposed &= !temporaryFiles.Any();
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                }
+            }
+            disposed = true;
+        }
+
+        public void DeleteTemporaryFiles()
+        {
+            foreach (string filename in temporaryFiles)
+            {
+                try
+                {
+                    File.Delete(filename);
+                }
+                catch
+                {
+                }
+            }
+            temporaryFiles.Clear();
         }
     }
 

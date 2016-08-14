@@ -41,16 +41,21 @@ namespace LegendsViewer
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!this.disposed)
             {
-                if (DwarfChart != null)
+                if (disposing)
                 {
-                    SeriesOptions =
-                        DwarfChart.SeriesOptions.GroupBy(option => option).Select(option => option.Key).ToList();
-                    OtherChart = DwarfChart.OtherChart;
-                    DwarfChart.Dispose();
-                    DwarfChart = null;
+                    if (DwarfChart != null)
+                    {
+                        SeriesOptions =
+                            DwarfChart.SeriesOptions.GroupBy(option => option).Select(option => option.Key).ToList();
+                        OtherChart = DwarfChart.OtherChart;
+                        DwarfChart.Dispose();
+                        DwarfChart = null;
+                    }
                 }
+                base.Dispose(disposing);
+                this.disposed = true;
             }
         }
     }

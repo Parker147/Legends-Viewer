@@ -170,5 +170,15 @@ namespace LegendsViewer
         {
             Browser.Navigate(ControlOption.ReadMe);
         }
+
+        private void summaryTab1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmLegendsViewer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            World.Dispose();
+        }
     }
 }

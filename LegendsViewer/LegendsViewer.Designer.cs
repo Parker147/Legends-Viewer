@@ -292,6 +292,7 @@
             this.Name = "frmLegendsViewer";
             this.Text = "Legends Viewer";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmLegendsViewer_FormClosed);
             this.Shown += new System.EventHandler(this.frmLegendsViewer_Shown);
             this.ResizeEnd += new System.EventHandler(this.frmLegendsViewer_ResizeEnd);
             this.scWorld.Panel1.ResumeLayout(false);

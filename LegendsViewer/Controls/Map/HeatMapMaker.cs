@@ -12,6 +12,7 @@ namespace LegendsViewer.Controls.Map
     {
         Bitmap HeatMap, HeatGradient, Occurence;
         int OccurenceIntensity = 25, OccurenceDiameter = 75, MaxOccurencesToDraw = 50;
+        private bool disposed;
 
         public static Bitmap Create(int width, int height, List<Location> occurences, List<int> occurencesCount = null)
         {
@@ -244,11 +245,15 @@ namespace LegendsViewer.Controls.Map
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposed)
             {
-                HeatMap.Dispose();
-                HeatGradient.Dispose();
-                Occurence.Dispose();
+                if (disposing)
+                {
+                    HeatMap.Dispose();
+                    HeatGradient.Dispose();
+                    Occurence.Dispose();
+                }
+                disposed = true;
             }
         }
     }

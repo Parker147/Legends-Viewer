@@ -82,14 +82,20 @@ namespace LegendsViewer.Controls.HTML
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!this.disposed)
             {
-                if (HTMLBrowser != null)
+                if (disposing)
                 {
-                    HTMLBrowser.Dispose();
-                    HTMLBrowser = null;
+                    if (HTMLBrowser != null)
+                    {
+                        HTMLBrowser.Dispose();
+                        HTMLBrowser = null;
+                    }
                 }
+                base.Dispose(disposing);
+                this.disposed = true;
             }
+
         }
 
         public override void Refresh()
