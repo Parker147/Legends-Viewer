@@ -74,8 +74,10 @@ namespace LegendsViewer.Controls
 
                 HTML.AppendLine(Bold("Family Tree") + LineBreak);
                 HTML.AppendLine("<div id=\"familygraph\" class=\"legends_graph\"></div>");
-                HTML.AppendLine("<script>" + CytoscapeJS + "</script>");
-                HTML.AppendLine("<script>" + CytoscapeJSDagre + "</script>");
+                HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix +
+                                "Controls/HTML/Scripts/cytoscape.min.js\"></script>");
+                HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix +
+                                "Controls/HTML/Scripts/cytoscape-dagre.js\"></script>");
                 HTML.AppendLine("<script>");
                 HTML.AppendLine("window.familygraph_nodes = [");
                 HTML.AppendLine(nodes);
@@ -83,8 +85,9 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("window.familygraph_edges = [");
                 HTML.AppendLine(edges);
                 HTML.AppendLine("]");
-                HTML.AppendLine(FamilyGraphJS);
                 HTML.AppendLine("</script>");
+                HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix +
+                                "Controls/HTML/Scripts/familygraph.js\"></script>");
             }
         }
 

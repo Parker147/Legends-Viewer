@@ -29,7 +29,8 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<script>" + ChartJS + "</script>");
+            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix +
+                            "/Controls/HTML/Scripts/Chart.min.js\"></script>");
             HTML.AppendLine("<script>");
             HTML.AppendLine("var data = [");
 

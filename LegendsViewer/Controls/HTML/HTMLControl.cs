@@ -31,9 +31,12 @@ namespace LegendsViewer.Controls
                 {
                     Dock = DockStyle.Fill,
                     WebBrowserShortcutsEnabled = false,
-                    DocumentText = Printer.GetHTMLPage(),
                     ScriptErrorsSuppressed = true
                 };
+                HTMLBrowser.Navigate("about:blank");
+                while (HTMLBrowser.Document == null || HTMLBrowser.Document.Body == null)
+                    Application.DoEvents(); 
+                HTMLBrowser.DocumentText=Printer.GetHTMLPage();
                 HTMLBrowser.DocumentCompleted += AfterPageLoad;
                 HTMLBrowser.Navigating += BrowserNavigating;
                 HTMLBrowser.Document.MouseMove += MouseOver;
@@ -42,34 +45,41 @@ namespace LegendsViewer.Controls
             return HTMLBrowser;
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (HTMLBrowser != null)
+            if (disposing)
             {
-                int newerBrowsers = 0;
-                try
+                if (HTMLBrowser != null)
                 {
-                    newerBrowsers=HTMLBrowser.Document.GetElementsByTagName("HTML")[0].ScrollTop;
+                    int newerBrowsers = 0;
+                    try
+                    {
+                        newerBrowsers = HTMLBrowser.Document.GetElementsByTagName("HTML")[0].ScrollTop;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    BrowserScrollPosition = newerBrowsers > HTMLBrowser.Document.Body.ScrollTop ? newerBrowsers : HTMLBrowser.Document.Body.ScrollTop;
+
+                    HTMLBrowser.Dispose();
+                    HTMLBrowser = null;
                 }
-                catch (Exception)
-                {
-                }
-                BrowserScrollPosition = newerBrowsers > HTMLBrowser.Document.Body.ScrollTop ? newerBrowsers: HTMLBrowser.Document.Body.ScrollTop;
-                
-                HTMLBrowser.Dispose();
-                HTMLBrowser = null;
             }
         }
 
         public override void Refresh()
         {
             HTMLBrowser.Navigate("about:blank");
+            while (HTMLBrowser.Document == null || HTMLBrowser.Document.Body == null)
+                Application.DoEvents();
             HTMLBrowser.DocumentText = Printer.GetHTMLPage();
+
         }
 
         private void AfterPageLoad(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
             (sender as WebBrowser).Document.Window.ScrollTo(0, BrowserScrollPosition);
+            (sender as WebBrowser).Focus();
             GC.Collect();
         }
 
@@ -90,7 +100,6 @@ namespace LegendsViewer.Controls
                         throw new Exception("Could not navigate with url: " + url);
                 e.Cancel = true; //Prevent the browser from actually navigating to a new page
             }
-
         }
 
         private bool NavigateToNewControl(string url)

@@ -421,6 +421,7 @@
     <Compile Include="Legends\WorldConstruction.cs" />
     <Compile Include="Legends\WorldObject.cs" />
     <Compile Include="Legends\WrittenContent.cs" />
+    <Compile Include="LocalFileProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\Map\dlgPopulation.resx">
@@ -507,18 +508,33 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Controls\HTML\Scripts\cytoscape-dagre.js" />
+    <Content Include="Controls\HTML\Scripts\cytoscape-dagre.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ObjectListView.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="WFC.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Controls\HTML\Styles\github-markdown.css" />
-    <EmbeddedResource Include="Controls\HTML\Scripts\cytoscape.min.js" />
-    <EmbeddedResource Include="Controls\HTML\Scripts\familygraph.js" />
-    <EmbeddedResource Include="Controls\HTML\Styles\legends.css" />
-    <EmbeddedResource Include="Controls\HTML\Scripts\Chart.min.js" />
+    <Content Include="Controls\HTML\Styles\github-markdown.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Controls\HTML\Scripts\cytoscape.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Controls\HTML\Scripts\familygraph.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Controls\HTML\Styles\legends.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Controls\HTML\Scripts\Chart.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MiniWebServer\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -20,12 +20,6 @@ namespace LegendsViewer.Controls
         public abstract string GetTitle();
         public abstract string Print();
 
-        public static string LegendsCSS;
-        public static string ChartJS;
-        public static string CytoscapeJS;
-        public static string CytoscapeJSDagre;
-        public static string FamilyGraphJS;
-
         public static HTMLPrinter GetPrinter(object printObject, World world)
         {
             Type printType = printObject.GetType();
@@ -76,37 +70,13 @@ namespace LegendsViewer.Controls
             htmlPage.Append("<!DOCTYPE html><html><head>");
             htmlPage.Append("<title>" + GetTitle() + "</title>");
             htmlPage.Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
-            htmlPage.Append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">");
-            htmlPage.Append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css\">");
-            htmlPage.Append(GetStyle());
+            htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "bootstrap/3.3.6/css/bootstrap.min.css\">");
+            htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "font-awesome/4.5.0/css/font-awesome.min.css\">");
+            htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/legends.css\">");
             htmlPage.Append("</head>");
             htmlPage.Append("<body>" + Print() + "</body>");
             htmlPage.Append("</html>");
             return htmlPage.ToString();
-        }
-
-        public string GetStyle()
-        {
-            if (string.IsNullOrWhiteSpace(LegendsCSS))
-            {
-                return "<style type=\"text/css\">"
-                    + "body {font-size: 0.8em;}"
-                    + "a:link {text-decoration: none; color: #000000}"
-                    + "a:visited {text-decoration: none; color: #000000}"
-                    + "a:hover {text-decoration: underline; color: #000000}"
-                    + "td {font-size: 13px;}"
-                    + "ol { margin-top: 0;}"
-                    + "ul { margin-top: 0;}"
-                    + "img {border:none;}"
-                    + "h1 {font-size: 18px;font-weight: bold;margin-top: 0px;margin-bottom: 0px;}"
-                    + "h2 {font-size: 16px;font-weight: normal;margin-top: 0px;margin-bottom: 0px;}"
-                    + "h3 {font-size: 14px;font-weight: normal;margin-top: 0px;margin-bottom: 0px;margin-left: 5px;}"
-                    + "</style>";
-            }
-            else
-            {
-                return "<style type=\"text/css\">"+ LegendsCSS + "</style>";
-            }
         }
 
         protected static string Bold(string text)

@@ -6,7 +6,7 @@ using LegendsViewer.Legends;
 
 namespace LegendsViewer
 {
-    public class ChartControl : PageControl
+    public class ChartControl : PageControl, IDisposable
     {
         public ChartPanel DwarfChart;
         public DwarfObject FocusObject;
@@ -39,14 +39,18 @@ namespace LegendsViewer
             //DwarfChart.RefreshAllSeries();
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (DwarfChart != null)
+            if (disposing)
             {
-                SeriesOptions = DwarfChart.SeriesOptions.GroupBy(option => option).Select(option => option.Key).ToList();
-                OtherChart = DwarfChart.OtherChart;
-                DwarfChart.Dispose();
-                DwarfChart = null;
+                if (DwarfChart != null)
+                {
+                    SeriesOptions =
+                        DwarfChart.SeriesOptions.GroupBy(option => option).Select(option => option.Key).ToList();
+                    OtherChart = DwarfChart.OtherChart;
+                    DwarfChart.Dispose();
+                    DwarfChart = null;
+                }
             }
         }
     }

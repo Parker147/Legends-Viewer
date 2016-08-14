@@ -24,21 +24,14 @@ namespace LegendsViewer.Controls.HTML
             {
                 BrowserUtil.SetBrowserEmulationMode();
 
-                string githubMarkdownCSS;
+                
                 var assembly = Assembly.GetExecutingAssembly();
                 string readme = "";
                 string markdown;
                 var resourceName = "LegendsViewer.README.md";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(assembly.GetManifestResourceStream(resourceName)))
                 {
                     markdown = reader.ReadToEnd();
-                }
-                resourceName = "LegendsViewer.Controls.HTML.Styles.github-markdown.css";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    githubMarkdownCSS = reader.ReadToEnd();
                 }
                 try
                 {
@@ -54,7 +47,8 @@ namespace LegendsViewer.Controls.HTML
                 var html = "<html>";
                 html += "<head>";
                 html += "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
-                html += "<style>" + githubMarkdownCSS + "</style>";
+                html += "<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix +
+                        "Controls/HTML/Styles/github-markdown.css\">";
                 html += "<style>.markdown-body { margin: 0 auto; padding: 20px; } </style>";
                 html += "</head>";
                 html += "<body><div class='markdown-body'>" + readme + "</div></body>";
@@ -85,12 +79,16 @@ namespace LegendsViewer.Controls.HTML
 
         }
 
-        public override void Dispose()
+
+        protected override void Dispose(bool disposing)
         {
-            if (HTMLBrowser != null)
+            if (disposing)
             {
-                HTMLBrowser.Dispose();
-                HTMLBrowser = null;
+                if (HTMLBrowser != null)
+                {
+                    HTMLBrowser.Dispose();
+                    HTMLBrowser = null;
+                }
             }
         }
 

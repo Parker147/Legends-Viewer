@@ -1,10 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.Map
 {
-    public class MapControl : PageControl
+    public class MapControl : PageControl, IDisposable
     {
         public MapPanel MapPanel;
         public double MapScale;
@@ -46,7 +47,8 @@ namespace LegendsViewer.Controls.Map
         {
             MapPanel.Invalidate();
         }
-        public override void Dispose()
+
+        protected override void Dispose(bool disposing)
         {
             if (MapPanel != null)
             {

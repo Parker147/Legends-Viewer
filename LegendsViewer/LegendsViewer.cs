@@ -89,9 +89,7 @@ namespace LegendsViewer
         {
             if (!FileLoader.Working && World != null)
             {
-                World.Map.Dispose();
-                World.MiniMap.Dispose();
-                World.PageMiniMap.Dispose();
+                World.Dispose();
                 foreach (Entity entity in World.Entities)
                 {
                     entity.Identicon?.Dispose();
