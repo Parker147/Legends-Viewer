@@ -80,8 +80,8 @@ namespace LegendsViewer.Controls
             htmlPage.Append("<!DOCTYPE html><html><head>");
             htmlPage.Append("<title>" + GetTitle() + "</title>");
             htmlPage.Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
-            htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "bootstrap/3.3.6/css/bootstrap.min.css\">");
-            htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "font-awesome/4.5.0/css/font-awesome.min.css\">");
+            htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/bootstrap.min.css\">");
+            htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/font-awesome.min.css\">");
             htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/legends.css\">");
             htmlPage.Append("</head>");
             htmlPage.Append("<body>" + Print() + "</body>");
