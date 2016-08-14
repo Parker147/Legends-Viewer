@@ -44,6 +44,13 @@ namespace LegendsViewer.Controls.HTML
                 {
                     Console.WriteLine(ex.ToString());
                 }
+                readme =
+                    readme.Replace(
+                        "<g-emoji alias=\"blue_book\" fallback-src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f4d8.png\">ðŸ“˜</g-emoji>",
+                        "<img src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f4d8.png\" alt=\":blue_book:\" title=\":blue_book:\" class=\"emoji\" height=\"20\" width=\"20\">")
+                        .Replace("<g-emoji alias=\"high_brightness\" fallback-src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f506.png\">ðŸ”†</g-emoji>", 
+                        "<img src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f506.png\" alt=\":high_brightness:\" title=\":high_brightness:\" class=\"emoji\" height=\"20\" width=\"20\">");
+
                 var html = "<html>";
                 html += "<head>";
                 html += "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
