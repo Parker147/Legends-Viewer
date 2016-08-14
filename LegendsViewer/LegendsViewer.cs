@@ -181,7 +181,10 @@ namespace LegendsViewer
 
         private void frmLegendsViewer_FormClosed(object sender, FormClosedEventArgs e)
         {
-            World.Dispose();
+            if (World != null)
+            {
+                World.Dispose();
+            }
             LocalFileProvider.Stop();
         }
     }
