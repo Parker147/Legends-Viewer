@@ -17,7 +17,7 @@ namespace LegendsViewer.Controls.HTML.Utilities
             if (String.Compare(appName, "devenv.exe", StringComparison.OrdinalIgnoreCase) == 0 || String.Compare(appName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase) == 0)
                 return;
             const uint MODE = 10000;
-            using (var key = Registry.CurrentUser.CreateSubKey(@"HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION\",
+            using (var key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION\",
                 RegistryKeyPermissionCheck.ReadWriteSubTree))
             {
                 if (key != null)

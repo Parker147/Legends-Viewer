@@ -30,6 +30,9 @@ namespace LegendsViewer
         {
             InitializeComponent();
 
+            // Start local http server
+            LocalFileProvider.Run();
+
             Coordinator = new LVCoordinator(this);
 
             FileLoader = summaryTab1.CreateLoader();
@@ -179,6 +182,7 @@ namespace LegendsViewer
         private void frmLegendsViewer_FormClosed(object sender, FormClosedEventArgs e)
         {
             World.Dispose();
+            LocalFileProvider.Stop();
         }
     }
 }
