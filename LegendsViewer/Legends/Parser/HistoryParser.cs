@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LegendsViewer.Legends.Parser
 {
-    class HistoryParser
+    class HistoryParser : IDisposable
     {
         World World;
         StreamReader History;
@@ -189,6 +189,20 @@ namespace LegendsViewer.Legends.Parser
                 ReadEOSCiv();
 
             return Log.ToString();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                History.Dispose();
+            }
         }
     }
 }

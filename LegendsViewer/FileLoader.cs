@@ -191,45 +191,6 @@ namespace LegendsViewer
 
             if (Environment.Is64BitProcess)
                 SevenZipBase.SetLibraryPath("7z64.dll");
-
-            try
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-                var resourceName = "LegendsViewer.Controls.HTML.Styles.legends.css";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    Controls.HTMLPrinter.LegendsCSS = reader.ReadToEnd();
-                }
-                var chartjsName = "LegendsViewer.Controls.HTML.Scripts.Chart.min.js";
-                using (Stream stream = assembly.GetManifestResourceStream(chartjsName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    Controls.HTMLPrinter.ChartJS = reader.ReadToEnd();
-                }
-                var cytoscapejsName = "LegendsViewer.Controls.HTML.Scripts.cytoscape.min.js";
-                using (Stream stream = assembly.GetManifestResourceStream(cytoscapejsName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    Controls.HTMLPrinter.CytoscapeJS = reader.ReadToEnd();
-                }
-                var cytoscapejsDagreName = "LegendsViewer.Controls.HTML.Scripts.cytoscape-dagre.js";
-                using (Stream stream = assembly.GetManifestResourceStream(cytoscapejsDagreName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    Controls.HTMLPrinter.CytoscapeJSDagre = reader.ReadToEnd();
-                }
-                var familygraphjsName = "LegendsViewer.Controls.HTML.Scripts.familygraph.js";
-                using (Stream stream = assembly.GetManifestResourceStream(familygraphjsName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    Controls.HTMLPrinter.FamilyGraphJS = reader.ReadToEnd();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
         }
 
         private string GetFile(string filter)

@@ -22,18 +22,28 @@ namespace LegendsViewer.Controls
             TabControl = tabControl;
         }
 
+        ~HTMLControl()
+        {
+            this.Dispose(false);
+        }
+
+
         public override Control GetControl()
         {
             if (HTMLBrowser == null || HTMLBrowser.IsDisposed)
             {
+                lastNav = DateTime.UtcNow;
                 BrowserUtil.SetBrowserEmulationMode();
                 HTMLBrowser = new WebBrowser
                 {
                     Dock = DockStyle.Fill,
                     WebBrowserShortcutsEnabled = false,
-                    DocumentText = Printer.GetHTMLPage(),
                     ScriptErrorsSuppressed = true
                 };
+                HTMLBrowser.Navigate("about:blank");
+                while (HTMLBrowser.Document == null || HTMLBrowser.Document.Body == null)
+                    Application.DoEvents(); 
+                HTMLBrowser.DocumentText=Printer.GetHTMLPage();
                 HTMLBrowser.DocumentCompleted += AfterPageLoad;
                 HTMLBrowser.Navigating += BrowserNavigating;
                 HTMLBrowser.Document.MouseMove += MouseOver;
@@ -42,25 +52,50 @@ namespace LegendsViewer.Controls
             return HTMLBrowser;
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (HTMLBrowser != null)
+            if (!this.disposed)
             {
-                BrowserScrollPosition = HTMLBrowser.Document.Body.ScrollTop;
-                HTMLBrowser.Dispose();
-                HTMLBrowser = null;
+                if (disposing)
+                {
+                    if (HTMLBrowser != null)
+                    {
+                        int newerBrowsers = 0;
+                        try
+                        {
+                            newerBrowsers = HTMLBrowser.Document.GetElementsByTagName("HTML")[0].ScrollTop;
+                        }
+                        catch (Exception)
+                        {
+                        }
+                        BrowserScrollPosition = newerBrowsers > HTMLBrowser.Document.Body.ScrollTop
+                            ? newerBrowsers
+                            : HTMLBrowser.Document.Body.ScrollTop;
+
+                        HTMLBrowser.Dispose();
+                        HTMLBrowser = null;
+                    }
+                }
+                base.Dispose(disposing);
+                this.disposed = true;
             }
         }
 
         public override void Refresh()
         {
             HTMLBrowser.Navigate("about:blank");
+            while (HTMLBrowser.Document == null || HTMLBrowser.Document.Body == null)
+                Application.DoEvents();
             HTMLBrowser.DocumentText = Printer.GetHTMLPage();
+
         }
 
+        private DateTime lastNav;
         private void AfterPageLoad(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
             (sender as WebBrowser).Document.Window.ScrollTo(0, BrowserScrollPosition);
+            (sender as WebBrowser).Focus();
+            Console.WriteLine((DateTime.UtcNow - lastNav).TotalMilliseconds);
             GC.Collect();
         }
 
@@ -81,7 +116,6 @@ namespace LegendsViewer.Controls
                         throw new Exception("Could not navigate with url: " + url);
                 e.Cancel = true; //Prevent the browser from actually navigating to a new page
             }
-
         }
 
         private bool NavigateToNewControl(string url)
@@ -143,5 +177,11 @@ namespace LegendsViewer.Controls
         }
 
         //e.Cancel = true;
+        public void DisposePrinter()
+        {
+
+            Printer.DeleteTemporaryFiles();
+            Printer.Dispose();
+        }
     }
 }

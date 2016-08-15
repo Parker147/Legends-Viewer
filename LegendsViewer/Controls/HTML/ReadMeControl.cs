@@ -24,21 +24,14 @@ namespace LegendsViewer.Controls.HTML
             {
                 BrowserUtil.SetBrowserEmulationMode();
 
-                string githubMarkdownCSS;
+                
                 var assembly = Assembly.GetExecutingAssembly();
                 string readme = "";
                 string markdown;
                 var resourceName = "LegendsViewer.README.md";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(assembly.GetManifestResourceStream(resourceName)))
                 {
                     markdown = reader.ReadToEnd();
-                }
-                resourceName = "LegendsViewer.Controls.HTML.Styles.github-markdown.css";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    githubMarkdownCSS = reader.ReadToEnd();
                 }
                 try
                 {
@@ -51,10 +44,18 @@ namespace LegendsViewer.Controls.HTML
                 {
                     Console.WriteLine(ex.ToString());
                 }
+                readme =
+                    readme.Replace(
+                        "<g-emoji alias=\"blue_book\" fallback-src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f4d8.png\">ðŸ“˜</g-emoji>",
+                        "<img src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f4d8.png\" alt=\":blue_book:\" title=\":blue_book:\" class=\"emoji\" height=\"20\" width=\"20\">")
+                        .Replace("<g-emoji alias=\"high_brightness\" fallback-src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f506.png\">ðŸ”†</g-emoji>", 
+                        "<img src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f506.png\" alt=\":high_brightness:\" title=\":high_brightness:\" class=\"emoji\" height=\"20\" width=\"20\">");
+
                 var html = "<html>";
                 html += "<head>";
                 html += "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
-                html += "<style>" + githubMarkdownCSS + "</style>";
+                html += "<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix +
+                        "Controls/HTML/Styles/github-markdown.css\">";
                 html += "<style>.markdown-body { margin: 0 auto; padding: 20px; } </style>";
                 html += "</head>";
                 html += "<body><div class='markdown-body'>" + readme + "</div></body>";
@@ -85,13 +86,23 @@ namespace LegendsViewer.Controls.HTML
 
         }
 
-        public override void Dispose()
+
+        protected override void Dispose(bool disposing)
         {
-            if (HTMLBrowser != null)
+            if (!this.disposed)
             {
-                HTMLBrowser.Dispose();
-                HTMLBrowser = null;
+                if (disposing)
+                {
+                    if (HTMLBrowser != null)
+                    {
+                        HTMLBrowser.Dispose();
+                        HTMLBrowser = null;
+                    }
+                }
+                base.Dispose(disposing);
+                this.disposed = true;
             }
+
         }
 
         public override void Refresh()

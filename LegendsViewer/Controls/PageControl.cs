@@ -6,12 +6,24 @@ using System.Windows.Forms;
 
 namespace LegendsViewer
 {
-    public abstract class PageControl
+    public abstract class PageControl : IDisposable
     {
         public DwarfTabControl TabControl;
         public string Title;
+
+        internal bool disposed;
+
         public abstract Control GetControl();
-        public abstract void Dispose();
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
         public abstract void Refresh();
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
     }
 }

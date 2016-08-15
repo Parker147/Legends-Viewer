@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace LegendsViewer.Legends
 {
-    public class World
+    public class World : IDisposable
     {
         public static Dictionary<string, Color> MainRaces = new Dictionary<string, Color>();
 
@@ -721,5 +721,21 @@ namespace LegendsViewer.Legends
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Map.Dispose();
+                MiniMap.Dispose();
+                PageMiniMap.Dispose();
+            }
+        }
     }
 }

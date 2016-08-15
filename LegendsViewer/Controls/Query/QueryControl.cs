@@ -501,20 +501,7 @@ namespace LegendsViewer.Controls.Query
                 Browser.Navigate(ControlOption.Map, Results);
             }
         }
-
-
-
-
-
-
-
     }
-
-    
-
-   
-
-    
 
     public class SearchControl : PageControl
     {
@@ -535,9 +522,12 @@ namespace LegendsViewer.Controls.Query
             return QueryControl;
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-
+            if (disposing)
+            {
+                QueryControl.Dispose();
+            }
         }
 
         public override void Refresh()

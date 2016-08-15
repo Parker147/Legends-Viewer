@@ -7,7 +7,7 @@ using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Legends.Parser
 {
-    class SitesAndPopulationsParser
+    class SitesAndPopulationsParser : IDisposable
     {
         StreamReader SitesAndPops;
         string CurrentLine;
@@ -315,6 +315,20 @@ namespace LegendsViewer.Legends.Parser
             World.UndergroundPopulations = World.UndergroundPopulations.OrderByDescending(population => population.Count).ToList();
         }
 
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                SitesAndPops.Dispose();
+            }
+        }
 
     }
 }

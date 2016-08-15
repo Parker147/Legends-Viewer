@@ -8,10 +8,11 @@ using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.Map
 {
-    public class HeatMapMaker
+    public class HeatMapMaker : IDisposable
     {
-        Bitmap AlphaMap, HeatMap, HeatGradient, Occurence;
+        Bitmap HeatMap, HeatGradient, Occurence;
         int OccurenceIntensity = 25, OccurenceDiameter = 75, MaxOccurencesToDraw = 50;
+        private bool disposed;
 
         public static Bitmap Create(int width, int height, List<Location> occurences, List<int> occurencesCount = null)
         {
@@ -24,7 +25,7 @@ namespace LegendsViewer.Controls.Map
 
             MakeHeatGradient();
             MakeOccurence();
-            AlphaMap = new Bitmap(width, height);
+            Bitmap AlphaMap = new Bitmap(width, height);
             Graphics alphaMapGraphics = Graphics.FromImage(AlphaMap);
             alphaMapGraphics.SmoothingMode = SmoothingMode.None;
             alphaMapGraphics.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -51,7 +52,7 @@ namespace LegendsViewer.Controls.Map
 
             AlphaMap = Blur(AlphaMap);
             HeatMap = new Bitmap(width, height);
-            ConvertAlphaMapToHeatMap();
+            ConvertAlphaMapToHeatMap(AlphaMap);
             AlphaMap.Dispose();
 
         }
@@ -109,7 +110,7 @@ namespace LegendsViewer.Controls.Map
             g.DrawImage(Occurence, new Point(X, Y));
         }
 
-        private void ConvertAlphaMapToHeatMap()
+        private void ConvertAlphaMapToHeatMap(Bitmap alphaMap)
         {
             using (ImageAttributes attributes = new ImageAttributes())
             {
@@ -125,7 +126,7 @@ namespace LegendsViewer.Controls.Map
                 Graphics remap = Graphics.FromImage(HeatMap);
                 attributes.SetRemapTable(newColorMap);
                 remap = Graphics.FromImage(HeatMap);
-                remap.DrawImage(AlphaMap, new Rectangle(0, 0, HeatMap.Width, HeatMap.Height), 0, 0, HeatMap.Width, HeatMap.Height, GraphicsUnit.Pixel, attributes);
+                remap.DrawImage(alphaMap, new Rectangle(0, 0, HeatMap.Width, HeatMap.Height), 0, 0, HeatMap.Width, HeatMap.Height, GraphicsUnit.Pixel, attributes);
                 remap.Dispose();
             }
         }
@@ -234,6 +235,26 @@ namespace LegendsViewer.Controls.Map
             source.Dispose();
             blurred.UnlockBits(bmdBlurred);
             return blurred;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    HeatMap.Dispose();
+                    HeatGradient.Dispose();
+                    Occurence.Dispose();
+                }
+                disposed = true;
+            }
         }
     }
 }

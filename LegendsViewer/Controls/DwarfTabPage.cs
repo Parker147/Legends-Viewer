@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LegendsViewer.Controls;
 
 namespace LegendsViewer
 {
@@ -19,7 +20,15 @@ namespace LegendsViewer
 
         public void NewPageControl(PageControl pageControl)
         {
-            ForwardHistory.Clear();
+            while (ForwardHistory.Any())
+            {
+                var temp = ForwardHistory.Pop();
+                if (temp is HTMLControl)
+                {
+                    ((HTMLControl)temp).DisposePrinter();
+                }
+                temp.Dispose();
+            }
             if (Current != null)
             {
                 Current.Dispose();
@@ -69,6 +78,32 @@ namespace LegendsViewer
         {
             Current.Dispose();
             Controls.Clear();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            foreach (var forward in ForwardHistory)
+            {
+                if (forward is HTMLControl)
+                {
+                    ((HTMLControl) forward).DisposePrinter();
+                }
+                forward.Dispose();
+            }
+            foreach (var back in BackHistory)
+            {
+                if (back is HTMLControl)
+                {
+                    ((HTMLControl)back).DisposePrinter();
+                }
+                back.Dispose();
+            }
+            if (Current is HTMLControl)
+            {
+                ((HTMLControl)Current).DisposePrinter();
+            }
+            Current.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

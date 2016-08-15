@@ -30,6 +30,9 @@ namespace LegendsViewer
         {
             InitializeComponent();
 
+            // Start local http server
+            LocalFileProvider.Run();
+
             Coordinator = new LVCoordinator(this);
 
             FileLoader = summaryTab1.CreateLoader();
@@ -89,9 +92,7 @@ namespace LegendsViewer
         {
             if (!FileLoader.Working && World != null)
             {
-                World.Map.Dispose();
-                World.MiniMap.Dispose();
-                World.PageMiniMap.Dispose();
+                World.Dispose();
                 foreach (Entity entity in World.Entities)
                 {
                     entity.Identicon?.Dispose();
@@ -171,6 +172,20 @@ namespace LegendsViewer
         private void open_ReadMe(object sender, EventArgs e)
         {
             Browser.Navigate(ControlOption.ReadMe);
+        }
+
+        private void summaryTab1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmLegendsViewer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (World != null)
+            {
+                World.Dispose();
+            }
+            LocalFileProvider.Stop();
         }
     }
 }
