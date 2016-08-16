@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
@@ -29,6 +25,7 @@ namespace LegendsViewer.Controls.Tabs
             EventTabs = new TabPage[] { tpHFEvents };
             EventTabTypes = new Type[] { typeof(HistoricalFigure) };
             lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
+            MaxResultsLabels.Add(lnkMaxResults);
             listHFSearch.ShowGroups = false;
 
             listHFSearch.AllColumns.Add(new OLVColumn { AspectName = "Race", IsVisible = false, Text = "Race", TextAlign = HorizontalAlignment.Left });
@@ -51,7 +48,6 @@ namespace LegendsViewer.Controls.Tabs
                 Text = "Events", TextAlign = HorizontalAlignment.Right, IsVisible = false,
                 AspectGetter = rowObject => ((HistoricalFigure)rowObject).Events.Count
             });
-
         }
 
         internal override void AfterLoad(World world)
@@ -194,8 +190,11 @@ namespace LegendsViewer.Controls.Tabs
             if (InputBox.Show("Max Results:", "Enter maximum search results. (0 for All)", ref value, validation) == DialogResult.OK)
             {
                 WorldObjectList.MaxResults = int.Parse(value);
-                lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
-                lnkMaxResults.Left = listPanel.Right - lnkMaxResults.Width - 3;
+                foreach (LinkLabel lnkLabel in MaxResultsLabels)
+                {
+                    lnkLabel.Text = WorldObjectList.MaxResults.ToString();
+                    lnkLabel.Left = lnkLabel.Parent.Right - lnkLabel.Width - 3;
+                }
                 lblShownResults.Left = lnkMaxResults.Left - lblShownResults.Width - 3;
                 listSearch_SelectedIndexChanged(this, EventArgs.Empty);
                 searchHFList(null, null);

@@ -24,6 +24,7 @@ namespace LegendsViewer.Controls.Tabs
         internal override void InitializeTab()
         {
             lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
+            MaxResultsLabels.Add(lnkMaxResults);
 
             EventTabs = new TabPage[] { tpSiteEvents };
             EventTabTypes = new Type[] { typeof(Site) };
@@ -187,8 +188,11 @@ namespace LegendsViewer.Controls.Tabs
             if (InputBox.Show("Max Results:", "Enter maximum search results. (0 for All)", ref value, validation) == DialogResult.OK)
             {
                 WorldObjectList.MaxResults = int.Parse(value);
-                lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
-                lnkMaxResults.Left = listPanel.Right - lnkMaxResults.Width - 3;
+                foreach (LinkLabel lnkLabel in MaxResultsLabels)
+                {
+                    lnkLabel.Text = WorldObjectList.MaxResults.ToString();
+                    lnkLabel.Left = lnkLabel.Parent.Right - lnkLabel.Width - 3;
+                }
                 lblShownResults.Left = lnkMaxResults.Left - lblShownResults.Width - 3;
                 listSearch_SelectedIndexChanged(this, EventArgs.Empty);
                 searchSiteList(null, null);

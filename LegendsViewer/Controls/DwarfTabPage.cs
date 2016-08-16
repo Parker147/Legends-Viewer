@@ -44,7 +44,7 @@ namespace LegendsViewer
             Text = Current.Title;
             Control newControl = Current.GetControl();
             Controls.Add(newControl);
-            if (newControl.GetType() == typeof(ChartPanel))
+            if (newControl.GetType() == typeof(ChartPanel) && Current.TabControl.SelectedTab != null)
             {
                 this.Width = Current.TabControl.SelectedTab.Width;
                 this.Refresh();

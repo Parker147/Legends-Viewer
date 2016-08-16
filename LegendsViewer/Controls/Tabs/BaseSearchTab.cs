@@ -40,8 +40,6 @@ namespace LegendsViewer.Controls.Tabs
         internal World World => Coordinator?.World;
         internal FileLoader FileLoader => Coordinator?.FileLoader;
 
-
-
         public BaseSearchTab()
         {
             InitializeComponent();
@@ -59,7 +57,8 @@ namespace LegendsViewer.Controls.Tabs
             TabEvents?.Clear();
         }
 
-        public ObjectListView ListView { get; protected set; }
+        internal ObjectListView ListView { get; set; }
+        internal static List<LinkLabel> MaxResultsLabels = new List<LinkLabel>();
 
         private void SetupGeneralListViewEvents()
         {

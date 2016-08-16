@@ -160,11 +160,14 @@ namespace LegendsViewer
             List<Series> series = new List<Series>();
             switch (option) //Series Setup
             {
-                case ChartOption.TimelineEvents: series.Add(new Series("Events"));
+                case ChartOption.TimelineEvents:
+                    series.Add(new Series("Events"));
                     series.First().Color = Color.FromArgb(65, 140, 240); break;
-                case ChartOption.TimelineEventsFiltered: series.Add(new Series("Events (Filtered)"));
+                case ChartOption.TimelineEventsFiltered:
+                    series.Add(new Series("Events (Filtered)"));
                     series.First().Color = Color.FromArgb(252, 180, 64); break;
-                case ChartOption.TimelineActiveSites: series.Add(new Series("Sites"));
+                case ChartOption.TimelineActiveSites:
+                    series.Add(new Series("Sites"));
                     series.First().Color = Color.FromArgb(145, 70, 170); break;
                 case ChartOption.TimelineActiveSitesByRace:
                     List<string> races = World.Entities.Where(entity => entity.IsCiv).GroupBy(entity => entity.Race).Select(entity => entity.Key).ToList();
@@ -177,7 +180,8 @@ namespace LegendsViewer
                         series.Add(raceSeries);
                     }
                     break;
-                case ChartOption.TimelineActiveWars: series.Add(new Series("Wars"));
+                case ChartOption.TimelineActiveWars:
+                    series.Add(new Series("Wars"));
                     series.First().Color = Color.FromArgb(202, 107, 75); break;
                 case ChartOption.TimelineAliveHFs:
                     series.Add(new Series("Historical Figures"));
@@ -185,11 +189,14 @@ namespace LegendsViewer
                 case ChartOption.TimeLineAliveHFSpecific:
                     series.Add(new Series(AliveHFRace));
                     series.First().Color = Color.FromArgb(224, 64, 10); break;
-                case ChartOption.TimelineBattles: series.Add(new Series("Battles"));
+                case ChartOption.TimelineBattles:
+                    series.Add(new Series("Battles"));
                     series.First().Color = Color.FromArgb(26, 59, 105); break;
-                case ChartOption.TimelineBeastAttacks: series.Add(new Series("Beast Attacks"));
+                case ChartOption.TimelineBeastAttacks:
+                    series.Add(new Series("Beast Attacks"));
                     series.First().Color = Color.FromArgb(105, 170, 60); break;
-                case ChartOption.TimelineBattleDeaths: series.Add(new Series("Battle Deaths"));
+                case ChartOption.TimelineBattleDeaths:
+                    series.Add(new Series("Battle Deaths"));
                     series.First().Color = Color.FromArgb(130, 160, 210); break;
                 case ChartOption.WorldHFAlive: series.Add(new Series("Historical Figures - Alive")); break;
                 case ChartOption.WorldHFRemaining:
@@ -359,7 +366,7 @@ namespace LegendsViewer
                         aliveHFs = hfs.Where(hf => hf.BirthYear <= startYear).ToList();
                         //hfs = World.HistoricalFigures.OrderBy(hf => hf.BirthYear).ToList();
                         HistoricalFigure firstHFIndex = hfs.FirstOrDefault(hf => hf.BirthYear > startYear);
-                        if (firstHFIndex == null) 
+                        if (firstHFIndex == null)
                             hfIndex = 0;
                         else
                             hfIndex = hfs.IndexOf(firstHFIndex);
@@ -459,7 +466,7 @@ namespace LegendsViewer
                                 }
                                 break;
 
-                            //case ChartOption.TimelineBattleDeaths: count = battles.Where(battle => battle.StartYear == year).Sum(battle => battle.AttackerDeathCount + battle.DefenderDeathCount); break;
+                                //case ChartOption.TimelineBattleDeaths: count = battles.Where(battle => battle.StartYear == year).Sum(battle => battle.AttackerDeathCount + battle.DefenderDeathCount); break;
                         }
                         if (series.Count == 1) series.First().Points.AddXY(year, count);
                     }
@@ -675,12 +682,9 @@ namespace LegendsViewer
                         series.First().Color = Color.LightGray;
                         series.Last().Points.Last().Color = battle1.Defender.LineColor;
                         series.Last().Points.Last().AxisLabel = defenderTotals[i].Type;
-                        //series.Last().Points.Last().LabelBackColor = Color.FromArgb(127, battle1.Defender.LineColor);
                     }
                     break;
-
             }
-
             return series;
         }
 
@@ -690,8 +694,14 @@ namespace LegendsViewer
             {
                 int i = SeriesOptions.IndexOf(option);
                 SeriesOptions.Remove(option);
-                Series.RemoveAt(i);
-                DwarfChart.Series.RemoveAt(i);
+                if (Series.Count > i)
+                {
+                    Series.RemoveAt(i);
+                }
+                if (DwarfChart.Series.Count > i)
+                {
+                    DwarfChart.Series.RemoveAt(i);
+                }
             }
         }
 
@@ -711,84 +721,84 @@ namespace LegendsViewer
             if (((FocusObject is WorldObject) && (FocusObject as WorldObject).Events.Count > 0)
                 || (FocusObject.GetType() == typeof(War) && (FocusObject as EventCollection).GetSubEvents().Count > 0))
             {
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineEvents});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineEventsFiltered});
-                other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherEventTypes});
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineEvents });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineEventsFiltered });
+                other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherEventTypes });
             }
 
             if (FocusObject.GetType() == typeof(Era))
             {
-                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineAliveHFs});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimeLineAliveHFSpecific});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineActiveSites});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineActiveSitesByRace});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineActiveWars});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattles});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattleDeaths});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBeastAttacks});
-                other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherDeaths});
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineAliveHFs });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimeLineAliveHFSpecific });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineActiveSites });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineActiveSitesByRace });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineActiveWars });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattles });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattleDeaths });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBeastAttacks });
+                other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherDeaths });
             }
             else if (FocusObject.GetType() == typeof(HistoricalFigure))
             {
                 HistoricalFigure hf = (FocusObject as HistoricalFigure);
-                if (hf.NotableKills.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherKillsByRace});
-                if (hf.Battles.Count > 0) timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattles});
-                if (hf.BeastAttacks != null) timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBeastAttacks});
+                if (hf.NotableKills.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherKillsByRace });
+                if (hf.Battles.Count > 0) timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattles });
+                if (hf.BeastAttacks != null) timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBeastAttacks });
             }
             else if (FocusObject.GetType() == typeof(Entity))
             {
                 Entity entity = (FocusObject as Entity);
-                if (entity.SiteHistory.Count > 0) timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineActiveSites});
-                if (entity.Populations.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherEntityPopulations});
+                if (entity.SiteHistory.Count > 0) timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineActiveSites });
+                if (entity.Populations.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherEntityPopulations });
                 if (entity.Wars.Count > 0)
                 {
-                    timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineActiveWars});
-                    timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattles});
-                    timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattleDeaths});
-                    other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherWarLosses});
+                    timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineActiveWars });
+                    timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattles });
+                    timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattleDeaths });
+                    other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherWarLosses });
                 }
             }
             else if (FocusObject.GetType() == typeof(Site))
             {
                 Site site = (FocusObject as Site);
-                if (site.BeastAttacks.Count > 0) timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBeastAttacks});
+                if (site.BeastAttacks.Count > 0) timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBeastAttacks });
                 if (site.Warfare.OfType<Battle>().Any())
                 {
-                    timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattles});
-                    timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattleDeaths});
+                    timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattles });
+                    timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattleDeaths });
                 }
-                if (site.Populations.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherSitePopulations});
-                if (site.Events.OfType<HFDied>().Any() || site.Warfare.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherDeaths});
+                if (site.Populations.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherSitePopulations });
+                if (site.Events.OfType<HFDied>().Any() || site.Warfare.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherDeaths });
             }
             else if (FocusObject.GetType() == typeof(LegendsViewer.Legends.WorldRegion))
             {
                 LegendsViewer.Legends.WorldRegion region = (FocusObject as LegendsViewer.Legends.WorldRegion);
-                if (region.Events.OfType<HFDied>().Any()) other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherDeaths});
+                if (region.Events.OfType<HFDied>().Any()) other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherDeaths });
                 if (region.Battles.Count > 0)
                 {
-                    timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattles});
-                    timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattleDeaths});
+                    timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattles });
+                    timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattleDeaths });
                 }
             }
             else if (FocusObject.GetType() == typeof(War))
             {
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattles});
-                timeline.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.TimelineBattleDeaths});
-                other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherWarLosses});
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattles });
+                timeline.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.TimelineBattleDeaths });
+                other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherWarLosses });
             }
             else if (FocusObject.GetType() == typeof(Battle))
-                other.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.OtherBattleRemaining});
+                other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherBattleRemaining });
 
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldHFRaces});
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldHFAlive});
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldHFRemaining});
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldHFRaces });
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldHFAlive });
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldHFRemaining });
             //World.DropDownItems.Insert(new ChartMenuItem(this) {Option = ChartOption.WorldHFDead});
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldRegionTypes});
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldSitePopulations});
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldSiteTypes});
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldDeaths});
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldOutdoorPopulations});
-            world.DropDownItems.Add(new ChartMenuItem(this) {Option = ChartOption.WorldUndergroundPopulations});
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldRegionTypes });
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldSitePopulations });
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldSiteTypes });
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldDeaths });
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldOutdoorPopulations });
+            world.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.WorldUndergroundPopulations });
 
 
             menu.Items.Add(timeline);
