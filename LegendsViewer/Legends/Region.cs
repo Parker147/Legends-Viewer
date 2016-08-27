@@ -31,6 +31,14 @@ namespace LegendsViewer.Legends
         public List<HistoricalFigure> NotableDeaths { get { return Events.OfType<HFDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
         public List<Battle> Battles { get; set; }
         public List<Location> Coordinates { get; set; } // legends_plus.xml
+        public int SquareTiles
+        {
+            get
+            {
+                return Coordinates.Count;
+            }
+        }
+
         public List<Site> Sites { get; set; } // legends_plus.xml
         public List<MountainPeak> MountainPeaks { get; set; } // legends_plus.xml
 

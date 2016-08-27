@@ -106,7 +106,7 @@ namespace LegendsViewer
             Application.DoEvents();
 
             Browser.World = World;
-            this.Text += " " + World.Name;
+            Text += " - " + World.Name;
             Browser.Navigate(ControlOption.HTML, World);
 
             foreach (var v in tcWorld.TabPages.OfType<TabPage>().SelectMany(x => x.Controls.OfType<BaseSearchTab>()))
@@ -127,10 +127,6 @@ namespace LegendsViewer
         public void ResetForm()
         {
             Text = "Legends Viewer";
-            if (World != null)
-            {
-                Text += " - " + World.Name;
-            }
             foreach (var v in tcWorld.TabPages.OfType<TabPage>().SelectMany(x => x.Controls.OfType<BaseSearchTab>()))
             {
                 v.ResetTab();

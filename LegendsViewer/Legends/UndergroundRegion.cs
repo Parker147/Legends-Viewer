@@ -17,6 +17,13 @@ namespace LegendsViewer.Legends
         public string Type { get; set; }
         public List<Battle> Battles { get; set; }
         public List<Location> Coordinates { get; set; } // legends_plus.xml
+        public int SquareTiles
+        {
+            get
+            {
+                return Coordinates.Count;
+            }
+        }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {

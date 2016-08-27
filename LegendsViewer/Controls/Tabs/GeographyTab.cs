@@ -104,7 +104,6 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void ResetTab()
         {
-
             txtRegionSearch.Clear();
             listRegionSearch.Items.Clear();
             cmbRegionType.Items.Clear();
@@ -114,8 +113,6 @@ namespace LegendsViewer.Controls.Tabs
             cmbURegionType.Items.Clear();
             radURegionNone.Checked = true;
         }
-
-
 
         private void searchRegionList(object sender, EventArgs e)
         {
@@ -127,6 +124,7 @@ namespace LegendsViewer.Controls.Tabs
                 regionSearch.sortFiltered = radRegionSortFiltered.Checked;
                 regionSearch.sortBattles = radRegionSortBattles.Checked;
                 regionSearch.SortDeaths = radRegionSortDeaths.Checked;
+                regionSearch.SortArea = radRegionSortArea.Checked;
                 IEnumerable<WorldRegion> list = regionSearch.getList();
                 var results = list.ToArray();
                 listRegionSearch.SetObjects(results);
@@ -147,13 +145,13 @@ namespace LegendsViewer.Controls.Tabs
                 uRegionSearch.type = cmbURegionType.SelectedItem.ToString();
                 uRegionSearch.sortEvents = radURegionSortEvents.Checked;
                 uRegionSearch.sortFiltered = radURegionSortFiltered.Checked;
+                uRegionSearch.SortArea = radURegionSortArea.Checked;
                 IEnumerable<UndergroundRegion> list = uRegionSearch.getList();
                 var results = list.ToArray();
                 listURegionSearch.SetObjects(results);
                 UpdateCounts(lblURegionResults, results.Length, uRegionSearch.BaseList.Count);
             }
         }
-
 
         private void searchLandmassList(object sender, EventArgs e)
         {

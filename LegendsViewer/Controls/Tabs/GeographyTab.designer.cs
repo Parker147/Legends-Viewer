@@ -95,6 +95,8 @@
             this.radMountainPeakEvents = new System.Windows.Forms.RadioButton();
             this.txtMountainPeakSearch = new System.Windows.Forms.TextBox();
             this.tpMountainPeakEvents = new System.Windows.Forms.TabPage();
+            this.radRegionSortArea = new System.Windows.Forms.RadioButton();
+            this.radURegionSortArea = new System.Windows.Forms.RadioButton();
             this.tcRegionsSub.SuspendLayout();
             this.tpOverworld.SuspendLayout();
             this.tcRegions.SuspendLayout();
@@ -202,8 +204,8 @@
             this.listRegionSearch.FullRowSelect = true;
             this.listRegionSearch.GridLines = true;
             this.listRegionSearch.HeaderWordWrap = true;
-            this.listRegionSearch.SelectedBackColor = System.Drawing.Color.Empty;
-            this.listRegionSearch.SelectedForeColor = System.Drawing.Color.Empty;
+            this.listRegionSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listRegionSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 32);
             this.listRegionSearch.Name = "listRegionSearch";
             this.listRegionSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -255,14 +257,15 @@
             // 
             this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Controls.Add(this.radRegionSortArea);
             this.groupBox7.Controls.Add(this.radRegionSortDeaths);
             this.groupBox7.Controls.Add(this.radRegionSortBattles);
             this.groupBox7.Controls.Add(this.radRegionSortFiltered);
             this.groupBox7.Controls.Add(this.radRegionNone);
             this.groupBox7.Controls.Add(this.radRegionSortEvents);
-            this.groupBox7.Location = new System.Drawing.Point(133, 19);
+            this.groupBox7.Location = new System.Drawing.Point(6, 59);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(99, 131);
+            this.groupBox7.Size = new System.Drawing.Size(226, 98);
             this.groupBox7.TabIndex = 13;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Sort By";
@@ -270,7 +273,7 @@
             // radRegionSortDeaths
             // 
             this.radRegionSortDeaths.AutoSize = true;
-            this.radRegionSortDeaths.Location = new System.Drawing.Point(6, 88);
+            this.radRegionSortDeaths.Location = new System.Drawing.Point(116, 42);
             this.radRegionSortDeaths.Name = "radRegionSortDeaths";
             this.radRegionSortDeaths.Size = new System.Drawing.Size(59, 17);
             this.radRegionSortDeaths.TabIndex = 16;
@@ -282,7 +285,7 @@
             // radRegionSortBattles
             // 
             this.radRegionSortBattles.AutoSize = true;
-            this.radRegionSortBattles.Location = new System.Drawing.Point(6, 65);
+            this.radRegionSortBattles.Location = new System.Drawing.Point(116, 65);
             this.radRegionSortBattles.Name = "radRegionSortBattles";
             this.radRegionSortBattles.Size = new System.Drawing.Size(57, 17);
             this.radRegionSortBattles.TabIndex = 15;
@@ -307,7 +310,7 @@
             // 
             this.radRegionNone.AutoSize = true;
             this.radRegionNone.Checked = true;
-            this.radRegionNone.Location = new System.Drawing.Point(6, 111);
+            this.radRegionNone.Location = new System.Drawing.Point(6, 65);
             this.radRegionNone.Name = "radRegionNone";
             this.radRegionNone.Size = new System.Drawing.Size(51, 17);
             this.radRegionNone.TabIndex = 13;
@@ -444,8 +447,8 @@
             this.listURegionSearch.FullRowSelect = true;
             this.listURegionSearch.GridLines = true;
             this.listURegionSearch.HeaderWordWrap = true;
-            this.listURegionSearch.SelectedBackColor = System.Drawing.Color.Empty;
-            this.listURegionSearch.SelectedForeColor = System.Drawing.Color.Empty;
+            this.listURegionSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listURegionSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.listURegionSearch.Location = new System.Drawing.Point(3, 32);
             this.listURegionSearch.Name = "listURegionSearch";
             this.listURegionSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -520,12 +523,13 @@
             // 
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Controls.Add(this.radURegionSortArea);
             this.groupBox8.Controls.Add(this.radURegionSortFiltered);
             this.groupBox8.Controls.Add(this.radURegionNone);
             this.groupBox8.Controls.Add(this.radURegionSortEvents);
-            this.groupBox8.Location = new System.Drawing.Point(133, 19);
+            this.groupBox8.Location = new System.Drawing.Point(6, 64);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(99, 92);
+            this.groupBox8.Size = new System.Drawing.Size(228, 92);
             this.groupBox8.TabIndex = 13;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Sort By";
@@ -657,8 +661,8 @@
             this.listLandmassesSearch.FullRowSelect = true;
             this.listLandmassesSearch.GridLines = true;
             this.listLandmassesSearch.HeaderWordWrap = true;
-            this.listLandmassesSearch.SelectedBackColor = System.Drawing.Color.Empty;
-            this.listLandmassesSearch.SelectedForeColor = System.Drawing.Color.Empty;
+            this.listLandmassesSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listLandmassesSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.listLandmassesSearch.Location = new System.Drawing.Point(3, 31);
             this.listLandmassesSearch.Name = "listLandmassesSearch";
             this.listLandmassesSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -840,8 +844,8 @@
             this.listMountainPeakSearch.FullRowSelect = true;
             this.listMountainPeakSearch.GridLines = true;
             this.listMountainPeakSearch.HeaderWordWrap = true;
-            this.listMountainPeakSearch.SelectedBackColor = System.Drawing.Color.Empty;
-            this.listMountainPeakSearch.SelectedForeColor = System.Drawing.Color.Empty;
+            this.listMountainPeakSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listMountainPeakSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.listMountainPeakSearch.Location = new System.Drawing.Point(3, 31);
             this.listMountainPeakSearch.Name = "listMountainPeakSearch";
             this.listMountainPeakSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -967,6 +971,28 @@
             this.tpMountainPeakEvents.Text = "Events";
             this.tpMountainPeakEvents.UseVisualStyleBackColor = true;
             // 
+            // radRegionSortArea
+            // 
+            this.radRegionSortArea.AutoSize = true;
+            this.radRegionSortArea.Location = new System.Drawing.Point(116, 19);
+            this.radRegionSortArea.Name = "radRegionSortArea";
+            this.radRegionSortArea.Size = new System.Drawing.Size(47, 17);
+            this.radRegionSortArea.TabIndex = 17;
+            this.radRegionSortArea.Text = "Area";
+            this.radRegionSortArea.UseVisualStyleBackColor = true;
+            this.radRegionSortArea.CheckedChanged += new System.EventHandler(this.searchRegionList);
+            // 
+            // radURegionSortArea
+            // 
+            this.radURegionSortArea.AutoSize = true;
+            this.radURegionSortArea.Location = new System.Drawing.Point(114, 19);
+            this.radURegionSortArea.Name = "radURegionSortArea";
+            this.radURegionSortArea.Size = new System.Drawing.Size(47, 17);
+            this.radURegionSortArea.TabIndex = 18;
+            this.radURegionSortArea.Text = "Area";
+            this.radURegionSortArea.UseVisualStyleBackColor = true;
+            this.radURegionSortArea.CheckedChanged += new System.EventHandler(this.searchURegionList);
+            // 
             // GeographyTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1080,5 +1106,7 @@
         private BrightIdeasSoftware.OLVColumn olvColumn6;
         private BrightIdeasSoftware.OLVColumn olvColumn7;
         private BrightIdeasSoftware.ObjectListView listMountainPeakSearch;
+        private System.Windows.Forms.RadioButton radRegionSortArea;
+        private System.Windows.Forms.RadioButton radURegionSortArea;
     }
 }

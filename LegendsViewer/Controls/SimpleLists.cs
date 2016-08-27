@@ -85,7 +85,7 @@ namespace LegendsViewer.Controls
     public class RegionsList : WorldObjectList
     {
         public string name, type;
-        public bool sortBattles, SortDeaths;
+        public bool sortBattles, SortDeaths, SortArea;
         public readonly List<WorldRegion> BaseList;
         public RegionsList(World setWorld) : base(setWorld)
         {
@@ -100,6 +100,7 @@ namespace LegendsViewer.Controls
             if (sortFiltered) filtered = filtered.OrderByDescending(r => r.Events.Count(ev => !WorldRegion.Filters.Contains(ev.Type)));
             if (sortBattles) filtered = filtered.OrderByDescending(region => region.Battles.Count(battle => !World.FilterBattles || battle.Notable));
             if (SortDeaths) filtered = filtered.OrderByDescending(region => region.Events.OfType<HFDied>().Count() + region.Battles.OfType<Battle>().Sum(battle => battle.AttackerSquads.Sum(squad => squad.Deaths) + battle.DefenderSquads.Sum(squad => squad.Deaths)));
+            if (SortArea) filtered = filtered.OrderByDescending(region => region.SquareTiles);
             return MaxResults > 0 ? filtered.Take(MaxResults) : filtered;
         }
     }
@@ -108,6 +109,7 @@ namespace LegendsViewer.Controls
     {
         public string type;
         public readonly List<UndergroundRegion> BaseList;
+        public bool SortArea;
         public UndergroundRegionsList(World setWorld) : base(setWorld)
         {
             BaseList = World.UndergroundRegions;
@@ -118,6 +120,7 @@ namespace LegendsViewer.Controls
             if (type != "All") filtered = filtered.Where(ur => ur.Type == type);
             if (sortEvents) filtered = filtered.OrderByDescending(ur => ur.Events.Count);
             if (sortFiltered) filtered = filtered.OrderByDescending(ur => ur.Events.Count(ev => !UndergroundRegion.Filters.Contains(ev.Type)));
+            if (SortArea) filtered = filtered.OrderByDescending(region => region.SquareTiles);
             return MaxResults > 0 ? filtered.Take(MaxResults) : filtered;
         }
     }

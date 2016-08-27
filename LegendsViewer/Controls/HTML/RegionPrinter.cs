@@ -39,6 +39,11 @@ namespace LegendsViewer.Controls.HTML
                 HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
                 HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
                 HTML.AppendLine("</tr></table></br>");
+
+                HTML.AppendLine("<b>Geography</b><br/>");
+                HTML.AppendLine("<ul>");
+                HTML.AppendLine("<li>Area: " + Region.SquareTiles + " region tiles²</li>");
+                HTML.AppendLine("</ul>");
             }
 
             if (Region.Battles.Count(battle => !World.FilterBattles || battle.Notable) > 0)
