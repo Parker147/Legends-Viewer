@@ -127,7 +127,7 @@ namespace LegendsViewer.Legends
                     case "associated_type": AssociatedType = string.Intern(Formatting.InitCaps(property.Value.ToLower().Replace('_', ' '))); break;
                     case "deity": Deity = true; property.Known = true; break;
                     case "skeleton": Skeleton = true; property.Known = true; break;
-                    case "force": Force = true; property.Known = true; break;
+                    case "force": Force = true; property.Known = true; Race = "Force"; break;
                     case "zombie": Zombie = true; property.Known = true; break;
                     case "ghost": Ghost = true; property.Known = true; break;
                     case "hf_link": //Will be processed after all HFs have been loaded
@@ -402,7 +402,6 @@ namespace LegendsViewer.Legends
                 EndYear = -1;
             }
         }
-
 
         public string CasteNoun(bool owner = false)
         {

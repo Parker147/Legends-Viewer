@@ -10,7 +10,7 @@ using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Controls
 {
-    class WorldStatsPrinter : HTMLPrinter
+    public class WorldStatsPrinter : HTMLPrinter
     {
         World World;
 
@@ -36,11 +36,11 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<div class=\"container-fluid\">");
             HTML.AppendLine("<div class=\"row\">");
 
-            HTML.AppendLine("<div class=\"col-sm-6\">");
+            HTML.AppendLine("<div class=\"col-md-4 col-sm-6\">");
             PrintMap();
             HTML.AppendLine("</div>");
 
-            HTML.AppendLine("<div class=\"col-sm-6\">");
+            HTML.AppendLine("<div class=\"col-md-4 col-sm-6\">");
             PrintRaceChart();
             HTML.AppendLine("</div>");
 
@@ -69,7 +69,7 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<div class=\"row\">");
             if (currentCivs.Any())
             {
-                HTML.AppendLine("<div class=\"col-sm-6\">");
+                HTML.AppendLine("<div class=\"col-md-4 col-sm-6\">");
                 HTML.AppendLine("<h1>Current Civilizations: " + currentCivs.Count() + "</h1>");
                 HTML.AppendLine("<ul>");
                 foreach (var civRace in currentCivs.Select(cc => cc.Race).Distinct())
@@ -94,7 +94,7 @@ namespace LegendsViewer.Controls
 
             if (fallenCivs.Any())
             {
-                HTML.AppendLine("<div class=\"col-sm-6\">");
+                HTML.AppendLine("<div class=\"col-md-4 col-sm-6\">");
                 HTML.AppendLine("<h1>Fallen Civilizations: " + fallenCivs.Count() + "</h1>");
                 HTML.AppendLine("<ul>");
                 foreach (var civRace in fallenCivs.Select(fc => fc.Race).Distinct())
@@ -378,15 +378,6 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<div class=\"row\">");
 
             HTML.AppendLine("<div class=\"col-sm-4\">");
-            PrintVarious();
-            HTML.AppendLine("<h1>Entities: " + World.Entities.Count(entity => !entity.IsCiv) + "</h1>");
-            HTML.AppendLine("<ol>");
-            foreach (var entityRace in entityRaces)
-                HTML.AppendLine("<li>" + entityRace.Type + ": " + entityRace.Count + "</li>");
-            HTML.AppendLine("</ol>");
-            HTML.AppendLine("</div>");
-
-            HTML.AppendLine("<div class=\"col-sm-4\">");
             HTML.AppendLine("<h1>Historical Figures: " + World.HistoricalFigures.Count + "</h1>");
             HTML.AppendLine("<ol>");
             foreach (var hfRace in hfRaces)
@@ -402,6 +393,15 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</ol>");
             HTML.AppendLine("</div>");
 
+            HTML.AppendLine("<div class=\"col-sm-4\">");
+            PrintVarious();
+            HTML.AppendLine("<h1>Entities: " + World.Entities.Count(entity => !entity.IsCiv) + "</h1>");
+            HTML.AppendLine("<ol>");
+            foreach (var entityRace in entityRaces)
+                HTML.AppendLine("<li>" + entityRace.Type + ": " + entityRace.Count + "</li>");
+            HTML.AppendLine("</ol>");
+            HTML.AppendLine("</div>");
+
             HTML.AppendLine("</div>");
             HTML.AppendLine("</div>");
 
@@ -413,29 +413,6 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<div class=\"container-fluid\">");
             HTML.AppendLine("<div class=\"row\">");
 
-            if (World.CivilizedPopulations.Any())
-            {
-                HTML.AppendLine("<div class=\"col-sm-4\">");
-                HTML.AppendLine("<h1>Civilized Populations</h1>");
-                HTML.AppendLine("<ol>");
-                foreach (Population population in World.CivilizedPopulations)
-                    if (population.Count == Int32.MaxValue) HTML.AppendLine("<li>" + population.Race + ": Unnumbered" + "</li>");
-                    else HTML.AppendLine("<li>" + population.Race + ": " + population.Count + "</li>");
-                HTML.AppendLine("</ol>");
-                HTML.AppendLine("</br>");
-
-                HTML.AppendLine("<h1>Site Populations: " + World.SitePopulations.Sum(population => population.Count) + "</h1>");
-                var sitePopulations = from population in World.SitePopulations
-                                  group population by population.Race into popType
-                                  select new { Type = popType.Key, Count = popType.Sum(population => population.Count) };
-                sitePopulations = sitePopulations.OrderByDescending(population => population.Count);
-                HTML.AppendLine("<ol>");
-                foreach (var sitePopulation in sitePopulations)
-                    HTML.AppendLine("<li>" + sitePopulation.Type + ": " + sitePopulation.Count + "</li>");
-                HTML.AppendLine("</ol>");
-
-                HTML.AppendLine("</div>");
-            }
             if (World.OutdoorPopulations.Any())
             {
                 HTML.AppendLine("<div class=\"col-sm-4\">");
@@ -456,6 +433,29 @@ namespace LegendsViewer.Controls
                     if (population.Count == Int32.MaxValue) HTML.AppendLine("<li>" + population.Race + ": Unnumbered" + "</li>");
                     else HTML.AppendLine("<li>" + population.Race + ": " + population.Count + "</li>");
                 HTML.AppendLine("</ol>");
+                HTML.AppendLine("</div>");
+            }
+            if (World.CivilizedPopulations.Any())
+            {
+                HTML.AppendLine("<div class=\"col-sm-4\">");
+                HTML.AppendLine("<h1>Civilized Populations</h1>");
+                HTML.AppendLine("<ol>");
+                foreach (Population population in World.CivilizedPopulations)
+                    if (population.Count == Int32.MaxValue) HTML.AppendLine("<li>" + population.Race + ": Unnumbered" + "</li>");
+                    else HTML.AppendLine("<li>" + population.Race + ": " + population.Count + "</li>");
+                HTML.AppendLine("</ol>");
+                HTML.AppendLine("</br>");
+
+                HTML.AppendLine("<h1>Site Populations: " + World.SitePopulations.Sum(population => population.Count) + "</h1>");
+                var sitePopulations = from population in World.SitePopulations
+                                      group population by population.Race into popType
+                                      select new { Type = popType.Key, Count = popType.Sum(population => population.Count) };
+                sitePopulations = sitePopulations.OrderByDescending(population => population.Count);
+                HTML.AppendLine("<ol>");
+                foreach (var sitePopulation in sitePopulations)
+                    HTML.AppendLine("<li>" + sitePopulation.Type + ": " + sitePopulation.Count + "</li>");
+                HTML.AppendLine("</ol>");
+
                 HTML.AppendLine("</div>");
             }
 
