@@ -41,7 +41,6 @@
             this.tpRegions = new System.Windows.Forms.TabPage();
             this.tpWarfare = new System.Windows.Forms.TabPage();
             this.tpCollections = new System.Windows.Forms.TabPage();
-            this.btnClose = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnForward = new System.Windows.Forms.Button();
             this.summaryTab1 = new LegendsViewer.Controls.Tabs.SummaryTab();
@@ -51,6 +50,9 @@
             this.geographyTab1 = new LegendsViewer.Controls.Tabs.GeographyTab();
             this.warfareTab1 = new LegendsViewer.Controls.Tabs.WarfareTab();
             this.collectionsTab1 = new LegendsViewer.Controls.Tabs.CollectionsTab();
+            this.btnChart = new System.Windows.Forms.Button();
+            this.btnMap = new System.Windows.Forms.Button();
+            this.btnStats = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.scWorld)).BeginInit();
             this.scWorld.Panel1.SuspendLayout();
             this.scWorld.Panel2.SuspendLayout();
@@ -96,7 +98,9 @@
             // 
             // scWorld.Panel2
             // 
-            this.scWorld.Panel2.Controls.Add(this.btnClose);
+            this.scWorld.Panel2.Controls.Add(this.btnChart);
+            this.scWorld.Panel2.Controls.Add(this.btnMap);
+            this.scWorld.Panel2.Controls.Add(this.btnStats);
             this.scWorld.Panel2.Controls.Add(this.lblVersion);
             this.scWorld.Panel2.Controls.Add(this.btnBack);
             this.scWorld.Panel2.Controls.Add(this.btnForward);
@@ -194,34 +198,23 @@
             this.tpCollections.Text = "Collections";
             this.tpCollections.UseVisualStyleBackColor = true;
             // 
-            // btnClose
-            // 
-            this.btnClose.Location = new System.Drawing.Point(225, 3);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 33;
-            this.btnClose.Text = "Close Tab";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Visible = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(6, 3);
+            this.btnBack.Image = global::LegendsViewer.Properties.Resources.arrow_back16x16;
+            this.btnBack.Location = new System.Drawing.Point(3, 3);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(75, 23);
+            this.btnBack.Size = new System.Drawing.Size(75, 24);
             this.btnBack.TabIndex = 30;
-            this.btnBack.Text = "Back";
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // btnForward
             // 
-            this.btnForward.Location = new System.Drawing.Point(87, 3);
+            this.btnForward.Image = global::LegendsViewer.Properties.Resources.arrow_forward16x16;
+            this.btnForward.Location = new System.Drawing.Point(84, 3);
             this.btnForward.Name = "btnForward";
-            this.btnForward.Size = new System.Drawing.Size(75, 23);
+            this.btnForward.Size = new System.Drawing.Size(75, 24);
             this.btnForward.TabIndex = 31;
-            this.btnForward.Text = "Forward";
             this.btnForward.UseVisualStyleBackColor = true;
             this.btnForward.Click += new System.EventHandler(this.btnForward_Click);
             // 
@@ -281,6 +274,36 @@
             this.collectionsTab1.Size = new System.Drawing.Size(271, 637);
             this.collectionsTab1.TabIndex = 0;
             // 
+            // btnChart
+            // 
+            this.btnChart.Image = global::LegendsViewer.Properties.Resources.piechart16x16;
+            this.btnChart.Location = new System.Drawing.Point(225, 2);
+            this.btnChart.Name = "btnChart";
+            this.btnChart.Size = new System.Drawing.Size(24, 24);
+            this.btnChart.TabIndex = 37;
+            this.btnChart.UseVisualStyleBackColor = true;
+            this.btnChart.Click += new System.EventHandler(this.btnChart_Click);
+            // 
+            // btnMap
+            // 
+            this.btnMap.Image = global::LegendsViewer.Properties.Resources.map16x16;
+            this.btnMap.Location = new System.Drawing.Point(195, 3);
+            this.btnMap.Name = "btnMap";
+            this.btnMap.Size = new System.Drawing.Size(24, 24);
+            this.btnMap.TabIndex = 36;
+            this.btnMap.UseVisualStyleBackColor = true;
+            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
+            // 
+            // btnStats
+            // 
+            this.btnStats.Image = global::LegendsViewer.Properties.Resources.globe16x16;
+            this.btnStats.Location = new System.Drawing.Point(165, 3);
+            this.btnStats.Name = "btnStats";
+            this.btnStats.Size = new System.Drawing.Size(24, 24);
+            this.btnStats.TabIndex = 35;
+            this.btnStats.UseVisualStyleBackColor = true;
+            this.btnStats.Click += new System.EventHandler(this.btnStats_Click);
+            // 
             // frmLegendsViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -322,7 +345,6 @@
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnForward;
         private System.Windows.Forms.TabPage tpHF;
-        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.ToolTip hint;
         private System.Windows.Forms.TabPage tpWarfare;
         private System.Windows.Forms.TabPage tpCollections;
@@ -336,6 +358,9 @@
         private Controls.Tabs.GeographyTab geographyTab1;
         private Controls.Tabs.WarfareTab warfareTab1;
         private Controls.Tabs.CollectionsTab collectionsTab1;
+        private System.Windows.Forms.Button btnStats;
+        private System.Windows.Forms.Button btnChart;
+        private System.Windows.Forms.Button btnMap;
     }
 }
 

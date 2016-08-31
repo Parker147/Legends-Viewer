@@ -24,7 +24,7 @@ namespace LegendsViewer
 
         internal FileLoader FileLoader { get; }
 
-        internal LVCoordinator Coordinator { get; private set; }
+        private LVCoordinator Coordinator { get; set; }
 
         public frmLegendsViewer(string file = "")
         {
@@ -46,11 +46,10 @@ namespace LegendsViewer
             lblVersion.Text = "v" + version;
             lblVersion.Left = scWorld.Panel2.ClientSize.Width - lblVersion.Width - 3;
             tcWorld.Height = scWorld.Panel2.ClientSize.Height;
-            btnBack.Location = new Point(3, 3);
-            btnForward.Location = new Point(btnBack.Right + 3, 3);
+
             Browser = new DwarfTabControl(World);
             Browser.Location = new Point(0, btnBack.Bottom + 3);
-            Browser.Size = new Size(scWorld.Panel2.ClientSize.Width - Browser.Left , scWorld.Panel2.ClientSize.Height - Browser.Top);
+            Browser.Size = new Size(scWorld.Panel2.ClientSize.Width - Browser.Left, scWorld.Panel2.ClientSize.Height - Browser.Top);
             Browser.Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right);
             scWorld.Panel2.Controls.Add(Browser);
             foreach (TabPage tp in tcWorld.TabPages)
@@ -88,7 +87,7 @@ namespace LegendsViewer
                     HideTabControlBorder(tabControl);
         }
 
-        public void AfterLoad(World loadedWorld)
+        private void AfterLoad(World loadedWorld)
         {
             if (!FileLoader.Working && World != null)
             {
@@ -124,7 +123,7 @@ namespace LegendsViewer
             FileLoader.Working = false;
         }
 
-        public void ResetForm()
+        private void ResetForm()
         {
             Text = "Legends Viewer";
             foreach (var v in tcWorld.TabPages.OfType<TabPage>().SelectMany(x => x.Controls.OfType<BaseSearchTab>()))
@@ -134,7 +133,6 @@ namespace LegendsViewer
             }
             Browser?.Reset();
         }
-
 
         private void btnBack_Click(object sender, EventArgs e)
         {
@@ -146,14 +144,33 @@ namespace LegendsViewer
             Browser?.Forward();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void btnStats_Click(object sender, EventArgs e)
         {
-            Browser?.CloseTab();
+            if (!FileLoader.Working && World != null)
+            {
+                Browser?.Navigate(ControlOption.HTML, World);
+            }
+        }
+
+        private void btnMap_Click(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && World != null)
+            {
+                Browser?.Navigate(ControlOption.Map);
+            }
+        }
+
+        private void btnChart_Click(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && World != null)
+            {
+                Browser?.Navigate(ControlOption.Chart, new Era(-1, World.Events.Last().Year, World));
+            }
         }
 
         private void frmLegendsViewer_ResizeEnd(object sender, EventArgs e)
         {
-            foreach (var chart in Browser.TabPages.OfType<DwarfTabPage>().Select(x=>x.Current).OfType<ChartControl>())
+            foreach (var chart in Browser.TabPages.OfType<DwarfTabPage>().Select(x => x.Current).OfType<ChartControl>())
                 chart.DwarfChart.RefreshAllSeries();
         }
 
@@ -168,11 +185,6 @@ namespace LegendsViewer
         private void open_ReadMe(object sender, EventArgs e)
         {
             Browser.Navigate(ControlOption.ReadMe);
-        }
-
-        private void summaryTab1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void frmLegendsViewer_FormClosed(object sender, FormClosedEventArgs e)

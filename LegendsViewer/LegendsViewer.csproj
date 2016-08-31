@@ -466,6 +466,10 @@
     <EmbeddedResource Include="..\README.md">
       <Link>README.md</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -503,6 +507,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -553,6 +562,14 @@
     <Content Include="ObjectListView.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\globe.png" />
+    <None Include="Resources\map.png" />
+    <None Include="Resources\piechart.png" />
+    <None Include="Resources\globe16x16.png" />
+    <None Include="Resources\map16x16.png" />
+    <None Include="Resources\piechart16x16.png" />
+    <None Include="Resources\arrow_back16x16.png" />
+    <None Include="Resources\arrow_forward16x16.png" />
     <Content Include="WFC.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
