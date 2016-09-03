@@ -16,7 +16,7 @@ namespace LegendsViewer
         DwarfObject FocusObject;
         World World;
         List<Series> Series = new List<Series>();
-        public Boolean OtherChart;
+        public bool OtherChart;
         ToolStripMenuItem TimelineMenu;
         string AliveHFRace = "";
         public List<ChartOption> SeriesOptions = new List<ChartOption>();
@@ -31,11 +31,10 @@ namespace LegendsViewer
             Controls.Add(DwarfChart);
             this.Refresh();
 
-            DwarfChart.BackColor = Color.Wheat;
-            DwarfChart.BackGradientStyle = GradientStyle.TopBottom;
+            DwarfChart.BackColor = Color.White;
             DwarfChart.ChartAreas.Add(new ChartArea());
             DwarfChart.ChartAreas.Last().AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
-            DwarfChart.ChartAreas.Last().BackColor = Color.FromArgb(235, 235, 235);
+            DwarfChart.ChartAreas.Last().BackColor = Color.White;
             DwarfChart.Legends.Add(new Legend());
             DwarfChart.Legends.Last().LegendStyle = LegendStyle.Row;
             DwarfChart.Legends.Last().Position.Width = 100;
@@ -67,12 +66,6 @@ namespace LegendsViewer
                 GenerateSeries();
             }
         }
-
-        /*protected override void OnResize(EventArgs eventargs)
-        {
-            base.OnResize(eventargs);
-            RefreshAllSeries();
-        }*/
 
         public void RefreshAllSeries()
         {
@@ -281,7 +274,7 @@ namespace LegendsViewer
                         series.First().CustomProperties = "CollectedThreshold=0.75, PieLabelStyle=Outside,PieStartAngle=270";
                     series.First().IsValueShownAsLabel = true;
                     series.First().Label = "#LEGENDTEXT\n#VAL (#PERCENT)";
-                    DwarfChart.ChartAreas.Last().Area3DStyle.Enable3D = true;
+                    DwarfChart.ChartAreas.Last().Area3DStyle.Enable3D = false;
                     DwarfChart.ChartAreas.First().AxisX.MajorGrid.Enabled = true;
                     DwarfChart.Legends.Last().Enabled = false;
                     DwarfChart.Titles.Last().Text = series.First().Name;

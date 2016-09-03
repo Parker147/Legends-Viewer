@@ -21,7 +21,7 @@ namespace LegendsViewer.Controls
 
         public override string GetTitle()
         {
-            return "Stats";
+            return "Summary";
         }
 
         public override string Print()

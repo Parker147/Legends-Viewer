@@ -37,7 +37,7 @@ namespace LegendsViewer
                     case ChartOption.OtherBattleRemaining: Text = "Remaining Forces"; break;
                     case ChartOption.WorldHFRaces: Text = "Historical Figures"; break;
                     case ChartOption.WorldHFAlive: Text = "Historical Figures - Alive"; break;
-                    case ChartOption.WorldHFRemaining: Text = "Hsitorical Figures - Remaining"; break;
+                    case ChartOption.WorldHFRemaining: Text = "Historical Figures - Remaining"; break;
                     case ChartOption.WorldSitePopulations: Text = "Site Populations"; break;
                     case ChartOption.WorldDeaths: Text = "Deaths"; break;
                     case ChartOption.WorldSiteTypes: Text = "Sites"; break;

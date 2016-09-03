@@ -89,7 +89,7 @@
             this.btnChart.Name = "btnChart";
             this.btnChart.Size = new System.Drawing.Size(82, 23);
             this.btnChart.TabIndex = 34;
-            this.btnChart.Text = "Show Charts";
+            this.btnChart.Text = "Charts";
             this.btnChart.UseVisualStyleBackColor = true;
             this.btnChart.Click += new System.EventHandler(this.btnChart_Click);
             // 
@@ -101,7 +101,7 @@
             this.btnStats.Name = "btnStats";
             this.btnStats.Size = new System.Drawing.Size(83, 23);
             this.btnStats.TabIndex = 33;
-            this.btnStats.Text = "World Stats";
+            this.btnStats.Text = "Summary";
             this.btnStats.UseVisualStyleBackColor = true;
             this.btnStats.Click += new System.EventHandler(this.btnStats_Click);
             // 
@@ -113,7 +113,7 @@
             this.btnShowMap.Name = "btnShowMap";
             this.btnShowMap.Size = new System.Drawing.Size(75, 23);
             this.btnShowMap.TabIndex = 32;
-            this.btnShowMap.Text = "Show Map";
+            this.btnShowMap.Text = "Map";
             this.btnShowMap.UseVisualStyleBackColor = true;
             this.btnShowMap.Click += new System.EventHandler(this.btnShowMap_Click);
             // 
