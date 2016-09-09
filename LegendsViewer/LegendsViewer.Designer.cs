@@ -41,6 +41,9 @@
             this.tpRegions = new System.Windows.Forms.TabPage();
             this.tpWarfare = new System.Windows.Forms.TabPage();
             this.tpCollections = new System.Windows.Forms.TabPage();
+            this.btnChart = new System.Windows.Forms.Button();
+            this.btnMap = new System.Windows.Forms.Button();
+            this.btnStats = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnForward = new System.Windows.Forms.Button();
             this.summaryTab1 = new LegendsViewer.Controls.Tabs.SummaryTab();
@@ -50,9 +53,6 @@
             this.geographyTab1 = new LegendsViewer.Controls.Tabs.GeographyTab();
             this.warfareTab1 = new LegendsViewer.Controls.Tabs.WarfareTab();
             this.collectionsTab1 = new LegendsViewer.Controls.Tabs.CollectionsTab();
-            this.btnChart = new System.Windows.Forms.Button();
-            this.btnMap = new System.Windows.Forms.Button();
-            this.btnStats = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.scWorld)).BeginInit();
             this.scWorld.Panel1.SuspendLayout();
             this.scWorld.Panel2.SuspendLayout();
@@ -198,12 +198,48 @@
             this.tpCollections.Text = "Collections";
             this.tpCollections.UseVisualStyleBackColor = true;
             // 
+            // btnChart
+            // 
+            this.btnChart.Image = global::LegendsViewer.Properties.Resources.chart16x16;
+            this.btnChart.Location = new System.Drawing.Point(243, 3);
+            this.btnChart.Name = "btnChart";
+            this.btnChart.Size = new System.Drawing.Size(78, 24);
+            this.btnChart.TabIndex = 37;
+            this.btnChart.Text = "Charts";
+            this.btnChart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnChart.UseVisualStyleBackColor = true;
+            this.btnChart.Click += new System.EventHandler(this.btnChart_Click);
+            // 
+            // btnMap
+            // 
+            this.btnMap.Image = global::LegendsViewer.Properties.Resources.map16x16;
+            this.btnMap.Location = new System.Drawing.Point(147, 3);
+            this.btnMap.Name = "btnMap";
+            this.btnMap.Size = new System.Drawing.Size(90, 24);
+            this.btnMap.TabIndex = 36;
+            this.btnMap.Text = "World Map";
+            this.btnMap.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnMap.UseVisualStyleBackColor = true;
+            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
+            // 
+            // btnStats
+            // 
+            this.btnStats.Image = global::LegendsViewer.Properties.Resources.globe16x16;
+            this.btnStats.Location = new System.Drawing.Point(63, 3);
+            this.btnStats.Name = "btnStats";
+            this.btnStats.Size = new System.Drawing.Size(78, 24);
+            this.btnStats.TabIndex = 35;
+            this.btnStats.Text = "Summary";
+            this.btnStats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnStats.UseVisualStyleBackColor = true;
+            this.btnStats.Click += new System.EventHandler(this.btnStats_Click);
+            // 
             // btnBack
             // 
             this.btnBack.Image = global::LegendsViewer.Properties.Resources.arrow_back16x16;
             this.btnBack.Location = new System.Drawing.Point(3, 3);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(75, 24);
+            this.btnBack.Size = new System.Drawing.Size(24, 24);
             this.btnBack.TabIndex = 30;
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
@@ -211,9 +247,9 @@
             // btnForward
             // 
             this.btnForward.Image = global::LegendsViewer.Properties.Resources.arrow_forward16x16;
-            this.btnForward.Location = new System.Drawing.Point(84, 3);
+            this.btnForward.Location = new System.Drawing.Point(33, 3);
             this.btnForward.Name = "btnForward";
-            this.btnForward.Size = new System.Drawing.Size(75, 24);
+            this.btnForward.Size = new System.Drawing.Size(24, 24);
             this.btnForward.TabIndex = 31;
             this.btnForward.UseVisualStyleBackColor = true;
             this.btnForward.Click += new System.EventHandler(this.btnForward_Click);
@@ -273,36 +309,6 @@
             this.collectionsTab1.Name = "collectionsTab1";
             this.collectionsTab1.Size = new System.Drawing.Size(271, 637);
             this.collectionsTab1.TabIndex = 0;
-            // 
-            // btnChart
-            // 
-            this.btnChart.Image = global::LegendsViewer.Properties.Resources.piechart16x16;
-            this.btnChart.Location = new System.Drawing.Point(225, 2);
-            this.btnChart.Name = "btnChart";
-            this.btnChart.Size = new System.Drawing.Size(24, 24);
-            this.btnChart.TabIndex = 37;
-            this.btnChart.UseVisualStyleBackColor = true;
-            this.btnChart.Click += new System.EventHandler(this.btnChart_Click);
-            // 
-            // btnMap
-            // 
-            this.btnMap.Image = global::LegendsViewer.Properties.Resources.map16x16;
-            this.btnMap.Location = new System.Drawing.Point(195, 3);
-            this.btnMap.Name = "btnMap";
-            this.btnMap.Size = new System.Drawing.Size(24, 24);
-            this.btnMap.TabIndex = 36;
-            this.btnMap.UseVisualStyleBackColor = true;
-            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
-            // 
-            // btnStats
-            // 
-            this.btnStats.Image = global::LegendsViewer.Properties.Resources.globe16x16;
-            this.btnStats.Location = new System.Drawing.Point(165, 3);
-            this.btnStats.Name = "btnStats";
-            this.btnStats.Size = new System.Drawing.Size(24, 24);
-            this.btnStats.TabIndex = 35;
-            this.btnStats.UseVisualStyleBackColor = true;
-            this.btnStats.Click += new System.EventHandler(this.btnStats_Click);
             // 
             // frmLegendsViewer
             // 

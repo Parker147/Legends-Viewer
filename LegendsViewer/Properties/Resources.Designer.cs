@@ -83,6 +83,16 @@ namespace LegendsViewer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap chart16x16 {
+            get {
+                object obj = ResourceManager.GetObject("chart16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap globe16x16 {
             get {
                 object obj = ResourceManager.GetObject("globe16x16", resourceCulture);

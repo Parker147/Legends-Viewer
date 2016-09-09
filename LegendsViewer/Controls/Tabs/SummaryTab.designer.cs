@@ -49,7 +49,7 @@
             // btnXMLPlus
             // 
             this.btnXMLPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnXMLPlus.Location = new System.Drawing.Point(232, 107);
+            this.btnXMLPlus.Location = new System.Drawing.Point(232, 114);
             this.btnXMLPlus.Name = "btnXMLPlus";
             this.btnXMLPlus.Size = new System.Drawing.Size(30, 23);
             this.btnXMLPlus.TabIndex = 37;
@@ -62,7 +62,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtXMLPlus.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtXMLPlus.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtXMLPlus.Location = new System.Drawing.Point(8, 108);
+            this.txtXMLPlus.Location = new System.Drawing.Point(8, 115);
             this.txtXMLPlus.Name = "txtXMLPlus";
             this.txtXMLPlus.ReadOnly = true;
             this.txtXMLPlus.Size = new System.Drawing.Size(218, 20);
@@ -85,11 +85,13 @@
             // 
             this.btnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnChart.AutoSize = true;
-            this.btnChart.Location = new System.Drawing.Point(180, 458);
+            this.btnChart.Image = global::LegendsViewer.Properties.Resources.chart16x16;
+            this.btnChart.Location = new System.Drawing.Point(182, 458);
             this.btnChart.Name = "btnChart";
-            this.btnChart.Size = new System.Drawing.Size(82, 23);
+            this.btnChart.Size = new System.Drawing.Size(78, 24);
             this.btnChart.TabIndex = 34;
             this.btnChart.Text = "Charts";
+            this.btnChart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnChart.UseVisualStyleBackColor = true;
             this.btnChart.Click += new System.EventHandler(this.btnChart_Click);
             // 
@@ -97,11 +99,13 @@
             // 
             this.btnStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnStats.AutoSize = true;
+            this.btnStats.Image = global::LegendsViewer.Properties.Resources.globe16x16;
             this.btnStats.Location = new System.Drawing.Point(10, 458);
             this.btnStats.Name = "btnStats";
-            this.btnStats.Size = new System.Drawing.Size(83, 23);
+            this.btnStats.Size = new System.Drawing.Size(78, 24);
             this.btnStats.TabIndex = 33;
             this.btnStats.Text = "Summary";
+            this.btnStats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStats.UseVisualStyleBackColor = true;
             this.btnStats.Click += new System.EventHandler(this.btnStats_Click);
             // 
@@ -109,18 +113,20 @@
             // 
             this.btnShowMap.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnShowMap.AutoSize = true;
-            this.btnShowMap.Location = new System.Drawing.Point(99, 458);
+            this.btnShowMap.Image = global::LegendsViewer.Properties.Resources.map16x16;
+            this.btnShowMap.Location = new System.Drawing.Point(91, 458);
             this.btnShowMap.Name = "btnShowMap";
-            this.btnShowMap.Size = new System.Drawing.Size(75, 23);
+            this.btnShowMap.Size = new System.Drawing.Size(85, 24);
             this.btnShowMap.TabIndex = 32;
-            this.btnShowMap.Text = "Map";
+            this.btnShowMap.Text = "World Map";
+            this.btnShowMap.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnShowMap.UseVisualStyleBackColor = true;
             this.btnShowMap.Click += new System.EventHandler(this.btnShowMap_Click);
             // 
             // btnMap
             // 
             this.btnMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMap.Location = new System.Drawing.Point(232, 82);
+            this.btnMap.Location = new System.Drawing.Point(232, 89);
             this.btnMap.Name = "btnMap";
             this.btnMap.Size = new System.Drawing.Size(30, 23);
             this.btnMap.TabIndex = 31;
@@ -133,7 +139,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMap.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtMap.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtMap.Location = new System.Drawing.Point(8, 83);
+            this.txtMap.Location = new System.Drawing.Point(8, 90);
             this.txtMap.Name = "txtMap";
             this.txtMap.ReadOnly = true;
             this.txtMap.Size = new System.Drawing.Size(218, 20);
@@ -159,7 +165,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSitePops.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSitePops.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtSitePops.Location = new System.Drawing.Point(8, 58);
+            this.txtSitePops.Location = new System.Drawing.Point(8, 65);
             this.txtSitePops.Name = "txtSitePops";
             this.txtSitePops.ReadOnly = true;
             this.txtSitePops.Size = new System.Drawing.Size(218, 20);
@@ -172,7 +178,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHistory.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtHistory.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtHistory.Location = new System.Drawing.Point(8, 33);
+            this.txtHistory.Location = new System.Drawing.Point(8, 40);
             this.txtHistory.Name = "txtHistory";
             this.txtHistory.ReadOnly = true;
             this.txtHistory.Size = new System.Drawing.Size(218, 20);
@@ -182,7 +188,7 @@
             // btnSitePops
             // 
             this.btnSitePops.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSitePops.Location = new System.Drawing.Point(232, 57);
+            this.btnSitePops.Location = new System.Drawing.Point(232, 64);
             this.btnSitePops.Name = "btnSitePops";
             this.btnSitePops.Size = new System.Drawing.Size(30, 23);
             this.btnSitePops.TabIndex = 26;
@@ -192,7 +198,7 @@
             // btnHistory
             // 
             this.btnHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHistory.Location = new System.Drawing.Point(232, 32);
+            this.btnHistory.Location = new System.Drawing.Point(232, 39);
             this.btnHistory.Name = "btnHistory";
             this.btnHistory.Size = new System.Drawing.Size(30, 23);
             this.btnHistory.TabIndex = 25;
@@ -202,7 +208,7 @@
             // btnXML
             // 
             this.btnXML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnXML.Location = new System.Drawing.Point(232, 7);
+            this.btnXML.Location = new System.Drawing.Point(232, 14);
             this.btnXML.Name = "btnXML";
             this.btnXML.Size = new System.Drawing.Size(30, 23);
             this.btnXML.TabIndex = 24;
@@ -215,7 +221,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtXML.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtXML.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtXML.Location = new System.Drawing.Point(8, 8);
+            this.txtXML.Location = new System.Drawing.Point(8, 15);
             this.txtXML.Name = "txtXML";
             this.txtXML.ReadOnly = true;
             this.txtXML.Size = new System.Drawing.Size(218, 20);

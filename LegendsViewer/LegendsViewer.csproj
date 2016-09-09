@@ -562,14 +562,12 @@
     <Content Include="ObjectListView.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\globe.png" />
-    <None Include="Resources\map.png" />
-    <None Include="Resources\piechart.png" />
     <None Include="Resources\globe16x16.png" />
     <None Include="Resources\map16x16.png" />
     <None Include="Resources\piechart16x16.png" />
     <None Include="Resources\arrow_back16x16.png" />
     <None Include="Resources\arrow_forward16x16.png" />
+    <None Include="Resources\chart16x16.png" />
     <Content Include="WFC.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
