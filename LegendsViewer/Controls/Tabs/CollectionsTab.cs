@@ -63,8 +63,6 @@ namespace LegendsViewer.Controls.Tabs
         {
             base.AfterLoad(world);
 
-
-
             artifactSearch = new ArtifactsList(World);
             writtenContentSearch = new WrittenContentList(World);
             worldConstructionSearch = new WorldConstructionsList(World);
@@ -141,6 +139,15 @@ namespace LegendsViewer.Controls.Tabs
             TabEvents.Add(structureEvents.ToList());
             TabEvents.Add(worldConstructionEvents.ToList());
             TabEvents.Add(writtenContentEvents.ToList());
+        }
+
+        internal override void DoSearch()
+        {
+            searchArtifactList(null, null);
+            searchStructureList(null, null);
+            searchWorldConstructionList(null, null);
+            searchWrittenContentList(null, null);
+            base.DoSearch();
         }
 
         internal override void ResetTab()

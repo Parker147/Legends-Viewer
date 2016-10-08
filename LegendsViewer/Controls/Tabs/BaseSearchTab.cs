@@ -51,6 +51,8 @@ namespace LegendsViewer.Controls.Tabs
 
         internal virtual void ResetTab() { }
 
+        internal virtual void DoSearch() { }
+
         internal virtual void ResetEvents()
         {
             RemoveEventFilterCheckBoxes();

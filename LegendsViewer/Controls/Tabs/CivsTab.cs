@@ -80,6 +80,12 @@ namespace LegendsViewer.Controls.Tabs
             TabEvents.Add(entityEvents.ToList());
         }
 
+        internal override void DoSearch()
+        {
+            searchEntityList(null, null);
+            base.DoSearch();
+        }
+
         internal override void ResetTab()
         {
             txtCivSearch.Clear();

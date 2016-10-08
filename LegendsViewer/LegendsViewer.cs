@@ -189,11 +189,13 @@ namespace LegendsViewer
 
         private void frmLegendsViewer_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (World != null)
-            {
-                World.Dispose();
-            }
+            World?.Dispose();
             LocalFileProvider.Stop();
+        }
+
+        private void OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            (sender as TabControl)?.SelectedTab?.Controls.OfType<BaseSearchTab>().FirstOrDefault()?.DoSearch();
         }
     }
 }

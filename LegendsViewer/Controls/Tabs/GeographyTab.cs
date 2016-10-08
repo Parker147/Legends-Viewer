@@ -99,7 +99,15 @@ namespace LegendsViewer.Controls.Tabs
             TabEvents.Add(undergroundRegionEvents.ToList());
             TabEvents.Add(landmassEvents.ToList());
             TabEvents.Add(mountainPeakEvents.ToList());
+        }
 
+        internal override void DoSearch()
+        {
+            searchLandmassList(null, null);
+            searchMountainPeakList(null, null);
+            searchRegionList(null, null);
+            searchURegionList(null, null);
+            base.DoSearch();
         }
 
         internal override void ResetTab()

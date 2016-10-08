@@ -85,6 +85,7 @@
             this.tcHF.SelectedIndex = 0;
             this.tcHF.Size = new System.Drawing.Size(269, 518);
             this.tcHF.TabIndex = 1;
+            this.tcHF.Selected += new System.Windows.Forms.TabControlEventHandler(this.OnSelected);
             // 
             // tpHFSearch
             // 
@@ -174,8 +175,8 @@
             this.listHFSearch.FullRowSelect = true;
             this.listHFSearch.GridLines = true;
             this.listHFSearch.HeaderWordWrap = true;
-            this.listHFSearch.SelectedBackColor = System.Drawing.Color.Empty;
-            this.listHFSearch.SelectedForeColor = System.Drawing.Color.Empty;
+            this.listHFSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.listHFSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.listHFSearch.Location = new System.Drawing.Point(3, 30);
             this.listHFSearch.Name = "listHFSearch";
             this.listHFSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;

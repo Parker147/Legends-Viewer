@@ -83,6 +83,15 @@ namespace LegendsViewer.Controls.Tabs
             TabEvents.Add(beastAttackEvents.ToList());
         }
 
+        internal override void DoSearch()
+        {
+            searchBattleList(null, null);
+            searchConqueringList(null, null);
+            searchWarList(null, null);
+            searchbeastAttackList(null, null);
+            base.DoSearch();
+        }
+
         internal override void ResetTab()
         {
 

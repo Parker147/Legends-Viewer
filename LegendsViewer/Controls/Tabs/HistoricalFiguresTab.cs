@@ -86,6 +86,12 @@ namespace LegendsViewer.Controls.Tabs
             TabEvents.Add(historicalFigureEvents.ToList());
         }
 
+        internal override void DoSearch()
+        {
+            searchHFList(null, null);
+            base.DoSearch();
+        }
+
         internal override void ResetTab()
         {
             txtHFSearch.Clear();
@@ -204,6 +210,11 @@ namespace LegendsViewer.Controls.Tabs
         private void UpdateCounts(int shown, int total)
         {
             lblShownResults.Text = $"{shown} / {total}";
+        }
+
+        private void OnSelected(object sender, TabControlEventArgs e)
+        {
+            searchHFList(null, null);
         }
     }
 }

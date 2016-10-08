@@ -122,6 +122,12 @@ namespace LegendsViewer.Controls.Tabs
             TabEvents.Add(siteEvents.ToList());
         }
 
+        internal override void DoSearch()
+        {
+            searchSiteList(null, null);
+            base.DoSearch();
+        }
+
         internal override void ResetTab()
         {
             txtSiteSearch.Clear();
