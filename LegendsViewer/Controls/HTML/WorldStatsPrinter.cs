@@ -47,6 +47,7 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</div>");
             HTML.AppendLine("</div>");
 
+            PrintEras();
             PrintCivs();
             PrintEntitesAndHFs();
             PrintGeography();
@@ -54,6 +55,24 @@ namespace LegendsViewer.Controls
             PrintEventStats();
 
             return HTML.ToString();
+        }
+
+        private void PrintEras()
+        {
+            HTML.AppendLine("<div class=\"container-fluid\">");
+            HTML.AppendLine("<div class=\"row\">");
+
+            HTML.AppendLine("<div class=\"col-md-4 col-sm-6\">");
+            HTML.AppendLine("<h1>Eras</h1>");
+            HTML.AppendLine("<ol>");
+            foreach (Era era in World.Eras)
+                HTML.AppendLine("<li>" + era.Name + " (" + (era.StartYear < 0 ? 0 : era.StartYear) + " - " + era.EndYear + ")</li>");
+            HTML.AppendLine("</ol>");
+            HTML.AppendLine("</br>");
+            HTML.AppendLine("</div>");
+
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
         }
 
         private void PrintCivs()
@@ -74,7 +93,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<ul>");
                 foreach (var civRace in currentCivs.Select(cc => cc.Race).Distinct())
                 {
-                    HTML.AppendLine("<li>" + civRace + ": " + currentCivs.Count(cc => cc.Race == civRace) + "</li>");
+                    HTML.AppendLine("<li><b>" + civRace + ":</b> " + currentCivs.Count(cc => cc.Race == civRace) + "</li>");
                     HTML.AppendLine("<ul>");
                     foreach (var civ in currentCivs.Where(civ => civ.Race == civRace))
                     {
@@ -82,9 +101,22 @@ namespace LegendsViewer.Controls
                         var intelligentPopCount = intelligentPop.Sum(cp => cp.Count);
                         var civPop = intelligentPop.FirstOrDefault(pop => pop.Race == civ.Race);
                         var civPopCount = civPop != null ? civPop.Count : 0;
-                        HTML.AppendLine("<li>" + civ.ToLink()
-                            + " [" + civPopCount + " +" + (intelligentPopCount - civPopCount) + " " + HTMLStyleUtil.SYMBOL_POPULATION
-                            + ", " + civ.CurrentSites.Count + " " + HTMLStyleUtil.SYMBOL_SITE + "]</li>");
+                        HTML.AppendLine("<li class=\"legends_civilization_listitem\">");
+                        HTML.AppendLine(civ.ToLink());
+                        HTML.AppendLine("<div class=\"legends_civilization_metainformation\">");
+                        var civPopString = civPopCount + " " + civRace;
+                        HTML.AppendLine("<i class=\"fa fa-fw fa-user\" title=\""+ civPopString + "\"></i> " + civPopString);
+                        if (intelligentPopCount - civPopCount > 0)
+                        {
+                            var otherPopCount = intelligentPopCount - civPopCount;
+                            var otherPopString = otherPopCount + " Others";
+                            HTML.AppendLine(", <i class=\"fa fa-fw fa-plus-circle\" title=\"" + otherPopString + "\"></i> " + otherPopString);
+                        }
+                        var siteString = civ.CurrentSites.Count == 1 ? "Site" : "Sites";
+                        var siteCountString = civ.CurrentSites.Count + " " + siteString;
+                        HTML.AppendLine(", <i class=\"fa fa-fw fa-home\" title=\"" + siteCountString + "\"></i> " + siteCountString);
+                        HTML.AppendLine("<div>");
+                        HTML.AppendLine("</ li > ");
                     }
                     HTML.AppendLine("</ul>");
                 }
@@ -99,7 +131,7 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<ul>");
                 foreach (var civRace in fallenCivs.Select(fc => fc.Race).Distinct())
                 {
-                    HTML.AppendLine("<li>" + civRace + ": " + fallenCivs.Count(fc => fc.Race == civRace) + "</li>");
+                    HTML.AppendLine("<li><b>" + civRace + ":</b> " + fallenCivs.Count(fc => fc.Race == civRace) + "</li>");
                     HTML.AppendLine("<ul>");
                     foreach (var civ in fallenCivs.Where(civ => civ.Race == civRace))
                     {
@@ -148,6 +180,8 @@ namespace LegendsViewer.Controls
 
             HTML.AppendLine("<canvas id=\"canvas\" height=\"200\" width=\"200\"></canvas>");
             HTML.AppendLine("<div id=\"canvas_legend\" class=\"chart-legend\"></div>");
+
+            HTML.AppendLine("</br>");
         }
 
         private void PrintMap()
@@ -309,13 +343,6 @@ namespace LegendsViewer.Controls
 
         private void PrintVarious()
         {
-            HTML.AppendLine("<h1>Eras</h1>");
-            HTML.AppendLine("<ol>");
-            foreach (Era era in World.Eras)
-                HTML.AppendLine("<li>" + era.Name + " (" + (era.StartYear < 0 ? 0 : era.StartYear) + " - " + era.EndYear + ")</li>");
-            HTML.AppendLine("</ol>");
-            HTML.AppendLine("</br>");
-
             HTML.AppendLine("<h1>Wars: " + World.EventCollections.OfType<War>().Count() + "</h1>");
             HTML.AppendLine("<ul>");
             HTML.AppendLine("<li>Battles: " + World.EventCollections.OfType<Battle>().Count() + "</li>");

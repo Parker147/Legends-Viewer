@@ -452,5 +452,20 @@ li.mil {
     right: 20px;
     height: 600px;
     border: 1px solid lightgray;
-    margin-bottom:20px;
+    margin-bottom: 20px;
+}
+
+.legends_civilization_listitem > img{
+    width:32px;
+    height: 32px;
+}
+
+.legends_civilization_listitem > a {
+    vertical-align: top;
+}
+
+.legends_civilization_metainformation {
+    color: dimgray;
+    margin-top: -16px;
+    margin-left: 35px;
 }
