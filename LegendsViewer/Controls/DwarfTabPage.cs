@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using LegendsViewer.Controls;
 
@@ -9,7 +7,8 @@ namespace LegendsViewer
 {
     public class DwarfTabPage : System.Windows.Forms.TabPage
     {
-        private Stack<PageControl> BackHistory = new Stack<PageControl>(), ForwardHistory = new Stack<PageControl>();
+        private readonly Stack<PageControl> BackHistory = new Stack<PageControl>();
+        private readonly Stack<PageControl> ForwardHistory = new Stack<PageControl>();
         public PageControl Current;
 
         public DwarfTabPage(PageControl pageControl)
@@ -23,10 +22,7 @@ namespace LegendsViewer
             while (ForwardHistory.Any())
             {
                 var temp = ForwardHistory.Pop();
-                if (temp is HTMLControl)
-                {
-                    ((HTMLControl)temp).DisposePrinter();
-                }
+                (temp as HTMLControl)?.DisposePrinter();
                 temp.Dispose();
             }
             if (Current != null)
@@ -46,9 +42,9 @@ namespace LegendsViewer
             Controls.Add(newControl);
             if (newControl.GetType() == typeof(ChartPanel) && Current.TabControl.SelectedTab != null)
             {
-                this.Width = Current.TabControl.SelectedTab.Width;
-                this.Refresh();
-                (newControl as ChartPanel).RefreshAllSeries();
+                Width = Current.TabControl.SelectedTab.Width;
+                Refresh();
+                (newControl as ChartPanel)?.RefreshAllSeries();
             }
         }
 
@@ -84,24 +80,15 @@ namespace LegendsViewer
         {
             foreach (var forward in ForwardHistory)
             {
-                if (forward is HTMLControl)
-                {
-                    ((HTMLControl) forward).DisposePrinter();
-                }
+                (forward as HTMLControl)?.DisposePrinter();
                 forward.Dispose();
             }
             foreach (var back in BackHistory)
             {
-                if (back is HTMLControl)
-                {
-                    ((HTMLControl)back).DisposePrinter();
-                }
+                (back as HTMLControl)?.DisposePrinter();
                 back.Dispose();
             }
-            if (Current is HTMLControl)
-            {
-                ((HTMLControl)Current).DisposePrinter();
-            }
+            (Current as HTMLControl)?.DisposePrinter();
             Current.Dispose();
             base.Dispose(disposing);
         }

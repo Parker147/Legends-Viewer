@@ -41,9 +41,11 @@ namespace LegendsViewer.Controls
                     ScriptErrorsSuppressed = true
                 };
                 HTMLBrowser.Navigate("about:blank");
-                while (HTMLBrowser.Document == null || HTMLBrowser.Document.Body == null)
-                    Application.DoEvents(); 
-                HTMLBrowser.DocumentText=Printer.GetHTMLPage();
+                while (HTMLBrowser.Document?.Body == null)
+                {
+                    Application.DoEvents();
+                }
+                HTMLBrowser.DocumentText = Printer.GetHTMLPage();
                 HTMLBrowser.DocumentCompleted += AfterPageLoad;
                 HTMLBrowser.Navigating += BrowserNavigating;
                 HTMLBrowser.Document.MouseMove += MouseOver;
@@ -54,11 +56,11 @@ namespace LegendsViewer.Controls
 
         protected override void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
-                    if (HTMLBrowser != null)
+                    if (HTMLBrowser?.Document != null)
                     {
                         int newerBrowsers = 0;
                         try
@@ -68,7 +70,7 @@ namespace LegendsViewer.Controls
                         catch (Exception)
                         {
                         }
-                        BrowserScrollPosition = newerBrowsers > HTMLBrowser.Document.Body.ScrollTop
+                        BrowserScrollPosition = newerBrowsers > HTMLBrowser.Document.Body?.ScrollTop
                             ? newerBrowsers
                             : HTMLBrowser.Document.Body.ScrollTop;
 
@@ -77,7 +79,7 @@ namespace LegendsViewer.Controls
                     }
                 }
                 base.Dispose(disposing);
-                this.disposed = true;
+                disposed = true;
             }
         }
 

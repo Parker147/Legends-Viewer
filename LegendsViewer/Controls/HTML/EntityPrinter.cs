@@ -11,8 +11,8 @@ namespace LegendsViewer.Controls
 {
     class EntityPrinter : HTMLPrinter
     {
-        Entity Entity;
-        World World;
+        private readonly Entity Entity;
+        private readonly World World;
 
         public EntityPrinter(Entity entity, World world)
         {
@@ -28,15 +28,99 @@ namespace LegendsViewer.Controls
         public override string Print()
         {
             HTML = new StringBuilder();
+
+            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/Controls/HTML/Scripts/Chart.min.js\"></script>");
+            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/Controls/HTML/Scripts/Chart.StackedBar.min.js\"></script>");
+
+            LoadCustomScripts();
+
             PrintTitle();
             PrintLeaders();
             PrintCurrentLeadership();
             PrintWorships();
             PrintWars();
+            PrintWarChart();
             PrintSiteHistory();
             PrintPopulations(Entity.Populations);
             PrintEventLog(Entity.Events, Entity.Filters, Entity);
             return HTML.ToString();
+        }
+        private void LoadCustomScripts()
+        {
+            HTML.AppendLine("<script>");
+            HTML.AppendLine("window.onload = function(){");
+
+            if (Entity.Wars.Any())
+            {
+                PopulateWarOverview();
+            }
+
+            HTML.AppendLine("}");
+            HTML.AppendLine("</script>");
+        }
+
+        private void PopulateWarOverview()
+        {
+            var allBattles = new List<Battle>();
+            foreach (var war in Entity.Wars)
+            {
+                allBattles.AddRange(war.Battles);
+            }
+
+            var allEntites = allBattles.Select(x => x.Attacker.Name).Concat(allBattles.Select(x => x.Defender.Name)).Distinct().ToList();
+            var entityLabels = string.Join(",", allEntites.Where(x => x != Entity.Name).Select(x => $"'{x}'"));
+            var battleVictorData = string.Join(",", allEntites.Where(x => x != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor == Entity && (y.Attacker.Name == x || y.Defender.Name == x))}"));
+            var battleLoserData = string.Join(",", allEntites.Where(x => x != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor != Entity && (y.Attacker.Name == x || y.Defender.Name == x))}"));
+
+            var battleVictorEntity =
+                "{ " +
+                    "label: \"As Victor\", " +
+                    "fillColor: \"rgba(255, 206, 86, 0.5)\", " +
+                    "strokeColor: \"rgba(255, 206, 86, 0.8)\", " +
+                    "highlightFill: \"rgba(255, 206, 86, 0.75)\", " +
+                    "highlightStroke: \"rgba(255, 206, 86, 1)\", " +
+                    "data: [" + battleVictorData + "] " +
+                "}";
+            var battleLoserEntity =
+                "{ " +
+                    "label: \"As Loser\", " +
+                    "fillColor: \"rgba(153, 102, 255, 0.5)\", " +
+                    "strokeColor: \"rgba(153, 102, 255, 0.8)\", " +
+                    "highlightFill: \"rgba(153, 102, 255, 0.75)\", " +
+                    "highlightStroke: \"rgba(153, 102, 255, 1)\", " +
+                    "data: [" + battleLoserData + "] " +
+                "}";
+
+
+            HTML.AppendLine("var warsByEntityData = { labels: [" + entityLabels + "], datasets: [ " + battleVictorEntity + "," + battleLoserEntity + " ] };");
+            HTML.AppendLine("var warsByEntityChart = new Chart(document.getElementById(\"chart-countbyEntity\").getContext(\"2d\")).StackedBar(warsByEntityData, {responsive: true});");
+
+            HTML.AppendLine("var warsByEntityLegend = document.getElementById('chart-countbyEntity-legend');");
+            HTML.AppendLine("warsByEntityLegend.innerHTML = warsByEntityChart.generateLegend();");
+        }
+
+        private void PrintWarChart()
+        {
+            if (!Entity.IsCiv || !Entity.Wars.Any())
+            {
+                return;
+            }
+            HTML.AppendLine("<div class=\"container-fluid\">");
+
+            HTML.AppendLine("<div class=\"row\">");
+            HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
+            HTML.AppendLine("<h1>Battles Fought Against Other Civilizations</h1>");
+            HTML.AppendLine("<canvas id=\"chart-countbyEntity\" class=\"bar-chart\" width=\"600\" height=\"300\"></canvas>");
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
+            HTML.AppendLine("<div id=\"chart-countbyEntity-legend\" class=\"chart-legend\"></div>");
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
+
+            HTML.AppendLine("</br>");
+            HTML.AppendLine("</br>");
+
+            HTML.AppendLine("</div>");
         }
 
         private void PrintTitle()
