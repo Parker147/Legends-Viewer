@@ -7,8 +7,43 @@ namespace LegendsViewer.Legends.Events
 {
     public class WorldEvent : IComparable<WorldEvent>
     {
+        private static readonly string[] MONTH_NAMES = { "Granite", "Slate", "Felsite", "Hematite", "Malachite", "Galena", "Limestone", "Sandstone", "Timber", "Moonstone", "Opal", "Obsidian" };
+
         public int ID { get; set; }
         public int Year { get; set; }
+        public int Month
+        {
+            get
+            {
+                return 1 + Seconds72 / (28 * 1200);
+            }
+        }
+        public int Day
+        {
+            get
+            {
+                return 1 + (Seconds72 % (28 * 1200)) / 1200;
+            }
+        }
+        public string MonthName
+        {
+            get
+            {
+                return MONTH_NAMES[Month - 1];
+            }
+        }
+
+        public string Date
+        {
+            get
+            {
+                if (Year < 0)
+                {
+                    return "-";
+                }
+                return $"{Year:0000}-{Month:00}-{Day:00}";
+            }
+        }
         public int Seconds72 { get; set; }
         public string Type { get; set; }
         public EventCollection ParentCollection { get; set; }
@@ -54,12 +89,7 @@ namespace LegendsViewer.Legends.Events
             else if (season < 302400) yearTime += "autumn, ";
             else if (season < 403200) yearTime += "winter, ";
 
-            int monthIndex = this.Seconds72 / (28 * 1200);
-            string[] monthNames = { "Granite", "Slate", "Felsite", "Hematite", "Malachite", "Galena", "Limestone", "Sandstone", "Timber", "Moonstone", "Opal", "Obsidian" };
-            string monthName = monthNames[monthIndex];
-            int dayIndex = 1 + (this.Seconds72 % (28 * 1200)) / 1200;
-
-            return yearTime + " (" + Formatting.AddOrdinal(dayIndex) + " of " + monthName + ") ";
+            return yearTime + " (" + Formatting.AddOrdinal(Day) + " of " + MonthName + ") ";
         }
 
         public string PrintParentCollection(bool link = true, DwarfObject pov = null)

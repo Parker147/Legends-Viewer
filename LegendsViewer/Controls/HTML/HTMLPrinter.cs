@@ -80,11 +80,16 @@ namespace LegendsViewer.Controls
             htmlPage.Append("<!DOCTYPE html><html><head>");
             htmlPage.Append("<title>" + GetTitle() + "</title>");
             htmlPage.Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
+            htmlPage.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/Controls/HTML/Scripts/jquery-3.1.1.min.js\"></script>");
+            htmlPage.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/Controls/HTML/Scripts/jquery.dataTables.min.js\"></script>");
             htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/bootstrap.min.css\">");
             htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/font-awesome.min.css\">");
             htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/legends.css\">");
+            htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/jquery.dataTables.min.css\">");
             htmlPage.Append("</head>");
-            htmlPage.Append("<body>" + Print() + "</body>");
+            htmlPage.Append("<body>");
+            htmlPage.Append(Print());
+            htmlPage.Append("</body>");
             htmlPage.Append("</html>");
             return htmlPage.ToString();
         }
@@ -357,21 +362,29 @@ namespace LegendsViewer.Controls
                 return;
             }
             HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + "<br/><br/>");
-
-            int i = 0;
+            HTML.AppendLine("<table id=\"lv_eventtable\" class=\"display\" width=\"100 %\"></table>");
+            HTML.AppendLine("<script>");
+            HTML.AppendLine("$(document).ready(function() {");
+            HTML.AppendLine("   var dataSet = [");
             foreach (var e in events)
             {
                 if (filters == null || !filters.Contains(e.Type))
                 {
-                    i++;
-                    if (i == 500)
-                    {
-                        HTML.AppendLine("<b>Too many events! Please filter the events in the events tab on the left.</b><br /><br />");
-                        return;
-                    }
-                    HTML.AppendLine(e.Print(true, dfo) + "<br /><br />");
+                    HTML.AppendLine("['" + e.Date + "','" + e.Print(true, dfo).Replace("'", "`")+ "','" + e.Type + "'],");
                 }
             }
+            HTML.AppendLine("   ];");
+            HTML.AppendLine("   $('#lv_eventtable').dataTable({");
+            HTML.AppendLine("       pageLength: 100,");
+            HTML.AppendLine("       data: dataSet,");
+            HTML.AppendLine("       columns: [");
+            HTML.AppendLine("           { title: \"Date\", type: \"string\", width: \"60px\" },");
+            HTML.AppendLine("           { title: \"Description\", type: \"html\" },");
+            HTML.AppendLine("           { title: \"Type\", type: \"string\" }");
+            HTML.AppendLine("       ]");
+            HTML.AppendLine("   });");
+            HTML.AppendLine("});");
+            HTML.AppendLine("</script>");
         }
 
         public void Dispose()
