@@ -240,6 +240,12 @@ namespace LegendsViewer.Controls
             return html;
         }
 
+        protected string Base64ToHTML(string base64)
+        {
+            string html = "<img src=\"data:image/gif;base64," + base64 + "\" align=absmiddle />";
+            return html;
+        }
+
         protected string SkillToString(SkillDescription desc)
         {
             string subrank = desc.Rank.ToLower().Replace(" ", string.Empty).Substring(0, 5);

@@ -80,9 +80,9 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("<th align=right>Year</th>");
                 HTML.AppendLine("<th>Battle</th>");
                 HTML.AppendLine("<th>Victor</th>");
-                HTML.AppendLine("<th align=right>" + this.ImageToHTML(War.Attacker.SmallIdenticonString) + "</th>");
+                HTML.AppendLine("<th align=right>" + Base64ToHTML(War.Attacker.SmallIdenticonString) + "</th>");
                 HTML.AppendLine("<th>/</th>");
-                HTML.AppendLine("<th align=left>" + this.ImageToHTML(War.Defender.SmallIdenticonString) + "</th>");
+                HTML.AppendLine("<th align=left>" + Base64ToHTML(War.Defender.SmallIdenticonString) + "</th>");
                 HTML.AppendLine("</tr>");
                 foreach (EventCollection warfare in War.Collections.Where(battle => !World.FilterBattles || battle.Notable))
                 {
