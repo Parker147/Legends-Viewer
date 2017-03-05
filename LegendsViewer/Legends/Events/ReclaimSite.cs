@@ -66,8 +66,8 @@ namespace LegendsViewer.Legends.Events
                 eventString += " launched an expedition to reclaim ";
             }
             eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

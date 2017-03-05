@@ -49,8 +49,9 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += "UNKNOWN STRUCTURE";
             }
-            eventString += " in " + Site.ToLink(link, pov) + ". ";
+            eventString += " in " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

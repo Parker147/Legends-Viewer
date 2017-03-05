@@ -32,8 +32,9 @@ namespace LegendsViewer.Legends.Events
             eventString += " lost a diplomat at ";
             eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
             eventString += ". They suspected the involvement of ";
-            eventString += InvolvedEntity != null ? InvolvedEntity.ToLink(link, pov) : "UNKNOWN ENTITY. ";
+            eventString += InvolvedEntity != null ? InvolvedEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

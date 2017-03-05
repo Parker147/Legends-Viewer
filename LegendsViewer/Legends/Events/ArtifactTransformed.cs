@@ -69,8 +69,8 @@ namespace LegendsViewer.Legends.Events
                 eventString += " in " + Site.ToLink(link, pov);
             eventString += " by ";
             eventString += HistoricalFigure != null ? HistoricalFigure.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

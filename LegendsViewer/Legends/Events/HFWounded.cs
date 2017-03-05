@@ -70,8 +70,8 @@ namespace LegendsViewer.Legends.Events
                 eventString += " in " + UndergroundRegion.ToLink(link, pov);
             }
 
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

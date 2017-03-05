@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Legends.Events
 {
@@ -50,7 +51,7 @@ namespace LegendsViewer.Legends.Events
             Entity.AddEvent(this);
             Structure.AddEvent(this);
         }
-        public override string Print(bool path = true, DwarfObject pov = null)
+        public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
             eventString += " a ";
@@ -63,13 +64,13 @@ namespace LegendsViewer.Legends.Events
             if (Structure != null)
             {
                 eventString += "from ";
-                eventString += Structure.ToLink(path, pov);
+                eventString += Structure.ToLink(link, pov);
                 eventString += " ";
             }
             eventString += "in ";
             if (Site != null)
             {
-                eventString += Site.ToLink(path, pov);
+                eventString += Site.ToLink(link, pov);
             }
             else
             {
@@ -78,7 +79,7 @@ namespace LegendsViewer.Legends.Events
             eventString += " by ";
             if (Thief != null)
             {
-                eventString += Thief.ToLink(path, pov);
+                eventString += Thief.ToLink(link, pov);
             }
             else
             {
@@ -89,9 +90,11 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += " and brought to " + ReturnSite.ToLink();
             }
-
-            eventString += ". ";
-            eventString += PrintParentCollection(path, pov);
+            if (!(ParentCollection is Theft))
+            {
+                eventString += PrintParentCollection(link, pov);
+            }
+            eventString += ".";
             return eventString;
         }
     }

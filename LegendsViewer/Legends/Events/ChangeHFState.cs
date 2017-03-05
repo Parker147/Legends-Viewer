@@ -91,8 +91,8 @@ namespace LegendsViewer.Legends.Events
             else if (Region != null) eventString += Region.ToLink(link, pov);
             else if (UndergroundRegion != null) eventString += UndergroundRegion.ToLink(link, pov);
             else eventString += "the wilds";
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

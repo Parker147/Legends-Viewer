@@ -89,8 +89,8 @@ namespace LegendsViewer.Legends.Events
             eventString += ImproverEntity != null ? ImproverEntity.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += " at ";
             eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

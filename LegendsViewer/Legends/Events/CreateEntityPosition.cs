@@ -42,7 +42,7 @@ namespace LegendsViewer.Legends.Events
                     eventString += Civ != null ? Civ.ToLink(link, pov) : "UNKNOWN CIV";
                     eventString += " created the position of ";
                     eventString += !string.IsNullOrWhiteSpace(Position) ? Position : "UNKNOWN POSITION";
-                    eventString += " through force of argument. ";
+                    eventString += " through force of argument";
                     break;
                 case 1:
                     eventString += HistoricalFigure != null ? HistoricalFigure.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
@@ -50,13 +50,12 @@ namespace LegendsViewer.Legends.Events
                     eventString += Civ != null ? Civ.ToLink(link, pov) : "UNKNOWN CIV";
                     eventString += " compelled the creation of the position of ";
                     eventString += !string.IsNullOrWhiteSpace(Position) ? Position : "UNKNOWN POSITION";
-                    eventString += " with threats of violence. ";
+                    eventString += " with threats of violence";
                     break;
                 case 2:
                     eventString += SiteCiv != null ? SiteCiv.ToLink(link, pov) : "UNKNOWN ENTITY";
                     eventString += " collaborated to create the position of ";
                     eventString += !string.IsNullOrWhiteSpace(Position) ? Position : "UNKNOWN POSITION";
-                    eventString += ". ";
                     break;
                 case 3:
                     eventString += HistoricalFigure != null ? HistoricalFigure.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
@@ -64,7 +63,7 @@ namespace LegendsViewer.Legends.Events
                     eventString += Civ != null ? Civ.ToLink(link, pov) : "UNKNOWN CIV";
                     eventString += " created the position of ";
                     eventString += !string.IsNullOrWhiteSpace(Position) ? Position : "UNKNOWN POSITION";
-                    eventString += ", pushed by a wave of popular support. ";
+                    eventString += ", pushed by a wave of popular support";
                     break;
                 case 4:
                     eventString += HistoricalFigure != null ? HistoricalFigure.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
@@ -72,10 +71,11 @@ namespace LegendsViewer.Legends.Events
                     eventString += Civ != null ? Civ.ToLink(link, pov) : "UNKNOWN CIV";
                     eventString += " created the position of ";
                     eventString += !string.IsNullOrWhiteSpace(Position) ? Position : "UNKNOWN POSITION";
-                    eventString += " as a matter of course. ";
+                    eventString += " as a matter of course";
                     break;
             }
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

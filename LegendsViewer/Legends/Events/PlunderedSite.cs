@@ -28,8 +28,9 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
             if (SiteEntity != null && Defender != SiteEntity) eventString += SiteEntity.ToLink(link, pov) + " of ";
-            eventString += Defender.ToLink(link, pov) + " and pillaged " + Site.ToLink(link, pov) + ". ";
+            eventString += Defender.ToLink(link, pov) + " and pillaged " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

@@ -139,11 +139,14 @@ namespace LegendsViewer.Legends.Events
                     case ScheduleType.Procession:
                         Structure startStructure = Site.Structures.FirstOrDefault(s => s.ID == Schedule.Reference);
                         Structure endStructure = Site.Structures.FirstOrDefault(s => s.ID == Schedule.Reference2);
-                        eventString += " It started at ";
-                        eventString += startStructure != null ? startStructure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
-                        eventString += " and ended at ";
-                        eventString += endStructure != null ? endStructure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
-                        eventString += ".";
+                        if (startStructure != null || endStructure != null)
+                        {
+                            eventString += " It started at ";
+                            eventString += startStructure != null ? startStructure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
+                            eventString += " and ended at ";
+                            eventString += endStructure != null ? endStructure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
+                            eventString += ".";
+                        }
                         break;
                 }
             }

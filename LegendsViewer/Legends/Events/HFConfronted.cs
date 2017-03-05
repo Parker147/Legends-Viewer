@@ -100,10 +100,9 @@ namespace LegendsViewer.Legends.Events
                 if (Reasons.Count > 1 && reason == Reasons[Reasons.Count - 2])
                     reasonString += " and ";
             }
-            eventString += " " + reasonString + ". ";
-
+            eventString += " " + reasonString;
             eventString += PrintParentCollection(link, pov);
-
+            eventString += ".";
             return eventString;
         }
     }

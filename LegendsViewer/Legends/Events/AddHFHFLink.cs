@@ -120,8 +120,8 @@ namespace LegendsViewer.Legends.Events
                 eventString += HistoricalFigure.ToLink(link, pov);
             else
                 eventString += HistoricalFigureTarget.ToLink(link, pov);
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

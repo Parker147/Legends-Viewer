@@ -59,8 +59,8 @@ namespace LegendsViewer.Legends.Events
             else
                 eventString += " laws from ";
             eventString += Entity.ToLink(link, pov);
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

@@ -29,8 +29,8 @@ namespace LegendsViewer.Legends.Events
             eventString += Artifact != null ? Artifact.ToLink(link, pov) : "UNKNOWN ARTIFACT";
             eventString += " was lost in ";
             eventString += Site != null ? Site.ToLink(link, pov) : "an unknown site";
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

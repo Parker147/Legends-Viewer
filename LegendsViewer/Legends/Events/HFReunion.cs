@@ -33,8 +33,8 @@ namespace LegendsViewer.Legends.Events
             string eventString = this.GetYearTime() + " " + HistoricalFigure1.ToLink(link, pov) + " was reunited with " + HistoricalFigure2.ToLink(link, pov);
             if (Site != null) eventString += " in " + Site.ToLink(link, pov);
             else if (Region != null) eventString += " in " + Region.ToLink(link, pov);
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

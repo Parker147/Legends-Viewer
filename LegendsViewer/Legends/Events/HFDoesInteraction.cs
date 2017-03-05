@@ -82,8 +82,8 @@ namespace LegendsViewer.Legends.Events
             }
             eventString += " in ";
             eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

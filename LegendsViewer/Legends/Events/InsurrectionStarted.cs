@@ -55,7 +55,7 @@ namespace LegendsViewer.Legends.Events
             string eventString = this.GetYearTime();
             if (ActualStart)
             {
-                eventString += "an insurrection against " + Civ.ToLink(link, pov) + " began in " + Site.ToLink(link, pov) + ". ";
+                eventString += "an insurrection against " + Civ.ToLink(link, pov) + " began in " + Site.ToLink(link, pov);
             }
             else
             {
@@ -63,18 +63,18 @@ namespace LegendsViewer.Legends.Events
                 switch (Outcome)
                 {
                     case InsurrectionOutcome.LeadershipOverthrown:
-                        eventString += " concluded with " + Civ.ToLink(link, pov) + " overthrown. ";
+                        eventString += " concluded with " + Civ.ToLink(link, pov) + " overthrown";
                         break;
                     case InsurrectionOutcome.PopulationGone:
-                        eventString += " ended with the disappearance of the rebelling population. ";
+                        eventString += " ended with the disappearance of the rebelling population";
                         break;
                     default:
-                        eventString += " against " + Civ.ToLink(link, pov) + " concluded with (" + unknownOutcome + "). ";
+                        eventString += " against " + Civ.ToLink(link, pov) + " concluded with (" + unknownOutcome + ")";
                         break;
                 }
             }
-
-            eventString += PrintParentCollection();
+            eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

@@ -43,8 +43,9 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += " of " + DefenderCiv.ToLink(link, pov);
             }
-            eventString += " at " + Site.ToLink(link, pov) + ". ";
+            eventString += " at " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

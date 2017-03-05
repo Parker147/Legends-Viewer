@@ -40,12 +40,14 @@ namespace LegendsViewer.Legends.Events
             Attacker.AddEvent(this);
             Defender.AddEvent(this);
         }
+
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
             if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
-            eventString += Defender.ToLink(link, pov) + " and destroyed " + Site.ToLink(link, pov) + ". ";
+            eventString += Defender.ToLink(link, pov) + " and destroyed " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

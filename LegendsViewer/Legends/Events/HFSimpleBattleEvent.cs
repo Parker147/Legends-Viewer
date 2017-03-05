@@ -64,8 +64,8 @@ namespace LegendsViewer.Legends.Events
             else if (SubType == HFSimpleBattleType.Cornered) eventString += " cornered " + HistoricalFigure2.ToLink(link, pov);
             else if (SubType == HFSimpleBattleType.Surprised) eventString += " suprised " + HistoricalFigure2.ToLink(link, pov);
             else eventString += " fought (" + UnknownSubType + ") " + HistoricalFigure2.ToLink(link, pov);
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
 

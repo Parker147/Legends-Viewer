@@ -296,8 +296,10 @@ namespace LegendsViewer.Controls
                     title += " and died in " + HistoricalFigure.DeathYear + " (" + death.Cause.GetDescription() + ")";
                     if (death.Slayer != null) title += " by " + death.Slayer.ToLink();
                     else if (death.SlayerRace != "UNKNOWN" && death.SlayerRace != "-1") title += " by a " + death.SlayerRace.ToLower();
-                    if (death.PrintParentCollection().Length > 0)
-                        title += ", " + death.PrintParentCollection().Replace("In ", "in ");
+                    if (death.ParentCollection != null)
+                    {
+                        title += ", " + death.PrintParentCollection();
+                    }
                 }
                 if (!title.EndsWith(". "))
                     title += ". ";

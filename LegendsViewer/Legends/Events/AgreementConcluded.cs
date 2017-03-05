@@ -92,8 +92,8 @@ namespace LegendsViewer.Legends.Events
                     eventString += " with an unknown outcome";
                     break;
             }
-            eventString += ".";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

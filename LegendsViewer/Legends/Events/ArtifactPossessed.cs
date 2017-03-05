@@ -35,8 +35,9 @@ namespace LegendsViewer.Legends.Events
             string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was claimed";
             if (Site != null)
                 eventString += " in " + Site.ToLink(link, pov);
-            eventString += " by " + HistoricalFigure.ToLink(link, pov) + ". ";
+            eventString += " by " + HistoricalFigure.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

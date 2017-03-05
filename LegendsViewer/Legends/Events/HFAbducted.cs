@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Legends.Events
 {
@@ -35,9 +36,13 @@ namespace LegendsViewer.Legends.Events
             if (Snatcher != null)
                 eventString += Snatcher.ToLink(link, pov);
             else
-                eventString += "(UNKNOWN HISTORICAL FIGURE)";
-            eventString += " abducted " + Target.ToLink(link, pov) + " from " + Site.ToLink(link, pov) + ". ";
-            eventString += PrintParentCollection(link, pov);
+                eventString += "UNKNOWN HISTORICAL FIGURE";
+            eventString += " abducted " + Target.ToLink(link, pov) + " from " + Site.ToLink(link, pov);
+            if (!(ParentCollection is Abduction))
+            {
+                eventString += PrintParentCollection(link, pov);
+            }
+            eventString += ".";
             return eventString;
         }
     }

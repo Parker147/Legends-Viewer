@@ -49,8 +49,8 @@ namespace LegendsViewer.Legends.Events
                 eventString += ", and the defenders were led by ";
                 eventString += DefenderGeneral.ToLink(link, pov);
             }
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

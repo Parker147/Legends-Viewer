@@ -84,8 +84,8 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += " in " + Site.ToLink(link, pov);
             }
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

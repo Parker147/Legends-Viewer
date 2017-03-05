@@ -42,8 +42,9 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov) + " disturbed ";
             eventString += Structure != null ? Structure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
-            eventString += " in " + Site.ToLink(link, pov) + ". ";
+            eventString += " in " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

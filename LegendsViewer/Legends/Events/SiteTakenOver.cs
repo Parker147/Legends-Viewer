@@ -67,8 +67,9 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += Defender.ToLink(link, pov);
             }
-            eventString += " and took over " + Site.ToLink(link, pov) + ". The new government was called " + NewSiteEntity.ToLink(link, pov) + ". ";
+            eventString += " and took over " + Site.ToLink(link, pov) + ". The new government was called " + NewSiteEntity.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

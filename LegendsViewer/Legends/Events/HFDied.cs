@@ -132,8 +132,8 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = GetYearTime();
             eventString += GetDeathString(link, pov);
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
         

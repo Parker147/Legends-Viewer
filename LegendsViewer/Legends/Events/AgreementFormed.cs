@@ -55,8 +55,8 @@ namespace LegendsViewer.Legends.Events
                     eventString += " after arriving at the location";
                     break;
             }
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

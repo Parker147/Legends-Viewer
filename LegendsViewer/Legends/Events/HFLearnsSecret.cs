@@ -55,8 +55,8 @@ namespace LegendsViewer.Legends.Events
                 eventString += " from ";
                 eventString += Artifact != null ? Artifact.ToLink(link, pov) : "UNKNOWN ARTIFACT";
             }
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

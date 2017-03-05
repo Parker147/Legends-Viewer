@@ -45,8 +45,9 @@ namespace LegendsViewer.Legends.Events
                 case SecretGoal.Immortality: goalString = " became obsessed with " + HistoricalFigure.CasteNoun(true) + " own mortality and sought to extend " + HistoricalFigure.CasteNoun(true) + " life by any means"; break;
                 case SecretGoal.Unknown: goalString = " gained secret goal (" + UnknownGoal + ")"; break;
             }
-            eventString += goalString + ". ";
+            eventString += goalString;
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

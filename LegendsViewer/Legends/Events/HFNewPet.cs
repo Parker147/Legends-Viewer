@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Legends.Events
 {
@@ -55,8 +56,11 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += " in " + UndergroundRegion.ToLink(link, pov);
             }
-            eventString += ". ";
-            eventString += PrintParentCollection(link, pov);
+            if (!(ParentCollection is Journey))
+            {
+                eventString += PrintParentCollection(link, pov);
+            }
+            eventString += ".";
             return eventString;
         }
     }

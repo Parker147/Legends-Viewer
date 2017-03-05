@@ -100,8 +100,9 @@ namespace LegendsViewer.Legends.Events
             eventString += Entity2 != null ? Entity2.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += " of ";
             eventString += Site2 != null ? Site2.ToLink(link, pov) : "UNKNOWN SITE";
-            eventString += " became embroiled in a dispute over " + dispute + ". ";
+            eventString += " became embroiled in a dispute over " + dispute;
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

@@ -43,14 +43,15 @@ namespace LegendsViewer.Legends.Events
             string eventString = this.GetYearTime();
             if (Builder != null)
             {
-                eventString += Builder.ToLink(link, pov) + " created " + Site.ToLink(link, pov) + ". ";
+                eventString += Builder.ToLink(link, pov) + " created " + Site.ToLink(link, pov) ;
             }
             else
             {
                 if (SiteEntity != null) eventString += SiteEntity.ToLink(link, pov) + " of ";
-                eventString += Civ.ToLink(link, pov) + " founded " + Site.ToLink(link, pov) + ". ";
+                eventString += Civ.ToLink(link, pov) + " founded " + Site.ToLink(link, pov);
             }
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

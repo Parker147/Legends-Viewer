@@ -45,16 +45,17 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + SiteEntity.PrintEntity(link, pov);
+            string eventString = GetYearTime() + SiteEntity.PrintEntity(link, pov);
             if (Abandoned)
             {
-                eventString += "abandoned the settlement of " + Site.ToLink(link, pov) + ". ";
+                eventString += "abandoned the settlement of " + Site.ToLink(link, pov);
             }
             else
             {
-                eventString += " settlement of " + Site.ToLink(link, pov) + " withered. ";
+                eventString += " settlement of " + Site.ToLink(link, pov) + " withered";
             }
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

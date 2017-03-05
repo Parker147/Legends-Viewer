@@ -60,8 +60,8 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += "UNKNOWN LOCATION";
             }
-            eventString += ". ";
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

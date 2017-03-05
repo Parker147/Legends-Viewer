@@ -45,8 +45,9 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += " of " + Defender.ToLink(link, pov);
             }
-            eventString += ", to be delivered from " + Site.ToLink(link, pov) + ". ";
-            eventString += PrintParentCollection();
+            eventString += ", to be delivered from " + Site.ToLink(link, pov);
+            eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

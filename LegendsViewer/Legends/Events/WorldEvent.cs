@@ -68,6 +68,7 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = GetYearTime() + Type;
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
 
@@ -94,19 +95,22 @@ namespace LegendsViewer.Legends.Events
 
         public string PrintParentCollection(bool link = true, DwarfObject pov = null)
         {
+            if (ParentCollection == null)
+            {
+                return "";
+            }
             EventCollection parent = ParentCollection;
             string collectionString = "";
             while (parent != null)
             {
-                if (collectionString.Length > 0) collectionString += " as part of ";
+                if (collectionString.Length > 0)
+                {
+                    collectionString += " as part of ";
+                }
                 collectionString += parent.ToLink(link, pov);
                 parent = parent.ParentCollection;
             }
-
-            if (collectionString.Length > 0)
-                return "In " + collectionString + ". ";
-            else
-                return collectionString;
+            return " during " + collectionString;
         }
 
         public int Compare(WorldEvent worldEvent)

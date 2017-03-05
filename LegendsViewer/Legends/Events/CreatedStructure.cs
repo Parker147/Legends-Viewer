@@ -52,7 +52,6 @@ namespace LegendsViewer.Legends.Events
                 eventString += Structure != null ? Structure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
                 eventString += ", and established a gateway between worlds in ";
                 eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
-                eventString += ". ";
             }
             else
             {
@@ -66,9 +65,9 @@ namespace LegendsViewer.Legends.Events
                 eventString += Structure != null ? Structure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
                 eventString += " in ";
                 eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
-                eventString += ". ";
             }
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }

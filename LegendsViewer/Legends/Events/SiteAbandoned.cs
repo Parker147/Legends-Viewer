@@ -37,8 +37,9 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = this.GetYearTime();
             if (SiteEntity != null && SiteEntity != Civ) eventString += SiteEntity.ToLink(link, pov) + " of ";
-            eventString += Civ.ToLink(link, pov) + " abandoned the settlement at " + Site.ToLink(link, pov) + ". ";
+            eventString += Civ.ToLink(link, pov) + " abandoned the settlement at " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
+            eventString += ".";
             return eventString;
         }
     }
