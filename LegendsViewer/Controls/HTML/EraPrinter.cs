@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
 using LegendsViewer.Legends.Enums;
@@ -30,6 +28,14 @@ namespace LegendsViewer.Controls
             string timespan = "(" + Era.StartYear + " - " + Era.EndYear + ")";
             HTML.AppendLine("<h1>" + title + timespan + "</h1></br></br>");
 
+            PrintEventLog(Era.Events, Era.Filters, Era);
+            PrintWars();
+
+            return HTML.ToString();
+        }
+
+        private void PrintWars()
+        {
             if (Era.Wars.Count > 0)
             {
                 int warCount = 1;
@@ -66,11 +72,6 @@ namespace LegendsViewer.Controls
                 }
                 HTML.AppendLine("</table></br>");
             }
-
-            PrintEventLog(Era.Events, Era.Filters, Era);
-
-            return HTML.ToString();
         }
-
     }
 }

@@ -96,9 +96,9 @@ namespace LegendsViewer.Legends.Events
 
                 if (reason != Reasons.Last() && Reasons.Count > 2)
                     reasonString += ",";
-                reasonString += " ";
+
                 if (Reasons.Count > 1 && reason == Reasons[Reasons.Count - 2])
-                    reasonString += "and ";
+                    reasonString += " and ";
             }
             eventString += " " + reasonString + ". ";
 
