@@ -14,9 +14,13 @@ namespace LegendsViewer.Legends.Events
         public string ItemType { get; set; }
         public string ItemSubType { get; set; }
         public string Material { get; set; }
+        public int MaterialType { get; set; }
+        public int MaterialIndex { get; set; }
         public string ImprovementType { get; set; }
         public string ImprovementSubType { get; set; }
         public string ImprovementMaterial { get; set; }
+        public int ImprovementMaterialType { get; set; }
+        public int ImprovementMaterialIndex { get; set; }
         public int ArtID { get; set; }
         public int ArtSubID { get; set; }
 
@@ -38,9 +42,13 @@ namespace LegendsViewer.Legends.Events
                     case "item_type": ItemType = property.Value.Replace("_", " "); break;
                     case "item_subtype": ItemSubType = property.Value.Replace("_", " "); break;
                     case "mat": Material = property.Value.Replace("_", " "); break;
+                    case "mat_type": MaterialType = Convert.ToInt32(property.Value); break;
+                    case "mat_index": MaterialIndex = Convert.ToInt32(property.Value); break;
                     case "improvement_type": ImprovementType = property.Value.Replace("_", " "); break;
                     case "improvement_subtype": ImprovementSubType = property.Value.Replace("_", " "); break;
                     case "imp_mat": ImprovementMaterial = property.Value.Replace("_", " "); break;
+                    case "imp_mat_type": ImprovementMaterialType = Convert.ToInt32(property.Value); break;
+                    case "imp_mat_index": ImprovementMaterialIndex = Convert.ToInt32(property.Value); break;
                     case "art_id": ArtID = Convert.ToInt32(property.Value); break;
                     case "art_subid": ArtSubID = Convert.ToInt32(property.Value); break;
                 }

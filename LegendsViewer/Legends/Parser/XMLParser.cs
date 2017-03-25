@@ -517,6 +517,9 @@ namespace LegendsViewer.Legends.Parser
                 case "agreement made":
                     World.Events.Add(new AgreementMade(properties, World));
                     break;
+                case "agreement rejected":
+                    World.Events.Add(new AgreementRejected(properties, World));
+                    break;
                 case "artifact lost":
                     World.Events.Add(new ArtifactLost(properties, World));
                     break;
