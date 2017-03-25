@@ -67,10 +67,11 @@ namespace LegendsViewer.Controls
                 allBattles.AddRange(war.Battles);
             }
 
-            var allEntites = allBattles.Select(x => x.Attacker.Name).Concat(allBattles.Select(x => x.Defender.Name)).Distinct().ToList();
-            var entityLabels = string.Join(",", allEntites.Where(x => x != Entity.Name).Select(x => $"'{x}'"));
-            var battleVictorData = string.Join(",", allEntites.Where(x => x != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor == Entity && (y.Attacker.Name == x || y.Defender.Name == x))}"));
-            var battleLoserData = string.Join(",", allEntites.Where(x => x != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor != Entity && (y.Attacker.Name == x || y.Defender.Name == x))}"));
+            var allEntities = allBattles.Select(x => x.Attacker).Concat(allBattles.Select(x => x.Defender)).Distinct().ToList();
+            allEntities = allEntities.OrderBy(entity => entity.Race).ToList();
+            var entityLabels = string.Join(",", allEntities.Where(x => x.Name != Entity.Name).Select(x => $"'{x.Name} - {x.Race}'"));
+            var battleVictorData = string.Join(",", allEntities.Where(x => x.Name != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor == Entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
+            var battleLoserData = string.Join(",", allEntities.Where(x => x.Name != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor != Entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
 
             var battleVictorEntity =
                 "{ " +
@@ -93,7 +94,7 @@ namespace LegendsViewer.Controls
 
 
             HTML.AppendLine("var warsByEntityData = { labels: [" + entityLabels + "], datasets: [ " + battleVictorEntity + "," + battleLoserEntity + " ] };");
-            HTML.AppendLine("var warsByEntityChart = new Chart(document.getElementById(\"chart-countbyEntity\").getContext(\"2d\")).StackedBar(warsByEntityData, {responsive: true});");
+            HTML.AppendLine("var warsByEntityChart = new Chart(document.getElementById(\"chart-countbyEntity\").getContext(\"2d\")).Bar(warsByEntityData, {responsive: true});");
 
             HTML.AppendLine("var warsByEntityLegend = document.getElementById('chart-countbyEntity-legend');");
             HTML.AppendLine("warsByEntityLegend.innerHTML = warsByEntityChart.generateLegend();");

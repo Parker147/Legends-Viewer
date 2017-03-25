@@ -139,11 +139,11 @@ namespace LegendsViewer.Controls
                 Color darkenedPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, -0.1f);
 
                 HTML.AppendLine(
-                    "{ "+
-                        "value: " + civilizedPop.Count + ", "+
-                        "color: \"" + ColorTranslator.ToHtml(darkenedPopColor) + "\", "+
-                        "highlight: \"" + ColorTranslator.ToHtml(highlightPopColor) + "\", "+
-                        "label: \"" + civilizedPop.Race + "\" "+
+                    "{ " +
+                        "value: " + civilizedPop.Count + ", " +
+                        "color: \"" + ColorTranslator.ToHtml(darkenedPopColor) + "\", " +
+                        "highlight: \"" + ColorTranslator.ToHtml(highlightPopColor) + "\", " +
+                        "label: \"" + civilizedPop.Race + "\" " +
                     "}, ");
             }
             HTML.AppendLine("]");
@@ -155,6 +155,11 @@ namespace LegendsViewer.Controls
 
         private void PopulateWarOverview()
         {
+            //var defColor = "54, 162, 255";
+            //var atkColor = "255, 99, 132";
+            var defColor = "0, 128, 255";
+            var atkColor = "255, 51, 51";
+
             var allWars = (from war in World.Wars
                            join race in World.MainRaces on war.Attacker.Race equals race.Key
                            select new
@@ -167,56 +172,113 @@ namespace LegendsViewer.Controls
                                defenderColor = ColorTranslator.ToHtml(World.MainRaces.First(x => x.Key == war.Defender.Race).Value)
                            }).ToList();
 
-            var allRaces = (from civilizedPopulations in World.CivilizedPopulations select civilizedPopulations.Race).ToArray();
+            var allRaces = (from civilizedPopulations in World.CivilizedPopulations select civilizedPopulations.Race).ToList();
+            allRaces.Sort();
             var raceLabels = string.Join(",", allRaces.Select(x => $"'{x}'"));
             var defenderRaceData = string.Join(",", allRaces.Select(x => $"{allWars.Count(y => y.defenderRace == x)}"));
             var attackerRaceData = string.Join(",", allRaces.Select(x => $"{allWars.Count(y => y.attackerRace == x)}"));
 
-            var defendersByRace = 
-                "{ "+
-                    "label: \"As Defender\", "+
-                    "fillColor: \"rgba(54, 162, 255, 0.5)\", " +
-                    "strokeColor: \"rgba(54, 162, 255, 0.8)\", " +
-                    "highlightFill: \"rgba(54, 162, 255, 0.75)\", " +
-                    "highlightStroke: \"rgba(54, 162, 255, 1)\", " +
-                    "data: [" + defenderRaceData + "] "+
+            var defendersByRace =
+                "{ " +
+                    "label: \"As Defender\", " +
+                    "fillColor: \"rgba(" + defColor + ", 0.5)\", " +
+                    "strokeColor: \"rgba(" + defColor + ", 0.8)\", " +
+                    "highlightFill: \"rgba(" + defColor + ", 0.75)\", " +
+                    "highlightStroke: \"rgba(" + defColor + ", 1)\", " +
+                    "data: [" + defenderRaceData + "] " +
                 "}";
             var attackersByRace =
                 "{ " +
                     "label: \"As Attacker\", " +
-                    "fillColor: \"rgba(255, 99, 132, 0.5)\", " +
-                    "strokeColor: \"rgba(255, 99, 132, 0.8)\", " +
-                    "highlightFill: \"rgba(255, 99, 132, 0.75)\", " +
-                    "highlightStroke: \"rgba(255, 99, 132, 1)\", " +
+                    "fillColor: \"rgba(" + atkColor + ", 0.5)\", " +
+                    "strokeColor: \"rgba(" + atkColor + ", 0.8)\", " +
+                    "highlightFill: \"rgba(" + atkColor + ", 0.75)\", " +
+                    "highlightStroke: \"rgba(" + atkColor + ", 1)\", " +
                     "data: [" + attackerRaceData + "] " +
                 "}";
 
+
             var allCivs = allWars.Select(x => x.attackerCiv).Concat(allWars.Select(x => x.defenderCiv)).Distinct().ToList();
-            var civLabels = string.Join(",", allCivs.Select(x => $"'{x}'"));
-            var defenderCivData = string.Join(",", allCivs.Select(x => $"{allWars.Count(y => y.defenderCiv == x)}"));
-            var attackerCivData = string.Join(",", allCivs.Select(x => $"{allWars.Count(y => y.attackerCiv == x)}"));
+            Dictionary<Tuple<string, string>, Tuple<int, int>> warInfo = new Dictionary<Tuple<string, string>, Tuple<int, int>>();
+
+            foreach (string civ in allCivs)
+            {
+                string race = allWars.FirstOrDefault(w => w.defenderCiv == civ)?.defenderRace ?? allWars.FirstOrDefault(w => w.attackerCiv == civ)?.attackerRace;
+                Tuple<string, string> raceAndCiv = new Tuple<string, string>(race, civ);
+                Tuple<int, int> defatkCounts = new Tuple<int, int>(allWars.Count(y => y.defenderCiv == civ), allWars.Count(y => y.attackerCiv == civ));
+                warInfo.Add(raceAndCiv, defatkCounts);
+            }
+            var sortedWarInfo = warInfo.OrderBy(entry => entry.Key.Item1).ThenByDescending(entry => entry.Value.Item1 + entry.Value.Item2).ToList();
+            if (warInfo.Count > 100)
+            {
+                string lastRace = "";
+                int civCountInRace = 0;
+                List<KeyValuePair<Tuple<string, string>, Tuple<int, int>>> toDelete = new List<KeyValuePair<Tuple<string, string>, Tuple<int, int>>>();
+                List<KeyValuePair<Tuple<string, string>, Tuple<int, int>>> toAdd = new List<KeyValuePair<Tuple<string, string>, Tuple<int, int>>>();
+                int otherDefCount = 0;
+                int otherAtkCount = 0;
+                foreach (var civWarCount in sortedWarInfo)
+                {
+                    if (civWarCount.Key.Item1 != lastRace)
+                    {
+                        civCountInRace = 0;
+                        if (otherDefCount > 0 || otherAtkCount > 0)
+                        {
+                            toAdd.Add(new KeyValuePair<Tuple<string, string>, Tuple<int, int>>(new Tuple<string, string>(lastRace, "Other"), new Tuple<int, int>(otherDefCount, otherAtkCount)));
+                            otherDefCount = 0;
+                            otherAtkCount = 0;
+                        }
+                        lastRace = civWarCount.Key.Item1;
+                    }
+                    if(civCountInRace >= 12)
+                    {
+                        toDelete.Add(civWarCount);
+                        otherDefCount += civWarCount.Value.Item1;
+                        otherAtkCount += civWarCount.Value.Item2;
+                    }
+                    civCountInRace++;
+                }
+                if (otherDefCount > 0 || otherAtkCount > 0)
+                {
+                    toAdd.Add(new KeyValuePair<Tuple<string, string>, Tuple<int, int>>(new Tuple<string, string>(lastRace, "Other"), new Tuple<int, int>(otherDefCount, otherAtkCount)));
+                    otherDefCount = 0;
+                    otherAtkCount = 0;
+                }
+                foreach (var item in toDelete)
+                {
+                    sortedWarInfo.Remove(item);
+                }
+                foreach (var item in toAdd)
+                {
+                    sortedWarInfo.Add(item);
+                }
+                sortedWarInfo = sortedWarInfo.OrderBy(entry => entry.Key.Item1).ThenByDescending(entry => entry.Value.Item1 + entry.Value.Item2).ToList();
+            }
+            var civLabels = string.Join(",", sortedWarInfo.Select(x => $"'{x.Key.Item2} - {x.Key.Item1}'"));
+            var defenderCivData = string.Join(",", sortedWarInfo.Select(x => $"{x.Value.Item1}"));
+            var attackerCivData = string.Join(",", sortedWarInfo.Select(x => $"{x.Value.Item2}"));
 
             var defendersByCiv =
                 "{ " +
                     "label: \"As Defender\", " +
-                    "fillColor: \"rgba(54, 162, 255, 0.5)\", " +
-                    "strokeColor: \"rgba(54, 162, 255, 0.8)\", " +
-                    "highlightFill: \"rgba(54, 162, 255, 0.75)\", " +
-                    "highlightStroke: \"rgba(54, 162, 255, 1)\", " +
+                    "fillColor: \"rgba(" + defColor + ", 0.5)\", " +
+                    "strokeColor: \"rgba(" + defColor + ", 0.8)\", " +
+                    "highlightFill: \"rgba(" + defColor + ", 0.75)\", " +
+                    "highlightStroke: \"rgba(" + defColor + ", 1)\", " +
                     "data: [" + defenderCivData + "] " +
                 "}";
             var attackersByCiv =
                 "{ " +
                     "label: \"As Attacker\", " +
-                    "fillColor: \"rgba(255, 99, 132, 0.5)\", " +
-                    "strokeColor: \"rgba(255, 99, 132, 0.8)\", " +
-                    "highlightFill: \"rgba(255, 99, 132, 0.75)\", " +
-                    "highlightStroke: \"rgba(255, 99, 132, 1)\", " +
+                    "fillColor: \"rgba(" + atkColor + ", 0.5)\", " +
+                    "strokeColor: \"rgba(" + atkColor + ", 0.8)\", " +
+                    "highlightFill: \"rgba(" + atkColor + ", 0.75)\", " +
+                    "highlightStroke: \"rgba(" + atkColor + ", 1)\", " +
                     "data: [" + attackerCivData + "] " +
                 "}";
 
             HTML.AppendLine("var warsByRaceData = { labels: [" + raceLabels + "], datasets: [ " + defendersByRace + "," + attackersByRace + " ] };");
-            HTML.AppendLine("var warsByRaceChart = new Chart(document.getElementById(\"chart-countbyrace\").getContext(\"2d\")).StackedBar(warsByRaceData, {responsive: true});");
+            HTML.AppendLine("var warsByRaceChart = new Chart(document.getElementById(\"chart-countbyrace\").getContext(\"2d\")).Bar(warsByRaceData, {responsive: true});");
 
             HTML.AppendLine("var warsByCivData = { labels: [" + civLabels + "], datasets: [ " + defendersByCiv + "," + attackersByCiv + " ] };");
             HTML.AppendLine("var warsByCivChart = new Chart(document.getElementById(\"chart-countbyciv\").getContext(\"2d\")).StackedBar(warsByCivData, {responsive: true});");
@@ -276,7 +338,7 @@ namespace LegendsViewer.Controls
                         HTML.AppendLine(civ.ToLink());
                         HTML.AppendLine("<div class=\"legends_civilization_metainformation\">");
                         var civPopString = civPopCount + " " + civRace;
-                        HTML.AppendLine("<i class=\"fa fa-fw fa-user\" title=\""+ civPopString + "\"></i> " + civPopString);
+                        HTML.AppendLine("<i class=\"fa fa-fw fa-user\" title=\"" + civPopString + "\"></i> " + civPopString);
                         if (intelligentPopCount - civPopCount > 0)
                         {
                             var otherPopCount = intelligentPopCount - civPopCount;

@@ -11,29 +11,39 @@ using LegendsViewer.Controls.Query;
 
 namespace LegendsViewer
 {
-    public class DwarfTabControl : TabControlImproved //System.Windows.Forms.TabControl
+    public class DwarfTabControl : TabControlImproved
     {
         public World World;
         public bool NewTab = false;
-        public DwarfTabControl(World world) : base() { World = world; }
+
+        public DwarfTabControl(World world) : base()
+        {
+            World = world;
+        }
 
         public void Navigate(ControlOption control, object navigateObject = null)
         {
             PageControl newControl = null;
-            switch(control)
+            switch (control)
             {
                 case ControlOption.HTML:
                     if (navigateObject != null)
-                        newControl = new HTMLControl(navigateObject, this, World); 
+                    {
+                        newControl = new HTMLControl(navigateObject, this, World);
+                    }
                     break;
                 case ControlOption.Chart:
-                    newControl = new ChartControl(World, navigateObject as DwarfObject, this); break;
+                    newControl = new ChartControl(World, navigateObject as DwarfObject, this);
+                    break;
                 case ControlOption.Map:
-                    newControl = new MapControl(World, navigateObject, this); break;
+                    newControl = new MapControl(World, navigateObject, this);
+                    break;
                 case ControlOption.Search:
-                    newControl = new SearchControl(this); break;
+                    newControl = new SearchControl(this);
+                    break;
                 case ControlOption.ReadMe:
-                    newControl = new ReadMeControl(this); break;
+                    newControl = new ReadMeControl(this);
+                    break;
             }
 
             if (newControl != null)
@@ -52,71 +62,102 @@ namespace LegendsViewer
 
         private bool MakeNewTab()
         {
-            return TabPages.Count == 0 || Control.ModifierKeys == Keys.Control || NewTab;
+            return TabPages.Count == 0 || ModifierKeys == Keys.Control || NewTab;
         }
 
-        public void Back() 
+        public void Back()
         {
-            if (SelectedTab != null)
-                (SelectedTab as DwarfTabPage).Back();
+            (SelectedTab as DwarfTabPage)?.Back();
         }
 
-        public void Forward() 
-        { 
-            if (SelectedTab != null) 
-                (SelectedTab as DwarfTabPage).Forward(); 
+        public void Forward()
+        {
+            (SelectedTab as DwarfTabPage)?.Forward();
         }
 
         public override void CloseTab(int index = -1)
         {
-            if (SelectedIndex == -1) return;
-            if (index == -1) index = SelectedIndex;
+            if (SelectedIndex == -1)
+            {
+                return;
+            }
+            if (index == -1)
+            {
+                index = SelectedIndex;
+            }
             if (TabPages.Count > 0)
             {
                 (TabPages[index] as DwarfTabPage).Close();
                 int newSelectedIndex = SelectedIndex;
-                if (index <= SelectedIndex) newSelectedIndex = SelectedIndex - 1;
+                if (index <= SelectedIndex)
+                {
+                    newSelectedIndex = SelectedIndex - 1;
+                }
                 TabPage temp = TabPages[index];
                 TabPages.Remove(TabPages[index]);
                 temp.Dispose();
-                if (TabPages.Count > 0 && newSelectedIndex == -1) SelectedIndex = 0;
-                else SelectedIndex = newSelectedIndex;
+                if (TabPages.Count > 0 && newSelectedIndex == -1)
+                {
+                    SelectedIndex = 0;
+                }
+                else
+                {
+                    SelectedIndex = newSelectedIndex;
+                }
             }
             GC.Collect();
         }
+
         public void RefreshAll(Type refreshType)
         {
             foreach (DwarfTabPage page in TabPages.OfType<DwarfTabPage>())
-                //if (page.BackHistory.Count > 0)
-                    if (page.Current.GetType() == typeof(HTMLControl)
-                        && (page.Current as HTMLControl).HTMLObject.GetType() == refreshType)
-                        page.Current.Refresh();
-                    else if (page.Current.GetType() == typeof(ChartControl) && (page.Current as ChartControl).FocusObject.GetType() == refreshType)
-                        page.Current.Refresh();
+            {
+                if (page.Current.GetType() == typeof(HTMLControl)
+                    && (page.Current as HTMLControl).HTMLObject.GetType() == refreshType)
+                {
+                    page.Current.Refresh();
+                }
+                else if (page.Current.GetType() == typeof(ChartControl) && (page.Current as ChartControl).FocusObject.GetType() == refreshType)
+                {
+                    page.Current.Refresh();
+                }
+            }
         }
 
         public void Reset()
         {
             while (TabPages.Count > 0)
+            {
                 CloseTab();
+            }
         }
 
         protected override void WndProc(ref Message m)
         {
             if (m.Msg > 512 && m.Msg <= 528)
+            {
                 switch (m.WParam.ToInt64())
                 {
                     case 66059:
-                    case (int)MouseButtons.XButton1: Back(); break;
+                        Back();
+                        break;
+                    case (int)MouseButtons.XButton1:
+                        Back();
+                        break;
                     case 131595:
-                    case (int)MouseButtons.XButton2: Forward(); break;
+                        Forward();
+                        break;
+                    case (int)MouseButtons.XButton2:
+                        Forward();
+                        break;
                 }
+            }
             base.WndProc(ref m);
         }
 
     }
 
-    public class TabControlImproved : System.Windows.Forms.TabControl
+    public class TabControlImproved : TabControl
     {
         private int _hotTabIndex = -1;
 
@@ -124,7 +165,7 @@ namespace LegendsViewer
             : base()
         {
             AllowDrop = true;
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserPaint, true);
         }
 
         #region Properties
@@ -143,7 +184,7 @@ namespace LegendsViewer
                 if (_hotTabIndex != value)
                 {
                     _hotTabIndex = value;
-                    this.Invalidate();
+                    Invalidate();
                 }
             }
         }
