@@ -32,6 +32,9 @@ namespace LegendsViewer.Legends.Events
             Civ.AddEvent(this);
             SiteEntity.AddEvent(this);
             Site.AddEvent(this);
+
+            world.AddPlayerRelatedDwarfObjects(SiteEntity);
+            world.AddPlayerRelatedDwarfObjects(Site);
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {

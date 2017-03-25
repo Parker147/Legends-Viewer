@@ -208,7 +208,10 @@ namespace LegendsViewer.Legends
                     case "used_identity_id": world.AddHFUsedIdentity(this, Convert.ToInt32(property.Value)); break;
                     case "ent_pop_id": EntityPopulationID = Convert.ToInt32(property.Value); break;
                     case "holds_artifact": HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
-                    case "adventurer": Adventurer = true; property.Known = true; break;
+                    case "adventurer":
+                        Adventurer = true;
+                        property.Known = true;
+                        break;
                     case "breed_id":
                         BreedID = property.Value;
                         if (!string.IsNullOrWhiteSpace(BreedID))
@@ -235,6 +238,10 @@ namespace LegendsViewer.Legends
                 {
                     Name = "(Unnamed)";
                 }
+            }
+            if (Adventurer)
+            {
+                world.AddPlayerRelatedDwarfObjects(this);
             }
         }
 

@@ -46,6 +46,7 @@ namespace LegendsViewer.Legends
         public List<Population> SitePopulations = new List<Population>();
         public List<Population> OutdoorPopulations = new List<Population>();
         public List<Population> UndergroundPopulations = new List<Population>();
+        public List<DwarfObject> PlayerRelatedObjects = new List<DwarfObject>();
 
         public Dictionary<string, List<HistoricalFigure>> Breeds = new Dictionary<string, List<HistoricalFigure>>();
 
@@ -137,6 +138,19 @@ namespace LegendsViewer.Legends
             //Log.AppendLine("Finish: " + DateTime.Now.ToLongTimeString());
             sw.Stop();
             Log.AppendLine("Duration: " + string.Format("{0} secs, {1:D3} ms ", sw.Elapsed.Seconds + (sw.Elapsed.Minutes * 60), sw.Elapsed.Milliseconds));
+        }
+
+        public void AddPlayerRelatedDwarfObjects(DwarfObject dwarfObject)
+        {
+            if (dwarfObject == null)
+            {
+                return;
+            }
+            if (PlayerRelatedObjects.Contains(dwarfObject))
+            {
+                return;
+            }
+            PlayerRelatedObjects.Add(dwarfObject);
         }
 
         private void GenerateCivIdenticons()

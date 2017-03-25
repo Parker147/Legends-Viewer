@@ -34,6 +34,7 @@ namespace LegendsViewer.Controls
             LoadCustomScripts();
 
             PrintWorldInfo();
+            PrintPlayerRelatedDwarfObjects();
             PrintEras();
             PrintCivs();
             PrintWarCharts();
@@ -299,8 +300,50 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<h1>Eras</h1>");
             HTML.AppendLine("<ol>");
             foreach (Era era in World.Eras)
+            {
                 HTML.AppendLine("<li>" + era.Name + " (" + (era.StartYear < 0 ? 0 : era.StartYear) + " - " + era.EndYear + ")</li>");
+            }
             HTML.AppendLine("</ol>");
+            HTML.AppendLine("</br>");
+            HTML.AppendLine("</div>");
+
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
+        }
+
+        private void PrintPlayerRelatedDwarfObjects()
+        {
+            if (!World.PlayerRelatedObjects.Any())
+            {
+                return;
+            }
+            HTML.AppendLine("<div class=\"container-fluid\">");
+            HTML.AppendLine("<div class=\"row\">");
+
+            HTML.AppendLine("<div class=\"col-md-4 col-sm-6\">");
+            HTML.AppendLine("<h1>Player Related</h1>");
+            var fortressModeLinks = World.PlayerRelatedObjects.Where(o => !(o is HistoricalFigure));
+            var adventureModeLinks = World.PlayerRelatedObjects.Where(o => (o is HistoricalFigure));
+            if (fortressModeLinks.Any())
+            {
+                HTML.AppendLine("<h2>Fortress Mode</h2>");
+                HTML.AppendLine("<ol>");
+                foreach (DwarfObject dwarfObject in fortressModeLinks)
+                {
+                    HTML.AppendLine("<li>" + dwarfObject.ToLink() + "</li>");
+                }
+                HTML.AppendLine("</ol>");
+            }
+            if (adventureModeLinks.Any())
+            {
+                HTML.AppendLine("<h2>Adventure Mode</h2>");
+                HTML.AppendLine("<ol>");
+                foreach (DwarfObject dwarfObject in adventureModeLinks)
+                {
+                    HTML.AppendLine("<li>" + dwarfObject.ToLink() + "</li>");
+                }
+                HTML.AppendLine("</ol>");
+            }
             HTML.AppendLine("</br>");
             HTML.AppendLine("</div>");
 
