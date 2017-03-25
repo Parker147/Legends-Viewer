@@ -419,8 +419,6 @@ namespace LegendsViewer.Legends
         public string GetRaceTitleString()
         {
             string hfraceString = "";
-            if (Race == "Night Creature" && PreviousRace != "")
-                return PreviousRace.ToLower() + " turned night creature";
 
             if (Ghost)
                 hfraceString += "ghostly ";
@@ -432,6 +430,11 @@ namespace LegendsViewer.Legends
                 hfraceString += "male ";
             else if (Caste.ToUpper() == "FEMALE")
                 hfraceString += "female ";
+
+            if (PreviousRace != "")
+            {
+                hfraceString += PreviousRace.ToLower() + " turned ";
+            }
 
             hfraceString += Race.ToLower();
 

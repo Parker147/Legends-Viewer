@@ -286,8 +286,14 @@ namespace LegendsViewer.Controls
             }
             else
             {
-                if (HistoricalFigure.DeathYear >= 0) title += "Was a " + HistoricalFigure.GetRaceTitleString();
-                else title += "Is a " + HistoricalFigure.GetRaceTitleString();
+                if (HistoricalFigure.DeathYear >= 0)
+                {
+                    title += "Was a " + HistoricalFigure.GetRaceTitleString();
+                }
+                else
+                {
+                    title += "Is a " + HistoricalFigure.GetRaceTitleString();
+                }
                 title += " born in " + HistoricalFigure.BirthYear;
 
                 if (HistoricalFigure.DeathYear > 0)
