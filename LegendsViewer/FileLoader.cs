@@ -8,9 +8,8 @@ using System.ComponentModel;
 using LegendsViewer.Legends;
 using SevenZip;
 using System.Xml;
-using System.Reflection;
 using LegendsViewer.Controls;
-using LegendsViewer.Legends.Parser;
+using System.Text.RegularExpressions;
 
 namespace LegendsViewer
 {
@@ -364,20 +363,55 @@ namespace LegendsViewer
             }
             catch (XmlException)
             {
-                string safeXMLFile = XMLParser.SafeXMLFile(files[0]);
-                if (safeXMLFile != null)
+                string repairedXMLFile = RepairXmlFile(files[0]);
+                if (repairedXMLFile != null)
                 {
-                    if (safeXMLFile != files[0])
+                    if (repairedXMLFile != files[0])
                     {
-                        ExtractedFiles.Add(safeXMLFile);
+                        ExtractedFiles.Add(repairedXMLFile);
                     }
-                    e.Result = new World(safeXMLFile, files[1], files[2], files[3], files[4]);
+                    e.Result = new World(repairedXMLFile, files[1], files[2], files[3], files[4]);
                 }
                 else
                 {
                     e.Result = null;
                 }
             }
+        }
+
+        public static string RepairXmlFile(string xmlFile)
+        {
+            DialogResult response =
+                MessageBox.Show("There was an error loading this XML file! Do you wish to attempt a repair?",
+                    "Error loading XML", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (response == DialogResult.Yes)
+            {
+                string currentLine = String.Empty;
+                string safeFile = Path.GetTempFileName();
+                using (StreamReader inputReader = new StreamReader(xmlFile))
+                {
+                    using (StreamWriter outputWriter = File.AppendText(safeFile))
+                    {
+                        while (null != (currentLine = inputReader.ReadLine()))
+                        {
+                            outputWriter.WriteLine(Regex.Replace(currentLine, "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]",
+                                string.Empty));
+                        }
+                    }
+                }
+                DialogResult overwrite =
+                    MessageBox.Show(
+                        "Repair completed. Would you like to overwrite the original file with the repaired version? (Note: No effect if opened from an archive)",
+                        "Repair Completed", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (overwrite == DialogResult.Yes)
+                {
+                    File.Delete(xmlFile);
+                    File.Copy(safeFile, xmlFile);
+                    return xmlFile;
+                }
+                return safeFile;
+            }
+            return null;
         }
 
         public event EventHandler<EventArgs<World>> AfterLoad;

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using System.Xml;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
@@ -37,42 +35,6 @@ namespace LegendsViewer.Legends.Parser
                 World.Log.AppendLine("Found LEGENDS_PLUS.XML!");
                 World.Log.AppendLine("Parsed additional data...\n");
             }
-        }
-
-        public static string SafeXMLFile(string xmlFile)
-        {
-            DialogResult response =
-                MessageBox.Show("There was an error loading this XML file! Do you wish to attempt a repair?",
-                    "Error loading XML", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (response == DialogResult.Yes)
-            {
-                string currentLine = String.Empty;
-                string safeFile = Path.GetTempFileName();
-                using (StreamReader inputReader = new StreamReader(xmlFile))
-                {
-                    using (StreamWriter outputWriter = File.AppendText(safeFile))
-                    {
-                        while (null != (currentLine = inputReader.ReadLine()))
-                        {
-                            outputWriter.WriteLine(Regex.Replace(currentLine, "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]",
-                                string.Empty));
-                        }
-                    }
-                }
-                DialogResult overwrite =
-                    MessageBox.Show(
-                        "Repair completed. Would you like to overwrite the original file with the repaired version? (Note: No effect if opened from an archive)",
-                        "Repair Completed", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (overwrite == DialogResult.Yes)
-                {
-                    File.Delete(xmlFile);
-                    File.Copy(safeFile, xmlFile);
-                    return xmlFile;
-                }
-                return safeFile;
-            }
-            return null;
-
         }
 
         public void Parse()
@@ -716,13 +678,13 @@ namespace LegendsViewer.Legends.Parser
                             .Where(
                                 war =>
                                     (war.StartYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1)
-                                        //entire war between
+                                    //entire war between
                                     || (war.StartYear >= era.StartYear && war.StartYear <= era.EndYear)
-                                        //war started before & ended
+                                    //war started before & ended
                                     || (war.EndYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1)
-                                        //war started during
+                                    //war started during
                                     || (war.StartYear <= era.StartYear && war.EndYear >= era.EndYear)
-                                        //war started before & ended after
+                                    //war started before & ended after
                                     || (war.StartYear <= era.StartYear && war.EndYear == -1)).ToList();
                 }
 
@@ -774,7 +736,7 @@ namespace LegendsViewer.Legends.Parser
                         beastAttack.GetSubEvents()
                             .OfType<HFDied>()
                             .GroupBy(death => death.Slayer)
-                            .Select(hf => new {HF = hf.Key, Count = hf.Count()});
+                            .Select(hf => new { HF = hf.Key, Count = hf.Count() });
                     if (slayers.Count(slayer => slayer.Count > 1) == 1)
                     {
                         HistoricalFigure beast = slayers.Single(slayer => slayer.Count > 1).HF;
