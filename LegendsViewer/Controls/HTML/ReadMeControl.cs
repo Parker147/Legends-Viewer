@@ -1,7 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using LegendsViewer.Controls.HTML.Utilities;
@@ -36,8 +34,7 @@ namespace LegendsViewer.Controls.HTML
                 var html = "<html>";
                 html += "<head>";
                 html += "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
-                html += "<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix +
-                        "Controls/HTML/Styles/github-markdown.css\">";
+                html += "<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/github-markdown.css\">";
                 html += "<style>.markdown-body { margin: 0 auto; padding: 20px; } </style>";
                 html += "</head>";
                 html += "<body><div class='markdown-body'>" + readme + "</div></body>";
@@ -59,22 +56,11 @@ namespace LegendsViewer.Controls.HTML
 
         private static string GetHtmlByMarkdown(string markdown)
         {
-            string readme = "";
-            try
-            {
-                var webClient = new WebClient();
-                webClient.Headers.Add("User-Agent", "LegendsViewer");
-                webClient.Headers.Add("Content-Type", "text/x-markdown");
-                readme = webClient.UploadString("https://api.github.com/markdown/raw", "POST", markdown);
-            }
-            catch (Exception)
-            {
-                readme = markdown;
-            }
+            string readme = CommonMark.CommonMarkConverter.Convert(markdown);
             readme = readme
-                    .Replace("<g-emoji alias=\"high_brightness\" fallback-src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f506.png\" ios-version=\"6.0\">ðŸ”†</g-emoji>",
+                    .Replace(":high_brightness:",
                     "<img src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f506.png\" alt=\":high_brightness:\" title=\":high_brightness:\" class=\"emoji\" height=\"20\" width=\"20\">")
-                    .Replace("<g-emoji alias=\"blue_book\" fallback-src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f4d8.png\" ios-version=\"6.0\">ðŸ“˜</g-emoji>",
+                    .Replace(":blue_book:",
                     "<img src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f4d8.png\" alt=\":blue_book:\" title=\":blue_book:\" class=\"emoji\" height=\"20\" width=\"20\">");
             return readme;
         }
@@ -88,7 +74,6 @@ namespace LegendsViewer.Controls.HTML
                 e.Cancel = true; //Prevent the browser from actually navigating to a new page
             }
         }
-
 
         protected override void Dispose(bool disposing)
         {
@@ -105,7 +90,6 @@ namespace LegendsViewer.Controls.HTML
                 base.Dispose(disposing);
                 this.disposed = true;
             }
-
         }
 
         public override void Refresh()
