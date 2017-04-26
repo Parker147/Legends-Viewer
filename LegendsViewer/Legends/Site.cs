@@ -165,7 +165,12 @@ namespace LegendsViewer.Legends
                         break;
                 }
             }
-            switch (SiteType)
+            SetIconByType(SiteType);
+        }
+
+        private void SetIconByType(SiteType siteType)
+        {
+            switch (siteType)
             {
                 case SiteType.Cave:
                     Icon = "<i class=\"fa fa-fw fa-circle\"></i>";
@@ -223,7 +228,7 @@ namespace LegendsViewer.Legends
             if (!Connections.Contains(connection)) Connections.Add(connection);
         }
 
-        public override string ToString() { return this.Name; }
+        public override string ToString() { return Name; }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {

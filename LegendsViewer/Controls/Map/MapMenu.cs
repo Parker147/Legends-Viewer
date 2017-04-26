@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
+﻿using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends;
-using System.Drawing.Drawing2D;
-using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends.EventCollections;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace LegendsViewer.Controls
 {
@@ -23,6 +22,7 @@ namespace LegendsViewer.Controls
         public Rectangle MenuBox = new Rectangle(0, 0, 0, 0);
         public bool Open;
         public MapMenuOption SelectedOption;
+
         public MapMenu(MapPanel map)
         {
             Map = map;
@@ -88,7 +88,6 @@ namespace LegendsViewer.Controls
                 g.DrawLine(shadowPen, MenuBox.Left, MenuBox.Top, MenuBox.Right, MenuBox.Top);
             }
 
-
             foreach (MapMenuOption option in Options)
             {
                 int optionYPosition = MenuBox.Y + OptionHeight * Options.IndexOf(option);
@@ -121,7 +120,6 @@ namespace LegendsViewer.Controls
                         g.DrawLine(arrowPen, MenuBox.Right - subArrow.Height - 2, optionYPosition + OptionHeight / 2, MenuBox.Right - 2, optionYPosition + OptionHeight / 2);
                     }
                 }
-
             }
 
             MapMenuOption autoShowSubMenu = null;
@@ -147,7 +145,6 @@ namespace LegendsViewer.Controls
                             option.SubMenu.MenuBox.X = MenuBox.X - option.SubMenu.MenuBox.Width;
                         option.SubMenu.Draw(g);
                     }
-
                 }
             }
         }
@@ -157,7 +154,6 @@ namespace LegendsViewer.Controls
             if (SelectedOption != null && SelectedOption.SubMenu != null && SelectedOption.SubMenu.HighlightOption(x, y)) { }
             else if (x >= MenuBox.Left && x <= MenuBox.Right && y >= MenuBox.Top && y <= MenuBox.Bottom && Options.Count > 0)
                 SelectedOption = Options[(y - MenuBox.Top - 1) / OptionHeight];
-
             else
                 SelectedOption = null;
 
@@ -180,11 +176,14 @@ namespace LegendsViewer.Controls
         public MapMenu Parent;
         public string Text;
         public Object OptionObject;
+
         //OnClick
         //OnHover
         public bool Toggled = false, Selectable = true;
+
         public MapMenu SubMenu;
         public int Width;
+
         public delegate void OnClick(object sender);
 
         public MapMenuOption(MapMenu parent, Object itemObject = null)
@@ -227,7 +226,7 @@ namespace LegendsViewer.Controls
                     SubMenu.Options.Last().OptionObject = battle.Defender;
                     SubMenu.AddOption("Combatants: " + (battle.NotableAttackers.Count + battle.AttackerSquads.Sum(squad => squad.Numbers)) + " / " + (battle.NotableDefenders.Count + battle.DefenderSquads.Sum(squad => squad.Numbers)) + "    Kills: " + battle.DefenderDeathCount + " / " + battle.AttackerDeathCount);
                     SubMenu.Options.ForEach(option => option.Selectable = false);
-                    if (battle.ParentCollection != null) 
+                    if (battle.ParentCollection != null)
                         SubMenu.AddOption(battle.ParentCollection);
                     //SubMenu.AddOption("Deaths: " + (battle.AttackerDeathCount + battle.DefenderDeathCount));
                 }
@@ -286,7 +285,6 @@ namespace LegendsViewer.Controls
                     if (fontSize.Width > width)
                         width = Convert.ToInt32(fontSize.Width);
                 }
-
             }
         }
 
@@ -324,14 +322,14 @@ namespace LegendsViewer.Controls
                     case "-1000": Parent.Map.ChangeYear(-1000); break;
                     default: break;
                 }
-
         }
     }
 
-
     public class MapMenuHorizontal : MapMenu
     {
-        public MapMenuHorizontal(MapPanel map) : base(map) { }
+        public MapMenuHorizontal(MapPanel map) : base(map)
+        {
+        }
 
         protected override void CalculateSize()
         {
@@ -381,7 +379,6 @@ namespace LegendsViewer.Controls
             using (SolidBrush menuBrush = new SolidBrush(MenuColor))
                 g.FillRectangle(menuBrush, MenuBox);
 
-
             int optionXPosition = MenuBox.X;
             foreach (MapMenuOption option in Options)
             {
@@ -414,10 +411,8 @@ namespace LegendsViewer.Controls
                         g.DrawString(option.Text, menuFont, fontBrush, optionXPosition + 5, MenuBox.Y);
                 }
 
-
                 optionXPosition += optionWidth;
             }
         }
-
     }
 }

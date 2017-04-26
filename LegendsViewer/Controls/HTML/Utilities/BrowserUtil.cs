@@ -12,18 +12,24 @@ namespace LegendsViewer.Controls.HTML.Utilities
         /// </summary>
         public static void SetBrowserEmulationMode()
         {
-            var appName = System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName);
-
-            if (String.Compare(appName, "devenv.exe", StringComparison.OrdinalIgnoreCase) == 0 || String.Compare(appName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase) == 0)
-                return;
-            const uint MODE = 10000;
-            using (var key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION\",
-                RegistryKeyPermissionCheck.ReadWriteSubTree))
+            try
             {
-                if (key != null)
+                var appName = System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName);
+
+                if (String.Compare(appName, "devenv.exe", StringComparison.OrdinalIgnoreCase) == 0 || String.Compare(appName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase) == 0)
+                    return;
+                const uint MODE = 10000;
+                using (var key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION\",
+                    RegistryKeyPermissionCheck.ReadWriteSubTree))
                 {
-                    key.SetValue(appName, MODE, RegistryValueKind.DWord);
+                    if (key != null)
+                    {
+                        key.SetValue(appName, MODE, RegistryValueKind.DWord);
+                    }
                 }
+            }
+            catch (Exception)
+            {
             }
         }
     }
