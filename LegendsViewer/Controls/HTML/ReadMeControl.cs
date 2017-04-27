@@ -34,7 +34,7 @@ namespace LegendsViewer.Controls.HTML
                 var html = "<html>";
                 html += "<head>";
                 html += "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
-                html += "<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "Controls/HTML/Styles/github-markdown.css\">";
+                html += "<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "WebContent/styles/github-markdown.css\">";
                 html += "<style>.markdown-body { margin: 0 auto; padding: 20px; } </style>";
                 html += "</head>";
                 html += "<body><div class='markdown-body'>" + readme + "</div></body>";

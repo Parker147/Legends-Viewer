@@ -29,8 +29,8 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/Controls/HTML/Scripts/Chart.min.js\"></script>");
-            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/Controls/HTML/Scripts/Chart.StackedBar.min.js\"></script>");
+            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/WebContent/scripts/Chart.min.js\"></script>");
+            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/WebContent/scripts/Chart.StackedBar.min.js\"></script>");
 
             LoadCustomScripts();
 
