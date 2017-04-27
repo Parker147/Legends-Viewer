@@ -137,6 +137,12 @@ namespace LegendsViewer.Controls
             return "<a href=\"" + option.ToString() + "\">" + text + "</a>";
         }
 
+        protected string MakeFileLink(string text, string filePath)
+        {
+            string htmlFilePath = filePath.Replace("\\", "/");
+            return "<a title=\"" + htmlFilePath + "\" href=\"file:///" + htmlFilePath + "\" target=\"_blank\">" + text + "</a>";
+        }
+
         protected string MakeLink(string text, DwarfObject dObject, ControlOption option = ControlOption.HTML)
         {
             //<a href=\"collection#" + attack.ID + "\">" + attack.GetOrdinal(attack.Ordinal)
@@ -193,13 +199,13 @@ namespace LegendsViewer.Controls
                         for (int column = 0; column < imageSectionCount; column++)
                         {
                             drawSection.DrawImage(image, new Rectangle(new Point(0, 0), section.Size),
-                                new Rectangle(new Point(section.Size.Width*column, section.Size.Height*row),
+                                new Rectangle(new Point(section.Size.Width * column, section.Size.Height * row),
                                     section.Size), GraphicsUnit.Pixel);
                             string tempName = "";
                             while (true)
                             {
                                 tempName = Path.Combine(LocalFileProvider.RootFolder, "temp",
-                                    Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + this.GetTitle()+ ".png");
+                                    Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + this.GetTitle() + ".png");
                                 if (!File.Exists(tempName))
                                 {
                                     break;
@@ -236,7 +242,7 @@ namespace LegendsViewer.Controls
 
         protected string ImageToHTML(string image)
         {
-            string html = "<img src=\""+LocalFileProvider.LocalPrefix+image+"\" align=absmiddle />";
+            string html = "<img src=\"" + LocalFileProvider.LocalPrefix + image + "\" align=absmiddle />";
             return html;
         }
 
@@ -256,7 +262,7 @@ namespace LegendsViewer.Controls
                 + "' title='" + desc.Token
                 + " | " + desc.Rank
                 + " | " + desc.Points
-                + "'>" + desc.Rank + " "+ desc.Name + "</li>";
+                + "'>" + desc.Rank + " " + desc.Name + "</li>";
         }
 
         protected void PrintPopulations(List<Population> populations)
@@ -376,7 +382,7 @@ namespace LegendsViewer.Controls
             {
                 if (filters == null || !filters.Contains(e.Type))
                 {
-                    HTML.AppendLine("['" + e.Date + "','" + e.Print(true, dfo).Replace("'", "`")+ "','" + e.Type + "'],");
+                    HTML.AppendLine("['" + e.Date + "','" + e.Print(true, dfo).Replace("'", "`") + "','" + e.Type + "'],");
                 }
             }
             HTML.AppendLine("   ];");
@@ -443,7 +449,8 @@ namespace LegendsViewer.Controls
         LoadBattleDefenders,
         LoadMap,
         LoadChart,
-        LoadSearch
+        LoadSearch,
+        LoadSiteMap
     }
 
     public enum ControlOption

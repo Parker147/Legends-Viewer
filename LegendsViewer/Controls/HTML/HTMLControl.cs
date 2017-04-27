@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends;
+using System.Diagnostics;
 
 namespace LegendsViewer.Controls
 {
@@ -128,11 +129,18 @@ namespace LegendsViewer.Controls
                 switch (option)
                 {
                     case LinkOption.LoadMap:
-                        TabControl.Navigate(ControlOption.Map, HTMLObject); break;
+                        TabControl.Navigate(ControlOption.Map, HTMLObject);
+                        break;
                     case LinkOption.LoadChart:
-                        TabControl.Navigate(ControlOption.Chart, HTMLObject); break;
+                        TabControl.Navigate(ControlOption.Chart, HTMLObject);
+                        break;
                     case LinkOption.LoadSearch:
-                        TabControl.Navigate(ControlOption.Search); break;
+                        TabControl.Navigate(ControlOption.Search);
+                        break;
+                    case LinkOption.LoadSiteMap:
+                        Site currentSite = HTMLObject as Site;
+                        Process.Start(currentSite.SiteMapPath);
+                        break;
                 }
                 return true;
             }

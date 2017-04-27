@@ -75,6 +75,7 @@ namespace LegendsViewer.Legends
                 Position = position;
             }
         }
+        public string SiteMapPath { get; set; }
 
         public Site()
         {

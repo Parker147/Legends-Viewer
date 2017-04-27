@@ -251,8 +251,12 @@ namespace LegendsViewer.Controls
 
         private void PrintSiteMap()
         {
-            string sitemapPath = FileLoader.SaveDirectory + FileLoader.SaveID + "-site_map-" + Site.ID;
-            string sitemapPathFromProcessScript = FileLoader.SaveDirectory + "site_maps\\" + FileLoader.SaveID + "-site_map-" + Site.ID;
+            if (string.IsNullOrEmpty(FileLoader.SaveDirectory) || string.IsNullOrEmpty(FileLoader.RegionID))
+            {
+                return;
+            }
+            string sitemapPath = Path.Combine(FileLoader.SaveDirectory, FileLoader.RegionID + "-site_map-" + Site.ID);
+            string sitemapPathFromProcessScript = Path.Combine(FileLoader.SaveDirectory, "site_maps\\" + FileLoader.RegionID + "-site_map-" + Site.ID);
             if (File.Exists(sitemapPath + ".bmp"))
             {
                 CreateSitemapBitmap(sitemapPath + ".bmp");
@@ -289,6 +293,7 @@ namespace LegendsViewer.Controls
 
         private void CreateSitemapBitmap(string sitemapPath)
         {
+            Site.SiteMapPath = sitemapPath;
             Bitmap sitemap = null;
             Bitmap Map = null;
             using (FileStream mapStream = new FileStream(sitemapPath, FileMode.Open))
@@ -301,7 +306,10 @@ namespace LegendsViewer.Controls
             }
             if (sitemap != null)
             {
-                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(sitemap), LinkOption.LoadMap) + "</td>");
+                string htmlImage = BitmapToHTML(sitemap);
+                //string mapLink = MakeFileLink(htmlImage, sitemapPath);
+                string mapLink = MakeLink(htmlImage, LinkOption.LoadSiteMap);
+                HTML.AppendLine("<td>" + mapLink + "</td>");
             }
         }
     }
