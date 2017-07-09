@@ -489,13 +489,28 @@ namespace LegendsViewer
                     }
                     break;
                 case ChartOption.WorldHFAlive:
-                    World.HistoricalFigures.Where(hf => hf.DeathYear == -1).GroupBy(hf => hf.Race).Select(hf => new { Race = hf.Key, Count = hf.Count() }).OrderByDescending(hf => hf.Count).ToList().ForEach(hf => { series.First().Points.AddY(hf.Count); series.First().Points.Last().LegendText = hf.Race; }); break;
+                    World.HistoricalFigures
+                        .Where(hf => hf.DeathYear == -1)
+                        .GroupBy(hf => hf.Race)
+                        .Select(hf => new { Race = hf.Key, Count = hf.Count() })
+                        .OrderByDescending(hf => hf.Count).ToList()
+                        .ForEach(hf =>
+                        {
+                            series.First().Points.AddY(hf.Count);
+                            series.First().Points.Last().LegendText = hf.Race;
+                        });
+                    break;
                 case ChartOption.WorldHFRemaining:
-                    var hfTotals = World.HistoricalFigures.GroupBy(hf => hf.Race).Select(hf => new { Race = hf.Key, Count = hf.Count() }).OrderByDescending(hf => hf.Count).ToList();
-                    var hfKilled = World.Events.OfType<HFDied>().GroupBy(death => death.HistoricalFigure.Race).Select(hf => new { Race = hf.Key, Count = hf.Count() }).OrderBy(hf => hfTotals.IndexOf(hfTotals.First(hf1 => hf1.Race == hf.Race))).ToList();
-                    //= World.HistoricalFigures.Where(hf => hf.DeathYear == -1).GroupBy(hf => hf.Race).Select(hf => new { Race = hf.Key, Count = hf.Count() }).OrderBy(hf => hfTotals.IndexOf(hfTotals.First(hfT => hfT.Race == hf.Race))).ToList();
+                    var hfTotals = World.HistoricalFigures
+                        .GroupBy(hf => hf.Race)
+                        .Select(hf => new { Race = hf.Key, Count = hf.Count() })
+                        .OrderByDescending(hf => hf.Count)
+                        .ToList();
+                    var hfKilled = World.Events.OfType<HFDied>()
+                        .GroupBy(death => death.HistoricalFigure.Race)
+                        .Select(hf => new { Race = hf.Key, Count = hf.Count() });
                     int otherLimit = Convert.ToInt32(hfTotals.Sum(hf => hf.Count) * 0.005);
-                    var otherRaces = hfTotals.Where(hf => hf.Count < otherLimit).Select(hf => hf.Race).ToList();
+                    var otherRaces = hfTotals.Where(hf => hf.Count < otherLimit).Select(hf => hf.Race);
                     int otherTotal = hfTotals.Where(hf => hf.Count < otherLimit).Sum(hf => hf.Count);
                     int otherKilled = hfKilled.Where(hf => otherRaces.Contains(hf.Race)).Sum(hf => hf.Count);
                     hfTotals.RemoveAll(hf => hf.Count < otherLimit);
@@ -503,9 +518,13 @@ namespace LegendsViewer
                     {
                         series.First().Points.AddXY(i, hfTotals[i].Count);
                         if (hfKilled.Count(hf => hf.Race == hfTotals[i].Race) > 0)
+                        {
                             series.Last().Points.AddXY(i, hfTotals[i].Count - hfKilled.First(hf => hf.Race == hfTotals[i].Race).Count);
+                        }
                         else
+                        {
                             series.Last().Points.AddXY(i, hfTotals[i].Count);
+                        }
                         series.Last().Points.Last().AxisLabel = Formatting.MakePopulationPlural(hfTotals[i].Race);
                     }
                     series.First().Points.AddXY(hfTotals.Count(hf => hf.Count >= otherLimit), otherTotal);
