@@ -165,10 +165,10 @@ namespace LegendsViewer.Controls
                            select new
                            {
                                attackerRace = war.Attacker.Race,
-                               attackerCiv = war.Attacker.Name,
+                               attackerCiv = war.Attacker.Parent != null ? war.Attacker.Parent.Name : war.Attacker.Name,
                                attackerColor = ColorTranslator.ToHtml(race.Value),
                                defenderRace = war.Defender.Race,
-                               defenderCiv = war.Defender.Name,
+                               defenderCiv = war.Defender.Parent != null ? war.Defender.Parent.Name : war.Defender.Name,
                                defenderColor = ColorTranslator.ToHtml(World.MainRaces.First(x => x.Key == war.Defender.Race).Value)
                            }).ToList();
 
