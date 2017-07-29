@@ -81,7 +81,7 @@ namespace LegendsViewer.Controls
                     "data: [" + battleVictorData + "], " +
                     "backgroundColor: 'rgba(" + victorColor + ", 0.25)', " +
                     "hoverBackgroundColor: 'rgba(" + victorColor + ", 0.5)', " +
-                    "borderWidth: 1, " +
+                    "borderWidth: 2, " +
                     "borderColor: 'rgba(" + victorColor + ", 0.8)', " +
                     "hoverBorderColor: 'rgba(" + victorColor + ", 1)' " +
                 "}";
@@ -91,7 +91,7 @@ namespace LegendsViewer.Controls
                     "data: [" + battleLoserData + "], " +
                     "backgroundColor: 'rgba(" + loserColor + ", 0.25)', " +
                     "hoverBackgroundColor: 'rgba(" + loserColor + ", 0.5)', " +
-                    "borderWidth: 1, " +
+                    "borderWidth: 2, " +
                     "borderColor: 'rgba(" + loserColor + ", 0.8)', " +
                     "hoverBorderColor: 'rgba(" + loserColor + ", 1)' " +
                 "}";
@@ -114,7 +114,7 @@ namespace LegendsViewer.Controls
 
         private void PrintWarChart()
         {
-            if (!Entity.IsCiv || !Entity.Wars.Any())
+            if (!Entity.Wars.Any())
             {
                 return;
             }

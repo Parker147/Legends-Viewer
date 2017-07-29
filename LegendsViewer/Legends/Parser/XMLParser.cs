@@ -762,7 +762,7 @@ namespace LegendsViewer.Legends.Parser
                     {
                         theft.Thief = beastAttack.Beast;
                     }
-                    else
+                    else if (beastAttack.Beast == null)
                     {
                         beastAttack.Beast = theft.Thief;
                     }
@@ -790,7 +790,7 @@ namespace LegendsViewer.Legends.Parser
                     {
                         devoured.Eater = beastAttack.Beast;
                     }
-                    else
+                    else if(beastAttack.Beast == null)
                     {
                         beastAttack.Beast = devoured.Eater;
                     }
@@ -800,6 +800,25 @@ namespace LegendsViewer.Legends.Parser
                         if (insertIndex < 0)
                         {
                             beastAttack.Beast.Events.Add(devoured);
+                        }
+                    }
+                }
+                foreach (HFAbducted abducted in beastAttack.Collection.OfType<HFAbducted>())
+                {
+                    if (abducted.Snatcher == null)
+                    {
+                        abducted.Snatcher = beastAttack.Beast;
+                    }
+                    else if (beastAttack.Beast == null)
+                    {
+                        beastAttack.Beast = abducted.Snatcher;
+                    }
+                    if (beastAttack.Beast != null)
+                    {
+                        insertIndex = beastAttack.Beast.Events.BinarySearch(abducted);
+                        if (insertIndex < 0)
+                        {
+                            beastAttack.Beast.Events.Add(abducted);
                         }
                     }
                 }
