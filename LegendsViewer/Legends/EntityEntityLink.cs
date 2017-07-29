@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends.Parser;
+using System.ComponentModel;
 
 namespace LegendsViewer.Legends
 {
     public enum EntityEntityLinkType // legends_plus.xml
     {
+        [Description("Subgroup")]
         Child,
+        [Description("Parentgroup")]
         Parent,
         Unknown
     }

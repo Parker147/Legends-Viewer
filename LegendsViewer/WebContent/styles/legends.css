@@ -85,24 +85,6 @@ td {
     font-size: 13px;
 }
 
-/* CHARTS */
-
-.chart-legend {
-    display: inline-block;
-    vertical-align: top;
-}
-
-    .chart-legend li span {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        margin-right: 5px;
-    }
-
-    .chart-legend ul {
-        list-style-type: none;
-    }
-
 /* FANCY SKILLS */
 
 .skills {

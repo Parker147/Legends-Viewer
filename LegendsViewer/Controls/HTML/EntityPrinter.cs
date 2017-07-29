@@ -6,6 +6,7 @@ using System.Drawing;
 using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
+using System;
 
 namespace LegendsViewer.Controls
 {
@@ -41,9 +42,26 @@ namespace LegendsViewer.Controls
             PrintWarChart();
             PrintSiteHistory();
             PrintPopulations(Entity.Populations);
+            PrintEntityLinks();
             PrintEventLog(Entity.Events, Entity.Filters, Entity);
             return HTML.ToString();
         }
+
+        private void PrintEntityLinks()
+        {
+            if (Entity.EntityLinks.Count == 0)
+            {
+                return;
+            }
+            HTML.AppendLine(Bold("Related Entities") + LineBreak);
+            StartList(ListType.Unordered);
+            foreach (EntityEntityLink link in Entity.EntityLinks)
+            {
+                HTML.AppendLine(ListItem + link.Target.ToLink(true, Entity) + " (" + link.Type.GetDescription()+")");
+            }
+            EndList(ListType.Unordered);
+        }
+
         private void LoadCustomScripts()
         {
             HTML.AppendLine("<script>");
