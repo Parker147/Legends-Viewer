@@ -28,8 +28,7 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/WebContent/scripts/Chart.min.js\"></script>");
-            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/WebContent/scripts/Chart.StackedBar.min.js\"></script>");
+            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/Chart.bundle.min.js\"></script>");
 
             LoadCustomScripts();
 
@@ -37,7 +36,7 @@ namespace LegendsViewer.Controls
             PrintPlayerRelatedDwarfObjects();
             PrintEras();
             PrintCivs();
-            PrintWarCharts();
+            //PrintWarCharts();
             PrintEntitesAndHFs();
             PrintGeography();
             PrintPopulations();
@@ -57,11 +56,8 @@ namespace LegendsViewer.Controls
             PrintMap();
             HTML.AppendLine("</div>");
 
-            HTML.AppendLine("<div class=\"col-md-4 col-sm-6\">");
-            HTML.AppendLine("<canvas id=\"chart-populationbyrace\" height=\"200\" width=\"200\"></canvas>");
-            HTML.AppendLine("<div id=\"chart-populationbyrace-legend\" class=\"chart-legend\"></div>");
-
-            HTML.AppendLine("</br>");
+            HTML.AppendLine("<div class=\"col-md-4 col-sm-6\" style=\"height: 300px\">");
+            HTML.AppendLine("<canvas id=\"chart-populationbyrace\"></canvas>");
             HTML.AppendLine("</div>");
 
             HTML.AppendLine("</div>");
@@ -118,10 +114,10 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("window.onload = function(){");
 
             PopulateWorldOverviewData();
-            if (World.Wars.Any())
-            {
-                PopulateWarOverview();
-            }
+            //if (World.Wars.Any())
+            //{
+            //    PopulateWarOverview();
+            //}
 
             HTML.AppendLine("}");
             HTML.AppendLine("</script>");
@@ -129,35 +125,50 @@ namespace LegendsViewer.Controls
 
         private void PopulateWorldOverviewData()
         {
-            HTML.AppendLine("var populationData = [");
-            foreach (Population civilizedPop in World.CivilizedPopulations)
+            string races = "";
+            string popCounts = "";
+            string backgroundColors = "";
+
+            for (int i = 0; i < World.CivilizedPopulations.Count; i++)
             {
+                Population civilizedPop = World.CivilizedPopulations[i];
                 Color civilizedPopColor = (World.MainRaces.ContainsKey(civilizedPop.Race))
                     ? World.MainRaces.First(r => r.Key == civilizedPop.Race).Value
                     : Color.Gray;
 
-                Color highlightPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, 0.1f);
-                Color darkenedPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, -0.1f);
+                //Color highlightPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, 0.1f);
+                //Color darkenedPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, -0.1f);
 
-                HTML.AppendLine(
-                    "{ " +
-                        "value: " + civilizedPop.Count + ", " +
-                        "color: \"" + ColorTranslator.ToHtml(darkenedPopColor) + "\", " +
-                        "highlight: \"" + ColorTranslator.ToHtml(highlightPopColor) + "\", " +
-                        "label: \"" + civilizedPop.Race + "\" " +
-                    "}, ");
+                races += (i != 0 ? "," : "") + "'"+ civilizedPop.Race+"'";
+                popCounts += (i != 0 ? "," : "") + civilizedPop.Count;
+                backgroundColors += (i != 0 ? "," : "") + "'" + ColorTranslator.ToHtml(civilizedPopColor) + "'";
+                //HTML.AppendLine(
+                //    "{ " +
+                //        "value: " + civilizedPop.Count + ", " +
+                //        "color: \"" + ColorTranslator.ToHtml(darkenedPopColor) + "\", " +
+                //        "highlight: \"" + ColorTranslator.ToHtml(highlightPopColor) + "\", " +
+                //        "label: \"" + civilizedPop.Race + "\" " +
+                //    "}, ");
             }
-            HTML.AppendLine("]");
 
-            HTML.AppendLine("var chartPopulationByRace = new Chart(document.getElementById(\"chart-populationbyrace\").getContext(\"2d\")).Doughnut(populationData, {animationEasing : \"easeOutCubic\",percentageInnerCutout : 60, legendTemplate : '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'});");
-            HTML.AppendLine("var legenddiv = document.getElementById('chart-populationbyrace-legend');");
-            HTML.AppendLine("legenddiv.innerHTML = chartPopulationByRace.generateLegend();");
+            HTML.AppendLine("var ctx = document.getElementById('chart-populationbyrace').getContext('2d');");
+            HTML.AppendLine("var chartPopulationByRace = new Chart(ctx, { type: 'doughnut', ");
+                HTML.AppendLine("data: {");
+                    HTML.AppendLine("labels: [" + races+ "], ");
+                    HTML.AppendLine("datasets:[{");
+                        HTML.AppendLine("data:[" + popCounts + "], ");
+                        HTML.AppendLine("backgroundColor:[" + backgroundColors + "]");
+                    HTML.AppendLine("}],");
+                HTML.AppendLine("},");
+                HTML.AppendLine("options:{");
+                    HTML.AppendLine("maintainAspectRatio: false,");
+                    HTML.AppendLine("legend:{position:'right'}");
+                HTML.AppendLine("}");
+            HTML.AppendLine("});");
         }
 
         private void PopulateWarOverview()
         {
-            //var defColor = "54, 162, 255";
-            //var atkColor = "255, 99, 132";
             var defColor = "0, 128, 255";
             var atkColor = "255, 51, 51";
 

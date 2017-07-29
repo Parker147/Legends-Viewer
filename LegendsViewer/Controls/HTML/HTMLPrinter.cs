@@ -80,8 +80,8 @@ namespace LegendsViewer.Controls
             htmlPage.Append("<!DOCTYPE html><html><head>");
             htmlPage.Append("<title>" + GetTitle() + "</title>");
             htmlPage.Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
-            htmlPage.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/WebContent/scripts/jquery-3.1.1.min.js\"></script>");
-            htmlPage.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "/WebContent/scripts/jquery.dataTables.min.js\"></script>");
+            htmlPage.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/jquery-3.1.1.min.js\"></script>");
+            htmlPage.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/jquery.dataTables.min.js\"></script>");
             htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "WebContent/styles/bootstrap.min.css\">");
             htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "WebContent/styles/font-awesome.min.css\">");
             htmlPage.Append("<link rel=\"stylesheet\" href=\"" + LocalFileProvider.LocalPrefix + "WebContent/styles/legends.css\">");

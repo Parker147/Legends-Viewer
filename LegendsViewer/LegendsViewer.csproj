@@ -568,7 +568,7 @@
     <Content Include="WebContent\images\sort_desc_disabled.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="WebContent\scripts\Chart.StackedBar.min.js">
+    <Content Include="WebContent\scripts\Chart.bundle.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="WebContent\scripts\cytoscape-dagre.js">
@@ -608,9 +608,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="WebContent\styles\legends.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebContent\scripts\Chart.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
