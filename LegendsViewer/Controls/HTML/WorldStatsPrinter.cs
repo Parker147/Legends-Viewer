@@ -36,7 +36,7 @@ namespace LegendsViewer.Controls
             PrintPlayerRelatedDwarfObjects();
             PrintEras();
             PrintCivs();
-            //PrintWarCharts();
+            PrintWarCharts();
             PrintEntitesAndHFs();
             PrintGeography();
             PrintPopulations();
@@ -80,9 +80,6 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<h1>Wars Fought by Race</h1>");
             HTML.AppendLine("<canvas id=\"chart-countbyrace\" class=\"bar-chart\" width=\"600\" height=\"300\"></canvas>");
             HTML.AppendLine("</div>");
-            HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
-            HTML.AppendLine("<div id=\"chart-countbyrace-legend\" class=\"chart-legend\"></div>");
-            HTML.AppendLine("</div>");
             HTML.AppendLine("</div>");
 
             HTML.AppendLine("</br>");
@@ -95,10 +92,7 @@ namespace LegendsViewer.Controls
                 ? "<div class=\"col-lg-12\">"
                 : "<div class=\"col-md-6 col-sm-12\">");
             HTML.AppendLine("<h1>Wars Fought by Civilization</h1>");
-            HTML.AppendLine("<canvas id=\"chart-countbyciv\" class=\"bar-chart\" width=\"600\" height=\"400\"></canvas>");
-            HTML.AppendLine("</div>");
-            HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
-            HTML.AppendLine("<div id=\"chart-countbyciv-legend\" class=\"chart-legend\"></div>");
+            HTML.AppendLine("<canvas id=\"chart-countbyciv\" class=\"bar-chart\"></canvas>");
             HTML.AppendLine("</div>");
             HTML.AppendLine("</div>");
 
@@ -114,10 +108,10 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("window.onload = function(){");
 
             PopulateWorldOverviewData();
-            //if (World.Wars.Any())
-            //{
-            //    PopulateWarOverview();
-            //}
+            if (World.Wars.Any())
+            {
+                PopulateWarOverview();
+            }
 
             HTML.AppendLine("}");
             HTML.AppendLine("</script>");
@@ -136,23 +130,14 @@ namespace LegendsViewer.Controls
                     ? World.MainRaces.First(r => r.Key == civilizedPop.Race).Value
                     : Color.Gray;
 
-                //Color highlightPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, 0.1f);
-                //Color darkenedPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, -0.1f);
+                Color darkenedPopColor = HTMLStyleUtil.ChangeColorBrightness(civilizedPopColor, -0.1f);
 
                 races += (i != 0 ? "," : "") + "'"+ civilizedPop.Race+"'";
                 popCounts += (i != 0 ? "," : "") + civilizedPop.Count;
-                backgroundColors += (i != 0 ? "," : "") + "'" + ColorTranslator.ToHtml(civilizedPopColor) + "'";
-                //HTML.AppendLine(
-                //    "{ " +
-                //        "value: " + civilizedPop.Count + ", " +
-                //        "color: \"" + ColorTranslator.ToHtml(darkenedPopColor) + "\", " +
-                //        "highlight: \"" + ColorTranslator.ToHtml(highlightPopColor) + "\", " +
-                //        "label: \"" + civilizedPop.Race + "\" " +
-                //    "}, ");
+                backgroundColors += (i != 0 ? "," : "") + "'" + ColorTranslator.ToHtml(darkenedPopColor) + "'";
             }
 
-            HTML.AppendLine("var ctx = document.getElementById('chart-populationbyrace').getContext('2d');");
-            HTML.AppendLine("var chartPopulationByRace = new Chart(ctx, { type: 'doughnut', ");
+            HTML.AppendLine("var chartPopulationByRace = new Chart(document.getElementById('chart-populationbyrace').getContext('2d'), { type: 'doughnut', ");
                 HTML.AppendLine("data: {");
                     HTML.AppendLine("labels: [" + races+ "], ");
                     HTML.AppendLine("datasets:[{");
@@ -162,7 +147,10 @@ namespace LegendsViewer.Controls
                 HTML.AppendLine("},");
                 HTML.AppendLine("options:{");
                     HTML.AppendLine("maintainAspectRatio: false,");
-                    HTML.AppendLine("legend:{position:'right'}");
+                    HTML.AppendLine("legend:{");
+                        HTML.AppendLine("position:'right',");
+                        HTML.AppendLine("labels: { boxWidth: 12 }");
+                    HTML.AppendLine("}");
                 HTML.AppendLine("}");
             HTML.AppendLine("});");
         }
@@ -192,21 +180,23 @@ namespace LegendsViewer.Controls
 
             var defendersByRace =
                 "{ " +
-                    "label: \"As Defender\", " +
-                    "fillColor: \"rgba(" + defColor + ", 0.5)\", " +
-                    "strokeColor: \"rgba(" + defColor + ", 0.8)\", " +
-                    "highlightFill: \"rgba(" + defColor + ", 0.75)\", " +
-                    "highlightStroke: \"rgba(" + defColor + ", 1)\", " +
-                    "data: [" + defenderRaceData + "] " +
+                    "label: 'As Defender', " +
+                    "data: [" + defenderRaceData + "], " +
+                    "backgroundColor: 'rgba(" + defColor + ", 0.25)', " +
+                    "hoverBackgroundColor: 'rgba(" + defColor + ", 0.5)', " +
+                    "borderWidth: 1, " +
+                    "borderColor: 'rgba(" + defColor + ", 0.8)', " +
+                    "hoverBorderColor: 'rgba(" + defColor + ", 1)' " +
                 "}";
             var attackersByRace =
                 "{ " +
-                    "label: \"As Attacker\", " +
-                    "fillColor: \"rgba(" + atkColor + ", 0.5)\", " +
-                    "strokeColor: \"rgba(" + atkColor + ", 0.8)\", " +
-                    "highlightFill: \"rgba(" + atkColor + ", 0.75)\", " +
-                    "highlightStroke: \"rgba(" + atkColor + ", 1)\", " +
-                    "data: [" + attackerRaceData + "] " +
+                    "label: 'As Attacker', " +
+                    "data: [" + attackerRaceData + "], " +
+                    "backgroundColor: 'rgba(" + atkColor + ", 0.25)', " +
+                    "hoverBackgroundColor: 'rgba(" + atkColor + ", 0.5)', " +
+                    "borderWidth: 1, " +
+                    "borderColor: 'rgba(" + atkColor + ", 0.8)', " +
+                    "hoverBorderColor: 'rgba(" + atkColor + ", 1)' " +
                 "}";
 
 
@@ -221,7 +211,7 @@ namespace LegendsViewer.Controls
                 warInfo.Add(raceAndCiv, defatkCounts);
             }
             var sortedWarInfo = warInfo.OrderBy(entry => entry.Key.Item1).ThenByDescending(entry => entry.Value.Item1 + entry.Value.Item2).ToList();
-            if (warInfo.Count > 100)
+            if (warInfo.Count > 80)
             {
                 string lastRace = "";
                 int civCountInRace = 0;
@@ -242,7 +232,7 @@ namespace LegendsViewer.Controls
                         }
                         lastRace = civWarCount.Key.Item1;
                     }
-                    if(civCountInRace >= 12)
+                    if (civCountInRace >= 10)
                     {
                         toDelete.Add(civWarCount);
                         otherDefCount += civWarCount.Value.Item1;
@@ -272,34 +262,53 @@ namespace LegendsViewer.Controls
 
             var defendersByCiv =
                 "{ " +
-                    "label: \"As Defender\", " +
-                    "fillColor: \"rgba(" + defColor + ", 0.5)\", " +
-                    "strokeColor: \"rgba(" + defColor + ", 0.8)\", " +
-                    "highlightFill: \"rgba(" + defColor + ", 0.75)\", " +
-                    "highlightStroke: \"rgba(" + defColor + ", 1)\", " +
-                    "data: [" + defenderCivData + "] " +
+                    "label: 'As Defender', " +
+                    "data: [" + defenderCivData + "], " +
+                    "backgroundColor: 'rgba(" + defColor + ", 0.25)', " +
+                    "hoverBackgroundColor: 'rgba(" + defColor + ", 0.5)', " +
+                    "borderWidth: 1, " +
+                    "borderColor: 'rgba(" + defColor + ", 0.8)', " +
+                    "hoverBorderColor: 'rgba(" + defColor + ", 1)' " +
                 "}";
             var attackersByCiv =
                 "{ " +
-                    "label: \"As Attacker\", " +
-                    "fillColor: \"rgba(" + atkColor + ", 0.5)\", " +
-                    "strokeColor: \"rgba(" + atkColor + ", 0.8)\", " +
-                    "highlightFill: \"rgba(" + atkColor + ", 0.75)\", " +
-                    "highlightStroke: \"rgba(" + atkColor + ", 1)\", " +
-                    "data: [" + attackerCivData + "] " +
+                    "label: 'As Attacker', " +
+                    "data: [" + attackerCivData + "], " +
+                    "backgroundColor: 'rgba(" + atkColor + ", 0.25)', " +
+                    "hoverBackgroundColor: 'rgba(" + atkColor + ", 0.5)', " +
+                    "borderWidth: 1, " +
+                    "borderColor: 'rgba(" + atkColor + ", 0.8)', " +
+                    "hoverBorderColor: 'rgba(" + atkColor + ", 1)' " +
                 "}";
 
-            HTML.AppendLine("var warsByRaceData = { labels: [" + raceLabels + "], datasets: [ " + defendersByRace + "," + attackersByRace + " ] };");
-            HTML.AppendLine("var warsByRaceChart = new Chart(document.getElementById(\"chart-countbyrace\").getContext(\"2d\")).Bar(warsByRaceData, {responsive: true});");
+            HTML.AppendLine("var warsByRaceChart = new Chart(document.getElementById('chart-countbyrace').getContext('2d'), { type: 'horizontalBar', ");
+            HTML.AppendLine("data: {");
+            HTML.AppendLine("labels: [" + raceLabels + "], ");
+            HTML.AppendLine("datasets:[" + defendersByRace + "," + attackersByRace + "],");
+            HTML.AppendLine("},");
+            HTML.AppendLine("options:{");
+            HTML.AppendLine("scales: { xAxes: [{ stacked: true }], yAxes: [{ stacked: true }] },");
+            HTML.AppendLine("legend:{");
+            HTML.AppendLine("position:'top',");
+            HTML.AppendLine("labels: { boxWidth: 12 }");
+            HTML.AppendLine("}");
+            HTML.AppendLine("}");
+            HTML.AppendLine("});");
 
-            HTML.AppendLine("var warsByCivData = { labels: [" + civLabels + "], datasets: [ " + defendersByCiv + "," + attackersByCiv + " ] };");
-            HTML.AppendLine("var warsByCivChart = new Chart(document.getElementById(\"chart-countbyciv\").getContext(\"2d\")).StackedBar(warsByCivData, {responsive: true});");
-
-            HTML.AppendLine("var warsByRaceLegend = document.getElementById('chart-countbyrace-legend');");
-            HTML.AppendLine("warsByRaceLegend.innerHTML = warsByRaceChart.generateLegend();");
-
-            HTML.AppendLine("var warsByCivLegend = document.getElementById('chart-countbyciv-legend');");
-            HTML.AppendLine("warsByCivLegend.innerHTML = warsByCivChart.generateLegend();");
+            HTML.AppendLine("var warsByCivChart = new Chart(document.getElementById('chart-countbyciv').getContext('2d'), { type: 'horizontalBar', ");
+            HTML.AppendLine("data: {");
+            HTML.AppendLine("labels: [" + civLabels + "], ");
+            HTML.AppendLine("datasets:[" + defendersByCiv + "," + attackersByCiv + "],");
+            HTML.AppendLine("},");
+            HTML.AppendLine("options:{");
+            HTML.AppendLine("maxBarThickness: 20,");
+            HTML.AppendLine("scales: { xAxes: [{ stacked: true }], yAxes: [{ stacked: true }] },");
+            HTML.AppendLine("legend:{");
+            HTML.AppendLine("position:'top',");
+            HTML.AppendLine("labels: { boxWidth: 12 }");
+            HTML.AppendLine("}");
+            HTML.AppendLine("}");
+            HTML.AppendLine("});");
         }
 
         private void PrintEras()

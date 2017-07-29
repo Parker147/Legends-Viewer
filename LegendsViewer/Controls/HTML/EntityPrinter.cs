@@ -72,31 +72,44 @@ namespace LegendsViewer.Controls
             var battleVictorData = string.Join(",", allEntities.Where(x => x.Name != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor == Entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
             var battleLoserData = string.Join(",", allEntities.Where(x => x.Name != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor != Entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
 
+            var victorColor = "255, 206, 86";
+            var loserColor = "153, 102, 255";
+
             var battleVictorEntity =
                 "{ " +
                     "label: \"As Victor\", " +
-                    "fillColor: \"rgba(255, 206, 86, 0.5)\", " +
-                    "strokeColor: \"rgba(255, 206, 86, 0.8)\", " +
-                    "highlightFill: \"rgba(255, 206, 86, 0.75)\", " +
-                    "highlightStroke: \"rgba(255, 206, 86, 1)\", " +
-                    "data: [" + battleVictorData + "] " +
+                    "data: [" + battleVictorData + "], " +
+                    "backgroundColor: 'rgba(" + victorColor + ", 0.25)', " +
+                    "hoverBackgroundColor: 'rgba(" + victorColor + ", 0.5)', " +
+                    "borderWidth: 1, " +
+                    "borderColor: 'rgba(" + victorColor + ", 0.8)', " +
+                    "hoverBorderColor: 'rgba(" + victorColor + ", 1)' " +
                 "}";
             var battleLoserEntity =
                 "{ " +
                     "label: \"As Loser\", " +
-                    "fillColor: \"rgba(153, 102, 255, 0.5)\", " +
-                    "strokeColor: \"rgba(153, 102, 255, 0.8)\", " +
-                    "highlightFill: \"rgba(153, 102, 255, 0.75)\", " +
-                    "highlightStroke: \"rgba(153, 102, 255, 1)\", " +
-                    "data: [" + battleLoserData + "] " +
+                    "data: [" + battleLoserData + "], " +
+                    "backgroundColor: 'rgba(" + loserColor + ", 0.25)', " +
+                    "hoverBackgroundColor: 'rgba(" + loserColor + ", 0.5)', " +
+                    "borderWidth: 1, " +
+                    "borderColor: 'rgba(" + loserColor + ", 0.8)', " +
+                    "hoverBorderColor: 'rgba(" + loserColor + ", 1)' " +
                 "}";
 
 
-            HTML.AppendLine("var warsByEntityData = { labels: [" + entityLabels + "], datasets: [ " + battleVictorEntity + "," + battleLoserEntity + " ] };");
-            HTML.AppendLine("var warsByEntityChart = new Chart(document.getElementById(\"chart-countbyEntity\").getContext(\"2d\")).Bar(warsByEntityData, {responsive: true});");
-
-            HTML.AppendLine("var warsByEntityLegend = document.getElementById('chart-countbyEntity-legend');");
-            HTML.AppendLine("warsByEntityLegend.innerHTML = warsByEntityChart.generateLegend();");
+            HTML.AppendLine("var warsByEntityChart = new Chart(document.getElementById('chart-countbyEntity').getContext('2d'), { type: 'horizontalBar', ");
+            HTML.AppendLine("data: {");
+            HTML.AppendLine("labels: [" + entityLabels + "], ");
+            HTML.AppendLine("datasets:[" + battleVictorEntity + "," + battleLoserEntity + "],");
+            HTML.AppendLine("},");
+            HTML.AppendLine("options:{");
+            HTML.AppendLine("maxBarThickness: 20,");
+            HTML.AppendLine("legend:{");
+            HTML.AppendLine("position:'top',");
+            HTML.AppendLine("labels: { boxWidth: 12 }");
+            HTML.AppendLine("}");
+            HTML.AppendLine("}");
+            HTML.AppendLine("});");
         }
 
         private void PrintWarChart()
@@ -111,9 +124,6 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
             HTML.AppendLine("<h1>Battles Fought Against Other Civilizations</h1>");
             HTML.AppendLine("<canvas id=\"chart-countbyEntity\" class=\"bar-chart\" width=\"600\" height=\"300\"></canvas>");
-            HTML.AppendLine("</div>");
-            HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
-            HTML.AppendLine("<div id=\"chart-countbyEntity-legend\" class=\"chart-legend\"></div>");
             HTML.AppendLine("</div>");
             HTML.AppendLine("</div>");
 
