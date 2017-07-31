@@ -139,6 +139,14 @@ namespace LegendsViewer.Legends
             {
                 Religion = world.GetEntity(ReligionID);
             }
+            if (Deity != null && Religion != null)
+            {
+                if (!Religion.Worshipped.Contains(Deity))
+                {
+                    Religion.Worshipped.Add(Deity);
+                    Deity.DedicatedStructures.Add(this);
+                }
+            }
         }
 
 

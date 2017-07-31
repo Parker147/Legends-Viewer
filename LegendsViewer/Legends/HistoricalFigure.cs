@@ -41,6 +41,7 @@ namespace LegendsViewer.Legends
         public List<RelationshipProfileHF> RelationshipProfiles { get; set; }
         public List<SiteLink> RelatedSites { get; set; }
         public List<Skill> Skills { get; set; }
+        public List<Structure> DedicatedStructures { get; set; }
         public int Age { get; set; }
         public int Appeared { get; set; }
         public int BirthYear { get; set; }
@@ -271,6 +272,7 @@ namespace LegendsViewer.Legends
             JourneyPets = new List<string>();
             HoldingArtifacts = new List<Artifact>();
             LineageCurseChilds = new List<HistoricalFigure>();
+            DedicatedStructures = new List<Structure>();
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)

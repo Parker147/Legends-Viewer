@@ -27,6 +27,10 @@ namespace LegendsViewer.Legends.Events
             if (Site != null)
             {
                 Structure = Site.Structures.FirstOrDefault(structure => structure.ID == StructureID);
+                if (Entity != null && Structure != null)
+                {
+                    Entity.OriginStructure = Structure;
+                }
             }
             Entity.AddEvent(this);
             Site.AddEvent(this);

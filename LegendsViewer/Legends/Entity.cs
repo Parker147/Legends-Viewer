@@ -34,6 +34,7 @@ namespace LegendsViewer.Legends
             }
             set { }
         }
+        public Structure OriginStructure { get; set; }
         public List<Entity> Groups { get; set; }
         public List<OwnerPeriod> SiteHistory { get; set; }
         public List<Site> CurrentSites { get { return SiteHistory.Where(site => site.EndYear == -1).Select(site => site.Site).ToList(); } set { } }

@@ -7,6 +7,7 @@ using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using System.Net;
 using System.Collections.Generic;
+using System;
 
 namespace LegendsViewer.Controls
 {
@@ -36,6 +37,7 @@ namespace LegendsViewer.Controls
             PrintRelatedEntities();
             PrintReputations();
             PrintRelatedSites();
+            PrintDedicatedStructures();
             PrintSkills();
             PrintBattles();
             PrintKills();
@@ -44,11 +46,30 @@ namespace LegendsViewer.Controls
             return HTML.ToString();
         }
 
+        private void PrintDedicatedStructures()
+        {
+            if (HistoricalFigure.DedicatedStructures.Count == 0)
+            {
+                return;
+            }
+            HTML.AppendLine(Bold("Dedicated Structures") + LineBreak);
+            StartList(ListType.Unordered);
+            foreach (Structure structure in HistoricalFigure.DedicatedStructures)
+            {
+                HTML.AppendLine(ListItem + structure.ToLink(true, HistoricalFigure) + " in " + structure.Site.ToLink(true, HistoricalFigure));
+                if (structure.Religion != null)
+                {
+                    HTML.AppendLine(" origin of " + structure.Religion.ToLink(true, HistoricalFigure));
+                }
+            }
+            EndList(ListType.Unordered);
+        }
+
         private void PrintRelatedPopulation()
         {
             if (HistoricalFigure.EntityPopulation != null)
             {
-                HTML.AppendLine(Bold("Related Population: ") + LineBreak);
+                HTML.AppendLine(Bold("Related Population ") + LineBreak);
 
                 HTML.AppendLine("<ul>");
                 HTML.AppendLine("<li>");

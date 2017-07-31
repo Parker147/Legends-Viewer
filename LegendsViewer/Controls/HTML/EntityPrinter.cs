@@ -35,16 +35,44 @@ namespace LegendsViewer.Controls
             LoadCustomScripts();
 
             PrintTitle();
+            PrintEntityLinks();
+            PrintOriginStructure();
+            PrintWorships();
             PrintLeaders();
             PrintCurrentLeadership();
-            PrintWorships();
             PrintWars();
             PrintWarChart();
             PrintSiteHistory();
             PrintPopulations(Entity.Populations);
-            PrintEntityLinks();
             PrintEventLog(Entity.Events, Entity.Filters, Entity);
             return HTML.ToString();
+        }
+
+        private void PrintOriginStructure()
+        {
+            if (Entity.OriginStructure == null)
+            {
+                return;
+            }
+            HTML.AppendLine(Bold("Originated in") + LineBreak);
+            StartList(ListType.Unordered);
+            HTML.AppendLine(ListItem + Entity.OriginStructure.ToLink(true, Entity) + " (" + Entity.OriginStructure.Site.ToLink(true, Entity) + ")");
+            EndList(ListType.Unordered);
+        }
+
+        private void PrintChildEntites(Entity entity)
+        {
+            if (entity.EntityLinks.Count(entityLink => entityLink.Type.Equals(EntityEntityLinkType.Child)) == 0)
+            {
+                return;
+            }
+            StartList(ListType.Unordered);
+            foreach (EntityEntityLink childLink in entity.EntityLinks.Where(entityLink => entityLink.Type.Equals(EntityEntityLinkType.Child)))
+            {
+                HTML.AppendLine(ListItem + childLink.Target.ToLink(true, entity) + " (" + childLink.Target.Type.GetDescription() + ")");
+                PrintChildEntites(childLink.Target);
+            }
+            EndList(ListType.Unordered);
         }
 
         private void PrintEntityLinks()
@@ -55,9 +83,14 @@ namespace LegendsViewer.Controls
             }
             HTML.AppendLine(Bold("Related Entities") + LineBreak);
             StartList(ListType.Unordered);
-            foreach (EntityEntityLink link in Entity.EntityLinks)
+            foreach (EntityEntityLink parentLink in Entity.EntityLinks.Where(entityLink => entityLink.Type.Equals(EntityEntityLinkType.Parent)))
             {
-                HTML.AppendLine(ListItem + link.Target.ToLink(true, Entity) + " (" + link.Type.GetDescription()+")");
+                HTML.AppendLine(ListItem + parentLink.Target.ToLink(true, Entity) + " ("+ parentLink.Target.Type.GetDescription() + ")");
+            }
+            foreach (EntityEntityLink childLink in Entity.EntityLinks.Where(entityLink => entityLink.Type.Equals(EntityEntityLinkType.Child)))
+            {
+                HTML.AppendLine(ListItem + childLink.Target.ToLink(true, Entity) + " (" + childLink.Target.Type.GetDescription() + ")");
+                PrintChildEntites(childLink.Target);
             }
             EndList(ListType.Unordered);
         }
