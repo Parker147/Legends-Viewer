@@ -29,8 +29,8 @@ namespace LegendsViewer.Controls.Tabs
                 coordinator = value;
                 if (value != null)
                 {
-                    this.InitializeTab();
-                    this.SetupGeneralListViewEvents();
+                    InitializeTab();
+                    SetupGeneralListViewEvents();
                 }
             }
         }
@@ -64,22 +64,22 @@ namespace LegendsViewer.Controls.Tabs
 
         private void SetupGeneralListViewEvents()
         {
-            if (this.ListView == null || this.Coordinator == null)
+            if (ListView == null || Coordinator == null)
                 return;
 
-            this.ListView.SelectionChanged += delegate (object sender, EventArgs args) {
-                this.Coordinator.HandleSelectionChanged(this.ListView);
+            ListView.SelectionChanged += delegate (object sender, EventArgs args) {
+                Coordinator.HandleSelectionChanged(ListView);
             };
 
-            this.ListView.HotItemChanged += delegate (object sender, HotItemChangedEventArgs args) {
-                this.Coordinator.HandleHotItemChanged(sender, args);
+            ListView.HotItemChanged += delegate (object sender, HotItemChangedEventArgs args) {
+                Coordinator.HandleHotItemChanged(sender, args);
             };
 
-            this.ListView.GroupTaskClicked += delegate (object sender, GroupTaskClickedEventArgs args) {
+            ListView.GroupTaskClicked += delegate (object sender, GroupTaskClickedEventArgs args) {
                 Coordinator.ShowMessage("Clicked on group task: " + args.Group.Name);
             };
 
-            this.ListView.GroupStateChanged += delegate (object sender, GroupStateChangedEventArgs e) {
+            ListView.GroupStateChanged += delegate (object sender, GroupStateChangedEventArgs e) {
                 System.Diagnostics.Debug.WriteLine(String.Format("Group '{0}' was {1}{2}{3}{4}{5}{6}",
                     e.Group.Header,
                     e.Selected ? "Selected" : "",

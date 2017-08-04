@@ -55,7 +55,7 @@ namespace LegendsViewer.Legends
                         break;
                 }
         }
-        public override string ToString() { return this.Type; }
+        public override string ToString() { return Type; }
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
             string name;

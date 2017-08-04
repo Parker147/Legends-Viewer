@@ -31,7 +31,7 @@ namespace LegendsViewer.Legends.Events
                     new OwnerPeriod(Site, Defender, 1, "founded");
 
             Site.OwnerHistory.Last().EndCause = "destroyed";
-            Site.OwnerHistory.Last().EndYear = this.Year;
+            Site.OwnerHistory.Last().EndYear = Year;
             Site.OwnerHistory.Last().Ender = Attacker;
 
             Site.AddEvent(this);
@@ -43,7 +43,7 @@ namespace LegendsViewer.Legends.Events
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
+            string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
             if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
             eventString += Defender.ToLink(link, pov) + " and destroyed " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);

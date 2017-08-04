@@ -35,7 +35,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Artifact.ToLink(link, pov);
+            string eventString = GetYearTime() + Artifact.ToLink(link, pov);
             if (RecievedName)
                 eventString += " recieved its name";
             else

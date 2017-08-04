@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Parser;
 using System.Linq;
+using LegendsViewer.Controls;
 using LegendsViewer.Legends.Interfaces;
 
 namespace LegendsViewer.Legends.Events

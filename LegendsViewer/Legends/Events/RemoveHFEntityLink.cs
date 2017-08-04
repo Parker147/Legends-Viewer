@@ -66,7 +66,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
+            string eventString = GetYearTime();
             if (HistoricalFigure != null)
             {
                 eventString += HistoricalFigure.ToLink(link, pov);

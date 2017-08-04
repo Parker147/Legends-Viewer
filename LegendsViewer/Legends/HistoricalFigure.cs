@@ -109,7 +109,7 @@ namespace LegendsViewer.Legends
             Caste = "UNKNOWN";
             AssociatedType = "UNKNOWN";
         }
-        public override string ToString() { return this.Name; }
+        public override string ToString() { return Name; }
         public HistoricalFigure(List<Property> properties, World world)
             : base(properties, world)
         {

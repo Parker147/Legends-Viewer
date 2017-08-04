@@ -71,10 +71,10 @@ namespace Docuverse.Identicon
 
             set
             {
-                this._patchSize = value;
-                this._patchOffset = _patchSize / 2; // used to center patch shape at originOffset.
+                _patchSize = value;
+                _patchOffset = _patchSize / 2; // used to center patch shape at originOffset.
                 int scale = _patchSize / PATCH_CELLS;
-                this._patchShapes = new GraphicsPath[patchTypes.Length];
+                _patchShapes = new GraphicsPath[patchTypes.Length];
                 for (int i = 0; i < patchTypes.Length; i++)
                 {
                     GraphicsPath patch = new GraphicsPath();
@@ -86,7 +86,7 @@ namespace Docuverse.Identicon
                         int vy = (v / PATCH_GRIDS * scale) - _patchOffset;
                         AddPointToGraphicsPath(patch, vx, vy);
                     }
-                    this._patchShapes[i] = patch;
+                    _patchShapes[i] = patch;
                     patch.CloseFigure();
                 }
 

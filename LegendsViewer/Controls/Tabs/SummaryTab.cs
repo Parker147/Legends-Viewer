@@ -21,7 +21,7 @@ namespace LegendsViewer.Controls.Tabs
 
         public FileLoader CreateLoader()
         {
-            return new LegendsViewer.FileLoader(
+            return new FileLoader(
                   btnXML, txtXML
                 , btnHistory, txtHistory
                 , btnSitePops, txtSitePops

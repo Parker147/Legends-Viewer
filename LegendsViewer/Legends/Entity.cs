@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Docuverse.Identicon;
+using LegendsViewer.Controls;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
@@ -251,7 +252,7 @@ namespace LegendsViewer.Legends
                 }
             }
         }
-        public override string ToString() { return this.Name; }
+        public override string ToString() { return Name; }
 
 
 
@@ -291,13 +292,13 @@ namespace LegendsViewer.Legends
         {
             foreach (Population population in populations)
             {
-                Population popMatch = this.Populations.FirstOrDefault(pop => pop.Race == population.Race);
+                Population popMatch = Populations.FirstOrDefault(pop => pop.Race == population.Race);
                 if (popMatch != null)
                     popMatch.Count += population.Count;
                 else
-                    this.Populations.Add(new Population(population.Race, population.Count));
+                    Populations.Add(new Population(population.Race, population.Count));
             }
-            this.Populations = this.Populations.OrderByDescending(pop => pop.Count).ToList();
+            Populations = Populations.OrderByDescending(pop => pop.Count).ToList();
 
         }
 

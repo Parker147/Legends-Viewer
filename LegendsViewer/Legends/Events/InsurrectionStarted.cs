@@ -52,7 +52,7 @@ namespace LegendsViewer.Legends.Events
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
+            string eventString = GetYearTime();
             if (ActualStart)
             {
                 eventString += "an insurrection against " + Civ.ToLink(link, pov) + " began in " + Site.ToLink(link, pov);

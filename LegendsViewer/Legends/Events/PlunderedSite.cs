@@ -26,7 +26,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
+            string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
             if (SiteEntity != null && Defender != SiteEntity) eventString += SiteEntity.ToLink(link, pov) + " of ";
             eventString += Defender.ToLink(link, pov) + " and pillaged " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);

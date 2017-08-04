@@ -205,7 +205,7 @@ namespace LegendsViewer.Controls
                             while (true)
                             {
                                 tempName = Path.Combine(LocalFileProvider.RootFolder, "temp",
-                                    Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + this.GetTitle() + ".png");
+                                    Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + GetTitle() + ".png");
                                 if (!File.Exists(tempName))
                                 {
                                     break;
@@ -230,7 +230,7 @@ namespace LegendsViewer.Controls
         protected string BitmapToString(Bitmap image)
         {
             string imageString;
-            using (System.IO.MemoryStream miniStream = new System.IO.MemoryStream())
+            using (MemoryStream miniStream = new MemoryStream())
             {
                 image.Save(miniStream, ImageFormat.Bmp);
                 byte[] miniMapBytes = miniStream.GetBuffer();

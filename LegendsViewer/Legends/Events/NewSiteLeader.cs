@@ -34,10 +34,10 @@ namespace LegendsViewer.Legends.Events
                     new OwnerPeriod(Site, Defender, 1, "founded");
 
             Site.OwnerHistory.Last().EndCause = "taken over";
-            Site.OwnerHistory.Last().EndYear = this.Year;
+            Site.OwnerHistory.Last().EndYear = Year;
             Site.OwnerHistory.Last().Ender = Attacker;
             NewSiteEntity.Parent = Attacker;
-            new OwnerPeriod(Site, NewSiteEntity, this.Year, "took over");
+            new OwnerPeriod(Site, NewSiteEntity, Year, "took over");
 
             Attacker.AddEvent(this);
             Defender.AddEvent(this);
@@ -49,7 +49,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
+            string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
             if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
             eventString += Defender.ToLink(link, pov) + " and placed " + NewLeader.ToLink(link, pov) + " in charge of " + Site.ToLink(link, pov) + ". The new government was called " + NewSiteEntity.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);

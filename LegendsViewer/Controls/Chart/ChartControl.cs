@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using LegendsViewer.Controls;
 using LegendsViewer.Legends;
 
 namespace LegendsViewer
@@ -41,7 +42,7 @@ namespace LegendsViewer
 
         protected override void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
@@ -55,7 +56,7 @@ namespace LegendsViewer
                     }
                 }
                 base.Dispose(disposing);
-                this.disposed = true;
+                disposed = true;
             }
         }
     }

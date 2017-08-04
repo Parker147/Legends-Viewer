@@ -70,7 +70,7 @@ namespace LegendsViewer.Controls.Map
 
                 }
                 base.Dispose(disposing);
-                this.disposed = true;
+                disposed = true;
             }
         }
     }

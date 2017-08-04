@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using LegendsViewer.Controls;
 using LegendsViewer.Legends;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
@@ -29,7 +30,7 @@ namespace LegendsViewer
             DwarfChart = new Chart();
             DwarfChart.Dock = DockStyle.Fill;
             Controls.Add(DwarfChart);
-            this.Refresh();
+            Refresh();
 
             DwarfChart.BackColor = Color.White;
             DwarfChart.ChartAreas.Add(new ChartArea());
@@ -782,9 +783,9 @@ namespace LegendsViewer
                 if (site.Populations.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherSitePopulations });
                 if (site.Events.OfType<HFDied>().Any() || site.Warfare.Count > 0) other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherDeaths });
             }
-            else if (FocusObject.GetType() == typeof(LegendsViewer.Legends.WorldRegion))
+            else if (FocusObject.GetType() == typeof(WorldRegion))
             {
-                LegendsViewer.Legends.WorldRegion region = (FocusObject as LegendsViewer.Legends.WorldRegion);
+                WorldRegion region = (FocusObject as WorldRegion);
                 if (region.Events.OfType<HFDied>().Any()) other.DropDownItems.Add(new ChartMenuItem(this) { Option = ChartOption.OtherDeaths });
                 if (region.Battles.Count > 0)
                 {

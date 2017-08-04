@@ -23,15 +23,15 @@ namespace LegendsViewer.Legends.Events
             if (SiteEntity != null)
             {
                 SiteEntity.Parent = Civ;
-                new OwnerPeriod(Site, SiteEntity, this.Year, "founded");
+                new OwnerPeriod(Site, SiteEntity, Year, "founded");
             }
             else if (Civ != null)
             {
-                new OwnerPeriod(Site, Civ, this.Year, "founded");
+                new OwnerPeriod(Site, Civ, Year, "founded");
             }
             else if (Builder != null)
             {
-                new OwnerPeriod(Site, Builder, this.Year, "created");
+                new OwnerPeriod(Site, Builder, Year, "created");
             }
             Site.AddEvent(this);
             SiteEntity.AddEvent(this);
@@ -40,7 +40,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
+            string eventString = GetYearTime();
             if (Builder != null)
             {
                 eventString += Builder.ToLink(link, pov) + " created " + Site.ToLink(link, pov) ;

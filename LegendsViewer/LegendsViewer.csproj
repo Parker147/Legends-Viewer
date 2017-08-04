@@ -89,7 +89,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\appClasses.cs" />
+    <Compile Include="Controls\AppHelpers.cs" />
     <Compile Include="Controls\Chart\ChartControl.cs" />
     <Compile Include="Controls\Chart\ChartMenuItem.cs">
       <SubType>Component</SubType>
@@ -165,6 +165,9 @@
     <Compile Include="Controls\Query\SearchList.cs" />
     <Compile Include="Controls\Query\SearchProperty.cs" />
     <Compile Include="Controls\SimpleLists.cs" />
+    <Compile Include="Controls\TabControlImproved.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Tabs\BaseSearchTab.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -32,7 +32,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
+            string eventString = GetYearTime();
             if (Snatcher != null)
                 eventString += Snatcher.ToLink(link, pov);
             else

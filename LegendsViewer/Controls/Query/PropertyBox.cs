@@ -63,10 +63,10 @@ namespace LegendsViewer.Controls.Query
 
         public SearchProperty GetLowestProperty()
         {
-            if (Child == null) return this.SelectedProperty;
+            if (Child == null) return SelectedProperty;
 
             SearchProperty property = Child.GetLowestProperty();
-            if (property == null) return this.SelectedProperty;
+            if (property == null) return SelectedProperty;
             else return property;
         }
 
@@ -103,8 +103,8 @@ namespace LegendsViewer.Controls.Query
 
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            Graphics g = this.CreateGraphics();
-            this.Width = (int)g.MeasureString(this.Text, this.Font).Width + 20;
+            Graphics g = CreateGraphics();
+            Width = (int)g.MeasureString(Text, Font).Width + 20;
             g.Dispose();
 
             if (!SelectedItem.Equals("")) SelectedProperty = SelectedItem as SearchProperty;

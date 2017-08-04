@@ -25,7 +25,7 @@ namespace LegendsViewer.Controls
 
         ~HTMLControl()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
 
@@ -61,6 +61,7 @@ namespace LegendsViewer.Controls
             {
                 if (disposing)
                 {
+                    DisposePrinter();
                     if (HTMLBrowser?.Document != null)
                     {
                         int newerBrowsers = 0;
@@ -94,7 +95,7 @@ namespace LegendsViewer.Controls
         }
 
         private DateTime lastNav;
-        private void AfterPageLoad(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
+        private void AfterPageLoad(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             (sender as WebBrowser).Document.Window.ScrollTo(0, BrowserScrollPosition);
             (sender as WebBrowser).Focus();
@@ -108,7 +109,7 @@ namespace LegendsViewer.Controls
                 HTMLBrowser.Document.Focus();
         }
 
-        private void BrowserNavigating(object sender, System.Windows.Forms.WebBrowserNavigatingEventArgs e)
+        private void BrowserNavigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             if (e.Url.ToString() != "about:blank")
             {
@@ -187,7 +188,7 @@ namespace LegendsViewer.Controls
         }
 
         //e.Cancel = true;
-        public void DisposePrinter()
+        private void DisposePrinter()
         {
 
             Printer.DeleteTemporaryFiles();

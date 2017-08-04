@@ -220,7 +220,7 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 lblArtifactList.Text = "All";
-                lblArtifactList.ForeColor = Control.DefaultForeColor;
+                lblArtifactList.ForeColor = DefaultForeColor;
                 lblArtifactList.Font = new Font(lblArtifactList.Font.FontFamily, lblArtifactList.Font.Size, FontStyle.Regular);
                 cbmArtTypeFilter.SelectedIndex = 0;
                 cbmArtMatFilter.SelectedIndex = 0;

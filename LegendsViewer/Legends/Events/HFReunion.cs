@@ -30,7 +30,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + " " + HistoricalFigure1.ToLink(link, pov) + " was reunited with " + HistoricalFigure2.ToLink(link, pov);
+            string eventString = GetYearTime() + " " + HistoricalFigure1.ToLink(link, pov) + " was reunited with " + HistoricalFigure2.ToLink(link, pov);
             if (Site != null) eventString += " in " + Site.ToLink(link, pov);
             else if (Region != null) eventString += " in " + Region.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);

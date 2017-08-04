@@ -77,7 +77,7 @@ namespace LegendsViewer.Controls.HTML
 
         protected override void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
@@ -88,7 +88,7 @@ namespace LegendsViewer.Controls.HTML
                     }
                 }
                 base.Dispose(disposing);
-                this.disposed = true;
+                disposed = true;
             }
         }
 

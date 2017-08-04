@@ -49,12 +49,12 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + HistoricalFigure1.ToLink(link, pov);
-            if (SubType == HFSimpleBattleType.HF2LostAfterGivingWounds) eventString = this.GetYearTime() + HistoricalFigure2.ToLink(link, pov) + " was forced to retreat from "
+            string eventString = GetYearTime() + HistoricalFigure1.ToLink(link, pov);
+            if (SubType == HFSimpleBattleType.HF2LostAfterGivingWounds) eventString = GetYearTime() + HistoricalFigure2.ToLink(link, pov) + " was forced to retreat from "
                                                                                       + HistoricalFigure1.ToLink(link, pov) + " despite the latter's wounds";
             else if (SubType == HFSimpleBattleType.HF2LostAfterMutualWounds) eventString += " eventually prevailed and " + HistoricalFigure2.ToLink(link, pov)
                                                                                             + " was forced to make a hasty escape";
-            else if (SubType == HFSimpleBattleType.HF2LostAfterReceivingWounds) eventString = this.GetYearTime() + HistoricalFigure2.ToLink(link, pov) + " managed to escape from "
+            else if (SubType == HFSimpleBattleType.HF2LostAfterReceivingWounds) eventString = GetYearTime() + HistoricalFigure2.ToLink(link, pov) + " managed to escape from "
                                                                                               + HistoricalFigure1.ToLink(link, pov) + "'s onslaught";
             else if (SubType == HFSimpleBattleType.Scuffle) eventString += " fought with " + HistoricalFigure2.ToLink(link, pov) + ". While defeated, the latter escaped unscathed";
             else if (SubType == HFSimpleBattleType.Attacked) eventString += " attacked " + HistoricalFigure2.ToLink(link, pov);

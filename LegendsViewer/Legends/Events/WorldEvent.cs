@@ -74,17 +74,17 @@ namespace LegendsViewer.Legends.Events
 
         public virtual string GetYearTime()
         {
-            if (this.Year == -1) return "In a time before time, ";
-            string yearTime = "In " + this.Year + ", ";
-            if (this.Seconds72 == -1)
+            if (Year == -1) return "In a time before time, ";
+            string yearTime = "In " + Year + ", ";
+            if (Seconds72 == -1)
                 return yearTime;
 
-            int month = this.Seconds72 % 100800;
+            int month = Seconds72 % 100800;
             if (month <= 33600) yearTime += "early ";
             else if (month <= 67200) yearTime += "mid";
             else if (month <= 100800) yearTime += "late ";
 
-            int season = this.Seconds72 % 403200;
+            int season = Seconds72 % 403200;
             if (season < 100800) yearTime += "spring, ";
             else if (season < 201600) yearTime += "summer, ";
             else if (season < 302400) yearTime += "autumn, ";
@@ -115,17 +115,17 @@ namespace LegendsViewer.Legends.Events
 
         public int Compare(WorldEvent worldEvent)
         {
-            return this.ID.CompareTo(worldEvent.ID);
+            return ID.CompareTo(worldEvent.ID);
         }
 
         public int CompareTo(object obj)
         {
-            return this.ID.CompareTo(obj);
+            return ID.CompareTo(obj);
         }
 
         public int CompareTo(WorldEvent other)
         {
-            return this.ID.CompareTo(other.ID);
+            return ID.CompareTo(other.ID);
         }
     }
 }

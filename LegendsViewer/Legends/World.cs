@@ -10,6 +10,7 @@ using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
 using System.Diagnostics;
+using LegendsViewer.Controls;
 
 namespace LegendsViewer.Legends
 {
@@ -247,7 +248,7 @@ namespace LegendsViewer.Legends
             int worldSizeWidth = worldSizes[0];
             int worldSizeHeight = worldSizes[0];
             int tileSize = 16;
-            foreach (Site site in this.Sites)
+            foreach (Site site in Sites)
             {
                 if (site.Coordinates.X > biggestXCoordinate)
                     biggestXCoordinate = site.Coordinates.X;

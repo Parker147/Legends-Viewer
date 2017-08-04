@@ -29,14 +29,14 @@ namespace LegendsViewer.Legends.Events
             if (Abandoned)
                 endCause = "abandoned";
 
-            Site.OwnerHistory.Last().EndYear = this.Year;
+            Site.OwnerHistory.Last().EndYear = Year;
             Site.OwnerHistory.Last().EndCause = endCause;
             if (SiteEntity != null)
             {
-                SiteEntity.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
+                SiteEntity.SiteHistory.Last(s => s.Site == Site).EndYear = Year;
                 SiteEntity.SiteHistory.Last(s => s.Site == Site).EndCause = endCause;
             }
-            Civ.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
+            Civ.SiteHistory.Last(s => s.Site == Site).EndYear = Year;
             Civ.SiteHistory.Last(s => s.Site == Site).EndCause = endCause;
 
             Civ.AddEvent(this);

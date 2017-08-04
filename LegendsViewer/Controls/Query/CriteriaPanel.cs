@@ -21,7 +21,7 @@ namespace LegendsViewer.Controls.Query
             : base()
         {
 
-            Add.Text = "Add Criteria"; Add.Width = 90; Add.Height = 19; Add.FlatStyle = FlatStyle.Flat; Add.Font = new System.Drawing.Font("Arial", 6.5f);
+            Add.Text = "Add Criteria"; Add.Width = 90; Add.Height = 19; Add.FlatStyle = FlatStyle.Flat; Add.Font = new Font("Arial", 6.5f);
             Add.Click += AddClick;
             Add.Visible = false;
             //Insert.Location = new Point(10, CriteriaStartLocation + 3);
@@ -35,7 +35,7 @@ namespace LegendsViewer.Controls.Query
         }
         public void AddNew(int index = -1)
         {
-            CriteriaLine criteria = new CriteriaLine(this.SelectCriteria, this.SearchCriteria, this.OrderByCriteria);
+            CriteriaLine criteria = new CriteriaLine(SelectCriteria, SearchCriteria, OrderByCriteria);
             if (index >= 0)
             {
                 //index++;

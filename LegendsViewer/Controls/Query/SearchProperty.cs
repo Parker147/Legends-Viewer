@@ -41,7 +41,7 @@ namespace LegendsViewer.Controls.Query
 
         public void SetSubProperties()
         {
-            SubProperties = GetProperties(this.Type, true);
+            SubProperties = GetProperties(Type, true);
         }
 
         public static List<SearchProperty> GetProperties(Type searchType, bool noSubProperties = false)

@@ -29,12 +29,12 @@ namespace LegendsViewer.Legends.EventCollections
             foreach(Property property in properties)
                 switch(property.Name)
                 {
-                    case "id": this.ID = Convert.ToInt32(property.Value); property.Known = true; break;
-                    case "start_year": this.StartYear = Convert.ToInt32(property.Value); property.Known = true; break;
-                    case "start_seconds72": this.StartSeconds72 = Convert.ToInt32(property.Value); property.Known = true; break;
-                    case "end_year": this.EndYear = Convert.ToInt32(property.Value); property.Known = true; break;
-                    case "end_seconds72": this.EndSeconds72 = Convert.ToInt32(property.Value); property.Known = true; break;
-                    case "type": this.Type = Formatting.InitCaps(String.Intern(property.Value)); property.Known = true; break;
+                    case "id": ID = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "start_year": StartYear = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "start_seconds72": StartSeconds72 = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "end_year": EndYear = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "end_seconds72": EndSeconds72 = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "type": Type = Formatting.InitCaps(String.Intern(property.Value)); property.Known = true; break;
                     case "event":
                         WorldEvent collectionEvent = world.GetEvent(Convert.ToInt32(property.Value));
                         //Some Events don't exist in the XML now with 34.01? 
@@ -42,10 +42,10 @@ namespace LegendsViewer.Legends.EventCollections
                         if (collectionEvent != null)
                         {
                             collectionEvent.ParentCollection = this;
-                            this.Collection.Add(collectionEvent); property.Known = true;
+                            Collection.Add(collectionEvent); property.Known = true;
                         }
                         break;
-                    case "eventcol": this.CollectionIDs.Add(Convert.ToInt32(property.Value)); property.Known = true; break;
+                    case "eventcol": CollectionIDs.Add(Convert.ToInt32(property.Value)); property.Known = true; break;
                     default: break;
                 }
         }
@@ -123,8 +123,8 @@ namespace LegendsViewer.Legends.EventCollections
         public string GetCollectionParentString()
         {
             if (ParentCollection != null)
-                return ParentCollection.GetCollectionParentString() + " > " + this.Type;
-            else return this.Type;
+                return ParentCollection.GetCollectionParentString() + " > " + Type;
+            else return Type;
         }
     }
 

@@ -39,7 +39,7 @@ namespace LegendsViewer.Legends.Events
             OwnerPeriod lastSiteOwnerPeriod = Site.OwnerHistory.LastOrDefault();
             if (lastSiteOwnerPeriod != null)
             {
-                lastSiteOwnerPeriod.EndYear = this.Year;
+                lastSiteOwnerPeriod.EndYear = Year;
                 lastSiteOwnerPeriod.EndCause = "destroyed";
                 lastSiteOwnerPeriod.Ender = Attacker;
             }
@@ -48,7 +48,7 @@ namespace LegendsViewer.Legends.Events
                 OwnerPeriod lastDefenderCivOwnerPeriod = DefenderCiv.SiteHistory.LastOrDefault(s => s.Site == Site);
                 if (lastDefenderCivOwnerPeriod != null)
                 {
-                    lastDefenderCivOwnerPeriod.EndYear = this.Year;
+                    lastDefenderCivOwnerPeriod.EndYear = Year;
                     lastDefenderCivOwnerPeriod.EndCause = "destroyed";
                     lastDefenderCivOwnerPeriod.Ender = Attacker;
                 }
@@ -56,7 +56,7 @@ namespace LegendsViewer.Legends.Events
             OwnerPeriod lastSiteCiveOwnerPeriod = SiteCiv.SiteHistory.LastOrDefault(s => s.Site == Site);
             if (lastSiteCiveOwnerPeriod != null)
             {
-                lastSiteCiveOwnerPeriod.EndYear = this.Year;
+                lastSiteCiveOwnerPeriod.EndYear = Year;
                 lastSiteCiveOwnerPeriod.EndCause = "destroyed";
                 lastSiteCiveOwnerPeriod.Ender = Attacker;
             }
@@ -64,7 +64,7 @@ namespace LegendsViewer.Legends.Events
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            String eventString = this.GetYearTime() + Attacker.ToLink(link, pov) + " routed " + SiteCiv.ToLink(link, pov);
+            String eventString = GetYearTime() + Attacker.ToLink(link, pov) + " routed " + SiteCiv.ToLink(link, pov);
             if (DefenderCiv != null)
             {
                 eventString += " of " + DefenderCiv.ToLink(link, pov);

@@ -97,7 +97,7 @@ namespace LegendsViewer.Controls.Tabs
 
             lblBattleList.Text = lblWarList.Text = "All";
             lblWarList.ForeColor = DefaultForeColor;
-            lblWarList.Font = new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Regular);
+            lblWarList.Font = new Font(Font.FontFamily, Font.Size, FontStyle.Regular);
 
             txtWarSearch.Clear();
             listWarSearch.Items.Clear();
@@ -167,7 +167,7 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 lblWarList.Text = "All";
-                lblWarList.ForeColor = Control.DefaultForeColor;
+                lblWarList.ForeColor = DefaultForeColor;
                 lblWarList.Font = new Font(lblWarList.Font.FontFamily, lblWarList.Font.Size, FontStyle.Regular);
                 warSearch.BaseList = World.EventCollections.OfType<War>().ToList();
                 searchWarList(null, null);
@@ -211,7 +211,7 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 lblBattleList.Text = "All";
-                lblBattleList.ForeColor = Control.DefaultForeColor;
+                lblBattleList.ForeColor = DefaultForeColor;
                 lblBattleList.Font = new Font(lblBattleList.Font.FontFamily, lblBattleList.Font.Size, FontStyle.Regular);
                 battleSearch.BaseList = World.EventCollections.OfType<Battle>().ToList();
                 searchBattleList(null, null);

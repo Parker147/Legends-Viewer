@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using LegendsViewer.Controls;
 
-namespace LegendsViewer
+namespace LegendsViewer.Controls
 {
-    public class DwarfTabPage : System.Windows.Forms.TabPage
+    public class DwarfTabPage : TabPage
     {
-        private readonly Stack<PageControl> BackHistory = new Stack<PageControl>();
-        private readonly Stack<PageControl> ForwardHistory = new Stack<PageControl>();
-        public PageControl Current;
+        private readonly Stack<PageControl> _backHistory = new Stack<PageControl>();
+        private readonly Stack<PageControl> _forwardHistory = new Stack<PageControl>();
+
+        public PageControl Current { get; private set; }
 
         public DwarfTabPage(PageControl pageControl)
         {
@@ -19,16 +18,15 @@ namespace LegendsViewer
 
         public void NewPageControl(PageControl pageControl)
         {
-            while (ForwardHistory.Any())
+            foreach (var control in _forwardHistory)
             {
-                var temp = ForwardHistory.Pop();
-                (temp as HTMLControl)?.DisposePrinter();
-                temp.Dispose();
+                control.Dispose();
             }
+            _forwardHistory.Clear();
+
             if (Current != null)
             {
-                Current.Dispose();
-                BackHistory.Push(Current);
+                _backHistory.Push(Current);
             }
             Current = pageControl;
             LoadPageControl();
@@ -50,45 +48,34 @@ namespace LegendsViewer
 
         public void Back()
         {
-            if (BackHistory.Count > 0)
+            if (_backHistory.Count > 0)
             {
-                Current.Dispose();
-                ForwardHistory.Push(Current);
-                Current = BackHistory.Pop();
+                _forwardHistory.Push(Current);
+                Current = _backHistory.Pop();
                 LoadPageControl();
             }
         }
 
         public void Forward()
         {
-            if (ForwardHistory.Count > 0)
+            if (_forwardHistory.Count > 0)
             {
-                Current.Dispose();
-                BackHistory.Push(Current);
-                Current = ForwardHistory.Pop();
+                _backHistory.Push(Current);
+                Current = _forwardHistory.Pop();
                 LoadPageControl();
             }
         }
 
-        public void Close()
-        {
-            Current.Dispose();
-            Controls.Clear();
-        }
-
         protected override void Dispose(bool disposing)
         {
-            foreach (var forward in ForwardHistory)
+            foreach (var forward in _forwardHistory)
             {
-                (forward as HTMLControl)?.DisposePrinter();
                 forward.Dispose();
             }
-            foreach (var back in BackHistory)
+            foreach (var back in _backHistory)
             {
-                (back as HTMLControl)?.DisposePrinter();
                 back.Dispose();
             }
-            (Current as HTMLControl)?.DisposePrinter();
             Current.Dispose();
             base.Dispose(disposing);
         }

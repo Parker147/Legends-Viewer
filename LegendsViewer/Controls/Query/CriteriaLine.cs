@@ -30,10 +30,10 @@ namespace LegendsViewer.Controls.Query
 
             //BackColor = Color.White;
 
-            Insert.Text = "Insert"; Insert.Width = 40; Insert.Height = 19; Insert.FlatStyle = FlatStyle.Flat; Insert.Font = new System.Drawing.Font("Arial", 6.5f);
+            Insert.Text = "Insert"; Insert.Width = 40; Insert.Height = 19; Insert.FlatStyle = FlatStyle.Flat; Insert.Font = new Font("Arial", 6.5f);
             Insert.FlatAppearance.BorderSize = 0;
 
-            Remove.Text = "Remove"; Remove.Width = 51; Remove.Height = 19; Remove.FlatStyle = FlatStyle.Flat; Remove.Font = new System.Drawing.Font("Arial", 6.5f);
+            Remove.Text = "Remove"; Remove.Width = 51; Remove.Height = 19; Remove.FlatStyle = FlatStyle.Flat; Remove.Font = new Font("Arial", 6.5f);
             Remove.FlatAppearance.BorderSize = 0;
 
             QueryOperatorSelect.Items.AddRange(new object[] { QueryOperator.And, QueryOperator.Or });
@@ -42,9 +42,9 @@ namespace LegendsViewer.Controls.Query
             QueryOperatorSelect.SelectedIndex = 0;
             QueryOperatorSelect.SelectedIndexChanged += delegate(object sender, EventArgs e)
             {
-                this.GetValueOptions();
+                GetValueOptions();
                 object value = ValueSelect.SelectedItem;
-                (this.Parent as CriteriaPanel).UpdateValueSelects(this);
+                (Parent as CriteriaPanel).UpdateValueSelects(this);
                 ValueSelect.SelectedItem = value;
             };
             //QueryOperatorSelect.Visible = false;
@@ -68,11 +68,11 @@ namespace LegendsViewer.Controls.Query
             ValueSelect.Width = 175;
             ValueSelect.TextChanged += delegate(object sender, EventArgs e)
             {
-                (this.Parent as CriteriaPanel).UpdateValueSelects(this);
+                (Parent as CriteriaPanel).UpdateValueSelects(this);
             };
             ValueSelect.SelectedIndexChanged += delegate(object sender, EventArgs e)
             {
-                (this.Parent as CriteriaPanel).UpdateValueSelects(this);
+                (Parent as CriteriaPanel).UpdateValueSelects(this);
             };
             ValueSelect.FormattingEnabled = true;
             ValueSelect.Format += delegate(object sender, ListControlConvertEventArgs e)
@@ -92,7 +92,7 @@ namespace LegendsViewer.Controls.Query
             else
                 Controls.AddRange(new Control[] { QueryOperatorSelect, PropertySelect, ComparerSelect, ValueSelect, Insert, Remove });
 
-            Height = CriteriaLine.LineHeight;
+            Height = LineHeight;
         }
 
         private void OnPropertyChange(object sender, EventArgs e)
@@ -207,9 +207,9 @@ namespace LegendsViewer.Controls.Query
             else //if (!selected.Type.IsGenericType)// && selected.Type != typeof(int) && selected.Type != typeof(double))// && PropertySelect.GetLowestProperty().Name != "Name")
             {
                 IEnumerable<object> options;
-                if (SelectCriteria) options = (this.Parent.Parent as QueryControl).SearchSelection(this);
-                else options = (this.Parent.Parent as QueryControl).Search(this);
-                SearchInfo available = this.BuildSearchInfo(true);
+                if (SelectCriteria) options = (Parent.Parent as QueryControl).SearchSelection(this);
+                else options = (Parent.Parent as QueryControl).Search(this);
+                SearchInfo available = BuildSearchInfo(true);
                 if (available != null)
                 {
                     options = available.Select(options);
@@ -237,7 +237,7 @@ namespace LegendsViewer.Controls.Query
                 ValueSelect.AutoCompleteMode = AutoCompleteMode.None;
 
             if (previousSelection != null && ValueSelect.Items.Contains(previousSelection)) ValueSelect.SelectedItem = previousSelection;
-            (this.Parent as CriteriaPanel).UpdateValueSelects(this);
+            (Parent as CriteriaPanel).UpdateValueSelects(this);
 
         }
 

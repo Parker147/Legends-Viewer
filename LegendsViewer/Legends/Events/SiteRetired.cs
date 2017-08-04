@@ -24,14 +24,14 @@ namespace LegendsViewer.Legends.Events
                     case "first": First = property.Value; break;
                 }
             }
-            Site.OwnerHistory.Last().EndYear = this.Year;
+            Site.OwnerHistory.Last().EndYear = Year;
             Site.OwnerHistory.Last().EndCause = "retired";
             if (SiteEntity != null)
             {
-                SiteEntity.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
+                SiteEntity.SiteHistory.Last(s => s.Site == Site).EndYear = Year;
                 SiteEntity.SiteHistory.Last(s => s.Site == Site).EndCause = "retired";
             }
-            Civ.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
+            Civ.SiteHistory.Last(s => s.Site == Site).EndYear = Year;
             Civ.SiteHistory.Last(s => s.Site == Site).EndCause = "retired";
 
             Site.AddEvent(this);

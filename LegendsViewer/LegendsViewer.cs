@@ -36,7 +36,7 @@ namespace LegendsViewer
             Coordinator = new LVCoordinator(this);
 
             FileLoader = summaryTab1.CreateLoader();
-            FileLoader.AfterLoad += (sender, args) => this.AfterLoad(args.Arg);
+            FileLoader.AfterLoad += (sender, args) => AfterLoad(args.Arg);
 
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);

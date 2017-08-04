@@ -45,7 +45,7 @@ namespace LegendsViewer.Controls.Query
             SelectProperties.Location = new Point(SelectList.Right + 3, SelectList.Top);
             SelectProperties.ListPropertiesOnly = true;
             SelectProperties.SelectedIndexChanged += new EventHandler(SelectSubListChanged);
-            this.Controls.Add(SelectProperties);
+            Controls.Add(SelectProperties);
 
             switch (SelectList.SelectedItem.ToString())
             {
@@ -186,9 +186,9 @@ namespace LegendsViewer.Controls.Query
 
             List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
             if (SelectProperties.SelectedProperty == null)
-                columns = LegendsViewer.AppHelpers.GetColumns(SelectProperties.ParentType);
+                columns = AppHelpers.GetColumns(SelectProperties.ParentType);
             else
-                columns = LegendsViewer.AppHelpers.GetColumns(SelectProperties.SelectedProperty.Type);
+                columns = AppHelpers.GetColumns(SelectProperties.SelectedProperty.Type);
 
             if (columns.Count > 0)
             {

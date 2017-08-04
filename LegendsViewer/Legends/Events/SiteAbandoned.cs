@@ -19,14 +19,14 @@ namespace LegendsViewer.Legends.Events
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                 }
-            Site.OwnerHistory.Last().EndYear = this.Year;
+            Site.OwnerHistory.Last().EndYear = Year;
             Site.OwnerHistory.Last().EndCause = "abandoned";
             if (SiteEntity != null)
             {
-                SiteEntity.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
+                SiteEntity.SiteHistory.Last(s => s.Site == Site).EndYear = Year;
                 SiteEntity.SiteHistory.Last(s => s.Site == Site).EndCause = "abandoned";
             }
-            Civ.SiteHistory.Last(s => s.Site == Site).EndYear = this.Year;
+            Civ.SiteHistory.Last(s => s.Site == Site).EndYear = Year;
             Civ.SiteHistory.Last(s => s.Site == Site).EndCause = "abandoned";
 
             Civ.AddEvent(this);
@@ -38,7 +38,7 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime();
+            string eventString = GetYearTime();
             if (SiteEntity != null && SiteEntity != Civ) eventString += SiteEntity.ToLink(link, pov) + " of ";
             eventString += Civ.ToLink(link, pov) + " abandoned the settlement at " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);

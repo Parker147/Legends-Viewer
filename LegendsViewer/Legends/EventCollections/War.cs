@@ -42,7 +42,7 @@ namespace LegendsViewer.Legends.EventCollections
         public List<EventCollection> DefenderVictories { get; set; }
         public List<Battle> AttackerBattleVictories { get { return Collections.OfType<Battle>().Where(battle => battle.Victor.EqualsOrParentEquals(Attacker)).ToList(); } set { } }
         public List<Battle> DefenderBattleVictories { get { return Collections.OfType<Battle>().Where(battle => battle.Victor.EqualsOrParentEquals(Defender)).ToList(); } set { } }
-        public List<Battle> ErrorBattles { get { return Collections.OfType<Battle>().Where(battle => (!battle.Attacker.EqualsOrParentEquals(this.Attacker) && !battle.Attacker.EqualsOrParentEquals(this.Defender)) || (!battle.Defender.EqualsOrParentEquals(this.Defender) && !battle.Defender.EqualsOrParentEquals(this.Attacker))).ToList(); } set { } }
+        public List<Battle> ErrorBattles { get { return Collections.OfType<Battle>().Where(battle => (!battle.Attacker.EqualsOrParentEquals(Attacker) && !battle.Attacker.EqualsOrParentEquals(Defender)) || (!battle.Defender.EqualsOrParentEquals(Defender) && !battle.Defender.EqualsOrParentEquals(Attacker))).ToList(); } set { } }
         public List<SiteConquered> AttackerConquerings { get { return Collections.OfType<SiteConquered>().Where(conquering => conquering.Attacker.EqualsOrParentEquals(Attacker)).ToList(); } set { } }
         public List<SiteConquered> DefenderConquerings { get { return Collections.OfType<SiteConquered>().Where(conquering => conquering.Attacker.EqualsOrParentEquals(Defender)).ToList(); } set { } }
         public double AttackerToDefenderKills

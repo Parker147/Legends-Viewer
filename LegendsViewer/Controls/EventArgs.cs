@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LegendsViewer.Controls
 {
-    public class EventArgs<T> : System.EventArgs
+    public class EventArgs<T> : EventArgs
     {
         public T Arg { get; private set; }
 

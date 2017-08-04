@@ -4,6 +4,7 @@ using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
 using LegendsViewer.Legends.Enums;
 using System;
+using LegendsViewer.Controls;
 
 namespace LegendsViewer.Legends
 {

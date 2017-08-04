@@ -34,8 +34,8 @@ namespace LegendsViewer.Legends.Events
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = this.GetYearTime() + HistoricalFigure.ToLink(link, pov);
-            if (Escaped) return this.GetYearTime() + HistoricalFigure.ToLink(link, pov) + " escaped from the " + UndergroundRegion.ToLink(link, pov);
+            string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov);
+            if (Escaped) return GetYearTime() + HistoricalFigure.ToLink(link, pov) + " escaped from the " + UndergroundRegion.ToLink(link, pov);
             else if (Returned) eventString += " returned to ";
             else eventString += " made a journey to ";
 
