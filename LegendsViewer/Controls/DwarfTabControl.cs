@@ -134,7 +134,6 @@ namespace LegendsViewer.Controls
         {
             if (m.Msg > 512 && m.Msg <= 528)
             {
-                Debug.WriteLine("WndProc: " + m.Msg);
                 switch (m.WParam.ToInt64())
                 {
                     case 66059:

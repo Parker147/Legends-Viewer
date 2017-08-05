@@ -6,7 +6,7 @@ using System.Drawing;
 using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
-using System;
+using System.Net;
 
 namespace LegendsViewer.Controls
 {
@@ -42,6 +42,7 @@ namespace LegendsViewer.Controls
             PrintCurrentLeadership();
             PrintWars();
             PrintWarChart();
+            PrintWarfareGraph();
             PrintSiteHistory();
             PrintPopulations(Entity.Populations);
             PrintEventLog(Entity.Events, Entity.Filters, Entity);
@@ -85,7 +86,7 @@ namespace LegendsViewer.Controls
             StartList(ListType.Unordered);
             foreach (EntityEntityLink parentLink in Entity.EntityLinks.Where(entityLink => entityLink.Type.Equals(EntityEntityLinkType.Parent)))
             {
-                HTML.AppendLine(ListItem + parentLink.Target.ToLink(true, Entity) + " ("+ parentLink.Target.Type.GetDescription() + ")");
+                HTML.AppendLine(ListItem + parentLink.Target.ToLink(true, Entity) + " (" + parentLink.Target.Type.GetDescription() + ")");
             }
             foreach (EntityEntityLink childLink in Entity.EntityLinks.Where(entityLink => entityLink.Type.Equals(EntityEntityLinkType.Child)))
             {
@@ -182,6 +183,84 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</br>");
 
             HTML.AppendLine("</div>");
+        }
+
+        private void PrintWarfareGraph()
+        {
+            if (!Entity.Wars.Any())
+            {
+                return;
+            }
+
+            var nodes = "";
+            var edges = "";
+            //nodes += CreateNode(Entity);
+            foreach (var war in Entity.Wars)
+            {
+                foreach (var battle in war.Battles)
+                {
+                    string attacker = CreateNode(battle.Attacker);
+                    if (!nodes.Contains(attacker))
+                    {
+                        nodes += attacker;
+                    }
+                    string defender = CreateNode(battle.Defender);
+                    if (!nodes.Contains(defender))
+                    {
+                        nodes += defender;
+                    }
+                    string edge = "{ data: { source: '" + battle.Attacker.ID + "', target: '" + battle.Defender.ID + "' } },";
+                    if (!edges.Contains(edge))
+                    {
+                        edges += edge;
+                    }
+                }
+            }
+
+            HTML.AppendLine(Bold("Warfare Graph") + LineBreak);
+            HTML.AppendLine("<div id=\"warfaregraph\" class=\"legends_graph\"></div>");
+            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/cytoscape.min.js\"></script>");
+            //HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/cytoscape-spread.js\"></script>");
+            HTML.AppendLine("<script>");
+            HTML.AppendLine("window.warfaregraph_nodes = [");
+            HTML.AppendLine(nodes);
+            HTML.AppendLine("]");
+            HTML.AppendLine("window.warfaregraph_edges = [");
+            HTML.AppendLine(edges);
+            HTML.AppendLine("]");
+            HTML.AppendLine("</script>");
+            HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/warfaregraph.js\"></script>");
+        }
+
+        private string CreateNode(Entity entity)
+        {
+            string classes = entity.Equals(Entity) ? " current" : "";
+            string faveColor = ColorTranslator.ToHtml(entity.IdenticonColor);
+            if (string.IsNullOrEmpty(faveColor) && entity.Parent != null)
+            {
+                faveColor = ColorTranslator.ToHtml(entity.Parent.IdenticonColor);
+            }
+            string title = "";
+            if (entity.Type != EntityType.Unknown)
+            {
+                title += entity.Type.GetDescription();
+                title += "\\n--------------------\\n";
+                //classes += " leader";
+            }
+            title += entity.Name;
+            if (!string.IsNullOrEmpty(entity.Race))
+            {
+                title += "\\n--------------------\\n";
+                title += entity.Race;
+            }
+
+            //if (!hf.Alive)
+            //{
+            //    title += "\\n✝";
+            //    classes += " dead";
+            //}
+            string node = "{ data: { id: '" + entity.ID + "', name: '" + WebUtility.HtmlEncode(title) + "', href: 'entity#" + entity.ID + "' , faveColor: '" + faveColor + "' }, classes: '" + classes + "' },";
+            return node;
         }
 
         private void PrintTitle()

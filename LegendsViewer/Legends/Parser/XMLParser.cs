@@ -733,12 +733,12 @@ namespace LegendsViewer.Legends.Parser
                 }
                 if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HFDied>().Any())
                 {
-                    var hfDied = beastAttack.GetSubEvents().OfType<HFDied>().First();
-                    if (hfDied.HistoricalFigure.RelatedSites.Any(siteLink => siteLink.Type == Enums.SiteLinkType.Lair))
+                    var hfDied = beastAttack.GetSubEvents().OfType<HFDied>().FirstOrDefault();
+                    if (hfDied.HistoricalFigure != null && hfDied.HistoricalFigure.RelatedSites.Any(siteLink => siteLink.Type == Enums.SiteLinkType.Lair))
                     {
                         beastAttack.Beast = hfDied.HistoricalFigure;
                     }
-                    else if (hfDied.Slayer.RelatedSites.Any(siteLink => siteLink.Type == Enums.SiteLinkType.Lair))
+                    else if (hfDied.Slayer != null && hfDied.Slayer.RelatedSites.Any(siteLink => siteLink.Type == Enums.SiteLinkType.Lair))
                     {
                         beastAttack.Beast = hfDied.Slayer;
                     }
