@@ -5,22 +5,22 @@
 
         boxSelectionEnabled: false,
         autounselectify: true,
+        zoomingEnabled: true,
         userZoomingEnabled: true,
         wheelSensitivity: 0.1,
         zoom: 1,
         maxZoom: 1,
+        minZoom: 0.2,
 
         style: cytoscape.stylesheet()
             .selector('node')
             .css({
-                'shape': 'roundrectangle',
+                'shape': 'rectangle',
                 'width': 120,
-                // ReSharper disable InvalidValue
                 'height': 'label',
                 'content': 'data(name)',
                 'background-color': 'data(faveColor)',
                 'text-wrap': 'wrap',
-                // ReSharper restore InvalidValue
                 'font-family': 'Helvetica',
                 'font-size': 12,
                 'text-valign': 'center',
@@ -28,25 +28,51 @@
                 'padding-top': 5,
                 'padding-bottom': 5,
                 'color': '#ffffff',
-                'border-width': 1,
-                'border-style': 'solid',
-                'border-color': '#888888',
+                'text-outline-color': '#000',
+                'text-outline-opacity': 0.2,
+                'text-outline-width': 2,
                 'shadow-blur': 5,
                 'shadow-color': '#888888',
                 'shadow-offset-x': 3,
                 'shadow-offset-y': 3,
                 'shadow-opacity': 0.8
             })
+            .selector('node.civilization')
+            .css({
+                'shape': 'octagon',
+                'background-image': 'data(icon)',
+                'background-clip': 'none',
+                'background-width': '24px',
+                'background-height': '24px',
+                'background-position-x': '-20px',
+                'padding-left': 25,
+                'padding-right': 25,
+                'padding-top': 15,
+                'padding-bottom': 15,
+                'text-weight': 'bold'
+            })
             .selector('node.current')
             .css({
-                'border-style': 'dashed',
-                'color': '#222299'
+                'background-blacken': 0.15,
+                'border-style': 'solid',
+                'border-width': 2,
+                'border-color': '#000',
+                'border-opacity': 0.2,
             })
             .selector('edge')
             .css({
-                'width': 1,
+                'label': 'data(label)',
+                'color': '#fff',
+                'text-outline-width': 2,
+                'text-outline-color': 'data(faveColor)',
+                'edge-text-rotation': 'autorotate',
+                'width': 'data(width)',
                 'target-arrow-shape': 'triangle',
-                'curve-style': 'bezier'
+                'source-arrow-shape': 'circle',
+                'curve-style': 'bezier',
+                'line-color': 'data(faveColor)',
+                'source-arrow-color': 'data(faveColor)',
+                'target-arrow-color': 'data(faveColor)'
             })
             .selector(':selected')
             .css({
@@ -63,14 +89,16 @@
 
         layout: {
             name: 'cose',
-            //fit: false,
-            //padding: 30
+            idealEdgeLength: function (edge) { return 100; },
+            animate: false,
+            //fit: false
         }
     });
-
-    cy.center();
 
     cy.on('tap', 'node', function () {
         window.location.href = this.data('href');
     });
+    //cy.on('layoutready ', function () {
+    //    cy.center();
+    //});
 });

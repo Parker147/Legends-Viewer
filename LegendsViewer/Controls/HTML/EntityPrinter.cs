@@ -7,6 +7,7 @@ using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using System.Net;
+using System;
 
 namespace LegendsViewer.Controls
 {
@@ -14,6 +15,7 @@ namespace LegendsViewer.Controls
     {
         private readonly Entity Entity;
         private readonly World World;
+        private List<Entity> _allEnemies;
 
         public EntityPrinter(Entity entity, World world)
         {
@@ -41,8 +43,7 @@ namespace LegendsViewer.Controls
             PrintLeaders();
             PrintCurrentLeadership();
             PrintWars();
-            PrintWarChart();
-            PrintWarfareGraph();
+            PrintWarfareInfo();
             PrintSiteHistory();
             PrintPopulations(Entity.Populations);
             PrintEventLog(Entity.Events, Entity.Filters, Entity);
@@ -118,11 +119,14 @@ namespace LegendsViewer.Controls
                 allBattles.AddRange(war.Battles);
             }
 
-            var allEntities = allBattles.Select(x => x.Attacker).Concat(allBattles.Select(x => x.Defender)).Distinct().ToList();
-            allEntities = allEntities.OrderBy(entity => entity.Race).ToList();
-            var entityLabels = string.Join(",", allEntities.Where(x => x.Name != Entity.Name).Select(x => $"'{x.Name} - {x.Race}'"));
-            var battleVictorData = string.Join(",", allEntities.Where(x => x.Name != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor == Entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
-            var battleLoserData = string.Join(",", allEntities.Where(x => x.Name != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor != Entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
+            _allEnemies = allBattles
+                .Select(x => x.Attacker).Concat(allBattles.Select(x => x.Defender))
+                .Distinct()
+                .OrderBy(entity => entity.Race)
+                .ToList();
+            var entityLabels = string.Join(",", _allEnemies.Where(x => x.Name != Entity.Name).Select(x => $"'{x.Name} - {x.Race}'"));
+            var battleVictorData = string.Join(",", _allEnemies.Where(x => x.Name != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor == Entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
+            var battleLoserData = string.Join(",", _allEnemies.Where(x => x.Name != Entity.Name).Select(x => $"{allBattles.Count(y => y.Victor != Entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
 
             var victorColor = "255, 206, 86";
             var loserColor = "153, 102, 255";
@@ -164,7 +168,7 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("});");
         }
 
-        private void PrintWarChart()
+        private void PrintWarfareInfo()
         {
             if (!Entity.Wars.Any())
             {
@@ -173,15 +177,28 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("<div class=\"container-fluid\">");
 
             HTML.AppendLine("<div class=\"row\">");
-            HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
-            HTML.AppendLine("<h1>Battles Fought Against Other Civilizations</h1>");
+
+            PrintWarfareGraph();
+            PrintWarfareChart();
+
+            HTML.AppendLine("</div>");
+
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</br>");
+        }
+
+        private void PrintWarfareChart()
+        {
+            if (_allEnemies.Count > 5)
+            {
+                HTML.AppendLine("<div class=\"col-md-12\">");
+            }
+            else
+            {
+                HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
+            }
+            HTML.AppendLine(Bold("Battles against other Entities - Victory/Defeat Chart") + LineBreak);
             HTML.AppendLine("<canvas id=\"chart-countbyEntity\" class=\"bar-chart\" width=\"600\" height=\"300\"></canvas>");
-            HTML.AppendLine("</div>");
-            HTML.AppendLine("</div>");
-
-            HTML.AppendLine("</br>");
-            HTML.AppendLine("</br>");
-
             HTML.AppendLine("</div>");
         }
 
@@ -192,9 +209,9 @@ namespace LegendsViewer.Controls
                 return;
             }
 
-            var nodes = "";
-            var edges = "";
-            //nodes += CreateNode(Entity);
+            List<string> nodes = new List<string>();
+            Dictionary<string, int> edges = new Dictionary<string, int>();
+
             foreach (var war in Entity.Wars)
             {
                 foreach (var battle in war.Battles)
@@ -202,31 +219,55 @@ namespace LegendsViewer.Controls
                     string attacker = CreateNode(battle.Attacker);
                     if (!nodes.Contains(attacker))
                     {
-                        nodes += attacker;
+                        nodes.Add(attacker);
                     }
                     string defender = CreateNode(battle.Defender);
                     if (!nodes.Contains(defender))
                     {
-                        nodes += defender;
+                        nodes.Add(defender);
                     }
-                    string edge = "{ data: { source: '" + battle.Attacker.ID + "', target: '" + battle.Defender.ID + "' } },";
-                    if (!edges.Contains(edge))
+                    string faveColor = ColorTranslator.ToHtml(battle.Attacker.IdenticonColor);
+                    if (string.IsNullOrEmpty(faveColor) && battle.Attacker.Parent != null)
                     {
-                        edges += edge;
+                        faveColor = ColorTranslator.ToHtml(battle.Attacker.Parent.IdenticonColor);
+                    }
+                    string edge = "{ data: { source: '" + battle.Attacker.ID + "', target: '" + battle.Defender.ID + "', faveColor: '" + faveColor + "', width: WIDTH, label: LABEL } },";
+                    if (edges.ContainsKey(edge))
+                    {
+                        edges[edge]++;
+                    }
+                    else
+                    {
+                        edges[edge] = 1;
                     }
                 }
             }
-
-            HTML.AppendLine(Bold("Warfare Graph") + LineBreak);
+            if (_allEnemies.Count > 5)
+            {
+                HTML.AppendLine("<div class=\"col-md-12\">");
+            }
+            else
+            {
+                HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
+            }
+            HTML.AppendLine(Bold("Battles against other Entities - Sum of battles - Graph") + LineBreak);
             HTML.AppendLine("<div id=\"warfaregraph\" class=\"legends_graph\"></div>");
+            HTML.AppendLine("</div>");
+
+
             HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/cytoscape.min.js\"></script>");
-            //HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/cytoscape-spread.js\"></script>");
             HTML.AppendLine("<script>");
             HTML.AppendLine("window.warfaregraph_nodes = [");
-            HTML.AppendLine(nodes);
+            foreach (var node in nodes)
+            {
+                HTML.AppendLine(node);
+            }
             HTML.AppendLine("]");
             HTML.AppendLine("window.warfaregraph_edges = [");
-            HTML.AppendLine(edges);
+            foreach (var edge in edges)
+            {
+                HTML.AppendLine(edge.Key.Replace("WIDTH", edge.Value > 15 ? "15" : edge.Value.ToString()).Replace("LABEL", edge.Value.ToString()));
+            }
             HTML.AppendLine("]");
             HTML.AppendLine("</script>");
             HTML.AppendLine("<script type=\"text/javascript\" src=\"" + LocalFileProvider.LocalPrefix + "WebContent/scripts/warfaregraph.js\"></script>");
@@ -241,25 +282,30 @@ namespace LegendsViewer.Controls
                 faveColor = ColorTranslator.ToHtml(entity.Parent.IdenticonColor);
             }
             string title = "";
-            if (entity.Type != EntityType.Unknown)
-            {
-                title += entity.Type.GetDescription();
-                title += "\\n--------------------\\n";
-                //classes += " leader";
-            }
-            title += entity.Name;
             if (!string.IsNullOrEmpty(entity.Race))
             {
-                title += "\\n--------------------\\n";
                 title += entity.Race;
+                title += "\\n--------------------\\n";
+            }
+            title += entity.Name;
+            if (entity.Type != EntityType.Unknown)
+            {
+                title += "\\n--------------------\\n";
+                title += entity.Type.GetDescription();
             }
 
-            //if (!hf.Alive)
-            //{
-            //    title += "\\n✝";
-            //    classes += " dead";
-            //}
-            string node = "{ data: { id: '" + entity.ID + "', name: '" + WebUtility.HtmlEncode(title) + "', href: 'entity#" + entity.ID + "' , faveColor: '" + faveColor + "' }, classes: '" + classes + "' },";
+            if (entity.IsCiv)
+            {
+                classes += " civilization";
+            }
+
+            string node = "{ data: { ";
+            node += "id: '" + entity.ID + "', ";
+            node += "name: '" + WebUtility.HtmlEncode(title) + "', ";
+            node += "href: 'entity#" + entity.ID + "', ";
+            node += "faveColor: '" + faveColor + "', ";
+            node += "icon: 'url(data:image/png;base64," + entity.SmallIdenticonString + ")' ";
+            node += "}, classes: '" + classes + "' },";
             return node;
         }
 
