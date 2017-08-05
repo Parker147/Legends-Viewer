@@ -723,24 +723,37 @@ namespace LegendsViewer.Legends.Parser
                 //Find Beast by looking at fights, Beast always engages the first fight in a Beast Attack?
                 if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Any())
                 {
-                    beastAttack.Beast =
-                        beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First().HistoricalFigure1;
+                    var hfSimpleBattleEvent = beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First();
+                    beastAttack.Beast = hfSimpleBattleEvent.HistoricalFigure1;
                 }
                 if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<AddHFEntityLink>().Any())
                 {
-                    beastAttack.Beast = beastAttack.GetSubEvents().OfType<AddHFEntityLink>().First().HistoricalFigure;
+                    var addHFEntityLink = beastAttack.GetSubEvents().OfType<AddHFEntityLink>().FirstOrDefault(link => link.LinkType == Enums.HfEntityLinkType.Enemy);
+                    beastAttack.Beast = addHFEntityLink?.HistoricalFigure;
                 }
                 if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HFDied>().Any())
                 {
-                    var slayers =
-                        beastAttack.GetSubEvents()
-                            .OfType<HFDied>()
-                            .GroupBy(death => death.Slayer)
-                            .Select(hf => new { HF = hf.Key, Count = hf.Count() });
-                    if (slayers.Count(slayer => slayer.Count > 1) == 1)
+                    var hfDied = beastAttack.GetSubEvents().OfType<HFDied>().First();
+                    if (hfDied.HistoricalFigure.RelatedSites.Any(siteLink => siteLink.Type == Enums.SiteLinkType.Lair))
                     {
-                        HistoricalFigure beast = slayers.Single(slayer => slayer.Count > 1).HF;
-                        beastAttack.Beast = beast;
+                        beastAttack.Beast = hfDied.HistoricalFigure;
+                    }
+                    else if (hfDied.Slayer.RelatedSites.Any(siteLink => siteLink.Type == Enums.SiteLinkType.Lair))
+                    {
+                        beastAttack.Beast = hfDied.Slayer;
+                    }
+                    else
+                    {
+                        var slayers =
+                            beastAttack.GetSubEvents()
+                                .OfType<HFDied>()
+                                .GroupBy(death => death.Slayer)
+                                .Select(hf => new { HF = hf.Key, Count = hf.Count() });
+                        if (slayers.Count(slayer => slayer.Count > 1) == 1)
+                        {
+                            HistoricalFigure beast = slayers.Single(slayer => slayer.Count > 1).HF;
+                            beastAttack.Beast = beast;
+                        }
                     }
                 }
 
