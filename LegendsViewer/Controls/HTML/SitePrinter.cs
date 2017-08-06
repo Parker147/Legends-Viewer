@@ -8,7 +8,6 @@ using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using System.IO;
 using System.Drawing;
-using System;
 
 namespace LegendsViewer.Controls
 {
@@ -63,8 +62,10 @@ namespace LegendsViewer.Controls
         {
             var createdArtifacts = Site.Events.OfType<ArtifactCreated>().Select(e => e.Artifact).ToList();
             var storedArtifacts = Site.Events.OfType<ArtifactStored>().Select(e => e.Artifact).ToList();
+            var lostArtifacts = Site.Events.OfType<ArtifactLost>().Select(e => e.Artifact).ToList();
             var relatedArtifacts = createdArtifacts
                 .Union(storedArtifacts)
+                .Union(lostArtifacts)
                 .Distinct()
                 .ToList();
             if (relatedArtifacts.Count == 0)
@@ -91,6 +92,10 @@ namespace LegendsViewer.Controls
                 if (storedArtifacts.Contains(artifact))
                 {
                     relations.Add("stored");
+                }
+                if (lostArtifacts.Contains(artifact))
+                {
+                    relations.Add("lost");
                 }
                 if (relations.Any())
                 {
