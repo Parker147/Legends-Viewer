@@ -34,6 +34,7 @@ namespace LegendsViewer.Legends
         public HistoricalFigure UsedIdentity { get; set; }
         public HistoricalFigure CurrentIdentity { get; set; }
         public List<Artifact> HoldingArtifacts { get; set; }
+        //public List<Artifact> CreatedArtifacts { get; set; }
         public List<State> States { get; set; }
         public List<HistoricalFigureLink> RelatedHistoricalFigures { get; set; }
         public List<EntityLink> RelatedEntities { get; set; }
@@ -271,6 +272,7 @@ namespace LegendsViewer.Legends
             InteractionKnowledge = new List<string>();
             JourneyPets = new List<string>();
             HoldingArtifacts = new List<Artifact>();
+            //CreatedArtifacts = new List<Artifact>();
             LineageCurseChilds = new List<HistoricalFigure>();
             DedicatedStructures = new List<Structure>();
         }

@@ -25,9 +25,10 @@ namespace LegendsViewer.Legends.Events
                     case "hfid": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
                 }
-            if (Artifact != null)
+            if (Artifact != null && HistoricalFigure != null)
             {
                 Artifact.Creator = HistoricalFigure;
+                //HistoricalFigure.CreatedArtifacts.Add(Artifact);
             }
             Artifact.AddEvent(this);
             HistoricalFigure.AddEvent(this);

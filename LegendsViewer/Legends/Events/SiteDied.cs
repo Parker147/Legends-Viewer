@@ -51,7 +51,7 @@ namespace LegendsViewer.Legends.Events
             string eventString = GetYearTime() + SiteEntity.PrintEntity(link, pov);
             if (Abandoned)
             {
-                eventString += "abandoned the settlement of " + Site.ToLink(link, pov);
+                eventString += " abandoned the settlement of " + Site.ToLink(link, pov);
             }
             else
             {

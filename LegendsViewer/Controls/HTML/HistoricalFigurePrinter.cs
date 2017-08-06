@@ -27,6 +27,7 @@ namespace LegendsViewer.Controls
             HTML = new StringBuilder();
             PrintTitle();
             PrintMiscInfo();
+            PrintRelatedArtifacts();
             PrintBreedInfo();
             PrintFamilyGraph();
             PrintCurseLineage();
@@ -44,6 +45,56 @@ namespace LegendsViewer.Controls
             PrintBeastAttacks();
             PrintEventLog(HistoricalFigure.Events, HistoricalFigure.Filters, HistoricalFigure);
             return HTML.ToString();
+        }
+
+        private void PrintRelatedArtifacts()
+        {
+            var createdArtifacts = HistoricalFigure.Events.OfType<ArtifactCreated>().Select(e => e.Artifact).ToList();
+            var possessedArtifacts = HistoricalFigure.Events.OfType<ArtifactPossessed>().Select(e => e.Artifact).ToList();
+            var storedArtifacts = HistoricalFigure.Events.OfType<ArtifactStored>().Select(e => e.Artifact).ToList();
+            var relatedArtifacts = createdArtifacts
+                .Union(possessedArtifacts)
+                .Union(storedArtifacts)
+                .Union(HistoricalFigure.HoldingArtifacts)
+                .Distinct()
+                .ToList();
+            if (relatedArtifacts.Count == 0)
+            {
+                return;
+            }
+            HTML.AppendLine(Bold("Related Artifacts") + LineBreak);
+            StartList(ListType.Unordered);
+            foreach (Artifact artifact in relatedArtifacts)
+            {
+                HTML.AppendLine(ListItem + artifact.ToLink(true, HistoricalFigure));
+                if (!string.IsNullOrWhiteSpace(artifact.Type))
+                {
+                    HTML.AppendLine(" a legendary " + artifact.Material + " ");
+                    HTML.AppendLine((!string.IsNullOrWhiteSpace(artifact.SubType) ? artifact.SubType : artifact.Type.ToLower()));
+                }
+                List<string> relations = new List<string>();
+                if (createdArtifacts.Contains(artifact))
+                {
+                    relations.Add("created");
+                }
+                if (possessedArtifacts.Contains(artifact))
+                {
+                    relations.Add("possessed");
+                }
+                if (storedArtifacts.Contains(artifact))
+                {
+                    relations.Add("stored");
+                }
+                if (HistoricalFigure.HoldingArtifacts.Contains(artifact))
+                {
+                    relations.Add("currently holding");
+                }
+                if (relations.Any())
+                {
+                    HTML.AppendLine(" (" + string.Join(", ", relations) + ")");
+                }
+            }
+            EndList(ListType.Unordered);
         }
 
         private void PrintDedicatedStructures()
@@ -344,6 +395,7 @@ namespace LegendsViewer.Controls
 
         private void PrintMiscInfo()
         {
+            // The identities do not make sense (demon disguised as a hydra etc.)
             //if (HistoricalFigure.CurrentIdentity != null)
             //{
             //    HTML.AppendLine(Bold("Current Identity: ") + HistoricalFigure.CurrentIdentity.ToLink() + LineBreak);
@@ -389,21 +441,11 @@ namespace LegendsViewer.Controls
                 }
                 HTML.AppendLine(Bold("Interaction Knowledge: ") + interactions + LineBreak);
             }
-            if (HistoricalFigure.HoldingArtifacts.Count > 0)
-            {
-                string artifacts = "";
-                foreach (Artifact artifact in HistoricalFigure.HoldingArtifacts)
-                {
-                    if (HistoricalFigure.HoldingArtifacts.Last() == artifact && HistoricalFigure.HoldingArtifacts.Count > 1)
-                        artifacts += " and ";
-                    else if (artifacts.Length > 0)
-                        artifacts += ", ";
-                    artifacts += artifact.ToLink();
-                }
-                HTML.AppendLine(Bold("Holding Artifacts: ") + artifacts + LineBreak);
-            }
             if (HistoricalFigure.Animated)
+            {
                 HTML.AppendLine(Bold("Animated as: ") + HistoricalFigure.AnimatedType + LineBreak);
+            }
+
             if (HistoricalFigure.JourneyPets.Count > 0)
             {
                 string pets = "";

@@ -43,6 +43,7 @@ namespace LegendsViewer.Controls
 
             PrintGeographyInfo();
             PrintStructures();
+            PrintRelatedArtifacts();
             PrintWarfareInfo();
             PrintOwnerHistory();
             PrintOfficials();
@@ -57,6 +58,48 @@ namespace LegendsViewer.Controls
             HTML.AppendLine("</div>");
 
             return HTML.ToString();
+        }
+        private void PrintRelatedArtifacts()
+        {
+            var createdArtifacts = Site.Events.OfType<ArtifactCreated>().Select(e => e.Artifact).ToList();
+            var storedArtifacts = Site.Events.OfType<ArtifactStored>().Select(e => e.Artifact).ToList();
+            var relatedArtifacts = createdArtifacts
+                .Union(storedArtifacts)
+                .Distinct()
+                .ToList();
+            if (relatedArtifacts.Count == 0)
+            {
+                return;
+            }
+            HTML.AppendLine("<div class=\"row\">");
+            HTML.AppendLine("<div class=\"col-md-12\">");
+            HTML.AppendLine(Bold("Related Artifacts") + LineBreak);
+            StartList(ListType.Unordered);
+            foreach (Artifact artifact in relatedArtifacts)
+            {
+                HTML.AppendLine(ListItem + artifact.ToLink(true, Site));
+                if (!string.IsNullOrWhiteSpace(artifact.Type))
+                {
+                    HTML.AppendLine(" a legendary " + artifact.Material + " ");
+                    HTML.AppendLine((!string.IsNullOrWhiteSpace(artifact.SubType) ? artifact.SubType : artifact.Type.ToLower()));
+                }
+                List<string> relations = new List<string>();
+                if (createdArtifacts.Contains(artifact))
+                {
+                    relations.Add("created");
+                }
+                if (storedArtifacts.Contains(artifact))
+                {
+                    relations.Add("stored");
+                }
+                if (relations.Any())
+                {
+                    HTML.AppendLine(" (" + string.Join(", ", relations) + ")");
+                }
+            }
+            EndList(ListType.Unordered);
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
         }
 
         private void PrintConnections()
