@@ -8,6 +8,7 @@ using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using System.IO;
 using System.Drawing;
+using System;
 
 namespace LegendsViewer.Controls
 {
@@ -31,107 +32,75 @@ namespace LegendsViewer.Controls
         {
             HTML = new StringBuilder();
 
-            if (!string.IsNullOrWhiteSpace(Site.Name))
-            {
-                HTML.AppendLine("<h1>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</h1>");
-                HTML.AppendLine("<b>" + Site.ToLink(false) + " is a " + Site.Type + "</b><br /><br />");
-            }
-            else
-            {
-                HTML.AppendLine("<h1>" + Site.Type + "</h1>");
-            }
+            HTML.AppendLine("<div class=\"container-fluid\">");
 
-            List<Bitmap> maps = MapPanel.CreateBitmaps(World, Site);
+            PrintTitle();
+            PrintMaps();
 
-            HTML.AppendLine("<table>");
-            HTML.AppendLine("<tr>");
-            PrintSiteMap();
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("</tr></table></br>");
+            HTML.AppendLine("<div class=\"row\">");
+            PrintPopulations(Site.Populations);
+            HTML.AppendLine("</div>");
 
-            if (Site.Region != null || !Site.Rectangle.IsEmpty)
+            PrintGeographyInfo();
+            PrintStructures();
+            PrintWarfareInfo();
+            PrintOwnerHistory();
+            PrintOfficials();
+            PrintConnections();
+
+            HTML.AppendLine("<div class=\"row\">");
+            PrintBeastAttacks();
+            PrintDeaths();
+            HTML.AppendLine("</div>");
+
+            PrintEventLog(Site.Events, Site.Filters, Site);
+            HTML.AppendLine("</div>");
+
+            return HTML.ToString();
+        }
+
+        private void PrintConnections()
+        {
+            if (Site.Connections.Count > 0)
             {
-                HTML.AppendLine("<b>Geography</b><br/>");
-                HTML.AppendLine("<ul>");
-                if (Site.Region != null)
+                HTML.AppendLine("<div class=\"row\">");
+                HTML.AppendLine("<div class=\"col-md-12\">");
+                HTML.AppendLine("<b>Connections</b></br>");
+                HTML.AppendLine("<ol>");
+                foreach (Site connection in Site.Connections)
                 {
-                    HTML.AppendLine("<li>Region: " + Site.Region.ToLink() + ", " + Site.Region.Type.GetDescription() + "</li>");
+                    HTML.AppendLine("<li>" + connection.ToLink());
                 }
-                if (!Site.Rectangle.IsEmpty)
-                {
-                    HTML.AppendLine("<li>Position: X " + Site.Rectangle.X + " Y " + Site.Rectangle.Y + "</li>");
-                    if (Site.Rectangle.Width != 0 && Site.Rectangle.Height != 0)
-                    {
-                        HTML.AppendLine("<li>Size: " + Site.Rectangle.Width + " x " + Site.Rectangle.Height + "</li>");
-                    }
-                }
-                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</ol>");
+                HTML.AppendLine("</div>");
+                HTML.AppendLine("</div>");
             }
-            if (Site.Structures.Any())
-            {
-                HTML.AppendLine("<b>Structures</b><br/>");
-                HTML.AppendLine("<ul>");
-                foreach (Structure structure in Site.Structures)
-                {
-                    HTML.AppendLine("<li>" + structure.ToLink() + ", ");
-                    if (structure.DungeonType != DungeonType.Unknown)
-                    {
-                        HTML.AppendLine(structure.DungeonType.GetDescription());
-                    }
-                    else
-                    {
-                        HTML.AppendLine(structure.Type.GetDescription());
-                    }
-                    HTML.AppendLine("</li>");
-                }
-                HTML.AppendLine("</ul>");
-            }
+        }
 
-            if (Site.Warfare.Count(battle => !World.FilterBattles || battle.Notable) > 0)
+        private void PrintOfficials()
+        {
+            if (Site.Officials.Count > 0)
             {
-                int warfareCount = 1;
-                HTML.AppendLine("<b>Warfare</b> " + MakeLink("[Load]", LinkOption.LoadSiteBattles));
-                if (World.FilterBattles) HTML.Append(" (Notable)");
-                HTML.Append("<table border=\"0\">");
-                foreach (EventCollection warfare in Site.Warfare.Where(battle => !World.FilterBattles || battle.Notable))
+                HTML.AppendLine("<div class=\"row\">");
+                HTML.AppendLine("<div class=\"col-md-12\">");
+                HTML.AppendLine("<b>Officials</b></br>");
+                HTML.AppendLine("<ol>");
+                foreach (Site.Official official in Site.Officials)
                 {
-                    HTML.AppendLine("<tr>");
-                    HTML.AppendLine("<td width=\"20\"  align=\"right\">" + warfareCount + ".</td><td width=\"10\"></td>");
-                    HTML.AppendLine("<td>" + warfare.StartYear + "</td>");
-                    string warfareString = warfare.ToLink();
-                    if (warfareString.Contains(" as a result of"))
-                        warfareString = warfareString.Insert(warfareString.IndexOf(" as a result of"), "</br>");
-                    HTML.AppendLine("<td>" + warfareString + "</td>");
-                    HTML.AppendLine("<td>as part of</td>");
-                    HTML.AppendLine("<td>" + ((warfare.ParentCollection == null) ? "UNKNOWN" : warfare.ParentCollection.ToLink()) + "</td>");
-                    HTML.AppendLine("<td>by ");
-                    if (warfare.GetType() == typeof(Battle))
-                    {
-                        Battle battle = warfare as Battle;
-                        HTML.Append(battle.Attacker.PrintEntity() + "</td>");
-                        if (battle.Victor == battle.Attacker) HTML.AppendLine("<td>(V)</td>");
-                        else HTML.AppendLine("<td></td>");
-                        HTML.AppendLine("<td>(Deaths: " + (battle.AttackerDeathCount + battle.DefenderDeathCount) + ")</td>");
-                    }
-                    if (warfare.GetType() == typeof(SiteConquered)) HTML.Append((warfare as SiteConquered).Attacker.PrintEntity() + "</td>");
-                    HTML.AppendLine("</tr>");
-                    warfareCount++;
+                    HTML.AppendLine("<li>" + official.HistoricalFigure.ToLink() + ", " + official.Position);
                 }
-                HTML.AppendLine("</table></br>");
+                HTML.AppendLine("</ol>");
+                HTML.AppendLine("</div>");
+                HTML.AppendLine("</div>");
             }
+        }
 
-            if (World.FilterBattles && Site.Warfare.Count(battle => !battle.Notable) > 0)
-            {
-                HTML.AppendLine("<b>Warfare</b> (Unnotable)</br>");
-                HTML.AppendLine("<ul>");
-                HTML.AppendLine("<li>Battles: " + Site.Warfare.OfType<Battle>().Where(battle => !battle.Notable).Count());
-                HTML.AppendLine("<li>Pillagings: " + Site.Warfare.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count());
-                HTML.AppendLine("</ul>");
-            }
-
+        private void PrintOwnerHistory()
+        {
             if (Site.OwnerHistory.Count > 0)
             {
+                HTML.AppendLine("<div class=\"row\">");
+                HTML.AppendLine("<div class=\"col-md-12\">");
                 HTML.AppendLine("<b>Owner History</b><br />");
                 HTML.AppendLine("<ol>");
                 foreach (OwnerPeriod owner in Site.OwnerHistory)
@@ -166,52 +135,152 @@ namespace LegendsViewer.Controls
                     HTML.AppendLine(".");
                 }
                 HTML.AppendLine("</ol>");
+                HTML.AppendLine("</div>");
+                HTML.AppendLine("</div>");
             }
+        }
 
-            if (Site.Officials.Count > 0)
+        private void PrintWarfareInfo()
+        {
+            if (Site.Warfare.Count(battle => !World.FilterBattles || battle.Notable) > 0)
             {
-                HTML.AppendLine("<b>Officials</b></br>");
-                HTML.AppendLine("<ol>");
-                foreach (Site.Official official in Site.Officials)
-                    HTML.AppendLine("<li>" + official.HistoricalFigure.ToLink() + ", " + official.Position);
-                HTML.AppendLine("</ol>");
-            }
-
-            if (Site.Connections.Count > 0)
-            {
-                HTML.AppendLine("<b>Connections</b></br>");
-                HTML.AppendLine("<ol>");
-                foreach (Site connection in Site.Connections)
-                    HTML.AppendLine("<li>" + connection.ToLink());
-                HTML.AppendLine("</ol>");
-            }
-
-            PrintPopulations(Site.Populations);
-
-            if (Site.BeastAttacks != null && Site.BeastAttacks.Count > 0)
-            {
-                HTML.AppendLine("<b>Beast Attacks</b>");
-                if (Site.BeastAttacks.Count > 100)
+                HTML.AppendLine("<div class=\"row\">");
+                HTML.AppendLine("<div class=\"col-md-12\">");
+                int warfareCount = 1;
+                HTML.AppendLine("<b>Warfare</b> " + MakeLink("[Load]", LinkOption.LoadSiteBattles));
+                if (World.FilterBattles) HTML.Append(" (Notable)");
+                HTML.Append("<table border=\"0\">");
+                foreach (EventCollection warfare in Site.Warfare.Where(battle => !World.FilterBattles || battle.Notable))
                 {
+                    HTML.AppendLine("<tr>");
+                    HTML.AppendLine("<td width=\"20\"  align=\"right\">" + warfareCount + ".</td><td width=\"10\"></td>");
+                    HTML.AppendLine("<td>" + warfare.StartYear + "</td>");
+                    string warfareString = warfare.ToLink();
+                    if (warfareString.Contains(" as a result of"))
+                        warfareString = warfareString.Insert(warfareString.IndexOf(" as a result of"), "</br>");
+                    HTML.AppendLine("<td>" + warfareString + "</td>");
+                    HTML.AppendLine("<td>as part of</td>");
+                    HTML.AppendLine("<td>" + ((warfare.ParentCollection == null) ? "UNKNOWN" : warfare.ParentCollection.ToLink()) + "</td>");
+                    HTML.AppendLine("<td>by ");
+                    if (warfare.GetType() == typeof(Battle))
+                    {
+                        Battle battle = warfare as Battle;
+                        HTML.Append(battle.Attacker.PrintEntity() + "</td>");
+                        if (battle.Victor == battle.Attacker) HTML.AppendLine("<td>(V)</td>");
+                        else HTML.AppendLine("<td></td>");
+                        HTML.AppendLine("<td>(Deaths: " + (battle.AttackerDeathCount + battle.DefenderDeathCount) + ")</td>");
+                    }
+                    if (warfare.GetType() == typeof(SiteConquered)) HTML.Append((warfare as SiteConquered).Attacker.PrintEntity() + "</td>");
+                    HTML.AppendLine("</tr>");
+                    warfareCount++;
+                }
+                HTML.AppendLine("</table></br>");
+
+                if (World.FilterBattles && Site.Warfare.Count(battle => !battle.Notable) > 0)
+                {
+                    HTML.AppendLine("<b>Warfare</b> (Unnotable)</br>");
                     HTML.AppendLine("<ul>");
-                    HTML.AppendLine("<li>Rampages at this site: " + Site.BeastAttacks.Count);
+                    HTML.AppendLine("<li>Battles: " + Site.Warfare.OfType<Battle>().Where(battle => !battle.Notable).Count());
+                    HTML.AppendLine("<li>Pillagings: " + Site.Warfare.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count());
                     HTML.AppendLine("</ul>");
                 }
-                else
-                {
-                    HTML.AppendLine("<ol>");
-                    foreach (BeastAttack attack in Site.BeastAttacks)
-                    {
-                        HTML.AppendLine("<li>" + attack.StartYear + ", " + attack.ToLink(true, Site));
-                        if (attack.GetSubEvents().OfType<HFDied>().Any()) HTML.Append(" (Deaths: " + attack.GetSubEvents().OfType<HFDied>().Count() + ")");
-                    }
-                    HTML.AppendLine("</ol>");
-                }
-            }
 
+                HTML.AppendLine("</div>");
+                HTML.AppendLine("</div>");
+            }
+        }
+
+        private void PrintStructures()
+        {
+            if (Site.Structures.Any())
+            {
+                HTML.AppendLine("<div class=\"row\">");
+                HTML.AppendLine("<div class=\"col-md-12\">");
+                HTML.AppendLine("<b>Structures</b><br/>");
+                HTML.AppendLine("<ul>");
+                foreach (Structure structure in Site.Structures)
+                {
+                    HTML.AppendLine("<li>" + structure.ToLink() + ", ");
+                    if (structure.DungeonType != DungeonType.Unknown)
+                    {
+                        HTML.AppendLine(structure.DungeonType.GetDescription());
+                    }
+                    else
+                    {
+                        HTML.AppendLine(structure.Type.GetDescription());
+                    }
+                    HTML.AppendLine("</li>");
+                }
+                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</div>");
+                HTML.AppendLine("</div>");
+            }
+        }
+
+        private void PrintGeographyInfo()
+        {
+            if (Site.Region != null || !Site.Rectangle.IsEmpty)
+            {
+                HTML.AppendLine("<div class=\"row\">");
+                HTML.AppendLine("<div class=\"col-md-12\">");
+                HTML.AppendLine("<b>Geography</b><br/>");
+                HTML.AppendLine("<ul>");
+                if (Site.Region != null)
+                {
+                    HTML.AppendLine("<li>Region: " + Site.Region.ToLink() + ", " + Site.Region.Type.GetDescription() + "</li>");
+                }
+                if (!Site.Rectangle.IsEmpty)
+                {
+                    HTML.AppendLine("<li>Position: X " + Site.Rectangle.X + " Y " + Site.Rectangle.Y + "</li>");
+                    if (Site.Rectangle.Width != 0 && Site.Rectangle.Height != 0)
+                    {
+                        HTML.AppendLine("<li>Size: " + Site.Rectangle.Width + " x " + Site.Rectangle.Height + "</li>");
+                    }
+                }
+                HTML.AppendLine("</ul>");
+                HTML.AppendLine("</div>");
+                HTML.AppendLine("</div>");
+            }
+        }
+
+        private void PrintMaps()
+        {
+            HTML.AppendLine("<div class=\"row\">");
+            HTML.AppendLine("<div class=\"col-md-12\">");
+            List<Bitmap> maps = MapPanel.CreateBitmaps(World, Site);
+            HTML.AppendLine("<table>");
+            HTML.AppendLine("<tr>");
+            PrintSiteMap();
+            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
+            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
+            HTML.AppendLine("</tr></table></br>");
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
+        }
+
+        private void PrintTitle()
+        {
+            HTML.AppendLine("<div class=\"row\">");
+            HTML.AppendLine("<div class=\"col-md-12\">");
+            if (!string.IsNullOrWhiteSpace(Site.Name))
+            {
+                HTML.AppendLine("<h1>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</h1>");
+                HTML.AppendLine("<b>" + Site.ToLink(false) + " is a " + Site.Type + "</b><br /><br />");
+            }
+            else
+            {
+                HTML.AppendLine("<h1>" + Site.Type + "</h1>");
+            }
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
+        }
+
+        private void PrintDeaths()
+        {
             int deathCount = Site.Events.OfType<HFDied>().Count();
             if (deathCount > 0 || Site.Warfare.OfType<Battle>().Any())
             {
+                HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
                 var popInBattle =
                     Site.Warfare.OfType<Battle>()
                         .Sum(
@@ -242,11 +311,26 @@ namespace LegendsViewer.Controls
                     }
                     HTML.AppendLine("</ol>");
                 }
+                HTML.AppendLine("</div>");
             }
+        }
 
-            PrintEventLog(Site.Events, Site.Filters, Site);
-
-            return HTML.ToString();
+        private void PrintBeastAttacks()
+        {
+            if (Site.BeastAttacks == null || Site.BeastAttacks.Count == 0)
+            {
+                return;
+            }
+            HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
+            HTML.AppendLine("<b>Beast Attacks</b>");
+            HTML.AppendLine("<ol>");
+            foreach (BeastAttack attack in Site.BeastAttacks)
+            {
+                HTML.AppendLine("<li>" + attack.StartYear + ", " + attack.ToLink(true, Site));
+                if (attack.GetSubEvents().OfType<HFDied>().Any()) HTML.Append(" (Deaths: " + attack.GetSubEvents().OfType<HFDied>().Count() + ")");
+            }
+            HTML.AppendLine("</ol>");
+            HTML.AppendLine("</div>");
         }
 
         private void PrintSiteMap()

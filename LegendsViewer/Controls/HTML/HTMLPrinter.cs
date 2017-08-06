@@ -271,6 +271,7 @@ namespace LegendsViewer.Controls
             {
                 return;
             }
+            HTML.AppendLine("<div class=\"col-lg-4 col-md-6 col-sm-12\">");
             var mainRacePops = new List<Population>();
             var animalPeoplePops = new List<Population>();
             var visitorsPops = new List<Population>();
@@ -365,6 +366,7 @@ namespace LegendsViewer.Controls
                     HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
                 HTML.AppendLine("</ul>");
             }
+            HTML.AppendLine("</div>");
         }
 
         protected void PrintEventLog(List<WorldEvent> events, List<string> filters, DwarfObject dfo)

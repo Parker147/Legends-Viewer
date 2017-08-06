@@ -36,18 +36,57 @@ namespace LegendsViewer.Controls
 
             LoadCustomScripts();
 
+            HTML.AppendLine("<div class=\"container-fluid\">");
+
             PrintTitle();
+
+            PrintMaps();
+
+            HTML.AppendLine("<div class=\"row\">");
+
+            PrintPopulations(Entity.Populations);
+            HTML.AppendLine("<div class=\"col-lg-4 col-md-6 col-sm-12\">");
             PrintEntityLinks();
+            if (Entity.EntityLinks.Count > 5)
+            {
+                HTML.AppendLine("</div>");
+                HTML.AppendLine("<div class=\"col-lg-4 col-md-6 col-sm-12\">");
+            }
             PrintOriginStructure();
             PrintWorships();
             PrintLeaders();
             PrintCurrentLeadership();
+            HTML.AppendLine("</div>");
+
+            HTML.AppendLine("</div>");
             PrintWars();
             PrintWarfareInfo();
             PrintSiteHistory();
-            PrintPopulations(Entity.Populations);
             PrintEventLog(Entity.Events, Entity.Filters, Entity);
+
+            HTML.AppendLine("</div>");
             return HTML.ToString();
+        }
+
+        private void PrintMaps()
+        {
+            if (Entity.SiteHistory.Count == 0)
+            {
+                return;
+            }
+            HTML.AppendLine("<div class=\"row\">");
+            HTML.AppendLine("<div class=\"col-lg-12\">");
+            List<Bitmap> maps = MapPanel.CreateBitmaps(World, Entity);
+            TableMaker mapTable = new TableMaker();
+            mapTable.StartRow();
+            mapTable.AddData(MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap));
+            mapTable.AddData(MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap));
+            mapTable.EndRow();
+            HTML.AppendLine(mapTable.GetTable() + "</br>");
+            maps[0].Dispose();
+            maps[1].Dispose();
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
         }
 
         private void PrintOriginStructure()
@@ -174,7 +213,6 @@ namespace LegendsViewer.Controls
             {
                 return;
             }
-            HTML.AppendLine("<div class=\"container-fluid\">");
 
             HTML.AppendLine("<div class=\"row\">");
 
@@ -183,7 +221,6 @@ namespace LegendsViewer.Controls
 
             HTML.AppendLine("</div>");
 
-            HTML.AppendLine("</div>");
             HTML.AppendLine("</br>");
         }
 
@@ -311,6 +348,8 @@ namespace LegendsViewer.Controls
 
         private void PrintTitle()
         {
+            HTML.AppendLine("<div class=\"row\">");
+            HTML.AppendLine("<div class=\"col-md-12\">");
             string title = Entity.ToLink(false);
             if (Entity.IsCiv)
             {
@@ -352,27 +391,28 @@ namespace LegendsViewer.Controls
                 title += " of ";
                 title += Entity.Race.ToLower();
             }
-            if (Entity.Parent != null) title += " of " + Entity.Parent.ToLink(true, Entity);
+            if (Entity.Parent != null)
+            {
+                title += " of " + Entity.Parent.ToLink(true, Entity);
+            }
+
             title += ".";
             HTML.AppendLine("<h1>" + title + "</h1></br>");
 
             if (Entity.IsCiv)
+            {
                 HTML.AppendLine(Entity.PrintIdenticon(true) + LineBreak + LineBreak);
+            }
 
             if (Entity.SiteHistory.Count > 0)
             {
                 if (Entity.SiteHistory.Count(sitePeriod => sitePeriod.EndYear == -1) == 0)
+                {
                     HTML.AppendLine(Font("Last Known Sites. Year: " + (Entity.SiteHistory.Max(sitePeriod => sitePeriod.EndYear) - 1), "red"));
-                List<Bitmap> maps = MapPanel.CreateBitmaps(World, Entity);
-                TableMaker mapTable = new TableMaker();
-                mapTable.StartRow();
-                mapTable.AddData(MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap));
-                mapTable.AddData(MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap));
-                mapTable.EndRow();
-                HTML.AppendLine(mapTable.GetTable() + "</br>");
-                maps[0].Dispose();
-                maps[1].Dispose();
+                }
             }
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
         }
 
         private void PrintLeaders()
