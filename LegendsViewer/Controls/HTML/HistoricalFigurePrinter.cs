@@ -563,25 +563,27 @@ namespace LegendsViewer.Controls
             {
                 HTML.AppendLine(Bold("Related Sites") + LineBreak);
                 HTML.AppendLine("<ul>");
-                foreach (SiteLink link in HistoricalFigure.RelatedSites)
+                foreach (SiteLink hfToSiteLink in HistoricalFigure.RelatedSites)
                 {
                     HTML.AppendLine("<li>");
-                    HTML.AppendLine(link.Site.ToLink());
-                    HTML.AppendLine("<ul>");
-                    Structure structure = link.Site.Structures.FirstOrDefault(str => str.ID == link.SubID);
-                    string entityLink = "";
-                    if (link.Entity != null)
-                        entityLink += " (" + link.Entity.ToLink() + ")";
-                    if (link.Type != SiteLinkType.Unknown && link.Type != SiteLinkType.Occupation && structure != null)
+                    HTML.AppendLine(hfToSiteLink.Site.ToLink(true, HistoricalFigure));
+                    if (hfToSiteLink.SubID != 0)
                     {
-                        HTML.AppendLine("<li>" + structure.ToLink() + ", " + link.Type.GetDescription() + entityLink + "</li>");
+                        Structure structure = hfToSiteLink.Site.Structures.FirstOrDefault(s => s.ID == hfToSiteLink.SubID);
+                        if (structure != null)
+                        {
+                            HTML.AppendLine(" - " + structure.ToLink(true, HistoricalFigure) + " - ");
+                        }
                     }
-                    else
+                    if (hfToSiteLink.OccupationID != 0)
                     {
-                        HTML.AppendLine("<li>" + link.Type.GetDescription() + entityLink + "</li>");
+                        Structure structure = hfToSiteLink.Site.Structures.FirstOrDefault(s => s.ID == hfToSiteLink.OccupationID);
+                        if (structure != null)
+                        {
+                            HTML.AppendLine(" - " + structure.ToLink(true, HistoricalFigure) + " - ");
+                        }
                     }
-                    HTML.AppendLine("</ul>");
-                    HTML.AppendLine("</li>");
+                    HTML.AppendLine(" (" + hfToSiteLink.Type.GetDescription() + ")");
                 }
                 HTML.AppendLine("</ul>");
             }

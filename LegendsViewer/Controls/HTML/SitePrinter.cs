@@ -8,6 +8,7 @@ using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using System.IO;
 using System.Drawing;
+using System;
 
 namespace LegendsViewer.Controls
 {
@@ -43,6 +44,7 @@ namespace LegendsViewer.Controls
             PrintGeographyInfo();
             PrintStructures();
             PrintRelatedArtifacts();
+            PrintRelatedHistoricalFigures();
             PrintWarfareInfo();
             PrintOwnerHistory();
             PrintOfficials();
@@ -58,6 +60,47 @@ namespace LegendsViewer.Controls
 
             return HTML.ToString();
         }
+
+        private void PrintRelatedHistoricalFigures()
+        {
+            if (Site.RelatedHistoricalFigures.Count == 0)
+            {
+                return;
+            }
+            HTML.AppendLine("<div class=\"row\">");
+            HTML.AppendLine("<div class=\"col-md-12\">");
+            HTML.AppendLine(Bold("Related Historical Figures") + LineBreak);
+            StartList(ListType.Unordered);
+            foreach (HistoricalFigure hf in Site.RelatedHistoricalFigures)
+            {
+                SiteLink hfToSiteLink = hf.RelatedSites.FirstOrDefault(link => link.Site == Site);
+                if (hfToSiteLink != null)
+                {
+                    HTML.AppendLine(ListItem + hf.ToLink(true, Site));
+                    if (hfToSiteLink.SubID != 0)
+                    {
+                        Structure structure = Site.Structures.FirstOrDefault(s => s.ID == hfToSiteLink.SubID);
+                        if (structure != null)
+                        {
+                            HTML.AppendLine(" - " + structure.ToLink(true, Site) + " - ");
+                        }
+                    }
+                    if (hfToSiteLink.OccupationID != 0)
+                    {
+                        Structure structure = Site.Structures.FirstOrDefault(s => s.ID == hfToSiteLink.OccupationID);
+                        if (structure != null)
+                        {
+                            HTML.AppendLine(" - " + structure.ToLink(true, Site) + " - ");
+                        }
+                    }
+                    HTML.AppendLine(" (" + hfToSiteLink.Type.GetDescription() + ")");
+                }
+            }
+            EndList(ListType.Unordered);
+            HTML.AppendLine("</div>");
+            HTML.AppendLine("</div>");
+        }
+
         private void PrintRelatedArtifacts()
         {
             var createdArtifacts = Site.Events.OfType<ArtifactCreated>().Select(e => e.Artifact).ToList();

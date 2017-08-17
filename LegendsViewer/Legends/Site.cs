@@ -27,6 +27,7 @@ namespace LegendsViewer.Legends
         public List<Battle> Battles { get { return Warfare.OfType<Battle>().ToList(); } set { } }
         public List<SiteConquered> Conquerings { get { return Warfare.OfType<SiteConquered>().ToList(); } set { } }
         public List<OwnerPeriod> OwnerHistory { get; set; }
+        public List<HistoricalFigure> RelatedHistoricalFigures { get; set; }
         public static List<string> Filters;
         public DwarfObject CurrentOwner
         {
@@ -77,20 +78,6 @@ namespace LegendsViewer.Legends
         }
         public string SiteMapPath { get; set; }
 
-        public Site()
-        {
-            ID = -1;
-            Type = "INVALID";
-            Name = "INVALID SITE";
-            UntranslatedName = "";
-            Warfare = new List<EventCollection>();
-            OwnerHistory = new List<OwnerPeriod>();
-            Connections = new List<Site>();
-            Populations = new List<Population>();
-            Officials = new List<Official>();
-            BeastAttacks = new List<BeastAttack>();
-        }
-
         public Site(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -102,6 +89,8 @@ namespace LegendsViewer.Legends
             Officials = new List<Official>();
             BeastAttacks = new List<BeastAttack>();
             Structures = new List<Structure>();
+            RelatedHistoricalFigures = new List<HistoricalFigure>();
+
             foreach (Property property in properties)
             {
                 switch (property.Name)

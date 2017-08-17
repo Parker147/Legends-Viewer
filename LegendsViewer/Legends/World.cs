@@ -577,8 +577,12 @@ namespace LegendsViewer.Legends
             {
                 Property link = HFtoSiteLinks[i];
                 HistoricalFigure hf = HFtoSiteLinkHFs[i];
-                SiteLink relatedSite = new SiteLink(link.SubProperties, this);
-                hf.RelatedSites.Add(relatedSite);
+                SiteLink hfToSiteLink = new SiteLink(link.SubProperties, this);
+                hf.RelatedSites.Add(hfToSiteLink);
+                if (hfToSiteLink.Site != null)
+                {
+                    hfToSiteLink.Site.RelatedHistoricalFigures.Add(hf);
+                }
             }
 
             HFtoSiteLinkHFs.Clear();
