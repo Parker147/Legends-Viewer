@@ -265,6 +265,20 @@ namespace LegendsViewer.Controls
                 + "'>" + desc.Rank + " " + desc.Name + "</li>";
         }
 
+        protected string GetHtmlColorByEntity(Entity entity)
+        {
+            string htmlColor = ColorTranslator.ToHtml(entity.IdenticonColor);
+            if (string.IsNullOrEmpty(htmlColor) && entity.Parent != null)
+            {
+                htmlColor = GetHtmlColorByEntity(entity.Parent);
+            }
+            if (string.IsNullOrEmpty(htmlColor))
+            {
+                htmlColor = "#888888";
+            }
+            return htmlColor;
+        }
+
         protected void PrintPopulations(List<Population> populations)
         {
             if (!populations.Any())

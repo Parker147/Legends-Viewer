@@ -263,11 +263,7 @@ namespace LegendsViewer.Controls
                     {
                         nodes.Add(defender);
                     }
-                    string faveColor = ColorTranslator.ToHtml(battle.Attacker.IdenticonColor);
-                    if (string.IsNullOrEmpty(faveColor) && battle.Attacker.Parent != null)
-                    {
-                        faveColor = ColorTranslator.ToHtml(battle.Attacker.Parent.IdenticonColor);
-                    }
+                    string faveColor = GetHtmlColorByEntity(battle.Attacker);
                     string edge = "{ data: { source: '" + battle.Attacker.ID + "', target: '" + battle.Defender.ID + "', faveColor: '" + faveColor + "', width: WIDTH, label: LABEL } },";
                     if (edges.ContainsKey(edge))
                     {
@@ -313,11 +309,7 @@ namespace LegendsViewer.Controls
         private string CreateNode(Entity entity)
         {
             string classes = entity.Equals(Entity) ? " current" : "";
-            string faveColor = ColorTranslator.ToHtml(entity.IdenticonColor);
-            if (string.IsNullOrEmpty(faveColor) && entity.Parent != null)
-            {
-                faveColor = ColorTranslator.ToHtml(entity.Parent.IdenticonColor);
-            }
+            string faveColor = GetHtmlColorByEntity(entity);
             string title = "";
             if (!string.IsNullOrEmpty(entity.Race))
             {
