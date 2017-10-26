@@ -222,6 +222,7 @@
             this.btnArtifactSearch.TabIndex = 46;
             this.btnArtifactSearch.Text = "Search";
             this.btnArtifactSearch.UseVisualStyleBackColor = true;
+            this.btnArtifactSearch.Click += new System.EventHandler(this.searchArtifactList);
             // 
             // groupBox19
             // 
@@ -335,6 +336,7 @@
             this.txtArtifactSearch.Name = "txtArtifactSearch";
             this.txtArtifactSearch.Size = new System.Drawing.Size(169, 20);
             this.txtArtifactSearch.TabIndex = 44;
+            this.txtArtifactSearch.TextChanged += new System.EventHandler(this.searchArtifactList);
             // 
             // tpArtifactsEvents
             // 
@@ -353,7 +355,7 @@
             this.tpWrittenContent.Name = "tpWrittenContent";
             this.tpWrittenContent.Size = new System.Drawing.Size(261, 492);
             this.tpWrittenContent.TabIndex = 2;
-            this.tpWrittenContent.Text = "Books";
+            this.tpWrittenContent.Text = "Written Content";
             this.tpWrittenContent.UseVisualStyleBackColor = true;
             // 
             // tcWrittenContent
@@ -450,6 +452,7 @@
             this.btnWrittenContentSearch.TabIndex = 46;
             this.btnWrittenContentSearch.Text = "Search";
             this.btnWrittenContentSearch.UseVisualStyleBackColor = true;
+            this.btnWrittenContentSearch.Click += new System.EventHandler(this.searchWrittenContentList);
             // 
             // groupBox21
             // 
@@ -542,6 +545,7 @@
             this.txtWrittenContentSearch.Name = "txtWrittenContentSearch";
             this.txtWrittenContentSearch.Size = new System.Drawing.Size(169, 20);
             this.txtWrittenContentSearch.TabIndex = 44;
+            this.txtWrittenContentSearch.TextChanged += new System.EventHandler(this.searchWrittenContentList);
             // 
             // tpWrittenContentEvents
             // 

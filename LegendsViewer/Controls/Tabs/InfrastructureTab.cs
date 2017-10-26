@@ -1,33 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
+using System.Data;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using LegendsViewer.Legends;
+using System.Text.RegularExpressions;
 using WFC;
 
 namespace LegendsViewer.Controls.Tabs
 {
-    [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof(IDesigner))]
-    public partial class SitesTab : BaseSearchTab
+    public partial class InfrastructureTab : BaseSearchTab
     {
+        private WorldConstructionsList worldConstructionSearch;
+        private StructuresList structureSearch;
         private SitesList siteSearch;
 
-        public SitesTab()
+        public InfrastructureTab()
         {
             InitializeComponent();
         }
+
 
         internal override void InitializeTab()
         {
             lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
             MaxResultsLabels.Add(lnkMaxResults);
 
-            EventTabs = new TabPage[] { tpSiteEvents };
-            EventTabTypes = new Type[] { typeof(Site) };
+            EventTabs = new TabPage[] { tpSiteEvents, tpStructureEvents, tpWorldConstructionEvents };
+            EventTabTypes = new Type[] { typeof(Site), typeof(Structure), typeof(WorldConstruction) };
 
             listSiteSearch.ShowGroups = false;
             listSiteSearch.AllColumns.Add(new OLVColumn
@@ -86,11 +87,42 @@ namespace LegendsViewer.Controls.Tabs
                 IsVisible = false,
                 AspectGetter = rowObject => ((Site)rowObject).Events.Count
             });
+
+            listStructureSearch.ShowGroups = false;
+            listWorldConstructionsSearch.ShowGroups = false;
         }
 
         internal override void AfterLoad(World world)
         {
             base.AfterLoad(world);
+
+            worldConstructionSearch = new WorldConstructionsList(World);
+            structureSearch = new StructuresList(World);
+
+            var structures = from structure in World.Structures
+                             orderby structure.Type.GetDescription()
+                             group structure by structure.Type.GetDescription() into structuretype
+                             select structuretype;
+            var worldconstructions = from construction in World.WorldConstructions
+                                     orderby construction.Type.GetDescription()
+                                     group construction by construction.Type.GetDescription() into constructiontype
+                                     select constructiontype;
+
+            cmbStructureType.Items.Add("All"); cmbStructureType.SelectedIndex = 0;
+            foreach (var structure in structures)
+                cmbStructureType.Items.Add(structure.Key);
+            cmbConstructionType.Items.Add("All"); cmbConstructionType.SelectedIndex = 0;
+            foreach (var construction in worldconstructions)
+                cmbConstructionType.Items.Add(construction.Key);
+
+            var worldConstructionEvents = from eventType in World.WorldConstructions.SelectMany(element => element.Events)
+                                          group eventType by eventType.Type into type
+                                          select type.Key;
+
+            var structureEvents = from eventType in World.Structures.SelectMany(element => element.Events)
+                                  group eventType by eventType.Type into type
+                                  select type.Key;
+
             siteSearch = new SitesList(World);
 
             var sites = from site in World.Sites
@@ -120,11 +152,15 @@ namespace LegendsViewer.Controls.Tabs
 
             TabEvents.Clear();
             TabEvents.Add(siteEvents.ToList());
+            TabEvents.Add(structureEvents.ToList());
+            TabEvents.Add(worldConstructionEvents.ToList());
         }
 
         internal override void DoSearch()
         {
             searchSiteList(null, null);
+            searchStructureList(null, null);
+            searchWorldConstructionList(null, null);
             base.DoSearch();
         }
 
@@ -135,6 +171,32 @@ namespace LegendsViewer.Controls.Tabs
             cmbSiteType.Items.Clear();
             cmbSitePopulation.Items.Clear();
             radSiteNone.Checked = true;
+
+            txtWorldConstructionsSearch.Clear();
+            cmbConstructionType.Items.Clear();
+            listWorldConstructionsSearch.Items.Clear();
+            radWorldConstructionsSortNone.Checked = true;
+
+            txtStructuresSearch.Clear();
+            cmbStructureType.Items.Clear();
+            listStructureSearch.Items.Clear();
+            radStructuresSortNone.Checked = true;
+        }
+
+        public void ResetSiteBaseList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && World != null)
+            {
+                txtSiteSearch.Clear();
+                cmbSiteType.SelectedIndex = 0;
+                cmbSitePopulation.SelectedIndex = 0;
+                radSiteNone.Checked = true;
+            }
+        }
+
+        private void UpdateCounts(Label label, int shown, int total)
+        {
+            label.Text = $"{shown} / {total}";
         }
 
         private void searchSiteList(object sender, EventArgs e)
@@ -158,24 +220,38 @@ namespace LegendsViewer.Controls.Tabs
                     IEnumerable<Site> list = siteSearch.getList();
                     var results = list.ToArray();
                     listSiteSearch.SetObjects(results);
-                    UpdateCounts(results.Length, siteSearch.BaseList.Count);
+                    UpdateCounts(lblShownResults, results.Length, siteSearch.BaseList.Count);
                 }
             }
         }
 
-        private void UpdateCounts(int shown, int total)
-        {
-            lblShownResults.Text = $"{shown} / {total}";
-        }
-
-        public void ResetSiteBaseList(object sender, EventArgs e)
+        private void searchWorldConstructionList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                txtSiteSearch.Clear();
-                cmbSiteType.SelectedIndex = 0;
-                cmbSitePopulation.SelectedIndex = 0;
-                radSiteNone.Checked = true;
+                worldConstructionSearch.Name = txtWorldConstructionsSearch.Text;
+                worldConstructionSearch.Type = cmbConstructionType.SelectedItem.ToString();
+                worldConstructionSearch.sortEvents = radWorldConstructionsSortEvents.Checked;
+                worldConstructionSearch.sortFiltered = radWorldConstructionsSortFiltered.Checked;
+                IEnumerable<WorldConstruction> list = worldConstructionSearch.GetList();
+                var results = list.ToArray();
+                listWorldConstructionsSearch.SetObjects(results);
+                UpdateCounts(lblWorldConstructionResult, results.Length, worldConstructionSearch.BaseList.Count);
+            }
+        }
+
+        private void searchStructureList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && World != null)
+            {
+                structureSearch.Name = txtStructuresSearch.Text;
+                structureSearch.Type = cmbStructureType.SelectedItem.ToString();
+                structureSearch.sortEvents = radStructuresSortEvents.Checked;
+                structureSearch.sortFiltered = radStructuresSortFiltered.Checked;
+                IEnumerable<Structure> list = structureSearch.GetList();
+                var results = list.ToArray();
+                listStructureSearch.SetObjects(list.ToArray());
+                UpdateCounts(lblStructureResults, results.Length, structureSearch.BaseList.Count);
             }
         }
 
@@ -203,6 +279,16 @@ namespace LegendsViewer.Controls.Tabs
                 listSearch_SelectedIndexChanged(this, EventArgs.Empty);
                 searchSiteList(null, null);
             }
+        }
+
+        private void listWorldConstructionsSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listSearch_SelectedIndexChanged(sender, e);
+        }
+
+        private void listStructuresSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listSiteSearch_SelectedIndexChanged(object sender, EventArgs e)

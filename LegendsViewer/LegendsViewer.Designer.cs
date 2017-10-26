@@ -35,26 +35,26 @@
             this.scWorld = new System.Windows.Forms.SplitContainer();
             this.tcWorld = new System.Windows.Forms.TabControl();
             this.tpSummary = new System.Windows.Forms.TabPage();
-            this.summaryTab1 = new LegendsViewer.Controls.Tabs.SummaryTab();
             this.tpHF = new System.Windows.Forms.TabPage();
-            this.historicalFiguresTab1 = new LegendsViewer.Controls.Tabs.HistoricalFiguresTab();
             this.tpCivs = new System.Windows.Forms.TabPage();
-            this.civsTab1 = new LegendsViewer.Controls.Tabs.CivsTab();
             this.tpArt = new System.Windows.Forms.TabPage();
-            this.artAndCraftsTab1 = new LegendsViewer.Controls.Tabs.ArtAndCraftsTab();
-            this.tpSites = new System.Windows.Forms.TabPage();
-            this.sitesTab1 = new LegendsViewer.Controls.Tabs.SitesTab();
+            this.tpInfrastructure = new System.Windows.Forms.TabPage();
             this.tpRegions = new System.Windows.Forms.TabPage();
-            this.geographyTab1 = new LegendsViewer.Controls.Tabs.GeographyTab();
             this.tpWarfare = new System.Windows.Forms.TabPage();
-            this.warfareTab1 = new LegendsViewer.Controls.Tabs.WarfareTab();
             this.tpCollections = new System.Windows.Forms.TabPage();
-            this.collectionsTab1 = new LegendsViewer.Controls.Tabs.CollectionsTab();
             this.btnChart = new System.Windows.Forms.Button();
             this.btnMap = new System.Windows.Forms.Button();
             this.btnStats = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnForward = new System.Windows.Forms.Button();
+            this.summaryTab1 = new LegendsViewer.Controls.Tabs.SummaryTab();
+            this.historicalFiguresTab1 = new LegendsViewer.Controls.Tabs.HistoricalFiguresTab();
+            this.civsTab1 = new LegendsViewer.Controls.Tabs.CivsTab();
+            this.artAndCraftsTab1 = new LegendsViewer.Controls.Tabs.ArtAndCraftsTab();
+            this.geographyTab1 = new LegendsViewer.Controls.Tabs.GeographyTab();
+            this.warfareTab1 = new LegendsViewer.Controls.Tabs.WarfareTab();
+            this.collectionsTab1 = new LegendsViewer.Controls.Tabs.CollectionsTab();
+            this.infrastructureTab1 = new LegendsViewer.Controls.Tabs.InfrastructureTab();
             ((System.ComponentModel.ISupportInitialize)(this.scWorld)).BeginInit();
             this.scWorld.Panel1.SuspendLayout();
             this.scWorld.Panel2.SuspendLayout();
@@ -64,7 +64,7 @@
             this.tpHF.SuspendLayout();
             this.tpCivs.SuspendLayout();
             this.tpArt.SuspendLayout();
-            this.tpSites.SuspendLayout();
+            this.tpInfrastructure.SuspendLayout();
             this.tpRegions.SuspendLayout();
             this.tpWarfare.SuspendLayout();
             this.tpCollections.SuspendLayout();
@@ -117,7 +117,7 @@
             this.tcWorld.Controls.Add(this.tpHF);
             this.tcWorld.Controls.Add(this.tpCivs);
             this.tcWorld.Controls.Add(this.tpArt);
-            this.tcWorld.Controls.Add(this.tpSites);
+            this.tcWorld.Controls.Add(this.tpInfrastructure);
             this.tcWorld.Controls.Add(this.tpRegions);
             this.tcWorld.Controls.Add(this.tpWarfare);
             this.tcWorld.Controls.Add(this.tpCollections);
@@ -142,104 +142,56 @@
             this.tpSummary.Text = "Summary";
             this.tpSummary.UseVisualStyleBackColor = true;
             // 
-            // summaryTab1
-            // 
-            this.summaryTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.summaryTab1.Location = new System.Drawing.Point(0, 0);
-            this.summaryTab1.Name = "summaryTab1";
-            this.summaryTab1.Size = new System.Drawing.Size(271, 619);
-            this.summaryTab1.TabIndex = 0;
-            // 
             // tpHF
             // 
             this.tpHF.Controls.Add(this.historicalFiguresTab1);
-            this.tpHF.Location = new System.Drawing.Point(4, 58);
+            this.tpHF.Location = new System.Drawing.Point(4, 22);
             this.tpHF.Margin = new System.Windows.Forms.Padding(0);
             this.tpHF.Name = "tpHF";
-            this.tpHF.Size = new System.Drawing.Size(271, 619);
+            this.tpHF.Size = new System.Drawing.Size(271, 655);
             this.tpHF.TabIndex = 1;
             this.tpHF.Text = "Historical Figures";
             this.tpHF.UseVisualStyleBackColor = true;
             // 
-            // historicalFiguresTab1
-            // 
-            this.historicalFiguresTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.historicalFiguresTab1.Location = new System.Drawing.Point(0, 0);
-            this.historicalFiguresTab1.Name = "historicalFiguresTab1";
-            this.historicalFiguresTab1.Size = new System.Drawing.Size(271, 619);
-            this.historicalFiguresTab1.TabIndex = 0;
-            // 
             // tpCivs
             // 
             this.tpCivs.Controls.Add(this.civsTab1);
-            this.tpCivs.Location = new System.Drawing.Point(4, 58);
+            this.tpCivs.Location = new System.Drawing.Point(4, 22);
             this.tpCivs.Name = "tpCivs";
-            this.tpCivs.Size = new System.Drawing.Size(271, 619);
+            this.tpCivs.Size = new System.Drawing.Size(271, 655);
             this.tpCivs.TabIndex = 5;
             this.tpCivs.Text = "Civs and entities";
             this.tpCivs.UseVisualStyleBackColor = true;
             // 
-            // civsTab1
-            // 
-            this.civsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.civsTab1.Location = new System.Drawing.Point(0, 0);
-            this.civsTab1.Name = "civsTab1";
-            this.civsTab1.Size = new System.Drawing.Size(271, 619);
-            this.civsTab1.TabIndex = 0;
-            // 
             // tpArt
             // 
             this.tpArt.Controls.Add(this.artAndCraftsTab1);
-            this.tpArt.Location = new System.Drawing.Point(4, 58);
+            this.tpArt.Location = new System.Drawing.Point(4, 40);
             this.tpArt.Name = "tpArt";
-            this.tpArt.Size = new System.Drawing.Size(271, 619);
+            this.tpArt.Size = new System.Drawing.Size(271, 637);
             this.tpArt.TabIndex = 8;
             this.tpArt.Text = "Art & Crafts";
             this.tpArt.UseVisualStyleBackColor = true;
             // 
-            // artAndCraftsTab1
+            // tpInfrastructure
             // 
-            this.artAndCraftsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.artAndCraftsTab1.Location = new System.Drawing.Point(0, 0);
-            this.artAndCraftsTab1.Name = "artAndCraftsTab1";
-            this.artAndCraftsTab1.Size = new System.Drawing.Size(271, 619);
-            this.artAndCraftsTab1.TabIndex = 0;
-            // 
-            // tpSites
-            // 
-            this.tpSites.Controls.Add(this.sitesTab1);
-            this.tpSites.Location = new System.Drawing.Point(4, 58);
-            this.tpSites.Name = "tpSites";
-            this.tpSites.Size = new System.Drawing.Size(271, 619);
-            this.tpSites.TabIndex = 2;
-            this.tpSites.Text = "Sites";
-            this.tpSites.UseVisualStyleBackColor = true;
-            // 
-            // sitesTab1
-            // 
-            this.sitesTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sitesTab1.Location = new System.Drawing.Point(0, 0);
-            this.sitesTab1.Name = "sitesTab1";
-            this.sitesTab1.Size = new System.Drawing.Size(271, 619);
-            this.sitesTab1.TabIndex = 0;
+            this.tpInfrastructure.Controls.Add(this.infrastructureTab1);
+            this.tpInfrastructure.Location = new System.Drawing.Point(4, 40);
+            this.tpInfrastructure.Name = "tpInfrastructure";
+            this.tpInfrastructure.Size = new System.Drawing.Size(271, 637);
+            this.tpInfrastructure.TabIndex = 2;
+            this.tpInfrastructure.Text = "Infrastructure";
+            this.tpInfrastructure.UseVisualStyleBackColor = true;
             // 
             // tpRegions
             // 
             this.tpRegions.Controls.Add(this.geographyTab1);
-            this.tpRegions.Location = new System.Drawing.Point(4, 58);
+            this.tpRegions.Location = new System.Drawing.Point(4, 40);
             this.tpRegions.Name = "tpRegions";
-            this.tpRegions.Size = new System.Drawing.Size(271, 619);
+            this.tpRegions.Size = new System.Drawing.Size(271, 637);
             this.tpRegions.TabIndex = 3;
             this.tpRegions.Text = "Geography";
             this.tpRegions.UseVisualStyleBackColor = true;
-            // 
-            // geographyTab1
-            // 
-            this.geographyTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.geographyTab1.Location = new System.Drawing.Point(0, 0);
-            this.geographyTab1.Name = "geographyTab1";
-            this.geographyTab1.Size = new System.Drawing.Size(271, 619);
-            this.geographyTab1.TabIndex = 0;
             // 
             // tpWarfare
             // 
@@ -251,14 +203,6 @@
             this.tpWarfare.Text = "Warfare";
             this.tpWarfare.UseVisualStyleBackColor = true;
             // 
-            // warfareTab1
-            // 
-            this.warfareTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.warfareTab1.Location = new System.Drawing.Point(0, 0);
-            this.warfareTab1.Name = "warfareTab1";
-            this.warfareTab1.Size = new System.Drawing.Size(271, 619);
-            this.warfareTab1.TabIndex = 0;
-            // 
             // tpCollections
             // 
             this.tpCollections.Controls.Add(this.collectionsTab1);
@@ -266,16 +210,8 @@
             this.tpCollections.Name = "tpCollections";
             this.tpCollections.Size = new System.Drawing.Size(271, 619);
             this.tpCollections.TabIndex = 7;
-            this.tpCollections.Text = "Collections";
+            this.tpCollections.Text = "Other";
             this.tpCollections.UseVisualStyleBackColor = true;
-            // 
-            // collectionsTab1
-            // 
-            this.collectionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.collectionsTab1.Location = new System.Drawing.Point(0, 0);
-            this.collectionsTab1.Name = "collectionsTab1";
-            this.collectionsTab1.Size = new System.Drawing.Size(271, 619);
-            this.collectionsTab1.TabIndex = 0;
             // 
             // btnChart
             // 
@@ -333,6 +269,70 @@
             this.btnForward.UseVisualStyleBackColor = true;
             this.btnForward.Click += new System.EventHandler(this.btnForward_Click);
             // 
+            // summaryTab1
+            // 
+            this.summaryTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.summaryTab1.Location = new System.Drawing.Point(0, 0);
+            this.summaryTab1.Name = "summaryTab1";
+            this.summaryTab1.Size = new System.Drawing.Size(271, 619);
+            this.summaryTab1.TabIndex = 0;
+            // 
+            // historicalFiguresTab1
+            // 
+            this.historicalFiguresTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.historicalFiguresTab1.Location = new System.Drawing.Point(0, 0);
+            this.historicalFiguresTab1.Name = "historicalFiguresTab1";
+            this.historicalFiguresTab1.Size = new System.Drawing.Size(271, 655);
+            this.historicalFiguresTab1.TabIndex = 0;
+            // 
+            // civsTab1
+            // 
+            this.civsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.civsTab1.Location = new System.Drawing.Point(0, 0);
+            this.civsTab1.Name = "civsTab1";
+            this.civsTab1.Size = new System.Drawing.Size(271, 655);
+            this.civsTab1.TabIndex = 0;
+            // 
+            // artAndCraftsTab1
+            // 
+            this.artAndCraftsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.artAndCraftsTab1.Location = new System.Drawing.Point(0, 0);
+            this.artAndCraftsTab1.Name = "artAndCraftsTab1";
+            this.artAndCraftsTab1.Size = new System.Drawing.Size(271, 637);
+            this.artAndCraftsTab1.TabIndex = 0;
+            // 
+            // geographyTab1
+            // 
+            this.geographyTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.geographyTab1.Location = new System.Drawing.Point(0, 0);
+            this.geographyTab1.Name = "geographyTab1";
+            this.geographyTab1.Size = new System.Drawing.Size(271, 637);
+            this.geographyTab1.TabIndex = 0;
+            // 
+            // warfareTab1
+            // 
+            this.warfareTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.warfareTab1.Location = new System.Drawing.Point(0, 0);
+            this.warfareTab1.Name = "warfareTab1";
+            this.warfareTab1.Size = new System.Drawing.Size(271, 619);
+            this.warfareTab1.TabIndex = 0;
+            // 
+            // collectionsTab1
+            // 
+            this.collectionsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.collectionsTab1.Location = new System.Drawing.Point(0, 0);
+            this.collectionsTab1.Name = "collectionsTab1";
+            this.collectionsTab1.Size = new System.Drawing.Size(271, 619);
+            this.collectionsTab1.TabIndex = 0;
+            // 
+            // infrastructureTab1
+            // 
+            this.infrastructureTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.infrastructureTab1.Location = new System.Drawing.Point(0, 0);
+            this.infrastructureTab1.Name = "infrastructureTab1";
+            this.infrastructureTab1.Size = new System.Drawing.Size(271, 637);
+            this.infrastructureTab1.TabIndex = 0;
+            // 
             // frmLegendsViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -357,7 +357,7 @@
             this.tpHF.ResumeLayout(false);
             this.tpCivs.ResumeLayout(false);
             this.tpArt.ResumeLayout(false);
-            this.tpSites.ResumeLayout(false);
+            this.tpInfrastructure.ResumeLayout(false);
             this.tpRegions.ResumeLayout(false);
             this.tpWarfare.ResumeLayout(false);
             this.tpCollections.ResumeLayout(false);
@@ -368,7 +368,7 @@
         #endregion
 
         private System.Windows.Forms.TabControl tcWorld;
-        private System.Windows.Forms.TabPage tpSites;
+        private System.Windows.Forms.TabPage tpInfrastructure;
         private System.Windows.Forms.TabPage tpRegions;
         private System.Windows.Forms.TabPage tpCivs;
         private System.Windows.Forms.OpenFileDialog dlgOpen;
@@ -389,10 +389,10 @@
         private Controls.Tabs.HistoricalFiguresTab historicalFiguresTab1;
         private Controls.Tabs.CivsTab civsTab1;
         private Controls.Tabs.ArtAndCraftsTab artAndCraftsTab1;
-        private Controls.Tabs.SitesTab sitesTab1;
         private Controls.Tabs.GeographyTab geographyTab1;
         private Controls.Tabs.WarfareTab warfareTab1;
         private Controls.Tabs.CollectionsTab collectionsTab1;
+        private Controls.Tabs.InfrastructureTab infrastructureTab1;
     }
 }
 

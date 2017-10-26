@@ -204,11 +204,11 @@
     <Compile Include="Controls\Tabs\HistoricalFiguresTab.designer.cs">
       <DependentUpon>HistoricalFiguresTab.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Tabs\SitesTab.cs">
+    <Compile Include="Controls\Tabs\InfrastructureTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Tabs\SitesTab.designer.cs">
-      <DependentUpon>SitesTab.cs</DependentUpon>
+    <Compile Include="Controls\Tabs\InfrastructureTab.Designer.cs">
+      <DependentUpon>InfrastructureTab.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Tabs\SummaryTab.cs">
       <SubType>UserControl</SubType>
@@ -459,8 +459,8 @@
     <EmbeddedResource Include="Controls\Tabs\HistoricalFiguresTab.resx">
       <DependentUpon>HistoricalFiguresTab.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Tabs\SitesTab.resx">
-      <DependentUpon>SitesTab.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\Tabs\InfrastructureTab.resx">
+      <DependentUpon>InfrastructureTab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Tabs\SummaryTab.resx">
       <DependentUpon>SummaryTab.cs</DependentUpon>

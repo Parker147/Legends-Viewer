@@ -88,12 +88,7 @@ namespace LegendsViewer.Controls.Tabs
                                        group eventType by eventType.Type into type
                                        select type.Key;
 
-            var eventTypes = from eventType in World.Events
-                             group eventType by eventType.Type into type
-                             select type.Key;
-
             TabEvents.Clear();
-            TabEvents.Add(eventTypes.ToList());
             TabEvents.Add(artifactEvents.ToList());
             TabEvents.Add(writtenContentEvents.ToList());
         }
