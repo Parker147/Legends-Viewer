@@ -168,6 +168,12 @@
     <Compile Include="Controls\TabControlImproved.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Tabs\ArtAndCraftsTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Tabs\ArtAndCraftsTab.Designer.cs">
+      <DependentUpon>ArtAndCraftsTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Tabs\BaseSearchTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -434,6 +440,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Query\QueryControl.resx">
       <DependentUpon>QueryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Tabs\ArtAndCraftsTab.resx">
+      <DependentUpon>ArtAndCraftsTab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Tabs\BaseSearchTab.resx">
       <DependentUpon>BaseSearchTab.cs</DependentUpon>

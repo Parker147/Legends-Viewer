@@ -15,8 +15,6 @@ namespace LegendsViewer.Controls.Tabs
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof(IDesigner))]
     public partial class CollectionsTab : BaseSearchTab
     {
-        private ArtifactsList artifactSearch;
-        private WrittenContentList writtenContentSearch;
         private WorldConstructionsList worldConstructionSearch;
         private StructuresList structureSearch;
 
@@ -28,29 +26,8 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void InitializeTab()
         {
-            EventTabs = new TabPage[] { tpArtifactsEvents, tpEraEvents, tpStructureEvents, tpWorldConstructionEvents, tpWrittenContentEvents };
+            EventTabs = new TabPage[] { tpEraEvents, tpStructureEvents, tpWorldConstructionEvents };
             EventTabTypes = new Type[] { typeof(Artifact), typeof(Era), typeof(Structure), typeof(WorldConstruction), typeof(WrittenContent) };
-
-            listArtifactSearch.AllColumns.Add(new OLVColumn
-            {
-                IsVisible = false, Text = "Creator", TextAlign = HorizontalAlignment.Left,
-                AspectGetter = obj => ((Artifact)obj).Creator.Name
-            });
-            listArtifactSearch.AllColumns.Add(new OLVColumn { AspectName = "SubType", IsVisible = false, Text = "SubType", TextAlign = HorizontalAlignment.Left });
-            listArtifactSearch.AllColumns.Add(new OLVColumn { AspectName = "Material", IsVisible = false, Text = "Material", TextAlign = HorizontalAlignment.Left });
-            listArtifactSearch.AllColumns.Add(new OLVColumn { AspectName = "PageCount", IsVisible = false, Text = "Page Count", TextAlign = HorizontalAlignment.Right });
-            listArtifactSearch.ShowGroups = false;
-
-
-            listWrittenContentSearch.AllColumns.Add(new OLVColumn
-            {
-                IsVisible = false,
-                Text = "Author",
-                TextAlign = HorizontalAlignment.Left,
-                AspectGetter = obj => ((WrittenContent)obj).Author.Name
-            });
-            listWrittenContentSearch.AllColumns.Add(new OLVColumn { AspectName = "PageCount", IsVisible = false, Text = "Page Count", TextAlign = HorizontalAlignment.Right });
-            listWrittenContentSearch.ShowGroups = false;
 
             listStructureSearch.ShowGroups = false;
 
@@ -63,8 +40,6 @@ namespace LegendsViewer.Controls.Tabs
         {
             base.AfterLoad(world);
 
-            artifactSearch = new ArtifactsList(World);
-            writtenContentSearch = new WrittenContentList(World);
             worldConstructionSearch = new WorldConstructionsList(World);
             structureSearch = new StructuresList(World);
 
@@ -76,14 +51,6 @@ namespace LegendsViewer.Controls.Tabs
                                      orderby construction.Type.GetDescription()
                                      group construction by construction.Type.GetDescription() into constructiontype
                                      select constructiontype;
-            var writtencontents = from writtenContent in World.WrittenContents
-                                  orderby writtenContent.Type.GetDescription()
-                                  group writtenContent by writtenContent.Type.GetDescription() into writtenContentType
-                                  select writtenContentType;
-
-            var artifactTypes = World.Artifacts.Select(x => x.Type).SkipWhile(string.IsNullOrEmpty).Distinct().OrderBy(x => x);
-
-            var artifactMaterials = World.Artifacts.Select(x => string.IsNullOrEmpty(x.Material) ? "" : x.Material).SkipWhile(string.IsNullOrEmpty).Distinct().OrderBy(x => x);
 
             listEraSearch.SetObjects(World.Eras.ToArray());
 
@@ -93,17 +60,6 @@ namespace LegendsViewer.Controls.Tabs
             cmbConstructionType.Items.Add("All"); cmbConstructionType.SelectedIndex = 0;
             foreach (var construction in worldconstructions)
                 cmbConstructionType.Items.Add(construction.Key);
-            cmbWrittenContentType.Items.Add("All"); cmbWrittenContentType.SelectedIndex = 0;
-            foreach (var writtencontent in writtencontents)
-                cmbWrittenContentType.Items.Add(writtencontent.Key);
-
-            cbmArtTypeFilter.Items.Add("All"); cbmArtTypeFilter.SelectedIndex = 0;
-            cbmArtTypeFilter.Items.AddRange(artifactTypes.ToArray());
-            lblArtTypeFilter.Visible = cbmArtTypeFilter.Visible = artifactTypes.Any();
-
-            cbmArtMatFilter.Items.Add("All"); cbmArtMatFilter.SelectedIndex = 0;
-            cbmArtMatFilter.Items.AddRange(artifactMaterials.ToArray());
-            lblArtMatFilter.Visible = cbmArtMatFilter.Visible = artifactMaterials.Any();
 
             numStart.Maximum = numEraEnd.Value = numEraEnd.Maximum = World.Events.Last().Year;
 
@@ -112,14 +68,6 @@ namespace LegendsViewer.Controls.Tabs
                 eraCheck.Checked = false;
             Coordinator.Form.DontRefreshBrowserPages = false;
 
-
-            var artifactEvents = from eventType in World.Artifacts.SelectMany(artifact => artifact.Events)
-                                 group eventType by eventType.Type into type
-                                 select type.Key;
-
-            var writtenContentEvents = from eventType in World.WrittenContents.SelectMany(element => element.Events)
-                                       group eventType by eventType.Type into type
-                                       select type.Key;
 
             var worldConstructionEvents = from eventType in World.WorldConstructions.SelectMany(element => element.Events)
                                           group eventType by eventType.Type into type
@@ -134,19 +82,15 @@ namespace LegendsViewer.Controls.Tabs
                              select type.Key;
 
             TabEvents.Clear();
-            TabEvents.Add(artifactEvents.ToList());
             TabEvents.Add(eventTypes.ToList());
             TabEvents.Add(structureEvents.ToList());
             TabEvents.Add(worldConstructionEvents.ToList());
-            TabEvents.Add(writtenContentEvents.ToList());
         }
 
         internal override void DoSearch()
         {
-            searchArtifactList(null, null);
             searchStructureList(null, null);
             searchWorldConstructionList(null, null);
-            searchWrittenContentList(null, null);
             base.DoSearch();
         }
 
@@ -158,18 +102,6 @@ namespace LegendsViewer.Controls.Tabs
             foreach (CheckBox eraCheck in tpEraEvents.Controls.OfType<CheckBox>())
                 eraCheck.Checked = false;
             Coordinator.Form.DontRefreshBrowserPages = false;
-
-            txtArtifactSearch.Clear();
-            listArtifactSearch.SetObjects(new object[0]);
-            radArtifactSortNone.Checked = true;
-
-            cbmArtMatFilter.Items.Clear();
-            cbmArtTypeFilter.Items.Clear();
-
-            txtWrittenContentSearch.Clear();
-            cmbWrittenContentType.Items.Clear();
-            listWrittenContentSearch.Items.Clear();
-            radWrittenContentSortNone.Checked = true;
 
             txtWorldConstructionsSearch.Clear();
             cmbConstructionType.Items.Clear();
@@ -186,22 +118,6 @@ namespace LegendsViewer.Controls.Tabs
             numEraEnd.Value = 0;
         }
 
-        private void searchArtifactList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && World != null)
-            {
-                artifactSearch.Name = txtArtifactSearch.Text;
-                artifactSearch.sortEvents = radArtifactSortEvents.Checked;
-                artifactSearch.sortFiltered = radArtifactSortFiltered.Checked;
-                artifactSearch.Type = cbmArtTypeFilter.SelectedIndex == 0 ? null : cbmArtTypeFilter.SelectedItem.ToString();
-                artifactSearch.Material = cbmArtMatFilter.SelectedIndex == 0 ? null : cbmArtMatFilter.SelectedItem.ToString();
-                IEnumerable<Artifact> list = artifactSearch.GetList();
-                var results = list.ToArray();
-                listArtifactSearch.SetObjects(results);
-                UpdateCounts(lblArtifactResults, results.Length, artifactSearch.BaseList.Count);
-            }
-        }
-
         private void UpdateCounts(Label label, int shown, int total)
         {
             label.Text = $"{shown} / {total}";
@@ -212,34 +128,6 @@ namespace LegendsViewer.Controls.Tabs
             if (!FileLoader.Working && World != null)
             {
                 Browser.Navigate(ControlOption.HTML, new Era(Convert.ToInt32(numStart.Value), Convert.ToInt32(numEraEnd.Value), World));
-            }
-        }
-
-        private void ResetArtifactBaseList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && World != null)
-            {
-                lblArtifactList.Text = "All";
-                lblArtifactList.ForeColor = DefaultForeColor;
-                lblArtifactList.Font = new Font(lblArtifactList.Font.FontFamily, lblArtifactList.Font.Size, FontStyle.Regular);
-                cbmArtTypeFilter.SelectedIndex = 0;
-                cbmArtMatFilter.SelectedIndex = 0;
-                searchArtifactList(null, null);
-            }
-        }
-
-        private void searchWrittenContentList(object sender, EventArgs e)
-        {
-            if (!FileLoader.Working && World != null)
-            {
-                writtenContentSearch.Name = txtWrittenContentSearch.Text;
-                writtenContentSearch.Type = cmbWrittenContentType.SelectedItem.ToString();
-                writtenContentSearch.sortEvents = radWrittenContentSortEvents.Checked;
-                writtenContentSearch.sortFiltered = radWrittenContentSortFiltered.Checked;
-                IEnumerable<WrittenContent> list = writtenContentSearch.GetList();
-                var results = list.ToArray();
-                listWrittenContentSearch.SetObjects(results);
-                UpdateCounts(lblWrittenContentResults, results.Length, writtenContentSearch.BaseList.Count);
             }
         }
 
@@ -274,16 +162,6 @@ namespace LegendsViewer.Controls.Tabs
         }
 
         private void listEras_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            listSearch_SelectedIndexChanged(sender, e);
-        }
-
-        private void listArtifactSearch_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            listSearch_SelectedIndexChanged(sender, e);
-        }
-
-        private void listWrittenContentSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
             listSearch_SelectedIndexChanged(sender, e);
         }
