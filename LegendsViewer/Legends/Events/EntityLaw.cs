@@ -51,7 +51,7 @@ namespace LegendsViewer.Legends.Events
                 eventString += " lifted numerous ";
             switch (Law)
             {
-                case EntityLawType.Harsh: eventString += "oppresive"; break;
+                case EntityLawType.Harsh: eventString += "oppressive"; break;
                 case EntityLawType.Unknown: eventString += "(" + UnknownLawType + ")"; break;
             }
             if (LawLaid)
