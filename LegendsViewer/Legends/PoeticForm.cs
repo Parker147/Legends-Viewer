@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends
         public PoeticForm(List<Property> properties, World world)
             : base(properties, world)
         {
+            FormType = Enums.FormType.Poetic;
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
@@ -24,7 +25,7 @@ namespace LegendsViewer.Legends
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href=\"poeticform#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                 {

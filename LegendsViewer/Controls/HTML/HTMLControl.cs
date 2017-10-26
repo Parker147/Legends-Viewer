@@ -177,6 +177,12 @@ namespace LegendsViewer.Controls
                         navigateObject = World.GetWorldConstruction(id); break;
                     case "writtencontent":
                         navigateObject = World.GetWrittenContent(id); break;
+                    case "danceform":
+                        navigateObject = World.GetDanceForm(id); break;
+                    case "musicalform":
+                        navigateObject = World.GetMusicalForm(id); break;
+                    case "poeticform":
+                        navigateObject = World.GetPoeticForm(id); break;
                     case "structure":
                         navigateObject = World.GetStructure(id); break;
                     default: throw new Exception("Unhandled url type: " + objectType);

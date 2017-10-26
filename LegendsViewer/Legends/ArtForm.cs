@@ -2,12 +2,14 @@
 using System.Linq;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
+using LegendsViewer.Legends.Enums;
 
 namespace LegendsViewer.Legends
 {
     public class ArtForm : WorldObject
     {
         public string Name { get; set; } // legends_plus.xml
+        public FormType FormType { get; set; }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {

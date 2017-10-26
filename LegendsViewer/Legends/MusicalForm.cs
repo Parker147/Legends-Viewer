@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends
         public MusicalForm(List<Property> properties, World world)
             : base(properties, world)
         {
+            FormType = Enums.FormType.Musical;
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
@@ -23,7 +24,7 @@ namespace LegendsViewer.Legends
 
                 if (pov != this)
                 {
-                    return Icon + "<a title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href=\"musicalform#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                 {

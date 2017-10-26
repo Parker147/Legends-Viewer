@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends
         public DanceForm(List<Property> properties, World world)
             : base(properties, world)
         {
+            FormType = Enums.FormType.Dance;
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
@@ -24,7 +25,7 @@ namespace LegendsViewer.Legends
                     title += "&#13";
                     title += "Events: " + Events.Count;
 
-                    linkedString = Icon + "<a title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href=\"danceform#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                 {

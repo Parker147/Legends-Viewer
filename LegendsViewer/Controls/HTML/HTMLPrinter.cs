@@ -61,6 +61,12 @@ namespace LegendsViewer.Controls
                 return new WorldConstructionPrinter(printObject as WorldConstruction, world);
             if (printType == typeof(WrittenContent))
                 return new WrittenContentPrinter(printObject as WrittenContent, world);
+            if (printType == typeof(DanceForm))
+                return new ArtFormPrinter(printObject as ArtForm, world);
+            if (printType == typeof(MusicalForm))
+                return new ArtFormPrinter(printObject as ArtForm, world);
+            if (printType == typeof(PoeticForm))
+                return new ArtFormPrinter(printObject as ArtForm, world);
             if (printType == typeof(Structure))
                 return new StructurePrinter(printObject as Structure, world);
             if (printType == typeof(Landmass))

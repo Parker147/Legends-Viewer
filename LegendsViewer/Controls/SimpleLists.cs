@@ -273,6 +273,60 @@ namespace LegendsViewer.Controls
         }
     }
 
+    public class DanceFormsList : WorldObjectList
+    {
+        public string Name;
+        public readonly List<DanceForm> BaseList;
+        public DanceFormsList(World setWorld) : base(setWorld)
+        {
+            BaseList = World.DanceForms;
+        }
+        public IEnumerable<DanceForm> getList()
+        {
+            IEnumerable<DanceForm> filtered = BaseList;
+            if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (sortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
+            if (sortFiltered) filtered = filtered.OrderByDescending(element => element.Events.Count(ev => !DanceForm.Filters.Contains(ev.Type)));
+            return MaxResults > 0 ? filtered.Take(MaxResults) : filtered;
+        }
+    }
+
+    public class MusicalFormsList : WorldObjectList
+    {
+        public string Name;
+        public readonly List<MusicalForm> BaseList;
+        public MusicalFormsList(World setWorld) : base(setWorld)
+        {
+            BaseList = World.MusicalForms;
+        }
+        public IEnumerable<MusicalForm> getList()
+        {
+            IEnumerable<MusicalForm> filtered = BaseList;
+            if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (sortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
+            if (sortFiltered) filtered = filtered.OrderByDescending(element => element.Events.Count(ev => !MusicalForm.Filters.Contains(ev.Type)));
+            return MaxResults > 0 ? filtered.Take(MaxResults) : filtered;
+        }
+    }
+
+    public class PoeticFormsList : WorldObjectList
+    {
+        public string Name;
+        public readonly List<PoeticForm> BaseList;
+        public PoeticFormsList(World setWorld) : base(setWorld)
+        {
+            BaseList = World.PoeticForms;
+        }
+        public IEnumerable<PoeticForm> getList()
+        {
+            IEnumerable<PoeticForm> filtered = BaseList;
+            if (Name != "") filtered = filtered.Where(element => element.Name.ToLower().Contains(Name.ToLower()));
+            if (sortEvents) filtered = filtered.OrderByDescending(element => element.Events.Count);
+            if (sortFiltered) filtered = filtered.OrderByDescending(element => element.Events.Count(ev => !PoeticForm.Filters.Contains(ev.Type)));
+            return MaxResults > 0 ? filtered.Take(MaxResults) : filtered;
+        }
+    }
+
     public class WorldConstructionsList : WorldObjectList
     {
         public string Name, Type;

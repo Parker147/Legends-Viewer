@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="Controls\EventArgs.cs" />
     <Compile Include="Controls\HTML\ArtifactPrinter.cs" />
+    <Compile Include="Controls\HTML\ArtFormPrinter.cs" />
     <Compile Include="Controls\HTML\LandmassPrinter.cs" />
     <Compile Include="Controls\HTML\MountainPeakPrinter.cs" />
     <Compile Include="Controls\HTML\ReadMeControl.cs" />
