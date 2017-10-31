@@ -46,17 +46,17 @@ assembly_info:
 # on successful build
 on_success:
   - ps: |
-    $baseFolder = "$($env:APPVEYOR_BUILD_FOLDER)\LegendsViewer\bin\"
-    $buildFolder = join-path $baseFolder "Release"
-    $dropFolder = (New-Item -Path "$($baseFolder)\Output" -ItemType "directory").FullName
-    Get-ChildItem "$($buildFolder)\*.exe", "$($buildFolder)\*.dll" | Copy-Item -Destination "$($dropFolder)"
-    Copy-Item "$($buildFolder)\WebContent" "$($dropFolder)\WebContent" -Recurse
-    $deploymentName = "LegendsViewer $($env:APPVEYOR_BUILD_VERSION) $($env:APPVEYOR_REPO_BRANCH)"
-    $releaseVersion = ($env:APPVEYOR_BUILD_VERSION).Replace($env:APPVEYOR_BUILD_NUMBER, "").Trim(".")
-    $zipName = "LegendsViewer-$($releaseVersion).zip"
-    [Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem");
-    [System.IO.Compression.ZipFile]::CreateFromDirectory("$($dropFolder)", "$($baseFolder)\$zipName", [System.IO.Compression.CompressionLevel]::Optimal, $false);
-    Push-AppveyorArtifact "$($baseFolder)\$zipName" -FileName $zipName -DeploymentName $deploymentName
+      $baseFolder = "$($env:APPVEYOR_BUILD_FOLDER)\LegendsViewer\bin\"
+      $buildFolder = join-path $baseFolder "Release"
+      $dropFolder = (New-Item -Path "$($baseFolder)\Output" -ItemType "directory").FullName
+      Get-ChildItem "$($buildFolder)\*.exe", "$($buildFolder)\*.dll" | Copy-Item -Destination "$($dropFolder)"
+      Copy-Item "$($buildFolder)\WebContent" "$($dropFolder)\WebContent" -Recurse
+      $deploymentName = "LegendsViewer $($env:APPVEYOR_BUILD_VERSION) $($env:APPVEYOR_REPO_BRANCH)"
+      $releaseVersion = ($env:APPVEYOR_BUILD_VERSION).Replace($env:APPVEYOR_BUILD_NUMBER, "").Trim(".")
+      $zipName = "LegendsViewer-$($releaseVersion).zip"
+      [Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem");
+      [System.IO.Compression.ZipFile]::CreateFromDirectory("$($dropFolder)", "$($baseFolder)\$zipName", [System.IO.Compression.CompressionLevel]::Optimal, $false);
+      Push-AppveyorArtifact "$($baseFolder)\$zipName" -FileName $zipName -DeploymentName $deploymentName
 
 
 #######################
