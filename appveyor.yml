@@ -51,7 +51,7 @@ on_success:
       $dropFolder = (New-Item -Path "$($baseFolder)\Output" -ItemType "directory").FullName
       Get-ChildItem "$($buildFolder)\*.exe", "$($buildFolder)\*.dll" | Copy-Item -Destination "$($dropFolder)"
       Copy-Item "$($buildFolder)\WebContent" "$($dropFolder)\WebContent" -Recurse
-      $deploymentName = "LegendsViewer $($env:APPVEYOR_BUILD_VERSION) $($env:APPVEYOR_REPO_BRANCH)"
+      $deploymentName = "$($env:APPVEYOR_REPO_BRANCH) $($env:APPVEYOR_BUILD_VERSION)"
       $releaseVersion = ($env:APPVEYOR_BUILD_VERSION).Replace($env:APPVEYOR_BUILD_NUMBER, "").Trim(".")
       $zipName = "LegendsViewer-$($releaseVersion).zip"
       [Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem");
