@@ -8,6 +8,9 @@ version: 1.18.00.{build}
 # to disable automatic builds
 #build: off
 
+before_build:
+  - nuget restore
+
 build:
   project: LegendsViewer.sln        # path to Visual Studio solution or project
   verbosity: minimal               # quiet|minimal|norma|detailed
