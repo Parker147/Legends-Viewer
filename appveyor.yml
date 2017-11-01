@@ -13,7 +13,7 @@ before_build:
 
 build:
   project: LegendsViewer.sln        # path to Visual Studio solution or project
-  verbosity: minimal               # quiet|minimal|norma|detailed
+  verbosity: normal               # quiet|minimal|normal|detailed
 
 # branches to build
 branches:

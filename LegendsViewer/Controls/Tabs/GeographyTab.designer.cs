@@ -204,8 +204,8 @@
             this.listRegionSearch.FullRowSelect = true;
             this.listRegionSearch.GridLines = true;
             this.listRegionSearch.HeaderWordWrap = true;
-            this.listRegionSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listRegionSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listRegionSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listRegionSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listRegionSearch.Location = new System.Drawing.Point(3, 32);
             this.listRegionSearch.Name = "listRegionSearch";
             this.listRegionSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -447,8 +447,8 @@
             this.listURegionSearch.FullRowSelect = true;
             this.listURegionSearch.GridLines = true;
             this.listURegionSearch.HeaderWordWrap = true;
-            this.listURegionSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listURegionSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listURegionSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listURegionSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listURegionSearch.Location = new System.Drawing.Point(3, 32);
             this.listURegionSearch.Name = "listURegionSearch";
             this.listURegionSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -661,8 +661,8 @@
             this.listLandmassesSearch.FullRowSelect = true;
             this.listLandmassesSearch.GridLines = true;
             this.listLandmassesSearch.HeaderWordWrap = true;
-            this.listLandmassesSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listLandmassesSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listLandmassesSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listLandmassesSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listLandmassesSearch.Location = new System.Drawing.Point(3, 31);
             this.listLandmassesSearch.Name = "listLandmassesSearch";
             this.listLandmassesSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -844,8 +844,8 @@
             this.listMountainPeakSearch.FullRowSelect = true;
             this.listMountainPeakSearch.GridLines = true;
             this.listMountainPeakSearch.HeaderWordWrap = true;
-            this.listMountainPeakSearch.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.listMountainPeakSearch.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.listMountainPeakSearch.SelectedBackColor = System.Drawing.Color.Empty;
+            this.listMountainPeakSearch.SelectedForeColor = System.Drawing.Color.Empty;
             this.listMountainPeakSearch.Location = new System.Drawing.Point(3, 31);
             this.listMountainPeakSearch.Name = "listMountainPeakSearch";
             this.listMountainPeakSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
