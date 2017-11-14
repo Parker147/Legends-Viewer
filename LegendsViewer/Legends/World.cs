@@ -217,14 +217,16 @@ namespace LegendsViewer.Legends
                     byte[] smallIdenticonBytes = smallIdenticonStream.GetBuffer();
                     civ.SmallIdenticonString = Convert.ToBase64String(smallIdenticonBytes);
                 }
+                foreach (var childGroup in civ.Groups)
+                {
+                    childGroup.Identicon = civ.Identicon;
+                }
             }
 
-            Bitmap nullIdenticon = new Bitmap(64, 64);
-            using (Graphics nullGraphics = Graphics.FromImage(nullIdenticon))
+            foreach (var entity in Entities.Where(entity => entity.Identicon == null))
             {
-                using (SolidBrush nullBrush = new SolidBrush(Color.FromArgb(150, Color.Red)))
-                    nullGraphics.FillRectangle(nullBrush, new Rectangle(0, 0, 64, 64));
-                Entities.Where(entity => entity.Identicon == null).ToList().ForEach(entity => entity.Identicon = nullIdenticon);
+                var identicon = Identicon.FromValue(entity.Name, size: 128);
+                entity.Identicon = identicon.ToBitmap();
             }
         }
 
