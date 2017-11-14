@@ -273,7 +273,7 @@ namespace LegendsViewer.Controls
 
         protected string GetHtmlColorByEntity(Entity entity)
         {
-            string htmlColor = ColorTranslator.ToHtml(entity.IdenticonColor);
+            string htmlColor = ColorTranslator.ToHtml(entity.LineColor);
             if (string.IsNullOrEmpty(htmlColor) && entity.Parent != null)
             {
                 htmlColor = GetHtmlColorByEntity(entity.Parent);

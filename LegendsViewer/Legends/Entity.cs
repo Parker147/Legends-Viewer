@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Docuverse.Identicon;
 using LegendsViewer.Controls;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
@@ -79,12 +78,10 @@ namespace LegendsViewer.Legends
             set { }
         }
 
-        public string IdenticonString { get; set; }
-        public string SmallIdenticonString { get; set; }
-        public int IdenticonCode { get; set; }
-        public Color IdenticonColor { get; set; }
         public Color LineColor { get; set; }
         public Bitmap Identicon { get; set; }
+        public string IdenticonString { get; set; }
+        public string SmallIdenticonString { get; set; }
 
         private string _icon;
         public string Icon
@@ -313,12 +310,6 @@ namespace LegendsViewer.Legends
                 return printIdenticon;
             }
             return "";
-        }
-
-        public Bitmap GetIdenticon(int size)
-        {
-            IdenticonRenderer identiconRenderer = new IdenticonRenderer();
-            return identiconRenderer.Render(IdenticonCode, size, IdenticonColor);
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)

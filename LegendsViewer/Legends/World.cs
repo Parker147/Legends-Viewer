@@ -4,13 +4,13 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Docuverse.Identicon;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
 using System.Diagnostics;
 using LegendsViewer.Controls;
+using Jdenticon;
 
 namespace LegendsViewer.Legends
 {
@@ -185,13 +185,6 @@ namespace LegendsViewer.Legends
                 else if (colorIndex * colorVariance < 1080) raceColor = Formatting.HsvToRgb(colorIndex * colorVariance - 720, 1, 0.4);
                 else raceColor = Color.Black;
 
-
-                int identiconCode;
-                IdenticonRenderer identiconRenderer = new IdenticonRenderer();
-
-                identiconCode = code.Next();
-                civ.IdenticonCode = identiconCode;
-
                 int alpha;
                 if (races.Count <= 12) alpha = 175;
                 else alpha = 175;
@@ -200,34 +193,29 @@ namespace LegendsViewer.Legends
                 {
                     MainRaces.Add(civ.Race, raceColor);
                 }
-                civ.IdenticonColor = Color.FromArgb(alpha, raceColor);
-                civ.LineColor = raceColor;
+                civ.LineColor = Color.FromArgb(alpha, raceColor);
 
+                var iconStyle = new IdenticonStyle
+                {
+                    BackColor = Jdenticon.Rendering.Color.FromArgb(alpha, raceColor.R, raceColor.G, raceColor.B)
+                };
+                var identicon = Identicon.FromValue(civ.Name, size: 128);
+                identicon.Style = iconStyle;
+                civ.Identicon = identicon.ToBitmap();
                 using (MemoryStream identiconStream = new MemoryStream())
                 {
-                    using (Bitmap identicon = identiconRenderer.Render(identiconCode, 64, civ.IdenticonColor))
-                    {
-                        identicon.Save(identiconStream, System.Drawing.Imaging.ImageFormat.Png);
-                        byte[] identiconBytes = identiconStream.GetBuffer();
-                        civ.Identicon = new Bitmap(identicon);
-                        civ.IdenticonString = Convert.ToBase64String(identiconBytes);
-                    }
+                    civ.Identicon.Save(identiconStream, System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] identiconBytes = identiconStream.GetBuffer();
+                    civ.IdenticonString = Convert.ToBase64String(identiconBytes);
                 }
-
+                var small = Identicon.FromValue(civ.Name, size: 32);
+                small.Style = iconStyle;
+                var smallIdenticon = small.ToBitmap();
                 using (MemoryStream smallIdenticonStream = new MemoryStream())
                 {
-                    using (Bitmap smallIdenticon = identiconRenderer.Render(identiconCode, 24, civ.IdenticonColor))
-                    {
-                        smallIdenticon.Save(smallIdenticonStream, System.Drawing.Imaging.ImageFormat.Png);
-                        byte[] smallIdenticonBytes = smallIdenticonStream.GetBuffer();
-                        civ.SmallIdenticonString = Convert.ToBase64String(smallIdenticonBytes);
-                    }
-                }
-
-                foreach (Entity group in civ.Groups)
-                {
-                    group.Identicon = civ.Identicon;
-                    group.SmallIdenticonString = civ.SmallIdenticonString;
+                    smallIdenticon.Save(smallIdenticonStream, System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] smallIdenticonBytes = smallIdenticonStream.GetBuffer();
+                    civ.SmallIdenticonString = Convert.ToBase64String(smallIdenticonBytes);
                 }
             }
 

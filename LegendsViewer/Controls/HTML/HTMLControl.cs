@@ -99,7 +99,6 @@ namespace LegendsViewer.Controls
         {
             (sender as WebBrowser).Document.Window.ScrollTo(0, BrowserScrollPosition);
             (sender as WebBrowser).Focus();
-            Console.WriteLine((DateTime.UtcNow - lastNav).TotalMilliseconds);
             GC.Collect();
         }
 
