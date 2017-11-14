@@ -220,6 +220,7 @@ namespace LegendsViewer.Legends
                 foreach (var childGroup in civ.Groups)
                 {
                     childGroup.Identicon = civ.Identicon;
+                    childGroup.LineColor = civ.LineColor;
                 }
             }
 

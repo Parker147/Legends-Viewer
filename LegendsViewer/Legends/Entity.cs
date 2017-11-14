@@ -97,7 +97,11 @@ namespace LegendsViewer.Legends
                     }
                     else if (World.MainRaces.ContainsKey(Race))
                     {
-                        Color civilizedPopColor = World.MainRaces.FirstOrDefault(r => r.Key == Race).Value;
+                        Color civilizedPopColor = LineColor;
+                        if (civilizedPopColor == Color.Empty)
+                        {
+                            civilizedPopColor = World.MainRaces.FirstOrDefault(r => r.Key == Race).Value;
+                        }
                         coloredIcon = "<span class=\"fa-stack fa-lg\" style=\"font-size:smaller;\">";
                         coloredIcon += "<i class=\"fa fa-square fa-stack-2x\"></i>";
                         coloredIcon += "<i class=\"fa fa-group fa-stack-1x\" style=\"color:" + ColorTranslator.ToHtml(civilizedPopColor) + ";\"></i>";

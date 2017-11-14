@@ -13,12 +13,12 @@ namespace LegendsViewer.Controls
     {
         public MapPanel Map;
         public List<MapMenuOption> Options = new List<MapMenuOption>();
-        public int FontSize = 10, XBuffer = 5;
-        public string FontName = "Arial";
+        public int FontSize = 9, XBuffer = 5;
+        public string FontName = "Segoe UI";
         public Color FontColor = Color.Black;
-        public Color MenuColor = Color.FromArgb(150, 150, 150);
-        public Color ToggleColor = Color.DimGray;
-        public int OptionHeight = 15;
+        public Color MenuColor = Color.LightGray;
+        public Color ToggleColor = Color.FromArgb(150, 150, 150);
+        public int OptionHeight = 18;
         public Rectangle MenuBox = new Rectangle(0, 0, 0, 0);
         public bool Open;
         public MapMenuOption SelectedOption;
