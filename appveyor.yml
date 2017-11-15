@@ -2,13 +2,12 @@
 # {major_release}.{feature_release}.{minor_release}.{build}
 version: 1.18.01.{build}
 
+branches:
+  only:
+    - master
+    - develop
+
 image: Visual Studio 2017
-
-#######################
-#    BUILDS
-
-# to disable automatic builds
-#build: off
 
 before_build:
   - where msbuild
@@ -18,15 +17,10 @@ build:
   project: LegendsViewer.sln        # path to Visual Studio solution or project
   verbosity: minimal                # quiet|minimal|normal|detailed
 
-# branches to build
-branches:
-  only:
-    - master
-    - develop
+
 
 # Operating system (build VM template)
-#os: Windows Server 2012 R2
-os: Windows Server 2012
+#os: Windows Server 2012
 
 # msbuild settings
 #platform: AnyCPU
