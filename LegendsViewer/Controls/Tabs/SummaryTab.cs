@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using LegendsViewer.Controls.HTML;
 using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends;
 
@@ -68,7 +65,9 @@ namespace LegendsViewer.Controls.Tabs
         private void btnStats_Click(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
-                Browser.Navigate(ControlOption.HTML, World);
+            {
+                Browser.Navigate(ControlOption.Html, World);
+            }
         }
 
         private void btnChart_Click(object sender, EventArgs e)
@@ -81,14 +80,20 @@ namespace LegendsViewer.Controls.Tabs
         private void btnAdvancedSearch_Click(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
+            {
                 Browser.Navigate(ControlOption.Search);
+            }
         }
 
         private void txtLog_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.C)
+            {
                 if (txtLog.SelectedText != "")
+                {
                     Clipboard.SetText(txtLog.SelectedText);
+                }
+            }
         }
 
     }

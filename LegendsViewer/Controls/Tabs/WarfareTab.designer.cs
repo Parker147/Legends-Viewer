@@ -1,11 +1,15 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using BrightIdeasSoftware;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class WarfareTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -275,7 +279,7 @@
             this.btnWarSearch.TabIndex = 46;
             this.btnWarSearch.Text = "Search";
             this.btnWarSearch.UseVisualStyleBackColor = true;
-            this.btnWarSearch.Click += new System.EventHandler(this.searchWarList);
+            this.btnWarSearch.Click += new System.EventHandler(this.SearchWarList);
             // 
             // groupBox10
             // 
@@ -313,7 +317,7 @@
             this.chkWarOngoing.TabIndex = 16;
             this.chkWarOngoing.Text = "Ongoing";
             this.chkWarOngoing.UseVisualStyleBackColor = true;
-            this.chkWarOngoing.CheckedChanged += new System.EventHandler(this.searchWarList);
+            this.chkWarOngoing.CheckedChanged += new System.EventHandler(this.SearchWarList);
             // 
             // groupBox11
             // 
@@ -342,7 +346,7 @@
             this.radWarsSortConquerings.TabStop = true;
             this.radWarsSortConquerings.Text = "Conquerings";
             this.radWarsSortConquerings.UseVisualStyleBackColor = true;
-            this.radWarsSortConquerings.CheckedChanged += new System.EventHandler(this.searchWarList);
+            this.radWarsSortConquerings.CheckedChanged += new System.EventHandler(this.SearchWarList);
             // 
             // radWarSortWarfare
             // 
@@ -354,7 +358,7 @@
             this.radWarSortWarfare.TabStop = true;
             this.radWarSortWarfare.Text = "Warfare";
             this.radWarSortWarfare.UseVisualStyleBackColor = true;
-            this.radWarSortWarfare.CheckedChanged += new System.EventHandler(this.searchWarList);
+            this.radWarSortWarfare.CheckedChanged += new System.EventHandler(this.SearchWarList);
             // 
             // radWarDeaths
             // 
@@ -366,7 +370,7 @@
             this.radWarDeaths.TabStop = true;
             this.radWarDeaths.Text = "Deaths";
             this.radWarDeaths.UseVisualStyleBackColor = true;
-            this.radWarDeaths.CheckedChanged += new System.EventHandler(this.searchWarList);
+            this.radWarDeaths.CheckedChanged += new System.EventHandler(this.SearchWarList);
             // 
             // radWarLength
             // 
@@ -378,7 +382,7 @@
             this.radWarLength.TabStop = true;
             this.radWarLength.Text = "Length";
             this.radWarLength.UseVisualStyleBackColor = true;
-            this.radWarLength.CheckedChanged += new System.EventHandler(this.searchWarList);
+            this.radWarLength.CheckedChanged += new System.EventHandler(this.SearchWarList);
             // 
             // radWarSortFiltered
             // 
@@ -390,7 +394,7 @@
             this.radWarSortFiltered.TabStop = true;
             this.radWarSortFiltered.Text = "Filtered Events";
             this.radWarSortFiltered.UseVisualStyleBackColor = true;
-            this.radWarSortFiltered.CheckedChanged += new System.EventHandler(this.searchWarList);
+            this.radWarSortFiltered.CheckedChanged += new System.EventHandler(this.SearchWarList);
             // 
             // radWarSortNone
             // 
@@ -403,7 +407,7 @@
             this.radWarSortNone.TabStop = true;
             this.radWarSortNone.Text = "None";
             this.radWarSortNone.UseVisualStyleBackColor = true;
-            this.radWarSortNone.CheckedChanged += new System.EventHandler(this.searchWarList);
+            this.radWarSortNone.CheckedChanged += new System.EventHandler(this.SearchWarList);
             // 
             // radWarSortEvents
             // 
@@ -414,7 +418,7 @@
             this.radWarSortEvents.TabIndex = 13;
             this.radWarSortEvents.Text = "Events";
             this.radWarSortEvents.UseVisualStyleBackColor = true;
-            this.radWarSortEvents.CheckedChanged += new System.EventHandler(this.searchWarList);
+            this.radWarSortEvents.CheckedChanged += new System.EventHandler(this.SearchWarList);
             // 
             // txtWarSearch
             // 
@@ -425,7 +429,7 @@
             this.txtWarSearch.Name = "txtWarSearch";
             this.txtWarSearch.Size = new System.Drawing.Size(170, 20);
             this.txtWarSearch.TabIndex = 44;
-            this.txtWarSearch.TextChanged += new System.EventHandler(this.searchWarList);
+            this.txtWarSearch.TextChanged += new System.EventHandler(this.SearchWarList);
             // 
             // tpWarEvents
             // 
@@ -566,7 +570,7 @@
             this.btnBattleSearch.TabIndex = 46;
             this.btnBattleSearch.Text = "Search";
             this.btnBattleSearch.UseVisualStyleBackColor = true;
-            this.btnBattleSearch.Click += new System.EventHandler(this.searchBattleList);
+            this.btnBattleSearch.Click += new System.EventHandler(this.SearchBattleList);
             // 
             // groupBox12
             // 
@@ -605,7 +609,7 @@
             this.radBattleSortDeaths.TabStop = true;
             this.radBattleSortDeaths.Text = "Deaths";
             this.radBattleSortDeaths.UseVisualStyleBackColor = true;
-            this.radBattleSortDeaths.CheckedChanged += new System.EventHandler(this.searchBattleList);
+            this.radBattleSortDeaths.CheckedChanged += new System.EventHandler(this.SearchBattleList);
             // 
             // radBattleSortFiltered
             // 
@@ -617,7 +621,7 @@
             this.radBattleSortFiltered.TabStop = true;
             this.radBattleSortFiltered.Text = "Filtered Events";
             this.radBattleSortFiltered.UseVisualStyleBackColor = true;
-            this.radBattleSortFiltered.CheckedChanged += new System.EventHandler(this.searchBattleList);
+            this.radBattleSortFiltered.CheckedChanged += new System.EventHandler(this.SearchBattleList);
             // 
             // radBattleSortNone
             // 
@@ -630,7 +634,7 @@
             this.radBattleSortNone.TabStop = true;
             this.radBattleSortNone.Text = "None";
             this.radBattleSortNone.UseVisualStyleBackColor = true;
-            this.radBattleSortNone.CheckedChanged += new System.EventHandler(this.searchBattleList);
+            this.radBattleSortNone.CheckedChanged += new System.EventHandler(this.SearchBattleList);
             // 
             // radBattleSortEvents
             // 
@@ -641,7 +645,7 @@
             this.radBattleSortEvents.TabIndex = 13;
             this.radBattleSortEvents.Text = "Events";
             this.radBattleSortEvents.UseVisualStyleBackColor = true;
-            this.radBattleSortEvents.CheckedChanged += new System.EventHandler(this.searchBattleList);
+            this.radBattleSortEvents.CheckedChanged += new System.EventHandler(this.SearchBattleList);
             // 
             // txtBattleSearch
             // 
@@ -651,7 +655,7 @@
             this.txtBattleSearch.Name = "txtBattleSearch";
             this.txtBattleSearch.Size = new System.Drawing.Size(169, 20);
             this.txtBattleSearch.TabIndex = 44;
-            this.txtBattleSearch.TextChanged += new System.EventHandler(this.searchBattleList);
+            this.txtBattleSearch.TextChanged += new System.EventHandler(this.SearchBattleList);
             // 
             // tpBattlesEvents
             // 
@@ -762,7 +766,7 @@
             this.btnConqueringSearch.TabIndex = 46;
             this.btnConqueringSearch.Text = "Search";
             this.btnConqueringSearch.UseVisualStyleBackColor = true;
-            this.btnConqueringSearch.Click += new System.EventHandler(this.searchConqueringList);
+            this.btnConqueringSearch.Click += new System.EventHandler(this.SearchConqueringList);
             // 
             // groupBox14
             // 
@@ -794,7 +798,7 @@
             this.cmbConqueringType.Name = "cmbConqueringType";
             this.cmbConqueringType.Size = new System.Drawing.Size(121, 21);
             this.cmbConqueringType.TabIndex = 16;
-            this.cmbConqueringType.SelectedIndexChanged += new System.EventHandler(this.searchConqueringList);
+            this.cmbConqueringType.SelectedIndexChanged += new System.EventHandler(this.SearchConqueringList);
             // 
             // groupBox15
             // 
@@ -821,7 +825,7 @@
             this.radConqueringSortSite.TabStop = true;
             this.radConqueringSortSite.Text = "Site";
             this.radConqueringSortSite.UseVisualStyleBackColor = true;
-            this.radConqueringSortSite.CheckedChanged += new System.EventHandler(this.searchConqueringList);
+            this.radConqueringSortSite.CheckedChanged += new System.EventHandler(this.SearchConqueringList);
             // 
             // radConqueringSortFiltered
             // 
@@ -833,7 +837,7 @@
             this.radConqueringSortFiltered.TabStop = true;
             this.radConqueringSortFiltered.Text = "Filtered Events";
             this.radConqueringSortFiltered.UseVisualStyleBackColor = true;
-            this.radConqueringSortFiltered.CheckedChanged += new System.EventHandler(this.searchConqueringList);
+            this.radConqueringSortFiltered.CheckedChanged += new System.EventHandler(this.SearchConqueringList);
             // 
             // radConqueringSortNone
             // 
@@ -846,7 +850,7 @@
             this.radConqueringSortNone.TabStop = true;
             this.radConqueringSortNone.Text = "None";
             this.radConqueringSortNone.UseVisualStyleBackColor = true;
-            this.radConqueringSortNone.CheckedChanged += new System.EventHandler(this.searchConqueringList);
+            this.radConqueringSortNone.CheckedChanged += new System.EventHandler(this.SearchConqueringList);
             // 
             // radConqueringSortEvents
             // 
@@ -857,7 +861,7 @@
             this.radConqueringSortEvents.TabIndex = 13;
             this.radConqueringSortEvents.Text = "Events";
             this.radConqueringSortEvents.UseVisualStyleBackColor = true;
-            this.radConqueringSortEvents.CheckedChanged += new System.EventHandler(this.searchConqueringList);
+            this.radConqueringSortEvents.CheckedChanged += new System.EventHandler(this.SearchConqueringList);
             // 
             // txtConqueringSearch
             // 
@@ -867,7 +871,7 @@
             this.txtConqueringSearch.Name = "txtConqueringSearch";
             this.txtConqueringSearch.Size = new System.Drawing.Size(169, 20);
             this.txtConqueringSearch.TabIndex = 44;
-            this.txtConqueringSearch.TextChanged += new System.EventHandler(this.searchConqueringList);
+            this.txtConqueringSearch.TextChanged += new System.EventHandler(this.SearchConqueringList);
             // 
             // tpConqueringsEvents
             // 
@@ -986,7 +990,7 @@
             this.btnBeastAttacksSearch.TabIndex = 50;
             this.btnBeastAttacksSearch.Text = "Search";
             this.btnBeastAttacksSearch.UseVisualStyleBackColor = true;
-            this.btnBeastAttacksSearch.Click += new System.EventHandler(this.searchbeastAttackList);
+            this.btnBeastAttacksSearch.Click += new System.EventHandler(this.SearchbeastAttackList);
             // 
             // groupBox18
             // 
@@ -1025,7 +1029,7 @@
             this.radBeastAttacksDeaths.TabStop = true;
             this.radBeastAttacksDeaths.Text = "Deaths";
             this.radBeastAttacksDeaths.UseVisualStyleBackColor = true;
-            this.radBeastAttacksDeaths.CheckedChanged += new System.EventHandler(this.searchbeastAttackList);
+            this.radBeastAttacksDeaths.CheckedChanged += new System.EventHandler(this.SearchbeastAttackList);
             // 
             // radBeastAttacksFiltered
             // 
@@ -1037,7 +1041,7 @@
             this.radBeastAttacksFiltered.TabStop = true;
             this.radBeastAttacksFiltered.Text = "Filtered Events";
             this.radBeastAttacksFiltered.UseVisualStyleBackColor = true;
-            this.radBeastAttacksFiltered.CheckedChanged += new System.EventHandler(this.searchbeastAttackList);
+            this.radBeastAttacksFiltered.CheckedChanged += new System.EventHandler(this.SearchbeastAttackList);
             // 
             // radBeastAttacksNone
             // 
@@ -1050,7 +1054,7 @@
             this.radBeastAttacksNone.TabStop = true;
             this.radBeastAttacksNone.Text = "None";
             this.radBeastAttacksNone.UseVisualStyleBackColor = true;
-            this.radBeastAttacksNone.CheckedChanged += new System.EventHandler(this.searchbeastAttackList);
+            this.radBeastAttacksNone.CheckedChanged += new System.EventHandler(this.SearchbeastAttackList);
             // 
             // radBeastAttacksEvents
             // 
@@ -1061,7 +1065,7 @@
             this.radBeastAttacksEvents.TabIndex = 13;
             this.radBeastAttacksEvents.Text = "Events";
             this.radBeastAttacksEvents.UseVisualStyleBackColor = true;
-            this.radBeastAttacksEvents.CheckedChanged += new System.EventHandler(this.searchbeastAttackList);
+            this.radBeastAttacksEvents.CheckedChanged += new System.EventHandler(this.SearchbeastAttackList);
             // 
             // txtBeastAttacksSearch
             // 
@@ -1071,7 +1075,7 @@
             this.txtBeastAttacksSearch.Name = "txtBeastAttacksSearch";
             this.txtBeastAttacksSearch.Size = new System.Drawing.Size(169, 20);
             this.txtBeastAttacksSearch.TabIndex = 48;
-            this.txtBeastAttacksSearch.TextChanged += new System.EventHandler(this.searchbeastAttackList);
+            this.txtBeastAttacksSearch.TextChanged += new System.EventHandler(this.SearchbeastAttackList);
             // 
             // tpBeastAttackEvents
             // 
@@ -1137,81 +1141,81 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tcWarfare;
-        private System.Windows.Forms.TabPage tpWars;
-        private System.Windows.Forms.TabControl tcWars;
-        private System.Windows.Forms.TabPage tpWarSearch;
-        private System.Windows.Forms.Button btnWarListReset;
-        private System.Windows.Forms.Label lblWarList;
-        private System.Windows.Forms.Button btnWarSearch;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.CheckBox chkFilterWarfare;
-        private System.Windows.Forms.CheckBox chkWarOngoing;
-        private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.RadioButton radWarsSortConquerings;
-        private System.Windows.Forms.RadioButton radWarSortWarfare;
-        private System.Windows.Forms.RadioButton radWarDeaths;
-        private System.Windows.Forms.RadioButton radWarLength;
-        private System.Windows.Forms.RadioButton radWarSortFiltered;
-        private System.Windows.Forms.RadioButton radWarSortNone;
-        private System.Windows.Forms.RadioButton radWarSortEvents;
-        private System.Windows.Forms.TextBox txtWarSearch;
-        private System.Windows.Forms.TabPage tpWarEvents;
-        private System.Windows.Forms.TabPage tpBattles;
-        private System.Windows.Forms.TabControl tcBattles;
-        private System.Windows.Forms.TabPage tpBattlesSearch;
-        private System.Windows.Forms.Button btnBattleListReset;
-        private System.Windows.Forms.Label lblBattleList;
-        private System.Windows.Forms.Button btnBattleSearch;
-        private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.GroupBox groupBox13;
-        private System.Windows.Forms.RadioButton radBattleSortDeaths;
-        private System.Windows.Forms.RadioButton radBattleSortFiltered;
-        private System.Windows.Forms.RadioButton radBattleSortNone;
-        private System.Windows.Forms.RadioButton radBattleSortEvents;
-        private System.Windows.Forms.TextBox txtBattleSearch;
-        private System.Windows.Forms.TabPage tpBattlesEvents;
-        private System.Windows.Forms.TabPage tpConquerins;
-        private System.Windows.Forms.TabControl tcConquerings;
-        private System.Windows.Forms.TabPage tpConqueringsSearch;
-        private System.Windows.Forms.Button btnConqueringSearch;
-        private System.Windows.Forms.GroupBox groupBox14;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cmbConqueringType;
-        private System.Windows.Forms.GroupBox groupBox15;
-        private System.Windows.Forms.RadioButton radConqueringSortSite;
-        private System.Windows.Forms.RadioButton radConqueringSortFiltered;
-        private System.Windows.Forms.RadioButton radConqueringSortNone;
-        private System.Windows.Forms.RadioButton radConqueringSortEvents;
-        private System.Windows.Forms.TextBox txtConqueringSearch;
-        private System.Windows.Forms.TabPage tpConqueringsEvents;
-        private System.Windows.Forms.TabPage tpBeastAttacks;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tpBeastAttackSearch;
-        private System.Windows.Forms.Button btnBeastAttacksSearch;
-        private System.Windows.Forms.GroupBox groupBox18;
-        private System.Windows.Forms.GroupBox groupBox17;
-        private System.Windows.Forms.RadioButton radBeastAttacksDeaths;
-        private System.Windows.Forms.RadioButton radBeastAttacksFiltered;
-        private System.Windows.Forms.RadioButton radBeastAttacksNone;
-        private System.Windows.Forms.RadioButton radBeastAttacksEvents;
-        private System.Windows.Forms.TextBox txtBeastAttacksSearch;
-        private System.Windows.Forms.TabPage tpBeastAttackEvents;
-        private System.Windows.Forms.Label lblWarResults;
-        private BrightIdeasSoftware.OLVColumn olvName;
-        private BrightIdeasSoftware.OLVColumn olvDeaths;
-        private BrightIdeasSoftware.ObjectListView listWarSearch;
-        private System.Windows.Forms.Label lblBattleResults;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.ObjectListView listBattleSearch;
-        private System.Windows.Forms.Label lblConqueringResult;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
-        private BrightIdeasSoftware.ObjectListView listConqueringSearch;
-        private System.Windows.Forms.Label lblBeastAttackResults;
-        private BrightIdeasSoftware.ObjectListView listBeastAttackSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
+        private TabControl tcWarfare;
+        private TabPage tpWars;
+        private TabControl tcWars;
+        private TabPage tpWarSearch;
+        private Button btnWarListReset;
+        private Label lblWarList;
+        private Button btnWarSearch;
+        private GroupBox groupBox10;
+        private CheckBox chkFilterWarfare;
+        private CheckBox chkWarOngoing;
+        private GroupBox groupBox11;
+        private RadioButton radWarsSortConquerings;
+        private RadioButton radWarSortWarfare;
+        private RadioButton radWarDeaths;
+        private RadioButton radWarLength;
+        private RadioButton radWarSortFiltered;
+        private RadioButton radWarSortNone;
+        private RadioButton radWarSortEvents;
+        private TextBox txtWarSearch;
+        private TabPage tpWarEvents;
+        private TabPage tpBattles;
+        private TabControl tcBattles;
+        private TabPage tpBattlesSearch;
+        private Button btnBattleListReset;
+        private Label lblBattleList;
+        private Button btnBattleSearch;
+        private GroupBox groupBox12;
+        private GroupBox groupBox13;
+        private RadioButton radBattleSortDeaths;
+        private RadioButton radBattleSortFiltered;
+        private RadioButton radBattleSortNone;
+        private RadioButton radBattleSortEvents;
+        private TextBox txtBattleSearch;
+        private TabPage tpBattlesEvents;
+        private TabPage tpConquerins;
+        private TabControl tcConquerings;
+        private TabPage tpConqueringsSearch;
+        private Button btnConqueringSearch;
+        private GroupBox groupBox14;
+        private Label label2;
+        private ComboBox cmbConqueringType;
+        private GroupBox groupBox15;
+        private RadioButton radConqueringSortSite;
+        private RadioButton radConqueringSortFiltered;
+        private RadioButton radConqueringSortNone;
+        private RadioButton radConqueringSortEvents;
+        private TextBox txtConqueringSearch;
+        private TabPage tpConqueringsEvents;
+        private TabPage tpBeastAttacks;
+        private TabControl tabControl1;
+        private TabPage tpBeastAttackSearch;
+        private Button btnBeastAttacksSearch;
+        private GroupBox groupBox18;
+        private GroupBox groupBox17;
+        private RadioButton radBeastAttacksDeaths;
+        private RadioButton radBeastAttacksFiltered;
+        private RadioButton radBeastAttacksNone;
+        private RadioButton radBeastAttacksEvents;
+        private TextBox txtBeastAttacksSearch;
+        private TabPage tpBeastAttackEvents;
+        private Label lblWarResults;
+        private OLVColumn olvName;
+        private OLVColumn olvDeaths;
+        private ObjectListView listWarSearch;
+        private Label lblBattleResults;
+        private OLVColumn olvColumn1;
+        private OLVColumn olvColumn2;
+        private ObjectListView listBattleSearch;
+        private Label lblConqueringResult;
+        private OLVColumn olvColumn3;
+        private ObjectListView listConqueringSearch;
+        private Label lblBeastAttackResults;
+        private ObjectListView listBeastAttackSearch;
+        private OLVColumn olvColumn5;
+        private OLVColumn olvColumn4;
+        private OLVColumn olvColumn6;
     }
 }

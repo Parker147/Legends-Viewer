@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
-using LegendsViewer.Legends.Enums;
-using LegendsViewer.Legends.Parser;
 using System.Linq;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Interfaces;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class AddHFEntityLink : WorldEvent, IFeatured
+    public class AddHfEntityLink : WorldEvent, IFeatured
     {
         public Entity Entity;
         public HistoricalFigure HistoricalFigure;
         public HfEntityLinkType LinkType;
         public string Position;
-        public AddHFEntityLink(List<Property> properties, World world)
+        public AddHfEntityLink(List<Property> properties, World world)
             : base(properties, world)
         {
             LinkType = HfEntityLinkType.Unknown;
@@ -70,8 +70,15 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            if (HistoricalFigure != null) eventString += HistoricalFigure.ToLink(link, pov);
-            else eventString += "UNKNOWN HISTORICAL FIGURE";
+            if (HistoricalFigure != null)
+            {
+                eventString += HistoricalFigure.ToLink(link, pov);
+            }
+            else
+            {
+                eventString += "UNKNOWN HISTORICAL FIGURE";
+            }
+
             switch (LinkType)
             {
                 case HfEntityLinkType.Prisoner:
@@ -117,8 +124,15 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = "";
             eventString += "the ascention of ";
-            if (HistoricalFigure != null) eventString += HistoricalFigure.ToLink(link, pov);
-            else eventString += "UNKNOWN HISTORICAL FIGURE";
+            if (HistoricalFigure != null)
+            {
+                eventString += HistoricalFigure.ToLink(link, pov);
+            }
+            else
+            {
+                eventString += "UNKNOWN HISTORICAL FIGURE";
+            }
+
             eventString += " to the position of ";
             EntityPosition position = Entity.EntityPositions.FirstOrDefault(pos => pos.Name.ToLower() == Position.ToLower());
             if (position != null)

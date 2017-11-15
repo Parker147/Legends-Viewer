@@ -1,11 +1,14 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class BaseSearchTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -44,6 +47,6 @@
 
         #endregion
 
-        protected internal System.Windows.Forms.ToolTip hint;
+        protected internal ToolTip hint;
     }
 }

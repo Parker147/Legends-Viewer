@@ -2,13 +2,14 @@
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using CommonMark;
 using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Controls.HTML
 {
     public class ReadMeControl : PageControl
     {
-        public WebBrowser HTMLBrowser;
+        public WebBrowser HtmlBrowser;
 
         public ReadMeControl(DwarfTabControl tabControl)
         {
@@ -18,7 +19,7 @@ namespace LegendsViewer.Controls.HTML
 
         public override Control GetControl()
         {
-            if (HTMLBrowser == null || HTMLBrowser.IsDisposed)
+            if (HtmlBrowser == null || HtmlBrowser.IsDisposed)
             {
                 BrowserUtil.SetBrowserEmulationMode();
 
@@ -40,23 +41,23 @@ namespace LegendsViewer.Controls.HTML
                 html += "<body><div class='markdown-body'>" + readme + "</div></body>";
                 html += "</html>";
 
-                HTMLBrowser = new WebBrowser
+                HtmlBrowser = new WebBrowser
                 {
                     Dock = DockStyle.Fill,
                     WebBrowserShortcutsEnabled = false,
                     DocumentText = html,
                     ScriptErrorsSuppressed = true
                 };
-                HTMLBrowser.Navigating += BrowserNavigating;
+                HtmlBrowser.Navigating += BrowserNavigating;
 
-                return HTMLBrowser;
+                return HtmlBrowser;
             }
-            return HTMLBrowser;
+            return HtmlBrowser;
         }
 
         private static string GetHtmlByMarkdown(string markdown)
         {
-            string readme = CommonMark.CommonMarkConverter.Convert(markdown);
+            string readme = CommonMarkConverter.Convert(markdown);
             readme = readme
                     .Replace(":high_brightness:",
                     "<img src=\"https://assets-cdn.github.com/images/icons/emoji/unicode/1f506.png\" alt=\":high_brightness:\" title=\":high_brightness:\" class=\"emoji\" height=\"20\" width=\"20\">")
@@ -77,18 +78,18 @@ namespace LegendsViewer.Controls.HTML
 
         protected override void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!Disposed)
             {
                 if (disposing)
                 {
-                    if (HTMLBrowser != null)
+                    if (HtmlBrowser != null)
                     {
-                        HTMLBrowser.Dispose();
-                        HTMLBrowser = null;
+                        HtmlBrowser.Dispose();
+                        HtmlBrowser = null;
                     }
                 }
                 base.Dispose(disposing);
-                disposed = true;
+                Disposed = true;
             }
         }
 

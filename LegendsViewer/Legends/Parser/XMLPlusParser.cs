@@ -3,12 +3,12 @@ using System.Xml;
 
 namespace LegendsViewer.Legends.Parser
 {
-    class XMLPlusParser : XMLParser
+    class XmlPlusParser : XmlParser
     {
-        private bool inMiddleOfSection = false;
-        private List<Property> CurrentItem;
+        private bool _inMiddleOfSection;
+        private List<Property> _currentItem;
 
-        public XMLPlusParser(World world, string xmlFile) : base(xmlFile)
+        public XmlPlusParser(World world, string xmlFile) : base(xmlFile)
         {
             World = world;
             Parse();
@@ -16,66 +16,80 @@ namespace LegendsViewer.Legends.Parser
 
         new public void Parse()
         {
-            if (XML.ReadState == ReadState.Closed)
-                return;
-
-            while (!XML.EOF && CurrentItem == null)
+            if (Xml.ReadState == ReadState.Closed)
             {
-
-                if (!inMiddleOfSection)
-                    CurrentSection = GetSectionType(XML.Name);
-                if (CurrentSection == Section.Junk)
-                {
-                    XML.Read();
-                }
-                else if (CurrentSection == Section.Unknown)
-                    SkipSection();
-                else
-                    ParseSection();
+                return;
             }
 
-            if (XML.EOF)
+            while (!Xml.EOF && _currentItem == null)
             {
-                XML.Close();
+
+                if (!_inMiddleOfSection)
+                {
+                    CurrentSection = GetSectionType(Xml.Name);
+                }
+
+                if (CurrentSection == Section.Junk)
+                {
+                    Xml.Read();
+                }
+                else if (CurrentSection == Section.Unknown)
+                {
+                    SkipSection();
+                }
+                else
+                {
+                    ParseSection();
+                }
+            }
+
+            if (Xml.EOF)
+            {
+                Xml.Close();
             }
         }
 
         private new void ParseSection()
         {
 
-            while (XML.NodeType == XmlNodeType.EndElement || XML.NodeType == XmlNodeType.None)
+            while (Xml.NodeType == XmlNodeType.EndElement || Xml.NodeType == XmlNodeType.None)
             {
-                if (XML.NodeType == XmlNodeType.None)
+                if (Xml.NodeType == XmlNodeType.None)
+                {
                     return;
-                XML.ReadEndElement();
+                }
+
+                Xml.ReadEndElement();
             }
 
-            if (!inMiddleOfSection)
+            if (!_inMiddleOfSection)
             {
-                XML.ReadStartElement();
-                inMiddleOfSection = true;
+                Xml.ReadStartElement();
+                _inMiddleOfSection = true;
             }
 
-            CurrentItem = ParseItem();
+            _currentItem = ParseItem();
 
-            if (XML.NodeType == XmlNodeType.EndElement)
+            if (Xml.NodeType == XmlNodeType.EndElement)
             {
-                XML.ReadEndElement();
-                inMiddleOfSection = false;
+                Xml.ReadEndElement();
+                _inMiddleOfSection = false;
             }
         }
 
         public void AddNewProperties(List<Property> existingProperties, Section xmlParserSection)
         {
-            if (CurrentItem == null)
+            if (_currentItem == null)
+            {
                 return;
+            }
 
             if (xmlParserSection > CurrentSection)
             {
                 while (xmlParserSection > CurrentSection)
                 {
-                    AddItemToWorld(CurrentItem);
-                    CurrentItem = null;
+                    AddItemToWorld(_currentItem);
+                    _currentItem = null;
                     Parse();
                 }
             }
@@ -85,18 +99,21 @@ namespace LegendsViewer.Legends.Parser
                 return;
             }
 
-            if (CurrentItem != null)
+            if (_currentItem != null)
             {
                 Property id = existingProperties.Find(property => property.Name == "id");
-                Property currentId = CurrentItem.Find(property => property.Name == "id");
+                Property currentId = _currentItem.Find(property => property.Name == "id");
                 while (currentId != null && currentId.ValueAsInt() < 0)
                 {
-                    CurrentItem = ParseItem();
-                    if (CurrentItem != null) currentId = CurrentItem.Find(property => property.Name == "id");
+                    _currentItem = ParseItem();
+                    if (_currentItem != null)
+                    {
+                        currentId = _currentItem.Find(property => property.Name == "id");
+                    }
                 }
                 if (id != null && currentId != null && id.ValueAsInt().Equals(currentId.ValueAsInt()))
                 {
-                    foreach (var property in CurrentItem)
+                    foreach (var property in _currentItem)
                     {
                         if (CurrentSection == Section.Entities && (property.Name == "entity_link" || property.Name == "child" || property.Name == "entity_position" || property.Name == "entity_position_assignment" || property.Name == "occasion"))
                         {
@@ -138,7 +155,7 @@ namespace LegendsViewer.Legends.Parser
                             existingProperties.Add(property);
                         }
                     }
-                    CurrentItem = null;
+                    _currentItem = null;
                     Parse();
                 }
             }

@@ -15,6 +15,7 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
@@ -22,8 +23,12 @@ namespace LegendsViewer.Legends.Events
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "unretire": Unretired = true; property.Known = true; break;
                 }
+            }
+
             if (SiteEntity != null && SiteEntity != Civ)
+            {
                 SiteEntity.Parent = Civ;
+            }
 
             //Make sure period was lost by an event, otherwise unknown loss
             if (Site.OwnerHistory.Count == 0)
@@ -46,7 +51,10 @@ namespace LegendsViewer.Legends.Events
 
             Civ.AddEvent(this);
             if (SiteEntity != Civ)
+            {
                 SiteEntity.AddEvent(this);
+            }
+
             Site.AddEvent(this);
         }
         public override string Print(bool link = true, DwarfObject pov = null)

@@ -6,17 +6,17 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class ChangeHFState : WorldEvent
+    public class ChangeHfState : WorldEvent
     {
         public HistoricalFigure HistoricalFigure { get; set; }
         public Site Site { get; set; }
         public WorldRegion Region { get; set; }
         public UndergroundRegion UndergroundRegion { get; set; }
         public Location Coordinates { get; set; }
-        public HFState State { get; set; }
+        public HfState State { get; set; }
         public int SubState { get; set; }
 
-        public ChangeHFState(List<Property> properties, World world)
+        public ChangeHfState(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
@@ -26,15 +26,15 @@ namespace LegendsViewer.Legends.Events
                     case "state":
                         switch (property.Value)
                         {
-                            case "settled": State = HFState.Settled; break;
-                            case "wandering": State = HFState.Wandering; break;
-                            case "scouting": State = HFState.Scouting; break;
-                            case "snatcher": State = HFState.Snatcher; break;
-                            case "refugee": State = HFState.Refugee; break;
-                            case "thief": State = HFState.Thief; break;
-                            case "hunting": State = HFState.Hunting; break;
-                            case "visiting": State = HFState.Visiting; break;
-                            default: State = HFState.Unknown; property.Known = false; break;
+                            case "settled": State = HfState.Settled; break;
+                            case "wandering": State = HfState.Wandering; break;
+                            case "scouting": State = HfState.Scouting; break;
+                            case "snatcher": State = HfState.Snatcher; break;
+                            case "refugee": State = HfState.Refugee; break;
+                            case "thief": State = HfState.Thief; break;
+                            case "hunting": State = HfState.Hunting; break;
+                            case "visiting": State = HfState.Visiting; break;
+                            default: State = HfState.Unknown; property.Known = false; break;
                         }
                         break;
                     case "substate": SubState = Convert.ToInt32(property.Value); break;
@@ -51,7 +51,11 @@ namespace LegendsViewer.Legends.Events
                 HistoricalFigure.AddEvent(this);
                 HistoricalFigure.States.Add(new HistoricalFigure.State(State, Year));
                 HistoricalFigure.State lastState = HistoricalFigure.States.LastOrDefault();
-                if (lastState != null) lastState.EndYear = Year;
+                if (lastState != null)
+                {
+                    lastState.EndYear = Year;
+                }
+
                 HistoricalFigure.CurrentState = State;
             }
             Site.AddEvent(this);
@@ -62,7 +66,7 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov);
-            if (State == HFState.Settled)
+            if (State == HfState.Settled)
             {
                 switch (SubState)
                 {
@@ -78,19 +82,47 @@ namespace LegendsViewer.Legends.Events
                         break;
                 }
             }
-            else if (State == HFState.Refugee || State == HFState.Snatcher || State == HFState.Thief) eventString += " became a " + State.ToString().ToLower() + " in ";
-            else if (State == HFState.Wandering) eventString += " began wandering ";
-            else if (State == HFState.Scouting) eventString += " began scouting the area around ";
-            else if (State == HFState.Hunting) eventString += " began hunting great beasts in ";
-            else if (State == HFState.Visiting) eventString += " visited ";
+            else if (State == HfState.Refugee || State == HfState.Snatcher || State == HfState.Thief)
+            {
+                eventString += " became a " + State.ToString().ToLower() + " in ";
+            }
+            else if (State == HfState.Wandering)
+            {
+                eventString += " began wandering ";
+            }
+            else if (State == HfState.Scouting)
+            {
+                eventString += " began scouting the area around ";
+            }
+            else if (State == HfState.Hunting)
+            {
+                eventString += " began hunting great beasts in ";
+            }
+            else if (State == HfState.Visiting)
+            {
+                eventString += " visited ";
+            }
             else
             {
                 eventString += " changed state in ";
             }
-            if (Site != null) eventString += Site.ToLink(link, pov);
-            else if (Region != null) eventString += Region.ToLink(link, pov);
-            else if (UndergroundRegion != null) eventString += UndergroundRegion.ToLink(link, pov);
-            else eventString += "the wilds";
+            if (Site != null)
+            {
+                eventString += Site.ToLink(link, pov);
+            }
+            else if (Region != null)
+            {
+                eventString += Region.ToLink(link, pov);
+            }
+            else if (UndergroundRegion != null)
+            {
+                eventString += UndergroundRegion.ToLink(link, pov);
+            }
+            else
+            {
+                eventString += "the wilds";
+            }
+
             eventString += PrintParentCollection(link, pov);
             eventString += ".";
             return eventString;

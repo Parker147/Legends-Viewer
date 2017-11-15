@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using Microsoft.Win32;
 
 namespace LegendsViewer.Controls.HTML.Utilities
@@ -14,22 +15,24 @@ namespace LegendsViewer.Controls.HTML.Utilities
         {
             try
             {
-                var appName = System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName);
+                var appName = Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName);
 
-                if (String.Compare(appName, "devenv.exe", StringComparison.OrdinalIgnoreCase) == 0 || String.Compare(appName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(appName, "devenv.exe", StringComparison.OrdinalIgnoreCase) == 0 || 
+                    string.Compare(appName, "XDesProc.exe", StringComparison.OrdinalIgnoreCase) == 0)
+                {
                     return;
-                const uint MODE = 10000;
+                }
+
+                const uint mode = 10000;
                 using (var key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION\",
                     RegistryKeyPermissionCheck.ReadWriteSubTree))
                 {
-                    if (key != null)
-                    {
-                        key.SetValue(appName, MODE, RegistryValueKind.DWord);
-                    }
+                    key?.SetValue(appName, mode, RegistryValueKind.DWord);
                 }
             }
             catch (Exception)
             {
+                // ignored
             }
         }
     }

@@ -132,7 +132,10 @@ namespace LegendsViewer.Controls
         public static List<DataGridViewColumn> GetColumns(Type dataType)
         {
             if (dataType.IsGenericType)
+            {
                 dataType = dataType.GetGenericArguments()[0];
+            }
+
             List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
             List<ColumnBinding> bindings = new List<ColumnBinding>();
             if (dataType == typeof(HistoricalFigure))
@@ -235,9 +238,14 @@ namespace LegendsViewer.Controls
             }
 
             if (dataType.BaseType == typeof(WorldObject))
+            {
                 bindings.Add(new ColumnBinding("Events"));
+            }
+
             if (dataType.BaseType == typeof(EventCollection))
+            {
                 bindings.Add(new ColumnBinding("AllEvents", "Events"));
+            }
 
             foreach (ColumnBinding binding in bindings)
             {

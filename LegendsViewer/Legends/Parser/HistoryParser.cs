@@ -8,102 +8,114 @@ namespace LegendsViewer.Legends.Parser
 {
     class HistoryParser : IDisposable
     {
-        World World;
-        StreamReader History;
-        string CurrentLine;
-        Entity CurrentCiv = null;
-        StringBuilder Log;
+        World _world;
+        StreamReader _history;
+        string _currentLine;
+        Entity _currentCiv;
+        StringBuilder _log;
 
         public HistoryParser(World world, string historyFile)
         {
-            World = world;
-            History = new StreamReader(historyFile, Encoding.GetEncoding("windows-1252"));
-            Log = new StringBuilder();
+            _world = world;
+            _history = new StreamReader(historyFile, Encoding.GetEncoding("windows-1252"));
+            _log = new StringBuilder();
         }
 
         private bool CivStart()
         {
-            return !CurrentLine.StartsWith(" ");
+            return !_currentLine.StartsWith(" ");
         }
 
         private void SkipAnimalPeople()
         {
-            while (!CurrentLine.Contains(",") || CurrentLine.StartsWith(" "))
+            while (!_currentLine.Contains(",") || _currentLine.StartsWith(" "))
+            {
                 ReadLine();
+            }
         }
 
         private void SkipToNextCiv()
         {
-            while (!History.EndOfStream && !CivStart())
+            while (!_history.EndOfStream && !CivStart())
+            {
                 ReadLine();
+            }
         }
 
         private void ReadLine()
         {
-            CurrentLine = History.ReadLine();
+            _currentLine = _history.ReadLine();
         }
 
         private bool ReadCiv()
         {
-            string civName = CurrentLine.Substring(0, CurrentLine.IndexOf(","));
+            string civName = _currentLine.Substring(0, _currentLine.IndexOf(","));
             try
             {
-                CurrentCiv = World.GetEntity(civName);
+                _currentCiv = _world.GetEntity(civName);
             }
             catch (Exception e)
             {
-                Log.AppendLine(e.Message + ", Civ");
+                _log.AppendLine(e.Message + ", Civ");
                 ReadLine();
                 return false;
             }
-            CurrentCiv.Race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(",") + 2, CurrentLine.Length - CurrentLine.IndexOf(",") - 2).ToLower());
-            foreach (Entity group in CurrentCiv.Groups) group.Race = CurrentCiv.Race;
-            CurrentCiv.IsCiv = true;
+            _currentCiv.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2).ToLower());
+            foreach (Entity group in _currentCiv.Groups)
+            {
+                group.Race = _currentCiv.Race;
+            }
+
+            _currentCiv.IsCiv = true;
             ReadLine();
             return true;
         }
 
-        private void ReadEOSCiv()
+        private void ReadEosCiv()
         {
-            string civName = CurrentLine.Substring(0, CurrentLine.IndexOf(","));
+            string civName = _currentLine.Substring(0, _currentLine.IndexOf(","));
             try
             {
-                CurrentCiv = World.GetEntity(civName);
+                _currentCiv = _world.GetEntity(civName);
             }
             catch (Exception e)
             {
-                Log.AppendLine(e.Message + ", Civ");
+                _log.AppendLine(e.Message + ", Civ");
             }
-            CurrentCiv.Race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(",") + 2, CurrentLine.Length - CurrentLine.IndexOf(",") - 2).ToLower());
-            foreach (Entity group in CurrentCiv.Groups) group.Race = CurrentCiv.Race;
-            CurrentCiv.IsCiv = true;
+            _currentCiv.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2).ToLower());
+            foreach (Entity group in _currentCiv.Groups)
+            {
+                group.Race = _currentCiv.Race;
+            }
+
+            _currentCiv.IsCiv = true;
         }
 
         private void ReadWorships()
         {
-            if (CurrentLine.Contains("Worship List"))
+            if (_currentLine.Contains("Worship List"))
             {
                 ReadLine();
-                while (CurrentLine != null && CurrentLine.StartsWith("  "))
+                while (_currentLine != null && _currentLine.StartsWith("  "))
                 {
-                    string worshipName = Formatting.InitCaps(Formatting.ReplaceNonAscii(CurrentLine.Substring(2, CurrentLine.IndexOf(",") - 2)));
+                    string worshipName = Formatting.InitCaps(Formatting.ReplaceNonAscii(_currentLine.Substring(2, _currentLine.IndexOf(",") - 2)));
                     HistoricalFigure worship = null;
                     try
                     {
-                        worship = World.GetHistoricalFigure(worshipName);
+                        worship = _world.GetHistoricalFigure(worshipName);
                     }
                     catch (Exception e)
                     {
-                        worship = World.HistoricalFiguresByName.FirstOrDefault(h => h.Name.Equals(worshipName, StringComparison.OrdinalIgnoreCase) && h.Deity);
+                        worship = _world.HistoricalFiguresByName.FirstOrDefault(h => h.Name.Equals(worshipName, StringComparison.OrdinalIgnoreCase) && h.Deity);
                         if (worship == null)
                         {
-                            Log.AppendLine(e.Message + ", a Worship of " + CurrentCiv.Name);
+                            _log.AppendLine(e.Message + ", a Worship of " + _currentCiv.Name);
                             ReadLine();
                             continue;
                         }
                     }
-                    worship.WorshippedBy = CurrentCiv;
-                    CurrentCiv.Worshipped.Add(worship);
+                    worship.WorshippedBy = _currentCiv;
+                    _currentCiv.Worshipped.Add(worship);
                     ReadLine();
                 }
             }
@@ -111,53 +123,59 @@ namespace LegendsViewer.Legends.Parser
 
         private bool LeaderStart()
         {
-            return !History.EndOfStream && CurrentLine.Contains(" List") && !CurrentLine.Contains("[*]") && !CurrentLine.Contains("%");
+            return !_history.EndOfStream && _currentLine.Contains(" List") && !_currentLine.Contains("[*]") && !_currentLine.Contains("%");
         }
 
         private void ReadLeaders()
         {
             while(LeaderStart())
             {
-                string leaderType = Formatting.InitCaps(CurrentLine.Substring(1, CurrentLine.IndexOf("List") - 2));
-                CurrentCiv.LeaderTypes.Add(leaderType);
-                CurrentCiv.Leaders.Add(new List<HistoricalFigure>());
+                string leaderType = Formatting.InitCaps(_currentLine.Substring(1, _currentLine.IndexOf("List") - 2));
+                _currentCiv.LeaderTypes.Add(leaderType);
+                _currentCiv.Leaders.Add(new List<HistoricalFigure>());
                 ReadLine();
-                while (CurrentLine != null && CurrentLine.StartsWith("  "))
+                while (_currentLine != null && _currentLine.StartsWith("  "))
                 {
-                    if (CurrentLine.Contains("[*]"))
+                    if (_currentLine.Contains("[*]"))
                     {
-                        string leaderName = Formatting.ReplaceNonAscii(CurrentLine.Substring(CurrentLine.IndexOf("[*]") + 4, CurrentLine.IndexOf("(b") - CurrentLine.IndexOf("[*]") - 5));
+                        string leaderName = Formatting.ReplaceNonAscii(_currentLine.Substring(_currentLine.IndexOf("[*]") + 4, _currentLine.IndexOf("(b") - _currentLine.IndexOf("[*]") - 5));
                         HistoricalFigure leader = null;
                         try
                         {
-                            leader = World.GetHistoricalFigure(leaderName);
+                            leader = _world.GetHistoricalFigure(leaderName);
                         }
                         catch (Exception e)
                         {
-                            Log.AppendLine(e.Message + ", a Leader of " + CurrentCiv.Name);
+                            _log.AppendLine(e.Message + ", a Leader of " + _currentCiv.Name);
                             ReadLine();
                             continue;
                         }
 
-                        int reignBegan = Convert.ToInt32(CurrentLine.Substring(CurrentLine.IndexOf(":") + 2, CurrentLine.IndexOf("), ") - CurrentLine.IndexOf(":") - 2));
-                        if (CurrentCiv.Leaders[CurrentCiv.LeaderTypes.Count - 1].Count > 0) //End of previous leader's reign
-                            CurrentCiv.Leaders[CurrentCiv.LeaderTypes.Count - 1].Last().Positions.Last().Ended = reignBegan - 1;
+                        int reignBegan = Convert.ToInt32(_currentLine.Substring(_currentLine.IndexOf(":") + 2, _currentLine.IndexOf("), ") - _currentLine.IndexOf(":") - 2));
+                        if (_currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Count > 0) //End of previous leader's reign
+                        {
+                            _currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Last().Positions.Last().Ended = reignBegan - 1;
+                        }
+
                         if (leader.Positions.Count > 0 && leader.Positions.Last().Ended == -1) //End of leader's last leader position (move up rank etc.)
                         {
                             HistoricalFigure.Position lastPosition = leader.Positions.Last();
                             lastPosition.Ended = reignBegan;
                             lastPosition.Length = lastPosition.Began - reignBegan;
                         }
-                        HistoricalFigure.Position newPosition = new HistoricalFigure.Position(CurrentCiv, reignBegan, -1, leaderType);
+                        HistoricalFigure.Position newPosition = new HistoricalFigure.Position(_currentCiv, reignBegan, -1, leaderType);
                         if (leader.DeathYear != -1)
                         {
                             newPosition.Ended = leader.DeathYear;
                             newPosition.Length = leader.DeathYear - newPosition.Ended;
                         }
                         else
-                            newPosition.Length = World.Events.Last().Year - newPosition.Began;
+                        {
+                            newPosition.Length = _world.Events.Last().Year - newPosition.Began;
+                        }
+
                         leader.Positions.Add(newPosition);
-                        CurrentCiv.Leaders[CurrentCiv.LeaderTypes.Count - 1].Add(leader);
+                        _currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Add(leader);
 
                     }
                     ReadLine();
@@ -167,12 +185,12 @@ namespace LegendsViewer.Legends.Parser
 
         public string Parse()
         {
-            World.Name = Formatting.ReplaceNonAscii(History.ReadLine());
-            World.Name += ", " + History.ReadLine();
+            _world.Name = Formatting.ReplaceNonAscii(_history.ReadLine());
+            _world.Name += ", " + _history.ReadLine();
             ReadLine();
             SkipAnimalPeople();
             
-            while (!History.EndOfStream)
+            while (!_history.EndOfStream)
             {
                 if (ReadCiv())
                 {
@@ -180,15 +198,19 @@ namespace LegendsViewer.Legends.Parser
                     ReadLeaders();
                 }
                 else
+                {
                     SkipToNextCiv();
+                }
             }
 
-            History.Close();
+            _history.Close();
 
-            if (CurrentLine != null && CivStart())
-                ReadEOSCiv();
+            if (_currentLine != null && CivStart())
+            {
+                ReadEosCiv();
+            }
 
-            return Log.ToString();
+            return _log.ToString();
         }
 
         public void Dispose()
@@ -201,7 +223,7 @@ namespace LegendsViewer.Legends.Parser
         {
             if (disposing)
             {
-                History.Dispose();
+                _history.Dispose();
             }
         }
     }

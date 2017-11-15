@@ -9,12 +9,12 @@ namespace LegendsViewer.Legends.Events
         public Entity Civ { get; set; }
         public Site Site { get; set; }
         public WorldRegion Region { get; set; }
-        public string WrittenContentID { get; set; }
+        public string WrittenContentId { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
         public string Reason { get; set; }
         public int ReasonId { get; set; }
-        public HistoricalFigure GlorifiedHF { get; set; }
-        public HistoricalFigure CircumstanceHF { get; set; }
+        public HistoricalFigure GlorifiedHf { get; set; }
+        public HistoricalFigure CircumstanceHf { get; set; }
         public string Circumstance { get; set; }
         public int CircumstanceId { get; set; }
         public WrittenContent WrittenContent { get; set; }
@@ -22,6 +22,7 @@ namespace LegendsViewer.Legends.Events
         public WrittenContentComposed(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "civ_id":
@@ -34,7 +35,7 @@ namespace LegendsViewer.Legends.Events
                         HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
                         break;
                     case "wc_id":
-                        WrittenContentID = property.Value;
+                        WrittenContentId = property.Value;
                         break;
                     case "reason":
                         Reason = property.Value;
@@ -52,26 +53,28 @@ namespace LegendsViewer.Legends.Events
                         Region = world.GetRegion(Convert.ToInt32(property.Value));
                         break;
                 }
+            }
+
             Civ.AddEvent(this);
             Site.AddEvent(this);
             Region.AddEvent(this);
             HistoricalFigure.AddEvent(this);
             if (Reason == "glorify hf")
             {
-                GlorifiedHF = world.GetHistoricalFigure(ReasonId);
-                GlorifiedHF.AddEvent(this);
+                GlorifiedHf = world.GetHistoricalFigure(ReasonId);
+                GlorifiedHf.AddEvent(this);
             }
             if (Circumstance == "pray to hf" || Circumstance == "dream about hf")
             {
-                CircumstanceHF = world.GetHistoricalFigure(CircumstanceId);
-                if (GlorifiedHF != null && GlorifiedHF != CircumstanceHF)
+                CircumstanceHf = world.GetHistoricalFigure(CircumstanceId);
+                if (GlorifiedHf != null && GlorifiedHf != CircumstanceHf)
                 {
-                    CircumstanceHF.AddEvent(this);
+                    CircumstanceHf.AddEvent(this);
                 }
             }
-            if (!string.IsNullOrWhiteSpace(WrittenContentID))
+            if (!string.IsNullOrWhiteSpace(WrittenContentId))
             {
-                WrittenContent = world.GetWrittenContent(Convert.ToInt32(WrittenContentID));
+                WrittenContent = world.GetWrittenContent(Convert.ToInt32(WrittenContentId));
                 WrittenContent.AddEvent(this);
             }
         }
@@ -87,21 +90,21 @@ namespace LegendsViewer.Legends.Events
                 eventString += " in ";
                 eventString += Site.ToLink(link, pov);
             }
-            if (GlorifiedHF != null)
+            if (GlorifiedHf != null)
             {
-                eventString += " in order to glorify " + GlorifiedHF.ToLink(link, pov);
+                eventString += " in order to glorify " + GlorifiedHf.ToLink(link, pov);
             }
             if (!string.IsNullOrWhiteSpace(Circumstance))
             {
-                if (CircumstanceHF != null)
+                if (CircumstanceHf != null)
                 {
                     switch (Circumstance)
                     {
                         case "pray to hf":
-                            eventString += " after praying to " + CircumstanceHF.ToLink(link, pov);
+                            eventString += " after praying to " + CircumstanceHf.ToLink(link, pov);
                             break;
                         case "dream about hf":
-                            eventString += " after dreaming of " + CircumstanceHF.ToLink(link, pov);
+                            eventString += " after dreaming of " + CircumstanceHf.ToLink(link, pov);
                             break;
                     }
                 }

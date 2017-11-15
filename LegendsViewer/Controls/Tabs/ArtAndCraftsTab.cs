@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
@@ -11,11 +10,11 @@ namespace LegendsViewer.Controls.Tabs
 {
     public partial class ArtAndCraftsTab : BaseSearchTab
     {
-        private ArtifactsList artifactSearch;
-        private WrittenContentList writtenContentSearch;
-        private DanceFormsList danceFormSearch;
-        private MusicalFormsList musicalFormSearch;
-        private PoeticFormsList poeticFormSearch;
+        private ArtifactsList _artifactSearch;
+        private WrittenContentList _writtenContentSearch;
+        private DanceFormsList _danceFormSearch;
+        private MusicalFormsList _musicalFormSearch;
+        private PoeticFormsList _poeticFormSearch;
 
         public ArtAndCraftsTab()
         {
@@ -24,8 +23,8 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void InitializeTab()
         {
-            EventTabs = new TabPage[] { tpArtifactsEvents, tpWrittenContentEvents, tpDanceFormsEvents, tpMusicalFormsEvents, tpPoeticFormsEvents };
-            EventTabTypes = new Type[] { typeof(Artifact), typeof(WrittenContent), typeof(DanceForm), typeof(MusicalForm), typeof(PoeticForm) };
+            EventTabs = new[] { tpArtifactsEvents, tpWrittenContentEvents, tpDanceFormsEvents, tpMusicalFormsEvents, tpPoeticFormsEvents };
+            EventTabTypes = new[] { typeof(Artifact), typeof(WrittenContent), typeof(DanceForm), typeof(MusicalForm), typeof(PoeticForm) };
 
             listArtifactSearch.AllColumns.Add(new OLVColumn
             {
@@ -59,11 +58,11 @@ namespace LegendsViewer.Controls.Tabs
         {
             base.AfterLoad(world);
 
-            artifactSearch = new ArtifactsList(World);
-            writtenContentSearch = new WrittenContentList(World);
-            danceFormSearch = new DanceFormsList(World);
-            musicalFormSearch = new MusicalFormsList(World);
-            poeticFormSearch = new PoeticFormsList(World);
+            _artifactSearch = new ArtifactsList(World);
+            _writtenContentSearch = new WrittenContentList(World);
+            _danceFormSearch = new DanceFormsList(World);
+            _musicalFormSearch = new MusicalFormsList(World);
+            _poeticFormSearch = new PoeticFormsList(World);
 
             var writtencontents = from writtenContent in World.WrittenContents
                                   orderby writtenContent.Type.GetDescription()
@@ -76,7 +75,9 @@ namespace LegendsViewer.Controls.Tabs
 
             cmbWrittenContentType.Items.Add("All"); cmbWrittenContentType.SelectedIndex = 0;
             foreach (var writtencontent in writtencontents)
+            {
                 cmbWrittenContentType.Items.Add(writtencontent.Key);
+            }
 
             cbmArtTypeFilter.Items.Add("All"); cbmArtTypeFilter.SelectedIndex = 0;
             cbmArtTypeFilter.Items.AddRange(artifactTypes.ToArray());
@@ -115,11 +116,11 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void DoSearch()
         {
-            searchArtifactList(null, null);
-            searchWrittenContentList(null, null);
-            searchDanceFormsList(null, null);
-            searchMusicalFormsList(null, null);
-            searchPoeticFormsList(null, null);
+            SearchArtifactList(null, null);
+            SearchWrittenContentList(null, null);
+            SearchDanceFormsList(null, null);
+            SearchMusicalFormsList(null, null);
+            SearchPoeticFormsList(null, null);
             base.DoSearch();
         }
 
@@ -138,19 +139,19 @@ namespace LegendsViewer.Controls.Tabs
             radWrittenContentSortNone.Checked = true;
         }
 
-        private void searchArtifactList(object sender, EventArgs e)
+        private void SearchArtifactList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                artifactSearch.Name = txtArtifactSearch.Text;
-                artifactSearch.sortEvents = radArtifactSortEvents.Checked;
-                artifactSearch.sortFiltered = radArtifactSortFiltered.Checked;
-                artifactSearch.Type = cbmArtTypeFilter.SelectedIndex == 0 ? null : cbmArtTypeFilter.SelectedItem.ToString();
-                artifactSearch.Material = cbmArtMatFilter.SelectedIndex == 0 ? null : cbmArtMatFilter.SelectedItem.ToString();
-                IEnumerable<Artifact> list = artifactSearch.GetList();
+                _artifactSearch.Name = txtArtifactSearch.Text;
+                _artifactSearch.SortEvents = radArtifactSortEvents.Checked;
+                _artifactSearch.SortFiltered = radArtifactSortFiltered.Checked;
+                _artifactSearch.Type = cbmArtTypeFilter.SelectedIndex == 0 ? null : cbmArtTypeFilter.SelectedItem.ToString();
+                _artifactSearch.Material = cbmArtMatFilter.SelectedIndex == 0 ? null : cbmArtMatFilter.SelectedItem.ToString();
+                IEnumerable<Artifact> list = _artifactSearch.GetList();
                 var results = list.ToArray();
                 listArtifactSearch.SetObjects(results);
-                UpdateCounts(lblArtifactResults, results.Length, artifactSearch.BaseList.Count);
+                UpdateCounts(lblArtifactResults, results.Length, _artifactSearch.BaseList.Count);
             }
         }
 
@@ -168,90 +169,90 @@ namespace LegendsViewer.Controls.Tabs
                 lblArtifactList.Font = new Font(lblArtifactList.Font.FontFamily, lblArtifactList.Font.Size, FontStyle.Regular);
                 cbmArtTypeFilter.SelectedIndex = 0;
                 cbmArtMatFilter.SelectedIndex = 0;
-                searchArtifactList(null, null);
+                SearchArtifactList(null, null);
             }
         }
 
-        private void searchWrittenContentList(object sender, EventArgs e)
+        private void SearchWrittenContentList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                writtenContentSearch.Name = txtWrittenContentSearch.Text;
-                writtenContentSearch.Type = cmbWrittenContentType.SelectedItem.ToString();
-                writtenContentSearch.sortEvents = radWrittenContentSortEvents.Checked;
-                writtenContentSearch.sortFiltered = radWrittenContentSortFiltered.Checked;
-                IEnumerable<WrittenContent> list = writtenContentSearch.GetList();
+                _writtenContentSearch.Name = txtWrittenContentSearch.Text;
+                _writtenContentSearch.Type = cmbWrittenContentType.SelectedItem.ToString();
+                _writtenContentSearch.SortEvents = radWrittenContentSortEvents.Checked;
+                _writtenContentSearch.SortFiltered = radWrittenContentSortFiltered.Checked;
+                IEnumerable<WrittenContent> list = _writtenContentSearch.GetList();
                 var results = list.ToArray();
                 listWrittenContentSearch.SetObjects(results);
-                UpdateCounts(lblWrittenContentResults, results.Length, writtenContentSearch.BaseList.Count);
+                UpdateCounts(lblWrittenContentResults, results.Length, _writtenContentSearch.BaseList.Count);
             }
         }
 
-        private void searchDanceFormsList(object sender, EventArgs e)
+        private void SearchDanceFormsList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                danceFormSearch.Name = txtDanceFormsSearch.Text;
-                danceFormSearch.sortEvents = radDanceFormsEvents.Checked;
-                danceFormSearch.sortFiltered = radDanceFormsFiltered.Checked;
-                IEnumerable<DanceForm> list = danceFormSearch.getList();
+                _danceFormSearch.Name = txtDanceFormsSearch.Text;
+                _danceFormSearch.SortEvents = radDanceFormsEvents.Checked;
+                _danceFormSearch.SortFiltered = radDanceFormsFiltered.Checked;
+                IEnumerable<DanceForm> list = _danceFormSearch.GetList();
                 var results = list.ToArray();
                 listDanceFormsSearch.SetObjects(results);
-                UpdateCounts(lblDanceFormsResults, results.Length, danceFormSearch.BaseList.Count);
+                UpdateCounts(lblDanceFormsResults, results.Length, _danceFormSearch.BaseList.Count);
             }
         }
 
-        private void searchMusicalFormsList(object sender, EventArgs e)
+        private void SearchMusicalFormsList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                musicalFormSearch.Name = txtMusicalFormsSearch.Text;
-                musicalFormSearch.sortEvents = radMusicalFormsEvents.Checked;
-                musicalFormSearch.sortFiltered = radMusicalFormsFiltered.Checked;
-                IEnumerable<MusicalForm> list = musicalFormSearch.getList();
+                _musicalFormSearch.Name = txtMusicalFormsSearch.Text;
+                _musicalFormSearch.SortEvents = radMusicalFormsEvents.Checked;
+                _musicalFormSearch.SortFiltered = radMusicalFormsFiltered.Checked;
+                IEnumerable<MusicalForm> list = _musicalFormSearch.GetList();
                 var results = list.ToArray();
                 listMusicalFormsSearch.SetObjects(results);
-                UpdateCounts(lblMusicalFormsResults, results.Length, musicalFormSearch.BaseList.Count);
+                UpdateCounts(lblMusicalFormsResults, results.Length, _musicalFormSearch.BaseList.Count);
             }
         }
 
-        private void searchPoeticFormsList(object sender, EventArgs e)
+        private void SearchPoeticFormsList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                poeticFormSearch.Name = txtPoeticFormsSearch.Text;
-                poeticFormSearch.sortEvents = radPoeticFormsEvents.Checked;
-                poeticFormSearch.sortFiltered = radPoeticFormsFiltered.Checked;
-                IEnumerable<PoeticForm> list = poeticFormSearch.getList();
+                _poeticFormSearch.Name = txtPoeticFormsSearch.Text;
+                _poeticFormSearch.SortEvents = radPoeticFormsEvents.Checked;
+                _poeticFormSearch.SortFiltered = radPoeticFormsFiltered.Checked;
+                IEnumerable<PoeticForm> list = _poeticFormSearch.GetList();
                 var results = list.ToArray();
                 listPoeticFormsSearch.SetObjects(results);
-                UpdateCounts(lblPoeticFormsResults, results.Length, poeticFormSearch.BaseList.Count);
+                UpdateCounts(lblPoeticFormsResults, results.Length, _poeticFormSearch.BaseList.Count);
             }
         }
 
         private void listArtifactSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listWrittenContentSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listDanceFormsSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listMusicalFormsSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listPoeticFormsSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
     }
 }

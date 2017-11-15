@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using LegendsViewer.Controls.Map;
@@ -6,61 +7,61 @@ using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.HTML
 {
-    public class MountainPeakPrinter : HTMLPrinter
+    public class MountainPeakPrinter : HtmlPrinter
     {
-        MountainPeak MountainPeak;
-        World World;
+        MountainPeak _mountainPeak;
+        World _world;
 
         public MountainPeakPrinter(MountainPeak mountainPeak, World world)
         {
-            MountainPeak = mountainPeak;
-            World = world;
+            _mountainPeak = mountainPeak;
+            _world = world;
         }
 
         public override string GetTitle()
         {
-            return MountainPeak.Name;
+            return _mountainPeak.Name;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + MountainPeak.Name + ", Mountain Peak</h1><br />");
+            Html.AppendLine("<h1>" + _mountainPeak.Name + ", Mountain Peak</h1><br />");
 
-            if (MountainPeak.Coordinates.Any())
+            if (_mountainPeak.Coordinates.Any())
             {
-                List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, MountainPeak);
+                List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _mountainPeak);
 
-                HTML.AppendLine("<table>");
-                HTML.AppendLine("<tr>");
-                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-                HTML.AppendLine("</tr></table></br>");
+                Html.AppendLine("<table>");
+                Html.AppendLine("<tr>");
+                Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+                Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+                Html.AppendLine("</tr></table></br>");
             }
 
-            if (MountainPeak.Region != null)
+            if (_mountainPeak.Region != null)
             {
-                HTML.AppendLine("<b>Geography</b><br/>");
-                HTML.AppendLine("<ul>");
-                if (MountainPeak.Region != null)
+                Html.AppendLine("<b>Geography</b><br/>");
+                Html.AppendLine("<ul>");
+                if (_mountainPeak.Region != null)
                 {
-                    HTML.AppendLine("<li>Region: " + MountainPeak.Region.ToLink() + ", " + MountainPeak.Region.Type.GetDescription() + "</li>");
+                    Html.AppendLine("<li>Region: " + _mountainPeak.Region.ToLink() + ", " + _mountainPeak.Region.Type.GetDescription() + "</li>");
                 }
-                HTML.AppendLine("</ul>");
+                Html.AppendLine("</ul>");
             }
 
-            if (MountainPeak.Height > 0)
+            if (_mountainPeak.Height > 0)
             {
-                HTML.AppendLine(Bold("Height of " + MountainPeak.ToLink(true, MountainPeak)) + LineBreak);
-                HTML.AppendLine("<ul>");
-                HTML.AppendLine("<li>" + MountainPeak.Height + " tiles ~ " + (3 * MountainPeak.Height) + " m</li>");
-                HTML.AppendLine("</ul>");
+                Html.AppendLine(Bold("Height of " + _mountainPeak.ToLink(true, _mountainPeak)) + LineBreak);
+                Html.AppendLine("<ul>");
+                Html.AppendLine("<li>" + _mountainPeak.Height + " tiles ~ " + 3 * _mountainPeak.Height + " m</li>");
+                Html.AppendLine("</ul>");
             }
 
-            PrintEventLog(MountainPeak.Events, MountainPeak.Filters, MountainPeak);
+            PrintEventLog(_mountainPeak.Events, MountainPeak.Filters, _mountainPeak);
 
-            return HTML.ToString();
+            return Html.ToString();
         }
     }
 }

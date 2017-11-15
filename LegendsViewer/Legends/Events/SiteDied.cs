@@ -14,6 +14,7 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
@@ -24,10 +25,13 @@ namespace LegendsViewer.Legends.Events
                         Abandoned = true;
                         break;
                 }
+            }
 
             string endCause = "withered";
             if (Abandoned)
+            {
                 endCause = "abandoned";
+            }
 
             Site.OwnerHistory.Last().EndYear = Year;
             Site.OwnerHistory.Last().EndCause = endCause;

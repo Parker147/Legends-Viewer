@@ -9,23 +9,23 @@ namespace LegendsViewer.Legends.Parser
 {
     class SitesAndPopulationsParser : IDisposable
     {
-        StreamReader SitesAndPops;
-        string CurrentLine;
-        World World;
-        Site Site;
-        Entity Owner;
-        Entity Parent;
+        StreamReader _sitesAndPops;
+        string _currentLine;
+        World _world;
+        Site _site;
+        Entity _owner;
+        Entity _parent;
 
         public SitesAndPopulationsParser(World world, string sitesAndPopsFile)
         {
-            World = world;
-            SitesAndPops = new StreamReader(sitesAndPopsFile, Encoding.GetEncoding("windows-1252"));
+            _world = world;
+            _sitesAndPops = new StreamReader(sitesAndPopsFile, Encoding.GetEncoding("windows-1252"));
         }
 
         public void Parse()
         {
             ReadLine();
-            while (CurrentLine != "")
+            while (_currentLine != "")
             {
                 SkipWorldPopulations();
                 ReadSite();
@@ -37,48 +37,55 @@ namespace LegendsViewer.Legends.Parser
             }
             ReadOutdoorPopulations();
             ReadUndergroundPopulations();
-            SitesAndPops.Close();
+            _sitesAndPops.Close();
         }
 
         private void ReadLine()
         {
-            CurrentLine = SitesAndPops.ReadLine();
+            _currentLine = _sitesAndPops.ReadLine();
         }
 
         private bool InSites()
         {
-            return !SitesAndPops.EndOfStream && CurrentLine != "Outdoor Animal Populations (Including Undead)";
+            return !_sitesAndPops.EndOfStream && _currentLine != "Outdoor Animal Populations (Including Undead)";
         }
 
         private bool SiteStart()
         {
-            return !SitesAndPops.EndOfStream && !CurrentLine.StartsWith("\t");
+            return !_sitesAndPops.EndOfStream && !_currentLine.StartsWith("\t");
         }
 
         private void SkipWorldPopulations()
         {
-            if (CurrentLine == "Civilized World Population")
+            if (_currentLine == "Civilized World Population")
             {
                 ReadLine();
-                CurrentLine = SitesAndPops.ReadLine();
-                while (CurrentLine != "" && !SitesAndPops.EndOfStream)
+                _currentLine = _sitesAndPops.ReadLine();
+                while (_currentLine != "" && !_sitesAndPops.EndOfStream)
                 {
-                    if (CurrentLine == "") { CurrentLine = SitesAndPops.ReadLine(); continue; }
+                    if (_currentLine == "") { _currentLine = _sitesAndPops.ReadLine(); continue; }
                     int count;
-                    string population = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1));
-                    string countString = CurrentLine.Substring(1, CurrentLine.IndexOf(" ") - 1);
-                    if (countString == "Unnumbered") count = Int32.MaxValue;
-                    else count = Convert.ToInt32(countString);
-                    World.CivilizedPopulations.Add(new Population(population, count));
-                    CurrentLine = SitesAndPops.ReadLine();
+                    string population = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(" ") + 1));
+                    string countString = _currentLine.Substring(1, _currentLine.IndexOf(" ") - 1);
+                    if (countString == "Unnumbered")
+                    {
+                        count = Int32.MaxValue;
+                    }
+                    else
+                    {
+                        count = Convert.ToInt32(countString);
+                    }
+
+                    _world.CivilizedPopulations.Add(new Population(population, count));
+                    _currentLine = _sitesAndPops.ReadLine();
                 }
-                World.CivilizedPopulations = World.CivilizedPopulations.OrderByDescending(population => population.Count).ToList();
-                while (CurrentLine != "Sites")
+                _world.CivilizedPopulations = _world.CivilizedPopulations.OrderByDescending(population => population.Count).ToList();
+                while (_currentLine != "Sites")
                 {
-                    CurrentLine = SitesAndPops.ReadLine();
+                    _currentLine = _sitesAndPops.ReadLine();
                 }
             }
-            if (CurrentLine == "Sites")
+            if (_currentLine == "Sites")
             {
                 ReadLine();
                 ReadLine();
@@ -87,48 +94,43 @@ namespace LegendsViewer.Legends.Parser
 
         private void ReadSite()
         {
-            string siteID = CurrentLine.Substring(0, CurrentLine.IndexOf(":"));
-            Site = World.GetSite(Convert.ToInt32(siteID));
-            if (Site != null)
+            string siteId = _currentLine.Substring(0, _currentLine.IndexOf(":"));
+            _site = _world.GetSite(Convert.ToInt32(siteId));
+            if (_site != null)
             {
-                string untranslatedName = Formatting.InitCaps(Formatting.ReplaceNonAscii(CurrentLine.Substring(CurrentLine.IndexOf(' ') + 1, CurrentLine.IndexOf(',') - CurrentLine.IndexOf(' ') - 1)));
-                if (!string.IsNullOrWhiteSpace(Site.Name))
+                string untranslatedName = Formatting.InitCaps(Formatting.ReplaceNonAscii(_currentLine.Substring(_currentLine.IndexOf(' ') + 1, _currentLine.IndexOf(',') - _currentLine.IndexOf(' ') - 1)));
+                if (!string.IsNullOrWhiteSpace(_site.Name))
                 {
-                    Site.UntranslatedName = untranslatedName;
-                }
-                else
-                {
-                    // string name = Formatting.InitCaps(Formatting.ReplaceNonAscii(CurrentLine.Substring(CurrentLine.IndexOf('\"') + 1, CurrentLine.LastIndexOf('\"') - CurrentLine.IndexOf('\"') - 1)));
-                    // TODO v0.43.XX has invalid information for important locations and advmode camps
+                    _site.UntranslatedName = untranslatedName;
                 }
             }
-            Owner = null;
+            _owner = null;
             ReadLine();
         }
 
         private void ReadSiteOwner()
         {
-            if (CurrentLine.Contains("Owner:"))
+            if (_currentLine.Contains("Owner:"))
             {
-                string entityName = CurrentLine.Substring(CurrentLine.IndexOf(":") + 2, CurrentLine.IndexOf(",") - CurrentLine.IndexOf(":") - 2);
+                string entityName = _currentLine.Substring(_currentLine.IndexOf(":") + 2, _currentLine.IndexOf(",") - _currentLine.IndexOf(":") - 2);
                 try
                 {
-                    Owner = World.GetEntity(entityName);
+                    _owner = _world.GetEntity(entityName);
                 }
                 catch (Exception ex)
                 {
-                    Owner = World.EntitiesByName.FirstOrDefault(e => e.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase) && e.Sites.Contains(Site));
-                    if (Owner == null)
+                    _owner = _world.EntitiesByName.FirstOrDefault(e => e.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase) && e.Sites.Contains(_site));
+                    if (_owner == null)
                     {
-                        World.ParsingErrors.Report(ex.Message + ", Site Owner of " + Site.Name);
+                        _world.ParsingErrors.Report(ex.Message + ", Site Owner of " + _site.Name);
                     }
                 }
-                if (Owner != null)
+                if (_owner != null)
                 {
-                    Owner.Race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(",") + 2, CurrentLine.Length - CurrentLine.IndexOf(",") - 2));
-                    if (string.IsNullOrWhiteSpace(Owner.Race))
+                    _owner.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2));
+                    if (string.IsNullOrWhiteSpace(_owner.Race))
                     {
-                        Owner.Race = "Unknown";
+                        _owner.Race = "Unknown";
                     }
                 }
                 ReadLine();
@@ -137,40 +139,44 @@ namespace LegendsViewer.Legends.Parser
 
         private void ReadParentCiv()
         {
-            if (CurrentLine.Contains("Parent Civ:"))
+            if (_currentLine.Contains("Parent Civ:"))
             {
-                string civName = CurrentLine.Substring(CurrentLine.IndexOf(":") + 2, CurrentLine.IndexOf(",") - CurrentLine.IndexOf(":") - 2);
+                string civName = _currentLine.Substring(_currentLine.IndexOf(":") + 2, _currentLine.IndexOf(",") - _currentLine.IndexOf(":") - 2);
                 try
                 {
-                    Parent = World.GetEntity(civName);
-                    Parent.Race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(",") + 2, CurrentLine.Length - CurrentLine.IndexOf(",") - 2));
-                    if (string.IsNullOrWhiteSpace(Parent.Race))
+                    _parent = _world.GetEntity(civName);
+                    _parent.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2));
+                    if (string.IsNullOrWhiteSpace(_parent.Race))
                     {
-                        Parent.Race = "Unknown";
+                        _parent.Race = "Unknown";
                     }
-                    if (Owner != null)
+                    if (_owner != null)
                     {
-                        var current = Owner;
+                        var current = _owner;
                         while (current.Parent != null)
                         {
                             current = current.Parent;
                         }
-                        if (current != Parent)
+                        if (current != _parent)
                         {
-                            current.Parent = Parent;
+                            current.Parent = _parent;
                         }
-                        if (!Parent.Groups.Contains(Owner))
+                        if (!_parent.Groups.Contains(_owner))
                         {
-                            Parent.Groups.Add(Owner);
+                            _parent.Groups.Add(_owner);
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    if (Owner != null)
-                        World.ParsingErrors.Report(e.Message + ", Parent Civ of " + Owner.Name + ", Site Owner of " + Site.Name);
+                    if (_owner != null)
+                    {
+                        _world.ParsingErrors.Report(e.Message + ", Parent Civ of " + _owner.Name + ", Site Owner of " + _site.Name);
+                    }
                     else
-                        World.ParsingErrors.Report(e.Message + ", Parent Civ of Site Owner of " + Site.Name);
+                    {
+                        _world.ParsingErrors.Report(e.Message + ", Parent Civ of Site Owner of " + _site.Name);
+                    }
                 }
 
                 ReadLine();
@@ -179,24 +185,24 @@ namespace LegendsViewer.Legends.Parser
 
         private void ReadOfficials()
         {
-            if (CurrentLine.Contains(":")) //Read in Officials, law-givers, mayors etc, ex: law-giver: Oled Sugarynestled, human
+            if (_currentLine.Contains(":")) //Read in Officials, law-givers, mayors etc, ex: law-giver: Oled Sugarynestled, human
             {
-                while (!SitesAndPops.EndOfStream && CurrentLine.Contains(":") && !SiteStart())
+                while (!_sitesAndPops.EndOfStream && _currentLine.Contains(":") && !SiteStart())
                 {
                     HistoricalFigure siteOfficial = null;
-                    string officialName = Formatting.ReplaceNonAscii(CurrentLine.Substring(CurrentLine.IndexOf(":") + 2, CurrentLine.IndexOf(",") - CurrentLine.IndexOf(":") - 2));
+                    string officialName = Formatting.ReplaceNonAscii(_currentLine.Substring(_currentLine.IndexOf(":") + 2, _currentLine.IndexOf(",") - _currentLine.IndexOf(":") - 2));
                     try
                     {
-                        siteOfficial = World.GetHistoricalFigure(officialName);
+                        siteOfficial = _world.GetHistoricalFigure(officialName);
                     }
                     catch (Exception e)
                     {
-                        World.ParsingErrors.Report(e.Message + ", Official of " + Site.Name);
+                        _world.ParsingErrors.Report(e.Message + ", Official of " + _site.Name);
                         ReadLine();
                         continue;
                     }
-                    string siteOfficialPosition = CurrentLine.Substring(1, CurrentLine.IndexOf(":") - 1);
-                    Site.Officials.Add(new Site.Official(siteOfficial, siteOfficialPosition));
+                    string siteOfficialPosition = _currentLine.Substring(1, _currentLine.IndexOf(":") - 1);
+                    _site.Officials.Add(new Site.Official(siteOfficial, siteOfficialPosition));
                     ReadLine();
                 }
             }
@@ -205,75 +211,76 @@ namespace LegendsViewer.Legends.Parser
         public void ReadPopulations()
         {
             List<Population> populations = new List<Population>();
-            while (!SiteStart() && CurrentLine != "")
+            while (!SiteStart() && _currentLine != "")
             {
-                string race = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(' ') + 1));
+                string race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(' ') + 1));
                 race = Formatting.MakePopulationPlural(race);
-                int count = Convert.ToInt32(CurrentLine.Substring(1, CurrentLine.IndexOf(' ') - 1));
+                int count = Convert.ToInt32(_currentLine.Substring(1, _currentLine.IndexOf(' ') - 1));
                 populations.Add(new Population(race, count));
                 ReadLine();
             }
 
-            Site.Populations = populations.OrderByDescending(pop => pop.Count).ToList();
-            if (Owner != null)
+            _site.Populations = populations.OrderByDescending(pop => pop.Count).ToList();
+            if (_owner != null)
             {
-                Owner.AddPopulations(populations);
-                if (Owner.Parent != null)
-                    Owner.Parent.AddPopulations(populations);
+                _owner.AddPopulations(populations);
+                if (_owner.Parent != null)
+                {
+                    _owner.Parent.AddPopulations(populations);
+                }
             }
-            World.SitePopulations.AddRange(populations);
+            _world.SitePopulations.AddRange(populations);
         }
 
         public void CheckSiteOwnership()
         {
             //Check if a site was gained without a proper event from the xml
-            if (Owner != null)
+            if (_owner != null)
             {
-                if (Site.OwnerHistory.Count == 0)
+                if (_site.OwnerHistory.Count == 0)
                 {
-                    new OwnerPeriod(Site, Owner, 1, "founded");
+                    new OwnerPeriod(_site, _owner, 1, "founded");
                 }
-                else if (Site.OwnerHistory.Last().Owner != Owner)
+                else if (_site.OwnerHistory.Last().Owner != _owner)
                 {
                     bool found = false;
-                    HistoricalFigure lastKnownOwner = Site.OwnerHistory.Last().Owner as HistoricalFigure;
-                    if (lastKnownOwner != null)
+                    if (_site.OwnerHistory.Last().Owner is HistoricalFigure lastKnownOwner)
                     {
                         if (lastKnownOwner.DeathYear != -1)
                         {
-                            new OwnerPeriod(Site, Owner, lastKnownOwner.DeathYear, "after death of last owner (" + lastKnownOwner.DeathCause + ") took over");
+                            new OwnerPeriod(_site, _owner, lastKnownOwner.DeathYear, "after death of last owner (" + lastKnownOwner.DeathCause + ") took over");
                             found = true;
                         }
-                        else if (Site.Type == "Vault" && Owner is Entity)
+                        else if (_site.Type == "Vault" && _owner is Entity)
                         {
-                            Site.OwnerHistory.Last().Owner = Owner;
+                            _site.OwnerHistory.Last().Owner = _owner;
                             found = true;
                         }
                     }
-                    else if (Site.CurrentOwner == null)
+                    else if (_site.CurrentOwner == null)
                     {
-                        new OwnerPeriod(Site, Owner, Site.OwnerHistory.Last().EndYear, "slowly repopulated after the site was " + Site.OwnerHistory.Last().EndCause);
+                        new OwnerPeriod(_site, _owner, _site.OwnerHistory.Last().EndYear, "slowly repopulated after the site was " + _site.OwnerHistory.Last().EndCause);
                         found = true;
                     }
-                    if(!found)
+                    if (!found)
                     {
-                        ChangeHFState lastSettledEvent = Site.Events.OfType<ChangeHFState>().LastOrDefault();
+                        ChangeHfState lastSettledEvent = _site.Events.OfType<ChangeHfState>().LastOrDefault();
                         if (lastSettledEvent != null)
                         {
-                            new OwnerPeriod(Site, Owner, lastSettledEvent.Year, "settled in");
+                            new OwnerPeriod(_site, _owner, lastSettledEvent.Year, "settled in");
                         }
                         else
                         {
-                            World.ParsingErrors.Report("Site ownership conflict: " + Site.Name + ". Actually owned by " + Owner.ToLink(false) + " instead of " + Site.OwnerHistory.Last().Owner.ToLink(false));
+                            _world.ParsingErrors.Report("Site ownership conflict: " + _site.Name + ". Actually owned by " + _owner.ToLink(false) + " instead of " + _site.OwnerHistory.Last().Owner.ToLink(false));
                         }
                     }
                 }
             }
             //check for loss of period ownership, since some some loss of ownership eventsList are missing
-            if (Owner == null && Site.OwnerHistory.Count > 0 && Site.OwnerHistory.Last().EndYear == -1)
+            if (_owner == null && _site.OwnerHistory.Count > 0 && _site.OwnerHistory.Last().EndYear == -1)
             {
-                Site.OwnerHistory.Last().EndYear = World.Events.Last().Year - 1;
-                Site.OwnerHistory.Last().EndCause = "abandoned";
+                _site.OwnerHistory.Last().EndYear = _world.Events.Last().Year - 1;
+                _site.OwnerHistory.Last().EndCause = "abandoned";
             }
         }
 
@@ -281,38 +288,52 @@ namespace LegendsViewer.Legends.Parser
         {
             ReadLine();
             ReadLine();
-            while (CurrentLine != "" && !SitesAndPops.EndOfStream)
+            while (_currentLine != "" && !_sitesAndPops.EndOfStream)
             {
-                if (CurrentLine == "") { CurrentLine = SitesAndPops.ReadLine(); continue; }
+                if (_currentLine == "") { _currentLine = _sitesAndPops.ReadLine(); continue; }
                 string countString, population;
                 int count;
-                population = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1));
-                countString = CurrentLine.Substring(1, CurrentLine.IndexOf(" ") - 1);
-                if (countString == "Unnumbered") count = Int32.MaxValue;
-                else count = Convert.ToInt32(countString);
-                World.OutdoorPopulations.Add(new Population(population, count));
-                CurrentLine = SitesAndPops.ReadLine();
+                population = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(" ") + 1));
+                countString = _currentLine.Substring(1, _currentLine.IndexOf(" ") - 1);
+                if (countString == "Unnumbered")
+                {
+                    count = Int32.MaxValue;
+                }
+                else
+                {
+                    count = Convert.ToInt32(countString);
+                }
+
+                _world.OutdoorPopulations.Add(new Population(population, count));
+                _currentLine = _sitesAndPops.ReadLine();
             }
-            World.OutdoorPopulations = World.OutdoorPopulations.OrderByDescending(population => population.Count).ToList();
+            _world.OutdoorPopulations = _world.OutdoorPopulations.OrderByDescending(population => population.Count).ToList();
         }
 
         private void ReadUndergroundPopulations()
         {
             ReadLine();
             ReadLine();
-            while (!SitesAndPops.EndOfStream)
+            while (!_sitesAndPops.EndOfStream)
             {
-                if (CurrentLine == "") { CurrentLine = SitesAndPops.ReadLine(); continue; }
+                if (_currentLine == "") { _currentLine = _sitesAndPops.ReadLine(); continue; }
                 string countString, population;
                 int count;
-                population = Formatting.InitCaps(CurrentLine.Substring(CurrentLine.IndexOf(" ") + 1));
-                countString = CurrentLine.Substring(1, CurrentLine.IndexOf(" ") - 1);
-                if (countString == "Unnumbered") count = Int32.MaxValue;
-                else count = Convert.ToInt32(countString);
-                World.UndergroundPopulations.Add(new Population(population, count));
-                CurrentLine = SitesAndPops.ReadLine();
+                population = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(" ") + 1));
+                countString = _currentLine.Substring(1, _currentLine.IndexOf(" ") - 1);
+                if (countString == "Unnumbered")
+                {
+                    count = Int32.MaxValue;
+                }
+                else
+                {
+                    count = Convert.ToInt32(countString);
+                }
+
+                _world.UndergroundPopulations.Add(new Population(population, count));
+                _currentLine = _sitesAndPops.ReadLine();
             }
-            World.UndergroundPopulations = World.UndergroundPopulations.OrderByDescending(population => population.Count).ToList();
+            _world.UndergroundPopulations = _world.UndergroundPopulations.OrderByDescending(population => population.Count).ToList();
         }
 
 
@@ -326,7 +347,7 @@ namespace LegendsViewer.Legends.Parser
         {
             if (disposing)
             {
-                SitesAndPops.Dispose();
+                _sitesAndPops.Dispose();
             }
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends.EventCollections
 {
@@ -21,7 +21,7 @@ namespace LegendsViewer.Legends.EventCollections
         public Site Site { get; set; }
         public Entity Defender { get; set; }
         public HistoricalFigure Beast { get; set; }
-        public List<HistoricalFigure> Deaths { get { return GetSubEvents().OfType<HFDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
+        public List<HistoricalFigure> Deaths { get { return GetSubEvents().OfType<HfDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
 
         // BUG in XML? 
         // ParentCollection was never set prior to DF 0.42.xx and is now often set to an occasion
@@ -41,6 +41,7 @@ namespace LegendsViewer.Legends.EventCollections
             Initialize();
 
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "ordinal": Ordinal = Convert.ToInt32(property.Value); break;
@@ -51,6 +52,7 @@ namespace LegendsViewer.Legends.EventCollections
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "defending_enid": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
                 }
+            }
 
             Site.BeastAttacks.Add(this);
 
@@ -71,10 +73,23 @@ namespace LegendsViewer.Legends.EventCollections
         {
             string name = "";
             name = "The " + GetOrdinal(Ordinal) + "rampage of ";
-            if (Beast != null && pov == Beast) name += Beast.ToLink(false, Beast);
-            else if (Beast != null) name += Beast.Name;
-            else name += "UNKNOWN BEAST";
-            if (pov != Site) name += " in " + Site.ToLink(false);
+            if (Beast != null && pov == Beast)
+            {
+                name += Beast.ToLink(false, Beast);
+            }
+            else if (Beast != null)
+            {
+                name += Beast.Name;
+            }
+            else
+            {
+                name += "UNKNOWN BEAST";
+            }
+
+            if (pov != Site)
+            {
+                name += " in " + Site.ToLink(false);
+            }
 
             if (link)
             {
@@ -85,20 +100,20 @@ namespace LegendsViewer.Legends.EventCollections
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a href = \"collection#" + ID + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + name + "</font></a>";
+                    linkedString = Icon + "<a href = \"collection#" + Id + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + name + "</font></a>";
                 }
                 else
-                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(name) + "</a>";
+                {
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(name) + "</a>";
+                }
+
                 return linkedString;
             }
-            else
+            if (pov == this)
             {
-                if (pov == this)
-                {
-                    return "Rampage of " + Beast.ToLink(false, Beast);
-                }
-                return name;
+                return "Rampage of " + Beast.ToLink(false, Beast);
             }
+            return name;
         }
 
         public override string ToString()

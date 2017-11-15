@@ -1,11 +1,14 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class SummaryTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -270,21 +273,21 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnXMLPlus;
-        private System.Windows.Forms.TextBox txtXMLPlus;
-        private System.Windows.Forms.Button btnAdvancedSearch;
-        private System.Windows.Forms.Button btnChart;
-        private System.Windows.Forms.Button btnStats;
-        private System.Windows.Forms.Button btnShowMap;
-        private System.Windows.Forms.Button btnMap;
-        private System.Windows.Forms.TextBox txtMap;
-        private System.Windows.Forms.Label lblStatus;
-        private System.Windows.Forms.TextBox txtSitePops;
-        private System.Windows.Forms.TextBox txtHistory;
-        private System.Windows.Forms.Button btnSitePops;
-        private System.Windows.Forms.Button btnHistory;
-        private System.Windows.Forms.Button btnXML;
-        private System.Windows.Forms.TextBox txtXML;
-        private System.Windows.Forms.RichTextBox txtLog;
+        private Button btnXMLPlus;
+        private TextBox txtXMLPlus;
+        private Button btnAdvancedSearch;
+        private Button btnChart;
+        private Button btnStats;
+        private Button btnShowMap;
+        private Button btnMap;
+        private TextBox txtMap;
+        private Label lblStatus;
+        private TextBox txtSitePops;
+        private TextBox txtHistory;
+        private Button btnSitePops;
+        private Button btnHistory;
+        private Button btnXML;
+        private TextBox txtXML;
+        private RichTextBox txtLog;
     }
 }

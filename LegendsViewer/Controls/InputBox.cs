@@ -6,11 +6,6 @@ namespace LegendsViewer.Controls
 {
     public class InputBox
     {
-        public static DialogResult Show(string title, string promptText, ref string value)
-        {
-            return Show(title, promptText, ref value, null);
-        }
-
         public static DialogResult Show(string title, string promptText, ref string value,
                                         InputBoxValidation validation)
         {
@@ -55,7 +50,11 @@ namespace LegendsViewer.Controls
                     {
                         string errorText = validation(textBox.Text);
                         e.Cancel = !string.IsNullOrEmpty(errorText);
-                        if (!e.Cancel) return;
+                        if (!e.Cancel)
+                        {
+                            return;
+                        }
+
                         MessageBox.Show(form, errorText, "Validation Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         textBox.Focus();

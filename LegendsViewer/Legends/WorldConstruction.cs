@@ -1,12 +1,12 @@
-﻿using LegendsViewer.Controls.HTML.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using LegendsViewer.Controls;
+using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Interfaces;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Legends.Enums;
 
 namespace LegendsViewer.Legends
 {
@@ -62,7 +62,7 @@ namespace LegendsViewer.Legends
                         }
                         break;
                     case "coords":
-                        string[] coordinateStrings = property.Value.Split(new char[] { '|' },
+                        string[] coordinateStrings = property.Value.Split(new[] { '|' },
                             StringSplitOptions.RemoveEmptyEntries);
                         foreach (var coordinateString in coordinateStrings)
                         {
@@ -91,14 +91,16 @@ namespace LegendsViewer.Legends
                     title += "&#13";
                     title += "Events: " + Events.Count;
 
-                    linkedString = Icon + "<a href = \"worldconstruction#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href = \"worldconstruction#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    linkedString = Icon + HTMLStyleUtil.CurrentDwarfObject(Name);
+                {
+                    linkedString = Icon + HtmlStyleUtil.CurrentDwarfObject(Name);
+                }
+
                 return linkedString;
             }
-            else
-                return Name;
+            return Name;
         }
     }
 }

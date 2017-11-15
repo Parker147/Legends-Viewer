@@ -1,11 +1,15 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using BrightIdeasSoftware;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class CollectionsTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -251,20 +255,20 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tcCollections;
-        private System.Windows.Forms.TabPage tpEras;
-        private System.Windows.Forms.TabControl tcEras;
-        private System.Windows.Forms.TabPage tpEraSearch;
-        private System.Windows.Forms.GroupBox groupBox16;
-        private System.Windows.Forms.Button btnEraShow;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numStart;
-        private System.Windows.Forms.NumericUpDown numEraEnd;
-        private System.Windows.Forms.TabPage tpEraEvents;
-        private BrightIdeasSoftware.ObjectListView listEraSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn7;
-        private BrightIdeasSoftware.OLVColumn olvColumn8;
+        private TabControl tcCollections;
+        private TabPage tpEras;
+        private TabControl tcEras;
+        private TabPage tpEraSearch;
+        private GroupBox groupBox16;
+        private Button btnEraShow;
+        private Label label5;
+        private Label label4;
+        private Label label3;
+        private NumericUpDown numStart;
+        private NumericUpDown numEraEnd;
+        private TabPage tpEraEvents;
+        private ObjectListView listEraSearch;
+        private OLVColumn olvColumn7;
+        private OLVColumn olvColumn8;
     }
 }

@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using LegendsViewer.Controls;
 
-namespace LegendsViewer
+namespace LegendsViewer.Controls
 {
     public abstract class PageControl : IDisposable
     {
         public DwarfTabControl TabControl;
         public string Title;
 
-        internal bool disposed;
+        internal bool Disposed;
 
         public abstract Control GetControl();
 

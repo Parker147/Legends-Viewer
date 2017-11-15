@@ -1,4 +1,4 @@
-namespace LegendsViewer
+namespace LegendsViewer.Controls.Chart
 {
     public enum ChartOption : byte
     {
@@ -8,7 +8,7 @@ namespace LegendsViewer
         TimelineActiveSites,
         TimelineActiveSitesByRace,
         TimelineAliveHFs,
-        TimeLineAliveHFSpecific,
+        TimeLineAliveHfSpecific,
         TimelineActiveWars,
         TimelineBattles,
         TimelineBeastAttacks,
@@ -19,14 +19,14 @@ namespace LegendsViewer
         OtherSitePopulations,
         OtherWarLosses,
         OtherBattleRemaining,
-        WorldHFRaces,
-        WorldHFAlive,
-        WorldHFRemaining,
+        WorldHfRaces,
+        WorldHfAlive,
+        WorldHfRemaining,
         WorldSitePopulations,
         WorldDeaths,
         WorldSiteTypes,
         WorldRegionTypes,
         WorldOutdoorPopulations,
-        WorldUndergroundPopulations,
+        WorldUndergroundPopulations
     }
 }

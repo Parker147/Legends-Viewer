@@ -5,6 +5,6 @@
         Unknown,
         Road,
         Bridge,
-        Tunnel,
+        Tunnel
     }
 }

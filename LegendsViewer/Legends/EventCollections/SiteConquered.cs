@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends.EventCollections
 {
@@ -21,7 +21,7 @@ namespace LegendsViewer.Legends.EventCollections
         public Entity Attacker { get; set; }
         public Entity Defender { get; set; }
         public Battle Battle { get; set; }
-        public List<HistoricalFigure> Deaths { get { return GetSubEvents().OfType<HFDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
+        public List<HistoricalFigure> Deaths { get { return GetSubEvents().OfType<HfDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -37,6 +37,7 @@ namespace LegendsViewer.Legends.EventCollections
         {
             Initialize();
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "ordinal": Ordinal = Convert.ToInt32(property.Value); break;
@@ -45,25 +46,43 @@ namespace LegendsViewer.Legends.EventCollections
                     case "attacking_enid": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "defending_enid": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
                 }
+            }
 
-            
+            if (Collection.OfType<PlunderedSite>().Any())
+            {
+                ConquerType = SiteConqueredType.Pillaging;
+            }
+            else if (Collection.OfType<DestroyedSite>().Any())
+            {
+                ConquerType = SiteConqueredType.Destruction;
+            }
+            else if (Collection.OfType<NewSiteLeader>().Any() || Collection.OfType<SiteTakenOver>().Any())
+            {
+                ConquerType = SiteConqueredType.Conquest;
+            }
+            else
+            {
+                ConquerType = SiteConqueredType.Unknown;
+            }
 
-            if (Collection.OfType<PlunderedSite>().Any()) ConquerType = SiteConqueredType.Pillaging;
-            else if (Collection.OfType<DestroyedSite>().Any()) ConquerType = SiteConqueredType.Destruction;
-            else if (Collection.OfType<NewSiteLeader>().Any() || Collection.OfType<SiteTakenOver>().Any()) ConquerType = SiteConqueredType.Conquest;
-            else ConquerType = SiteConqueredType.Unknown;
-
-            if (ConquerType == SiteConqueredType.Pillaging) Notable = false;
+            if (ConquerType == SiteConqueredType.Pillaging)
+            {
+                Notable = false;
+            }
 
             Site.Warfare.Add(this);
             if (ParentCollection != null)
             {
-                (ParentCollection as War).DeathCount += Collection.OfType<HFDied>().Count();
+                (ParentCollection as War).DeathCount += Collection.OfType<HfDied>().Count();
 
-                if (Attacker == (ParentCollection as War).Attacker) 
+                if (Attacker == (ParentCollection as War).Attacker)
+                {
                     (ParentCollection as War).AttackerVictories.Add(this);
-                else 
+                }
+                else
+                {
                     (ParentCollection as War).DefenderVictories.Add(this);
+                }
             }
 
         }
@@ -93,19 +112,19 @@ namespace LegendsViewer.Legends.EventCollections
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = "<a href = \"collection#" + ID + "\" title=\"" + title + "\"><font color=\"6E5007\">" + name + "</font></a>";
-                    if (pov != Battle) linkedString += " as a result of " + Battle.ToLink();
+                    linkedString = "<a href = \"collection#" + Id + "\" title=\"" + title + "\"><font color=\"6E5007\">" + name + "</font></a>";
+                    if (pov != Battle)
+                    {
+                        linkedString += " as a result of " + Battle.ToLink();
+                    }
                 }
                 else
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(name) + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(name) + "</a>";
                 }
                 return linkedString;
             }
-            else
-            {
-                return name;
-            }
+            return name;
         }
         public override string ToString()
         {

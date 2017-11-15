@@ -11,7 +11,7 @@ namespace LegendsViewer.Legends.Events
         public Site Site { get; set; }
         public InsurrectionOutcome Outcome { get; set; }
         public Boolean ActualStart { get; set; }
-        private string unknownOutcome;
+        private string _unknownOutcome;
 
         public InsurrectionStarted(List<Property> properties, World world) : base(properties, world)
         {
@@ -38,8 +38,8 @@ namespace LegendsViewer.Legends.Events
                                 break;
                             default:
                                 Outcome = InsurrectionOutcome.Unknown;
-                                unknownOutcome = property.Value;
-                                world.ParsingErrors.Report("Unknown Insurrection Outcome: " + unknownOutcome);
+                                _unknownOutcome = property.Value;
+                                world.ParsingErrors.Report("Unknown Insurrection Outcome: " + _unknownOutcome);
                                 break;
                         }
                         break;
@@ -69,7 +69,7 @@ namespace LegendsViewer.Legends.Events
                         eventString += " ended with the disappearance of the rebelling population";
                         break;
                     default:
-                        eventString += " against " + Civ.ToLink(link, pov) + " concluded with (" + unknownOutcome + ")";
+                        eventString += " against " + Civ.ToLink(link, pov) + " concluded with (" + _unknownOutcome + ")";
                         break;
                 }
             }

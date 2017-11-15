@@ -4,7 +4,7 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class ChangeHFJob : WorldEvent
+    public class ChangeHfJob : WorldEvent
     {
         public HistoricalFigure HistoricalFigure;
         public Site Site;
@@ -12,12 +12,13 @@ namespace LegendsViewer.Legends.Events
         public UndergroundRegion UndergroundRegion;
         public string NewJob { get; set; }
         public string OldJob { get; set; }
-        public ChangeHFJob(List<Property> properties, World world)
+        public ChangeHfJob(List<Property> properties, World world)
             : base(properties, world)
         {
             NewJob = "UNKNOWN JOB";
             OldJob = "UNKNOWN JOB";
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
@@ -26,8 +27,10 @@ namespace LegendsViewer.Legends.Events
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "new_job": NewJob = string.Intern(property.Value.Replace("_", " ")); break;
                     case "old_job": OldJob = string.Intern(property.Value.Replace("_", " ")); break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                 }
+            }
+
             HistoricalFigure.AddEvent(this);
             Site.AddEvent(this);
             Region.AddEvent(this);

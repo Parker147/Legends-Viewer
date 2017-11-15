@@ -13,8 +13,8 @@ namespace LegendsViewer.Legends.Events
         public string FormId { get; set; }
         public string Reason { get; set; }
         public int ReasonId { get; set; }
-        public HistoricalFigure GlorifiedHF { get; set; }
-        public HistoricalFigure PrayToHF { get; set; }
+        public HistoricalFigure GlorifiedHf { get; set; }
+        public HistoricalFigure PrayToHf { get; set; }
         public string Circumstance { get; set; }
         public int CircumstanceId { get; set; }
         public FormType FormType { get; set; }
@@ -23,6 +23,7 @@ namespace LegendsViewer.Legends.Events
         public FormCreatedEvent(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "hist_figure_id":
@@ -50,18 +51,20 @@ namespace LegendsViewer.Legends.Events
                         Region = world.GetRegion(Convert.ToInt32(property.Value));
                         break;
                 }
+            }
+
             Site.AddEvent(this);
             Region.AddEvent(this);
             HistoricalFigure.AddEvent(this);
             if (Reason == "glorify hf")
             {
-                GlorifiedHF = world.GetHistoricalFigure(ReasonId);
-                GlorifiedHF.AddEvent(this);
+                GlorifiedHf = world.GetHistoricalFigure(ReasonId);
+                GlorifiedHf.AddEvent(this);
             }
             if (Circumstance == "pray to hf")
             {
-                PrayToHF = world.GetHistoricalFigure(CircumstanceId);
-                PrayToHF.AddEvent(this);
+                PrayToHf = world.GetHistoricalFigure(CircumstanceId);
+                PrayToHf.AddEvent(this);
             }
         }
 
@@ -90,15 +93,15 @@ namespace LegendsViewer.Legends.Events
                 eventString += " in ";
                 eventString += Site.ToLink(link, pov);
             }
-            if (GlorifiedHF != null)
+            if (GlorifiedHf != null)
             {
-                eventString += " in order to glorify " + GlorifiedHF.ToLink(link, pov);
+                eventString += " in order to glorify " + GlorifiedHf.ToLink(link, pov);
             }
             if (!string.IsNullOrWhiteSpace(Circumstance))
             {
-                if (PrayToHF != null)
+                if (PrayToHf != null)
                 {
-                    eventString += " after praying to " + PrayToHF.ToLink(link, pov);
+                    eventString += " after praying to " + PrayToHf.ToLink(link, pov);
                 }
                 else
                 {

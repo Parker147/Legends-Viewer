@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls;
+using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Legends.Enums;
-using LegendsViewer.Controls.HTML.Utilities;
-using System;
-using LegendsViewer.Controls;
 
 namespace LegendsViewer.Legends
 {
@@ -16,9 +16,9 @@ namespace LegendsViewer.Legends
         public StructureType Type { get; set; } // legends_plus.xml
         public List<int> InhabitantIDs { get; set; } // legends_plus.xml
         public List<HistoricalFigure> Inhabitants { get; set; } // legends_plus.xml
-        public int DeityID { get; set; } // legends_plus.xml
+        public int DeityId { get; set; } // legends_plus.xml
         public HistoricalFigure Deity { get; set; } // legends_plus.xml
-        public int ReligionID { get; set; } // legends_plus.xml
+        public int ReligionId { get; set; } // legends_plus.xml
         public Entity Religion { get; set; } // legends_plus.xml
         public DungeonType DungeonType { get; set; } // legends_plus.xml
         public string TypeAsString { get { return Type.GetDescription(); } set { } }
@@ -26,7 +26,7 @@ namespace LegendsViewer.Legends
 
         public Site Site { get; set; }
 
-        public int GlobalID { get; set; }
+        public int GlobalId { get; set; }
 
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
@@ -39,8 +39,8 @@ namespace LegendsViewer.Legends
         {
             Name = "UNKNOWN STRUCTURE";
             InhabitantIDs = new List<int>();
-            DeityID = -1;
-            ReligionID = -1;
+            DeityId = -1;
+            ReligionId = -1;
 
             foreach (Property property in properties)
             {
@@ -49,8 +49,8 @@ namespace LegendsViewer.Legends
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "name2": AltName = Formatting.InitCaps(property.Value); break;
                     case "inhabitant": InhabitantIDs.Add(Convert.ToInt32(property.Value)); break;
-                    case "deity": DeityID = Convert.ToInt32(property.Value); break;
-                    case "religion": ReligionID = Convert.ToInt32(property.Value); break;
+                    case "deity": DeityId = Convert.ToInt32(property.Value); break;
+                    case "religion": ReligionId = Convert.ToInt32(property.Value); break;
                     case "dungeon_type":
                         switch (property.Value)
                         {
@@ -118,7 +118,7 @@ namespace LegendsViewer.Legends
             Icon = icon;
             Site = site;
 
-            GlobalID = world.Structures.Count;
+            GlobalId = world.Structures.Count;
             world.Structures.Add(this);
         }
 
@@ -127,18 +127,18 @@ namespace LegendsViewer.Legends
             Inhabitants = new List<HistoricalFigure>();
             if (InhabitantIDs.Any())
             {
-                foreach (int InhabitantID in InhabitantIDs)
+                foreach (int inhabitantId in InhabitantIDs)
                 {
-                    Inhabitants.Add(world.GetHistoricalFigure(InhabitantID));
+                    Inhabitants.Add(world.GetHistoricalFigure(inhabitantId));
                 }
             }
-            if (DeityID != -1)
+            if (DeityId != -1)
             {
-                Deity = world.GetHistoricalFigure(DeityID);
+                Deity = world.GetHistoricalFigure(DeityId);
             }
-            if (ReligionID != -1)
+            if (ReligionId != -1)
             {
-                Religion = world.GetEntity(ReligionID);
+                Religion = world.GetEntity(ReligionId);
             }
             if (Deity != null && Religion != null)
             {
@@ -172,18 +172,15 @@ namespace LegendsViewer.Legends
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a href = \"structure#" + GlobalID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href = \"structure#" + GlobalId + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
                 }
                 return linkedString;
             }
-            else
-            {
-                return Icon + Name;
-            }
+            return Icon + Name;
         }
     }
 }

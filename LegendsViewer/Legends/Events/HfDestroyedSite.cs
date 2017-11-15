@@ -15,6 +15,7 @@ namespace LegendsViewer.Legends.Events
         public HfDestroyedSite(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "attacker_hfid":
@@ -30,6 +31,7 @@ namespace LegendsViewer.Legends.Events
                         Site = world.GetSite(Convert.ToInt32(property.Value));
                         break;
                 }
+            }
 
             Attacker.AddEvent(this);
             DefenderCiv.AddEvent(this);

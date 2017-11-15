@@ -17,6 +17,6 @@ namespace LegendsViewer.Legends.Enums
         SeatOfPower,
         Occupation,
         [Description("Home - Site Realization Building")]
-        HomeSiteRealizationBuilding,
+        HomeSiteRealizationBuilding
     }
 }

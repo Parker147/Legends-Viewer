@@ -1,33 +1,33 @@
-﻿using LegendsViewer.Legends;
-using System.Text;
+﻿using System.Text;
+using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.HTML
 {
-    public class ArtFormPrinter : HTMLPrinter
+    public class ArtFormPrinter : HtmlPrinter
     {
-        ArtForm Artform;
-        World World;
+        ArtForm _artform;
+        World _world;
 
         public ArtFormPrinter(ArtForm artform, World world)
         {
-            Artform = artform;
-            World = world;
+            _artform = artform;
+            _world = world;
         }
 
         public override string GetTitle()
         {
-            return Artform.Name;
+            return _artform.Name;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + Artform.Name + ", " + Artform.FormType + " Form</h1><br />");
+            Html.AppendLine("<h1>" + _artform.Name + ", " + _artform.FormType + " Form</h1><br />");
 
-            PrintEventLog(Artform.Events, ArtForm.Filters, Artform);
+            PrintEventLog(_artform.Events, ArtForm.Filters, _artform);
 
-            return HTML.ToString();
+            return Html.ToString();
         }
     }
 }

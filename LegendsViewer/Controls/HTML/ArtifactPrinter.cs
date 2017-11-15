@@ -1,44 +1,44 @@
 ﻿using System.Text;
 using LegendsViewer.Legends;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    class ArtifactPrinter : HTMLPrinter
+    class ArtifactPrinter : HtmlPrinter
     {
-        Artifact Artifact;
+        Artifact _artifact;
 
         public ArtifactPrinter(Artifact artifact)
         {
-            Artifact = artifact;
+            _artifact = artifact;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
-            HTML.AppendLine("<h1>" + Artifact.Name);
-            if (!string.IsNullOrWhiteSpace(Artifact.Item) && Artifact.Name != Artifact.Item)
+            Html = new StringBuilder();
+            Html.AppendLine("<h1>" + _artifact.Name);
+            if (!string.IsNullOrWhiteSpace(_artifact.Item) && _artifact.Name != _artifact.Item)
             {
-                HTML.AppendLine(" \"" + Artifact.Item + "\"");
+                Html.AppendLine(" \"" + _artifact.Item + "\"");
             }
-            HTML.AppendLine("</h1>");
-            if (!string.IsNullOrWhiteSpace(Artifact.Type))
+            Html.AppendLine("</h1>");
+            if (!string.IsNullOrWhiteSpace(_artifact.Type))
             {
-                HTML.AppendLine("<b>" + Artifact.Name + " was a legendary " + Artifact.Material + " ");
-                HTML.AppendLine((!string.IsNullOrWhiteSpace(Artifact.SubType) ? Artifact.SubType : Artifact.Type.ToLower()) + ".</b><br />");
+                Html.AppendLine("<b>" + _artifact.Name + " was a legendary " + _artifact.Material + " ");
+                Html.AppendLine((!string.IsNullOrWhiteSpace(_artifact.SubType) ? _artifact.SubType : _artifact.Type.ToLower()) + ".</b><br />");
             }
-            if (!string.IsNullOrWhiteSpace(Artifact.Description))
+            if (!string.IsNullOrWhiteSpace(_artifact.Description))
             {
-                HTML.AppendLine("<i>\"" + Artifact.Description + "\"</i><br />");
+                Html.AppendLine("<i>\"" + _artifact.Description + "\"</i><br />");
             }
-            HTML.AppendLine("<br />");
+            Html.AppendLine("<br />");
 
-            PrintEventLog(Artifact.Events, Artifact.Filters, Artifact);
-            return HTML.ToString();
+            PrintEventLog(_artifact.Events, Artifact.Filters, _artifact);
+            return Html.ToString();
         }
 
         public override string GetTitle()
         {
-            return Artifact.Name;
+            return _artifact.Name;
         }
     }
 }

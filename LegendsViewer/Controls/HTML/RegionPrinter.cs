@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using LegendsViewer.Controls.Map;
@@ -8,136 +9,155 @@ using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Controls.HTML
 {
-    public class RegionPrinter : HTMLPrinter
+    public class RegionPrinter : HtmlPrinter
     {
-        WorldRegion Region;
-        World World;
+        WorldRegion _region;
+        World _world;
 
         public RegionPrinter(WorldRegion region, World world)
         {
-            Region = region;
-            World = world;
+            _region = region;
+            _world = world;
         }
 
         public override string GetTitle()
         {
-            return Region.Name;
+            return _region.Name;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + Region.Name + ", " + Region.Type + "</h1><br />");
+            Html.AppendLine("<h1>" + _region.Name + ", " + _region.Type + "</h1><br />");
 
-            if (Region.Coordinates.Any())
+            if (_region.Coordinates.Any())
             {
-                List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Region);
+                List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _region);
 
-                HTML.AppendLine("<table>");
-                HTML.AppendLine("<tr>");
-                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-                HTML.AppendLine("</tr></table></br>");
+                Html.AppendLine("<table>");
+                Html.AppendLine("<tr>");
+                Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+                Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+                Html.AppendLine("</tr></table></br>");
 
-                HTML.AppendLine("<b>Geography</b><br/>");
-                HTML.AppendLine("<ul>");
-                HTML.AppendLine("<li>Area: " + Region.SquareTiles + " region tiles²</li>");
-                HTML.AppendLine("</ul>");
+                Html.AppendLine("<b>Geography</b><br/>");
+                Html.AppendLine("<ul>");
+                Html.AppendLine("<li>Area: " + _region.SquareTiles + " region tiles²</li>");
+                Html.AppendLine("</ul>");
             }
 
-            if (Region.Battles.Count(battle => !World.FilterBattles || battle.Notable) > 0)
+            if (_region.Battles.Count(battle => !_world.FilterBattles || battle.Notable) > 0)
             {
                 int battleCount = 1;
-                HTML.AppendLine("<b>Warfare</b> " + MakeLink("[Load]", LinkOption.LoadRegionBattles));
-                if (World.FilterBattles) HTML.Append(" (Notable)");
-                HTML.Append("<table border=\"0\">");
-                foreach (Battle battle in Region.Battles.Where(battle => !World.FilterBattles || battle.Notable))
+                Html.AppendLine("<b>Warfare</b> " + MakeLink("[Load]", LinkOption.LoadRegionBattles));
+                if (_world.FilterBattles)
                 {
-                    HTML.AppendLine("<tr>");
-                    HTML.AppendLine("<td width=\"20\"  align=\"right\">" + battleCount + ".</td><td width=\"10\"></td>");
-                    HTML.AppendLine("<td>" + battle.StartYear + "</td>");
-                    HTML.AppendLine("<td>" + battle.ToLink() + "</td>");
-                    HTML.AppendLine("<td>as part of</td>");
-                    HTML.AppendLine("<td>" + battle.ParentCollection.ToLink() + "</td>");
-                    HTML.AppendLine("<td>" + battle.Attacker.PrintEntity());
-                    if (battle.Victor == battle.Attacker) HTML.Append("<td>(V)</td>");
-                    else HTML.AppendLine("<td></td>");
-                    HTML.AppendLine("<td>Vs.</td>");
-                    HTML.AppendLine("<td>" + battle.Defender.PrintEntity());
-                    if (battle.Victor == battle.Defender) HTML.AppendLine("<td>(V)</td>");
-                    else HTML.AppendLine("<td></td>");
+                    Html.Append(" (Notable)");
+                }
 
-                    HTML.AppendLine("<td>(Deaths: " + (battle.AttackerDeathCount + battle.DefenderDeathCount) + ")</td>");
-                    HTML.AppendLine("</tr>");
+                Html.Append("<table border=\"0\">");
+                foreach (Battle battle in _region.Battles.Where(battle => !_world.FilterBattles || battle.Notable))
+                {
+                    Html.AppendLine("<tr>");
+                    Html.AppendLine("<td width=\"20\"  align=\"right\">" + battleCount + ".</td><td width=\"10\"></td>");
+                    Html.AppendLine("<td>" + battle.StartYear + "</td>");
+                    Html.AppendLine("<td>" + battle.ToLink() + "</td>");
+                    Html.AppendLine("<td>as part of</td>");
+                    Html.AppendLine("<td>" + battle.ParentCollection.ToLink() + "</td>");
+                    Html.AppendLine("<td>" + battle.Attacker.PrintEntity());
+                    if (battle.Victor == battle.Attacker)
+                    {
+                        Html.Append("<td>(V)</td>");
+                    }
+                    else
+                    {
+                        Html.AppendLine("<td></td>");
+                    }
+
+                    Html.AppendLine("<td>Vs.</td>");
+                    Html.AppendLine("<td>" + battle.Defender.PrintEntity());
+                    if (battle.Victor == battle.Defender)
+                    {
+                        Html.AppendLine("<td>(V)</td>");
+                    }
+                    else
+                    {
+                        Html.AppendLine("<td></td>");
+                    }
+
+                    Html.AppendLine("<td>(Deaths: " + (battle.AttackerDeathCount + battle.DefenderDeathCount) + ")</td>");
+                    Html.AppendLine("</tr>");
                     battleCount++;
                 }
-                HTML.AppendLine("</table></br>");
+                Html.AppendLine("</table></br>");
             }
 
-            if (World.FilterBattles && Region.Battles.Count(battle => !battle.Notable) > 0)
-                HTML.AppendLine("<b>Battles</b> (Unnotable): " + Region.Battles.Count(battle => !battle.Notable) + "</br></br>");
-
-            if (Region.Sites.Any())
+            if (_world.FilterBattles && _region.Battles.Count(battle => !battle.Notable) > 0)
             {
-                HTML.AppendLine("<b>Sites</b> " + LineBreak);
-                HTML.AppendLine("<ul>");
-                foreach (Site site in Region.Sites)
-                {
-                    HTML.AppendLine("<li>" + site.ToLink() + ", " + site.SiteType.GetDescription() + "</li>");
-                }
-                HTML.AppendLine("</ul>");
+                Html.AppendLine("<b>Battles</b> (Unnotable): " + _region.Battles.Count(battle => !battle.Notable) + "</br></br>");
             }
 
-            if (Region.MountainPeaks.Any())
+            if (_region.Sites.Any())
             {
-                HTML.AppendLine("<b>Mountain Peaks</b> " + LineBreak);
-                HTML.AppendLine("<ul>");
-                foreach (MountainPeak peak in Region.MountainPeaks)
+                Html.AppendLine("<b>Sites</b> " + LineBreak);
+                Html.AppendLine("<ul>");
+                foreach (Site site in _region.Sites)
                 {
-                    HTML.AppendLine("<li>" + peak.ToLink() + ", " + peak.Height + " tiles ~ " + (3 * peak.Height) + " m</li>");
+                    Html.AppendLine("<li>" + site.ToLink() + ", " + site.SiteType.GetDescription() + "</li>");
                 }
-                HTML.AppendLine("</ul>");
+                Html.AppendLine("</ul>");
             }
 
-            int deathCount = Region.Events.OfType<HFDied>().Count();
-            if (deathCount > 0 || Region.Battles.Count > 0)
+            if (_region.MountainPeaks.Any())
+            {
+                Html.AppendLine("<b>Mountain Peaks</b> " + LineBreak);
+                Html.AppendLine("<ul>");
+                foreach (MountainPeak peak in _region.MountainPeaks)
+                {
+                    Html.AppendLine("<li>" + peak.ToLink() + ", " + peak.Height + " tiles ~ " + 3 * peak.Height + " m</li>");
+                }
+                Html.AppendLine("</ul>");
+            }
+
+            int deathCount = _region.Events.OfType<HfDied>().Count();
+            if (deathCount > 0 || _region.Battles.Count > 0)
             {
                 var popInBattle =
-                    Region.Battles
+                    _region.Battles
                         .Sum(
                             battle =>
                                 battle.AttackerSquads.Sum(squad => squad.Deaths) +
                                 battle.DefenderSquads.Sum(squad => squad.Deaths));
-                HTML.AppendLine("<b>Deaths</b> " + LineBreak);
+                Html.AppendLine("<b>Deaths</b> " + LineBreak);
                 if (deathCount > 100)
                 {
-                    HTML.AppendLine("<ul>");
-                    HTML.AppendLine("<li>Historical figures died in this Region: " + deathCount);
+                    Html.AppendLine("<ul>");
+                    Html.AppendLine("<li>Historical figures died in this Region: " + deathCount);
                     if (popInBattle > 0)
                     {
-                        HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                        Html.AppendLine("<li>Population in Battle: " + popInBattle);
                     }
-                    HTML.AppendLine("</ul>");
+                    Html.AppendLine("</ul>");
                 }
                 else
                 {
-                    HTML.AppendLine("<ol>");
-                    foreach (HFDied death in Region.Events.OfType<HFDied>())
+                    Html.AppendLine("<ol>");
+                    foreach (HfDied death in _region.Events.OfType<HfDied>())
                     {
-                        HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
+                        Html.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
                     }
                     if (popInBattle > 0)
                     {
-                        HTML.AppendLine("<li>Population died in Battle: " + popInBattle);
+                        Html.AppendLine("<li>Population died in Battle: " + popInBattle);
                     }
-                    HTML.AppendLine("</ol>");
+                    Html.AppendLine("</ol>");
                 }
             }
 
-            PrintEventLog(Region.Events, WorldRegion.Filters, Region);
+            PrintEventLog(_region.Events, WorldRegion.Filters, _region);
 
-            return HTML.ToString();
+            return Html.ToString();
         }
     }
 }

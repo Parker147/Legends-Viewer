@@ -14,13 +14,16 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "entity": Entity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "involved": InvolvedEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                 }
+            }
+
             Site.AddEvent(this);
             Entity.AddEvent(this);
             InvolvedEntity.AddEvent(this);

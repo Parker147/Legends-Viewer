@@ -1,11 +1,16 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using BrightIdeasSoftware;
+using LegendsViewer.Legends;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class CivsTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -141,7 +146,7 @@
             // 
             // olvType
             // 
-            this.olvType.AspectName = "TypeAsString";
+            this.olvType.AspectName = nameof(Entity.TypeAsString);
             this.olvType.Text = "Type";
             this.olvType.Width = 85;
             // 
@@ -178,7 +183,7 @@
             this.cmbEntityType.Name = "cmbEntityType";
             this.cmbEntityType.Size = new System.Drawing.Size(121, 21);
             this.cmbEntityType.TabIndex = 17;
-            this.cmbEntityType.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
+            this.cmbEntityType.SelectedIndexChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // label1
             // 
@@ -214,7 +219,7 @@
             this.cmbEntityPopulation.Name = "cmbEntityPopulation";
             this.cmbEntityPopulation.Size = new System.Drawing.Size(121, 21);
             this.cmbEntityPopulation.TabIndex = 19;
-            this.cmbEntityPopulation.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
+            this.cmbEntityPopulation.SelectedIndexChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // radEntitySortPopulation
             // 
@@ -226,7 +231,7 @@
             this.radEntitySortPopulation.TabStop = true;
             this.radEntitySortPopulation.Text = "Population";
             this.radEntitySortPopulation.UseVisualStyleBackColor = true;
-            this.radEntitySortPopulation.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            this.radEntitySortPopulation.CheckedChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // radCivSortWars
             // 
@@ -238,7 +243,7 @@
             this.radCivSortWars.TabStop = true;
             this.radCivSortWars.Text = "Wars";
             this.radCivSortWars.UseVisualStyleBackColor = true;
-            this.radCivSortWars.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            this.radCivSortWars.CheckedChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // radCivSortFiltered
             // 
@@ -250,7 +255,7 @@
             this.radCivSortFiltered.TabStop = true;
             this.radCivSortFiltered.Text = "Filtered Events";
             this.radCivSortFiltered.UseVisualStyleBackColor = true;
-            this.radCivSortFiltered.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            this.radCivSortFiltered.CheckedChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // radCivSites
             // 
@@ -262,7 +267,7 @@
             this.radCivSites.TabStop = true;
             this.radCivSites.Text = "Sites";
             this.radCivSites.UseVisualStyleBackColor = true;
-            this.radCivSites.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            this.radCivSites.CheckedChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // radEntityNone
             // 
@@ -275,7 +280,7 @@
             this.radEntityNone.TabStop = true;
             this.radEntityNone.Text = "None";
             this.radEntityNone.UseVisualStyleBackColor = true;
-            this.radEntityNone.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            this.radEntityNone.CheckedChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // radEntitySortEvents
             // 
@@ -286,7 +291,7 @@
             this.radEntitySortEvents.TabIndex = 13;
             this.radEntitySortEvents.Text = "Events";
             this.radEntitySortEvents.UseVisualStyleBackColor = true;
-            this.radEntitySortEvents.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            this.radEntitySortEvents.CheckedChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // chkCiv
             // 
@@ -297,7 +302,7 @@
             this.chkCiv.TabIndex = 14;
             this.chkCiv.Text = "Civilizations";
             this.chkCiv.UseVisualStyleBackColor = true;
-            this.chkCiv.CheckedChanged += new System.EventHandler(this.searchEntityList);
+            this.chkCiv.CheckedChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // cmbCivRace
             // 
@@ -306,7 +311,7 @@
             this.cmbCivRace.Name = "cmbCivRace";
             this.cmbCivRace.Size = new System.Drawing.Size(121, 21);
             this.cmbCivRace.TabIndex = 13;
-            this.cmbCivRace.SelectedIndexChanged += new System.EventHandler(this.searchEntityList);
+            this.cmbCivRace.SelectedIndexChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // txtCivSearch
             // 
@@ -316,7 +321,7 @@
             this.txtCivSearch.Name = "txtCivSearch";
             this.txtCivSearch.Size = new System.Drawing.Size(177, 20);
             this.txtCivSearch.TabIndex = 36;
-            this.txtCivSearch.TextChanged += new System.EventHandler(this.searchEntityList);
+            this.txtCivSearch.TextChanged += new System.EventHandler(this.SearchEntityList);
             // 
             // btnCivSearch
             // 
@@ -326,7 +331,7 @@
             this.btnCivSearch.TabIndex = 34;
             this.btnCivSearch.Text = "Search";
             this.btnCivSearch.UseVisualStyleBackColor = true;
-            this.btnCivSearch.Click += new System.EventHandler(this.searchEntityList);
+            this.btnCivSearch.Click += new System.EventHandler(this.SearchEntityList);
             // 
             // tpCivEvents
             // 
@@ -359,28 +364,28 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tcCivs;
-        private System.Windows.Forms.TabPage tpCivSearch;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.ComboBox cmbEntityPopulation;
-        private System.Windows.Forms.RadioButton radEntitySortPopulation;
-        private System.Windows.Forms.RadioButton radCivSortWars;
-        private System.Windows.Forms.RadioButton radCivSortFiltered;
-        private System.Windows.Forms.RadioButton radCivSites;
-        private System.Windows.Forms.RadioButton radEntityNone;
-        private System.Windows.Forms.RadioButton radEntitySortEvents;
-        private System.Windows.Forms.CheckBox chkCiv;
-        private System.Windows.Forms.ComboBox cmbCivRace;
-        private System.Windows.Forms.TextBox txtCivSearch;
-        private System.Windows.Forms.Button btnCivSearch;
-        private System.Windows.Forms.TabPage tpCivEvents;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cmbEntityType;
-        private BrightIdeasSoftware.OLVColumn olvName;
-        private BrightIdeasSoftware.ObjectListView listCivSearch;
-        private BrightIdeasSoftware.OLVColumn olvType;
-        private System.Windows.Forms.Label lblShownResults;
+        private TabControl tcCivs;
+        private TabPage tpCivSearch;
+        private GroupBox groupBox4;
+        private Label label1;
+        private GroupBox groupBox9;
+        private ComboBox cmbEntityPopulation;
+        private RadioButton radEntitySortPopulation;
+        private RadioButton radCivSortWars;
+        private RadioButton radCivSortFiltered;
+        private RadioButton radCivSites;
+        private RadioButton radEntityNone;
+        private RadioButton radEntitySortEvents;
+        private CheckBox chkCiv;
+        private ComboBox cmbCivRace;
+        private TextBox txtCivSearch;
+        private Button btnCivSearch;
+        private TabPage tpCivEvents;
+        private Label label2;
+        private ComboBox cmbEntityType;
+        private OLVColumn olvName;
+        private ObjectListView listCivSearch;
+        private OLVColumn olvType;
+        private Label lblShownResults;
     }
 }

@@ -1,11 +1,17 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using BrightIdeasSoftware;
+using LegendsViewer.Legends;
+using WFC;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class InfrastructureTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -208,7 +214,7 @@
             this.btnSiteSearch.TabIndex = 31;
             this.btnSiteSearch.Text = "Search";
             this.btnSiteSearch.UseVisualStyleBackColor = true;
-            this.btnSiteSearch.Click += new System.EventHandler(this.searchSiteList);
+            this.btnSiteSearch.Click += new System.EventHandler(this.SearchSiteList);
             // 
             // listSiteSearch
             // 
@@ -267,7 +273,7 @@
             this.txtSiteSearch.Name = "txtSiteSearch";
             this.txtSiteSearch.Size = new System.Drawing.Size(169, 20);
             this.txtSiteSearch.TabIndex = 33;
-            this.txtSiteSearch.TextChanged += new System.EventHandler(this.searchSiteList);
+            this.txtSiteSearch.TextChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // btnSiteListReset
             // 
@@ -351,7 +357,7 @@
             this.radSiteBeastAttacks.TabStop = true;
             this.radSiteBeastAttacks.Text = "Beast Attacks";
             this.radSiteBeastAttacks.UseVisualStyleBackColor = true;
-            this.radSiteBeastAttacks.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSiteBeastAttacks.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // radSiteSortDeaths
             // 
@@ -363,7 +369,7 @@
             this.radSiteSortDeaths.TabStop = true;
             this.radSiteSortDeaths.Text = "Deaths";
             this.radSiteSortDeaths.UseVisualStyleBackColor = true;
-            this.radSiteSortDeaths.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSiteSortDeaths.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // radSortConnections
             // 
@@ -375,7 +381,7 @@
             this.radSortConnections.TabStop = true;
             this.radSortConnections.Text = "Connections";
             this.radSortConnections.UseVisualStyleBackColor = true;
-            this.radSortConnections.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSortConnections.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // cmbSitePopulation
             // 
@@ -385,7 +391,7 @@
             this.cmbSitePopulation.Name = "cmbSitePopulation";
             this.cmbSitePopulation.Size = new System.Drawing.Size(121, 21);
             this.cmbSitePopulation.TabIndex = 20;
-            this.cmbSitePopulation.SelectedIndexChanged += new System.EventHandler(this.searchSiteList);
+            this.cmbSitePopulation.SelectedIndexChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // radSiteSortPopulation
             // 
@@ -397,7 +403,7 @@
             this.radSiteSortPopulation.TabStop = true;
             this.radSiteSortPopulation.Text = "Population";
             this.radSiteSortPopulation.UseVisualStyleBackColor = true;
-            this.radSiteSortPopulation.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSiteSortPopulation.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // radSiteSortWarfare
             // 
@@ -409,7 +415,7 @@
             this.radSiteSortWarfare.TabStop = true;
             this.radSiteSortWarfare.Text = "Battles";
             this.radSiteSortWarfare.UseVisualStyleBackColor = true;
-            this.radSiteSortWarfare.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSiteSortWarfare.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // radSiteSortFiltered
             // 
@@ -421,7 +427,7 @@
             this.radSiteSortFiltered.TabStop = true;
             this.radSiteSortFiltered.Text = "Filtered Events";
             this.radSiteSortFiltered.UseVisualStyleBackColor = true;
-            this.radSiteSortFiltered.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSiteSortFiltered.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // radSiteOwners
             // 
@@ -433,7 +439,7 @@
             this.radSiteOwners.TabStop = true;
             this.radSiteOwners.Text = "Owner History";
             this.radSiteOwners.UseVisualStyleBackColor = true;
-            this.radSiteOwners.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSiteOwners.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // radSiteNone
             // 
@@ -446,7 +452,7 @@
             this.radSiteNone.TabStop = true;
             this.radSiteNone.Text = "None";
             this.radSiteNone.UseVisualStyleBackColor = true;
-            this.radSiteNone.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSiteNone.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // radSiteSortEvents
             // 
@@ -457,7 +463,7 @@
             this.radSiteSortEvents.TabIndex = 14;
             this.radSiteSortEvents.Text = "Events";
             this.radSiteSortEvents.UseVisualStyleBackColor = true;
-            this.radSiteSortEvents.CheckedChanged += new System.EventHandler(this.searchSiteList);
+            this.radSiteSortEvents.CheckedChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // label26
             // 
@@ -476,7 +482,7 @@
             this.cmbSiteType.Name = "cmbSiteType";
             this.cmbSiteType.Size = new System.Drawing.Size(121, 21);
             this.cmbSiteType.TabIndex = 0;
-            this.cmbSiteType.SelectedIndexChanged += new System.EventHandler(this.searchSiteList);
+            this.cmbSiteType.SelectedIndexChanged += new System.EventHandler(this.SearchSiteList);
             // 
             // tpSiteEvents
             // 
@@ -579,7 +585,7 @@
             // 
             // olvColumn4
             // 
-            this.olvColumn4.AspectName = "TypeAsString";
+            this.olvColumn4.AspectName = nameof(Structure.TypeAsString);
             this.olvColumn4.IsEditable = false;
             this.olvColumn4.Text = "Type";
             this.olvColumn4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -593,7 +599,7 @@
             this.btnStructuresSearch.TabIndex = 46;
             this.btnStructuresSearch.Text = "Search";
             this.btnStructuresSearch.UseVisualStyleBackColor = true;
-            this.btnStructuresSearch.Click += new System.EventHandler(this.searchStructureList);
+            this.btnStructuresSearch.Click += new System.EventHandler(this.SearchStructureList);
             // 
             // groupBox25
             // 
@@ -626,7 +632,7 @@
             this.cmbStructureType.Name = "cmbStructureType";
             this.cmbStructureType.Size = new System.Drawing.Size(121, 21);
             this.cmbStructureType.TabIndex = 16;
-            this.cmbStructureType.SelectedIndexChanged += new System.EventHandler(this.searchStructureList);
+            this.cmbStructureType.SelectedIndexChanged += new System.EventHandler(this.SearchStructureList);
             // 
             // groupBox26
             // 
@@ -652,7 +658,7 @@
             this.radStructuresSortFiltered.TabStop = true;
             this.radStructuresSortFiltered.Text = "Filtered Events";
             this.radStructuresSortFiltered.UseVisualStyleBackColor = true;
-            this.radStructuresSortFiltered.CheckedChanged += new System.EventHandler(this.searchStructureList);
+            this.radStructuresSortFiltered.CheckedChanged += new System.EventHandler(this.SearchStructureList);
             // 
             // radStructuresSortNone
             // 
@@ -665,7 +671,7 @@
             this.radStructuresSortNone.TabStop = true;
             this.radStructuresSortNone.Text = "None";
             this.radStructuresSortNone.UseVisualStyleBackColor = true;
-            this.radStructuresSortNone.CheckedChanged += new System.EventHandler(this.searchStructureList);
+            this.radStructuresSortNone.CheckedChanged += new System.EventHandler(this.SearchStructureList);
             // 
             // radStructuresSortEvents
             // 
@@ -676,7 +682,7 @@
             this.radStructuresSortEvents.TabIndex = 13;
             this.radStructuresSortEvents.Text = "Events";
             this.radStructuresSortEvents.UseVisualStyleBackColor = true;
-            this.radStructuresSortEvents.CheckedChanged += new System.EventHandler(this.searchStructureList);
+            this.radStructuresSortEvents.CheckedChanged += new System.EventHandler(this.SearchStructureList);
             // 
             // txtStructuresSearch
             // 
@@ -686,7 +692,7 @@
             this.txtStructuresSearch.Name = "txtStructuresSearch";
             this.txtStructuresSearch.Size = new System.Drawing.Size(169, 20);
             this.txtStructuresSearch.TabIndex = 44;
-            this.txtStructuresSearch.TextChanged += new System.EventHandler(this.searchStructureList);
+            this.txtStructuresSearch.TextChanged += new System.EventHandler(this.SearchStructureList);
             // 
             // tpStructureEvents
             // 
@@ -788,7 +794,7 @@
             // 
             // olvColumn6
             // 
-            this.olvColumn6.AspectName = "TypeAsString";
+            this.olvColumn6.AspectName = nameof(WorldConstruction.TypeAsString);
             this.olvColumn6.IsEditable = false;
             this.olvColumn6.Text = "Type";
             this.olvColumn6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -802,7 +808,7 @@
             this.btnWorldConstructionsSearch.TabIndex = 46;
             this.btnWorldConstructionsSearch.Text = "Search";
             this.btnWorldConstructionsSearch.UseVisualStyleBackColor = true;
-            this.btnWorldConstructionsSearch.Click += new System.EventHandler(this.searchWorldConstructionList);
+            this.btnWorldConstructionsSearch.Click += new System.EventHandler(this.SearchWorldConstructionList);
             // 
             // groupBox23
             // 
@@ -835,7 +841,7 @@
             this.cmbConstructionType.Name = "cmbConstructionType";
             this.cmbConstructionType.Size = new System.Drawing.Size(121, 21);
             this.cmbConstructionType.TabIndex = 18;
-            this.cmbConstructionType.SelectedIndexChanged += new System.EventHandler(this.searchWorldConstructionList);
+            this.cmbConstructionType.SelectedIndexChanged += new System.EventHandler(this.SearchWorldConstructionList);
             // 
             // groupBox24
             // 
@@ -861,7 +867,7 @@
             this.radWorldConstructionsSortFiltered.TabStop = true;
             this.radWorldConstructionsSortFiltered.Text = "Filtered Events";
             this.radWorldConstructionsSortFiltered.UseVisualStyleBackColor = true;
-            this.radWorldConstructionsSortFiltered.CheckedChanged += new System.EventHandler(this.searchWorldConstructionList);
+            this.radWorldConstructionsSortFiltered.CheckedChanged += new System.EventHandler(this.SearchWorldConstructionList);
             // 
             // radWorldConstructionsSortNone
             // 
@@ -874,7 +880,7 @@
             this.radWorldConstructionsSortNone.TabStop = true;
             this.radWorldConstructionsSortNone.Text = "None";
             this.radWorldConstructionsSortNone.UseVisualStyleBackColor = true;
-            this.radWorldConstructionsSortNone.CheckedChanged += new System.EventHandler(this.searchWorldConstructionList);
+            this.radWorldConstructionsSortNone.CheckedChanged += new System.EventHandler(this.SearchWorldConstructionList);
             // 
             // radWorldConstructionsSortEvents
             // 
@@ -885,7 +891,7 @@
             this.radWorldConstructionsSortEvents.TabIndex = 13;
             this.radWorldConstructionsSortEvents.Text = "Events";
             this.radWorldConstructionsSortEvents.UseVisualStyleBackColor = true;
-            this.radWorldConstructionsSortEvents.CheckedChanged += new System.EventHandler(this.searchWorldConstructionList);
+            this.radWorldConstructionsSortEvents.CheckedChanged += new System.EventHandler(this.SearchWorldConstructionList);
             // 
             // txtWorldConstructionsSearch
             // 
@@ -895,7 +901,7 @@
             this.txtWorldConstructionsSearch.Name = "txtWorldConstructionsSearch";
             this.txtWorldConstructionsSearch.Size = new System.Drawing.Size(169, 20);
             this.txtWorldConstructionsSearch.TabIndex = 44;
-            this.txtWorldConstructionsSearch.TextChanged += new System.EventHandler(this.searchWorldConstructionList);
+            this.txtWorldConstructionsSearch.TextChanged += new System.EventHandler(this.SearchWorldConstructionList);
             // 
             // tpWorldConstructionEvents
             // 
@@ -950,68 +956,68 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tcCollections;
-        private System.Windows.Forms.TabPage tpSites;
-        private System.Windows.Forms.TabPage tpStructures;
-        private System.Windows.Forms.TabControl tcStructures;
-        private System.Windows.Forms.TabPage tpStructureSearch;
-        private System.Windows.Forms.Label lblStructureResults;
-        private BrightIdeasSoftware.ObjectListView listStructureSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
-        private System.Windows.Forms.Button btnStructuresSearch;
-        private System.Windows.Forms.GroupBox groupBox25;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox cmbStructureType;
-        private System.Windows.Forms.GroupBox groupBox26;
-        private System.Windows.Forms.RadioButton radStructuresSortFiltered;
-        private System.Windows.Forms.RadioButton radStructuresSortNone;
-        private System.Windows.Forms.RadioButton radStructuresSortEvents;
-        private System.Windows.Forms.TextBox txtStructuresSearch;
-        private System.Windows.Forms.TabPage tpStructureEvents;
-        private System.Windows.Forms.TabPage tpWorldConstructions;
-        private System.Windows.Forms.TabControl tcWorldConstructions;
-        private System.Windows.Forms.TabPage tpWorldConstructionSearch;
-        private System.Windows.Forms.Label lblWorldConstructionResult;
-        private BrightIdeasSoftware.ObjectListView listWorldConstructionsSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
-        private System.Windows.Forms.Button btnWorldConstructionsSearch;
-        private System.Windows.Forms.GroupBox groupBox23;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox cmbConstructionType;
-        private System.Windows.Forms.GroupBox groupBox24;
-        private System.Windows.Forms.RadioButton radWorldConstructionsSortFiltered;
-        private System.Windows.Forms.RadioButton radWorldConstructionsSortNone;
-        private System.Windows.Forms.RadioButton radWorldConstructionsSortEvents;
-        private System.Windows.Forms.TextBox txtWorldConstructionsSearch;
-        private System.Windows.Forms.TabPage tpWorldConstructionEvents;
-        private System.Windows.Forms.TabControl tcSites;
-        private System.Windows.Forms.TabPage tpSiteSearch;
-        private System.Windows.Forms.Panel listPanel;
-        private System.Windows.Forms.LinkLabel lnkMaxResults;
-        private System.Windows.Forms.Label lblShownResults;
-        private System.Windows.Forms.Button btnSiteSearch;
-        private BrightIdeasSoftware.ObjectListView listSiteSearch;
-        private BrightIdeasSoftware.OLVColumn olvName;
-        private BrightIdeasSoftware.OLVColumn olvType;
-        private System.Windows.Forms.TextBox txtSiteSearch;
-        private System.Windows.Forms.Button btnSiteListReset;
-        private WFC.RichPanel filterPanel;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.RadioButton radSiteBeastAttacks;
-        private System.Windows.Forms.RadioButton radSiteSortDeaths;
-        private System.Windows.Forms.RadioButton radSortConnections;
-        private System.Windows.Forms.ComboBox cmbSitePopulation;
-        private System.Windows.Forms.RadioButton radSiteSortPopulation;
-        private System.Windows.Forms.RadioButton radSiteSortWarfare;
-        private System.Windows.Forms.RadioButton radSiteSortFiltered;
-        private System.Windows.Forms.RadioButton radSiteOwners;
-        private System.Windows.Forms.RadioButton radSiteNone;
-        private System.Windows.Forms.RadioButton radSiteSortEvents;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.ComboBox cmbSiteType;
-        private System.Windows.Forms.TabPage tpSiteEvents;
+        private TabControl tcCollections;
+        private TabPage tpSites;
+        private TabPage tpStructures;
+        private TabControl tcStructures;
+        private TabPage tpStructureSearch;
+        private Label lblStructureResults;
+        private ObjectListView listStructureSearch;
+        private OLVColumn olvColumn3;
+        private OLVColumn olvColumn4;
+        private Button btnStructuresSearch;
+        private GroupBox groupBox25;
+        private Label label6;
+        private ComboBox cmbStructureType;
+        private GroupBox groupBox26;
+        private RadioButton radStructuresSortFiltered;
+        private RadioButton radStructuresSortNone;
+        private RadioButton radStructuresSortEvents;
+        private TextBox txtStructuresSearch;
+        private TabPage tpStructureEvents;
+        private TabPage tpWorldConstructions;
+        private TabControl tcWorldConstructions;
+        private TabPage tpWorldConstructionSearch;
+        private Label lblWorldConstructionResult;
+        private ObjectListView listWorldConstructionsSearch;
+        private OLVColumn olvColumn5;
+        private OLVColumn olvColumn6;
+        private Button btnWorldConstructionsSearch;
+        private GroupBox groupBox23;
+        private Label label7;
+        private ComboBox cmbConstructionType;
+        private GroupBox groupBox24;
+        private RadioButton radWorldConstructionsSortFiltered;
+        private RadioButton radWorldConstructionsSortNone;
+        private RadioButton radWorldConstructionsSortEvents;
+        private TextBox txtWorldConstructionsSearch;
+        private TabPage tpWorldConstructionEvents;
+        private TabControl tcSites;
+        private TabPage tpSiteSearch;
+        private Panel listPanel;
+        private LinkLabel lnkMaxResults;
+        private Label lblShownResults;
+        private Button btnSiteSearch;
+        private ObjectListView listSiteSearch;
+        private OLVColumn olvName;
+        private OLVColumn olvType;
+        private TextBox txtSiteSearch;
+        private Button btnSiteListReset;
+        private RichPanel filterPanel;
+        private GroupBox groupBox1;
+        private GroupBox groupBox6;
+        private RadioButton radSiteBeastAttacks;
+        private RadioButton radSiteSortDeaths;
+        private RadioButton radSortConnections;
+        private ComboBox cmbSitePopulation;
+        private RadioButton radSiteSortPopulation;
+        private RadioButton radSiteSortWarfare;
+        private RadioButton radSiteSortFiltered;
+        private RadioButton radSiteOwners;
+        private RadioButton radSiteNone;
+        private RadioButton radSiteSortEvents;
+        private Label label26;
+        private ComboBox cmbSiteType;
+        private TabPage tpSiteEvents;
     }
 }

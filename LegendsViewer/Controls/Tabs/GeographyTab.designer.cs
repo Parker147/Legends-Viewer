@@ -1,11 +1,15 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using BrightIdeasSoftware;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class GeographyTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -280,7 +284,7 @@
             this.radRegionSortDeaths.TabStop = true;
             this.radRegionSortDeaths.Text = "Deaths";
             this.radRegionSortDeaths.UseVisualStyleBackColor = true;
-            this.radRegionSortDeaths.CheckedChanged += new System.EventHandler(this.searchRegionList);
+            this.radRegionSortDeaths.CheckedChanged += new System.EventHandler(this.SearchRegionList);
             // 
             // radRegionSortBattles
             // 
@@ -292,7 +296,7 @@
             this.radRegionSortBattles.TabStop = true;
             this.radRegionSortBattles.Text = "Battles";
             this.radRegionSortBattles.UseVisualStyleBackColor = true;
-            this.radRegionSortBattles.CheckedChanged += new System.EventHandler(this.searchRegionList);
+            this.radRegionSortBattles.CheckedChanged += new System.EventHandler(this.SearchRegionList);
             // 
             // radRegionSortFiltered
             // 
@@ -304,7 +308,7 @@
             this.radRegionSortFiltered.TabStop = true;
             this.radRegionSortFiltered.Text = "Filtered Events";
             this.radRegionSortFiltered.UseVisualStyleBackColor = true;
-            this.radRegionSortFiltered.CheckedChanged += new System.EventHandler(this.searchRegionList);
+            this.radRegionSortFiltered.CheckedChanged += new System.EventHandler(this.SearchRegionList);
             // 
             // radRegionNone
             // 
@@ -317,7 +321,7 @@
             this.radRegionNone.TabStop = true;
             this.radRegionNone.Text = "None";
             this.radRegionNone.UseVisualStyleBackColor = true;
-            this.radRegionNone.CheckedChanged += new System.EventHandler(this.searchRegionList);
+            this.radRegionNone.CheckedChanged += new System.EventHandler(this.SearchRegionList);
             // 
             // radRegionSortEvents
             // 
@@ -328,7 +332,7 @@
             this.radRegionSortEvents.TabIndex = 12;
             this.radRegionSortEvents.Text = "Events";
             this.radRegionSortEvents.UseVisualStyleBackColor = true;
-            this.radRegionSortEvents.CheckedChanged += new System.EventHandler(this.searchRegionList);
+            this.radRegionSortEvents.CheckedChanged += new System.EventHandler(this.SearchRegionList);
             // 
             // label27
             // 
@@ -346,7 +350,7 @@
             this.cmbRegionType.Name = "cmbRegionType";
             this.cmbRegionType.Size = new System.Drawing.Size(121, 21);
             this.cmbRegionType.TabIndex = 0;
-            this.cmbRegionType.SelectedIndexChanged += new System.EventHandler(this.searchRegionList);
+            this.cmbRegionType.SelectedIndexChanged += new System.EventHandler(this.SearchRegionList);
             // 
             // txtRegionSearch
             // 
@@ -356,7 +360,7 @@
             this.txtRegionSearch.Name = "txtRegionSearch";
             this.txtRegionSearch.Size = new System.Drawing.Size(163, 20);
             this.txtRegionSearch.TabIndex = 33;
-            this.txtRegionSearch.TextChanged += new System.EventHandler(this.searchRegionList);
+            this.txtRegionSearch.TextChanged += new System.EventHandler(this.SearchRegionList);
             // 
             // btnRegionSearch
             // 
@@ -366,7 +370,7 @@
             this.btnRegionSearch.TabIndex = 31;
             this.btnRegionSearch.Text = "Search";
             this.btnRegionSearch.UseVisualStyleBackColor = true;
-            this.btnRegionSearch.Click += new System.EventHandler(this.searchRegionList);
+            this.btnRegionSearch.Click += new System.EventHandler(this.SearchRegionList);
             // 
             // tpRegionEvents
             // 
@@ -503,7 +507,7 @@
             this.btnURegionSearch.TabIndex = 34;
             this.btnURegionSearch.Text = "Search";
             this.btnURegionSearch.UseVisualStyleBackColor = true;
-            this.btnURegionSearch.Click += new System.EventHandler(this.searchURegionList);
+            this.btnURegionSearch.Click += new System.EventHandler(this.SearchURegionList);
             // 
             // groupBox3
             // 
@@ -544,7 +548,7 @@
             this.radURegionSortFiltered.TabStop = true;
             this.radURegionSortFiltered.Text = "Filtered Events";
             this.radURegionSortFiltered.UseVisualStyleBackColor = true;
-            this.radURegionSortFiltered.CheckedChanged += new System.EventHandler(this.searchURegionList);
+            this.radURegionSortFiltered.CheckedChanged += new System.EventHandler(this.SearchURegionList);
             // 
             // radURegionNone
             // 
@@ -557,7 +561,7 @@
             this.radURegionNone.TabStop = true;
             this.radURegionNone.Text = "None";
             this.radURegionNone.UseVisualStyleBackColor = true;
-            this.radURegionNone.CheckedChanged += new System.EventHandler(this.searchURegionList);
+            this.radURegionNone.CheckedChanged += new System.EventHandler(this.SearchURegionList);
             // 
             // radURegionSortEvents
             // 
@@ -568,7 +572,7 @@
             this.radURegionSortEvents.TabIndex = 12;
             this.radURegionSortEvents.Text = "Events";
             this.radURegionSortEvents.UseVisualStyleBackColor = true;
-            this.radURegionSortEvents.CheckedChanged += new System.EventHandler(this.searchURegionList);
+            this.radURegionSortEvents.CheckedChanged += new System.EventHandler(this.SearchURegionList);
             // 
             // label28
             // 
@@ -586,7 +590,7 @@
             this.cmbURegionType.Name = "cmbURegionType";
             this.cmbURegionType.Size = new System.Drawing.Size(121, 21);
             this.cmbURegionType.TabIndex = 0;
-            this.cmbURegionType.SelectedIndexChanged += new System.EventHandler(this.searchURegionList);
+            this.cmbURegionType.SelectedIndexChanged += new System.EventHandler(this.SearchURegionList);
             // 
             // tpURegionEvents
             // 
@@ -696,7 +700,7 @@
             this.btnLandmassSearch.TabIndex = 46;
             this.btnLandmassSearch.Text = "Search";
             this.btnLandmassSearch.UseVisualStyleBackColor = true;
-            this.btnLandmassSearch.Click += new System.EventHandler(this.searchLandmassList);
+            this.btnLandmassSearch.Click += new System.EventHandler(this.SearchLandmassList);
             // 
             // groupBox27
             // 
@@ -734,7 +738,7 @@
             this.radLandmassFiltered.TabStop = true;
             this.radLandmassFiltered.Text = "Filtered Events";
             this.radLandmassFiltered.UseVisualStyleBackColor = true;
-            this.radLandmassFiltered.CheckedChanged += new System.EventHandler(this.searchLandmassList);
+            this.radLandmassFiltered.CheckedChanged += new System.EventHandler(this.SearchLandmassList);
             // 
             // radLandmassNone
             // 
@@ -747,7 +751,7 @@
             this.radLandmassNone.TabStop = true;
             this.radLandmassNone.Text = "None";
             this.radLandmassNone.UseVisualStyleBackColor = true;
-            this.radLandmassNone.CheckedChanged += new System.EventHandler(this.searchLandmassList);
+            this.radLandmassNone.CheckedChanged += new System.EventHandler(this.SearchLandmassList);
             // 
             // radLandmassEvents
             // 
@@ -758,7 +762,7 @@
             this.radLandmassEvents.TabIndex = 13;
             this.radLandmassEvents.Text = "Events";
             this.radLandmassEvents.UseVisualStyleBackColor = true;
-            this.radLandmassEvents.CheckedChanged += new System.EventHandler(this.searchLandmassList);
+            this.radLandmassEvents.CheckedChanged += new System.EventHandler(this.SearchLandmassList);
             // 
             // txtLandmassSearch
             // 
@@ -768,7 +772,7 @@
             this.txtLandmassSearch.Name = "txtLandmassSearch";
             this.txtLandmassSearch.Size = new System.Drawing.Size(169, 20);
             this.txtLandmassSearch.TabIndex = 44;
-            this.txtLandmassSearch.TextChanged += new System.EventHandler(this.searchLandmassList);
+            this.txtLandmassSearch.TextChanged += new System.EventHandler(this.SearchLandmassList);
             // 
             // tpLandmassEvents
             // 
@@ -887,7 +891,7 @@
             this.btnMountainPeakSearch.TabIndex = 46;
             this.btnMountainPeakSearch.Text = "Search";
             this.btnMountainPeakSearch.UseVisualStyleBackColor = true;
-            this.btnMountainPeakSearch.Click += new System.EventHandler(this.searchMountainPeakList);
+            this.btnMountainPeakSearch.Click += new System.EventHandler(this.SearchMountainPeakList);
             // 
             // groupBox29
             // 
@@ -925,7 +929,7 @@
             this.radMountainPeakFiltered.TabStop = true;
             this.radMountainPeakFiltered.Text = "Filtered Events";
             this.radMountainPeakFiltered.UseVisualStyleBackColor = true;
-            this.radMountainPeakFiltered.CheckedChanged += new System.EventHandler(this.searchMountainPeakList);
+            this.radMountainPeakFiltered.CheckedChanged += new System.EventHandler(this.SearchMountainPeakList);
             // 
             // radMountainPeakNone
             // 
@@ -938,7 +942,7 @@
             this.radMountainPeakNone.TabStop = true;
             this.radMountainPeakNone.Text = "None";
             this.radMountainPeakNone.UseVisualStyleBackColor = true;
-            this.radMountainPeakNone.CheckedChanged += new System.EventHandler(this.searchMountainPeakList);
+            this.radMountainPeakNone.CheckedChanged += new System.EventHandler(this.SearchMountainPeakList);
             // 
             // radMountainPeakEvents
             // 
@@ -949,7 +953,7 @@
             this.radMountainPeakEvents.TabIndex = 13;
             this.radMountainPeakEvents.Text = "Events";
             this.radMountainPeakEvents.UseVisualStyleBackColor = true;
-            this.radMountainPeakEvents.CheckedChanged += new System.EventHandler(this.searchMountainPeakList);
+            this.radMountainPeakEvents.CheckedChanged += new System.EventHandler(this.SearchMountainPeakList);
             // 
             // txtMountainPeakSearch
             // 
@@ -959,7 +963,7 @@
             this.txtMountainPeakSearch.Name = "txtMountainPeakSearch";
             this.txtMountainPeakSearch.Size = new System.Drawing.Size(169, 20);
             this.txtMountainPeakSearch.TabIndex = 44;
-            this.txtMountainPeakSearch.TextChanged += new System.EventHandler(this.searchMountainPeakList);
+            this.txtMountainPeakSearch.TextChanged += new System.EventHandler(this.SearchMountainPeakList);
             // 
             // tpMountainPeakEvents
             // 
@@ -980,7 +984,7 @@
             this.radRegionSortArea.TabIndex = 17;
             this.radRegionSortArea.Text = "Area";
             this.radRegionSortArea.UseVisualStyleBackColor = true;
-            this.radRegionSortArea.CheckedChanged += new System.EventHandler(this.searchRegionList);
+            this.radRegionSortArea.CheckedChanged += new System.EventHandler(this.SearchRegionList);
             // 
             // radURegionSortArea
             // 
@@ -991,7 +995,7 @@
             this.radURegionSortArea.TabIndex = 18;
             this.radURegionSortArea.Text = "Area";
             this.radURegionSortArea.UseVisualStyleBackColor = true;
-            this.radURegionSortArea.CheckedChanged += new System.EventHandler(this.searchURegionList);
+            this.radURegionSortArea.CheckedChanged += new System.EventHandler(this.SearchURegionList);
             // 
             // GeographyTab
             // 
@@ -1039,74 +1043,74 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tcRegionsSub;
-        private System.Windows.Forms.TabPage tpOverworld;
-        private System.Windows.Forms.TabControl tcRegions;
-        private System.Windows.Forms.TabPage tpRegionSearch;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.RadioButton radRegionSortDeaths;
-        private System.Windows.Forms.RadioButton radRegionSortBattles;
-        private System.Windows.Forms.RadioButton radRegionSortFiltered;
-        private System.Windows.Forms.RadioButton radRegionNone;
-        private System.Windows.Forms.RadioButton radRegionSortEvents;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.ComboBox cmbRegionType;
-        private System.Windows.Forms.TextBox txtRegionSearch;
-        private System.Windows.Forms.Button btnRegionSearch;
-        private System.Windows.Forms.TabPage tpRegionEvents;
-        private System.Windows.Forms.TabPage tpUnderground;
-        private System.Windows.Forms.TabControl tcURegions;
-        private System.Windows.Forms.TabPage tpURegionSearch;
-        private System.Windows.Forms.Button btnURegionSearch;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.RadioButton radURegionSortFiltered;
-        private System.Windows.Forms.RadioButton radURegionNone;
-        private System.Windows.Forms.RadioButton radURegionSortEvents;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.ComboBox cmbURegionType;
-        private System.Windows.Forms.TabPage tpURegionEvents;
-        private System.Windows.Forms.TabPage tpLandmasses;
-        private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Button btnLandmassSearch;
-        private System.Windows.Forms.GroupBox groupBox27;
-        private System.Windows.Forms.GroupBox groupBox28;
-        private System.Windows.Forms.RadioButton radLandmassFiltered;
-        private System.Windows.Forms.RadioButton radLandmassNone;
-        private System.Windows.Forms.RadioButton radLandmassEvents;
-        private System.Windows.Forms.TextBox txtLandmassSearch;
-        private System.Windows.Forms.TabPage tpLandmassEvents;
-        private System.Windows.Forms.TabPage tbMountainPeaks;
-        private System.Windows.Forms.TabControl tabControl3;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Button btnMountainPeakSearch;
-        private System.Windows.Forms.GroupBox groupBox29;
-        private System.Windows.Forms.GroupBox groupBox30;
-        private System.Windows.Forms.RadioButton radMountainPeakFiltered;
-        private System.Windows.Forms.RadioButton radMountainPeakNone;
-        private System.Windows.Forms.RadioButton radMountainPeakEvents;
-        private System.Windows.Forms.TextBox txtMountainPeakSearch;
-        private System.Windows.Forms.TabPage tpMountainPeakEvents;
-        private System.Windows.Forms.Label lblShownResults;
-        private BrightIdeasSoftware.OLVColumn olvName;
-        private BrightIdeasSoftware.OLVColumn olvType;
-        private BrightIdeasSoftware.ObjectListView listRegionSearch;
-        private System.Windows.Forms.Label lblURegionResults;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.ObjectListView listURegionSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
-        private System.Windows.Forms.Label lblLandmassResults;
-        private BrightIdeasSoftware.ObjectListView listLandmassesSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private System.Windows.Forms.Label lblMountainPeakResults;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
-        private BrightIdeasSoftware.OLVColumn olvColumn7;
-        private BrightIdeasSoftware.ObjectListView listMountainPeakSearch;
-        private System.Windows.Forms.RadioButton radRegionSortArea;
-        private System.Windows.Forms.RadioButton radURegionSortArea;
+        private TabControl tcRegionsSub;
+        private TabPage tpOverworld;
+        private TabControl tcRegions;
+        private TabPage tpRegionSearch;
+        private GroupBox groupBox2;
+        private GroupBox groupBox7;
+        private RadioButton radRegionSortDeaths;
+        private RadioButton radRegionSortBattles;
+        private RadioButton radRegionSortFiltered;
+        private RadioButton radRegionNone;
+        private RadioButton radRegionSortEvents;
+        private Label label27;
+        private ComboBox cmbRegionType;
+        private TextBox txtRegionSearch;
+        private Button btnRegionSearch;
+        private TabPage tpRegionEvents;
+        private TabPage tpUnderground;
+        private TabControl tcURegions;
+        private TabPage tpURegionSearch;
+        private Button btnURegionSearch;
+        private GroupBox groupBox3;
+        private GroupBox groupBox8;
+        private RadioButton radURegionSortFiltered;
+        private RadioButton radURegionNone;
+        private RadioButton radURegionSortEvents;
+        private Label label28;
+        private ComboBox cmbURegionType;
+        private TabPage tpURegionEvents;
+        private TabPage tpLandmasses;
+        private TabControl tabControl2;
+        private TabPage tabPage1;
+        private Button btnLandmassSearch;
+        private GroupBox groupBox27;
+        private GroupBox groupBox28;
+        private RadioButton radLandmassFiltered;
+        private RadioButton radLandmassNone;
+        private RadioButton radLandmassEvents;
+        private TextBox txtLandmassSearch;
+        private TabPage tpLandmassEvents;
+        private TabPage tbMountainPeaks;
+        private TabControl tabControl3;
+        private TabPage tabPage3;
+        private Button btnMountainPeakSearch;
+        private GroupBox groupBox29;
+        private GroupBox groupBox30;
+        private RadioButton radMountainPeakFiltered;
+        private RadioButton radMountainPeakNone;
+        private RadioButton radMountainPeakEvents;
+        private TextBox txtMountainPeakSearch;
+        private TabPage tpMountainPeakEvents;
+        private Label lblShownResults;
+        private OLVColumn olvName;
+        private OLVColumn olvType;
+        private ObjectListView listRegionSearch;
+        private Label lblURegionResults;
+        private OLVColumn olvColumn1;
+        private OLVColumn olvColumn2;
+        private ObjectListView listURegionSearch;
+        private OLVColumn olvColumn3;
+        private OLVColumn olvColumn4;
+        private Label lblLandmassResults;
+        private ObjectListView listLandmassesSearch;
+        private OLVColumn olvColumn5;
+        private Label lblMountainPeakResults;
+        private OLVColumn olvColumn6;
+        private OLVColumn olvColumn7;
+        private ObjectListView listMountainPeakSearch;
+        private RadioButton radRegionSortArea;
+        private RadioButton radURegionSortArea;
     }
 }

@@ -5,6 +5,6 @@
         Unknown,
         Dungeon,
         Sewers,
-        Catacombs,
+        Catacombs
     }
 }

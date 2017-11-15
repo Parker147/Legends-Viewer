@@ -1,7 +1,7 @@
-﻿using LegendsViewer.Controls.HTML.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Interfaces;
@@ -38,12 +38,13 @@ namespace LegendsViewer.Legends
             Battles = new List<Battle>();
             Coordinates = new List<Location>();
             foreach (Property property in properties)
-                switch(property.Name)
+            {
+                switch (property.Name)
                 {
                     case "depth": Depth = Convert.ToInt32(property.Value); break;
                     case "type": Type = Formatting.InitCaps(property.Value); break;
                     case "coords":
-                        string[] coordinateStrings = property.Value.Split(new char[] { '|' },
+                        string[] coordinateStrings = property.Value.Split(new[] { '|' },
                             StringSplitOptions.RemoveEmptyEntries);
                         foreach (var coordinateString in coordinateStrings)
                         {
@@ -54,14 +55,24 @@ namespace LegendsViewer.Legends
                         }
                         break;
                 }
+            }
         }
         public override string ToString() { return Type; }
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
             string name;
-            if (Type == "Cavern") name = "the depths of the world";
-            else if (Type == "Underworld") name = "the Underworld";
-            else name = "an underground region (" + Type + ")";
+            if (Type == "Cavern")
+            {
+                name = "the depths of the world";
+            }
+            else if (Type == "Underworld")
+            {
+                name = "the Underworld";
+            }
+            else
+            {
+                name = "an underground region (" + Type + ")";
+            }
 
             if (link)
             {
@@ -70,12 +81,13 @@ namespace LegendsViewer.Legends
                 title += "Events: " + Events.Count;
 
                 if (pov != this)
-                    return Icon + "<a href = \"uregion#" + ID + "\" title=\"" + title + "\">" + name + "</a>";
-                else
-                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(name) + "</a>";
+                {
+                    return Icon + "<a href = \"uregion#" + Id + "\" title=\"" + title + "\">" + name + "</a>";
+                }
+
+                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(name) + "</a>";
             }
-            else
-                return name;
+            return name;
         }
         
     }

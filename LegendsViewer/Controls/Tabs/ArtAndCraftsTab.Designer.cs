@@ -1,11 +1,15 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using BrightIdeasSoftware;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class ArtAndCraftsTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -285,7 +289,7 @@
             this.btnArtifactSearch.TabIndex = 46;
             this.btnArtifactSearch.Text = "Search";
             this.btnArtifactSearch.UseVisualStyleBackColor = true;
-            this.btnArtifactSearch.Click += new System.EventHandler(this.searchArtifactList);
+            this.btnArtifactSearch.Click += new System.EventHandler(this.SearchArtifactList);
             // 
             // groupBox19
             // 
@@ -320,7 +324,7 @@
             this.cbmArtMatFilter.Name = "cbmArtMatFilter";
             this.cbmArtMatFilter.Size = new System.Drawing.Size(116, 21);
             this.cbmArtMatFilter.TabIndex = 20;
-            this.cbmArtMatFilter.SelectedIndexChanged += new System.EventHandler(this.searchArtifactList);
+            this.cbmArtMatFilter.SelectedIndexChanged += new System.EventHandler(this.SearchArtifactList);
             // 
             // lblArtTypeFilter
             // 
@@ -339,7 +343,7 @@
             this.cbmArtTypeFilter.Name = "cbmArtTypeFilter";
             this.cbmArtTypeFilter.Size = new System.Drawing.Size(116, 21);
             this.cbmArtTypeFilter.TabIndex = 18;
-            this.cbmArtTypeFilter.SelectedIndexChanged += new System.EventHandler(this.searchArtifactList);
+            this.cbmArtTypeFilter.SelectedIndexChanged += new System.EventHandler(this.SearchArtifactList);
             // 
             // groupBox20
             // 
@@ -365,7 +369,7 @@
             this.radArtifactSortFiltered.TabStop = true;
             this.radArtifactSortFiltered.Text = "Filtered Events";
             this.radArtifactSortFiltered.UseVisualStyleBackColor = true;
-            this.radArtifactSortFiltered.CheckedChanged += new System.EventHandler(this.searchArtifactList);
+            this.radArtifactSortFiltered.CheckedChanged += new System.EventHandler(this.SearchArtifactList);
             // 
             // radArtifactSortNone
             // 
@@ -378,7 +382,7 @@
             this.radArtifactSortNone.TabStop = true;
             this.radArtifactSortNone.Text = "None";
             this.radArtifactSortNone.UseVisualStyleBackColor = true;
-            this.radArtifactSortNone.CheckedChanged += new System.EventHandler(this.searchArtifactList);
+            this.radArtifactSortNone.CheckedChanged += new System.EventHandler(this.SearchArtifactList);
             // 
             // radArtifactSortEvents
             // 
@@ -389,7 +393,7 @@
             this.radArtifactSortEvents.TabIndex = 13;
             this.radArtifactSortEvents.Text = "Events";
             this.radArtifactSortEvents.UseVisualStyleBackColor = true;
-            this.radArtifactSortEvents.CheckedChanged += new System.EventHandler(this.searchArtifactList);
+            this.radArtifactSortEvents.CheckedChanged += new System.EventHandler(this.SearchArtifactList);
             // 
             // txtArtifactSearch
             // 
@@ -399,7 +403,7 @@
             this.txtArtifactSearch.Name = "txtArtifactSearch";
             this.txtArtifactSearch.Size = new System.Drawing.Size(169, 20);
             this.txtArtifactSearch.TabIndex = 44;
-            this.txtArtifactSearch.TextChanged += new System.EventHandler(this.searchArtifactList);
+            this.txtArtifactSearch.TextChanged += new System.EventHandler(this.SearchArtifactList);
             // 
             // tpArtifactsEvents
             // 
@@ -515,7 +519,7 @@
             this.btnWrittenContentSearch.TabIndex = 46;
             this.btnWrittenContentSearch.Text = "Search";
             this.btnWrittenContentSearch.UseVisualStyleBackColor = true;
-            this.btnWrittenContentSearch.Click += new System.EventHandler(this.searchWrittenContentList);
+            this.btnWrittenContentSearch.Click += new System.EventHandler(this.SearchWrittenContentList);
             // 
             // groupBox21
             // 
@@ -548,7 +552,7 @@
             this.cmbWrittenContentType.Name = "cmbWrittenContentType";
             this.cmbWrittenContentType.Size = new System.Drawing.Size(121, 21);
             this.cmbWrittenContentType.TabIndex = 18;
-            this.cmbWrittenContentType.SelectedIndexChanged += new System.EventHandler(this.searchWrittenContentList);
+            this.cmbWrittenContentType.SelectedIndexChanged += new System.EventHandler(this.SearchWrittenContentList);
             // 
             // groupBox22
             // 
@@ -574,7 +578,7 @@
             this.radWrittenContentSortFiltered.TabStop = true;
             this.radWrittenContentSortFiltered.Text = "Filtered Events";
             this.radWrittenContentSortFiltered.UseVisualStyleBackColor = true;
-            this.radWrittenContentSortFiltered.CheckedChanged += new System.EventHandler(this.searchWrittenContentList);
+            this.radWrittenContentSortFiltered.CheckedChanged += new System.EventHandler(this.SearchWrittenContentList);
             // 
             // radWrittenContentSortNone
             // 
@@ -587,7 +591,7 @@
             this.radWrittenContentSortNone.TabStop = true;
             this.radWrittenContentSortNone.Text = "None";
             this.radWrittenContentSortNone.UseVisualStyleBackColor = true;
-            this.radWrittenContentSortNone.CheckedChanged += new System.EventHandler(this.searchWrittenContentList);
+            this.radWrittenContentSortNone.CheckedChanged += new System.EventHandler(this.SearchWrittenContentList);
             // 
             // radWrittenContentSortEvents
             // 
@@ -598,7 +602,7 @@
             this.radWrittenContentSortEvents.TabIndex = 13;
             this.radWrittenContentSortEvents.Text = "Events";
             this.radWrittenContentSortEvents.UseVisualStyleBackColor = true;
-            this.radWrittenContentSortEvents.CheckedChanged += new System.EventHandler(this.searchWrittenContentList);
+            this.radWrittenContentSortEvents.CheckedChanged += new System.EventHandler(this.SearchWrittenContentList);
             // 
             // txtWrittenContentSearch
             // 
@@ -608,7 +612,7 @@
             this.txtWrittenContentSearch.Name = "txtWrittenContentSearch";
             this.txtWrittenContentSearch.Size = new System.Drawing.Size(169, 20);
             this.txtWrittenContentSearch.TabIndex = 44;
-            this.txtWrittenContentSearch.TextChanged += new System.EventHandler(this.searchWrittenContentList);
+            this.txtWrittenContentSearch.TextChanged += new System.EventHandler(this.SearchWrittenContentList);
             // 
             // tpWrittenContentEvents
             // 
@@ -735,7 +739,7 @@
             this.btnDanceFormsSearch.TabIndex = 46;
             this.btnDanceFormsSearch.Text = "Search";
             this.btnDanceFormsSearch.UseVisualStyleBackColor = true;
-            this.btnDanceFormsSearch.Click += new System.EventHandler(this.searchDanceFormsList);
+            this.btnDanceFormsSearch.Click += new System.EventHandler(this.SearchDanceFormsList);
             // 
             // groupBox27
             // 
@@ -773,7 +777,7 @@
             this.radDanceFormsFiltered.TabStop = true;
             this.radDanceFormsFiltered.Text = "Filtered Events";
             this.radDanceFormsFiltered.UseVisualStyleBackColor = true;
-            this.radDanceFormsFiltered.CheckedChanged += new System.EventHandler(this.searchDanceFormsList);
+            this.radDanceFormsFiltered.CheckedChanged += new System.EventHandler(this.SearchDanceFormsList);
             // 
             // radDanceFormsNone
             // 
@@ -786,7 +790,7 @@
             this.radDanceFormsNone.TabStop = true;
             this.radDanceFormsNone.Text = "None";
             this.radDanceFormsNone.UseVisualStyleBackColor = true;
-            this.radDanceFormsNone.CheckedChanged += new System.EventHandler(this.searchDanceFormsList);
+            this.radDanceFormsNone.CheckedChanged += new System.EventHandler(this.SearchDanceFormsList);
             // 
             // radDanceFormsEvents
             // 
@@ -797,7 +801,7 @@
             this.radDanceFormsEvents.TabIndex = 13;
             this.radDanceFormsEvents.Text = "Events";
             this.radDanceFormsEvents.UseVisualStyleBackColor = true;
-            this.radDanceFormsEvents.CheckedChanged += new System.EventHandler(this.searchDanceFormsList);
+            this.radDanceFormsEvents.CheckedChanged += new System.EventHandler(this.SearchDanceFormsList);
             // 
             // txtDanceFormsSearch
             // 
@@ -807,7 +811,7 @@
             this.txtDanceFormsSearch.Name = "txtDanceFormsSearch";
             this.txtDanceFormsSearch.Size = new System.Drawing.Size(169, 20);
             this.txtDanceFormsSearch.TabIndex = 44;
-            this.txtDanceFormsSearch.TextChanged += new System.EventHandler(this.searchDanceFormsList);
+            this.txtDanceFormsSearch.TextChanged += new System.EventHandler(this.SearchDanceFormsList);
             // 
             // tpDanceFormsEvents
             // 
@@ -904,7 +908,7 @@
             this.btnMusicalFormsSearch.TabIndex = 46;
             this.btnMusicalFormsSearch.Text = "Search";
             this.btnMusicalFormsSearch.UseVisualStyleBackColor = true;
-            this.btnMusicalFormsSearch.Click += new System.EventHandler(this.searchMusicalFormsList);
+            this.btnMusicalFormsSearch.Click += new System.EventHandler(this.SearchMusicalFormsList);
             // 
             // groupBox1
             // 
@@ -942,7 +946,7 @@
             this.radMusicalFormsFiltered.TabStop = true;
             this.radMusicalFormsFiltered.Text = "Filtered Events";
             this.radMusicalFormsFiltered.UseVisualStyleBackColor = true;
-            this.radMusicalFormsFiltered.CheckedChanged += new System.EventHandler(this.searchMusicalFormsList);
+            this.radMusicalFormsFiltered.CheckedChanged += new System.EventHandler(this.SearchMusicalFormsList);
             // 
             // radMusicalFormsNone
             // 
@@ -955,7 +959,7 @@
             this.radMusicalFormsNone.TabStop = true;
             this.radMusicalFormsNone.Text = "None";
             this.radMusicalFormsNone.UseVisualStyleBackColor = true;
-            this.radMusicalFormsNone.CheckedChanged += new System.EventHandler(this.searchMusicalFormsList);
+            this.radMusicalFormsNone.CheckedChanged += new System.EventHandler(this.SearchMusicalFormsList);
             // 
             // radMusicalFormsEvents
             // 
@@ -966,7 +970,7 @@
             this.radMusicalFormsEvents.TabIndex = 13;
             this.radMusicalFormsEvents.Text = "Events";
             this.radMusicalFormsEvents.UseVisualStyleBackColor = true;
-            this.radMusicalFormsEvents.CheckedChanged += new System.EventHandler(this.searchMusicalFormsList);
+            this.radMusicalFormsEvents.CheckedChanged += new System.EventHandler(this.SearchMusicalFormsList);
             // 
             // txtMusicalFormsSearch
             // 
@@ -976,7 +980,7 @@
             this.txtMusicalFormsSearch.Name = "txtMusicalFormsSearch";
             this.txtMusicalFormsSearch.Size = new System.Drawing.Size(169, 20);
             this.txtMusicalFormsSearch.TabIndex = 44;
-            this.txtMusicalFormsSearch.TextChanged += new System.EventHandler(this.searchMusicalFormsList);
+            this.txtMusicalFormsSearch.TextChanged += new System.EventHandler(this.SearchMusicalFormsList);
             // 
             // tpMusicalFormsEvents
             // 
@@ -1073,7 +1077,7 @@
             this.btnPoeticFormsSearch.TabIndex = 46;
             this.btnPoeticFormsSearch.Text = "Search";
             this.btnPoeticFormsSearch.UseVisualStyleBackColor = true;
-            this.btnPoeticFormsSearch.Click += new System.EventHandler(this.searchPoeticFormsList);
+            this.btnPoeticFormsSearch.Click += new System.EventHandler(this.SearchPoeticFormsList);
             // 
             // groupBox3
             // 
@@ -1111,7 +1115,7 @@
             this.radPoeticFormsFiltered.TabStop = true;
             this.radPoeticFormsFiltered.Text = "Filtered Events";
             this.radPoeticFormsFiltered.UseVisualStyleBackColor = true;
-            this.radPoeticFormsFiltered.CheckedChanged += new System.EventHandler(this.searchPoeticFormsList);
+            this.radPoeticFormsFiltered.CheckedChanged += new System.EventHandler(this.SearchPoeticFormsList);
             // 
             // radPoeticFormsNone
             // 
@@ -1124,7 +1128,7 @@
             this.radPoeticFormsNone.TabStop = true;
             this.radPoeticFormsNone.Text = "None";
             this.radPoeticFormsNone.UseVisualStyleBackColor = true;
-            this.radPoeticFormsNone.CheckedChanged += new System.EventHandler(this.searchPoeticFormsList);
+            this.radPoeticFormsNone.CheckedChanged += new System.EventHandler(this.SearchPoeticFormsList);
             // 
             // radPoeticFormsEvents
             // 
@@ -1135,7 +1139,7 @@
             this.radPoeticFormsEvents.TabIndex = 13;
             this.radPoeticFormsEvents.Text = "Events";
             this.radPoeticFormsEvents.UseVisualStyleBackColor = true;
-            this.radPoeticFormsEvents.CheckedChanged += new System.EventHandler(this.searchPoeticFormsList);
+            this.radPoeticFormsEvents.CheckedChanged += new System.EventHandler(this.SearchPoeticFormsList);
             // 
             // txtPoeticFormsSearch
             // 
@@ -1145,7 +1149,7 @@
             this.txtPoeticFormsSearch.Name = "txtPoeticFormsSearch";
             this.txtPoeticFormsSearch.Size = new System.Drawing.Size(169, 20);
             this.txtPoeticFormsSearch.TabIndex = 44;
-            this.txtPoeticFormsSearch.TextChanged += new System.EventHandler(this.searchPoeticFormsList);
+            this.txtPoeticFormsSearch.TextChanged += new System.EventHandler(this.SearchPoeticFormsList);
             // 
             // tpPoeticFormsEvents
             // 
@@ -1212,86 +1216,86 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tcArtAndCrafts;
-        private System.Windows.Forms.TabPage tpArtifacts;
-        private System.Windows.Forms.TabControl tcArtifacts;
-        private System.Windows.Forms.TabPage tpArtifactsSearch;
-        private System.Windows.Forms.Label lblArtifactResults;
-        private BrightIdeasSoftware.ObjectListView listArtifactSearch;
-        private BrightIdeasSoftware.OLVColumn olvName;
-        private BrightIdeasSoftware.OLVColumn olvType;
-        private System.Windows.Forms.Button btnArtifactListReset;
-        private System.Windows.Forms.Label lblArtifactList;
-        private System.Windows.Forms.Button btnArtifactSearch;
-        private System.Windows.Forms.GroupBox groupBox19;
-        private System.Windows.Forms.Label lblArtMatFilter;
-        private System.Windows.Forms.ComboBox cbmArtMatFilter;
-        private System.Windows.Forms.Label lblArtTypeFilter;
-        private System.Windows.Forms.ComboBox cbmArtTypeFilter;
-        private System.Windows.Forms.GroupBox groupBox20;
-        private System.Windows.Forms.RadioButton radArtifactSortFiltered;
-        private System.Windows.Forms.RadioButton radArtifactSortNone;
-        private System.Windows.Forms.RadioButton radArtifactSortEvents;
-        private System.Windows.Forms.TextBox txtArtifactSearch;
-        private System.Windows.Forms.TabPage tpArtifactsEvents;
-        private System.Windows.Forms.TabPage tpWrittenContent;
-        private System.Windows.Forms.TabControl tcWrittenContent;
-        private System.Windows.Forms.TabPage tpWrittenContentSearch;
-        private System.Windows.Forms.Label lblWrittenContentResults;
-        private BrightIdeasSoftware.ObjectListView listWrittenContentSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private System.Windows.Forms.Button btnWrittenContentSearch;
-        private System.Windows.Forms.GroupBox groupBox21;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox cmbWrittenContentType;
-        private System.Windows.Forms.GroupBox groupBox22;
-        private System.Windows.Forms.RadioButton radWrittenContentSortFiltered;
-        private System.Windows.Forms.RadioButton radWrittenContentSortNone;
-        private System.Windows.Forms.RadioButton radWrittenContentSortEvents;
-        private System.Windows.Forms.TextBox txtWrittenContentSearch;
-        private System.Windows.Forms.TabPage tpWrittenContentEvents;
-        private System.Windows.Forms.TabPage tpDanceForms;
-        private System.Windows.Forms.TabPage tbMusicalForms;
-        private System.Windows.Forms.TabPage tpPoeticForms;
-        private System.Windows.Forms.TabControl tcDanceForms;
-        private System.Windows.Forms.TabPage tpDanceFormsSearch;
-        private System.Windows.Forms.Label lblDanceFormsResults;
-        private BrightIdeasSoftware.ObjectListView listDanceFormsSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private System.Windows.Forms.Button btnDanceFormsSearch;
-        private System.Windows.Forms.GroupBox groupBox27;
-        private System.Windows.Forms.GroupBox groupBox28;
-        private System.Windows.Forms.RadioButton radDanceFormsFiltered;
-        private System.Windows.Forms.RadioButton radDanceFormsNone;
-        private System.Windows.Forms.RadioButton radDanceFormsEvents;
-        private System.Windows.Forms.TextBox txtDanceFormsSearch;
-        private System.Windows.Forms.TabPage tpDanceFormsEvents;
-        private System.Windows.Forms.TabControl tcMusicalForms;
-        private System.Windows.Forms.TabPage tpMusicalFormsSearch;
-        private System.Windows.Forms.Label lblMusicalFormsResults;
-        private BrightIdeasSoftware.ObjectListView listMusicalFormsSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
-        private System.Windows.Forms.Button btnMusicalFormsSearch;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton radMusicalFormsFiltered;
-        private System.Windows.Forms.RadioButton radMusicalFormsNone;
-        private System.Windows.Forms.RadioButton radMusicalFormsEvents;
-        private System.Windows.Forms.TextBox txtMusicalFormsSearch;
-        private System.Windows.Forms.TabPage tpMusicalFormsEvents;
-        private System.Windows.Forms.TabControl tcPoeticForms;
-        private System.Windows.Forms.TabPage tpPoeticFormsSearch;
-        private System.Windows.Forms.Label lblPoeticFormsResults;
-        private BrightIdeasSoftware.ObjectListView listPoeticFormsSearch;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
-        private System.Windows.Forms.Button btnPoeticFormsSearch;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.RadioButton radPoeticFormsFiltered;
-        private System.Windows.Forms.RadioButton radPoeticFormsNone;
-        private System.Windows.Forms.RadioButton radPoeticFormsEvents;
-        private System.Windows.Forms.TextBox txtPoeticFormsSearch;
-        private System.Windows.Forms.TabPage tpPoeticFormsEvents;
+        private TabControl tcArtAndCrafts;
+        private TabPage tpArtifacts;
+        private TabControl tcArtifacts;
+        private TabPage tpArtifactsSearch;
+        private Label lblArtifactResults;
+        private ObjectListView listArtifactSearch;
+        private OLVColumn olvName;
+        private OLVColumn olvType;
+        private Button btnArtifactListReset;
+        private Label lblArtifactList;
+        private Button btnArtifactSearch;
+        private GroupBox groupBox19;
+        private Label lblArtMatFilter;
+        private ComboBox cbmArtMatFilter;
+        private Label lblArtTypeFilter;
+        private ComboBox cbmArtTypeFilter;
+        private GroupBox groupBox20;
+        private RadioButton radArtifactSortFiltered;
+        private RadioButton radArtifactSortNone;
+        private RadioButton radArtifactSortEvents;
+        private TextBox txtArtifactSearch;
+        private TabPage tpArtifactsEvents;
+        private TabPage tpWrittenContent;
+        private TabControl tcWrittenContent;
+        private TabPage tpWrittenContentSearch;
+        private Label lblWrittenContentResults;
+        private ObjectListView listWrittenContentSearch;
+        private OLVColumn olvColumn1;
+        private OLVColumn olvColumn2;
+        private Button btnWrittenContentSearch;
+        private GroupBox groupBox21;
+        private Label label8;
+        private ComboBox cmbWrittenContentType;
+        private GroupBox groupBox22;
+        private RadioButton radWrittenContentSortFiltered;
+        private RadioButton radWrittenContentSortNone;
+        private RadioButton radWrittenContentSortEvents;
+        private TextBox txtWrittenContentSearch;
+        private TabPage tpWrittenContentEvents;
+        private TabPage tpDanceForms;
+        private TabPage tbMusicalForms;
+        private TabPage tpPoeticForms;
+        private TabControl tcDanceForms;
+        private TabPage tpDanceFormsSearch;
+        private Label lblDanceFormsResults;
+        private ObjectListView listDanceFormsSearch;
+        private OLVColumn olvColumn5;
+        private Button btnDanceFormsSearch;
+        private GroupBox groupBox27;
+        private GroupBox groupBox28;
+        private RadioButton radDanceFormsFiltered;
+        private RadioButton radDanceFormsNone;
+        private RadioButton radDanceFormsEvents;
+        private TextBox txtDanceFormsSearch;
+        private TabPage tpDanceFormsEvents;
+        private TabControl tcMusicalForms;
+        private TabPage tpMusicalFormsSearch;
+        private Label lblMusicalFormsResults;
+        private ObjectListView listMusicalFormsSearch;
+        private OLVColumn olvColumn3;
+        private Button btnMusicalFormsSearch;
+        private GroupBox groupBox1;
+        private GroupBox groupBox2;
+        private RadioButton radMusicalFormsFiltered;
+        private RadioButton radMusicalFormsNone;
+        private RadioButton radMusicalFormsEvents;
+        private TextBox txtMusicalFormsSearch;
+        private TabPage tpMusicalFormsEvents;
+        private TabControl tcPoeticForms;
+        private TabPage tpPoeticFormsSearch;
+        private Label lblPoeticFormsResults;
+        private ObjectListView listPoeticFormsSearch;
+        private OLVColumn olvColumn4;
+        private Button btnPoeticFormsSearch;
+        private GroupBox groupBox3;
+        private GroupBox groupBox4;
+        private RadioButton radPoeticFormsFiltered;
+        private RadioButton radPoeticFormsNone;
+        private RadioButton radPoeticFormsEvents;
+        private TextBox txtPoeticFormsSearch;
+        private TabPage tpPoeticFormsEvents;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
-using LegendsViewer.Controls.HTML.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
 
@@ -46,7 +46,7 @@ namespace LegendsViewer.Legends
                     case "item_description": Description = Formatting.InitCaps(property.Value); break;
                     case "mat": Material = string.Intern(property.Value); break;
                     case "page_count": PageCount = Convert.ToInt32(property.Value); break;
-                    case "writing": if (!WrittenContents.Contains(Convert.ToInt32(property.Value))) WrittenContents.Add(Convert.ToInt32(property.Value)); break;
+                    case "writing": if (!WrittenContents.Contains(Convert.ToInt32(property.Value))) { WrittenContents.Add(Convert.ToInt32(property.Value)); } break;
                 }
             }
         }
@@ -62,9 +62,9 @@ namespace LegendsViewer.Legends
                 title += "Events: " + Events.Count;
                 if (pov != this)
                 {
-                    return Icon + "<a href = \"artifact#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href = \"artifact#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
-                return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
             return Name;
         }

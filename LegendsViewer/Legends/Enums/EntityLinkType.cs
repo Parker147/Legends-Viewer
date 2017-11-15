@@ -20,6 +20,6 @@ namespace LegendsViewer.Legends.Enums
         FormerSlave,
         Slave,
         [Description("Respected for heroic acts")]
-        Hero,
+        Hero
     }
 }

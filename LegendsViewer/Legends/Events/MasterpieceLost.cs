@@ -8,7 +8,7 @@ namespace LegendsViewer.Legends.Events
     {
         public HistoricalFigure HistoricalFigure { get; set; }
         public Site Site { get; set; }
-        public int MethodID { get; set; }
+        public int MethodId { get; set; }
         public MasterpieceItem CreationEvent { get; set; }
 
         public MasterpieceLost(List<Property> properties, World world)
@@ -21,7 +21,7 @@ namespace LegendsViewer.Legends.Events
                     case "histfig": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "creation_event": CreationEvent = world.GetEvent(Convert.ToInt32(property.Value)) as MasterpieceItem; break;
-                    case "method": MethodID = Convert.ToInt32(property.Value); break;
+                    case "method": MethodId = Convert.ToInt32(property.Value); break;
                 }
             }
             HistoricalFigure.AddEvent(this);

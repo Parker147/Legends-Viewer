@@ -8,6 +8,6 @@ namespace LegendsViewer.Legends.Enums
         LivestockOwnership,
         RightsOfWay,
         Territory,
-        WaterRights,
+        WaterRights
     }
 }

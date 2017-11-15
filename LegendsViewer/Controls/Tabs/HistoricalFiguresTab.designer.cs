@@ -1,11 +1,16 @@
-﻿namespace LegendsViewer.Controls.Tabs
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using BrightIdeasSoftware;
+using WFC;
+
+namespace LegendsViewer.Controls.Tabs
 {
     partial class HistoricalFiguresTab
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -139,7 +144,7 @@
             this.lnkMaxResults.Text = "500";
             this.lnkMaxResults.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.hint.SetToolTip(this.lnkMaxResults, "Maximum number of results");
-            this.lnkMaxResults.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkMaxResults_LinkClicked);
+            this.lnkMaxResults.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LnkMaxResults_LinkClicked);
             // 
             // btnHFSearch
             // 
@@ -149,7 +154,7 @@
             this.btnHFSearch.TabIndex = 30;
             this.btnHFSearch.Text = "Search";
             this.btnHFSearch.UseVisualStyleBackColor = true;
-            this.btnHFSearch.Click += new System.EventHandler(this.searchHFList);
+            this.btnHFSearch.Click += new System.EventHandler(this.SearchHfList);
             // 
             // txtHFSearch
             // 
@@ -159,7 +164,7 @@
             this.txtHFSearch.Name = "txtHFSearch";
             this.txtHFSearch.Size = new System.Drawing.Size(177, 20);
             this.txtHFSearch.TabIndex = 32;
-            this.txtHFSearch.TextChanged += new System.EventHandler(this.searchHFList);
+            this.txtHFSearch.TextChanged += new System.EventHandler(this.SearchHfList);
             // 
             // listHFSearch
             // 
@@ -191,7 +196,7 @@
             this.listHFSearch.UseHotItem = true;
             this.listHFSearch.UseHyperlinks = true;
             this.listHFSearch.View = System.Windows.Forms.View.Details;
-            this.listHFSearch.SelectedIndexChanged += new System.EventHandler(this.listHFSearch_SelectedIndexChanged);
+            this.listHFSearch.SelectedIndexChanged += new System.EventHandler(this.ListHFSearch_SelectedIndexChanged);
             // 
             // olvName
             // 
@@ -211,7 +216,7 @@
             this.btnHFListReset.TabIndex = 41;
             this.btnHFListReset.Text = "Reset";
             this.btnHFListReset.UseVisualStyleBackColor = true;
-            this.btnHFListReset.Click += new System.EventHandler(this.ResetHFBaseList);
+            this.btnHFListReset.Click += new System.EventHandler(this.ResetHfBaseList);
             // 
             // filterPanel
             // 
@@ -237,7 +242,7 @@
             this.filterPanel.ShadowOffSet = 0;
             this.filterPanel.Size = new System.Drawing.Size(261, 286);
             this.filterPanel.TabIndex = 43;
-            this.filterPanel.OnPanelExpand += new System.EventHandler(this.filterPanel_OnPanelExpand);
+            this.filterPanel.OnPanelExpand += new System.EventHandler(this.FilterPanel_OnPanelExpand);
             // 
             // grpHFFilter
             // 
@@ -276,7 +281,7 @@
             this.chkAnimated.TabIndex = 21;
             this.chkAnimated.Text = "Animated Corpse";
             this.chkAnimated.UseVisualStyleBackColor = true;
-            this.chkAnimated.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkAnimated.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // chkNecromancer
             // 
@@ -287,7 +292,7 @@
             this.chkNecromancer.TabIndex = 20;
             this.chkNecromancer.Text = "Necromancer";
             this.chkNecromancer.UseVisualStyleBackColor = true;
-            this.chkNecromancer.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkNecromancer.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // chkWerebeast
             // 
@@ -298,7 +303,7 @@
             this.chkWerebeast.TabIndex = 19;
             this.chkWerebeast.Text = "Werebeast";
             this.chkWerebeast.UseVisualStyleBackColor = true;
-            this.chkWerebeast.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkWerebeast.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // chkVampire
             // 
@@ -309,7 +314,7 @@
             this.chkVampire.TabIndex = 18;
             this.chkVampire.Text = "Vampire";
             this.chkVampire.UseVisualStyleBackColor = true;
-            this.chkVampire.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkVampire.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // chkHFLeader
             // 
@@ -320,7 +325,7 @@
             this.chkHFLeader.TabIndex = 17;
             this.chkHFLeader.Text = "Leader";
             this.chkHFLeader.UseVisualStyleBackColor = true;
-            this.chkHFLeader.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkHFLeader.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // groupBox5
             // 
@@ -347,7 +352,7 @@
             this.radSortMiscKills.TabIndex = 23;
             this.radSortMiscKills.Text = "Misc Kills";
             this.radSortMiscKills.UseVisualStyleBackColor = true;
-            this.radSortMiscKills.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.radSortMiscKills.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // radHFSortBattles
             // 
@@ -359,7 +364,7 @@
             this.radHFSortBattles.TabStop = true;
             this.radHFSortBattles.Text = "Battles";
             this.radHFSortBattles.UseVisualStyleBackColor = true;
-            this.radHFSortBattles.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.radHFSortBattles.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // radHFSortFiltered
             // 
@@ -371,7 +376,7 @@
             this.radHFSortFiltered.TabStop = true;
             this.radHFSortFiltered.Text = "Filtered Events";
             this.radHFSortFiltered.UseVisualStyleBackColor = true;
-            this.radHFSortFiltered.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.radHFSortFiltered.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // radHFNone
             // 
@@ -384,7 +389,7 @@
             this.radHFNone.TabStop = true;
             this.radHFNone.Text = "None";
             this.radHFNone.UseVisualStyleBackColor = true;
-            this.radHFNone.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.radHFNone.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // radHFSortEvents
             // 
@@ -395,7 +400,7 @@
             this.radHFSortEvents.TabIndex = 18;
             this.radHFSortEvents.Text = "Events";
             this.radHFSortEvents.UseVisualStyleBackColor = true;
-            this.radHFSortEvents.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.radHFSortEvents.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // radSortKills
             // 
@@ -406,7 +411,7 @@
             this.radSortKills.TabIndex = 17;
             this.radSortKills.Text = "Notable Kills";
             this.radSortKills.UseVisualStyleBackColor = true;
-            this.radSortKills.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.radSortKills.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // chkForce
             // 
@@ -417,7 +422,7 @@
             this.chkForce.TabIndex = 15;
             this.chkForce.Text = "Force";
             this.chkForce.UseVisualStyleBackColor = true;
-            this.chkForce.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkForce.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // label30
             // 
@@ -436,7 +441,7 @@
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(121, 21);
             this.cmbType.TabIndex = 13;
-            this.cmbType.SelectedIndexChanged += new System.EventHandler(this.searchHFList);
+            this.cmbType.SelectedIndexChanged += new System.EventHandler(this.SearchHfList);
             // 
             // label29
             // 
@@ -455,7 +460,7 @@
             this.cmbCaste.Name = "cmbCaste";
             this.cmbCaste.Size = new System.Drawing.Size(121, 21);
             this.cmbCaste.TabIndex = 11;
-            this.cmbCaste.SelectedIndexChanged += new System.EventHandler(this.searchHFList);
+            this.cmbCaste.SelectedIndexChanged += new System.EventHandler(this.SearchHfList);
             // 
             // label25
             // 
@@ -474,7 +479,7 @@
             this.cmbRace.Name = "cmbRace";
             this.cmbRace.Size = new System.Drawing.Size(121, 21);
             this.cmbRace.TabIndex = 6;
-            this.cmbRace.SelectedIndexChanged += new System.EventHandler(this.searchHFList);
+            this.cmbRace.SelectedIndexChanged += new System.EventHandler(this.SearchHfList);
             // 
             // chkAlive
             // 
@@ -485,7 +490,7 @@
             this.chkAlive.TabIndex = 4;
             this.chkAlive.Text = "Alive";
             this.chkAlive.UseVisualStyleBackColor = true;
-            this.chkAlive.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkAlive.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // chkGhost
             // 
@@ -496,7 +501,7 @@
             this.chkGhost.TabIndex = 3;
             this.chkGhost.Text = "Ghost";
             this.chkGhost.UseVisualStyleBackColor = true;
-            this.chkGhost.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkGhost.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // chkDeity
             // 
@@ -507,7 +512,7 @@
             this.chkDeity.TabIndex = 0;
             this.chkDeity.Text = "Deity";
             this.chkDeity.UseVisualStyleBackColor = true;
-            this.chkDeity.CheckedChanged += new System.EventHandler(this.searchHFList);
+            this.chkDeity.CheckedChanged += new System.EventHandler(this.SearchHfList);
             // 
             // tpHFEvents
             // 
@@ -543,41 +548,41 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tcHF;
-        private System.Windows.Forms.TabPage tpHFSearch;
-        private System.Windows.Forms.Button btnHFListReset;
-        private System.Windows.Forms.GroupBox grpHFFilter;
-        private System.Windows.Forms.CheckBox chkWerebeast;
-        private System.Windows.Forms.CheckBox chkVampire;
-        private System.Windows.Forms.CheckBox chkHFLeader;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.RadioButton radSortMiscKills;
-        private System.Windows.Forms.RadioButton radHFSortBattles;
-        private System.Windows.Forms.RadioButton radHFSortFiltered;
-        private System.Windows.Forms.RadioButton radHFNone;
-        private System.Windows.Forms.RadioButton radHFSortEvents;
-        private System.Windows.Forms.RadioButton radSortKills;
-        private System.Windows.Forms.CheckBox chkForce;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.ComboBox cmbType;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.ComboBox cmbCaste;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.ComboBox cmbRace;
-        private System.Windows.Forms.CheckBox chkAlive;
-        private System.Windows.Forms.CheckBox chkGhost;
-        private System.Windows.Forms.CheckBox chkDeity;
-        private System.Windows.Forms.TextBox txtHFSearch;
-        private System.Windows.Forms.Button btnHFSearch;
-        private System.Windows.Forms.TabPage tpHFEvents;
-        private BrightIdeasSoftware.ObjectListView listHFSearch;
-        private BrightIdeasSoftware.OLVColumn olvName;
-        private WFC.RichPanel filterPanel;
-        private BrightIdeasSoftware.BaseRenderer baseRenderer1;
-        private System.Windows.Forms.Panel listPanel;
-        private System.Windows.Forms.LinkLabel lnkMaxResults;
-        private System.Windows.Forms.Label lblShownResults;
-        private System.Windows.Forms.CheckBox chkNecromancer;
-        private System.Windows.Forms.CheckBox chkAnimated;
+        private TabControl tcHF;
+        private TabPage tpHFSearch;
+        private Button btnHFListReset;
+        private GroupBox grpHFFilter;
+        private CheckBox chkWerebeast;
+        private CheckBox chkVampire;
+        private CheckBox chkHFLeader;
+        private GroupBox groupBox5;
+        private RadioButton radSortMiscKills;
+        private RadioButton radHFSortBattles;
+        private RadioButton radHFSortFiltered;
+        private RadioButton radHFNone;
+        private RadioButton radHFSortEvents;
+        private RadioButton radSortKills;
+        private CheckBox chkForce;
+        private Label label30;
+        private ComboBox cmbType;
+        private Label label29;
+        private ComboBox cmbCaste;
+        private Label label25;
+        private ComboBox cmbRace;
+        private CheckBox chkAlive;
+        private CheckBox chkGhost;
+        private CheckBox chkDeity;
+        private TextBox txtHFSearch;
+        private Button btnHFSearch;
+        private TabPage tpHFEvents;
+        private ObjectListView listHFSearch;
+        private OLVColumn olvName;
+        private RichPanel filterPanel;
+        private BaseRenderer baseRenderer1;
+        private Panel listPanel;
+        private LinkLabel lnkMaxResults;
+        private Label lblShownResults;
+        private CheckBox chkNecromancer;
+        private CheckBox chkAnimated;
     }
 }

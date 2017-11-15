@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using LegendsViewer.Legends.Parser;
 using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
@@ -11,7 +12,7 @@ namespace LegendsViewer.Legends
         public DanceForm(List<Property> properties, World world)
             : base(properties, world)
         {
-            FormType = Enums.FormType.Dance;
+            FormType = FormType.Dance;
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
@@ -25,18 +26,15 @@ namespace LegendsViewer.Legends
                     title += "&#13";
                     title += "Events: " + Events.Count;
 
-                    linkedString = Icon + "<a href=\"danceform#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href=\"danceform#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                 {
-                    linkedString = Icon + HTMLStyleUtil.CurrentDwarfObject(Name);
+                    linkedString = Icon + HtmlStyleUtil.CurrentDwarfObject(Name);
                 }
                 return linkedString;
             }
-            else
-            {
-                return Name;
-            }
+            return Name;
         }
     }
 }

@@ -2,15 +2,15 @@ using System.ComponentModel;
 
 namespace LegendsViewer.Legends.Enums
 {
-    public enum HFSimpleBattleType : byte
+    public enum HfSimpleBattleType : byte
     {
         Unknown,
         [Description("2nd HF Lost After Giving Wounds")]
-        HF2LostAfterGivingWounds,
+        Hf2LostAfterGivingWounds,
         [Description("2nd HF Lost After Mutual Wounds")]
-        HF2LostAfterMutualWounds,
+        Hf2LostAfterMutualWounds,
         [Description("2nd HF Lost After Recieving Wounds")]
-        HF2LostAfterReceivingWounds,
+        Hf2LostAfterReceivingWounds,
         Attacked,
         Scuffle,
         Confronted,
@@ -18,6 +18,6 @@ namespace LegendsViewer.Legends.Enums
         [Description("Happened Upon")]
         HappenedUpon,
         Cornered,
-        Surprised,
+        Surprised
     }
 }

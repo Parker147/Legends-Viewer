@@ -4,7 +4,7 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFLearnsSecret : WorldEvent
+    public class HfLearnsSecret : WorldEvent
     {
         public HistoricalFigure Student { get; set; }
         public HistoricalFigure Teacher { get; set; }
@@ -12,7 +12,7 @@ namespace LegendsViewer.Legends.Events
         public string Interaction { get; set; }
         public string SecretText { get; set; }
 
-        public HFLearnsSecret(List<Property> properties, World world)
+        public HfLearnsSecret(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
@@ -23,9 +23,9 @@ namespace LegendsViewer.Legends.Events
                     case "teacher_hfid": Teacher = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "artifact_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                     case "interaction": Interaction = property.Value; break;
-                    case "student": if (Student == null) { Student = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "teacher": if (Teacher == null) { Teacher = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "artifact": if (Artifact == null) { Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "student": if (Student == null) { Student = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "teacher": if (Teacher == null) { Teacher = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "artifact": if (Artifact == null) { Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "secret_text": SecretText = property.Value.Replace("[IS_NAME:", "").Replace("]", ""); break;
                 }
             }

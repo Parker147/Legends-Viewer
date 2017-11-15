@@ -27,6 +27,6 @@ namespace LegendsViewer.Legends.Enums
         [Description("Dance Competition")]
         DanceCompetition,
         [Description("Musical Competition")]
-        MusicalCompetition,
+        MusicalCompetition
     }
 }

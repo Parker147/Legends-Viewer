@@ -5,15 +5,15 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFProfanedStructure : WorldEvent
+    public class HfProfanedStructure : WorldEvent
     {
         public int Action { get; set; } // legends_plus.xml
         public HistoricalFigure HistoricalFigure { get; set; }
         public Site Site { get; set; }
-        public int StructureID { get; set; }
+        public int StructureId { get; set; }
         public Structure Structure { get; set; }
 
-        public HFProfanedStructure(List<Property> properties, World world)
+        public HfProfanedStructure(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
@@ -22,16 +22,16 @@ namespace LegendsViewer.Legends.Events
                 {
                     case "hist_fig_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "structure_id": StructureID = Convert.ToInt32(property.Value); break;
-                    case "structure": StructureID = Convert.ToInt32(property.Value); break;
-                    case "histfig": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "structure_id": StructureId = Convert.ToInt32(property.Value); break;
+                    case "structure": StructureId = Convert.ToInt32(property.Value); break;
+                    case "histfig": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "action": Action = Convert.ToInt32(property.Value); break;
                 }
             }
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.ID == StructureID);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
             }
             HistoricalFigure.AddEvent(this);
             Site.AddEvent(this);

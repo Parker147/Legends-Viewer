@@ -18,18 +18,21 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
-                    case "victim": Victim = world.GetHistoricalFigure((Convert.ToInt32(property.Value))); break;
-                    case "eater": Eater = world.GetHistoricalFigure((Convert.ToInt32(property.Value))); break;
-                    case "entity": Entity = world.GetEntity((Convert.ToInt32(property.Value))); break;
+                    case "victim": Victim = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "eater": Eater = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "entity": Entity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "race": Race = property.Value.Replace("_", " "); break;
                     case "caste": Caste = property.Value; break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                 }
+            }
+
             Site.AddEvent(this);
             Region.AddEvent(this);
             UndergroundRegion.AddEvent(this);

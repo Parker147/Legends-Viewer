@@ -15,6 +15,7 @@ namespace LegendsViewer.Legends.Events
         public AgreementMade(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
@@ -32,8 +33,10 @@ namespace LegendsViewer.Legends.Events
                         break;
                     case "source": Source = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "destination": Destination = world.GetEntity(Convert.ToInt32(property.Value)); break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                 }
+            }
+
             Site.AddEvent(this);
             Source.AddEvent(this);
             Destination.AddEvent(this);

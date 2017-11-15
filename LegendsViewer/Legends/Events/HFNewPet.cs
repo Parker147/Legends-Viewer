@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using LegendsViewer.Legends.Parser;
 using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFNewPet : WorldEvent
+    public class HfNewPet : WorldEvent
     {
         public string Pet { get; set; }
         public HistoricalFigure HistoricalFigure;
@@ -13,10 +13,11 @@ namespace LegendsViewer.Legends.Events
         public WorldRegion Region;
         public UndergroundRegion UndergroundRegion;
         public Location Coordinates;
-        public HFNewPet(List<Property> properties, World world)
+        public HfNewPet(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
@@ -24,10 +25,12 @@ namespace LegendsViewer.Legends.Events
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "group": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "group": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "pets": Pet = property.Value.Replace("_", " ").Replace("2", "two"); break;
                 }
+            }
+
             HistoricalFigure.AddEvent(this);
             Site.AddEvent(this);
             Region.AddEvent(this);

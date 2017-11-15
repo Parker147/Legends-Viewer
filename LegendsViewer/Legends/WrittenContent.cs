@@ -1,11 +1,11 @@
-﻿using LegendsViewer.Controls.HTML.Utilities;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls;
+using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
-using System;
-using LegendsViewer.Controls;
-using LegendsViewer.Legends.Enums;
 
 namespace LegendsViewer.Legends
 {
@@ -45,7 +45,11 @@ namespace LegendsViewer.Legends
                     case "reference":
                         property.Known = true;
                         if (property.SubProperties != null)
-                            References.Add(new Reference(property.SubProperties, world)); break;
+                        {
+                            References.Add(new Reference(property.SubProperties, world));
+                        }
+
+                        break;
                     case "type":
                         switch (property.Value)
                         {
@@ -78,8 +82,8 @@ namespace LegendsViewer.Legends
                             default:
                                 Type = WrittenContentType.Unknown;
                                 //world.ParsingErrors.Report("|==> WrittenContentType: " + property.Value);
-                                int typeID;
-                                if (!int.TryParse(property.Value.Replace("unknown ", ""), out typeID))
+                                int typeId;
+                                if (!int.TryParse(property.Value.Replace("unknown ", ""), out typeId))
                                 {
                                     property.Known = false;
                                 }
@@ -114,18 +118,15 @@ namespace LegendsViewer.Legends
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a href = \"writtencontent#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href = \"writtencontent#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
                 }
                 return linkedString;
             }
-            else
-            {
-                return Name;
-            }
+            return Name;
         }
     }
 }

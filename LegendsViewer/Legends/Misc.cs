@@ -20,12 +20,18 @@ namespace LegendsViewer.Legends
             while (min <= max)
             {
                 int mid = min + (max - min) / 2;
-                if (id > list[mid].ID)
+                if (id > list[mid].Id)
+                {
                     min = mid + 1;
-                else if (id < list[mid].ID)
+                }
+                else if (id < list[mid].Id)
+                {
                     max = mid - 1;
+                }
                 else
+                {
                     return list[mid];
+                }
             }
             return null;
         }

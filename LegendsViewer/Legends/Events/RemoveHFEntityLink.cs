@@ -5,13 +5,13 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class RemoveHFEntityLink : WorldEvent
+    public class RemoveHfEntityLink : WorldEvent
     {
         public Entity Entity;
         public HistoricalFigure HistoricalFigure;
         public HfEntityLinkType LinkType;
         public string Position;
-        public RemoveHFEntityLink(List<Property> properties, World world)
+        public RemoveHfEntityLink(List<Property> properties, World world)
             : base(properties, world)
         {
             LinkType = HfEntityLinkType.Unknown;

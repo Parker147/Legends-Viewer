@@ -24,6 +24,7 @@ namespace LegendsViewer.Legends.EventCollections
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "ordinal": Ordinal = String.Intern(property.Value); break;
@@ -35,6 +36,7 @@ namespace LegendsViewer.Legends.EventCollections
                     case "attacking_enid": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "defending_enid": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
                 }
+            }
         }
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {

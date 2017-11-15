@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Legends.Enums;
-using System.Drawing;
-using System;
 
 namespace LegendsViewer.Legends
 {
@@ -34,9 +34,11 @@ namespace LegendsViewer.Legends
             get
             {
                 if (OwnerHistory.Count(site => site.EndYear == -1) > 0)
+                {
                     return OwnerHistory.First(site => site.EndYear == -1).Owner;
-                else
-                    return null;
+                }
+
+                return null;
             }
             set { }
         }
@@ -53,13 +55,18 @@ namespace LegendsViewer.Legends
                 deaths.AddRange(NotableDeaths.Select(death => death.Race));
 
                 foreach (Battle.Squad squad in Battles.SelectMany(battle => battle.AttackerSquads.Concat(battle.DefenderSquads)).ToList())
+                {
                     for (int i = 0; i < squad.Deaths; i++)
+                    {
                         deaths.Add(squad.Race);
+                    }
+                }
+
                 return deaths;
             }
             set { }
         }
-        public List<HistoricalFigure> NotableDeaths { get { return Events.OfType<HFDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
+        public List<HistoricalFigure> NotableDeaths { get { return Events.OfType<HfDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
         public List<BeastAttack> BeastAttacks { get; set; }
         public override List<WorldEvent> FilteredEvents
         {
@@ -215,7 +222,10 @@ namespace LegendsViewer.Legends
 
         public void AddConnection(Site connection)
         {
-            if (!Connections.Contains(connection)) Connections.Add(connection);
+            if (!Connections.Contains(connection))
+            {
+                Connections.Add(connection);
+            }
         }
 
         public override string ToString() { return Name; }
@@ -230,17 +240,11 @@ namespace LegendsViewer.Legends
 
                 if (pov != this)
                 {
-                    return Icon + "<a href = \"site#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href = \"site#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
-                else
-                {
-                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
-                }
+                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
-            else
-            {
-                return Name;
-            }
+            return Name;
         }
     }
 }

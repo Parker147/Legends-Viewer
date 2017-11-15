@@ -9,6 +9,6 @@ namespace LegendsViewer.Legends.Enums
         Position,
         Prisoner,
         Slave,
-        Squad,
+        Squad
     }
 }

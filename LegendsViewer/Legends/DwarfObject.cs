@@ -6,9 +6,5 @@
         {
             return "";
         }
-        public virtual string Print(bool link = true)
-        {
-            return "";
-        }
     }
 }

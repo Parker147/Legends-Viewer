@@ -7,7 +7,7 @@ namespace LegendsViewer.Legends.Events
 {
     public class CreatedStructure : WorldEvent
     {
-        public int StructureID { get; set; }
+        public int StructureId { get; set; }
         public Structure Structure { get; set; }
         public Entity Civ { get; set; }
         public Entity SiteEntity { get; set; }
@@ -17,23 +17,25 @@ namespace LegendsViewer.Legends.Events
         public CreatedStructure(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
-                    case "structure_id": StructureID = Convert.ToInt32(property.Value); break;
+                    case "structure_id": StructureId = Convert.ToInt32(property.Value); break;
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "builder_hfid": Builder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
-                    case "structure": StructureID = Convert.ToInt32(property.Value); break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "civ": if (Civ == null) { Civ = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "site_civ": if (SiteEntity == null) { SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "builder_hf": if (Builder == null) { Builder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "structure": StructureId = Convert.ToInt32(property.Value); break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "civ": if (Civ == null) { Civ = world.GetEntity(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "site_civ": if (SiteEntity == null) { SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "builder_hf": if (Builder == null) { Builder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                 }
+            }
 
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.ID == StructureID);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
             }
             Civ.AddEvent(this);
             SiteEntity.AddEvent(this);

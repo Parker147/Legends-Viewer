@@ -1,11 +1,14 @@
-﻿namespace LegendsViewer
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace LegendsViewer.Controls.Map
 {
-    partial class dlgPopulation
+    partial class DlgPopulation
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -118,7 +121,7 @@
             this.Controls.Add(this.btnAll);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAccept);
-            this.Name = "dlgPopulation";
+            this.Name = "DlgPopulation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select Populations";
             this.ResumeLayout(false);
@@ -127,12 +130,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnAccept;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnAll;
-        private System.Windows.Forms.Button btnNone;
-        private System.Windows.Forms.Button btnNumber;
-        private System.Windows.Forms.Button btnName;
-        private System.Windows.Forms.ListBox listPopulations;
+        private Button btnAccept;
+        private Button btnCancel;
+        private Button btnAll;
+        private Button btnNone;
+        private Button btnNumber;
+        private Button btnName;
+        private ListBox listPopulations;
     }
 }

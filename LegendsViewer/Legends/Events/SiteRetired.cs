@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using LegendsViewer.Legends.Parser;
 using System.Linq;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {

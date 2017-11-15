@@ -1,70 +1,69 @@
-﻿
+﻿using System.Linq;
 using System.Text;
 using LegendsViewer.Legends;
-using System.Linq;
 using LegendsViewer.Legends.Enums;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    public class StructurePrinter : HTMLPrinter
+    public class StructurePrinter : HtmlPrinter
     {
-        Structure Structure;
-        World World;
+        Structure _structure;
+        World _world;
 
         public StructurePrinter(Structure structure, World world)
         {
-            Structure = structure;
-            World = world;
+            _structure = structure;
+            _world = world;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + Structure.Name + "</h1>");
-            HTML.AppendLine("<b>");
-            if (Structure.DungeonType != DungeonType.Unknown)
+            Html.AppendLine("<h1>" + _structure.Name + "</h1>");
+            Html.AppendLine("<b>");
+            if (_structure.DungeonType != DungeonType.Unknown)
             {
-                HTML.AppendLine(Structure.DungeonType.GetDescription());
+                Html.AppendLine(_structure.DungeonType.GetDescription());
             }
             else
             {
-                HTML.AppendLine(Structure.Type.GetDescription());
+                Html.AppendLine(_structure.Type.GetDescription());
             }
-            HTML.AppendLine(" in " + Structure.Site.ToLink() + "</b><br/><br/>");
+            Html.AppendLine(" in " + _structure.Site.ToLink() + "</b><br/><br/>");
 
-            if (Structure.Deity != null)
+            if (_structure.Deity != null)
             {
-                HTML.AppendLine("<b>Deity:</b><br/>");
-                HTML.AppendLine("<ul>");
-                HTML.AppendLine("<li>" + Structure.Deity.ToLink() + "</li>");
-                HTML.AppendLine("</ul>");
+                Html.AppendLine("<b>Deity:</b><br/>");
+                Html.AppendLine("<ul>");
+                Html.AppendLine("<li>" + _structure.Deity.ToLink() + "</li>");
+                Html.AppendLine("</ul>");
             }
-            if (Structure.Religion != null)
+            if (_structure.Religion != null)
             {
-                HTML.AppendLine("<b>Religion:</b><br/>");
-                HTML.AppendLine("<ul>");
-                HTML.AppendLine("<li>" + Structure.Religion.ToLink() + "</li>");
-                HTML.AppendLine("</ul>");
+                Html.AppendLine("<b>Religion:</b><br/>");
+                Html.AppendLine("<ul>");
+                Html.AppendLine("<li>" + _structure.Religion.ToLink() + "</li>");
+                Html.AppendLine("</ul>");
             }
-            if (Structure.Inhabitants.Any())
+            if (_structure.Inhabitants.Any())
             {
-                HTML.AppendLine("<b>Inhabitants:</b><br/>");
-                HTML.AppendLine("<ul>");
-                foreach (var Inhabitant in Structure.Inhabitants)
+                Html.AppendLine("<b>Inhabitants:</b><br/>");
+                Html.AppendLine("<ul>");
+                foreach (var inhabitant in _structure.Inhabitants)
                 {
-                    HTML.AppendLine("<li>" + Inhabitant.ToLink() + "</li>");
+                    Html.AppendLine("<li>" + inhabitant.ToLink() + "</li>");
                 }
-                HTML.AppendLine("</ul>");
+                Html.AppendLine("</ul>");
             }
 
-            PrintEventLog(Structure.Events, Structure.Filters, Structure);
-            return HTML.ToString();
+            PrintEventLog(_structure.Events, Structure.Filters, _structure);
+            return Html.ToString();
         }
 
         public override string GetTitle()
         {
-            return Structure.Name;
+            return _structure.Name;
         }
     }
 }

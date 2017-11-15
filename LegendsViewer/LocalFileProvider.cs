@@ -13,7 +13,7 @@ namespace LegendsViewer
         public static readonly string LocalPrefix = "";
         public static readonly string RootFolder = "";
 
-        private static readonly HttpListener listener = new HttpListener();
+        private static readonly HttpListener Listener = new HttpListener();
 
         static LocalFileProvider()
         {
@@ -22,22 +22,25 @@ namespace LegendsViewer
             int freePort = FreeTcpPort();
             LocalPrefix = "http://localhost:" + freePort + "/";
             if (!HttpListener.IsSupported)
+            {
                 throw new NotSupportedException(
                     "Needs Windows XP SP2, Server 2003 or later.");
-            listener.Prefixes.Add(LocalPrefix);
-            listener.Start();
+            }
+
+            Listener.Prefixes.Add(LocalPrefix);
+            Listener.Start();
         }
 
         public static void Run()
         {
-            ThreadPool.QueueUserWorkItem((o) =>
+            ThreadPool.QueueUserWorkItem(o =>
             {
                 Console.WriteLine("Webserver running...");
                 try
                 {
-                    while (listener.IsListening)
+                    while (Listener.IsListening)
                     {
-                        ThreadPool.QueueUserWorkItem((ctx) =>
+                        ThreadPool.QueueUserWorkItem(ctx =>
                         {
                             var context = ctx as HttpListenerContext;
                             try
@@ -74,7 +77,7 @@ namespace LegendsViewer
                                 // always close the stream
                                 context.Response.OutputStream.Close();
                             }
-                        }, listener.GetContext());
+                        }, Listener.GetContext());
                     }
                 }
                 catch { } // suppress any exceptions
@@ -83,8 +86,8 @@ namespace LegendsViewer
 
         public static void Stop()
         {
-            listener.Stop();
-            listener.Close();
+            Listener.Stop();
+            Listener.Close();
         }
 
         static int FreeTcpPort()
@@ -673,7 +676,7 @@ namespace LegendsViewer
         {
             if (extension == null)
             {
-                throw new ArgumentNullException("extension");
+                throw new ArgumentNullException(nameof(extension));
             }
 
             if (!extension.StartsWith("."))
@@ -681,9 +684,8 @@ namespace LegendsViewer
                 extension = "." + extension;
             }
 
-            string mime;
 
-            return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+            return _mappings.TryGetValue(extension, out string mime) ? mime : "application/octet-stream";
         }
 
         private static string LinkToFile(string uri)

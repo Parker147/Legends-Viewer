@@ -2,11 +2,11 @@
 
 namespace LegendsViewer.Controls.HTML.Utilities
 {
-    public static class HTMLStyleUtil
+    public static class HtmlStyleUtil
     {
-        public const string SYMBOL_POPULATION   = "<span class=\"legends_symbol_population\">&#9823;</span>";
-        public const string SYMBOL_SITE         = "<span class=\"legends_symbol_site\">&#9978;</span>";
-        public const string SYMBOL_DEAD         = "<span class=\"legends_symbol_dead\">&#10013;</span>";
+        public const string SymbolPopulation   = "<span class=\"legends_symbol_population\">&#9823;</span>";
+        public const string SymbolSite         = "<span class=\"legends_symbol_site\">&#9978;</span>";
+        public const string SymbolDead         = "<span class=\"legends_symbol_dead\">&#10013;</span>";
 
         public static string CurrentDwarfObject(string name)
         {
@@ -24,9 +24,9 @@ namespace LegendsViewer.Controls.HTML.Utilities
         /// </returns>
         public static Color ChangeColorBrightness(Color color, float correctionFactor)
         {
-            float red = (float)color.R;
-            float green = (float)color.G;
-            float blue = (float)color.B;
+            float red = color.R;
+            float green = color.G;
+            float blue = color.B;
 
             if (correctionFactor < 0)
             {

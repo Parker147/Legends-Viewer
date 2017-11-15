@@ -11,8 +11,8 @@ namespace LegendsViewer.Controls.Query
     {
         public string Name;
         public string Description;
-        public bool IsList = false;
-        public bool IsSelectable = false;
+        public bool IsList;
+        public bool IsSelectable;
         public Type Type;
         public List<SearchProperty> SubProperties = new List<SearchProperty>();
         public SearchProperty(string name, Type type)
@@ -48,18 +48,24 @@ namespace LegendsViewer.Controls.Query
         {
             Type nonGenericSearchType;
             if (searchType.IsGenericType && searchType != typeof(List<int>) && searchType != typeof(List<string>))
+            {
                 nonGenericSearchType = searchType.GetGenericArguments()[0];
+            }
             else
+            {
                 nonGenericSearchType = searchType;
-            List<SearchProperty> SearchProperties = new List<SearchProperty>();
+            }
+
+            List<SearchProperty> searchProperties = new List<SearchProperty>();
             if (nonGenericSearchType == typeof(HistoricalFigure))
             {
-                SearchProperties = new List<SearchProperty>(){
+                searchProperties = new List<SearchProperty>
+                {
 			        new SearchProperty("Name", typeof(string)),
 			        new SearchProperty("Race", typeof(string)),
 			        new SearchProperty("AssociatedType", "Associated Type", typeof(string)),
 			        new SearchProperty("Caste", typeof(string)),
-                    new SearchProperty("CurrentState", "Current State", typeof(HFState)),
+                    new SearchProperty("CurrentState", "Current State", typeof(HfState)),
                     new SearchProperty("States", "All States", typeof(List<HistoricalFigure.State>), false),
                     new SearchProperty("Age", typeof(int)),
                     new SearchProperty("Appeared", typeof(int)),
@@ -98,7 +104,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(HistoricalFigureLink))
             {
-                SearchProperties = new List<SearchProperty>() {
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("HistoricalFigure", "Historical Figure", typeof(HistoricalFigure)),
                     new SearchProperty("Type", typeof(HistoricalFigureLinkType)),
                     new SearchProperty("Strength", typeof(int))
@@ -106,7 +113,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(EntityLink))
             {
-                SearchProperties = new List<SearchProperty>() {
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Entity", typeof(Entity)),
                     new SearchProperty("Type", typeof(EntityLinkType)),
                     new SearchProperty("Strength", typeof(int)),
@@ -117,7 +125,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(SiteLink))
             {
-                SearchProperties = new List<SearchProperty>() {
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Site", typeof(Site)),
                     new SearchProperty("Type", typeof(SiteLinkType)),
                     new SearchProperty("Entity", typeof(Entity))
@@ -126,7 +135,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(Skill))
             {
-                SearchProperties = new List<SearchProperty>() {
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Name", typeof(string)),
                     new SearchProperty("Points", typeof(int)),
                     new SearchProperty("Rank", typeof(string))
@@ -134,7 +144,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(Entity))
             {
-                SearchProperties = new List<SearchProperty>() {
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Name", typeof(string)),
                     new SearchProperty("Race", typeof(string)),
                     new SearchProperty("IsCiv", "Is Civilization", typeof(bool)),
@@ -153,7 +164,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(Site))
             {
-                SearchProperties = new List<SearchProperty>(){
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Name", typeof(string)),
                     new SearchProperty("Type", typeof(string)),
                     new SearchProperty("UntranslatedName", "Untranslated Name", typeof(string)),
@@ -170,7 +182,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(WorldRegion))
             {
-                SearchProperties = new List<SearchProperty>(){
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Name", typeof(string)),
                     new SearchProperty("Type", typeof(string)),
                     new SearchProperty("Battles", "Battles", typeof(List<Battle>), true),
@@ -180,14 +193,16 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(UndergroundRegion))
             {
-                SearchProperties = new List<SearchProperty>(){
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Type", typeof(string)),
                     new SearchProperty("Depth", typeof(int))
                 };
             }
             else if (nonGenericSearchType == typeof(War))
             {
-                SearchProperties = new List<SearchProperty>(){
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Name", typeof(string)),
                     new SearchProperty("StartYear", "Start Year", typeof(int)),
                     new SearchProperty("EndYear", "End Year", typeof(int)),
@@ -210,7 +225,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(Battle))
             {
-                SearchProperties = new List<SearchProperty>(){
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Name", typeof(string)),
                     new SearchProperty("Site", typeof(Site)),
                     new SearchProperty("Region", typeof(WorldRegion)),
@@ -233,7 +249,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(SiteConquered))
             {
-                SearchProperties = new List<SearchProperty>(){
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Ordinal", typeof(int)),
                     new SearchProperty("ConquerType", "Conquered By", typeof(SiteConqueredType)),
                     new SearchProperty("Site", typeof(Site)),
@@ -247,7 +264,8 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(BeastAttack))
             {
-                SearchProperties = new List<SearchProperty>(){
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Ordinal", typeof(int)),
                     new SearchProperty("Site", "Site", typeof(Site), true),
                     new SearchProperty("Defender", typeof(Entity)),
@@ -258,14 +276,15 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(Artifact))
             {
-                SearchProperties = new List<SearchProperty>() {
+                searchProperties = new List<SearchProperty>
+                {
                     new SearchProperty("Name", typeof(string)),
                     new SearchProperty("Item", typeof(string))
                 };
             }
-            else if (nonGenericSearchType == typeof(HFDied))
+            else if (nonGenericSearchType == typeof(HfDied))
             {
-                SearchProperties = new List<SearchProperty>()
+                searchProperties = new List<SearchProperty>
                 {
                     new SearchProperty("Slayer", typeof(HistoricalFigure)),
                     new SearchProperty("HistoricalFigure", "Historical Figure", typeof(HistoricalFigure)),
@@ -274,9 +293,9 @@ namespace LegendsViewer.Controls.Query
                     new SearchProperty("Region", typeof(WorldRegion))
                 };
             }
-            else if (nonGenericSearchType == typeof(HFAbducted))
+            else if (nonGenericSearchType == typeof(HfAbducted))
             {
-                SearchProperties = new List<SearchProperty>()
+                searchProperties = new List<SearchProperty>
                 {
                     new SearchProperty("Snatcher", typeof(HistoricalFigure)),
                     new SearchProperty("Target", typeof(HistoricalFigure)),
@@ -285,7 +304,7 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(Battle.Squad))
             {
-                SearchProperties = new List<SearchProperty>()
+                searchProperties = new List<SearchProperty>
                 {
                     new SearchProperty("Race", typeof(string)),
                     new SearchProperty("Numbers", typeof(int)),
@@ -294,7 +313,7 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(Population))
             {
-                SearchProperties = new List<SearchProperty>()
+                searchProperties = new List<SearchProperty>
                 {
                     new SearchProperty("Race", typeof(string)),
                     new SearchProperty("Count", typeof(int))
@@ -302,7 +321,7 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(HistoricalFigure.Position))
             {
-                SearchProperties = new List<SearchProperty>()
+                searchProperties = new List<SearchProperty>
                 {
                     new SearchProperty("Entity", typeof(Entity)),
                     new SearchProperty("Title", typeof(string)),
@@ -313,28 +332,43 @@ namespace LegendsViewer.Controls.Query
             }
             else if (nonGenericSearchType == typeof(HistoricalFigure.State))
             {
-                SearchProperties = new List<SearchProperty>()
+                searchProperties = new List<SearchProperty>
                 {
-                    new SearchProperty("HFState", "State", typeof(HFState)),
+                    new SearchProperty("HFState", "State", typeof(HfState)),
                     new SearchProperty("StartYear", "Start Year", typeof(int)),
                     new SearchProperty("EndYear", "End Year", typeof(int))
                 };
             }
             else if (searchType == typeof(List<int>))
-                SearchProperties = new List<SearchProperty>() { new SearchProperty("Value", typeof(int)) };
+            {
+                searchProperties = new List<SearchProperty> { new SearchProperty("Value", typeof(int)) };
+            }
             else if (searchType == typeof(List<string>))
-                SearchProperties = new List<SearchProperty>() { new SearchProperty("Value", typeof(string)) };
+            {
+                searchProperties = new List<SearchProperty> { new SearchProperty("Value", typeof(string)) };
+            }
 
             if (nonGenericSearchType.BaseType == typeof(WorldObject))
-                SearchProperties.Add(new SearchProperty("Events", "Events", typeof(List<WorldEvent>), false));
-            if (nonGenericSearchType.BaseType == typeof(EventCollection))
-                SearchProperties.Add(new SearchProperty("AllEvents", "Events", typeof(List<WorldEvent>), false));
-            if (nonGenericSearchType.BaseType == typeof(WorldObject) || nonGenericSearchType.BaseType == typeof(EventCollection))
-                SearchProperties.Add(new SearchProperty("FilteredEvents", "Events (Filtered)", typeof(List<WorldEvent>), false));
-            if (nonGenericSearchType.BaseType == typeof(WorldEvent))
-                SearchProperties.Add(new SearchProperty("Year", typeof(int)));
+            {
+                searchProperties.Add(new SearchProperty("Events", "Events", typeof(List<WorldEvent>), false));
+            }
 
-            foreach (SearchProperty property in SearchProperties)
+            if (nonGenericSearchType.BaseType == typeof(EventCollection))
+            {
+                searchProperties.Add(new SearchProperty("AllEvents", "Events", typeof(List<WorldEvent>), false));
+            }
+
+            if (nonGenericSearchType.BaseType == typeof(WorldObject) || nonGenericSearchType.BaseType == typeof(EventCollection))
+            {
+                searchProperties.Add(new SearchProperty("FilteredEvents", "Events (Filtered)", typeof(List<WorldEvent>), false));
+            }
+
+            if (nonGenericSearchType.BaseType == typeof(WorldEvent))
+            {
+                searchProperties.Add(new SearchProperty("Year", typeof(int)));
+            }
+
+            foreach (SearchProperty property in searchProperties)
             {
                 if (!noSubProperties)
                 //(!searchType.IsGenericType || (!noSubProperties && !property.Type.IsGenericType)))// ||  (!noSubProperties && property.Type.IsGenericType && searchType.IsGenericType && searchType.GetGenericArguments()[0] != property.Type.GetGenericArguments()[0])))
@@ -343,19 +377,30 @@ namespace LegendsViewer.Controls.Query
                 }
             }
 
-            return SearchProperties;
+            return searchProperties;
         }
 
         public static List<QueryComparer> GetComparers(Type type)
         {
             List<QueryComparer> comparers = new List<QueryComparer>();
-            if (type == null) return comparers;
+            if (type == null)
+            {
+                return comparers;
+            }
+
             if (type == typeof(string))
-                comparers = new List<QueryComparer>() { QueryComparer.Equals, QueryComparer.Contains, QueryComparer.StartsWith, QueryComparer.EndsWith, QueryComparer.NotEqual, QueryComparer.NotContains, QueryComparer.NotStartsWith, QueryComparer.NotEndsWith };
-            else if (type == typeof(int) || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>)) || type == typeof(double))
-                comparers = new List<QueryComparer>() { QueryComparer.GreaterThan, QueryComparer.LessThan, QueryComparer.Equals };
+            {
+                comparers = new List<QueryComparer> { QueryComparer.Equals, QueryComparer.Contains, QueryComparer.StartsWith, QueryComparer.EndsWith, QueryComparer.NotEqual, QueryComparer.NotContains, QueryComparer.NotStartsWith, QueryComparer.NotEndsWith };
+            }
+            else if (type == typeof(int) || type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>) || type == typeof(double))
+            {
+                comparers = new List<QueryComparer> { QueryComparer.GreaterThan, QueryComparer.LessThan, QueryComparer.Equals };
+            }
             else if (type == typeof(bool) || type.IsEnum)
-                comparers = new List<QueryComparer>() { QueryComparer.Equals, QueryComparer.NotEqual };
+            {
+                comparers = new List<QueryComparer> { QueryComparer.Equals, QueryComparer.NotEqual };
+            }
+
             return comparers;
         }
 

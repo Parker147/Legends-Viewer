@@ -10,10 +10,10 @@ namespace LegendsViewer.Legends.Events
         public string ItemType { get; set; } // legends_plus.xml
         public string ItemSubType { get; set; } // legends_plus.xml
         public string Material { get; set; } // legends_plus.xml
-        public int PileTypeID { get; set; } // legends_plus.xml
-        public int MaterialTypeID { get; set; } // legends_plus.xml
+        public int PileTypeId { get; set; } // legends_plus.xml
+        public int MaterialTypeId { get; set; } // legends_plus.xml
         public int MaterialIndex { get; set; } // legends_plus.xml
-        public int AbuseTypeID { get; set; } // legends_plus.xml
+        public int AbuseTypeId { get; set; } // legends_plus.xml
 
         public Entity Abuser { get; set; } // legends_plus.xml
         public HistoricalFigure Body { get; set; } // legends_plus.xml
@@ -26,24 +26,27 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "civ": Abuser = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "bodies": Body = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "histfig": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "props_item_type": ItemType = property.Value; break;
                     case "props_item_subtype": ItemSubType = property.Value; break;
                     case "props_item_mat": Material = property.Value; break;
-                    case "abuse_type": AbuseTypeID = Convert.ToInt32(property.Value); break;
-                    case "props_pile_type": PileTypeID = Convert.ToInt32(property.Value); break;
-                    case "props_item_mat_type": MaterialTypeID = Convert.ToInt32(property.Value); break;
+                    case "abuse_type": AbuseTypeId = Convert.ToInt32(property.Value); break;
+                    case "props_pile_type": PileTypeId = Convert.ToInt32(property.Value); break;
+                    case "props_item_mat_type": MaterialTypeId = Convert.ToInt32(property.Value); break;
                     case "props_item_mat_index": MaterialIndex = Convert.ToInt32(property.Value); break;
                 }
+            }
+
             Site.AddEvent(this);
             Region.AddEvent(this);
             UndergroundRegion.AddEvent(this);

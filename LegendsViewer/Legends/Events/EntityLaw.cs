@@ -11,7 +11,7 @@ namespace LegendsViewer.Legends.Events
         public HistoricalFigure HistoricalFigure { get; set; }
         public EntityLawType Law { get; set; }
         public bool LawLaid { get; set; }
-        private string UnknownLawType;
+        private string _unknownLawType;
 
         public EntityLaw(List<Property> properties, World world)
             : base(properties, world)
@@ -29,8 +29,8 @@ namespace LegendsViewer.Legends.Events
                             case "harsh": Law = EntityLawType.Harsh; break;
                             default:
                                 Law = EntityLawType.Unknown;
-                                UnknownLawType = property.Value;
-                                world.ParsingErrors.Report("Unknown Law Type: " + UnknownLawType);
+                                _unknownLawType = property.Value;
+                                world.ParsingErrors.Report("Unknown Law Type: " + _unknownLawType);
                                 break;
                         }
                         LawLaid = property.Name == "law_add";
@@ -46,18 +46,28 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov);
             if (LawLaid)
+            {
                 eventString += " laid a series of ";
+            }
             else
+            {
                 eventString += " lifted numerous ";
+            }
+
             switch (Law)
             {
                 case EntityLawType.Harsh: eventString += "oppressive"; break;
-                case EntityLawType.Unknown: eventString += "(" + UnknownLawType + ")"; break;
+                case EntityLawType.Unknown: eventString += "(" + _unknownLawType + ")"; break;
             }
             if (LawLaid)
+            {
                 eventString += " edicts upon ";
+            }
             else
+            {
                 eventString += " laws from ";
+            }
+
             eventString += Entity.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
             eventString += ".";

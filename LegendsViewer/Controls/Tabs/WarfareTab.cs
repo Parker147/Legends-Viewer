@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
 using LegendsViewer.Legends;
 using LegendsViewer.Legends.EventCollections;
 
@@ -16,10 +13,10 @@ namespace LegendsViewer.Controls.Tabs
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof (IDesigner))]
     public partial class WarfareTab : BaseSearchTab
     {
-        private WarsList warSearch;
-        private BattlesList battleSearch;
-        private ConqueringsList conqueringsSearch;
-        private BeastAttackList beastAttackSearch;
+        private WarsList _warSearch;
+        private BattlesList _battleSearch;
+        private ConqueringsList _conqueringsSearch;
+        private BeastAttackList _beastAttackSearch;
 
         public WarfareTab()
         {
@@ -31,8 +28,8 @@ namespace LegendsViewer.Controls.Tabs
         {
             hint.SetToolTip(chkFilterWarfare, "Unnotable Battle = Attackers outnumber defenders 10 to 1 and win and suffer < 10% losses. \nUnnotable Conquering = All Pillagings.");
 
-            EventTabs = new TabPage[] {tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpBeastAttackEvents};
-            EventTabTypes = new Type[]{typeof(War), typeof(Battle), typeof(SiteConquered), typeof(BeastAttack)};
+            EventTabs = new[] {tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpBeastAttackEvents};
+            EventTabTypes = new[]{typeof(War), typeof(Battle), typeof(SiteConquered), typeof(BeastAttack)};
 
             listWarSearch.ShowGroups = false;
 
@@ -48,10 +45,10 @@ namespace LegendsViewer.Controls.Tabs
         internal override void AfterLoad(World world)
         {
             base.AfterLoad(world);
-            warSearch = new WarsList(World);
-            battleSearch = new BattlesList(World);
-            conqueringsSearch = new ConqueringsList(World);
-            beastAttackSearch = new BeastAttackList(World);
+            _warSearch = new WarsList(World);
+            _battleSearch = new BattlesList(World);
+            _conqueringsSearch = new ConqueringsList(World);
+            _beastAttackSearch = new BeastAttackList(World);
 
             var conquerTypes = from conquer in World.EventCollections.OfType<SiteConquered>()
                                orderby conquer.ConquerType
@@ -60,8 +57,9 @@ namespace LegendsViewer.Controls.Tabs
 
             cmbConqueringType.Items.Add("All"); cmbConqueringType.SelectedIndex = 0;
             foreach (var conquerType in conquerTypes)
+            {
                 cmbConqueringType.Items.Add(conquerType.Key);
-
+            }
 
             var warEvents = from eventType in World.EventCollections.OfType<War>().SelectMany(war => war.GetSubEvents())
                             group eventType by eventType.Type into type
@@ -85,10 +83,10 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void DoSearch()
         {
-            searchBattleList(null, null);
-            searchConqueringList(null, null);
-            searchWarList(null, null);
-            searchbeastAttackList(null, null);
+            SearchBattleList(null, null);
+            SearchConqueringList(null, null);
+            SearchWarList(null, null);
+            SearchbeastAttackList(null, null);
             base.DoSearch();
         }
 
@@ -118,25 +116,27 @@ namespace LegendsViewer.Controls.Tabs
         private void chkFilterWarfare_CheckedChanged(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
+            {
                 World.FilterBattles = chkFilterWarfare.Checked;
+            }
         }
 
-        private void searchWarList(object sender, EventArgs e)
+        private void SearchWarList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                warSearch.Name = txtWarSearch.Text;
-                warSearch.sortEvents = radWarSortEvents.Checked;
-                warSearch.sortFiltered = radWarSortFiltered.Checked;
-                warSearch.SortLength = radWarLength.Checked;
-                warSearch.SortDeaths = radWarDeaths.Checked;
-                warSearch.Ongoing = chkWarOngoing.Checked;
-                warSearch.SortWarfare = radWarSortWarfare.Checked;
-                warSearch.SortConquerings = radWarsSortConquerings.Checked;
-                IEnumerable<War> list = warSearch.GetList();
+                _warSearch.Name = txtWarSearch.Text;
+                _warSearch.SortEvents = radWarSortEvents.Checked;
+                _warSearch.SortFiltered = radWarSortFiltered.Checked;
+                _warSearch.SortLength = radWarLength.Checked;
+                _warSearch.SortDeaths = radWarDeaths.Checked;
+                _warSearch.Ongoing = chkWarOngoing.Checked;
+                _warSearch.SortWarfare = radWarSortWarfare.Checked;
+                _warSearch.SortConquerings = radWarsSortConquerings.Checked;
+                IEnumerable<War> list = _warSearch.GetList();
                 var results = list.ToArray();
                 listWarSearch.SetObjects(results);
-                UpdateCounts(lblWarResults, results.Length, warSearch.BaseList.Count);
+                UpdateCounts(lblWarResults, results.Length, _warSearch.BaseList.Count);
             }
         }
 
@@ -151,14 +151,14 @@ namespace LegendsViewer.Controls.Tabs
             lblWarList.Text = listName;
             lblWarList.ForeColor = Color.Blue;
             lblWarList.Font = new Font(lblWarList.Font.FontFamily, lblWarList.Font.Size, FontStyle.Bold);
-            warSearch.BaseList = list;
+            _warSearch.BaseList = list;
             txtWarSearch.Clear();
             chkWarOngoing.Checked = false;
             radWarSortNone.Checked = true;
             //tcWorld.SelectedTab = tpWarfare;
             tcWarfare.SelectedTab = tpWars;
             tcWars.SelectedTab = tpWarSearch;
-            searchWarList(null, null);
+            SearchWarList(null, null);
             FileLoader.Working = false;
         }
 
@@ -169,23 +169,23 @@ namespace LegendsViewer.Controls.Tabs
                 lblWarList.Text = "All";
                 lblWarList.ForeColor = DefaultForeColor;
                 lblWarList.Font = new Font(lblWarList.Font.FontFamily, lblWarList.Font.Size, FontStyle.Regular);
-                warSearch.BaseList = World.EventCollections.OfType<War>().ToList();
-                searchWarList(null, null);
+                _warSearch.BaseList = World.EventCollections.OfType<War>().ToList();
+                SearchWarList(null, null);
             }
         }
 
-        private void searchBattleList(object sender, EventArgs e)
+        private void SearchBattleList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                battleSearch.Name = txtBattleSearch.Text;
-                battleSearch.sortEvents = radBattleSortEvents.Checked;
-                battleSearch.sortFiltered = radBattleSortFiltered.Checked;
-                battleSearch.SortDeaths = radBattleSortDeaths.Checked;
-                IEnumerable<Battle> list = battleSearch.GetList();
+                _battleSearch.Name = txtBattleSearch.Text;
+                _battleSearch.SortEvents = radBattleSortEvents.Checked;
+                _battleSearch.SortFiltered = radBattleSortFiltered.Checked;
+                _battleSearch.SortDeaths = radBattleSortDeaths.Checked;
+                IEnumerable<Battle> list = _battleSearch.GetList();
                 var results = list.ToArray();
                 listBattleSearch.SetObjects(results);
-                UpdateCounts(lblBattleResults, results.Length, battleSearch.BaseList.Count);
+                UpdateCounts(lblBattleResults, results.Length, _battleSearch.BaseList.Count);
             }
         }
 
@@ -195,14 +195,14 @@ namespace LegendsViewer.Controls.Tabs
             lblBattleList.Text = listName;
             lblBattleList.ForeColor = Color.Blue;
             lblBattleList.Font = new Font(lblBattleList.Font.FontFamily, lblBattleList.Font.Size, FontStyle.Bold);
-            battleSearch.BaseList = list;
+            _battleSearch.BaseList = list;
             txtBattleSearch.Clear();
 
             radBattleSortNone.Checked = true;
             //tcWorld.SelectedTab = tpWarfare;
             tcWarfare.SelectedTab = tpBattles;
             tcBattles.SelectedTab = tpBattlesSearch;
-            searchBattleList(null, null);
+            SearchBattleList(null, null);
             FileLoader.Working = false;
         }
 
@@ -213,60 +213,60 @@ namespace LegendsViewer.Controls.Tabs
                 lblBattleList.Text = "All";
                 lblBattleList.ForeColor = DefaultForeColor;
                 lblBattleList.Font = new Font(lblBattleList.Font.FontFamily, lblBattleList.Font.Size, FontStyle.Regular);
-                battleSearch.BaseList = World.EventCollections.OfType<Battle>().ToList();
-                searchBattleList(null, null);
+                _battleSearch.BaseList = World.EventCollections.OfType<Battle>().ToList();
+                SearchBattleList(null, null);
             }
         }
 
-        private void searchConqueringList(object sender, EventArgs e)
+        private void SearchConqueringList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                conqueringsSearch.Name = txtConqueringSearch.Text;
-                conqueringsSearch.sortEvents = radConqueringSortEvents.Checked;
-                conqueringsSearch.sortFiltered = radConqueringSortFiltered.Checked;
-                conqueringsSearch.SortSite = radConqueringSortSite.Checked;
-                conqueringsSearch.Type = cmbConqueringType.SelectedItem.ToString();
-                IEnumerable<SiteConquered> list = conqueringsSearch.GetList();
+                _conqueringsSearch.Name = txtConqueringSearch.Text;
+                _conqueringsSearch.SortEvents = radConqueringSortEvents.Checked;
+                _conqueringsSearch.SortFiltered = radConqueringSortFiltered.Checked;
+                _conqueringsSearch.SortSite = radConqueringSortSite.Checked;
+                _conqueringsSearch.Type = cmbConqueringType.SelectedItem.ToString();
+                IEnumerable<SiteConquered> list = _conqueringsSearch.GetList();
                 var results = list.ToArray();
                 listConqueringSearch.SetObjects(results);
-                UpdateCounts(lblConqueringResult, results.Length, conqueringsSearch.BaseList.Count);
+                UpdateCounts(lblConqueringResult, results.Length, _conqueringsSearch.BaseList.Count);
             }
         }
 
-        private void searchbeastAttackList(object sender, EventArgs e)
+        private void SearchbeastAttackList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                beastAttackSearch.Name = txtBeastAttacksSearch.Text;
-                beastAttackSearch.sortEvents = radBeastAttacksEvents.Checked;
-                beastAttackSearch.sortFiltered = radBeastAttacksFiltered.Checked;
-                beastAttackSearch.SortDeaths = radBeastAttacksDeaths.Checked;
-                IEnumerable<BeastAttack> list = beastAttackSearch.GetList();
+                _beastAttackSearch.Name = txtBeastAttacksSearch.Text;
+                _beastAttackSearch.SortEvents = radBeastAttacksEvents.Checked;
+                _beastAttackSearch.SortFiltered = radBeastAttacksFiltered.Checked;
+                _beastAttackSearch.SortDeaths = radBeastAttacksDeaths.Checked;
+                IEnumerable<BeastAttack> list = _beastAttackSearch.GetList();
                 var results = list.ToArray();
                 listBeastAttackSearch.SetObjects(results);
-                UpdateCounts(lblBeastAttackResults, results.Length, beastAttackSearch.BaseList.Count);
+                UpdateCounts(lblBeastAttackResults, results.Length, _beastAttackSearch.BaseList.Count);
             }
         }
 
         private void listWarSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listBattleSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listConqueringSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listBeastAttacks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
     }
 }
