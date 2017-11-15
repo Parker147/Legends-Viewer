@@ -4,8 +4,6 @@ version: 1.18.01.{build}
 
 image: Visual Studio 2017
 
-where msbuild
-
 #######################
 #    BUILDS
 
@@ -13,6 +11,7 @@ where msbuild
 #build: off
 
 before_build:
+  - where msbuild
   - nuget restore
 
 build:
