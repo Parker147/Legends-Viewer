@@ -2,6 +2,8 @@
 # {major_release}.{feature_release}.{minor_release}.{build}
 version: 1.18.01.{build}
 
+image: Visual Studio 2017
+
 #######################
 #    BUILDS
 
