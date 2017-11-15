@@ -8,6 +8,8 @@ version: 1.18.01.{build}
 # to disable automatic builds
 #build: off
 
+image: Visual Studio 2017
+
 before_build:
   - nuget restore
 
