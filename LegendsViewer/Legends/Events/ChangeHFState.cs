@@ -66,7 +66,11 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime() + HistoricalFigure.ToLink(link, pov);
-            if (State == HfState.Settled)
+            if (State == HfState.Visiting)
+            {
+                eventString += " visited ";
+            }
+            else if(State == HfState.Settled)
             {
                 switch (SubState)
                 {
@@ -82,13 +86,13 @@ namespace LegendsViewer.Legends.Events
                         break;
                 }
             }
-            else if (State == HfState.Refugee || State == HfState.Snatcher || State == HfState.Thief)
-            {
-                eventString += " became a " + State.ToString().ToLower() + " in ";
-            }
             else if (State == HfState.Wandering)
             {
                 eventString += " began wandering ";
+            }
+            else if (State == HfState.Refugee || State == HfState.Snatcher || State == HfState.Thief)
+            {
+                eventString += " became a " + State.ToString().ToLower() + " in ";
             }
             else if (State == HfState.Scouting)
             {
@@ -98,11 +102,7 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += " began hunting great beasts in ";
             }
-            else if (State == HfState.Visiting)
-            {
-                eventString += " visited ";
-            }
-            else
+            else 
             {
                 eventString += " changed state in ";
             }

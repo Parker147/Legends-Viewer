@@ -544,7 +544,7 @@ namespace LegendsViewer.Controls.HTML
             Html.AppendLine("<ul>");
             foreach (var dwarfEvent in events)
             {
-                Html.AppendLine("<li>" + AppHelpers.EventInfo[Array.IndexOf(AppHelpers.EventInfo, AppHelpers.EventInfo.Single(eventInfo => eventInfo[0] == dwarfEvent.Type))][1] + ": " + dwarfEvent.Count + "</li>");
+                Html.AppendLine("<li title='"+dwarfEvent.Type+"'>" + AppHelpers.EventInfo[Array.IndexOf(AppHelpers.EventInfo, AppHelpers.EventInfo.Single(eventInfo => eventInfo[0] == dwarfEvent.Type))][1] + ": " + dwarfEvent.Count + "</li>");
                 if (dwarfEvent.Type == "hf died")
                 {
                     Html.AppendLine("<ul>");
