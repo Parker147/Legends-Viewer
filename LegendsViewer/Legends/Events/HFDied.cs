@@ -90,6 +90,7 @@ namespace LegendsViewer.Legends.Events
                             case "heat": Cause = DeathCause.Heat; break;
                             case "vanish": Cause = DeathCause.Vanish; break;
                             case "cooling magma": Cause = DeathCause.CoolingMagma; break;
+                            case "vehicle": Cause = DeathCause.Vehicle; break;
                             default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("|==> Events 'hf died'/ \nUnknown Death Cause: " + UnknownCause); break;
                         }
                         break;
@@ -170,208 +171,167 @@ namespace LegendsViewer.Legends.Events
                     slayerString = Slayer.ToLink(link, pov);
                 }
 
-                if (Cause == DeathCause.DragonsFire)
+                switch (Cause)
                 {
-                    deathString = "burned up in " + slayerString + "'s dragon fire";
-                }
-                else if (Cause == DeathCause.Burned)
-                {
-                    deathString = "was burned to death by " + slayerString + "'s fire";
-                }
-                else if (Cause == DeathCause.Murdered)
-                {
-                    deathString = "was murdered by " + slayerString;
-                }
-                else if (Cause == DeathCause.Shot)
-                {
-                    deathString = "was shot and killed by " + slayerString;
-                }
-                else if (Cause == DeathCause.Struck)
-                {
-                    deathString = "was struck down by " + slayerString;
-                }
-                else if (Cause == DeathCause.ExecutedBuriedAlive)
-                {
-                    deathString = "was buried alive by " + slayerString;
-                }
-                else if (Cause == DeathCause.ExecutedBurnedAlive)
-                {
-                    deathString = "was burned alive by " + slayerString;
-                }
-                else if (Cause == DeathCause.ExecutedCrucified)
-                {
-                    deathString = "was crucified by " + slayerString;
-                }
-                else if (Cause == DeathCause.ExecutedDrowned)
-                {
-                    deathString = "was drowned by " + slayerString;
-                }
-                else if (Cause == DeathCause.ExecutedFedToBeasts)
-                {
-                    deathString = "was fed to beasts by " + slayerString;
-                }
-                else if (Cause == DeathCause.ExecutedHackedToPieces)
-                {
-                    deathString = "was hacked to pieces by " + slayerString;
-                }
-                else if (Cause == DeathCause.ExecutedBeheaded)
-                {
-                    deathString = "was beheaded by " + slayerString;
-                }
-                else if (Cause == DeathCause.DrainedBlood)
-                {
-                    deathString = "was drained of blood by " + slayerString;
-                }
-                else if (Cause == DeathCause.Collapsed)
-                {
-                    deathString = "collapsed, struck down by " + slayerString;
-                }
-                else if (Cause == DeathCause.ScaredToDeath)
-                {
-                    deathString = " was scared to death by " + slayerString;
-                }
-                else if (Cause == DeathCause.Bled)
-                {
-                    deathString = " bled to death, slain by " + slayerString;
-                }
-                else if (Cause == DeathCause.Spikes)
-                {
-                    deathString = " was impaled by " + slayerString;
-                }
-                else
-                {
-                    deathString += ", slain by " + slayerString;
+                    case DeathCause.DragonsFire:
+                        deathString = "burned up in " + slayerString + "'s dragon fire";
+                        break;
+                    case DeathCause.Burned:
+                        deathString = "was burned to death by " + slayerString + "'s fire";
+                        break;
+                    case DeathCause.Murdered:
+                        deathString = "was murdered by " + slayerString;
+                        break;
+                    case DeathCause.Shot:
+                        deathString = "was shot and killed by " + slayerString;
+                        break;
+                    case DeathCause.Struck:
+                        deathString = "was struck down by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedBuriedAlive:
+                        deathString = "was buried alive by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedBurnedAlive:
+                        deathString = "was burned alive by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedCrucified:
+                        deathString = "was crucified by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedDrowned:
+                        deathString = "was drowned by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedFedToBeasts:
+                        deathString = "was fed to beasts by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedHackedToPieces:
+                        deathString = "was hacked to pieces by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedBeheaded:
+                        deathString = "was beheaded by " + slayerString;
+                        break;
+                    case DeathCause.DrainedBlood:
+                        deathString = "was drained of blood by " + slayerString;
+                        break;
+                    case DeathCause.Collapsed:
+                        deathString = "collapsed, struck down by " + slayerString;
+                        break;
+                    case DeathCause.ScaredToDeath:
+                        deathString = " was scared to death by " + slayerString;
+                        break;
+                    case DeathCause.Bled:
+                        deathString = " bled to death, slain by " + slayerString;
+                        break;
+                    case DeathCause.Spikes:
+                        deathString = " was impaled by " + slayerString;
+                        break;
+                    default:
+                        deathString += ", slain by " + slayerString;
+                        break;
                 }
             }
             else
             {
-                if (Cause == DeathCause.Thirst)
+                switch (Cause)
                 {
-                    deathString = "died of thirst";
-                }
-                else if (Cause == DeathCause.OldAge)
-                {
-                    deathString = "died of old age";
-                }
-                else if (Cause == DeathCause.Suffocated)
-                {
-                    deathString = "suffocated";
-                }
-                else if (Cause == DeathCause.Bled)
-                {
-                    deathString = "bled to death";
-                }
-                else if (Cause == DeathCause.Cold)
-                {
-                    deathString = "froze to death";
-                }
-                else if (Cause == DeathCause.CrushedByABridge)
-                {
-                    deathString = "was crushed by a drawbridge";
-                }
-                else if (Cause == DeathCause.Drowned)
-                {
-                    deathString = "drowned";
-                }
-                else if (Cause == DeathCause.Starved)
-                {
-                    deathString = "starved to death";
-                }
-                else if (Cause == DeathCause.Infection)
-                {
-                    deathString = "succumbed to infection";
-                }
-                else if (Cause == DeathCause.CollidedWithAnObstacle)
-                {
-                    deathString = "died after colliding with an obstacle";
-                }
-                else if (Cause == DeathCause.PutToRest)
-                {
-                    deathString = "was put to rest";
-                }
-                else if (Cause == DeathCause.StarvedQuit)
-                {
-                    deathString = "starved";
-                }
-                else if (Cause == DeathCause.Trap)
-                {
-                    deathString = "was killed by a trap";
-                }
-                else if (Cause == DeathCause.CaveIn)
-                {
-                    deathString = "was crushed under a collapsing ceiling";
-                }
-                else if (Cause == DeathCause.InACage)
-                {
-                    deathString = "died in a cage";
-                }
-                else if (Cause == DeathCause.FrozenInWater)
-                {
-                    deathString = "was incased in ice";
-                }
-                else if (Cause == DeathCause.Scuttled)
-                {
-                    deathString = "was scuttled";
-                }
-                else if (Cause == DeathCause.Slaughtered)
-                {
-                    deathString = "was slaughtered";
-                }
-                else if (Cause == DeathCause.FlyingObject)
-                {
-                    deathString = "was killed by a flying object";
-                }
-                else if (Cause == DeathCause.ExecutedBuriedAlive)
-                {
-                    deathString = "was buried alive";
-                }
-                else if (Cause == DeathCause.ExecutedBurnedAlive)
-                {
-                    deathString = "was burned alive";
-                }
-                else if (Cause == DeathCause.ExecutedCrucified)
-                {
-                    deathString = "was crucified";
-                }
-                else if (Cause == DeathCause.ExecutedDrowned)
-                {
-                    deathString = "was drowned";
-                }
-                else if (Cause == DeathCause.ExecutedFedToBeasts)
-                {
-                    deathString = "was fed to beasts";
-                }
-                else if (Cause == DeathCause.ExecutedHackedToPieces)
-                {
-                    deathString = "was hacked to pieces";
-                }
-                else if (Cause == DeathCause.ExecutedBeheaded)
-                {
-                    deathString = "was beheaded";
-                }
-                else if (Cause == DeathCause.Melted)
-                {
-                    deathString = "melted";
-                }
-                else if (Cause == DeathCause.Spikes)
-                {
-                    deathString = "was impaled";
-                }
-                else if (Cause == DeathCause.Heat)
-                {
-                    deathString = "died in the heat";
-                }
-                else if (Cause == DeathCause.Vanish)
-                {
-                    deathString = "vanished";
-                }
-                else if (Cause == DeathCause.CoolingMagma)
-                {
-                    deathString = "was encased in cooling magma";
-                }
-                else if (Cause == DeathCause.Unknown)
-                {
-                    deathString = "died (" + UnknownCause + ")";
+                    case DeathCause.Thirst:
+                        deathString = "died of thirst";
+                        break;
+                    case DeathCause.OldAge:
+                        deathString = "died of old age";
+                        break;
+                    case DeathCause.Suffocated:
+                        deathString = "suffocated";
+                        break;
+                    case DeathCause.Bled:
+                        deathString = "bled to death";
+                        break;
+                    case DeathCause.Cold:
+                        deathString = "froze to death";
+                        break;
+                    case DeathCause.CrushedByABridge:
+                        deathString = "was crushed by a drawbridge";
+                        break;
+                    case DeathCause.Drowned:
+                        deathString = "drowned";
+                        break;
+                    case DeathCause.Starved:
+                        deathString = "starved to death";
+                        break;
+                    case DeathCause.Infection:
+                        deathString = "succumbed to infection";
+                        break;
+                    case DeathCause.CollidedWithAnObstacle:
+                        deathString = "died after colliding with an obstacle";
+                        break;
+                    case DeathCause.PutToRest:
+                        deathString = "was put to rest";
+                        break;
+                    case DeathCause.StarvedQuit:
+                        deathString = "starved";
+                        break;
+                    case DeathCause.Trap:
+                        deathString = "was killed by a trap";
+                        break;
+                    case DeathCause.CaveIn:
+                        deathString = "was crushed under a collapsing ceiling";
+                        break;
+                    case DeathCause.InACage:
+                        deathString = "died in a cage";
+                        break;
+                    case DeathCause.FrozenInWater:
+                        deathString = "was incased in ice";
+                        break;
+                    case DeathCause.Scuttled:
+                        deathString = "was scuttled";
+                        break;
+                    case DeathCause.Slaughtered:
+                        deathString = "was slaughtered";
+                        break;
+                    case DeathCause.FlyingObject:
+                        deathString = "was killed by a flying object";
+                        break;
+                    case DeathCause.ExecutedBuriedAlive:
+                        deathString = "was buried alive";
+                        break;
+                    case DeathCause.ExecutedBurnedAlive:
+                        deathString = "was burned alive";
+                        break;
+                    case DeathCause.ExecutedCrucified:
+                        deathString = "was crucified";
+                        break;
+                    case DeathCause.ExecutedDrowned:
+                        deathString = "was drowned";
+                        break;
+                    case DeathCause.ExecutedFedToBeasts:
+                        deathString = "was fed to beasts";
+                        break;
+                    case DeathCause.ExecutedHackedToPieces:
+                        deathString = "was hacked to pieces";
+                        break;
+                    case DeathCause.ExecutedBeheaded:
+                        deathString = "was beheaded";
+                        break;
+                    case DeathCause.Melted:
+                        deathString = "melted";
+                        break;
+                    case DeathCause.Spikes:
+                        deathString = "was impaled";
+                        break;
+                    case DeathCause.Heat:
+                        deathString = "died in the heat";
+                        break;
+                    case DeathCause.Vanish:
+                        deathString = "vanished";
+                        break;
+                    case DeathCause.CoolingMagma:
+                        deathString = "was encased in cooling magma";
+                        break;
+                    case DeathCause.Vehicle:
+                        deathString = "was killed by a vehicle";
+                        break;
+                    case DeathCause.Unknown:
+                        deathString = "died (" + UnknownCause + ")";
+                        break;
                 }
             }
 
