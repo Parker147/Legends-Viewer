@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using LegendsViewer.Controls;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
@@ -62,17 +63,32 @@ namespace LegendsViewer.Legends
                                 break;
                         }
                         break;
+                    case "subtype":
+                        switch (property.Value)
+                        {
+                            case "catacombs": DungeonType = DungeonType.Catacombs; break;
+                            default:
+                                property.Known = false;
+                                break;
+                        }
+                        break;
                     case "type":
                         switch (property.Value)
                         {
-                            case "mead_hall": Type = StructureType.MeadHall; break;
+                            case "mead_hall":
+                            case "mead hall":
+                                Type = StructureType.MeadHall; break;
                             case "market": Type = StructureType.Market; break;
                             case "keep": Type = StructureType.Keep; break;
                             case "temple": Type = StructureType.Temple; break;
                             case "dungeon": Type = StructureType.Dungeon; break;
                             case "tomb": Type = StructureType.Tomb; break;
-                            case "inn_tavern": Type = StructureType.InnTavern; break;
-                            case "underworld_spire": Type = StructureType.UnderworldSpire; break;
+                            case "inn_tavern":
+                            case "inn tavern":
+                                Type = StructureType.InnTavern; break;
+                            case "underworld_spire":
+                            case "underworld spire":
+                                Type = StructureType.UnderworldSpire; break;
                             case "library": Type = StructureType.Library; break;
                             default:
                                 property.Known = false;
