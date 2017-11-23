@@ -50,35 +50,88 @@ namespace LegendsViewer.Legends
                         }
 
                         break;
+                    case "form":
                     case "type":
                         switch (property.Value)
                         {
-                            case "Autobiography": Type = WrittenContentType.Autobiography; break;
-                            case "Biography": Type = WrittenContentType.Biography; break;
-                            case "Chronicle": Type = WrittenContentType.Chronicle; break;
-                            case "Dialog": Type = WrittenContentType.Dialog; break;
-                            case "Essay": Type = WrittenContentType.Essay; break;
-                            case "Guide": Type = WrittenContentType.Guide; break;
-                            case "Letter": Type = WrittenContentType.Letter; break;
-                            case "Manual": Type = WrittenContentType.Manual; break;
-                            case "Novel": Type = WrittenContentType.Novel; break;
-                            case "Play": Type = WrittenContentType.Play; break;
-                            case "Poem": Type = WrittenContentType.Poem; break;
-                            case "ShortStory": Type = WrittenContentType.ShortStory; break;
-                            case "MusicalComposition": Type = WrittenContentType.MusicalComposition; break;
-                            case "Choreography": Type = WrittenContentType.Choreography; break;
-                            case "CulturalHistory": Type = WrittenContentType.CulturalHistory; break;
-                            case "StarChart": Type = WrittenContentType.StarChart; break;
-                            case "ComparativeBiography": Type = WrittenContentType.ComparativeBiography; break;
-                            case "CulturalComparison": Type = WrittenContentType.CulturalComparison; break;
-                            case "Atlas": Type = WrittenContentType.Atlas; break;
-                            case "TreatiseOnTechnologicalEvolution": Type = WrittenContentType.TreatiseOnTechnologicalEvolution; break;
-                            case "AlternateHistory": Type = WrittenContentType.AlternateHistory; break;
-                            case "StarCatalogue": Type = WrittenContentType.StarCatalogue; break;
-                            case "Dictionary": Type = WrittenContentType.Dictionary; break;
-                            case "Genealogy": Type = WrittenContentType.Genealogy; break;
-                            case "Encyclopedia": Type = WrittenContentType.Encyclopedia; break;
-                            case "BiographicalDictionary": Type = WrittenContentType.BiographicalDictionary; break;
+                            case "Autobiography":
+                            case "autobiography":
+                                Type = WrittenContentType.Autobiography; break;
+                            case "Biography":
+                            case "biography":
+                                Type = WrittenContentType.Biography; break;
+                            case "Chronicle":
+                            case "chronicle":
+                                Type = WrittenContentType.Chronicle; break;
+                            case "Dialog":
+                            case "dialog":
+                                Type = WrittenContentType.Dialog; break;
+                            case "Essay":
+                            case "essay":
+                                Type = WrittenContentType.Essay; break;
+                            case "Guide":
+                            case "guide":
+                                Type = WrittenContentType.Guide; break;
+                            case "Letter":
+                            case "letter":
+                                Type = WrittenContentType.Letter; break;
+                            case "Manual":
+                            case "manual":
+                                Type = WrittenContentType.Manual; break;
+                            case "Novel":
+                            case "novel":
+                                Type = WrittenContentType.Novel; break;
+                            case "Play":
+                            case "play":
+                                Type = WrittenContentType.Play; break;
+                            case "Poem":
+                            case "poem":
+                                Type = WrittenContentType.Poem; break;
+                            case "ShortStory":
+                            case "short story":
+                                Type = WrittenContentType.ShortStory; break;
+                            case "MusicalComposition":
+                            case "musical composition":
+                                Type = WrittenContentType.MusicalComposition; break;
+                            case "Choreography":
+                            case "choreography":
+                                Type = WrittenContentType.Choreography; break;
+                            case "CulturalHistory":
+                            case "cultural history":
+                                Type = WrittenContentType.CulturalHistory; break;
+                            case "StarChart":
+                            case "star chart":
+                                Type = WrittenContentType.StarChart; break;
+                            case "ComparativeBiography":
+                            case "comparative biography":
+                                Type = WrittenContentType.ComparativeBiography; break;
+                            case "CulturalComparison":
+                            case "cultural comparison":
+                                Type = WrittenContentType.CulturalComparison; break;
+                            case "Atlas":
+                            case "atlas":
+                                Type = WrittenContentType.Atlas; break;
+                            case "TreatiseOnTechnologicalEvolution":
+                            case "treatise on technological evolution":
+                                Type = WrittenContentType.TreatiseOnTechnologicalEvolution; break;
+                            case "AlternateHistory":
+                            case "alternate history":
+                                Type = WrittenContentType.AlternateHistory; break;
+                            case "StarCatalogue":
+                            case "star catalogue":
+                                Type = WrittenContentType.StarCatalogue; break;
+                            case "Dictionary":
+                            case "dictionary":
+                                Type = WrittenContentType.Dictionary; break;
+                            case "Genealogy":
+                            case "genealogy":
+                                Type = WrittenContentType.Genealogy; break;
+                            case "Encyclopedia":
+                            case "encyclopedia":
+                                Type = WrittenContentType.Encyclopedia; break;
+                            case "BiographicalDictionary":
+                            case "biographical dictionary":
+                                Type = WrittenContentType.BiographicalDictionary; break;
                             default:
                                 Type = WrittenContentType.Unknown;
                                 //world.ParsingErrors.Report("|==> WrittenContentType: " + property.Value);
@@ -90,7 +143,10 @@ namespace LegendsViewer.Legends
                                 break;
                         }
                         break;
-                    case "author": Author = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "author":
+                    case "author_hfid":
+                        Author = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        break;
                     case "style": Styles.Add(string.Intern(property.Value)); break;
                 }
             }
