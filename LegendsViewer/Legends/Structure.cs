@@ -23,9 +23,12 @@ namespace LegendsViewer.Legends
         public DungeonType DungeonType { get; set; } // legends_plus.xml
         public string TypeAsString { get { return Type.GetDescription(); } set { } }
         public string Icon { get; set; }
+        public int EntityId { get; set; }
+        public Entity Entity { get; set; }
 
         public Site Site { get; set; }
 
+        public int LocalId { get; set; }
         public int GlobalId { get; set; }
 
         public static List<string> Filters;
@@ -46,10 +49,17 @@ namespace LegendsViewer.Legends
             {
                 switch (property.Name)
                 {
+                    case "local_id": LocalId = Convert.ToInt32(property.Value); break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "name2": AltName = Formatting.InitCaps(property.Value); break;
-                    case "inhabitant": InhabitantIDs.Add(Convert.ToInt32(property.Value)); break;
-                    case "deity": DeityId = Convert.ToInt32(property.Value); break;
+                    case "inhabitant":
+                        InhabitantIDs.Add(Convert.ToInt32(property.Value));
+                        break;
+                    case "deity":
+                    case "worship_hfid":
+                        DeityId = Convert.ToInt32(property.Value);
+                        break;
+                    case "entity_id": EntityId = Convert.ToInt32(property.Value); break;
                     case "religion": ReligionId = Convert.ToInt32(property.Value); break;
                     case "dungeon_type":
                         switch (property.Value)
@@ -65,6 +75,7 @@ namespace LegendsViewer.Legends
                     case "subtype":
                         switch (property.Value)
                         {
+                            case "standard": break;
                             case "catacombs": DungeonType = DungeonType.Catacombs; break;
                             default:
                                 property.Known = false;
@@ -154,6 +165,10 @@ namespace LegendsViewer.Legends
             if (ReligionId != -1)
             {
                 Religion = world.GetEntity(ReligionId);
+            }
+            if (EntityId != -1)
+            {
+                Entity = world.GetEntity(EntityId);
             }
             if (Deity != null && Religion != null)
             {

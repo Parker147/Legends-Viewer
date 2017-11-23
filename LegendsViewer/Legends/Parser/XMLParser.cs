@@ -667,8 +667,6 @@ namespace LegendsViewer.Legends.Parser
                 World.HistoricalFiguresByName = new List<HistoricalFigure>(World.HistoricalFigures);
                 World.HistoricalFiguresByName.Sort((a, b) => String.Compare(a.Name, b.Name));
                 World.ProcessHFtoHfLinks();
-                World.ProcessHfCurrentIdentities();
-                World.ProcessHfUsedIdentities();
             }
 
             //Create sorted entities so they can be binary searched by name, needed for History/sites files

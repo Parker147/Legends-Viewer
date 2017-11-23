@@ -32,6 +32,40 @@ namespace LegendsViewer.Controls.HTML
             }
             Html.AppendLine("<br />");
 
+            if (_artifact.Site != null)
+            {
+                Html.AppendLine("<b>Current Location:</b><br/>");
+                Html.AppendLine("<ul>");
+                Html.AppendLine("<li>" + _artifact.Site.ToLink());
+                if (_artifact.Structure != null)
+                {
+                    Html.AppendLine(" (" + _artifact.Structure.ToLink() + ")");
+                }
+                Html.AppendLine("</li>");
+                Html.AppendLine("</ul>");
+            }
+            if (_artifact.HolderId > 0)
+            {
+                Html.AppendLine("<b>Current Holder:</b><br/>");
+                Html.AppendLine("<ul>");
+                Html.AppendLine("<li>" + _artifact.Holder.ToLink() + "</li>");
+                Html.AppendLine("</ul>");
+            }
+            if (_artifact.WrittenContents != null)
+            {
+                Html.AppendLine("<b>Written Content:</b><br/>");
+                Html.AppendLine("<ul>");
+                if (_artifact.PageCount > 0)
+                {
+                    Html.AppendLine("<li>Pages: " + _artifact.PageCount + "</li>");
+                }
+                foreach (var writtenContent in _artifact.WrittenContents)
+                {
+                    Html.AppendLine("<li>" + writtenContent.ToLink() + "</li>");
+                }
+                Html.AppendLine("</ul>");
+            }
+
             PrintEventLog(_artifact.Events, Artifact.Filters, _artifact);
             return Html.ToString();
         }

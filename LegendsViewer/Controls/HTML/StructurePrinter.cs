@@ -46,6 +46,13 @@ namespace LegendsViewer.Controls.HTML
                 Html.AppendLine("<li>" + _structure.Religion.ToLink() + "</li>");
                 Html.AppendLine("</ul>");
             }
+            if (_structure.Entity != null)
+            {
+                Html.AppendLine("<b>Entity:</b><br/>");
+                Html.AppendLine("<ul>");
+                Html.AppendLine("<li>" + _structure.Entity.ToLink() + "</li>");
+                Html.AppendLine("</ul>");
+            }
             if (_structure.Inhabitants.Any())
             {
                 Html.AppendLine("<b>Inhabitants:</b><br/>");

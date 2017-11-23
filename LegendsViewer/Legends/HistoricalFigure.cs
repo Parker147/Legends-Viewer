@@ -31,8 +31,8 @@ namespace LegendsViewer.Legends
         public int EntityPopulationId { get; set; }
         public EntityPopulation EntityPopulation { get; set; }
         public HfState CurrentState { get; set; }
-        public HistoricalFigure UsedIdentity { get; set; }
-        public HistoricalFigure CurrentIdentity { get; set; }
+        public List<int> UsedIdentityIds { get; set; }
+        public int CurrentIdentityId { get; set; }
         public List<Artifact> HoldingArtifacts { get; set; }
         public List<State> States { get; set; }
         public List<HistoricalFigureLink> RelatedHistoricalFigures { get; set; }
@@ -65,15 +65,19 @@ namespace LegendsViewer.Legends
         public List<Position> Positions { get; set; }
         public Entity WorshippedBy { get; set; }
         public List<BeastAttack> BeastAttacks { get; set; }
-        public bool Alive { get
+        public bool Alive
         {
-            if (DeathYear == -1)
+            get
+            {
+                if (DeathYear == -1)
                 {
                     return true;
                 }
 
                 return false;
-        } set { } }
+            }
+            set { }
+        }
         public bool Deity { get; set; }
         public bool Skeleton { get; set; }
         public bool Force { get; set; }
@@ -188,12 +192,12 @@ namespace LegendsViewer.Legends
 
                         break;
                     case "relationship_profile_hf":
+                    case "relationship_profile_hf_visual":
                         property.Known = true;
                         if (property.SubProperties != null)
                         {
                             RelationshipProfiles.Add(new RelationshipProfileHf(property.SubProperties));
                         }
-
                         break;
                     case "site_link":
                         world.AddHFtoSiteLink(this, property);
@@ -226,8 +230,8 @@ namespace LegendsViewer.Legends
                     case "journey_pet": JourneyPets.Add(Formatting.FormatRace(property.Value)); break;
                     case "goal": Goal = Formatting.InitCaps(property.Value); break;
                     case "sphere": Spheres.Add(property.Value); break;
-                    case "current_identity_id": world.AddHfCurrentIdentity(this, Convert.ToInt32(property.Value)); break;
-                    case "used_identity_id": world.AddHfUsedIdentity(this, Convert.ToInt32(property.Value)); break;
+                    case "current_identity_id": CurrentIdentityId = Convert.ToInt32(property.Value); break;
+                    case "used_identity_id": UsedIdentityIds.Add(Convert.ToInt32(property.Value)); break;
                     case "ent_pop_id": EntityPopulationId = Convert.ToInt32(property.Value); break;
                     case "holds_artifact": HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
                     case "adventurer":
@@ -289,6 +293,7 @@ namespace LegendsViewer.Legends
             HoldingArtifacts = new List<Artifact>();
             LineageCurseChilds = new List<HistoricalFigure>();
             DedicatedStructures = new List<Structure>();
+            UsedIdentityIds = new List<int>();
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)

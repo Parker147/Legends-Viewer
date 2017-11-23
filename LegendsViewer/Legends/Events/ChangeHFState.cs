@@ -15,6 +15,8 @@ namespace LegendsViewer.Legends.Events
         public Location Coordinates { get; set; }
         public HfState State { get; set; }
         public int SubState { get; set; }
+        public Mood Mood { get; set; }
+        public ChangeHfStateReason Reason { get; set; }
 
         public ChangeHfState(List<Property> properties, World world)
             : base(properties, world)
@@ -44,6 +46,66 @@ namespace LegendsViewer.Legends.Events
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "site": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "mood":
+                        switch (property.Value)
+                        {
+                            case "macabre":
+                                Mood = Mood.Macabre;
+                                break;
+                            case "secretive":
+                                Mood = Mood.Secretive;
+                                break;
+                            case "insane":
+                                Mood = Mood.Insane;
+                                break;
+                            case "possessed":
+                                Mood = Mood.Possessed;
+                                break;
+                            case "berserk":
+                                Mood = Mood.Berserk;
+                                break;
+                            case "fey":
+                                Mood = Mood.Fey;
+                                break;
+                            case "melancholy":
+                                Mood = Mood.Melancholy;
+                                break;
+                            case "fell":
+                                Mood = Mood.Fell;
+                                break;
+                            default:
+                                Mood = Mood.Unknown;
+                                property.Known = false;
+                                break;
+                        }
+                        break;
+                    case "reason":
+                        switch (property.Value)
+                        {
+                            case "failed mood":
+                                Reason = ChangeHfStateReason.FailedMood;
+                                break;
+                            case "gather information":
+                                Reason = ChangeHfStateReason.GatherInformation;
+                                break;
+                            case "be with master":
+                                Reason = ChangeHfStateReason.BeWithMaster;
+                                break;
+                            case "flight":
+                                Reason = ChangeHfStateReason.Flight;
+                                break;
+                            case "scholarship":
+                                Reason = ChangeHfStateReason.Scholarship;
+                                break;
+                            case "on a pilgrimage":
+                                Reason = ChangeHfStateReason.Pilgrimage;
+                                break;
+                            default:
+                                Reason = ChangeHfStateReason.Unknown;
+                                property.Known = false;
+                                break;
+                        }
+                        break;
                 }
             }
             if (HistoricalFigure != null)
@@ -102,10 +164,41 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += " began hunting great beasts in ";
             }
+            else if (Mood != Mood.Unknown)
+            {
+                switch (Mood)
+                {
+                    case Mood.Macabre:
+                        eventString += " began to skulk and brood in ";
+                        break;
+                    case Mood.Secretive:
+                        eventString += " withdrew from society in ";
+                        break;
+                    case Mood.Insane:
+                        eventString += " became crazed in ";
+                        break;
+                    case Mood.Possessed:
+                        eventString += " was possessed in ";
+                        break;
+                    case Mood.Berserk:
+                        eventString += " went berserk in ";
+                        break;
+                    case Mood.Fey:
+                        eventString += " was taken by a fey mood in ";
+                        break;
+                    case Mood.Melancholy:
+                        eventString += " was striken by melancholy in ";
+                        break;
+                    case Mood.Fell:
+                        eventString += " was taken by a fell mood in ";
+                        break;
+                }
+            }
             else 
             {
                 eventString += " changed state in ";
             }
+
             if (Site != null)
             {
                 eventString += Site.ToLink(link, pov);
@@ -123,6 +216,30 @@ namespace LegendsViewer.Legends.Events
                 eventString += "the wilds";
             }
 
+            if (Reason != ChangeHfStateReason.Unknown)
+            {
+                switch (Reason)
+                {
+                    case ChangeHfStateReason.FailedMood:
+                        eventString += " after failing to create an artifact";
+                        break;
+                    case ChangeHfStateReason.GatherInformation:
+                        eventString += " to gather information";
+                        break;
+                    case ChangeHfStateReason.BeWithMaster:
+                        eventString += " in order to be with the master";
+                        break;
+                    case ChangeHfStateReason.Flight:
+                        eventString += " in order to flee";
+                        break;
+                    case ChangeHfStateReason.Scholarship:
+                        eventString += " in order to pursue scholarship";
+                        break;
+                    case ChangeHfStateReason.Pilgrimage:
+                        eventString += " on a pilgrimage";
+                        break;
+                }
+            }
             eventString += PrintParentCollection(link, pov);
             eventString += ".";
             return eventString;

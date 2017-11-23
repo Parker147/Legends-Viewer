@@ -70,12 +70,6 @@ namespace LegendsViewer.Legends
         private readonly List<HistoricalFigure> _reputationHFs = new List<HistoricalFigure>();
         private readonly List<Property> _reputations = new List<Property>();
 
-        private readonly List<HistoricalFigure> _usedIdentityHFs = new List<HistoricalFigure>();
-        private readonly List<int> _usedIdentityIDs = new List<int>();
-
-        private readonly List<HistoricalFigure> _currentIdentityHFs = new List<HistoricalFigure>();
-        private readonly List<int> _currentIdentityIDs = new List<int>();
-
         private readonly List<Entity> _entityEntityLinkEntities = new List<Entity>();// legends_plus.xml
         private readonly List<Property> _entityEntityLinks = new List<Property>();// legends_plus.xml
 
@@ -111,6 +105,7 @@ namespace LegendsViewer.Legends
             ResolveMountainPeakToRegionLinks();
             ResolveSiteToRegionLinks();
             ResolveHfToEntityPopulation();
+            ResolveArtifactProperties();
 
             HistoricalFigure.Filters = new List<string>();
             Site.Filters = new List<string>();
@@ -750,57 +745,19 @@ namespace LegendsViewer.Legends
             _reputations.Clear();
         }
 
-        public void AddHfCurrentIdentity(HistoricalFigure hf, int identityId)
-        {
-            _currentIdentityHFs.Add(hf);
-            _currentIdentityIDs.Add(identityId);
-        }
-
-        public void ProcessHfCurrentIdentities()
-        {
-            for (int i = 0; i < _currentIdentityHFs.Count; i++)
-            {
-                HistoricalFigure hf = _currentIdentityHFs[i];
-                int id = _currentIdentityIDs[i];
-                HistoricalFigure currentIdentity = GetHistoricalFigure(id);
-                if (hf.CurrentIdentity != null && hf.CurrentIdentity != currentIdentity)
-                {
-                    ParsingErrors.Report("|==> Historical Figure: " + hf.Name + " \nCurrentIdentity Conflict: " + hf.CurrentIdentity.Name + "|" + currentIdentity.Name);
-                }
-                hf.CurrentIdentity = currentIdentity;
-            }
-            _currentIdentityHFs.Clear();
-            _currentIdentityIDs.Clear();
-        }
-
-        public void AddHfUsedIdentity(HistoricalFigure hf, int identityId)
-        {
-            _usedIdentityHFs.Add(hf);
-            _usedIdentityIDs.Add(identityId);
-        }
-
-        public void ProcessHfUsedIdentities()
-        {
-            for (int i = 0; i < _usedIdentityHFs.Count; i++)
-            {
-                HistoricalFigure hf = _usedIdentityHFs[i];
-                int id = _usedIdentityIDs[i];
-                HistoricalFigure usedIdentity = GetHistoricalFigure(id);
-                if (hf.UsedIdentity != null && hf.UsedIdentity != usedIdentity)
-                {
-                    ParsingErrors.Report("|==> Historical Figure: " + hf.Name + " \nUsedIdentity Conflict: " + hf.UsedIdentity.Name + "|" + usedIdentity.Name);
-                }
-                hf.UsedIdentity = usedIdentity;
-            }
-            _usedIdentityHFs.Clear();
-            _usedIdentityIDs.Clear();
-        }
-
         private void ResolveStructureProperties()
         {
             foreach (Structure structure in Structures)
             {
                 structure.Resolve(this);
+            }
+        }
+
+        private void ResolveArtifactProperties()
+        {
+            foreach (var artifact in Artifacts)
+            {
+                artifact.Resolve(this);
             }
         }
 

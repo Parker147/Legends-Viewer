@@ -267,6 +267,7 @@
     <Compile Include="Legends\Enums\AgreementTopic.cs" />
     <Compile Include="Legends\Enums\BattleOutcome.cs" />
     <Compile Include="Legends\Enums\BodyState.cs" />
+    <Compile Include="Legends\Enums\ChangeHfStateReason.cs" />
     <Compile Include="Legends\Enums\ConfrontReason.cs" />
     <Compile Include="Legends\Enums\ConfrontSituation.cs" />
     <Compile Include="Legends\Enums\DeathCause.cs" />
@@ -281,6 +282,7 @@
     <Compile Include="Legends\Enums\HFState.cs" />
     <Compile Include="Legends\Enums\HistoricalFigureLinkType.cs" />
     <Compile Include="Legends\Enums\InsurrectionOutcome.cs" />
+    <Compile Include="Legends\Enums\Mood.cs" />
     <Compile Include="Legends\Enums\OccasionType.cs" />
     <Compile Include="Legends\Enums\ReferenceType.cs" />
     <Compile Include="Legends\Enums\ReputationType.cs" />
