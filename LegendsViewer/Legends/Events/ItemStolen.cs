@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Parser;
 
@@ -20,6 +21,8 @@ namespace LegendsViewer.Legends.Events
         public Entity Entity { get; set; }
         public Site Site { get; set; }
         public Site ReturnSite { get; set; }
+        public Circumstance Circumstance { get; set; }
+        public int CircumstanceId { get; set; }
 
         public ItemStolen(List<Property> properties, World world)
             : base(properties, world)
@@ -40,6 +43,27 @@ namespace LegendsViewer.Legends.Events
                     case "matindex": MaterialIndex = Convert.ToInt32(property.Value); break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "structure": StructureId = Convert.ToInt32(property.Value); break;
+                    case "circumstance":
+                        switch (property.Value)
+                        {
+                            case "historical event collection":
+                                Circumstance = Circumstance.HistoricalEventCollection;
+                                break;
+                            case "defeated hf":
+                                Circumstance = Circumstance.DefeatedHf;
+                                break;
+                            case "murdered hf":
+                                Circumstance = Circumstance.MurderedHf;
+                                break;
+                            default:
+                                Circumstance = Circumstance.Unknown;
+                                property.Known = false;
+                                break;
+                        }
+                        break;
+                    case "circumstance_id":
+                        CircumstanceId = Convert.ToInt32(property.Value);
+                        break;
                 }
             }
             if (Site != null)
