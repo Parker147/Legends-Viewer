@@ -585,6 +585,9 @@ namespace LegendsViewer.Legends.Parser
                 case "artifact claim formed":
                     World.Events.Add(new ArtifactClaimFormed(properties, World));
                     break;
+                case "hf recruited unit type for entity":
+                    World.Events.Add(new HfRecruitedUnitTypeForEntity(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

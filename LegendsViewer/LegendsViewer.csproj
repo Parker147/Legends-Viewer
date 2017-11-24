@@ -294,6 +294,7 @@
     <Compile Include="Legends\Enums\SiteLinkType.cs" />
     <Compile Include="Legends\Enums\SiteType.cs" />
     <Compile Include="Legends\Enums\StructureType.cs" />
+    <Compile Include="Legends\Enums\UnitType.cs" />
     <Compile Include="Legends\Enums\WorldConstructionType.cs" />
     <Compile Include="Legends\Enums\WrittenContentType.cs" />
     <Compile Include="Legends\Era.cs" />
@@ -365,6 +366,7 @@
     <Compile Include="Legends\Events\HFProfanedStructure.cs" />
     <Compile Include="Legends\Events\HFRazedStructure.cs" />
     <Compile Include="Legends\Events\HFReachSummit.cs" />
+    <Compile Include="Legends\Events\HfRecruitedUnitTypeForEntity.cs" />
     <Compile Include="Legends\Events\HFRelationShipDenied.cs" />
     <Compile Include="Legends\Events\HFReunion.cs" />
     <Compile Include="Legends\Events\HFRevived.cs" />

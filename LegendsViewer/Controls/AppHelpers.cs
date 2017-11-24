@@ -106,7 +106,8 @@ namespace LegendsViewer.Controls
         new[] { "hfs formed reputation relationship", "Reputation Relationship Formed",    ""},
         new[] { "artifact given",              "Artifact Given",                           ""},
         new[] { "artifact claim formed",       "Artifact Claim Formed",                    ""},
-        new[] {"INVALID",                      "INVALID EVENT",                            ""}
+        new[] { "hf recruited unit type for entity", "Recruited Unit Type For Entity",     ""},
+        new[] { "INVALID",                     "INVALID EVENT",                            ""}
     };
 
         private class ColumnBinding
