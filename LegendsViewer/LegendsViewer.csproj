@@ -286,6 +286,7 @@
     <Compile Include="Legends\Enums\InsurrectionOutcome.cs" />
     <Compile Include="Legends\Enums\Mood.cs" />
     <Compile Include="Legends\Enums\OccasionType.cs" />
+    <Compile Include="Legends\Enums\Reason.cs" />
     <Compile Include="Legends\Enums\ReferenceType.cs" />
     <Compile Include="Legends\Enums\ReputationType.cs" />
     <Compile Include="Legends\Enums\ScheduleType.cs" />
