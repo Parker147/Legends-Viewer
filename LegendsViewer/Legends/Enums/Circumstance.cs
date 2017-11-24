@@ -5,6 +5,7 @@
         Unknown,
         HistoricalEventCollection,
         DefeatedHf,
-        MurderedHf
+        MurderedHf,
+        HfIsDead
     }
 }

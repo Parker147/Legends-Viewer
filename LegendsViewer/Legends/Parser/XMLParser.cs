@@ -600,6 +600,9 @@ namespace LegendsViewer.Legends.Parser
                 case "artifact found":
                     World.Events.Add(new ArtifactFound(properties, World));
                     break;
+                case "hf viewed artifact":
+                    World.Events.Add(new HfViewedArtifact(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

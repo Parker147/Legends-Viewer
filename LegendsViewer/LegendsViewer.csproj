@@ -378,6 +378,7 @@
     <Compile Include="Legends\Events\HfsFormedReputationRelationship.cs" />
     <Compile Include="Legends\Events\HFSimpleBattleEvent.cs" />
     <Compile Include="Legends\Events\HFTravel.cs" />
+    <Compile Include="Legends\Events\HfViewedArtifact.cs" />
     <Compile Include="Legends\Events\HFWounded.cs" />
     <Compile Include="Legends\Events\ImpersonateHF.cs" />
     <Compile Include="Legends\Events\InsurrectionStarted.cs" />

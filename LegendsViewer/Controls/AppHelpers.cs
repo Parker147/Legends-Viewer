@@ -109,6 +109,7 @@ namespace LegendsViewer.Controls
             new[] { "hfs formed reputation relationship", "Reputation Relationship Formed", ""},
             new[] { "hf recruited unit type for entity",  "Recruited Unit Type For Entity", ""},
             new[] { "hf prayed inside structure",         "Historical Figure Prayed In Structure", ""},
+            new[] { "hf viewed artifact",                 "Historical Figure Viewed Artifact", ""},
             new[] { "artifact given",                     "Artifact Given", ""},
             new[] { "artifact claim formed",              "Artifact Claim Formed", ""},
             new[] { "artifact copied",                    "Artifact Copied", ""},

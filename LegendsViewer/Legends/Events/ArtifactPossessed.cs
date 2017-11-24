@@ -15,8 +15,11 @@ namespace LegendsViewer.Legends.Events
         public UndergroundRegion UndergroundRegion { get; set; }
         public Reason Reason { get; set; }
         public int ReasonId { get; set; }
+        public Circumstance Circumstance { get; set; }
+        public int CircumstanceId { get; set; }
 
         public HistoricalFigure FamilyFigure { get; set; }
+        public HistoricalFigure FormerHolder { get; set; }
         public Entity SymbolEntity { get; set; }
 
         public ArtifactPossessed(List<Property> properties, World world)
@@ -49,6 +52,21 @@ namespace LegendsViewer.Legends.Events
                     case "reason_id":
                         ReasonId = Convert.ToInt32(property.Value);
                         break;
+                    case "circumstance":
+                        switch (property.Value)
+                        {
+                            case "hf is dead":
+                                Circumstance = Circumstance.HfIsDead;
+                                break;
+                            default:
+                                Circumstance = Circumstance.Unknown;
+                                property.Known = false;
+                                break;
+                        }
+                        break;
+                    case "circumstance_id":
+                        CircumstanceId = Convert.ToInt32(property.Value);
+                        break;
                 }
             }
             switch (Reason)
@@ -60,6 +78,13 @@ namespace LegendsViewer.Legends.Events
                 case Reason.ArtifactIsSymbolOfEntityPosition:
                     SymbolEntity = world.GetEntity(ReasonId);
                     SymbolEntity.AddEvent(this);
+                    break;
+            }
+            switch (Circumstance)
+            {
+                case Circumstance.HfIsDead:
+                    FormerHolder = world.GetHistoricalFigure(CircumstanceId);
+                    FormerHolder.AddEvent(this);
                     break;
             }
             Artifact.AddEvent(this);
@@ -106,6 +131,13 @@ namespace LegendsViewer.Legends.Events
                 case Reason.ArtifactIsSymbolOfEntityPosition:
                     eventString += " as a symbol of authority within ";
                     eventString += SymbolEntity?.ToLink(link, pov);
+                    break;
+            }
+            switch (Circumstance)
+            {
+                case Circumstance.HfIsDead:
+                    eventString += " after the death of ";
+                    eventString += FormerHolder?.ToLink(link, pov);
                     break;
             }
             eventString += PrintParentCollection(link, pov);
