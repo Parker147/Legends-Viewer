@@ -19,6 +19,8 @@ namespace LegendsViewer.Legends
         public List<string> Styles { get; set; } // legends_plus.xml
         public List<Reference> References { get; set; } // legends_plus.xml
         public int PageCount { get { return PageEnd - PageStart + 1; } set { } }
+        public int AuthorRoll { get; set; }
+        public int FormId { get; set; }
 
         public static string Icon = "<i class=\"fa fa-fw fa-book\"></i>";
 
@@ -147,7 +149,18 @@ namespace LegendsViewer.Legends
                     case "author_hfid":
                         Author = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
                         break;
-                    case "style": Styles.Add(string.Intern(property.Value)); break;
+                    case "style":
+                        Styles.Add(property.Value.Contains(":")
+                            ? string.Intern(property.Value.Substring(0,
+                                property.Value.IndexOf(":", StringComparison.Ordinal)))
+                            : string.Intern(property.Value));
+                        break;
+                    case "author_roll":
+                        AuthorRoll = Convert.ToInt32(property.Value);
+                        break;
+                    case "form_id":
+                        FormId = Convert.ToInt32(property.Value);
+                        break;
                 }
             }
         }

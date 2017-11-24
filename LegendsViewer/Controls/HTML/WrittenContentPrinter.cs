@@ -8,8 +8,8 @@ namespace LegendsViewer.Controls.HTML
 {
     public class WrittenContentPrinter : HtmlPrinter
     {
-        WrittenContent _writtenContent;
-        World _world;
+        private readonly WrittenContent _writtenContent;
+        private readonly World _world;
 
         public WrittenContentPrinter(WrittenContent writtenContent, World world)
         {
@@ -21,10 +21,9 @@ namespace LegendsViewer.Controls.HTML
         {
             Html = new StringBuilder();
             Html.AppendLine("<h1>" + _writtenContent.Name + "</h1>");
-            string type = null;
             if (_writtenContent.Type != WrittenContentType.Unknown)
             {
-                type = _writtenContent.Type.GetDescription();
+                var type = _writtenContent.Type.GetDescription();
                 string firstWord = _writtenContent.Styles.Count > 0 ? _writtenContent.Styles.First() : type;
                 if (firstWord.StartsWith("A") || firstWord.StartsWith("E") || firstWord.StartsWith("I") || firstWord.StartsWith("O") || firstWord.StartsWith("U"))
                 {
@@ -34,18 +33,7 @@ namespace LegendsViewer.Controls.HTML
                 {
                     Html.AppendLine("<b>A ");
                 }
-                for (int i = 0; i < _writtenContent.Styles.Count; i++)
-                {
-                    if (i != 0)
-                    {
-                        Html.AppendLine(", ");
-                    }
-                    Html.AppendLine(_writtenContent.Styles[i].ToLower());
-                    if (i == _writtenContent.Styles.Count - 1)
-                    {
-                        Html.AppendLine(" ");
-                    }
-                }
+                Html.AppendLine(string.Join(", ", _writtenContent.Styles));
                 Html.AppendLine(type.ToLower() + " written by " + _writtenContent.Author.ToLink() + ".</b>");
                 Html.AppendLine("<br/>");
             }
