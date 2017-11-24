@@ -576,6 +576,9 @@ namespace LegendsViewer.Legends.Parser
                 case "hf disturbed structure":
                     World.Events.Add(new HfDisturbedStructure(properties, World));
                     break;
+                case "hfs formed reputation relationship":
+                    World.Events.Add(new HfsFormedReputationRelationship(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

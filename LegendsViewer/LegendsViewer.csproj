@@ -365,6 +365,7 @@
     <Compile Include="Legends\Events\HFRelationShipDenied.cs" />
     <Compile Include="Legends\Events\HFReunion.cs" />
     <Compile Include="Legends\Events\HFRevived.cs" />
+    <Compile Include="Legends\Events\HfsFormedReputationRelationship.cs" />
     <Compile Include="Legends\Events\HFSimpleBattleEvent.cs" />
     <Compile Include="Legends\Events\HFTravel.cs" />
     <Compile Include="Legends\Events\HFWounded.cs" />

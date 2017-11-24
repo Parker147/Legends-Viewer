@@ -102,6 +102,7 @@ namespace LegendsViewer.Controls
         new[] { "musical form created",        "Musical Form Created",                     ""},
         new[] { "dance form created",          "Dance Form Created",                       ""},
         new[] { "regionpop incorporated into entity", "Regionpop Incorporated Into Entity",""},
+        new[] { "hfs formed reputation relationship", "Reputation Relationship Formed",    ""},
         new[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 
@@ -140,8 +141,8 @@ namespace LegendsViewer.Controls
             List<ColumnBinding> bindings = new List<ColumnBinding>();
             if (dataType == typeof(HistoricalFigure))
             {
-                bindings  = new List<ColumnBinding> {   new ColumnBinding ( "Name" ), 
-                                                        new ColumnBinding ( "Race" ), 
+                bindings = new List<ColumnBinding> {   new ColumnBinding ( "Name" ),
+                                                        new ColumnBinding ( "Race" ),
                                                         new ColumnBinding ( "Caste" ),
                                                         new ColumnBinding ( "AssociatedType", "Associated Type"),
                                                         new ColumnBinding ( "Age"),
@@ -167,7 +168,7 @@ namespace LegendsViewer.Controls
             {
                 bindings = new List<ColumnBinding>
                 { new ColumnBinding("Name"),
-                                                       new ColumnBinding("Type"), 
+                                                       new ColumnBinding("Type"),
                                                        new ColumnBinding("CurrentOwner", "Owner"),
                                                        new ColumnBinding("Warfare"),
                                                        new ColumnBinding("PreviousOwners", "Previous Owners"),
@@ -187,7 +188,7 @@ namespace LegendsViewer.Controls
             {
                 bindings = new List<ColumnBinding>
                 { new ColumnBinding("Type"),
-                                                       new ColumnBinding("Depth")};         
+                                                       new ColumnBinding("Depth")};
             }
             else if (dataType == typeof(War))
             {
@@ -305,4 +306,4 @@ namespace LegendsViewer.Controls
         }
     }
 }
- 
+
