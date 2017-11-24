@@ -591,6 +591,9 @@ namespace LegendsViewer.Legends.Parser
                 case "hf prayed inside structure":
                     World.Events.Add(new HfPrayedInsideStructure(properties, World));
                     break;
+                case "artifact copied":
+                    World.Events.Add(new ArtifactCopied(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

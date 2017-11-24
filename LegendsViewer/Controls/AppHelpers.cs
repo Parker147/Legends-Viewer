@@ -111,6 +111,7 @@ namespace LegendsViewer.Controls
             new[] { "artifact claim formed",              "Artifact Claim Formed", ""},
             new[] { "hf recruited unit type for entity",  "Recruited Unit Type For Entity", ""},
             new[] { "hf prayed inside structure",         "Historical Figure Prayed In Structure", ""},
+            new[] { "artifact copied",                    "Artifact Copied", ""},
 
             new[] { "INVALID",                     "INVALID EVENT",                            ""}
         };

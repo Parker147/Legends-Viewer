@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Events;
@@ -132,9 +131,9 @@ namespace LegendsViewer.Legends
                 title += "Events: " + Events.Count;
                 if (pov != this)
                 {
-                    return Icon + " <a href = \"artifact#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href = \"artifact#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
-                return Icon + " <a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
             return Name;
         }
