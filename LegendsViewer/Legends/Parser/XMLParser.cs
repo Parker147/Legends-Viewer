@@ -588,6 +588,9 @@ namespace LegendsViewer.Legends.Parser
                 case "hf recruited unit type for entity":
                     World.Events.Add(new HfRecruitedUnitTypeForEntity(properties, World));
                     break;
+                case "hf prayed inside structure":
+                    World.Events.Add(new HfPrayedInsideStructure(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

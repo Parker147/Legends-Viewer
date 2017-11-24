@@ -1,48 +1,54 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class EntityCreated : WorldEvent
+    public class HfPrayedInsideStructure : WorldEvent
     {
-        public Entity Entity { get; set; }
+        public HistoricalFigure HistoricalFigure { get; set; }
         public Site Site { get; set; }
         public int StructureId { get; set; }
         public Structure Structure { get; set; }
 
-        public EntityCreated(List<Property> properties, World world)
+
+        public HfPrayedInsideStructure(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
             {
                 switch (property.Name)
                 {
-                    case "entity_id": Entity = world.GetEntity(Convert.ToInt32(property.Value)); break;
-                    case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "structure_id": StructureId = Convert.ToInt32(property.Value); break;
+                    case "hist_fig_id":
+                        HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        break;
+                    case "site_id":
+                        Site = world.GetSite(Convert.ToInt32(property.Value));
+                        break;
+                    case "structure_id":
+                        StructureId = Convert.ToInt32(property.Value);
+                        break;
                 }
             }
+
             if (Site != null)
             {
                 Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
-                if (Entity != null && Structure != null)
-                {
-                    Entity.OriginStructure = Structure;
-                }
             }
-            Entity.AddEvent(this);
+            HistoricalFigure.AddEvent(this);
             Site.AddEvent(this);
             Structure.AddEvent(this);
         }
+
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            eventString += Entity.ToLink(link, pov) + " formed";
+            eventString += HistoricalFigure.ToLink(link, pov);
+            eventString += " prayed";
             if (Structure != null)
             {
-                eventString += " in ";
+                eventString += " inside ";
                 eventString += Structure.ToLink(link, pov);
             }
             if (Site != null)

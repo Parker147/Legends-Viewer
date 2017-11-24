@@ -364,6 +364,7 @@
     <Compile Include="Legends\Events\HFGainsSecretGoal.cs" />
     <Compile Include="Legends\Events\HFLearnsSecret.cs" />
     <Compile Include="Legends\Events\HFNewPet.cs" />
+    <Compile Include="Legends\Events\HfPrayedInsideStructure.cs" />
     <Compile Include="Legends\Events\HFProfanedStructure.cs" />
     <Compile Include="Legends\Events\HFRazedStructure.cs" />
     <Compile Include="Legends\Events\HFReachSummit.cs" />
