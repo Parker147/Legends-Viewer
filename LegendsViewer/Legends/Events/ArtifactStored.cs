@@ -32,7 +32,17 @@ namespace LegendsViewer.Legends.Events
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Artifact.ToLink(link, pov) + " was stored in " + Site.ToLink(link, pov) + " by " + HistoricalFigure.ToLink(link, pov);
+            string eventString = GetYearTime();
+            eventString += Artifact.ToLink(link, pov);
+            eventString += " was stored";
+            if (HistoricalFigure != null)
+            {
+                eventString += " by ";
+                eventString += HistoricalFigure.ToLink(link, pov);
+            }
+            eventString += " in ";
+            eventString += Site.ToLink(link, pov);
+            eventString += ".";
             eventString += PrintParentCollection(link, pov);
             eventString += ".";
             return eventString;
