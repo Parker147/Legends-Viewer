@@ -102,7 +102,9 @@ namespace LegendsViewer.Controls
         new[] { "musical form created",        "Musical Form Created",                     ""},
         new[] { "dance form created",          "Dance Form Created",                       ""},
         new[] { "regionpop incorporated into entity", "Regionpop Incorporated Into Entity",""},
+        // new 0.44.XX events
         new[] { "hfs formed reputation relationship", "Reputation Relationship Formed",    ""},
+        new[] { "artifact given",              "Artifact Given",                           ""},
         new[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 

@@ -321,6 +321,7 @@
     <Compile Include="Legends\Events\AgreementRejected.cs" />
     <Compile Include="Legends\Events\ArtifactCreated.cs" />
     <Compile Include="Legends\Events\ArtifactDestroyed.cs" />
+    <Compile Include="Legends\Events\ArtifactGiven.cs" />
     <Compile Include="Legends\Events\ArtifactLost.cs" />
     <Compile Include="Legends\Events\ArtifactPossessed.cs" />
     <Compile Include="Legends\Events\ArtifactStored.cs" />

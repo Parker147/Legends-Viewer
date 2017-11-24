@@ -579,6 +579,9 @@ namespace LegendsViewer.Legends.Parser
                 case "hfs formed reputation relationship":
                     World.Events.Add(new HfsFormedReputationRelationship(properties, World));
                     break;
+                case "artifact given":
+                    World.Events.Add(new ArtifactGiven(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
