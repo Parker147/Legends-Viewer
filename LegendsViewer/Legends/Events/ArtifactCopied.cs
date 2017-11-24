@@ -33,7 +33,10 @@ namespace LegendsViewer.Legends.Events
                     case "source_site_id": SourceSite = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "source_structure_id": SourceStructureId = Convert.ToInt32(property.Value); break;
                     case "source_entity_id": SourceEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
-                    case "from_original": FromOriginal = true; break;
+                    case "from_original":
+                        FromOriginal = true;
+                        property.Known = true;
+                        break;
                 }
             }
 

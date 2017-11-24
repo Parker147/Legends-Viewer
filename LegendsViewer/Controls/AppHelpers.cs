@@ -41,8 +41,8 @@ namespace LegendsViewer.Controls
             new[] {"plundered site",               "Site Pillaged",                            "Site attacked and plundered"},
             new[] {"reclaim site",                 "Site Reclaimed",                           ""},
             new[] {"remove hf entity link",        "Historical Figure - Entity Link Removed",  "No longer in leader position / escaped prisons"},
-            new[] {"artifact created",             "Historical Figure Artifact Created",       ""},
-            new[] {"artifact destroyed",           "Historical Figure Artifact Destroyed",     ""},
+            new[] {"artifact created",             "Artifact Created",       ""},
+            new[] {"artifact destroyed",           "Artifact Destroyed",     ""},
             new[] {"diplomat lost",                "DF Mode - Diplomat Lost",                  ""},
             new[] {"entity created",               "Entity Created",                           ""},
             new[] {"hf revived",                   "DF Mode - Historical Figure Became Ghost", ""},
@@ -77,9 +77,9 @@ namespace LegendsViewer.Controls
             new[] {"change hf body state",         "Historical Figure Body State Changed",     ""},
             new[] {"razed structure",              "Entity Razed Structure",                   ""},
             new[] {"hf learns secret",             "Historical Figure Learned Secret",         ""},
-            new[] {"artifact stored",              "Historical Figure Stored Artifact",        ""},
-            new[] {"artifact possessed",           "Historical Figure Obtained Artifact",      ""},
-            new[] {"artifact transformed",         "Historical Figure Transformed Artifact",   ""},
+            new[] {"artifact stored",              "Artifact Stored",        ""},
+            new[] {"artifact possessed",           "Artifact Possessed",      ""},
+            new[] {"artifact transformed",         "Artifact Transformed",   ""},
             new[] {"agreement made",               "Entity Agreement Made",                    ""},
             new[] {"agreement rejected",           "Entity Agreement Rejected",                ""},
             new[] {"artifact lost",                "Artifact Lost",                            ""},
@@ -107,11 +107,12 @@ namespace LegendsViewer.Controls
 
             // new 0.44.XX events
             new[] { "hfs formed reputation relationship", "Reputation Relationship Formed", ""},
-            new[] { "artifact given",                     "Artifact Given", ""},
-            new[] { "artifact claim formed",              "Artifact Claim Formed", ""},
             new[] { "hf recruited unit type for entity",  "Recruited Unit Type For Entity", ""},
             new[] { "hf prayed inside structure",         "Historical Figure Prayed In Structure", ""},
+            new[] { "artifact given",                     "Artifact Given", ""},
+            new[] { "artifact claim formed",              "Artifact Claim Formed", ""},
             new[] { "artifact copied",                    "Artifact Copied", ""},
+            new[] { "artifact recovered",                 "Artifact Recovered", ""},
 
             new[] { "INVALID",                     "INVALID EVENT",                            ""}
         };

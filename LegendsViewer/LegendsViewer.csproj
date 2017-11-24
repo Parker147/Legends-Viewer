@@ -329,6 +329,7 @@
     <Compile Include="Legends\Events\ArtifactGiven.cs" />
     <Compile Include="Legends\Events\ArtifactLost.cs" />
     <Compile Include="Legends\Events\ArtifactPossessed.cs" />
+    <Compile Include="Legends\Events\ArtifactRecovered.cs" />
     <Compile Include="Legends\Events\ArtifactStored.cs" />
     <Compile Include="Legends\Events\ArtifactTransformed.cs" />
     <Compile Include="Legends\Events\AssumeIdentity.cs" />
