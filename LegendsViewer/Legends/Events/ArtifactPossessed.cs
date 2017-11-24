@@ -10,6 +10,8 @@ namespace LegendsViewer.Legends.Events
         public int UnitId { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
         public Site Site { get; set; }
+        public WorldRegion Region { get; set; }
+        public UndergroundRegion UndergroundRegion { get; set; }
 
         public ArtifactPossessed(List<Property> properties, World world)
             : base(properties, world)
@@ -22,6 +24,8 @@ namespace LegendsViewer.Legends.Events
                     case "unit_id": UnitId = Convert.ToInt32(property.Value); break;
                     case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
+                    case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                 }
             }
 
@@ -36,6 +40,14 @@ namespace LegendsViewer.Legends.Events
             if (Site != null)
             {
                 eventString += " in " + Site.ToLink(link, pov);
+            }
+            else if (Region != null)
+            {
+                eventString += Region.ToLink(link, pov);
+            }
+            else if (UndergroundRegion != null)
+            {
+                eventString += UndergroundRegion.ToLink(link, pov);
             }
 
             eventString += " by " + HistoricalFigure.ToLink(link, pov);
