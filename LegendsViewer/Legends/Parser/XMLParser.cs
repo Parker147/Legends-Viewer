@@ -597,6 +597,9 @@ namespace LegendsViewer.Legends.Parser
                 case "artifact recovered":
                     World.Events.Add(new ArtifactRecovered(properties, World));
                     break;
+                case "artifact found":
+                    World.Events.Add(new ArtifactFound(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
