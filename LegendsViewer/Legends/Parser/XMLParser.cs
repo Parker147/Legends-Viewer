@@ -582,6 +582,9 @@ namespace LegendsViewer.Legends.Parser
                 case "artifact given":
                     World.Events.Add(new ArtifactGiven(properties, World));
                     break;
+                case "artifact claim formed":
+                    World.Events.Add(new ArtifactClaimFormed(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

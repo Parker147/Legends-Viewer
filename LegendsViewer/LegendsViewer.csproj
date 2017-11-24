@@ -269,6 +269,7 @@
     <Compile Include="Legends\Enums\BodyState.cs" />
     <Compile Include="Legends\Enums\ChangeHfStateReason.cs" />
     <Compile Include="Legends\Enums\Circumstance.cs" />
+    <Compile Include="Legends\Enums\Claim.cs" />
     <Compile Include="Legends\Enums\ConfrontReason.cs" />
     <Compile Include="Legends\Enums\ConfrontSituation.cs" />
     <Compile Include="Legends\Enums\DeathCause.cs" />
@@ -319,6 +320,7 @@
     <Compile Include="Legends\Events\AgreementFormed.cs" />
     <Compile Include="Legends\Events\AgreementMade.cs" />
     <Compile Include="Legends\Events\AgreementRejected.cs" />
+    <Compile Include="Legends\Events\ArtifactClaimFormed.cs" />
     <Compile Include="Legends\Events\ArtifactCreated.cs" />
     <Compile Include="Legends\Events\ArtifactDestroyed.cs" />
     <Compile Include="Legends\Events\ArtifactGiven.cs" />

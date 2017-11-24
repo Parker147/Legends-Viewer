@@ -132,9 +132,9 @@ namespace LegendsViewer.Legends
                 title += "Events: " + Events.Count;
                 if (pov != this)
                 {
-                    return Icon + "<a href = \"artifact#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + " <a href = \"artifact#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
-                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                return Icon + " <a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
             return Name;
         }

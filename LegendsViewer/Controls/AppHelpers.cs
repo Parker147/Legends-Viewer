@@ -105,6 +105,7 @@ namespace LegendsViewer.Controls
         // new 0.44.XX events
         new[] { "hfs formed reputation relationship", "Reputation Relationship Formed",    ""},
         new[] { "artifact given",              "Artifact Given",                           ""},
+        new[] { "artifact claim formed",       "Artifact Claim Formed",                    ""},
         new[] {"INVALID",                      "INVALID EVENT",                            ""}
     };
 
