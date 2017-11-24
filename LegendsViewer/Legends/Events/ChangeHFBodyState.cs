@@ -38,7 +38,10 @@ namespace LegendsViewer.Legends.Events
                         }
                         break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "building_id": StructureId = Convert.ToInt32(property.Value); break;
+                    case "structure_id":
+                    case "building_id":
+                        StructureId = Convert.ToInt32(property.Value);
+                        break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
@@ -46,7 +49,7 @@ namespace LegendsViewer.Legends.Events
             }
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
             }
             Structure.AddEvent(this);
             HistoricalFigure.AddEvent(this);

@@ -63,6 +63,16 @@ namespace LegendsViewer.Controls.HTML
                 }
                 Html.AppendLine("</ul>");
             }
+            if (_structure.CopiedArtifacts.Any())
+            {
+                Html.AppendLine("<b>Copied Artifacts:</b><br/>");
+                Html.AppendLine("<ul>");
+                foreach (var artifact in _structure.CopiedArtifacts)
+                {
+                    Html.AppendLine("<li>" + artifact.ToLink() + "</li>");
+                }
+                Html.AppendLine("</ul>");
+            }
 
             PrintEventLog(_structure.Events, Structure.Filters, _structure);
             return Html.ToString();

@@ -30,7 +30,8 @@ namespace LegendsViewer.Legends
 
         public int LocalId { get; set; }
         public int GlobalId { get; set; }
-
+        public List<int> CopiedArtifactIds { get; set; }
+        public List<Artifact> CopiedArtifacts { get; set; }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -42,6 +43,7 @@ namespace LegendsViewer.Legends
         {
             Name = "UNKNOWN STRUCTURE";
             InhabitantIDs = new List<int>();
+            CopiedArtifactIds = new List<int>();
             DeityId = -1;
             ReligionId = -1;
 
@@ -61,6 +63,7 @@ namespace LegendsViewer.Legends
                         break;
                     case "entity_id": EntityId = Convert.ToInt32(property.Value); break;
                     case "religion": ReligionId = Convert.ToInt32(property.Value); break;
+                    case "copied_artifact_id": CopiedArtifactIds.Add(Convert.ToInt32(property.Value)); break;
                     case "dungeon_type":
                         switch (property.Value)
                         {
@@ -77,6 +80,7 @@ namespace LegendsViewer.Legends
                         {
                             case "standard": break;
                             case "catacombs": DungeonType = DungeonType.Catacombs; break;
+                            case "sewers": DungeonType = DungeonType.Sewers; break;
                             default:
                                 property.Known = false;
                                 break;
@@ -176,6 +180,14 @@ namespace LegendsViewer.Legends
                 {
                     Religion.Worshipped.Add(Deity);
                     Deity.DedicatedStructures.Add(this);
+                }
+            }
+            CopiedArtifacts = new List<Artifact>();
+            if (CopiedArtifactIds.Any())
+            {
+                foreach (int copiedArtifactId in CopiedArtifactIds)
+                {
+                    CopiedArtifacts.Add(world.GetArtifact(copiedArtifactId));
                 }
             }
         }
