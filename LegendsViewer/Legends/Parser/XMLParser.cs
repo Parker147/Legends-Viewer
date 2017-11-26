@@ -606,6 +606,9 @@ namespace LegendsViewer.Legends.Parser
                 case "sneak into site":
                     World.Events.Add(new SneakIntoSite(properties, World));
                     break;
+                case "spotted leaving site":
+                    World.Events.Add(new SpottedLeavingSite(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
