@@ -1,6 +1,6 @@
 # version format
 # {major_release}.{feature_release}.{minor_release}.{build}
-version: 1.18.01.{build}
+version: 1.19.01.{build}
 
 branches:
   only:

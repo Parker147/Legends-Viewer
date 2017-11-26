@@ -148,6 +148,7 @@ namespace LegendsViewer.Controls.Tabs
                 _artifactSearch.SortFiltered = radArtifactSortFiltered.Checked;
                 _artifactSearch.Type = cbmArtTypeFilter.SelectedIndex == 0 ? null : cbmArtTypeFilter.SelectedItem.ToString();
                 _artifactSearch.Material = cbmArtMatFilter.SelectedIndex == 0 ? null : cbmArtMatFilter.SelectedItem.ToString();
+                _artifactSearch.ShowWrittenContent = chkWrittenContent.Checked;
                 IEnumerable<Artifact> list = _artifactSearch.GetList();
                 var results = list.ToArray();
                 listArtifactSearch.SetObjects(results);

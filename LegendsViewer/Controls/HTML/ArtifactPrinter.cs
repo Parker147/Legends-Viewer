@@ -3,9 +3,9 @@ using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.HTML
 {
-    class ArtifactPrinter : HtmlPrinter
+    public class ArtifactPrinter : HtmlPrinter
     {
-        Artifact _artifact;
+        private readonly Artifact _artifact;
 
         public ArtifactPrinter(Artifact artifact)
         {
@@ -21,10 +21,14 @@ namespace LegendsViewer.Controls.HTML
                 Html.AppendLine(" \"" + _artifact.Item + "\"");
             }
             Html.AppendLine("</h1>");
-            if (!string.IsNullOrWhiteSpace(_artifact.Type))
+            if (!string.IsNullOrWhiteSpace(_artifact.Type) && _artifact.Type != "Unknown")
             {
                 Html.AppendLine("<b>" + _artifact.Name + " was a legendary " + _artifact.Material + " ");
                 Html.AppendLine((!string.IsNullOrWhiteSpace(_artifact.SubType) ? _artifact.SubType : _artifact.Type.ToLower()) + ".</b><br />");
+            }
+            else
+            {
+                Html.AppendLine("<b>" + _artifact.Name + " was a legendary item.</b><br />");
             }
             if (!string.IsNullOrWhiteSpace(_artifact.Description))
             {

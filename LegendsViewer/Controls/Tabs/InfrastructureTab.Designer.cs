@@ -585,7 +585,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // olvColumn4
             // 
-            this.olvColumn4.AspectName = nameof(Structure.TypeAsString);
+            this.olvColumn4.AspectName = "TypeAsString";
             this.olvColumn4.IsEditable = false;
             this.olvColumn4.Text = "Type";
             this.olvColumn4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -794,7 +794,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // olvColumn6
             // 
-            this.olvColumn6.AspectName = nameof(WorldConstruction.TypeAsString);
+            this.olvColumn6.AspectName = "TypeAsString";
             this.olvColumn6.IsEditable = false;
             this.olvColumn6.Text = "Type";
             this.olvColumn6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

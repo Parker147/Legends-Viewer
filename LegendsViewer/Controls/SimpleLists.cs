@@ -509,6 +509,7 @@ namespace LegendsViewer.Controls
 
     public class ArtifactsList : WorldObjectList
     {
+        public bool ShowWrittenContent { get; set; }
         public string Name, Type, Material;
         public readonly List<Artifact> BaseList;
         public ArtifactsList(World setWorld) : base(setWorld)
@@ -531,6 +532,11 @@ namespace LegendsViewer.Controls
             if (!string.IsNullOrEmpty(Material))
             {
                 filtered = filtered.Where(artifact => artifact.Material.ToLower().Contains(Material.ToLower()));
+            }
+
+            if (!ShowWrittenContent)
+            {
+                filtered = filtered.Where(artifact => !artifact.WrittenContentIds.Any());
             }
 
             if (SortEvents)

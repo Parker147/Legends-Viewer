@@ -51,7 +51,7 @@ namespace LegendsViewer.Legends
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "item":
-                        if (property.SubProperties.Any())
+                        if (property.SubProperties != null)
                         {
                             property.Known = true;
                             foreach (Property subProperty in property.SubProperties)

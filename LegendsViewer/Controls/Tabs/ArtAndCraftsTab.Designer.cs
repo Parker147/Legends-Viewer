@@ -72,8 +72,6 @@ namespace LegendsViewer.Controls.Tabs
             this.txtWrittenContentSearch = new System.Windows.Forms.TextBox();
             this.tpWrittenContentEvents = new System.Windows.Forms.TabPage();
             this.tpDanceForms = new System.Windows.Forms.TabPage();
-            this.tbMusicalForms = new System.Windows.Forms.TabPage();
-            this.tpPoeticForms = new System.Windows.Forms.TabPage();
             this.tcDanceForms = new System.Windows.Forms.TabControl();
             this.tpDanceFormsSearch = new System.Windows.Forms.TabPage();
             this.lblDanceFormsResults = new System.Windows.Forms.Label();
@@ -87,6 +85,7 @@ namespace LegendsViewer.Controls.Tabs
             this.radDanceFormsEvents = new System.Windows.Forms.RadioButton();
             this.txtDanceFormsSearch = new System.Windows.Forms.TextBox();
             this.tpDanceFormsEvents = new System.Windows.Forms.TabPage();
+            this.tbMusicalForms = new System.Windows.Forms.TabPage();
             this.tcMusicalForms = new System.Windows.Forms.TabControl();
             this.tpMusicalFormsSearch = new System.Windows.Forms.TabPage();
             this.lblMusicalFormsResults = new System.Windows.Forms.Label();
@@ -100,6 +99,7 @@ namespace LegendsViewer.Controls.Tabs
             this.radMusicalFormsEvents = new System.Windows.Forms.RadioButton();
             this.txtMusicalFormsSearch = new System.Windows.Forms.TextBox();
             this.tpMusicalFormsEvents = new System.Windows.Forms.TabPage();
+            this.tpPoeticForms = new System.Windows.Forms.TabPage();
             this.tcPoeticForms = new System.Windows.Forms.TabControl();
             this.tpPoeticFormsSearch = new System.Windows.Forms.TabPage();
             this.lblPoeticFormsResults = new System.Windows.Forms.Label();
@@ -113,6 +113,7 @@ namespace LegendsViewer.Controls.Tabs
             this.radPoeticFormsEvents = new System.Windows.Forms.RadioButton();
             this.txtPoeticFormsSearch = new System.Windows.Forms.TextBox();
             this.tpPoeticFormsEvents = new System.Windows.Forms.TabPage();
+            this.chkWrittenContent = new System.Windows.Forms.CheckBox();
             this.tcArtAndCrafts.SuspendLayout();
             this.tpArtifacts.SuspendLayout();
             this.tcArtifacts.SuspendLayout();
@@ -127,18 +128,18 @@ namespace LegendsViewer.Controls.Tabs
             this.groupBox21.SuspendLayout();
             this.groupBox22.SuspendLayout();
             this.tpDanceForms.SuspendLayout();
-            this.tbMusicalForms.SuspendLayout();
-            this.tpPoeticForms.SuspendLayout();
             this.tcDanceForms.SuspendLayout();
             this.tpDanceFormsSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listDanceFormsSearch)).BeginInit();
             this.groupBox27.SuspendLayout();
             this.groupBox28.SuspendLayout();
+            this.tbMusicalForms.SuspendLayout();
             this.tcMusicalForms.SuspendLayout();
             this.tpMusicalFormsSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listMusicalFormsSearch)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tpPoeticForms.SuspendLayout();
             this.tcPoeticForms.SuspendLayout();
             this.tpPoeticFormsSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listPoeticFormsSearch)).BeginInit();
@@ -205,7 +206,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             this.lblArtifactResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblArtifactResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArtifactResults.Location = new System.Drawing.Point(155, 300);
+            this.lblArtifactResults.Location = new System.Drawing.Point(155, 263);
             this.lblArtifactResults.Name = "lblArtifactResults";
             this.lblArtifactResults.Size = new System.Drawing.Size(95, 10);
             this.lblArtifactResults.TabIndex = 53;
@@ -234,7 +235,7 @@ namespace LegendsViewer.Controls.Tabs
             this.listArtifactSearch.ShowCommandMenuOnRightClick = true;
             this.listArtifactSearch.ShowImagesOnSubItems = true;
             this.listArtifactSearch.ShowItemCountOnGroups = true;
-            this.listArtifactSearch.Size = new System.Drawing.Size(247, 267);
+            this.listArtifactSearch.Size = new System.Drawing.Size(247, 230);
             this.listArtifactSearch.TabIndex = 49;
             this.listArtifactSearch.UseAlternatingBackColors = true;
             this.listArtifactSearch.UseCompatibleStateImageBehavior = false;
@@ -264,7 +265,7 @@ namespace LegendsViewer.Controls.Tabs
             // btnArtifactListReset
             // 
             this.btnArtifactListReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnArtifactListReset.Location = new System.Drawing.Point(3, 305);
+            this.btnArtifactListReset.Location = new System.Drawing.Point(3, 268);
             this.btnArtifactListReset.Name = "btnArtifactListReset";
             this.btnArtifactListReset.Size = new System.Drawing.Size(50, 20);
             this.btnArtifactListReset.TabIndex = 48;
@@ -275,7 +276,7 @@ namespace LegendsViewer.Controls.Tabs
             // lblArtifactList
             // 
             this.lblArtifactList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblArtifactList.Location = new System.Drawing.Point(58, 309);
+            this.lblArtifactList.Location = new System.Drawing.Point(58, 272);
             this.lblArtifactList.Name = "lblArtifactList";
             this.lblArtifactList.Size = new System.Drawing.Size(189, 20);
             this.lblArtifactList.TabIndex = 47;
@@ -295,14 +296,15 @@ namespace LegendsViewer.Controls.Tabs
             // 
             this.groupBox19.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox19.Controls.Add(this.chkWrittenContent);
             this.groupBox19.Controls.Add(this.lblArtMatFilter);
             this.groupBox19.Controls.Add(this.cbmArtMatFilter);
             this.groupBox19.Controls.Add(this.lblArtTypeFilter);
             this.groupBox19.Controls.Add(this.cbmArtTypeFilter);
             this.groupBox19.Controls.Add(this.groupBox20);
-            this.groupBox19.Location = new System.Drawing.Point(3, 331);
+            this.groupBox19.Location = new System.Drawing.Point(3, 294);
             this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Size = new System.Drawing.Size(247, 112);
+            this.groupBox19.Size = new System.Drawing.Size(247, 149);
             this.groupBox19.TabIndex = 45;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Filter / Sort";
@@ -410,7 +412,7 @@ namespace LegendsViewer.Controls.Tabs
             this.tpArtifactsEvents.Location = new System.Drawing.Point(4, 22);
             this.tpArtifactsEvents.Name = "tpArtifactsEvents";
             this.tpArtifactsEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpArtifactsEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpArtifactsEvents.Size = new System.Drawing.Size(253, 448);
             this.tpArtifactsEvents.TabIndex = 1;
             this.tpArtifactsEvents.Text = "Events";
             this.tpArtifactsEvents.UseVisualStyleBackColor = true;
@@ -478,13 +480,13 @@ namespace LegendsViewer.Controls.Tabs
             this.listWrittenContentSearch.FullRowSelect = true;
             this.listWrittenContentSearch.GridLines = true;
             this.listWrittenContentSearch.HeaderWordWrap = true;
-            this.listWrittenContentSearch.Location = new System.Drawing.Point(3, 27);
+            this.listWrittenContentSearch.Location = new System.Drawing.Point(3, 31);
             this.listWrittenContentSearch.Name = "listWrittenContentSearch";
             this.listWrittenContentSearch.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.listWrittenContentSearch.ShowCommandMenuOnRightClick = true;
             this.listWrittenContentSearch.ShowImagesOnSubItems = true;
             this.listWrittenContentSearch.ShowItemCountOnGroups = true;
-            this.listWrittenContentSearch.Size = new System.Drawing.Size(247, 233);
+            this.listWrittenContentSearch.Size = new System.Drawing.Size(247, 229);
             this.listWrittenContentSearch.TabIndex = 54;
             this.listWrittenContentSearch.UseAlternatingBackColors = true;
             this.listWrittenContentSearch.UseCompatibleStateImageBehavior = false;
@@ -619,7 +621,7 @@ namespace LegendsViewer.Controls.Tabs
             this.tpWrittenContentEvents.Location = new System.Drawing.Point(4, 22);
             this.tpWrittenContentEvents.Name = "tpWrittenContentEvents";
             this.tpWrittenContentEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.tpWrittenContentEvents.Size = new System.Drawing.Size(253, 466);
+            this.tpWrittenContentEvents.Size = new System.Drawing.Size(253, 448);
             this.tpWrittenContentEvents.TabIndex = 1;
             this.tpWrittenContentEvents.Text = "Events";
             this.tpWrittenContentEvents.UseVisualStyleBackColor = true;
@@ -633,26 +635,6 @@ namespace LegendsViewer.Controls.Tabs
             this.tpDanceForms.TabIndex = 3;
             this.tpDanceForms.Text = "Dance Forms";
             this.tpDanceForms.UseVisualStyleBackColor = true;
-            // 
-            // tbMusicalForms
-            // 
-            this.tbMusicalForms.Controls.Add(this.tcMusicalForms);
-            this.tbMusicalForms.Location = new System.Drawing.Point(4, 40);
-            this.tbMusicalForms.Name = "tbMusicalForms";
-            this.tbMusicalForms.Size = new System.Drawing.Size(261, 474);
-            this.tbMusicalForms.TabIndex = 4;
-            this.tbMusicalForms.Text = "Musical Forms";
-            this.tbMusicalForms.UseVisualStyleBackColor = true;
-            // 
-            // tpPoeticForms
-            // 
-            this.tpPoeticForms.Controls.Add(this.tcPoeticForms);
-            this.tpPoeticForms.Location = new System.Drawing.Point(4, 40);
-            this.tpPoeticForms.Name = "tpPoeticForms";
-            this.tpPoeticForms.Size = new System.Drawing.Size(261, 474);
-            this.tpPoeticForms.TabIndex = 5;
-            this.tpPoeticForms.Text = "Poetic Forms";
-            this.tpPoeticForms.UseVisualStyleBackColor = true;
             // 
             // tcDanceForms
             // 
@@ -823,6 +805,16 @@ namespace LegendsViewer.Controls.Tabs
             this.tpDanceFormsEvents.Text = "Events";
             this.tpDanceFormsEvents.UseVisualStyleBackColor = true;
             // 
+            // tbMusicalForms
+            // 
+            this.tbMusicalForms.Controls.Add(this.tcMusicalForms);
+            this.tbMusicalForms.Location = new System.Drawing.Point(4, 40);
+            this.tbMusicalForms.Name = "tbMusicalForms";
+            this.tbMusicalForms.Size = new System.Drawing.Size(261, 474);
+            this.tbMusicalForms.TabIndex = 4;
+            this.tbMusicalForms.Text = "Musical Forms";
+            this.tbMusicalForms.UseVisualStyleBackColor = true;
+            // 
             // tcMusicalForms
             // 
             this.tcMusicalForms.Controls.Add(this.tpMusicalFormsSearch);
@@ -991,6 +983,16 @@ namespace LegendsViewer.Controls.Tabs
             this.tpMusicalFormsEvents.TabIndex = 1;
             this.tpMusicalFormsEvents.Text = "Events";
             this.tpMusicalFormsEvents.UseVisualStyleBackColor = true;
+            // 
+            // tpPoeticForms
+            // 
+            this.tpPoeticForms.Controls.Add(this.tcPoeticForms);
+            this.tpPoeticForms.Location = new System.Drawing.Point(4, 40);
+            this.tpPoeticForms.Name = "tpPoeticForms";
+            this.tpPoeticForms.Size = new System.Drawing.Size(261, 474);
+            this.tpPoeticForms.TabIndex = 5;
+            this.tpPoeticForms.Text = "Poetic Forms";
+            this.tpPoeticForms.UseVisualStyleBackColor = true;
             // 
             // tcPoeticForms
             // 
@@ -1161,6 +1163,17 @@ namespace LegendsViewer.Controls.Tabs
             this.tpPoeticFormsEvents.Text = "Events";
             this.tpPoeticFormsEvents.UseVisualStyleBackColor = true;
             // 
+            // chkWrittenContent
+            // 
+            this.chkWrittenContent.AutoSize = true;
+            this.chkWrittenContent.Location = new System.Drawing.Point(6, 126);
+            this.chkWrittenContent.Name = "chkWrittenContent";
+            this.chkWrittenContent.Size = new System.Drawing.Size(130, 17);
+            this.chkWrittenContent.TabIndex = 22;
+            this.chkWrittenContent.Text = "Show Written Content";
+            this.chkWrittenContent.UseVisualStyleBackColor = true;
+            this.chkWrittenContent.CheckedChanged += new System.EventHandler(this.SearchArtifactList);
+            // 
             // ArtAndCraftsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1187,8 +1200,6 @@ namespace LegendsViewer.Controls.Tabs
             this.groupBox22.ResumeLayout(false);
             this.groupBox22.PerformLayout();
             this.tpDanceForms.ResumeLayout(false);
-            this.tbMusicalForms.ResumeLayout(false);
-            this.tpPoeticForms.ResumeLayout(false);
             this.tcDanceForms.ResumeLayout(false);
             this.tpDanceFormsSearch.ResumeLayout(false);
             this.tpDanceFormsSearch.PerformLayout();
@@ -1196,6 +1207,7 @@ namespace LegendsViewer.Controls.Tabs
             this.groupBox27.ResumeLayout(false);
             this.groupBox28.ResumeLayout(false);
             this.groupBox28.PerformLayout();
+            this.tbMusicalForms.ResumeLayout(false);
             this.tcMusicalForms.ResumeLayout(false);
             this.tpMusicalFormsSearch.ResumeLayout(false);
             this.tpMusicalFormsSearch.PerformLayout();
@@ -1203,6 +1215,7 @@ namespace LegendsViewer.Controls.Tabs
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.tpPoeticForms.ResumeLayout(false);
             this.tcPoeticForms.ResumeLayout(false);
             this.tpPoeticFormsSearch.ResumeLayout(false);
             this.tpPoeticFormsSearch.PerformLayout();
@@ -1297,5 +1310,6 @@ namespace LegendsViewer.Controls.Tabs
         private RadioButton radPoeticFormsEvents;
         private TextBox txtPoeticFormsSearch;
         private TabPage tpPoeticFormsEvents;
+        private CheckBox chkWrittenContent;
     }
 }
