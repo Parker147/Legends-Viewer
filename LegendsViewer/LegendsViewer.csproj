@@ -312,6 +312,7 @@
     <Compile Include="Legends\EventCollections\PerformanceCollection.cs" />
     <Compile Include="Legends\EventCollections\ProcessionCollection.cs" />
     <Compile Include="Legends\EventCollections\Purge.cs" />
+    <Compile Include="Legends\EventCollections\Raid.cs" />
     <Compile Include="Legends\EventCollections\SiteConquered.cs" />
     <Compile Include="Legends\EventCollections\Theft.cs" />
     <Compile Include="Legends\EventCollections\War.cs" />

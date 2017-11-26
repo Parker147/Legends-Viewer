@@ -38,6 +38,11 @@ namespace LegendsViewer.Legends.Parser
                 World.Log.AppendLine("Found LEGENDS_PLUS.XML!");
                 World.Log.AppendLine("Parsed additional data...\n");
             }
+            else
+            {
+                World.Log.AppendLine("Missing LEGENDS_PLUS.XML!");
+                World.Log.AppendLine("Use DFHacks' \"exportlegends info\" if available...\n");
+            }
         }
 
         public void Parse()
@@ -663,6 +668,9 @@ namespace LegendsViewer.Legends.Parser
                     break;
                 case "purge":
                     World.EventCollections.Add(new Purge(properties, World));
+                    break;
+                case "raid":
+                    World.EventCollections.Add(new Raid(properties, World));
                     break;
                 default:
                     World.ParsingErrors.Report("Unknown Event Collection: " + type);
