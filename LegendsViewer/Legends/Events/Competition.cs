@@ -16,6 +16,7 @@ namespace LegendsViewer.Legends.Events
             OccasionType = OccasionType.Competition;
             Competitors = new List<HistoricalFigure>();
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "winner_hfid":
@@ -25,6 +26,8 @@ namespace LegendsViewer.Legends.Events
                         Competitors.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value)));
                         break;
                 }
+            }
+
             Winner.AddEvent(this);
             Competitors.ForEach(competitor => competitor.AddEvent(this));
         }

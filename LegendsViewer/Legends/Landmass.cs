@@ -1,7 +1,7 @@
-﻿using LegendsViewer.Controls.HTML.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Interfaces;
 using LegendsViewer.Legends.Parser;
@@ -33,7 +33,7 @@ namespace LegendsViewer.Legends
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "coord_1":
-                        coordinateStrings = property.Value.Split(new char[] { '|' },
+                        coordinateStrings = property.Value.Split(new[] { '|' },
                             StringSplitOptions.RemoveEmptyEntries);
                         foreach (var coordinateString in coordinateStrings)
                         {
@@ -44,7 +44,7 @@ namespace LegendsViewer.Legends
                         }
                         break;
                     case "coord_2":
-                        coordinateStrings = property.Value.Split(new char[] { '|' },
+                        coordinateStrings = property.Value.Split(new[] { '|' },
                             StringSplitOptions.RemoveEmptyEntries);
                         foreach (var coordinateString in coordinateStrings)
                         {
@@ -72,14 +72,16 @@ namespace LegendsViewer.Legends
                     title += "&#13";
                     title += "Events: " + Events.Count;
 
-                    linkedString = Icon + "<a href = \"landmass#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href = \"landmass#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
-                    linkedString = Icon + HTMLStyleUtil.CurrentDwarfObject(Name);
+                {
+                    linkedString = Icon + HtmlStyleUtil.CurrentDwarfObject(Name);
+                }
+
                 return linkedString;
             }
-            else
-                return Name;
+            return Name;
         }
     }
 }

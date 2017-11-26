@@ -1,6 +1,6 @@
 namespace LegendsViewer.Legends.Enums
 {
-    public enum HFState : byte
+    public enum HfState : byte
     {
         Unknown,
         None,
@@ -11,6 +11,6 @@ namespace LegendsViewer.Legends.Enums
         Refugee,
         Thief,
         Hunting,
-        Visiting,
+        Visiting
     }
 }

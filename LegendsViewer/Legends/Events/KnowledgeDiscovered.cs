@@ -13,6 +13,7 @@ namespace LegendsViewer.Legends.Events
         public KnowledgeDiscovered(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "hfid":
@@ -26,6 +27,8 @@ namespace LegendsViewer.Legends.Events
                         property.Known = true;
                         break;
                 }
+            }
+
             HistoricalFigure.AddEvent(this);
         }
 

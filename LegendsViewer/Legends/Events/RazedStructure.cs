@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using LegendsViewer.Legends.Parser;
 using System.Linq;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
@@ -9,7 +9,7 @@ namespace LegendsViewer.Legends.Events
     {
         public Entity Entity { get; set; }
         public Site Site { get; set; }
-        public int StructureID { get; set; }
+        public int StructureId { get; set; }
         public Structure Structure { get; set; }
 
         public RazedStructure(List<Property> properties, World world)
@@ -21,12 +21,12 @@ namespace LegendsViewer.Legends.Events
                 {
                     case "civ_id": Entity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "structure_id": StructureID = Convert.ToInt32(property.Value); break;
+                    case "structure_id": StructureId = Convert.ToInt32(property.Value); break;
                 }
             }
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.ID == StructureID);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
             }
 
             Entity.AddEvent(this);

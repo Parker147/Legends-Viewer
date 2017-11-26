@@ -6,7 +6,7 @@ namespace LegendsViewer.Legends.Events
 {
     public class ArtifactTransformed : WorldEvent
     {
-        public int UnitID { get; set; }
+        public int UnitId { get; set; }
         public Artifact NewArtifact { get; set; }
         public Artifact OldArtifact { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
@@ -16,14 +16,17 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
-                    case "unit_id": UnitID = Convert.ToInt32(property.Value); break;
+                    case "unit_id": UnitId = Convert.ToInt32(property.Value); break;
                     case "new_artifact_id": NewArtifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                     case "old_artifact_id": OldArtifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                     case "hist_figure_id": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                 }
+            }
+
             NewArtifact.AddEvent(this);
             OldArtifact.AddEvent(this);
             HistoricalFigure.AddEvent(this);
@@ -66,7 +69,10 @@ namespace LegendsViewer.Legends.Events
                 eventString += !string.IsNullOrWhiteSpace(OldArtifact.Type) ? OldArtifact.Type.ToLower() : "UNKNOWN TYPE";
             }
             if (Site != null)
+            {
                 eventString += " in " + Site.ToLink(link, pov);
+            }
+
             eventString += " by ";
             eventString += HistoricalFigure != null ? HistoricalFigure.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
             eventString += PrintParentCollection(link, pov);

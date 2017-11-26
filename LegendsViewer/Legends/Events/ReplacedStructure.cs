@@ -7,7 +7,7 @@ namespace LegendsViewer.Legends.Events
 {
     public class ReplacedStructure : WorldEvent
     {
-        public int OldStructureID, NewStructureID;
+        public int OldStructureId, NewStructureId;
         public Entity Civ, SiteEntity;
         public Site Site;
         public Structure OldStructure, NewStructure;
@@ -18,22 +18,22 @@ namespace LegendsViewer.Legends.Events
             {
                 switch (property.Name)
                 {
-                    case "old_ab_id": OldStructureID = Convert.ToInt32(property.Value); break;
-                    case "new_ab_id": NewStructureID = Convert.ToInt32(property.Value); break;
+                    case "old_ab_id": OldStructureId = Convert.ToInt32(property.Value); break;
+                    case "new_ab_id": NewStructureId = Convert.ToInt32(property.Value); break;
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "civ": if (Civ == null) { Civ = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "site_civ": if (SiteEntity == null) { SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "old_structure": OldStructureID = Convert.ToInt32(property.Value); break;
-                    case "new_structure": NewStructureID = Convert.ToInt32(property.Value); break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "civ": if (Civ == null) { Civ = world.GetEntity(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "site_civ": if (SiteEntity == null) { SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "old_structure": OldStructureId = Convert.ToInt32(property.Value); break;
+                    case "new_structure": NewStructureId = Convert.ToInt32(property.Value); break;
                 }
             }
             if (Site != null)
             {
-                OldStructure = Site.Structures.FirstOrDefault(structure => structure.ID == OldStructureID);
-                NewStructure = Site.Structures.FirstOrDefault(structure => structure.ID == NewStructureID);
+                OldStructure = Site.Structures.FirstOrDefault(structure => structure.LocalId == OldStructureId);
+                NewStructure = Site.Structures.FirstOrDefault(structure => structure.LocalId == NewStructureId);
             }
             Civ.AddEvent(this);
             SiteEntity.AddEvent(this);

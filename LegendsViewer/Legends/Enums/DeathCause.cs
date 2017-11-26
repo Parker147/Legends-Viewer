@@ -64,6 +64,11 @@ namespace LegendsViewer.Legends.Enums
         Heat,
         Vanish,
         [Description("Encased in cooling magma")]
-        CoolingMagma
+        CoolingMagma,
+        Vehicle,
+        [Description("Suicide - Drowned")]
+        SuicideDrowned,
+        [Description("Suicide - Leaping")]
+        SuicideLeaping
     }
 }

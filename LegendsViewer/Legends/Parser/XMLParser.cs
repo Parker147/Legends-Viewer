@@ -4,62 +4,77 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Legends.Parser
 {
-    public class XMLParser : IDisposable
+    public class XmlParser : IDisposable
     {
         protected World World;
-        protected XmlTextReader XML;
+        protected XmlTextReader Xml;
         protected string CurrentSectionName = "";
         protected Section CurrentSection = Section.Unknown;
         protected string CurrentItemName = "";
-        private XMLPlusParser xmlPlusParser;
+        private XmlPlusParser _xmlPlusParser;
 
-        protected XMLParser(string xmlFile)
+        protected XmlParser(string xmlFile)
         {
             StreamReader reader = new StreamReader(xmlFile, Encoding.GetEncoding("windows-1252"));
-            XML = new XmlTextReader(reader);
-            XML.WhitespaceHandling = WhitespaceHandling.Significant;
+            Xml = new XmlTextReader(reader)
+            {
+                WhitespaceHandling = WhitespaceHandling.Significant
+            };
         }
 
-        public XMLParser(World world, string xmlFile) : this(xmlFile)
+        public XmlParser(World world, string xmlFile) : this(xmlFile)
         {
             World = world;
             string xmlPlusFile = xmlFile.Replace(".xml", "_plus.xml");
             if (File.Exists(xmlPlusFile))
             {
-                xmlPlusParser = new XMLPlusParser(world, xmlPlusFile);
+                _xmlPlusParser = new XmlPlusParser(world, xmlPlusFile);
                 World.Log.AppendLine("Found LEGENDS_PLUS.XML!");
                 World.Log.AppendLine("Parsed additional data...\n");
+            }
+            else
+            {
+                World.Log.AppendLine("Missing LEGENDS_PLUS.XML!");
+                World.Log.AppendLine("Use DFHacks' \"exportlegends info\" if available...\n");
             }
         }
 
         public void Parse()
         {
-            while (!XML.EOF)
+            while (!Xml.EOF)
             {
-                CurrentSection = GetSectionType(XML.Name);
+                CurrentSection = GetSectionType(Xml.Name);
                 if (CurrentSection == Section.Junk)
                 {
-                    XML.Read();
+                    Xml.Read();
                 }
                 else if (CurrentSection == Section.Unknown || CurrentSection == Section.Landmasses ||
                          CurrentSection == Section.MountainPeaks)
+                {
                     SkipSection();
+                }
                 else
+                {
                     ParseSection();
+                }
             }
-            XML.Close();
+            Xml.Close();
         }
 
         private void GetSectionStart()
         {
             CurrentSectionName = "";
-            if (XML.NodeType == XmlNodeType.Element)
-                CurrentSectionName = XML.Name;
+            if (Xml.NodeType == XmlNodeType.Element)
+            {
+                CurrentSectionName = Xml.Name;
+            }
+
             CurrentSection = GetSectionType(CurrentSectionName);
         }
 
@@ -115,44 +130,46 @@ namespace LegendsViewer.Legends.Parser
 
         protected void ParseSection()
         {
-            XML.ReadStartElement();
-            while (XML.NodeType != XmlNodeType.EndElement)
+            Xml.ReadStartElement();
+            while (Xml.NodeType != XmlNodeType.EndElement)
             {
                 List<Property> item = ParseItem();
-                if (xmlPlusParser != null)
+                if (_xmlPlusParser != null)
                 {
-                    xmlPlusParser.AddNewProperties(item, CurrentSection);
+                    _xmlPlusParser.AddNewProperties(item, CurrentSection);
                 }
                 AddItemToWorld(item);
             }
-            ProcessXMLSection(CurrentSection); //Done with section, do post processing
-            XML.ReadEndElement();
+            ProcessXmlSection(CurrentSection); //Done with section, do post processing
+            Xml.ReadEndElement();
         }
 
         protected void SkipSection()
         {
-            string currentSectionName = XML.Name;
-            XML.ReadStartElement();
-            while (!(XML.NodeType == XmlNodeType.EndElement && XML.Name == currentSectionName))
+            string currentSectionName = Xml.Name;
+            Xml.ReadStartElement();
+            while (!(Xml.NodeType == XmlNodeType.EndElement && Xml.Name == currentSectionName))
             {
-                XML.Read();
+                Xml.Read();
             }
-            XML.ReadEndElement();
+            Xml.ReadEndElement();
         }
 
         public List<Property> ParseItem()
         {
-            CurrentItemName = XML.Name;
-            if (XML.NodeType == XmlNodeType.EndElement)
+            CurrentItemName = Xml.Name;
+            if (Xml.NodeType == XmlNodeType.EndElement)
+            {
                 return null;
+            }
 
-            XML.ReadStartElement();
+            Xml.ReadStartElement();
             List<Property> properties = new List<Property>();
-            while (XML.NodeType != XmlNodeType.EndElement && XML.Name != CurrentItemName)
+            while (Xml.NodeType != XmlNodeType.EndElement && Xml.Name != CurrentItemName)
             {
                 properties.Add(ParseProperty());
             }
-            XML.ReadEndElement();
+            Xml.ReadEndElement();
             return properties;
         }
 
@@ -160,36 +177,36 @@ namespace LegendsViewer.Legends.Parser
         {
             Property property = new Property();
 
-            if (string.IsNullOrEmpty(XML.Name))
+            if (string.IsNullOrEmpty(Xml.Name))
             {
                 return null;
             }
 
-            if (XML.IsEmptyElement)
+            if (Xml.IsEmptyElement)
             {
-                property.Name = XML.Name;
-                XML.ReadStartElement();
+                property.Name = Xml.Name;
+                Xml.ReadStartElement();
                 return property;
             }
-            property.Name = XML.Name;
-            XML.ReadStartElement();
+            property.Name = Xml.Name;
+            Xml.ReadStartElement();
 
-            if (XML.NodeType == XmlNodeType.Text)
+            if (Xml.NodeType == XmlNodeType.Text)
             {
-                property.Value = XML.Value;
-                XML.Read();
+                property.Value = Xml.Value;
+                Xml.Read();
             }
-            else if (XML.NodeType == XmlNodeType.Element)
+            else if (Xml.NodeType == XmlNodeType.Element)
             {
                 property.SubProperties = new List<Property>();
 
-                while (XML.NodeType != XmlNodeType.EndElement)
+                while (Xml.NodeType != XmlNodeType.EndElement)
                 {
                     property.SubProperties.Add(ParseProperty());
                 }
             }
 
-            XML.ReadEndElement();
+            Xml.ReadEndElement();
             return property;
         }
 
@@ -197,11 +214,13 @@ namespace LegendsViewer.Legends.Parser
         {
             string eventType = "";
             if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
+            {
                 eventType = properties.Find(property => property.Name == "type").Value;
+            }
 
             if (CurrentSection != Section.Events && CurrentSection != Section.EventCollections)
             {
-                AddFromXMLSection(CurrentSection, properties);
+                AddFromXmlSection(CurrentSection, properties);
             }
             else if (CurrentSection == Section.EventCollections)
             {
@@ -214,7 +233,9 @@ namespace LegendsViewer.Legends.Parser
 
             string path = CurrentSection.ToString();
             if (CurrentSection == Section.Events || CurrentSection == Section.EventCollections)
+            {
                 path += " '" + eventType + "'/";
+            }
 
             CheckKnownStateOfProperties(path, properties);
         }
@@ -234,7 +255,7 @@ namespace LegendsViewer.Legends.Parser
             }
         }
 
-        public void AddFromXMLSection(Section section, List<Property> properties)
+        public void AddFromXmlSection(Section section, List<Property> properties)
         {
             switch (section)
             {
@@ -284,7 +305,7 @@ namespace LegendsViewer.Legends.Parser
                     World.MountainPeaks.Add(new MountainPeak(properties, World));
                     break;
                 default:
-                    World.ParsingErrors.Report("Unknown XML Section: " + section.ToString());
+                    World.ParsingErrors.Report("Unknown XML Section: " + section);
                     break;
             }
         }
@@ -294,10 +315,10 @@ namespace LegendsViewer.Legends.Parser
             switch (type)
             {
                 case "add hf entity link":
-                    World.Events.Add(new AddHFEntityLink(properties, World));
+                    World.Events.Add(new AddHfEntityLink(properties, World));
                     break;
                 case "add hf hf link":
-                    World.Events.Add(new AddHFHFLink(properties, World));
+                    World.Events.Add(new AddHfhfLink(properties, World));
                     break;
                 case "attacked site":
                     World.Events.Add(new AttackedSite(properties, World));
@@ -306,10 +327,10 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new BodyAbused(properties, World));
                     break;
                 case "change hf job":
-                    World.Events.Add(new ChangeHFJob(properties, World));
+                    World.Events.Add(new ChangeHfJob(properties, World));
                     break;
                 case "change hf state":
-                    World.Events.Add(new ChangeHFState(properties, World));
+                    World.Events.Add(new ChangeHfState(properties, World));
                     break;
                 case "changed creature type":
                     World.Events.Add(new ChangedCreatureType(properties, World));
@@ -333,28 +354,28 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new FieldBattle(properties, World));
                     break;
                 case "hf abducted":
-                    World.Events.Add(new HFAbducted(properties, World));
+                    World.Events.Add(new HfAbducted(properties, World));
                     break;
                 case "hf died":
-                    World.Events.Add(new HFDied(properties, World));
+                    World.Events.Add(new HfDied(properties, World));
                     break;
                 case "hf new pet":
-                    World.Events.Add(new HFNewPet(properties, World));
+                    World.Events.Add(new HfNewPet(properties, World));
                     break;
                 case "hf reunion":
-                    World.Events.Add(new HFReunion(properties, World));
+                    World.Events.Add(new HfReunion(properties, World));
                     break;
                 case "hf simple battle event":
-                    World.Events.Add(new HFSimpleBattleEvent(properties, World));
+                    World.Events.Add(new HfSimpleBattleEvent(properties, World));
                     break;
                 case "hf travel":
-                    World.Events.Add(new HFTravel(properties, World));
+                    World.Events.Add(new HfTravel(properties, World));
                     break;
                 case "hf wounded":
-                    World.Events.Add(new HFWounded(properties, World));
+                    World.Events.Add(new HfWounded(properties, World));
                     break;
                 case "impersonate hf":
-                    World.Events.Add(new ImpersonateHF(properties, World));
+                    World.Events.Add(new ImpersonateHf(properties, World));
                     break;
                 case "item stolen":
                     World.Events.Add(new ItemStolen(properties, World));
@@ -375,7 +396,7 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new ReclaimSite(properties, World));
                     break;
                 case "remove hf entity link":
-                    World.Events.Add(new RemoveHFEntityLink(properties, World));
+                    World.Events.Add(new RemoveHfEntityLink(properties, World));
                     break;
                 case "artifact created":
                     World.Events.Add(new ArtifactCreated(properties, World));
@@ -387,7 +408,7 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new EntityCreated(properties, World));
                     break;
                 case "hf revived":
-                    World.Events.Add(new HFRevived(properties, World));
+                    World.Events.Add(new HfRevived(properties, World));
                     break;
                 case "masterpiece arch design":
                     World.Events.Add(new MasterpieceArchDesign(properties, World));
@@ -420,16 +441,16 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new SiteDied(properties, World));
                     break;
                 case "add hf site link":
-                    World.Events.Add(new AddHFSiteLink(properties, World));
+                    World.Events.Add(new AddHfSiteLink(properties, World));
                     break;
                 case "created structure":
                     World.Events.Add(new CreatedStructure(properties, World));
                     break;
                 case "hf razed structure":
-                    World.Events.Add(new HFRazedStructure(properties, World));
+                    World.Events.Add(new HfRazedStructure(properties, World));
                     break;
                 case "remove hf site link":
-                    World.Events.Add(new RemoveHFSiteLink(properties, World));
+                    World.Events.Add(new RemoveHfSiteLink(properties, World));
                     break;
                 case "replaced structure":
                     World.Events.Add(new ReplacedStructure(properties, World));
@@ -441,19 +462,19 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new EntityRelocate(properties, World));
                     break;
                 case "hf gains secret goal":
-                    World.Events.Add(new HFGainsSecretGoal(properties, World));
+                    World.Events.Add(new HfGainsSecretGoal(properties, World));
                     break;
                 case "hf profaned structure":
-                    World.Events.Add(new HFProfanedStructure(properties, World));
+                    World.Events.Add(new HfProfanedStructure(properties, World));
                     break;
                 case "hf does interaction":
-                    World.Events.Add(new HFDoesInteraction(properties, World));
+                    World.Events.Add(new HfDoesInteraction(properties, World));
                     break;
                 case "entity primary criminals":
                     World.Events.Add(new EntityPrimaryCriminals(properties, World));
                     break;
                 case "hf confronted":
-                    World.Events.Add(new HFConfronted(properties, World));
+                    World.Events.Add(new HfConfronted(properties, World));
                     break;
                 case "assume identity":
                     World.Events.Add(new AssumeIdentity(properties, World));
@@ -462,13 +483,13 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new EntityLaw(properties, World));
                     break;
                 case "change hf body state":
-                    World.Events.Add(new ChangeHFBodyState(properties, World));
+                    World.Events.Add(new ChangeHfBodyState(properties, World));
                     break;
                 case "razed structure":
                     World.Events.Add(new RazedStructure(properties, World));
                     break;
                 case "hf learns secret":
-                    World.Events.Add(new HFLearnsSecret(properties, World));
+                    World.Events.Add(new HfLearnsSecret(properties, World));
                     break;
                 case "artifact stored":
                     World.Events.Add(new ArtifactStored(properties, World));
@@ -531,7 +552,7 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new KnowledgeDiscovered(properties, World));
                     break;
                 case "hf relationship denied":
-                    World.Events.Add(new HFRelationShipDenied(properties, World));
+                    World.Events.Add(new HfRelationShipDenied(properties, World));
                     break;
                 case "regionpop incorporated into entity":
                     World.Events.Add(new RegionpopIncorporatedIntoEntity(properties, World));
@@ -549,7 +570,7 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new AgreementConcluded(properties, World));
                     break;
                 case "hf reach summit":
-                    World.Events.Add(new HFReachSummit(properties, World));
+                    World.Events.Add(new HfReachSummit(properties, World));
                     break;
                 case "artifact transformed":
                     World.Events.Add(new ArtifactTransformed(properties, World));
@@ -558,7 +579,40 @@ namespace LegendsViewer.Legends.Parser
                     World.Events.Add(new MasterpieceDye(properties, World));
                     break;
                 case "hf disturbed structure":
-                    World.Events.Add(new HFDisturbedStructure(properties, World));
+                    World.Events.Add(new HfDisturbedStructure(properties, World));
+                    break;
+                case "hfs formed reputation relationship":
+                    World.Events.Add(new HfsFormedReputationRelationship(properties, World));
+                    break;
+                case "artifact given":
+                    World.Events.Add(new ArtifactGiven(properties, World));
+                    break;
+                case "artifact claim formed":
+                    World.Events.Add(new ArtifactClaimFormed(properties, World));
+                    break;
+                case "hf recruited unit type for entity":
+                    World.Events.Add(new HfRecruitedUnitTypeForEntity(properties, World));
+                    break;
+                case "hf prayed inside structure":
+                    World.Events.Add(new HfPrayedInsideStructure(properties, World));
+                    break;
+                case "artifact copied":
+                    World.Events.Add(new ArtifactCopied(properties, World));
+                    break;
+                case "artifact recovered":
+                    World.Events.Add(new ArtifactRecovered(properties, World));
+                    break;
+                case "artifact found":
+                    World.Events.Add(new ArtifactFound(properties, World));
+                    break;
+                case "hf viewed artifact":
+                    World.Events.Add(new HfViewedArtifact(properties, World));
+                    break;
+                case "sneak into site":
+                    World.Events.Add(new SneakIntoSite(properties, World));
+                    break;
+                case "spotted leaving site":
+                    World.Events.Add(new SpottedLeavingSite(properties, World));
                     break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
@@ -615,13 +669,16 @@ namespace LegendsViewer.Legends.Parser
                 case "purge":
                     World.EventCollections.Add(new Purge(properties, World));
                     break;
+                case "raid":
+                    World.EventCollections.Add(new Raid(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event Collection: " + type);
                     break;
             }
         }
 
-        private void ProcessXMLSection(Section section)
+        private void ProcessXmlSection(Section section)
         {
             if (section == Section.Events)
             {
@@ -630,9 +687,13 @@ namespace LegendsViewer.Legends.Parser
                 foreach (HistoricalFigure hf in World.HistoricalFigures)
                 {
                     if (hf.DeathYear > 0)
+                    {
                         hf.Age = hf.DeathYear - hf.BirthYear;
+                    }
                     else
+                    {
                         hf.Age = lastYear - hf.BirthYear;
+                    }
                 }
             }
 
@@ -646,9 +707,7 @@ namespace LegendsViewer.Legends.Parser
             {
                 World.HistoricalFiguresByName = new List<HistoricalFigure>(World.HistoricalFigures);
                 World.HistoricalFiguresByName.Sort((a, b) => String.Compare(a.Name, b.Name));
-                World.ProcessHFtoHFLinks();
-                World.ProcessHFCurrentIdentities();
-                World.ProcessHFUsedIdentities();
+                World.ProcessHFtoHfLinks();
             }
 
             //Create sorted entities so they can be binary searched by name, needed for History/sites files
@@ -666,7 +725,10 @@ namespace LegendsViewer.Legends.Parser
             {
                 World.Eras.Last().EndYear = World.Events.Last().Year;
                 for (int i = 0; i < World.Eras.Count - 1; i++)
+                {
                     World.Eras[i].EndYear = World.Eras[i + 1].StartYear - 1;
+                }
+
                 foreach (Era era in World.Eras)
                 {
                     era.Events =
@@ -677,15 +739,15 @@ namespace LegendsViewer.Legends.Parser
                         World.EventCollections.OfType<War>()
                             .Where(
                                 war =>
-                                    (war.StartYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1)
+                                    war.StartYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1
                                     //entire war between
-                                    || (war.StartYear >= era.StartYear && war.StartYear <= era.EndYear)
+                                    || war.StartYear >= era.StartYear && war.StartYear <= era.EndYear
                                     //war started before & ended
-                                    || (war.EndYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1)
+                                    || war.EndYear >= era.StartYear && war.EndYear <= era.EndYear && war.EndYear != -1
                                     //war started during
-                                    || (war.StartYear <= era.StartYear && war.EndYear >= era.EndYear)
+                                    || war.StartYear <= era.StartYear && war.EndYear >= era.EndYear
                                     //war started before & ended after
-                                    || (war.StartYear <= era.StartYear && war.EndYear == -1)).ToList();
+                                    || war.StartYear <= era.StartYear && war.EndYear == -1).ToList();
                 }
 
             }
@@ -702,8 +764,10 @@ namespace LegendsViewer.Legends.Parser
                 //Sub Event Collections aren't created until after the main collection
                 //So only IDs are stored in the main collection until here now that all collections have been created
                 //and can now be added to their Parent collection
-                foreach (int collectionID in eventCollection.CollectionIDs)
-                    eventCollection.Collections.Add(World.GetEventCollection(collectionID));
+                foreach (int collectionId in eventCollection.CollectionIDs)
+                {
+                    eventCollection.Collections.Add(World.GetEventCollection(collectionId));
+                }
             }
 
             //Attempt at calculating beast historical figure for beast attacks.
@@ -721,24 +785,24 @@ namespace LegendsViewer.Legends.Parser
                 }
 
                 //Find Beast by looking at fights, Beast always engages the first fight in a Beast Attack?
-                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().Any())
+                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HfSimpleBattleEvent>().Any())
                 {
-                    var hfSimpleBattleEvent = beastAttack.GetSubEvents().OfType<HFSimpleBattleEvent>().First();
+                    var hfSimpleBattleEvent = beastAttack.GetSubEvents().OfType<HfSimpleBattleEvent>().First();
                     beastAttack.Beast = hfSimpleBattleEvent.HistoricalFigure1;
                 }
-                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<AddHFEntityLink>().Any())
+                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<AddHfEntityLink>().Any())
                 {
-                    var addHFEntityLink = beastAttack.GetSubEvents().OfType<AddHFEntityLink>().FirstOrDefault(link => link.LinkType == Enums.HfEntityLinkType.Enemy);
-                    beastAttack.Beast = addHFEntityLink?.HistoricalFigure;
+                    var addHfEntityLink = beastAttack.GetSubEvents().OfType<AddHfEntityLink>().FirstOrDefault(link => link.LinkType == HfEntityLinkType.Enemy);
+                    beastAttack.Beast = addHfEntityLink?.HistoricalFigure;
                 }
-                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HFDied>().Any())
+                if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HfDied>().Any())
                 {
-                    var hfDied = beastAttack.GetSubEvents().OfType<HFDied>().FirstOrDefault();
-                    if (hfDied.HistoricalFigure != null && hfDied.HistoricalFigure.RelatedSites.Any(siteLink => siteLink.Type == Enums.SiteLinkType.Lair))
+                    var hfDied = beastAttack.GetSubEvents().OfType<HfDied>().FirstOrDefault();
+                    if (hfDied.HistoricalFigure != null && hfDied.HistoricalFigure.RelatedSites.Any(siteLink => siteLink.Type == SiteLinkType.Lair))
                     {
                         beastAttack.Beast = hfDied.HistoricalFigure;
                     }
-                    else if (hfDied.Slayer != null && hfDied.Slayer.RelatedSites.Any(siteLink => siteLink.Type == Enums.SiteLinkType.Lair))
+                    else if (hfDied.Slayer != null && hfDied.Slayer.RelatedSites.Any(siteLink => siteLink.Type == SiteLinkType.Lair))
                     {
                         beastAttack.Beast = hfDied.Slayer;
                     }
@@ -746,7 +810,7 @@ namespace LegendsViewer.Legends.Parser
                     {
                         var slayers =
                             beastAttack.GetSubEvents()
-                                .OfType<HFDied>()
+                                .OfType<HfDied>()
                                 .GroupBy(death => death.Slayer)
                                 .Select(hf => new { HF = hf.Key, Count = hf.Count() });
                         if (slayers.Count(slayer => slayer.Count > 1) == 1)
@@ -816,7 +880,7 @@ namespace LegendsViewer.Legends.Parser
                         }
                     }
                 }
-                foreach (HFAbducted abducted in beastAttack.Collection.OfType<HFAbducted>())
+                foreach (HfAbducted abducted in beastAttack.Collection.OfType<HfAbducted>())
                 {
                     if (abducted.Snatcher == null)
                     {
@@ -849,17 +913,24 @@ namespace LegendsViewer.Legends.Parser
             //Battle = first Battle prior to the conquering?
             foreach (SiteConquered conquer in World.EventCollections.OfType<SiteConquered>())
             {
-                for (int i = conquer.ID - 1; i >= 0; i--)
+                for (int i = conquer.Id - 1; i >= 0; i--)
                 {
                     EventCollection collection = World.GetEventCollection(i);
-                    if (collection == null) continue;
+                    if (collection == null)
+                    {
+                        continue;
+                    }
+
                     if (collection.GetType() == typeof(Battle))
                     {
 
                         conquer.Battle = collection as Battle;
                         conquer.Battle.Conquering = conquer;
                         if (conquer.Battle.Defender == null && conquer.Defender != null)
+                        {
                             conquer.Battle.Defender = conquer.Defender;
+                        }
+
                         break;
                     }
                 }
@@ -876,8 +947,8 @@ namespace LegendsViewer.Legends.Parser
         {
             if (disposing)
             {
-                XML.Close();
-                xmlPlusParser.Dispose();
+                Xml.Close();
+                _xmlPlusParser.Dispose();
             }
         }
     }

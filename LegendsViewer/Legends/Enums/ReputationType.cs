@@ -24,6 +24,12 @@ namespace LegendsViewer.Legends.Enums
         LoyalSoldier,
         Bully,
         Hero,
-        Hunter
+        Hunter,
+        [Description("Information Source")]
+        InformationSource,
+        [Description("Treasure Hunter")]
+        TreasureHunter,
+        [Description("Knowledge Preserver")]
+        KnowledgePreserver,
     }
 }

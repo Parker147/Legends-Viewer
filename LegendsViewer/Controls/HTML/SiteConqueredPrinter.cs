@@ -1,51 +1,52 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends;
 using LegendsViewer.Legends.EventCollections;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    class SiteConqueredPrinter : HTMLPrinter
+    class SiteConqueredPrinter : HtmlPrinter
     {
-        SiteConquered Conquering;
-        World World;
+        SiteConquered _conquering;
+        World _world;
 
         public SiteConqueredPrinter(SiteConquered conquering, World world)
         {
-            Conquering = conquering;
-            World = world;
+            _conquering = conquering;
+            _world = world;
         }
 
         public override string GetTitle()
         {
-            return "The " + Conquering.GetOrdinal(Conquering.Ordinal) + Conquering.ConquerType + " of " + Conquering.Site.ToLink(false);
+            return "The " + _conquering.GetOrdinal(_conquering.Ordinal) + _conquering.ConquerType + " of " + _conquering.Site.ToLink(false);
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + GetTitle() + "</h1></br>");
+            Html.AppendLine("<h1>" + GetTitle() + "</h1></br>");
 
-            HTML.AppendLine(Conquering.GetYearTime() + "The " + Conquering.GetOrdinal(Conquering.Ordinal) + Conquering.ConquerType + " of " + Conquering.Site.ToLink() + " occurred as a result of " + Conquering.Battle.ToLink() 
-                + (Conquering.ParentCollection == null ? "" : " in " + Conquering.ParentCollection.ToLink() + " waged by " + (Conquering.ParentCollection as War).Attacker.PrintEntity() + " on " + (Conquering.ParentCollection as War).Defender.PrintEntity() )
+            Html.AppendLine(_conquering.GetYearTime() + "The " + _conquering.GetOrdinal(_conquering.Ordinal) + _conquering.ConquerType + " of " + _conquering.Site.ToLink() + " occurred as a result of " + _conquering.Battle.ToLink() 
+                + (_conquering.ParentCollection == null ? "" : " in " + _conquering.ParentCollection.ToLink() + " waged by " + (_conquering.ParentCollection as War).Attacker.PrintEntity() + " on " + (_conquering.ParentCollection as War).Defender.PrintEntity() )
                 + ".</br></br>");
 
-            List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Conquering);
+            List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _conquering);
 
-            HTML.AppendLine("<table>");
-            HTML.AppendLine("<tr>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("</tr></table></br>");
+            Html.AppendLine("<table>");
+            Html.AppendLine("<tr>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("</tr></table></br>");
 
-            HTML.AppendLine("<b>" + Conquering.Attacker.PrintEntity() + " (Attacker)</b></br>");
-            HTML.AppendLine("<b>" + Conquering.Defender.PrintEntity() + " (Defender)</b></br></br>");
+            Html.AppendLine("<b>" + _conquering.Attacker.PrintEntity() + " (Attacker)</b></br>");
+            Html.AppendLine("<b>" + _conquering.Defender.PrintEntity() + " (Defender)</b></br></br>");
 
-            PrintEventLog(Conquering.GetSubEvents(), SiteConquered.Filters, Conquering);
+            PrintEventLog(_conquering.GetSubEvents(), SiteConquered.Filters, _conquering);
 
-            return HTML.ToString();
+            return Html.ToString();
         }
     }
 }

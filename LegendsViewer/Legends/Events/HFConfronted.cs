@@ -6,7 +6,7 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFConfronted : WorldEvent
+    public class HfConfronted : WorldEvent
     {
         public HistoricalFigure HistoricalFigure { get; set; }
         public ConfrontSituation Situation { get; set; }
@@ -15,14 +15,14 @@ namespace LegendsViewer.Legends.Events
         public WorldRegion Region { get; set; }
         public UndergroundRegion UndergroundRegion { get; set; }
         public Location Coordinates { get; set; }
-        private string UnknownSituation;
-        private List<string> UnknownReasons;
+        private string _unknownSituation;
+        private List<string> _unknownReasons;
 
-        public HFConfronted(List<Property> properties, World world)
+        public HfConfronted(List<Property> properties, World world)
             : base(properties, world)
         {
             Reasons = new List<ConfrontReason>();
-            UnknownReasons = new List<string>();
+            _unknownReasons = new List<string>();
             foreach (Property property in properties)
             {
                 switch (property.Name)
@@ -34,8 +34,8 @@ namespace LegendsViewer.Legends.Events
                             case "general suspicion": Situation = ConfrontSituation.GeneralSuspicion; break;
                             default:
                                 Situation = ConfrontSituation.Unknown;
-                                UnknownSituation = property.Value;
-                                world.ParsingErrors.Report("Unknown HF Confronted Situation: " + UnknownSituation);
+                                _unknownSituation = property.Value;
+                                world.ParsingErrors.Report("Unknown HF Confronted Situation: " + _unknownSituation);
                                 break;
                         }
                         break;
@@ -46,7 +46,7 @@ namespace LegendsViewer.Legends.Events
                             case "ageless": Reasons.Add(ConfrontReason.Ageless); break;
                             default:
                                 Reasons.Add(ConfrontReason.Unknown);
-                                UnknownReasons.Add(property.Value);
+                                _unknownReasons.Add(property.Value);
                                 world.ParsingErrors.Report("Unknown HF Confronted Reason: " + property.Value);
                                 break;
                         }
@@ -71,15 +71,19 @@ namespace LegendsViewer.Legends.Events
             switch (Situation)
             {
                 case ConfrontSituation.GeneralSuspicion: situationString = "aroused general suspicion"; break;
-                case ConfrontSituation.Unknown: situationString = "(" + UnknownSituation + ")"; break;
+                case ConfrontSituation.Unknown: situationString = "(" + _unknownSituation + ")"; break;
             }
             eventString += " " + situationString;
 
             if (Region != null)
+            {
                 eventString += " in " + Region.ToLink(link, pov);
+            }
 
             if (Site != null)
+            {
                 eventString += " at " + Site.ToLink(link, pov);
+            }
 
             string reasonString = "after ";
             int unknownReasonIndex = 0;
@@ -90,15 +94,19 @@ namespace LegendsViewer.Legends.Events
                     case ConfrontReason.Murder: reasonString += "a murder"; break;
                     case ConfrontReason.Ageless: reasonString += "appearing not to age"; break;
                     case ConfrontReason.Unknown:
-                        reasonString += "(" + UnknownReasons[unknownReasonIndex++] + ")";
+                        reasonString += "(" + _unknownReasons[unknownReasonIndex++] + ")";
                         break;
                 }
 
                 if (reason != Reasons.Last() && Reasons.Count > 2)
+                {
                     reasonString += ",";
+                }
 
                 if (Reasons.Count > 1 && reason == Reasons[Reasons.Count - 2])
+                {
                     reasonString += " and ";
+                }
             }
             eventString += " " + reasonString;
             eventString += PrintParentCollection(link, pov);

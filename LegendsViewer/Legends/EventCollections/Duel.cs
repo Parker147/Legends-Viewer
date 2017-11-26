@@ -23,6 +23,7 @@ namespace LegendsViewer.Legends.EventCollections
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "ordinal": Ordinal = String.Intern(property.Value); break;
@@ -34,12 +35,14 @@ namespace LegendsViewer.Legends.EventCollections
                     case "attacking_hfid": Attacker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "defending_hfid": Defender = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                 }
+            }
             //foreach (WorldEvent collectionEvent in Collection) this.AddEvent(collectionEvent);
             if (ParentCollection != null && ParentCollection.GetType() == typeof(Battle))
-                foreach (HFDied death in Collection.OfType<HFDied>())
+            {
+                foreach (HfDied death in Collection.OfType<HfDied>())
                 {
                     Battle battle = ParentCollection as Battle;
-                    War parentWar = (battle.ParentCollection as War);
+                    War parentWar = battle.ParentCollection as War;
                     if (battle.NotableAttackers.Contains(death.HistoricalFigure))
                     {
                         battle.AttackerDeathCount++;
@@ -65,7 +68,7 @@ namespace LegendsViewer.Legends.EventCollections
                         (ParentCollection.ParentCollection as War).DeathCount++;
                     }
                 }
-
+            }
         }
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {

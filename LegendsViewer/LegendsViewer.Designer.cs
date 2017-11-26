@@ -1,11 +1,15 @@
-﻿namespace LegendsViewer
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using LegendsViewer.Controls.Tabs;
+
+namespace LegendsViewer
 {
-    partial class frmLegendsViewer
+    partial class FrmLegendsViewer
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -85,7 +89,7 @@
             this.lblVersion.TabIndex = 34;
             this.lblVersion.Text = "v1.00.00";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblVersion.Click += new System.EventHandler(this.open_ReadMe);
+            this.lblVersion.Click += new System.EventHandler(this.Open_ReadMe);
             // 
             // scWorld
             // 
@@ -223,7 +227,7 @@
             this.btnChart.Text = "Charts";
             this.btnChart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnChart.UseVisualStyleBackColor = true;
-            this.btnChart.Click += new System.EventHandler(this.btnChart_Click);
+            this.btnChart.Click += new System.EventHandler(this.BtnChart_Click);
             // 
             // btnMap
             // 
@@ -235,7 +239,7 @@
             this.btnMap.Text = "World Map";
             this.btnMap.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnMap.UseVisualStyleBackColor = true;
-            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
+            this.btnMap.Click += new System.EventHandler(this.BtnMap_Click);
             // 
             // btnStats
             // 
@@ -247,7 +251,7 @@
             this.btnStats.Text = "Summary";
             this.btnStats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStats.UseVisualStyleBackColor = true;
-            this.btnStats.Click += new System.EventHandler(this.btnStats_Click);
+            this.btnStats.Click += new System.EventHandler(this.BtnStats_Click);
             // 
             // btnBack
             // 
@@ -257,7 +261,7 @@
             this.btnBack.Size = new System.Drawing.Size(24, 24);
             this.btnBack.TabIndex = 30;
             this.btnBack.UseVisualStyleBackColor = true;
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            this.btnBack.Click += new System.EventHandler(this.BtnBack_Click);
             // 
             // btnForward
             // 
@@ -267,7 +271,7 @@
             this.btnForward.Size = new System.Drawing.Size(24, 24);
             this.btnForward.TabIndex = 31;
             this.btnForward.UseVisualStyleBackColor = true;
-            this.btnForward.Click += new System.EventHandler(this.btnForward_Click);
+            this.btnForward.Click += new System.EventHandler(this.BtnForward_Click);
             // 
             // summaryTab1
             // 
@@ -341,12 +345,12 @@
             this.Controls.Add(this.scWorld);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI Symbol", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "frmLegendsViewer";
+            this.Name = "FrmLegendsViewer";
             this.Text = "Legends Viewer";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmLegendsViewer_FormClosed);
-            this.Shown += new System.EventHandler(this.frmLegendsViewer_Shown);
-            this.ResizeEnd += new System.EventHandler(this.frmLegendsViewer_ResizeEnd);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmLegendsViewer_FormClosed);
+            this.Shown += new System.EventHandler(this.FrmLegendsViewer_Shown);
+            this.ResizeEnd += new System.EventHandler(this.FrmLegendsViewer_ResizeEnd);
             this.scWorld.Panel1.ResumeLayout(false);
             this.scWorld.Panel2.ResumeLayout(false);
             this.scWorld.Panel2.PerformLayout();
@@ -367,32 +371,32 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tcWorld;
-        private System.Windows.Forms.TabPage tpInfrastructure;
-        private System.Windows.Forms.TabPage tpRegions;
-        private System.Windows.Forms.TabPage tpCivs;
-        private System.Windows.Forms.OpenFileDialog dlgOpen;
-        private System.Windows.Forms.Button btnBack;
-        private System.Windows.Forms.Button btnForward;
-        private System.Windows.Forms.TabPage tpHF;
-        private System.Windows.Forms.ToolTip hint;
-        private System.Windows.Forms.TabPage tpWarfare;
-        private System.Windows.Forms.TabPage tpCollections;
-        private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.SplitContainer scWorld;
-        private System.Windows.Forms.TabPage tpSummary;
-        private Controls.Tabs.SummaryTab summaryTab1;
-        private System.Windows.Forms.Button btnStats;
-        private System.Windows.Forms.Button btnChart;
-        private System.Windows.Forms.Button btnMap;
-        private System.Windows.Forms.TabPage tpArt;
-        private Controls.Tabs.HistoricalFiguresTab historicalFiguresTab1;
-        private Controls.Tabs.CivsTab civsTab1;
-        private Controls.Tabs.ArtAndCraftsTab artAndCraftsTab1;
-        private Controls.Tabs.GeographyTab geographyTab1;
-        private Controls.Tabs.WarfareTab warfareTab1;
-        private Controls.Tabs.CollectionsTab collectionsTab1;
-        private Controls.Tabs.InfrastructureTab infrastructureTab1;
+        private TabControl tcWorld;
+        private TabPage tpInfrastructure;
+        private TabPage tpRegions;
+        private TabPage tpCivs;
+        private OpenFileDialog dlgOpen;
+        private Button btnBack;
+        private Button btnForward;
+        private TabPage tpHF;
+        private ToolTip hint;
+        private TabPage tpWarfare;
+        private TabPage tpCollections;
+        private Label lblVersion;
+        private SplitContainer scWorld;
+        private TabPage tpSummary;
+        private SummaryTab summaryTab1;
+        private Button btnStats;
+        private Button btnChart;
+        private Button btnMap;
+        private TabPage tpArt;
+        private HistoricalFiguresTab historicalFiguresTab1;
+        private CivsTab civsTab1;
+        private ArtAndCraftsTab artAndCraftsTab1;
+        private GeographyTab geographyTab1;
+        private WarfareTab warfareTab1;
+        private CollectionsTab collectionsTab1;
+        private InfrastructureTab infrastructureTab1;
     }
 }
 

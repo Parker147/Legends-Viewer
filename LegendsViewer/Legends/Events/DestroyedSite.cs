@@ -13,6 +13,7 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
@@ -20,15 +21,20 @@ namespace LegendsViewer.Legends.Events
                     case "attacker_civ_id": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "defender_civ_id": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
                 }
+            }
 
             if (Site.OwnerHistory.Count == 0)
+            {
                 if (SiteEntity != null && SiteEntity != Defender)
                 {
                     SiteEntity.Parent = Defender;
                     new OwnerPeriod(Site, SiteEntity, 1, "founded");
                 }
                 else
+                {
                     new OwnerPeriod(Site, Defender, 1, "founded");
+                }
+            }
 
             Site.OwnerHistory.Last().EndCause = "destroyed";
             Site.OwnerHistory.Last().EndYear = Year;
@@ -36,7 +42,10 @@ namespace LegendsViewer.Legends.Events
 
             Site.AddEvent(this);
             if (SiteEntity != Defender)
+            {
                 SiteEntity.AddEvent(this);
+            }
+
             Attacker.AddEvent(this);
             Defender.AddEvent(this);
         }
@@ -44,7 +53,11 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
-            if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
+            if (SiteEntity != null && SiteEntity != Defender)
+            {
+                eventString += SiteEntity.ToLink(link, pov) + " of ";
+            }
+
             eventString += Defender.ToLink(link, pov) + " and destroyed " + Site.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
             eventString += ".";

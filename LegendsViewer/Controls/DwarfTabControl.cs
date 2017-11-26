@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using LegendsViewer.Controls.Chart;
 using LegendsViewer.Controls.HTML;
 using LegendsViewer.Controls.Map;
 using LegendsViewer.Controls.Query;
@@ -24,10 +24,10 @@ namespace LegendsViewer.Controls
             PageControl newControl = null;
             switch (control)
             {
-                case ControlOption.HTML:
+                case ControlOption.Html:
                     if (navigateObject != null)
                     {
-                        newControl = new HTMLControl(navigateObject, this, World);
+                        newControl = new HtmlControl(navigateObject, this, World);
                     }
                     break;
                 case ControlOption.Chart:
@@ -111,7 +111,7 @@ namespace LegendsViewer.Controls
         {
             foreach (DwarfTabPage page in TabPages.OfType<DwarfTabPage>())
             {
-                if (page.Current.GetType() == typeof(HTMLControl) && ((HTMLControl) page.Current).HTMLObject.GetType() == refreshType)
+                if (page.Current.GetType() == typeof(HtmlControl) && ((HtmlControl) page.Current).HtmlObject.GetType() == refreshType)
                 {
                     page.Current.Refresh();
                 }

@@ -5,6 +5,6 @@ namespace LegendsViewer.Legends.Enums
         Unknown,
         TreeQuota,
         BecomeLandHolder,
-        PromoteLandHolder,
+        PromoteLandHolder
     }
 }

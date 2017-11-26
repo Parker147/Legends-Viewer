@@ -10,7 +10,7 @@ namespace LegendsViewer.Legends.Events
         public HistoricalFigure Improver { get; set; }
         public Entity ImproverEntity { get; set; }
         public Site Site { get; set; }
-        public int ItemID { get; set; }
+        public int ItemId { get; set; }
         public string ItemType { get; set; }
         public string ItemSubType { get; set; }
         public string Material { get; set; }
@@ -21,8 +21,8 @@ namespace LegendsViewer.Legends.Events
         public string ImprovementMaterial { get; set; }
         public int ImprovementMaterialType { get; set; }
         public int ImprovementMaterialIndex { get; set; }
-        public int ArtID { get; set; }
-        public int ArtSubID { get; set; }
+        public int ArtId { get; set; }
+        public int ArtSubId { get; set; }
 
         public MasterpieceItemImprovement(List<Property> properties, World world)
             : base(properties, world)
@@ -35,9 +35,9 @@ namespace LegendsViewer.Legends.Events
                     case "hfid": Improver = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "entity_id": ImproverEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "maker": if (Improver == null) { Improver = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "maker_entity": if (ImproverEntity == null) { ImproverEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "maker": if (Improver == null) { Improver = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "maker_entity": if (ImproverEntity == null) { ImproverEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "skill_used": SkillAtTime = Convert.ToInt32(property.Value); break;
                     case "item_type": ItemType = property.Value.Replace("_", " "); break;
                     case "item_subtype": ItemSubType = property.Value.Replace("_", " "); break;
@@ -49,8 +49,8 @@ namespace LegendsViewer.Legends.Events
                     case "imp_mat": ImprovementMaterial = property.Value.Replace("_", " "); break;
                     case "imp_mat_type": ImprovementMaterialType = Convert.ToInt32(property.Value); break;
                     case "imp_mat_index": ImprovementMaterialIndex = Convert.ToInt32(property.Value); break;
-                    case "art_id": ArtID = Convert.ToInt32(property.Value); break;
-                    case "art_subid": ArtSubID = Convert.ToInt32(property.Value); break;
+                    case "art_id": ArtId = Convert.ToInt32(property.Value); break;
+                    case "art_subid": ArtSubId = Convert.ToInt32(property.Value); break;
                 }
             }
             Improver.AddEvent(this);

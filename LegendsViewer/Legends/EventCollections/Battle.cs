@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends.EventCollections
 {
@@ -63,6 +63,7 @@ namespace LegendsViewer.Legends.EventCollections
             var defenderSquadDeaths = new List<int>();
             var defenderSquadSite = new List<int>();
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "outcome":
@@ -93,6 +94,7 @@ namespace LegendsViewer.Legends.EventCollections
                     case "defending_squad_site": defenderSquadSite.Add(Convert.ToInt32(property.Value)); break;
                     case "noncom_hfid": NonCombatants.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value))); break;
                 }
+            }
 
             if (Collection.OfType<AttackedSite>().Any())
             {
@@ -105,58 +107,95 @@ namespace LegendsViewer.Legends.EventCollections
                 Defender = Collection.OfType<FieldBattle>().First().Defender;
             }
 
-            foreach (HistoricalFigure attacker in NotableAttackers) attacker.Battles.Add(this);
-            foreach (HistoricalFigure defender in NotableDefenders) defender.Battles.Add(this);
-            foreach (HistoricalFigure nonCombatant in NonCombatants) nonCombatant.Battles.Add(this);
+            foreach (HistoricalFigure attacker in NotableAttackers)
+            {
+                attacker.Battles.Add(this);
+            }
+
+            foreach (HistoricalFigure defender in NotableDefenders)
+            {
+                defender.Battles.Add(this);
+            }
+
+            foreach (HistoricalFigure nonCombatant in NonCombatants)
+            {
+                nonCombatant.Battles.Add(this);
+            }
 
             for (int i = 0; i < attackerSquadRace.Count; i++)
+            {
                 AttackerSquads.Add(new Squad(attackerSquadRace[i], attackerSquadNumbers[i], attackerSquadDeaths[i], attackerSquadSite[i], attackerSquadEntityPopulation[i]));
+            }
+
             for (int i = 0; i < defenderSquadRace.Count; i++)
+            {
                 DefenderSquads.Add(new Squad(defenderSquadRace[i], defenderSquadNumbers[i], defenderSquadDeaths[i], defenderSquadSite[i], defenderSquadEntityPopulation[i]));
+            }
 
             var groupedAttackerSquads = from squad in AttackerSquads
                                         group squad by squad.Race into squadRace
                                         select new { Race = squadRace.Key, Count = squadRace.Sum(squad => squad.Numbers), Deaths = squadRace.Sum(squad => squad.Deaths) };
             foreach (var squad in groupedAttackerSquads)
-                Attackers.Add(new Squad(squad.Race, squad.Count + NotableAttackers.Count(attacker => attacker.Race == squad.Race), squad.Deaths + Collection.OfType<HFDied>().Count(death => death.HistoricalFigure.Race == squad.Race && NotableAttackers.Contains(death.HistoricalFigure)), -1, -1));
+            {
+                Attackers.Add(new Squad(squad.Race, squad.Count + NotableAttackers.Count(attacker => attacker.Race == squad.Race), squad.Deaths + Collection.OfType<HfDied>().Count(death => death.HistoricalFigure.Race == squad.Race && NotableAttackers.Contains(death.HistoricalFigure)), -1, -1));
+            }
+
             foreach (var attacker in NotableAttackers.Where(hf => Attackers.Count(squad => squad.Race == hf.Race) == 0).GroupBy(hf => hf.Race).Select(race => new { Race = race.Key, Count = race.Count() }))
             {
-                Attackers.Add(new Squad(attacker.Race, attacker.Count, Collection.OfType<HFDied>().Count(death => NotableAttackers.Contains(death.HistoricalFigure) && death.HistoricalFigure.Race == attacker.Race), -1, -1));
+                Attackers.Add(new Squad(attacker.Race, attacker.Count, Collection.OfType<HfDied>().Count(death => NotableAttackers.Contains(death.HistoricalFigure) && death.HistoricalFigure.Race == attacker.Race), -1, -1));
             }
             AttackersAsList = new List<string>();
             foreach (Squad squad in Attackers)
+            {
                 for (int i = 0; i < squad.Numbers; i++)
+                {
                     AttackersAsList.Add(squad.Race);
-
-
+                }
+            }
 
             var groupedDefenderSquads = from squad in DefenderSquads
                                         group squad by squad.Race into squadRace
                                         select new { Race = squadRace.Key, Count = squadRace.Sum(squad => squad.Numbers), Deaths = squadRace.Sum(squad => squad.Deaths) };
             foreach (var squad in groupedDefenderSquads)
-                Defenders.Add(new Squad(squad.Race, squad.Count + NotableDefenders.Count(defender => defender.Race == squad.Race), squad.Deaths + Collection.OfType<HFDied>().Count(death => death.HistoricalFigure.Race == squad.Race && NotableDefenders.Contains(death.HistoricalFigure)), -1, -1));
+            {
+                Defenders.Add(new Squad(squad.Race, squad.Count + NotableDefenders.Count(defender => defender.Race == squad.Race), squad.Deaths + Collection.OfType<HfDied>().Count(death => death.HistoricalFigure.Race == squad.Race && NotableDefenders.Contains(death.HistoricalFigure)), -1, -1));
+            }
+
             foreach (var defender in NotableDefenders.Where(hf => Defenders.Count(squad => squad.Race == hf.Race) == 0).GroupBy(hf => hf.Race).Select(race => new { Race = race.Key, Count = race.Count() }))
             {
-                Defenders.Add(new Squad(defender.Race, defender.Count, Collection.OfType<HFDied>().Count(death => NotableDefenders.Contains(death.HistoricalFigure) && death.HistoricalFigure.Race == defender.Race), -1, -1));
+                Defenders.Add(new Squad(defender.Race, defender.Count, Collection.OfType<HfDied>().Count(death => NotableDefenders.Contains(death.HistoricalFigure) && death.HistoricalFigure.Race == defender.Race), -1, -1));
             }
             DefendersAsList = new List<string>();
             foreach (Squad squad in Defenders)
+            {
                 for (int i = 0; i < squad.Numbers; i++)
+                {
                     DefendersAsList.Add(squad.Race);
+                }
+            }
 
             Deaths = new List<string>();
             foreach (Squad squad in Attackers.Concat(Defenders))
+            {
                 for (int i = 0; i < squad.Deaths; i++)
+                {
                     Deaths.Add(squad.Race);
+                }
+            }
 
             AttackerDeathCount = Attackers.Sum(attacker => attacker.Deaths);
             DefenderDeathCount = Defenders.Sum(defender => defender.Deaths);
 
-            if (Outcome == BattleOutcome.AttackerWon) Victor = Attacker;
-            else if (Outcome == BattleOutcome.DefenderWon) Victor = Defender;
+            if (Outcome == BattleOutcome.AttackerWon)
+            {
+                Victor = Attacker;
+            }
+            else if (Outcome == BattleOutcome.DefenderWon)
+            {
+                Victor = Defender;
+            }
 
-            War parentWar = ParentCollection as War;
-            if (parentWar != null)
+            if (ParentCollection is War parentWar)
             {
                 if (parentWar.Attacker == Attacker)
                 {
@@ -168,22 +207,44 @@ namespace LegendsViewer.Legends.EventCollections
                     parentWar.AttackerDeathCount += DefenderDeathCount;
                     parentWar.DefenderDeathCount += AttackerDeathCount;
                 }
-                parentWar.DeathCount += attackerSquadDeaths.Sum() + defenderSquadDeaths.Sum() + Collection.OfType<HFDied>().Count();
+                parentWar.DeathCount += attackerSquadDeaths.Sum() + defenderSquadDeaths.Sum() + Collection.OfType<HfDied>().Count();
 
-                if (Attacker == parentWar.Attacker && Victor == Attacker) parentWar.AttackerVictories.Add(this);
-                else parentWar.DefenderVictories.Add(this);
+                if (Attacker == parentWar.Attacker && Victor == Attacker)
+                {
+                    parentWar.AttackerVictories.Add(this);
+                }
+                else
+                {
+                    parentWar.DefenderVictories.Add(this);
+                }
             }
 
-            if (Site != null) Site.Warfare.Add(this);
-            if (Region != null) Region.Battles.Add(this);
-            if (UndergroundRegion != null) UndergroundRegion.Battles.Add(this);
+            if (Site != null)
+            {
+                Site.Warfare.Add(this);
+            }
 
-            if ((attackerSquadDeaths.Sum() + defenderSquadDeaths.Sum() + Collection.OfType<HFDied>().Count()) == 0)
+            if (Region != null)
+            {
+                Region.Battles.Add(this);
+            }
+
+            if (UndergroundRegion != null)
+            {
+                UndergroundRegion.Battles.Add(this);
+            }
+
+            if (attackerSquadDeaths.Sum() + defenderSquadDeaths.Sum() + Collection.OfType<HfDied>().Count() == 0)
+            {
                 Notable = false;
-            if ((attackerSquadNumbers.Sum() + NotableAttackers.Count) > ((defenderSquadNumbers.Sum() + NotableDefenders.Count) * 10) //NotableDefenders outnumbered 10 to 1
+            }
+
+            if (attackerSquadNumbers.Sum() + NotableAttackers.Count > (defenderSquadNumbers.Sum() + NotableDefenders.Count) * 10 //NotableDefenders outnumbered 10 to 1
                 && Victor == Attacker
-                && AttackerDeathCount < ((NotableAttackers.Count + attackerSquadNumbers.Sum()) * 0.1)) //NotableAttackers lossses < 10%
+                && AttackerDeathCount < (NotableAttackers.Count + attackerSquadNumbers.Sum()) * 0.1) //NotableAttackers lossses < 10%
+            {
                 Notable = false;
+            }
         }
 
         private void Initialize()
@@ -228,24 +289,32 @@ namespace LegendsViewer.Legends.EventCollections
                 title += "&#13";
                 title += Attacker != null ? Attacker.PrintEntity(false) : "UNKNOWN";
                 title += " (Attacker)";
-                if (Victor == Attacker) title += "(V)";
+                if (Victor == Attacker)
+                {
+                    title += "(V)";
+                }
+
                 title += "&#13";
-                title += "Kills: " + DefenderDeathCount.ToString();
+                title += "Kills: " + DefenderDeathCount;
                 title += "&#13";
                 title += Defender != null ? Defender.PrintEntity(false) : "UNKNOWN";
                 title += " (Defender)";
-                if (Victor == Defender) title += "(V)";
+                if (Victor == Defender)
+                {
+                    title += "(V)";
+                }
+
                 title += "&#13";
-                title += "Kills: " + AttackerDeathCount.ToString();
+                title += "Kills: " + AttackerDeathCount;
 
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a href = \"collection#" + ID.ToString() + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
+                    linkedString = Icon + "<a href = \"collection#" + Id + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
                 }
                 else
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
                 }
                 return linkedString;
             }

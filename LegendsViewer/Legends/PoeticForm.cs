@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using LegendsViewer.Legends.Parser;
 using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
@@ -11,7 +12,7 @@ namespace LegendsViewer.Legends
         public PoeticForm(List<Property> properties, World world)
             : base(properties, world)
         {
-            FormType = Enums.FormType.Poetic;
+            FormType = FormType.Poetic;
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
@@ -25,18 +26,15 @@ namespace LegendsViewer.Legends
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a href=\"poeticform#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    linkedString = Icon + "<a href=\"poeticform#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
                 else
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
                 }
                 return linkedString;
             }
-            else
-            {
-                return Name;
-            }
+            return Name;
         }
     }
 }

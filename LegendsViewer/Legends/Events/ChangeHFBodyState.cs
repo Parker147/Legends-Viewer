@@ -6,19 +6,19 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class ChangeHFBodyState : WorldEvent
+    public class ChangeHfBodyState : WorldEvent
     {
         public HistoricalFigure HistoricalFigure { get; set; }
         public BodyState BodyState { get; set; }
         public Site Site { get; set; }
-        public int StructureID { get; set; }
+        public int StructureId { get; set; }
         public Structure Structure { get; set; }
         public WorldRegion Region { get; set; }
         public UndergroundRegion UndergroundRegion { get; set; }
         public Location Coordinates { get; set; }
-        private string UnknownBodyState;
+        private string _unknownBodyState;
 
-        public ChangeHFBodyState(List<Property> properties, World world)
+        public ChangeHfBodyState(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
@@ -32,13 +32,16 @@ namespace LegendsViewer.Legends.Events
                             case "entombed at site": BodyState = BodyState.EntombedAtSite; break;
                             default:
                                 BodyState = BodyState.Unknown;
-                                UnknownBodyState = property.Value;
-                                world.ParsingErrors.Report("Unknown HF Body State: " + UnknownBodyState);
+                                _unknownBodyState = property.Value;
+                                world.ParsingErrors.Report("Unknown HF Body State: " + _unknownBodyState);
                                 break;
                         }
                         break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "building_id": StructureID = Convert.ToInt32(property.Value); break;
+                    case "structure_id":
+                    case "building_id":
+                        StructureId = Convert.ToInt32(property.Value);
+                        break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
@@ -46,7 +49,7 @@ namespace LegendsViewer.Legends.Events
             }
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.ID == StructureID);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
             }
             Structure.AddEvent(this);
             HistoricalFigure.AddEvent(this);
@@ -62,13 +65,19 @@ namespace LegendsViewer.Legends.Events
             switch (BodyState)
             {
                 case BodyState.EntombedAtSite: stateString = "was entombed"; break;
-                case BodyState.Unknown: stateString = "(" + UnknownBodyState + ")"; break;
+                case BodyState.Unknown: stateString = "(" + _unknownBodyState + ")"; break;
             }
             eventString += stateString;
             if (Region != null)
+            {
                 eventString += " in " + Region.ToLink(link, pov);
+            }
+
             if (Site != null)
+            {
                 eventString += " at " + Site.ToLink(link, pov);
+            }
+
             eventString += " within ";
             eventString += Structure != null ? Structure.ToLink(link, pov) : "UNKNOWN STRUCTURE";
             eventString += PrintParentCollection(link, pov);

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
+using LegendsViewer.Controls.HTML;
 using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.Tabs
@@ -23,8 +19,8 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void InitializeTab()
         {
-            EventTabs = new TabPage[] { tpEraEvents };
-            EventTabTypes = new Type[] { typeof(Era) };
+            EventTabs = new[] { tpEraEvents };
+            EventTabTypes = new[] { typeof(Era) };
 
             listEraSearch.ShowGroups = false;
         }
@@ -40,7 +36,10 @@ namespace LegendsViewer.Controls.Tabs
 
             Coordinator.Form.DontRefreshBrowserPages = true;
             foreach (CheckBox eraCheck in tpEraEvents.Controls.OfType<CheckBox>())
+            {
                 eraCheck.Checked = false;
+            }
+
             Coordinator.Form.DontRefreshBrowserPages = false;
 
             var eventTypes = from eventType in World.Events
@@ -60,7 +59,10 @@ namespace LegendsViewer.Controls.Tabs
         {
             Coordinator.Form.DontRefreshBrowserPages = true;
             foreach (CheckBox eraCheck in tpEraEvents.Controls.OfType<CheckBox>())
+            {
                 eraCheck.Checked = false;
+            }
+
             Coordinator.Form.DontRefreshBrowserPages = false;
 
             listEraSearch.Items.Clear();
@@ -77,13 +79,13 @@ namespace LegendsViewer.Controls.Tabs
         {
             if (!FileLoader.Working && World != null)
             {
-                Browser.Navigate(ControlOption.HTML, new Era(Convert.ToInt32(numStart.Value), Convert.ToInt32(numEraEnd.Value), World));
+                Browser.Navigate(ControlOption.Html, new Era(Convert.ToInt32(numStart.Value), Convert.ToInt32(numEraEnd.Value), World));
             }
         }
 
         private void listEras_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
     }
 }

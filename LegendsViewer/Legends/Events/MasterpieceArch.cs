@@ -27,9 +27,9 @@ namespace LegendsViewer.Legends.Events
                     case "hfid": Maker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "entity_id": MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "maker": if (Maker == null) { Maker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "maker_entity": if (MakerEntity == null) { MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "maker": if (Maker == null) { Maker = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "maker_entity": if (MakerEntity == null) { MakerEntity = world.GetEntity(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "building_type": BuildingType = property.Value; break;
                     case "building_subtype": BuildingSubType = property.Value; break;
                     case "building_custom": BuildingCustom = Convert.ToInt32(property.Value); break;

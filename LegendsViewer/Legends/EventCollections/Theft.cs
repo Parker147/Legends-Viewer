@@ -9,7 +9,7 @@ namespace LegendsViewer.Legends.EventCollections
     public class Theft : EventCollection
     {
         public string Ordinal;
-        Location Coordinates;
+        Location _coordinates;
         public WorldRegion Region;
         public UndergroundRegion UndergroundRegion;
         public Site Site;
@@ -28,7 +28,7 @@ namespace LegendsViewer.Legends.EventCollections
                 switch (property.Name)
                 {
                     case "ordinal": Ordinal = string.Intern(property.Value); break;
-                    case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
+                    case "coords": _coordinates = Formatting.ConvertToLocation(property.Value); break;
                     case "parent_eventcol": ParentCollection = world.GetEventCollection(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
@@ -47,7 +47,7 @@ namespace LegendsViewer.Legends.EventCollections
                 if (!Site.Events.Contains(theft))
                 {
                     Site.AddEvent(theft);
-                    Site.Events = Site.Events.OrderBy(ev => ev.ID).ToList();
+                    Site.Events = Site.Events.OrderBy(ev => ev.Id).ToList();
                 }
                 if (Attacker.SiteHistory.Count == 1)
                 {
@@ -58,7 +58,7 @@ namespace LegendsViewer.Legends.EventCollections
                     if (!theft.ReturnSite.Events.Contains(theft))
                     {
                         theft.ReturnSite.AddEvent(theft);
-                        theft.ReturnSite.Events = theft.ReturnSite.Events.OrderBy(ev => ev.ID).ToList();
+                        theft.ReturnSite.Events = theft.ReturnSite.Events.OrderBy(ev => ev.Id).ToList();
                     }
                 }
 

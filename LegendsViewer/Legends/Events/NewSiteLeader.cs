@@ -14,6 +14,7 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "attacker_civ_id": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
@@ -23,15 +24,20 @@ namespace LegendsViewer.Legends.Events
                     case "new_site_civ_id": NewSiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "new_leader_hfid": NewLeader = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                 }
+            }
 
             if (Site.OwnerHistory.Count == 0)
+            {
                 if (SiteEntity != null && SiteEntity != Defender)
                 {
                     SiteEntity.Parent = Defender;
                     new OwnerPeriod(Site, SiteEntity, 1, "founded");
                 }
                 else
+                {
                     new OwnerPeriod(Site, Defender, 1, "founded");
+                }
+            }
 
             Site.OwnerHistory.Last().EndCause = "taken over";
             Site.OwnerHistory.Last().EndYear = Year;
@@ -42,7 +48,10 @@ namespace LegendsViewer.Legends.Events
             Attacker.AddEvent(this);
             Defender.AddEvent(this);
             if (SiteEntity != Defender)
+            {
                 SiteEntity.AddEvent(this);
+            }
+
             Site.AddEvent(this);
             NewSiteEntity.AddEvent(this);
             NewLeader.AddEvent(this);
@@ -50,7 +59,11 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
-            if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
+            if (SiteEntity != null && SiteEntity != Defender)
+            {
+                eventString += SiteEntity.ToLink(link, pov) + " of ";
+            }
+
             eventString += Defender.ToLink(link, pov) + " and placed " + NewLeader.ToLink(link, pov) + " in charge of " + Site.ToLink(link, pov) + ". The new government was called " + NewSiteEntity.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
             eventString += ".";

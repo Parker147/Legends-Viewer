@@ -53,8 +53,8 @@ namespace LegendsViewer.Controls
         {
             base.OnFontChanged(e);
             IntPtr hFont = Font.ToHfont();
-            SendMessage(Handle, WM_SETFONT, hFont, new IntPtr(-1));
-            SendMessage(Handle, WM_FONTCHANGE, IntPtr.Zero, IntPtr.Zero);
+            SendMessage(Handle, WmSetfont, hFont, new IntPtr(-1));
+            SendMessage(Handle, WmFontchange, IntPtr.Zero, IntPtr.Zero);
             UpdateStyles();
         }
 
@@ -67,10 +67,13 @@ namespace LegendsViewer.Controls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            TCHITTESTINFO HTI = new TCHITTESTINFO(e.X, e.Y);
-            HotTabIndex = SendMessage(Handle, TCM_HITTEST, IntPtr.Zero, ref HTI);
+            Tchittestinfo hti = new Tchittestinfo(e.X, e.Y);
+            HotTabIndex = SendMessage(Handle, TcmHittest, IntPtr.Zero, ref hti);
 
-            if (e.Button != MouseButtons.Left) return;
+            if (e.Button != MouseButtons.Left)
+            {
+                return;
+            }
 
             Rectangle r = new Rectangle(_dragStartPosition, Size.Empty);
             r.Inflate(SystemInformation.DragSize);
@@ -101,7 +104,10 @@ namespace LegendsViewer.Controls
                     e.Effect = DragDropEffects.Move;
                     TabPage dragTab = (TabPage) e.Data.GetData(typeof(DwarfTabPage));
 
-                    if (hoverTab == dragTab) return;
+                    if (hoverTab == dragTab)
+                    {
+                        return;
+                    }
 
                     Rectangle tabRect = GetTabRect(TabPages.IndexOf(hoverTab));
                     tabRect.Inflate(-3, -3);
@@ -145,14 +151,18 @@ namespace LegendsViewer.Controls
         {
             base.OnPaintBackground(pevent);
             for (int id = 0; id < TabCount; id++)
+            {
                 DrawTabBackground(pevent.Graphics, id);
+            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             for (int id = 0; id < TabCount; id++)
+            {
                 DrawTabContent(e.Graphics, id);
+            }
         }
 
         protected virtual void CloseTab(int index)
@@ -162,19 +172,19 @@ namespace LegendsViewer.Controls
 
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == TCM_SETPADDING)
+            if (m.Msg == TcmSetpadding)
             {
-                m.LParam = MAKELPARAM(Padding.X + CloseButtonHeight / 2, Padding.Y);
+                m.LParam = Makelparam(Padding.X + CloseButtonHeight / 2, Padding.Y);
             }
 
-            if (m.Msg == WM_MOUSEDOWN && !DesignMode && HotTabIndex >= 0)
+            if (m.Msg == WmMousedown && !DesignMode && HotTabIndex >= 0)
             {
                 Point pt = PointToClient(Cursor.Position);
                 Rectangle closeRect = GetCloseButtonRect(HotTabIndex);
                 if (closeRect.Contains(pt))
                 {
                     CloseTab(HotTabIndex);
-                    m.Msg = WM_NULL;
+                    m.Msg = WmNull;
                 }
             }
             base.WndProc(ref m);
@@ -184,7 +194,7 @@ namespace LegendsViewer.Controls
 
         #region Private Methods
 
-        private IntPtr MAKELPARAM(int lo, int hi)
+        private IntPtr Makelparam(int lo, int hi)
         {
             return new IntPtr((hi << 16) | (lo & 0xFFFF));
         }
@@ -193,7 +203,9 @@ namespace LegendsViewer.Controls
         {
             Rectangle rc = GetTabRect(id);
             if (id == SelectedIndex)
+            {
                 graphics.FillRectangle(Brushes.DarkGray, rc);
+            }
             else if (id == HotTabIndex)
             {
                 rc.Width--;
@@ -201,7 +213,9 @@ namespace LegendsViewer.Controls
                 graphics.DrawRectangle(Pens.DarkGray, rc);
             }
             else
+            {
                 graphics.DrawLine(Pens.DarkGray, rc.Left, rc.Bottom, rc.Right, rc.Bottom);
+            }
         }
 
         private void DrawTabContent(Graphics graphics, int id)
@@ -215,10 +229,14 @@ namespace LegendsViewer.Controls
             {
                 TabPage page = TabPages[id];
                 if (page.ImageIndex > -1 && page.ImageIndex < ImageList.Images.Count)
+                {
                     tabImage = ImageList.Images[page.ImageIndex];
+                }
 
                 if (page.ImageKey.Length > 0 && ImageList.Images.ContainsKey(page.ImageKey))
+                {
                     tabImage = ImageList.Images[page.ImageKey];
+                }
             }
 
             Rectangle tabRect = GetTabRect(id);
@@ -261,9 +279,13 @@ namespace LegendsViewer.Controls
                 if (vertical)
                 {
                     if (Alignment == TabAlignment.Left)
+                    {
                         bm.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    }
                     else
+                    {
                         bm.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    }
                 }
                 graphics.DrawImage(bm, tabRect);
             }
@@ -273,9 +295,11 @@ namespace LegendsViewer.Controls
         {
             graphics.FillRectangle(Brushes.Red, bounds);
             using (Font closeFont = new Font("Arial", Font.Size, FontStyle.Bold))
+            {
                 TextRenderer.DrawText(graphics, "X", closeFont, bounds, Color.White, Color.Red,
                     TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPadding | TextFormatFlags.SingleLine |
                     TextFormatFlags.VerticalCenter);
+            }
         }
 
         private Rectangle GetCloseButtonRect(int id)
@@ -307,38 +331,38 @@ namespace LegendsViewer.Controls
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
-        private static extern int SendMessage(IntPtr hwnd, int msg, IntPtr wParam, ref TCHITTESTINFO lParam);
+        private static extern int SendMessage(IntPtr hwnd, int msg, IntPtr wParam, ref Tchittestinfo lParam);
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct TCHITTESTINFO
+        private struct Tchittestinfo
         {
             public Point pt;
-            public TCHITTESTFLAGS flags;
+            public Tchittestflags flags;
 
-            public TCHITTESTINFO(int x, int y)
+            public Tchittestinfo(int x, int y)
             {
                 pt = new Point(x, y);
-                flags = TCHITTESTFLAGS.TCHT_NOWHERE;
+                flags = Tchittestflags.TchtNowhere;
             }
         }
 
-        [Flags()]
-        private enum TCHITTESTFLAGS
+        [Flags]
+        private enum Tchittestflags
         {
-            TCHT_NOWHERE = 1,
-            TCHT_ONITEMICON = 2,
-            TCHT_ONITEMLABEL = 4,
-            TCHT_ONITEM = TCHT_ONITEMICON | TCHT_ONITEMLABEL
+            TchtNowhere = 1,
+            TchtOnitemicon = 2,
+            TchtOnitemlabel = 4,
+            TchtOnitem = TchtOnitemicon | TchtOnitemlabel
         }
 
-        private const int WM_NULL = 0x0;
-        private const int WM_SETFONT = 0x30;
-        private const int WM_FONTCHANGE = 0x1D;
-        private const int WM_MOUSEDOWN = 0x201;
+        private const int WmNull = 0x0;
+        private const int WmSetfont = 0x30;
+        private const int WmFontchange = 0x1D;
+        private const int WmMousedown = 0x201;
 
-        private const int TCM_FIRST = 0x1300;
-        private const int TCM_HITTEST = TCM_FIRST + 13;
-        private const int TCM_SETPADDING = TCM_FIRST + 43;
+        private const int TcmFirst = 0x1300;
+        private const int TcmHittest = TcmFirst + 13;
+        private const int TcmSetpadding = TcmFirst + 43;
 
         #endregion
     }

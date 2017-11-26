@@ -1,86 +1,146 @@
 ﻿using System;
-using System.Text;
-using LegendsViewer.Legends;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using LegendsViewer.Controls.HTML;
+using System.Text;
 using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    public abstract class HTMLPrinter : IDisposable
+    public abstract class HtmlPrinter : IDisposable
     {
-        private bool disposed;
-        protected StringBuilder HTML;
+        private bool _disposed;
+        protected StringBuilder Html;
         protected const string LineBreak = "</br>";
         protected const string ListItem = "<li>";
 
-        protected HTMLPrinter()
+        protected HtmlPrinter()
         {
-            disposed = false;
+            _disposed = false;
         }
 
         public abstract string GetTitle();
         public abstract string Print();
 
-        private readonly List<string> temporaryFiles = new List<string>();
+        private readonly List<string> _temporaryFiles = new List<string>();
 
-        public static HTMLPrinter GetPrinter(object printObject, World world)
+        public static HtmlPrinter GetPrinter(object printObject, World world)
         {
             Type printType = printObject.GetType();
             if (printType == typeof(Battle))
+            {
                 return new BattlePrinter(printObject as Battle, world);
+            }
+
             if (printType == typeof(BeastAttack))
+            {
                 return new BeastAttackPrinter(printObject as BeastAttack, world);
+            }
+
             if (printType == typeof(Entity))
+            {
                 return new EntityPrinter(printObject as Entity, world);
+            }
+
             if (printType == typeof(Era))
+            {
                 return new EraPrinter(printObject as Era);
+            }
+
             if (printType == typeof(HistoricalFigure))
-                return new HistoricalFigureHTMLPrinter(printObject as HistoricalFigure, world);
+            {
+                return new HistoricalFigureHtmlPrinter(printObject as HistoricalFigure, world);
+            }
+
             if (printType == typeof(WorldRegion))
+            {
                 return new RegionPrinter(printObject as WorldRegion, world);
+            }
+
             if (printType == typeof(SiteConquered))
+            {
                 return new SiteConqueredPrinter(printObject as SiteConquered, world);
+            }
+
             if (printType == typeof(Site))
+            {
                 return new SitePrinter(printObject as Site, world);
+            }
+
             if (printType == typeof(UndergroundRegion))
+            {
                 return new UndergroundRegionPrinter(printObject as UndergroundRegion, world);
+            }
+
             if (printType == typeof(War))
+            {
                 return new WarPrinter(printObject as War, world);
+            }
+
             if (printType == typeof(World))
+            {
                 return new WorldStatsPrinter(world);
+            }
+
             if (printType == typeof(Artifact))
+            {
                 return new ArtifactPrinter(printObject as Artifact);
+            }
+
             if (printType == typeof(WorldConstruction))
+            {
                 return new WorldConstructionPrinter(printObject as WorldConstruction, world);
+            }
+
             if (printType == typeof(WrittenContent))
+            {
                 return new WrittenContentPrinter(printObject as WrittenContent, world);
+            }
+
             if (printType == typeof(DanceForm))
+            {
                 return new ArtFormPrinter(printObject as ArtForm, world);
+            }
+
             if (printType == typeof(MusicalForm))
+            {
                 return new ArtFormPrinter(printObject as ArtForm, world);
+            }
+
             if (printType == typeof(PoeticForm))
+            {
                 return new ArtFormPrinter(printObject as ArtForm, world);
+            }
+
             if (printType == typeof(Structure))
+            {
                 return new StructurePrinter(printObject as Structure, world);
+            }
+
             if (printType == typeof(Landmass))
+            {
                 return new LandmassPrinter(printObject as Landmass, world);
+            }
+
             if (printType == typeof(MountainPeak))
+            {
                 return new MountainPeakPrinter(printObject as MountainPeak, world);
+            }
 
             if (printType == typeof(string))
+            {
                 return new StringPrinter(printObject as string);
+            }
 
-            throw new Exception("No HTML Printer for type: " + printObject.GetType().ToString());
+            throw new Exception("No HTML Printer for type: " + printObject.GetType());
         }
 
-        public string GetHTMLPage()
+        public string GetHtmlPage()
         {
             var htmlPage = new StringBuilder();
             htmlPage.Append("<!DOCTYPE html><html><head>");
@@ -121,9 +181,9 @@ namespace LegendsViewer.Controls
             switch (listType)
             {
                 case ListType.Ordered:
-                    HTML.AppendLine("<ol>"); break;
+                    Html.AppendLine("<ol>"); break;
                 case ListType.Unordered:
-                    HTML.AppendLine("<ul>"); break;
+                    Html.AppendLine("<ul>"); break;
             }
         }
 
@@ -132,15 +192,15 @@ namespace LegendsViewer.Controls
             switch (listType)
             {
                 case ListType.Ordered:
-                    HTML.AppendLine("</ol>"); break;
+                    Html.AppendLine("</ol>"); break;
                 case ListType.Unordered:
-                    HTML.AppendLine("</ul>"); break;
+                    Html.AppendLine("</ul>"); break;
             }
         }
 
         protected string MakeLink(string text, LinkOption option)
         {
-            return "<a href=\"" + option.ToString() + "\">" + text + "</a>";
+            return "<a href=\"" + option + "\">" + text + "</a>";
         }
 
         protected string MakeFileLink(string text, string filePath)
@@ -149,7 +209,7 @@ namespace LegendsViewer.Controls
             return "<a title=\"" + htmlFilePath + "\" href=\"file:///" + htmlFilePath + "\" target=\"_blank\">" + text + "</a>";
         }
 
-        protected string MakeLink(string text, DwarfObject dObject, ControlOption option = ControlOption.HTML)
+        protected string MakeLink(string text, DwarfObject dObject, ControlOption option = ControlOption.Html)
         {
             //<a href=\"collection#" + attack.ID + "\">" + attack.GetOrdinal(attack.Ordinal)
             string objectType = "";
@@ -157,41 +217,48 @@ namespace LegendsViewer.Controls
             if (dObject is EventCollection)
             {
                 objectType = "collection";
-                id = (dObject as EventCollection).ID;
+                id = (dObject as EventCollection).Id;
             }
             else if (dObject.GetType() == typeof(HistoricalFigure))
             {
                 objectType = "hf";
-                id = (dObject as HistoricalFigure).ID;
+                id = (dObject as HistoricalFigure).Id;
             }
             else if (dObject.GetType() == typeof(Entity))
             {
                 objectType = "entity";
-                id = (dObject as Entity).ID;
+                id = (dObject as Entity).Id;
             }
             else if (dObject.GetType() == typeof(WorldRegion))
             {
                 objectType = "region";
-                id = (dObject as WorldRegion).ID;
+                id = (dObject as WorldRegion).Id;
             }
             else if (dObject.GetType() == typeof(UndergroundRegion))
             {
                 objectType = "uregion";
-                id = (dObject as UndergroundRegion).ID;
+                id = (dObject as UndergroundRegion).Id;
             }
             else if (dObject.GetType() == typeof(Site))
             {
                 objectType = "site";
-                id = (dObject as Site).ID;
+                id = (dObject as Site).Id;
             }
-            else throw new Exception("Unhandled make link for type: " + dObject.GetType());
+            else
+            {
+                throw new Exception("Unhandled make link for type: " + dObject.GetType());
+            }
+
             string optionString = "";
-            if (option != ControlOption.HTML)
-                optionString = "-" + option.ToString();
+            if (option != ControlOption.Html)
+            {
+                optionString = "-" + option;
+            }
+
             return "<a href=\"" + objectType + "#" + id + optionString + "\">" + text + "</a>";
         }
 
-        protected string BitmapToHTML(Bitmap image)
+        protected string BitmapToHtml(Bitmap image)
         {
             int imageSectionCount = 2;
             Size imageSectionSize = new Size(image.Width / imageSectionCount, image.Height / imageSectionCount);
@@ -222,8 +289,8 @@ namespace LegendsViewer.Controls
                                 Directory.CreateDirectory(Path.GetDirectoryName(tempName));
                             }
                             section.Save(tempName);
-                            html += ImageToHTML("temp/" + Path.GetFileName(tempName));
-                            temporaryFiles.Add(tempName);
+                            html += ImageToHtml("temp/" + Path.GetFileName(tempName));
+                            _temporaryFiles.Add(tempName);
                         }
                         html += "</br>";
                     }
@@ -246,13 +313,13 @@ namespace LegendsViewer.Controls
             return imageString;
         }
 
-        protected string ImageToHTML(string image)
+        protected string ImageToHtml(string image)
         {
             string html = "<img src=\"" + LocalFileProvider.LocalPrefix + image + "\" align=absmiddle />";
             return html;
         }
 
-        protected string Base64ToHTML(string base64)
+        protected string Base64ToHtml(string base64)
         {
             string html = "<img src=\"data:image/gif;base64," + base64 + "\" align=absmiddle />";
             return html;
@@ -273,7 +340,7 @@ namespace LegendsViewer.Controls
 
         protected string GetHtmlColorByEntity(Entity entity)
         {
-            string htmlColor = ColorTranslator.ToHtml(entity.IdenticonColor);
+            string htmlColor = ColorTranslator.ToHtml(entity.LineColor);
             if (string.IsNullOrEmpty(htmlColor) && entity.Parent != null)
             {
                 htmlColor = GetHtmlColorByEntity(entity.Parent);
@@ -291,7 +358,7 @@ namespace LegendsViewer.Controls
             {
                 return;
             }
-            HTML.AppendLine("<div class=\"col-lg-4 col-md-6 col-sm-12\">");
+            Html.AppendLine("<div class=\"col-lg-4 col-md-6 col-sm-12\">");
             var mainRacePops = new List<Population>();
             var animalPeoplePops = new List<Population>();
             var visitorsPops = new List<Population>();
@@ -332,61 +399,82 @@ namespace LegendsViewer.Controls
             }
             if (mainRacePops.Any())
             {
-                HTML.AppendLine("<b>Civilized Populations</b></br>");
-                HTML.AppendLine("<ul>");
+                Html.AppendLine("<b>Civilized Populations</b></br>");
+                Html.AppendLine("<ul>");
                 foreach (Population population in mainRacePops)
-                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
-                HTML.AppendLine("</ul>");
+                {
+                    Html.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                }
+
+                Html.AppendLine("</ul>");
             }
             if (animalPeoplePops.Any())
             {
-                HTML.AppendLine("<b>Animal People</b></br>");
-                HTML.AppendLine("<ul>");
+                Html.AppendLine("<b>Animal People</b></br>");
+                Html.AppendLine("<ul>");
                 foreach (Population population in animalPeoplePops)
-                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
-                HTML.AppendLine("</ul>");
+                {
+                    Html.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                }
+
+                Html.AppendLine("</ul>");
             }
             if (visitorsPops.Any())
             {
-                HTML.AppendLine("<b>Visitors</b></br>");
-                HTML.AppendLine("<ul>");
+                Html.AppendLine("<b>Visitors</b></br>");
+                Html.AppendLine("<ul>");
                 foreach (Population population in visitorsPops)
-                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
-                HTML.AppendLine("</ul>");
+                {
+                    Html.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                }
+
+                Html.AppendLine("</ul>");
             }
             if (outcastsPops.Any())
             {
-                HTML.AppendLine("<b>Outcasts</b></br>");
-                HTML.AppendLine("<ul>");
+                Html.AppendLine("<b>Outcasts</b></br>");
+                Html.AppendLine("<ul>");
                 foreach (Population population in outcastsPops)
-                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
-                HTML.AppendLine("</ul>");
+                {
+                    Html.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                }
+
+                Html.AppendLine("</ul>");
             }
             if (prisonersPops.Any())
             {
-                HTML.AppendLine("<b>Prisoners</b></br>");
-                HTML.AppendLine("<ul>");
+                Html.AppendLine("<b>Prisoners</b></br>");
+                Html.AppendLine("<ul>");
                 foreach (Population population in prisonersPops)
-                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
-                HTML.AppendLine("</ul>");
+                {
+                    Html.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                }
+
+                Html.AppendLine("</ul>");
             }
             if (slavesPops.Any())
             {
-                HTML.AppendLine("<b>Slaves</b></br>");
-                HTML.AppendLine("<ul>");
+                Html.AppendLine("<b>Slaves</b></br>");
+                Html.AppendLine("<ul>");
                 foreach (Population population in slavesPops)
-                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
-                HTML.AppendLine("</ul>");
+                {
+                    Html.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                }
+
+                Html.AppendLine("</ul>");
             }
             if (otherRacePops.Any())
             {
-                HTML.AppendLine("<b>Other Populations</b></br>");
-                HTML.AppendLine("<ul>");
+                Html.AppendLine("<b>Other Populations</b></br>");
+                Html.AppendLine("<ul>");
                 foreach (Population population in otherRacePops)
-                    HTML.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
-                HTML.AppendLine("</ul>");
+                {
+                    Html.AppendLine("<li>" + population.Count + " " + population.Race + "</li>");
+                }
+
+                Html.AppendLine("</ul>");
             }
-            HTML.AppendLine("</div>");
+            Html.AppendLine("</div>");
         }
 
         protected void PrintEventLog(List<WorldEvent> events, List<string> filters, DwarfObject dfo)
@@ -395,30 +483,30 @@ namespace LegendsViewer.Controls
             {
                 return;
             }
-            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + "<br/><br/>");
-            HTML.AppendLine("<table id=\"lv_eventtable\" class=\"display\" width=\"100 %\"></table>");
-            HTML.AppendLine("<script>");
-            HTML.AppendLine("$(document).ready(function() {");
-            HTML.AppendLine("   var dataSet = [");
+            Html.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + "<br/><br/>");
+            Html.AppendLine("<table id=\"lv_eventtable\" class=\"display\" width=\"100 %\"></table>");
+            Html.AppendLine("<script>");
+            Html.AppendLine("$(document).ready(function() {");
+            Html.AppendLine("   var dataSet = [");
             foreach (var e in events)
             {
                 if (filters == null || !filters.Contains(e.Type))
                 {
-                    HTML.AppendLine("['" + e.Date + "','" + e.Print(true, dfo).Replace("'", "`") + "','" + e.Type + "'],");
+                    Html.AppendLine("['" + e.Date + "','" + e.Print(true, dfo).Replace("'", "`") + "','" + e.Type + "'],");
                 }
             }
-            HTML.AppendLine("   ];");
-            HTML.AppendLine("   $('#lv_eventtable').dataTable({");
-            HTML.AppendLine("       pageLength: 100,");
-            HTML.AppendLine("       data: dataSet,");
-            HTML.AppendLine("       columns: [");
-            HTML.AppendLine("           { title: \"Date\", type: \"string\", width: \"60px\" },");
-            HTML.AppendLine("           { title: \"Description\", type: \"html\" },");
-            HTML.AppendLine("           { title: \"Type\", type: \"string\" }");
-            HTML.AppendLine("       ]");
-            HTML.AppendLine("   });");
-            HTML.AppendLine("});");
-            HTML.AppendLine("</script>");
+            Html.AppendLine("   ];");
+            Html.AppendLine("   $('#lv_eventtable').dataTable({");
+            Html.AppendLine("       pageLength: 100,");
+            Html.AppendLine("       data: dataSet,");
+            Html.AppendLine("       columns: [");
+            Html.AppendLine("           { title: \"Date\", type: \"string\", width: \"60px\" },");
+            Html.AppendLine("           { title: \"Description\", type: \"html\" },");
+            Html.AppendLine("           { title: \"Type\", type: \"string\" }");
+            Html.AppendLine("       ]");
+            Html.AppendLine("   });");
+            Html.AppendLine("});");
+            Html.AppendLine("</script>");
         }
 
         public void Dispose()
@@ -429,19 +517,19 @@ namespace LegendsViewer.Controls
 
         protected virtual void Dispose(bool disposing)
         {
-            disposed &= !temporaryFiles.Any();
-            if (!disposed)
+            _disposed &= !_temporaryFiles.Any();
+            if (!_disposed)
             {
                 if (disposing)
                 {
                 }
             }
-            disposed = true;
+            _disposed = true;
         }
 
         public void DeleteTemporaryFiles()
         {
-            foreach (string filename in temporaryFiles)
+            foreach (string filename in _temporaryFiles)
             {
                 try
                 {
@@ -451,14 +539,14 @@ namespace LegendsViewer.Controls
                 {
                 }
             }
-            temporaryFiles.Clear();
+            _temporaryFiles.Clear();
         }
     }
 
     public enum LinkOption
     {
-        LoadHFKills,
-        LoadHFBattles,
+        LoadHfKills,
+        LoadHfBattles,
         LoadSiteBattles,
         LoadSiteDeaths,
         LoadRegionBattles,
@@ -477,7 +565,7 @@ namespace LegendsViewer.Controls
 
     public enum ControlOption
     {
-        HTML,
+        Html,
         Map,
         Chart,
         Search,
@@ -486,62 +574,68 @@ namespace LegendsViewer.Controls
 
     public class TableMaker
     {
-        StringBuilder HTML;
-        bool Numbered;
-        int count;
+        StringBuilder _html;
+        bool _numbered;
+        int _count;
         public TableMaker(bool numbered = false, int width = 0)
         {
-            HTML = new StringBuilder();
+            _html = new StringBuilder();
             string tableStart = "<table border=\"0\"";
             if (width > 0)
+            {
                 tableStart += " width=\"" + width + "\"";
+            }
+
             tableStart += ">";
-            HTML.AppendLine(tableStart);
-            Numbered = numbered;
-            count = 1;
+            _html.AppendLine(tableStart);
+            _numbered = numbered;
+            _count = 1;
         }
 
         public void StartRow()
         {
-            HTML.AppendLine("<tr>");
-            if (Numbered)
+            _html.AppendLine("<tr>");
+            if (_numbered)
             {
-                AddData(count.ToString(), 20, TableDataAlign.Right);
+                AddData(_count.ToString(), 20, TableDataAlign.Right);
                 AddData("", 10);
             }
         }
 
         public void EndRow()
         {
-            HTML.AppendLine("</tr>");
-            count++;
+            _html.AppendLine("</tr>");
+            _count++;
         }
 
         public void AddData(string data, int width = 0, TableDataAlign align = TableDataAlign.Left)
         {
-            string dataHTML = "<td";
+            string dataHtml = "<td";
             if (width > 0)
-                dataHTML += " width=\"" + width + "\"";
+            {
+                dataHtml += " width=\"" + width + "\"";
+            }
+
             if (align != TableDataAlign.Left)
             {
-                dataHTML += " align=";
+                dataHtml += " align=";
                 switch (align)
                 {
                     case TableDataAlign.Right:
-                        dataHTML += "\"right\""; break;
+                        dataHtml += "\"right\""; break;
                     case TableDataAlign.Center:
-                        dataHTML += "\"center\""; break;
+                        dataHtml += "\"center\""; break;
                 }
             }
-            dataHTML += ">";
-            dataHTML += data + "</td>";
-            HTML.AppendLine(dataHTML);
+            dataHtml += ">";
+            dataHtml += data + "</td>";
+            _html.AppendLine(dataHtml);
         }
 
         public string GetTable()
         {
-            HTML.AppendLine("</table>");
-            return HTML.ToString();
+            _html.AppendLine("</table>");
+            return _html.ToString();
         }
     }
 

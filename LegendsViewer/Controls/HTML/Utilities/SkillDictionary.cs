@@ -1,5 +1,5 @@
-﻿using LegendsViewer.Legends;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.HTML.Utilities
 {
@@ -25,7 +25,7 @@ namespace LegendsViewer.Controls.HTML.Utilities
 
     public static class SkillDictionary
     {
-        public static readonly Dictionary<string, SkillDescription> dict = new Dictionary<string, SkillDescription>
+        public static readonly Dictionary<string, SkillDescription> Dict = new Dictionary<string, SkillDescription>
         {
             {"None", new SkillDescription("non", "NONE", "None", "None")},
             {"Mining", new SkillDescription("min", "MINING", "Miner", "Mining")},
@@ -162,15 +162,17 @@ namespace LegendsViewer.Controls.HTML.Utilities
             {"Optics Engineer", new SkillDescription("eng", "OPTICS_ENGINEER", "Optician", "Optics Engineer")},
             {"Fluid Engineer", new SkillDescription("eng", "FLUID_ENGINEER", "Fluids Engineer", "Fluid Engineering")},
             {"Papermaking", new SkillDescription("ppr", "PAPERMAKING", "Paper Maker", "Paper Making")},
-            {"Bookbinding", new SkillDescription("ppr", "BOOKBINDING", "Book Binder", "Book Binding")},
+            {"Bookbinding", new SkillDescription("ppr", "BOOKBINDING", "Book Binder", "Book Binding")}
         };
 
-        public static SkillDescription lookupSkill(Skill skill)
+        public static SkillDescription LookupSkill(Skill skill)
         {
             SkillDescription desc = new SkillDescription("unk", skill.Name, skill.Name, skill.Name);
 
-            if (dict.ContainsKey(skill.Name))
-                desc = dict[skill.Name];
+            if (Dict.ContainsKey(skill.Name))
+            {
+                desc = Dict[skill.Name];
+            }
 
             desc.Rank = skill.Rank;
             desc.Points = skill.Points;

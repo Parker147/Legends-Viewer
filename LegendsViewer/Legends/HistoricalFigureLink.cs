@@ -29,7 +29,7 @@ namespace LegendsViewer.Legends
                         else
                         {
                             Type = HistoricalFigureLinkType.Unknown;
-                            world.ParsingErrors.Report("Unknown HF Link Type: " + property.Value);
+                            world.ParsingErrors.Report("Unknown HF HF Link Type: " + property.Value);
                         }
                         break;
                 }
@@ -37,7 +37,9 @@ namespace LegendsViewer.Legends
 
             //XML states that deity links, that should be 100, are 0.
             if (Type == HistoricalFigureLinkType.Deity && Strength == 0)
+            {
                 Strength = 100;
+            }
         }
 
         public HistoricalFigureLink(HistoricalFigure historicalFigureTarget, HistoricalFigureLinkType type, int strength = 0)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using LegendsViewer.Controls.Map;
@@ -6,42 +7,42 @@ using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.HTML
 {
-    public class LandmassPrinter : HTMLPrinter
+    public class LandmassPrinter : HtmlPrinter
     {
-        Landmass Landmass;
-        World World;
+        Landmass _landmass;
+        World _world;
 
         public LandmassPrinter(Landmass landmass, World world)
         {
-            Landmass = landmass;
-            World = world;
+            _landmass = landmass;
+            _world = world;
         }
 
         public override string GetTitle()
         {
-            return Landmass.Name;
+            return _landmass.Name;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + Landmass.Name + ", Landmass</h1><br />");
+            Html.AppendLine("<h1>" + _landmass.Name + ", Landmass</h1><br />");
 
-            if (Landmass.Coordinates.Any())
+            if (_landmass.Coordinates.Any())
             {
-                List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Landmass);
+                List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _landmass);
 
-                HTML.AppendLine("<table>");
-                HTML.AppendLine("<tr>");
-                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-                HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-                HTML.AppendLine("</tr></table></br>");
+                Html.AppendLine("<table>");
+                Html.AppendLine("<tr>");
+                Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+                Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+                Html.AppendLine("</tr></table></br>");
             }
 
-            PrintEventLog(Landmass.Events, Landmass.Filters, Landmass);
+            PrintEventLog(_landmass.Events, Landmass.Filters, _landmass);
 
-            return HTML.ToString();
+            return Html.ToString();
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using LegendsViewer.Legends.Enums;
-using LegendsViewer.Legends.Parser;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {

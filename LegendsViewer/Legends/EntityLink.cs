@@ -10,7 +10,7 @@ namespace LegendsViewer.Legends
         public EntityLinkType Type { get; set; }
         public Entity Entity { get; set; }
         public int Strength { get; set; }
-        public int PositionID { get; set; }
+        public int PositionId { get; set; }
         public int StartYear { get; set; }
         public int EndYear { get; set; }
 
@@ -27,7 +27,7 @@ namespace LegendsViewer.Legends
                         int id = Convert.ToInt32(property.Value);
                         Entity = world.GetEntity(id);
                         break;
-                    case "position_profile_id": PositionID = Convert.ToInt32(property.Value); break;
+                    case "position_profile_id": PositionId = Convert.ToInt32(property.Value); break;
                     case "start_year": 
                         StartYear = Convert.ToInt32(property.Value);
                         Type = EntityLinkType.Position;

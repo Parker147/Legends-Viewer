@@ -4,7 +4,7 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFRelationShipDenied : WorldEvent
+    public class HfRelationShipDenied : WorldEvent
     {
         public Site Site { get; set; }
         public WorldRegion Region { get; set; }
@@ -13,11 +13,12 @@ namespace LegendsViewer.Legends.Events
         public HistoricalFigure Target { get; set; }
         public string Relationship { get; set; }
         public string Reason { get; set; }
-        public HistoricalFigure ReasonHF { get; set; }
+        public HistoricalFigure ReasonHf { get; set; }
 
-        public HFRelationShipDenied(List<Property> properties, World world) : base(properties, world)
+        public HfRelationShipDenied(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "site_id":
@@ -42,17 +43,19 @@ namespace LegendsViewer.Legends.Events
                         Reason = property.Value;
                         break;
                     case "reason_id":
-                        ReasonHF = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        ReasonHf = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
                         break;
                 }
+            }
+
             Site.AddEvent(this);
             Region.AddEvent(this);
             UndergroundRegion.AddEvent(this);
             Seeker.AddEvent(this);
             Target.AddEvent(this);
-            if (ReasonHF != null && !ReasonHF.Equals(Seeker) && !ReasonHF.Equals(Target))
+            if (ReasonHf != null && !ReasonHf.Equals(Seeker) && !ReasonHf.Equals(Target))
             {
-                ReasonHF.AddEvent(this);
+                ReasonHf.AddEvent(this);
             }
         }
 
@@ -75,15 +78,15 @@ namespace LegendsViewer.Legends.Events
                 eventString += " in ";
                 eventString += Site.ToLink(link, pov);
             }
-            if (ReasonHF != null)
+            if (ReasonHf != null)
             {
                 switch (Reason)
                 {
                     case "jealousy":
-                        eventString += " due to jealousy of " + ReasonHF.ToLink(link, pov);
+                        eventString += " due to jealousy of " + ReasonHf.ToLink(link, pov);
                         break;
                     case "prefers working alone":
-                        eventString += " as " + ReasonHF.ToLink(link, pov) + " prefers to work alone";
+                        eventString += " as " + ReasonHf.ToLink(link, pov) + " prefers to work alone";
                         break;
                     default:
                         break;

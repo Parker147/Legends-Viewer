@@ -1,22 +1,22 @@
 using System;
 using System.Windows.Forms;
 
-namespace LegendsViewer
+namespace LegendsViewer.Controls.Chart
 {
     public class ChartMenuItem : ToolStripMenuItem
     {
-        private ChartOption chartOption;
+        private ChartOption _chartOption;
 
         public ChartOption Option
         {
             get
             {
-                return chartOption;
+                return _chartOption;
             }
             set
             {
-                chartOption= value;
-                switch (chartOption)
+                _chartOption= value;
+                switch (_chartOption)
                 {
                     case ChartOption.TimelineEvents: Text = "Events"; break;
                     case ChartOption.TimelineEventsFiltered: Text = "Events (Filtered)"; break;
@@ -24,7 +24,7 @@ namespace LegendsViewer
                     case ChartOption.TimelineActiveSites: Text = "Active Sites"; break;
                     case ChartOption.TimelineActiveSitesByRace: Text = "Active Sites by Race"; break;
                     case ChartOption.TimelineAliveHFs: Text = "Alive Historical Figures"; break;
-                    case ChartOption.TimeLineAliveHFSpecific: Text = "Alive Historical Figures..."; break;
+                    case ChartOption.TimeLineAliveHfSpecific: Text = "Alive Historical Figures..."; break;
                     case ChartOption.TimelineActiveWars: Text = "Active Wars"; break;
                     case ChartOption.TimelineBattles: Text = "Battles"; break;
                     case ChartOption.TimelineBeastAttacks: Text = "Beast Attacks"; break;
@@ -35,9 +35,9 @@ namespace LegendsViewer
                     case ChartOption.OtherSitePopulations: Text = "Populations"; break;
                     case ChartOption.OtherWarLosses: Text = "War Losses"; break;
                     case ChartOption.OtherBattleRemaining: Text = "Remaining Forces"; break;
-                    case ChartOption.WorldHFRaces: Text = "Historical Figures"; break;
-                    case ChartOption.WorldHFAlive: Text = "Historical Figures - Alive"; break;
-                    case ChartOption.WorldHFRemaining: Text = "Historical Figures - Remaining"; break;
+                    case ChartOption.WorldHfRaces: Text = "Historical Figures"; break;
+                    case ChartOption.WorldHfAlive: Text = "Historical Figures - Alive"; break;
+                    case ChartOption.WorldHfRemaining: Text = "Historical Figures - Remaining"; break;
                     case ChartOption.WorldSitePopulations: Text = "Site Populations"; break;
                     case ChartOption.WorldDeaths: Text = "Deaths"; break;
                     case ChartOption.WorldSiteTypes: Text = "Sites"; break;
@@ -49,15 +49,15 @@ namespace LegendsViewer
             }
         }
 
-        ChartPanel Chart;
+        ChartPanel _chart;
         public ChartMenuItem(ChartPanel chart)
         {
-            Chart = chart;
+            _chart = chart;
         }
 
         protected override void OnClick(EventArgs e)
         {
-            Chart.MenuClick(this, Option);
+            _chart.MenuClick(this, Option);
         }
     }
 }

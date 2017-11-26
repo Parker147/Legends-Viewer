@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using LegendsViewer.Legends;
-using System.Text.RegularExpressions;
 using WFC;
 
 namespace LegendsViewer.Controls.Tabs
 {
     public partial class InfrastructureTab : BaseSearchTab
     {
-        private WorldConstructionsList worldConstructionSearch;
-        private StructuresList structureSearch;
-        private SitesList siteSearch;
+        private WorldConstructionsList _worldConstructionSearch;
+        private StructuresList _structureSearch;
+        private SitesList _siteSearch;
 
         public InfrastructureTab()
         {
@@ -27,8 +26,8 @@ namespace LegendsViewer.Controls.Tabs
             lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
             MaxResultsLabels.Add(lnkMaxResults);
 
-            EventTabs = new TabPage[] { tpSiteEvents, tpStructureEvents, tpWorldConstructionEvents };
-            EventTabTypes = new Type[] { typeof(Site), typeof(Structure), typeof(WorldConstruction) };
+            EventTabs = new[] { tpSiteEvents, tpStructureEvents, tpWorldConstructionEvents };
+            EventTabTypes = new[] { typeof(Site), typeof(Structure), typeof(WorldConstruction) };
 
             listSiteSearch.ShowGroups = false;
             listSiteSearch.AllColumns.Add(new OLVColumn
@@ -64,7 +63,7 @@ namespace LegendsViewer.Controls.Tabs
                 Text = "Current Owner",
                 TextAlign = HorizontalAlignment.Right,
                 IsVisible = false,
-                AspectGetter = item => ((Site)item).CurrentOwner?.Print(false)
+                AspectGetter = item => ((Site)item).CurrentOwner?.ToLink(false)
             });
             listSiteSearch.AllColumns.Add(new OLVColumn
             {
@@ -96,8 +95,8 @@ namespace LegendsViewer.Controls.Tabs
         {
             base.AfterLoad(world);
 
-            worldConstructionSearch = new WorldConstructionsList(World);
-            structureSearch = new StructuresList(World);
+            _worldConstructionSearch = new WorldConstructionsList(World);
+            _structureSearch = new StructuresList(World);
 
             var structures = from structure in World.Structures
                              orderby structure.Type.GetDescription()
@@ -110,10 +109,15 @@ namespace LegendsViewer.Controls.Tabs
 
             cmbStructureType.Items.Add("All"); cmbStructureType.SelectedIndex = 0;
             foreach (var structure in structures)
+            {
                 cmbStructureType.Items.Add(structure.Key);
+            }
+
             cmbConstructionType.Items.Add("All"); cmbConstructionType.SelectedIndex = 0;
             foreach (var construction in worldconstructions)
+            {
                 cmbConstructionType.Items.Add(construction.Key);
+            }
 
             var worldConstructionEvents = from eventType in World.WorldConstructions.SelectMany(element => element.Events)
                                           group eventType by eventType.Type into type
@@ -123,7 +127,7 @@ namespace LegendsViewer.Controls.Tabs
                                   group eventType by eventType.Type into type
                                   select type.Key;
 
-            siteSearch = new SitesList(World);
+            _siteSearch = new SitesList(World);
 
             var sites = from site in World.Sites
                         where !string.IsNullOrWhiteSpace(site.Name)
@@ -140,11 +144,15 @@ namespace LegendsViewer.Controls.Tabs
             cmbSiteType.SelectedIndex = 0;
 
             foreach (var site in sites)
+            {
                 cmbSiteType.Items.Add(site.Key);
+            }
 
             cmbSitePopulation.Items.Add("All"); cmbSitePopulation.SelectedIndex = 0;
             foreach (var populationType in populationTypes)
+            {
                 cmbSitePopulation.Items.Add(populationType.Key);
+            }
 
             var siteEvents = from eventType in World.Sites.SelectMany(site => site.Events)
                              group eventType by eventType.Type into type
@@ -158,9 +166,9 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void DoSearch()
         {
-            searchSiteList(null, null);
-            searchStructureList(null, null);
-            searchWorldConstructionList(null, null);
+            SearchSiteList(null, null);
+            SearchStructureList(null, null);
+            SearchWorldConstructionList(null, null);
             base.DoSearch();
         }
 
@@ -199,59 +207,62 @@ namespace LegendsViewer.Controls.Tabs
             label.Text = $"{shown} / {total}";
         }
 
-        private void searchSiteList(object sender, EventArgs e)
+        private void SearchSiteList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                if (sender == cmbSitePopulation && !radSiteSortPopulation.Checked) radSiteSortPopulation.Checked = true;
+                if (sender == cmbSitePopulation && !radSiteSortPopulation.Checked)
+                {
+                    radSiteSortPopulation.Checked = true;
+                }
                 else
                 {
-                    siteSearch.name = txtSiteSearch.Text;
-                    siteSearch.type = cmbSiteType.SelectedItem.ToString();
-                    siteSearch.PopulationType = cmbSitePopulation.SelectedItem.ToString();
-                    siteSearch.sortOwners = radSiteOwners.Checked;
-                    siteSearch.sortEvents = radSiteSortEvents.Checked;
-                    siteSearch.sortFiltered = radSiteSortFiltered.Checked;
-                    siteSearch.sortWarfare = radSiteSortWarfare.Checked;
-                    siteSearch.SortPopulation = radSiteSortPopulation.Checked;
-                    siteSearch.SortConnections = radSortConnections.Checked;
-                    siteSearch.SortDeaths = radSiteSortDeaths.Checked;
-                    siteSearch.SortBeastAttacks = radSiteBeastAttacks.Checked;
-                    IEnumerable<Site> list = siteSearch.getList();
+                    _siteSearch.Name = txtSiteSearch.Text;
+                    _siteSearch.Type = cmbSiteType.SelectedItem.ToString();
+                    _siteSearch.PopulationType = cmbSitePopulation.SelectedItem.ToString();
+                    _siteSearch.SortOwners = radSiteOwners.Checked;
+                    _siteSearch.SortEvents = radSiteSortEvents.Checked;
+                    _siteSearch.SortFiltered = radSiteSortFiltered.Checked;
+                    _siteSearch.SortWarfare = radSiteSortWarfare.Checked;
+                    _siteSearch.SortPopulation = radSiteSortPopulation.Checked;
+                    _siteSearch.SortConnections = radSortConnections.Checked;
+                    _siteSearch.SortDeaths = radSiteSortDeaths.Checked;
+                    _siteSearch.SortBeastAttacks = radSiteBeastAttacks.Checked;
+                    IEnumerable<Site> list = _siteSearch.GetList();
                     var results = list.ToArray();
                     listSiteSearch.SetObjects(results);
-                    UpdateCounts(lblShownResults, results.Length, siteSearch.BaseList.Count);
+                    UpdateCounts(lblShownResults, results.Length, _siteSearch.BaseList.Count);
                 }
             }
         }
 
-        private void searchWorldConstructionList(object sender, EventArgs e)
+        private void SearchWorldConstructionList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                worldConstructionSearch.Name = txtWorldConstructionsSearch.Text;
-                worldConstructionSearch.Type = cmbConstructionType.SelectedItem.ToString();
-                worldConstructionSearch.sortEvents = radWorldConstructionsSortEvents.Checked;
-                worldConstructionSearch.sortFiltered = radWorldConstructionsSortFiltered.Checked;
-                IEnumerable<WorldConstruction> list = worldConstructionSearch.GetList();
+                _worldConstructionSearch.Name = txtWorldConstructionsSearch.Text;
+                _worldConstructionSearch.Type = cmbConstructionType.SelectedItem.ToString();
+                _worldConstructionSearch.SortEvents = radWorldConstructionsSortEvents.Checked;
+                _worldConstructionSearch.SortFiltered = radWorldConstructionsSortFiltered.Checked;
+                IEnumerable<WorldConstruction> list = _worldConstructionSearch.GetList();
                 var results = list.ToArray();
                 listWorldConstructionsSearch.SetObjects(results);
-                UpdateCounts(lblWorldConstructionResult, results.Length, worldConstructionSearch.BaseList.Count);
+                UpdateCounts(lblWorldConstructionResult, results.Length, _worldConstructionSearch.BaseList.Count);
             }
         }
 
-        private void searchStructureList(object sender, EventArgs e)
+        private void SearchStructureList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
-                structureSearch.Name = txtStructuresSearch.Text;
-                structureSearch.Type = cmbStructureType.SelectedItem.ToString();
-                structureSearch.sortEvents = radStructuresSortEvents.Checked;
-                structureSearch.sortFiltered = radStructuresSortFiltered.Checked;
-                IEnumerable<Structure> list = structureSearch.GetList();
+                _structureSearch.Name = txtStructuresSearch.Text;
+                _structureSearch.Type = cmbStructureType.SelectedItem.ToString();
+                _structureSearch.SortEvents = radStructuresSortEvents.Checked;
+                _structureSearch.SortFiltered = radStructuresSortFiltered.Checked;
+                IEnumerable<Structure> list = _structureSearch.GetList();
                 var results = list.ToArray();
-                listStructureSearch.SetObjects(list.ToArray());
-                UpdateCounts(lblStructureResults, results.Length, structureSearch.BaseList.Count);
+                listStructureSearch.SetObjects(results);
+                UpdateCounts(lblStructureResults, results.Length, _structureSearch.BaseList.Count);
             }
         }
 
@@ -261,8 +272,16 @@ namespace LegendsViewer.Controls.Tabs
             // returns empty string for valid values and error message for invalid values
             InputBoxValidation validation = delegate (string val)
             {
-                if (val == "") return "Value cannot be empty.";
-                if (!(new Regex(@"^[0-9]+$")).IsMatch(val)) return "Value is not valid.";
+                if (val == "")
+                {
+                    return "Value cannot be empty.";
+                }
+
+                if (!new Regex(@"^[0-9]+$").IsMatch(val))
+                {
+                    return "Value is not valid.";
+                }
+
                 return "";
             };
 
@@ -276,33 +295,34 @@ namespace LegendsViewer.Controls.Tabs
                     lnkLabel.Left = lnkLabel.Parent.Right - lnkLabel.Width - 3;
                 }
                 lblShownResults.Left = lnkMaxResults.Left - lblShownResults.Width - 3;
-                listSearch_SelectedIndexChanged(this, EventArgs.Empty);
-                searchSiteList(null, null);
+                ListSearch_SelectedIndexChanged(this, EventArgs.Empty);
+                SearchSiteList(null, null);
             }
         }
 
         private void listWorldConstructionsSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listStructuresSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void listSiteSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
         private void filterPanel_OnPanelExpand(object sender, EventArgs e)
         {
-            var panel = sender as RichPanel;
-            if (panel != null)
+            if (sender is RichPanel panel)
             {
                 foreach (var control in panel.Controls.OfType<Control>())
+                {
                     control.Visible = panel.Expanded;
+                }
             }
         }
     }

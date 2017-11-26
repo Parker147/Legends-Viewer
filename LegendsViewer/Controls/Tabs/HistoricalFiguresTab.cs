@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -12,7 +11,7 @@ namespace LegendsViewer.Controls.Tabs
 {
     public partial class HistoricalFiguresTab : BaseSearchTab
     {
-        private HistoricalFigureList hfSearch;
+        private HistoricalFigureList _hfSearch;
 
         public HistoricalFiguresTab()
         {
@@ -22,8 +21,8 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void InitializeTab()
         {
-            EventTabs = new TabPage[] { tpHFEvents };
-            EventTabTypes = new Type[] { typeof(HistoricalFigure) };
+            EventTabs = new[] { tpHFEvents };
+            EventTabTypes = new[] { typeof(HistoricalFigure) };
             lnkMaxResults.Text = WorldObjectList.MaxResults.ToString();
             MaxResultsLabels.Add(lnkMaxResults);
             listHFSearch.ShowGroups = false;
@@ -53,7 +52,7 @@ namespace LegendsViewer.Controls.Tabs
         internal override void AfterLoad(World world)
         {
             base.AfterLoad(world);
-            hfSearch = new HistoricalFigureList(World);
+            _hfSearch = new HistoricalFigureList(World);
 
             var races = from hf in World.HistoricalFigures
                         orderby hf.Race
@@ -70,13 +69,21 @@ namespace LegendsViewer.Controls.Tabs
 
             cmbRace.Items.Add("All"); cmbRace.SelectedIndex = 0;
             foreach (var race in races)
+            {
                 cmbRace.Items.Add(race.Key);
+            }
+
             cmbCaste.Items.Add("All"); cmbCaste.SelectedIndex = 0;
             foreach (var caste in castes)
+            {
                 cmbCaste.Items.Add(caste.Key);
+            }
+
             cmbType.Items.Add("All"); cmbType.SelectedIndex = 0;
             foreach (var type in types)
+            {
                 cmbType.Items.Add(type.Key);
+            }
 
             TabEvents.Clear();
 
@@ -88,7 +95,7 @@ namespace LegendsViewer.Controls.Tabs
 
         internal override void DoSearch()
         {
-            searchHFList(null, null);
+            SearchHfList(null, null);
             base.DoSearch();
         }
 
@@ -111,41 +118,46 @@ namespace LegendsViewer.Controls.Tabs
             radHFNone.Checked = true;
         }
 
-        private void searchHFList(object sender, EventArgs e)
+        private void SearchHfList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
                 if (txtHFSearch.Text.Length > 1)
-                    hfSearch.name = txtHFSearch.Text;
+                {
+                    _hfSearch.Name = txtHFSearch.Text;
+                }
                 else
-                    hfSearch.name = "";
-                hfSearch.race = cmbRace.SelectedItem.ToString();
-                hfSearch.caste = cmbCaste.SelectedItem.ToString();
-                hfSearch.type = cmbType.SelectedItem.ToString();
-                hfSearch.deity = chkDeity.Checked;
-                hfSearch.force = chkForce.Checked;
-                hfSearch.vampire = chkVampire.Checked;
-                hfSearch.werebeast = chkWerebeast.Checked;
-                hfSearch.necromancer = chkNecromancer.Checked;
-                hfSearch.animated = chkAnimated.Checked;
-                hfSearch.ghost = chkGhost.Checked;
-                hfSearch.alive = chkAlive.Checked;
-                hfSearch.Leader = chkHFLeader.Checked;
-                hfSearch.sortKills = radSortKills.Checked;
-                hfSearch.sortEvents = radHFSortEvents.Checked;
-                hfSearch.sortFiltered = radHFSortFiltered.Checked;
-                hfSearch.sortBattles = radHFSortBattles.Checked;
-                hfSearch.sortMiscKills = radSortMiscKills.Checked;
+                {
+                    _hfSearch.Name = "";
+                }
 
-                IEnumerable<HistoricalFigure> list = hfSearch.GetList();
+                _hfSearch.Race = cmbRace.SelectedItem.ToString();
+                _hfSearch.Caste = cmbCaste.SelectedItem.ToString();
+                _hfSearch.Type = cmbType.SelectedItem.ToString();
+                _hfSearch.Deity = chkDeity.Checked;
+                _hfSearch.Force = chkForce.Checked;
+                _hfSearch.Vampire = chkVampire.Checked;
+                _hfSearch.Werebeast = chkWerebeast.Checked;
+                _hfSearch.Necromancer = chkNecromancer.Checked;
+                _hfSearch.Animated = chkAnimated.Checked;
+                _hfSearch.Ghost = chkGhost.Checked;
+                _hfSearch.Alive = chkAlive.Checked;
+                _hfSearch.Leader = chkHFLeader.Checked;
+                _hfSearch.SortKills = radSortKills.Checked;
+                _hfSearch.SortEvents = radHFSortEvents.Checked;
+                _hfSearch.SortFiltered = radHFSortFiltered.Checked;
+                _hfSearch.SortBattles = radHFSortBattles.Checked;
+                _hfSearch.SortMiscKills = radSortMiscKills.Checked;
+
+                IEnumerable<HistoricalFigure> list = _hfSearch.GetList();
                 var results = list.ToArray();
                 listHFSearch.SetObjects(results);
                 //listHFSearch.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-                UpdateCounts(results.Length, hfSearch.BaseList.Count);
+                UpdateCounts(results.Length, _hfSearch.BaseList.Count);
             }
         }
 
-        public void ResetHFBaseList(object sender, EventArgs e)
+        public void ResetHfBaseList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
@@ -166,29 +178,38 @@ namespace LegendsViewer.Controls.Tabs
             }
         }
 
-        private void listHFSearch_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListHFSearch_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listSearch_SelectedIndexChanged(sender, e);
+            ListSearch_SelectedIndexChanged(sender, e);
         }
 
-        private void filterPanel_OnPanelExpand(object sender, EventArgs e)
+        private void FilterPanel_OnPanelExpand(object sender, EventArgs e)
         {
-            var panel = sender as RichPanel;
-            if (panel != null)
+            if (sender is RichPanel panel)
             {
                 foreach (var control in panel.Controls.OfType<Control>())
+                {
                     control.Visible = panel.Expanded;
+                }
             }
         }
 
-        private void lnkMaxResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LnkMaxResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // InputBox with value validation - first define validation delegate, which
             // returns empty string for valid values and error message for invalid values
             InputBoxValidation validation = delegate (string val)
             {
-                if (val == "") return "Value cannot be empty.";
-                if (!(new Regex(@"^[0-9]+$")).IsMatch(val)) return "Value is not valid.";
+                if (val == "")
+                {
+                    return "Value cannot be empty.";
+                }
+
+                if (!new Regex(@"^[0-9]+$").IsMatch(val))
+                {
+                    return "Value is not valid.";
+                }
+
                 return "";
             };
 
@@ -202,8 +223,8 @@ namespace LegendsViewer.Controls.Tabs
                     lnkLabel.Left = lnkLabel.Parent.Right - lnkLabel.Width - 3;
                 }
                 lblShownResults.Left = lnkMaxResults.Left - lblShownResults.Width - 3;
-                listSearch_SelectedIndexChanged(this, EventArgs.Empty);
-                searchHFList(null, null);
+                ListSearch_SelectedIndexChanged(this, EventArgs.Empty);
+                SearchHfList(null, null);
             }
         }
 
@@ -214,7 +235,7 @@ namespace LegendsViewer.Controls.Tabs
 
         private void OnSelected(object sender, TabControlEventArgs e)
         {
-            searchHFList(null, null);
+            SearchHfList(null, null);
         }
     }
 }

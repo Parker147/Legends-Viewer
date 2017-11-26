@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Legends.Enums;
-using System;
-using LegendsViewer.Controls;
 
 namespace LegendsViewer.Legends
 {
@@ -58,7 +58,11 @@ namespace LegendsViewer.Legends
                     case "feature":
                         property.Known = true;
                         if (property.SubProperties != null)
-                            Features.Add(new Feature(property.SubProperties, world)); break;
+                        {
+                            Features.Add(new Feature(property.SubProperties, world));
+                        }
+
+                        break;
                     case "reference": Reference = Convert.ToInt32(property.Value); break;
                     case "reference2": Reference2 = Convert.ToInt32(property.Value); break;
                     case "item_type": ItemType = string.Intern(property.Value); break;

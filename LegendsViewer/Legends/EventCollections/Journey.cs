@@ -18,10 +18,12 @@ namespace LegendsViewer.Legends.EventCollections
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "ordinal": Ordinal = String.Intern(property.Value); break;
                 }
+            }
         }
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {

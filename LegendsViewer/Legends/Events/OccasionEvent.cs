@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using LegendsViewer.Legends.Enums;
-using LegendsViewer.Legends.Parser;
 using System.Linq;
 using LegendsViewer.Controls;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Interfaces;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
@@ -118,7 +118,7 @@ namespace LegendsViewer.Legends.Events
                     case ScheduleType.Storytelling:
                         if (Schedule.Reference != -1)
                         {
-                            WorldEvent worldEvent = World.GetEvent(Schedule.Reference) as WorldEvent;
+                            WorldEvent worldEvent = World.GetEvent(Schedule.Reference);
                             if (worldEvent is IFeatured)
                             {
                                 eventString += " of ";
@@ -138,8 +138,8 @@ namespace LegendsViewer.Legends.Events
                 switch (Schedule.Type)
                 {
                     case ScheduleType.Procession:
-                        Structure startStructure = Site.Structures.FirstOrDefault(s => s.ID == Schedule.Reference);
-                        Structure endStructure = Site.Structures.FirstOrDefault(s => s.ID == Schedule.Reference2);
+                        Structure startStructure = Site.Structures.FirstOrDefault(s => s.Id == Schedule.Reference);
+                        Structure endStructure = Site.Structures.FirstOrDefault(s => s.Id == Schedule.Reference2);
                         if (startStructure != null || endStructure != null)
                         {
                             eventString += " It started at ";

@@ -1,29 +1,29 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends;
-using System.Diagnostics;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    public class HTMLControl : PageControl
+    public class HtmlControl : PageControl
     {
-        World World;
-        public WebBrowser HTMLBrowser;
-        private HTMLPrinter Printer;
+        World _world;
+        public WebBrowser HtmlBrowser;
+        private HtmlPrinter _printer;
         public int BrowserScrollPosition;
-        public object HTMLObject;
+        public object HtmlObject;
 
-        public HTMLControl(object htmlObject, DwarfTabControl tabControl, World world)
+        public HtmlControl(object htmlObject, DwarfTabControl tabControl, World world)
         {
-            World = world;
-            HTMLObject = htmlObject;
-            Printer = HTMLPrinter.GetPrinter(htmlObject, world);
-            Title = Printer.GetTitle();
+            _world = world;
+            HtmlObject = htmlObject;
+            _printer = HtmlPrinter.GetPrinter(htmlObject, world);
+            Title = _printer.GetTitle();
             TabControl = tabControl;
         }
 
-        ~HTMLControl()
+        ~HtmlControl()
         {
             Dispose(false);
         }
@@ -31,82 +31,86 @@ namespace LegendsViewer.Controls
 
         public override Control GetControl()
         {
-            if (HTMLBrowser == null || HTMLBrowser.IsDisposed)
+            if (HtmlBrowser == null || HtmlBrowser.IsDisposed)
             {
-                lastNav = DateTime.UtcNow;
+                _lastNav = DateTime.UtcNow;
                 BrowserUtil.SetBrowserEmulationMode();
-                HTMLBrowser = new WebBrowser
+                HtmlBrowser = new WebBrowser
                 {
                     Dock = DockStyle.Fill,
                     WebBrowserShortcutsEnabled = false,
                     ScriptErrorsSuppressed = true
                 };
-                HTMLBrowser.Navigate("about:blank");
-                while (HTMLBrowser.Document?.Body == null)
+                HtmlBrowser.Navigate("about:blank");
+                while (HtmlBrowser.Document?.Body == null)
                 {
                     Application.DoEvents();
                 }
-                HTMLBrowser.DocumentText = Printer.GetHTMLPage();
-                HTMLBrowser.DocumentCompleted += AfterPageLoad;
-                HTMLBrowser.Navigating += BrowserNavigating;
-                HTMLBrowser.Document.MouseMove += MouseOver;
-                return HTMLBrowser;
+                HtmlBrowser.DocumentText = _printer.GetHtmlPage();
+                HtmlBrowser.DocumentCompleted += AfterPageLoad;
+                HtmlBrowser.Navigating += BrowserNavigating;
+                HtmlBrowser.Document.MouseMove += MouseOver;
+                return HtmlBrowser;
             }
-            return HTMLBrowser;
+            return HtmlBrowser;
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!Disposed)
             {
                 if (disposing)
                 {
                     DisposePrinter();
-                    if (HTMLBrowser?.Document != null)
+                    if (HtmlBrowser?.Document != null)
                     {
                         int newerBrowsers = 0;
                         try
                         {
-                            newerBrowsers = HTMLBrowser.Document.GetElementsByTagName("HTML")[0].ScrollTop;
+                            newerBrowsers = HtmlBrowser.Document.GetElementsByTagName("HTML")[0].ScrollTop;
                         }
                         catch (Exception)
                         {
                         }
-                        BrowserScrollPosition = newerBrowsers > HTMLBrowser.Document.Body?.ScrollTop
+                        BrowserScrollPosition = newerBrowsers > HtmlBrowser.Document.Body?.ScrollTop
                             ? newerBrowsers
-                            : HTMLBrowser.Document.Body.ScrollTop;
+                            : HtmlBrowser.Document.Body.ScrollTop;
 
-                        HTMLBrowser.Dispose();
-                        HTMLBrowser = null;
+                        HtmlBrowser.Dispose();
+                        HtmlBrowser = null;
                     }
                 }
                 base.Dispose(disposing);
-                disposed = true;
+                Disposed = true;
             }
         }
 
         public override void Refresh()
         {
-            HTMLBrowser.Navigate("about:blank");
-            while (HTMLBrowser.Document == null || HTMLBrowser.Document.Body == null)
+            HtmlBrowser.Navigate("about:blank");
+            while (HtmlBrowser.Document == null || HtmlBrowser.Document.Body == null)
+            {
                 Application.DoEvents();
-            HTMLBrowser.DocumentText = Printer.GetHTMLPage();
+            }
+
+            HtmlBrowser.DocumentText = _printer.GetHtmlPage();
 
         }
 
-        private DateTime lastNav;
+        private DateTime _lastNav;
         private void AfterPageLoad(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             (sender as WebBrowser).Document.Window.ScrollTo(0, BrowserScrollPosition);
             (sender as WebBrowser).Focus();
-            Console.WriteLine((DateTime.UtcNow - lastNav).TotalMilliseconds);
             GC.Collect();
         }
 
         private void MouseOver(object sender, HtmlElementEventArgs e)
         {
             if (TabControl.Parent.ContainsFocus)
-                HTMLBrowser.Document.Focus();
+            {
+                HtmlBrowser.Document.Focus();
+            }
         }
 
         private void BrowserNavigating(object sender, WebBrowserNavigatingEventArgs e)
@@ -116,30 +120,34 @@ namespace LegendsViewer.Controls
                 string url = e.Url.ToString();
                 url = url.Substring(url.IndexOf(":") + 1, url.Length - url.IndexOf(":") - 1); //remove "about:" at the beginning of the url
                 if (!NavigateToNewControl(url))
+                {
                     if (!NavigateToNewObjectPage(url))
+                    {
                         throw new Exception("Could not navigate with url: " + url);
+                    }
+                }
+
                 e.Cancel = true; //Prevent the browser from actually navigating to a new page
             }
         }
 
         private bool NavigateToNewControl(string url)
         {
-            LinkOption option;
-            if (Enum.TryParse(url, out option))
+            if (Enum.TryParse(url, out LinkOption option))
             {
                 switch (option)
                 {
                     case LinkOption.LoadMap:
-                        TabControl.Navigate(ControlOption.Map, HTMLObject);
+                        TabControl.Navigate(ControlOption.Map, HtmlObject);
                         break;
                     case LinkOption.LoadChart:
-                        TabControl.Navigate(ControlOption.Chart, HTMLObject);
+                        TabControl.Navigate(ControlOption.Chart, HtmlObject);
                         break;
                     case LinkOption.LoadSearch:
                         TabControl.Navigate(ControlOption.Search);
                         break;
                     case LinkOption.LoadSiteMap:
-                        Site currentSite = HTMLObject as Site;
+                        Site currentSite = HtmlObject as Site;
                         Process.Start(currentSite.SiteMapPath);
                         break;
                 }
@@ -158,36 +166,36 @@ namespace LegendsViewer.Controls
                 switch (objectType)
                 {
                     case "hf":
-                        navigateObject = World.GetHistoricalFigure(id); break;
+                        navigateObject = _world.GetHistoricalFigure(id); break;
                     case "region":
-                        navigateObject = World.GetRegion(id); break;
+                        navigateObject = _world.GetRegion(id); break;
                     case "uregion":
-                        navigateObject = World.GetUndergroundRegion(id); break;
+                        navigateObject = _world.GetUndergroundRegion(id); break;
                     case "site":
-                        navigateObject = World.GetSite(id); break;
+                        navigateObject = _world.GetSite(id); break;
                     case "entity":
-                        navigateObject = World.GetEntity(id); break;
+                        navigateObject = _world.GetEntity(id); break;
                     case "collection":
-                        navigateObject = World.GetEventCollection(id); break;
+                        navigateObject = _world.GetEventCollection(id); break;
                     case "era":
-                        navigateObject = World.GetEra(id); break;
+                        navigateObject = _world.GetEra(id); break;
                     case "artifact":
-                        navigateObject = World.GetArtifact(id); break;
+                        navigateObject = _world.GetArtifact(id); break;
                     case "worldconstruction":
-                        navigateObject = World.GetWorldConstruction(id); break;
+                        navigateObject = _world.GetWorldConstruction(id); break;
                     case "writtencontent":
-                        navigateObject = World.GetWrittenContent(id); break;
+                        navigateObject = _world.GetWrittenContent(id); break;
                     case "danceform":
-                        navigateObject = World.GetDanceForm(id); break;
+                        navigateObject = _world.GetDanceForm(id); break;
                     case "musicalform":
-                        navigateObject = World.GetMusicalForm(id); break;
+                        navigateObject = _world.GetMusicalForm(id); break;
                     case "poeticform":
-                        navigateObject = World.GetPoeticForm(id); break;
+                        navigateObject = _world.GetPoeticForm(id); break;
                     case "structure":
-                        navigateObject = World.GetStructure(id); break;
+                        navigateObject = _world.GetStructure(id); break;
                     default: throw new Exception("Unhandled url type: " + objectType);
                 }
-                TabControl.Navigate(ControlOption.HTML, navigateObject);
+                TabControl.Navigate(ControlOption.Html, navigateObject);
                 return true;
             }
             return false;
@@ -197,8 +205,8 @@ namespace LegendsViewer.Controls
         private void DisposePrinter()
         {
 
-            Printer.DeleteTemporaryFiles();
-            Printer.Dispose();
+            _printer.DeleteTemporaryFiles();
+            _printer.Dispose();
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
-using LegendsViewer.Controls.HTML.Utilities;
 
 namespace LegendsViewer.Legends.EventCollections
 {
@@ -42,15 +42,23 @@ namespace LegendsViewer.Legends.EventCollections
         public List<EventCollection> DefenderVictories { get; set; }
         public List<Battle> AttackerBattleVictories { get { return Collections.OfType<Battle>().Where(battle => battle.Victor.EqualsOrParentEquals(Attacker)).ToList(); } set { } }
         public List<Battle> DefenderBattleVictories { get { return Collections.OfType<Battle>().Where(battle => battle.Victor.EqualsOrParentEquals(Defender)).ToList(); } set { } }
-        public List<Battle> ErrorBattles { get { return Collections.OfType<Battle>().Where(battle => (!battle.Attacker.EqualsOrParentEquals(Attacker) && !battle.Attacker.EqualsOrParentEquals(Defender)) || (!battle.Defender.EqualsOrParentEquals(Defender) && !battle.Defender.EqualsOrParentEquals(Attacker))).ToList(); } set { } }
+        public List<Battle> ErrorBattles { get { return Collections.OfType<Battle>().Where(battle => !battle.Attacker.EqualsOrParentEquals(Attacker) && !battle.Attacker.EqualsOrParentEquals(Defender) || !battle.Defender.EqualsOrParentEquals(Defender) && !battle.Defender.EqualsOrParentEquals(Attacker)).ToList(); } set { } }
         public List<SiteConquered> AttackerConquerings { get { return Collections.OfType<SiteConquered>().Where(conquering => conquering.Attacker.EqualsOrParentEquals(Attacker)).ToList(); } set { } }
         public List<SiteConquered> DefenderConquerings { get { return Collections.OfType<SiteConquered>().Where(conquering => conquering.Attacker.EqualsOrParentEquals(Defender)).ToList(); } set { } }
         public double AttackerToDefenderKills
         {
             get
             {
-                if (AttackerDeathCount == 0 && DefenderDeathCount == 0) return 0;
-                if (AttackerDeathCount == 0) return double.MaxValue;
+                if (AttackerDeathCount == 0 && DefenderDeathCount == 0)
+                {
+                    return 0;
+                }
+
+                if (AttackerDeathCount == 0)
+                {
+                    return double.MaxValue;
+                }
+
                 return Math.Round(DefenderDeathCount / Convert.ToDouble(AttackerDeathCount), 2);
             }
             set { }
@@ -59,8 +67,16 @@ namespace LegendsViewer.Legends.EventCollections
         {
             get
             {
-                if (DefenderBattleVictories.Count == 0 && AttackerBattleVictories.Count == 0) return 0;
-                if (DefenderBattleVictories.Count == 0) return double.MaxValue;
+                if (DefenderBattleVictories.Count == 0 && AttackerBattleVictories.Count == 0)
+                {
+                    return 0;
+                }
+
+                if (DefenderBattleVictories.Count == 0)
+                {
+                    return double.MaxValue;
+                }
+
                 return Math.Round(AttackerBattleVictories.Count / Convert.ToDouble(DefenderBattleVictories.Count), 2);
             }
             set { }
@@ -72,7 +88,6 @@ namespace LegendsViewer.Legends.EventCollections
         }
 
         public War()
-            : base()
         {
             Initialize();
         }
@@ -82,22 +97,35 @@ namespace LegendsViewer.Legends.EventCollections
         {
             Initialize();
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "aggressor_ent_id": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "defender_ent_id": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
                 }
+            }
+
             Defender.Wars.Add(this);
             if (Defender.Parent != null)
+            {
                 Defender.Parent.Wars.Add(this);
+            }
+
             Attacker.Wars.Add(this);
             if (Attacker.Parent != null)
+            {
                 Attacker.Parent.Wars.Add(this);
+            }
+
             if (EndYear >= 0)
+            {
                 Length = EndYear - StartYear;
+            }
             else if (world.Events.Count > 0)
+            {
                 Length = world.Events.Last().Year - StartYear;
+            }
         }
 
         private void Initialize()
@@ -128,18 +156,15 @@ namespace LegendsViewer.Legends.EventCollections
                 string linkedString = "";
                 if (pov != this)
                 {
-                    linkedString = Icon + "<a href = \"collection#" + ID + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
+                    linkedString = Icon + "<a href = \"collection#" + Id + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
                 }
                 else
                 {
-                    linkedString = Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
                 }
                 return linkedString;
             }
-            else
-            {
-                return Name;
-            }
+            return Name;
         }
 
         public override string ToString()

@@ -1,62 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends;
 using LegendsViewer.Legends.EventCollections;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    class BeastAttackPrinter : HTMLPrinter
+    class BeastAttackPrinter : HtmlPrinter
     {
-        BeastAttack Attack;
-        World World;
+        BeastAttack _attack;
+        World _world;
 
         public BeastAttackPrinter(BeastAttack attack, World world)
         {
-            Attack = attack;
-            World = world;
+            _attack = attack;
+            _world = world;
         }
 
         public override string GetTitle()
         {
             string beast;
-            if (Attack.Beast != null)
+            if (_attack.Beast != null)
             {
-                if (Attack.Beast.Name.IndexOf(" ") > 0)
-                    beast = Attack.Beast.Name.Substring(0, Attack.Beast.Name.IndexOf(" "));
+                if (_attack.Beast.Name.IndexOf(" ") > 0)
+                {
+                    beast = _attack.Beast.Name.Substring(0, _attack.Beast.Name.IndexOf(" "));
+                }
                 else
-                    beast = Attack.Beast.Name;
+                {
+                    beast = _attack.Beast.Name;
+                }
             }
             else
+            {
                 beast = "Unknown";
+            }
 
             return "Rampage of " + beast;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + GetTitle() + "</h1></br>");
+            Html.AppendLine("<h1>" + GetTitle() + "</h1></br>");
 
             string beast = "UNKNOWN BEAST";
-            if (Attack.Beast != null)
-                beast = Attack.Beast.ToLink();
+            if (_attack.Beast != null)
+            {
+                beast = _attack.Beast.ToLink();
+            }
 
-            HTML.AppendLine("The " + Attack.GetOrdinal(Attack.Ordinal) + " Rampage of " + beast + " in " + Attack.Site.ToLink() + ".</br></br>");
+            Html.AppendLine("The " + _attack.GetOrdinal(_attack.Ordinal) + " Rampage of " + beast + " in " + _attack.Site.ToLink() + ".</br></br>");
 
-            List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Attack.Site);
-            HTML.AppendLine("<table>");
-            HTML.AppendLine("<tr>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("</tr></table></br>");
+            List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _attack.Site);
+            Html.AppendLine("<table>");
+            Html.AppendLine("<tr>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("</tr></table></br>");
 
-            PrintEventLog(Attack.GetSubEvents(), BeastAttack.Filters, Attack);
+            PrintEventLog(_attack.GetSubEvents(), BeastAttack.Filters, _attack);
 
-            return HTML.ToString();
+            return Html.ToString();
         }
     }
 }

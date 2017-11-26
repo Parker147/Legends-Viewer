@@ -18,6 +18,6 @@
         Subregion,
         AbstractBuilding,
         Artifact,
-        Sphere,
+        Sphere
     }
 }

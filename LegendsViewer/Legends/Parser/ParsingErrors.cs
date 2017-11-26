@@ -5,31 +5,36 @@ namespace LegendsViewer.Legends.Parser
 {
     public class ParsingErrors
     {
-        private List<string> ReportedErrorTypes;
-        private StringBuilder Log;
+        private List<string> _reportedErrorTypes;
+        private StringBuilder _log;
 
         public ParsingErrors()
         {
-            ReportedErrorTypes = new List<string>();
-            Log = new StringBuilder();
+            _reportedErrorTypes = new List<string>();
+            _log = new StringBuilder();
         }
 
         public void Report(string description, string details = "", bool forceReport = false)
         {
-            if (forceReport || ReportedErrorTypes.FindIndex(error => error == description) == -1)
+            if (forceReport || _reportedErrorTypes.FindIndex(error => error == description) == -1)
             {
-                Log.Append(description);
+                _log.Append(description);
                 if (details != "")
-                    Log.AppendLine(" (" + details + ")");
+                {
+                    _log.AppendLine(" (" + details + ")");
+                }
                 else
-                    Log.AppendLine();
-                ReportedErrorTypes.Add(description);
+                {
+                    _log.AppendLine();
+                }
+
+                _reportedErrorTypes.Add(description);
             }
         }
 
         public string Print()
         {
-            return Log.ToString();
+            return _log.ToString();
         }
     }
 }

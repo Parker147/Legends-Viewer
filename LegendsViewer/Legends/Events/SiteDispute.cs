@@ -12,11 +12,12 @@ namespace LegendsViewer.Legends.Events
         public Entity Entity2 { get; set; }
         public Site Site1 { get; set; }
         public Site Site2 { get; set; }
-        private string unknownDispute;
+        private string _unknownDispute;
 
         public SiteDispute(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "dispute":
@@ -42,8 +43,8 @@ namespace LegendsViewer.Legends.Events
                                 break;
                             default:
                                 Dispute = Dispute.Unknown;
-                                unknownDispute = property.Value;
-                                world.ParsingErrors.Report("Unknown Site Dispute: " + unknownDispute);
+                                _unknownDispute = property.Value;
+                                world.ParsingErrors.Report("Unknown Site Dispute: " + _unknownDispute);
                                 break;
                         }
                         break;
@@ -60,6 +61,7 @@ namespace LegendsViewer.Legends.Events
                         Site2 = world.GetSite(Convert.ToInt32(property.Value));
                         break;
                 }
+            }
 
             Entity1.AddEvent(this);
             Entity2.AddEvent(this);
@@ -69,7 +71,7 @@ namespace LegendsViewer.Legends.Events
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string dispute = unknownDispute;
+            string dispute = _unknownDispute;
             switch (Dispute)
             {
                 case Dispute.FishingRights:

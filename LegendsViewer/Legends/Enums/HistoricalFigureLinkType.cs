@@ -23,5 +23,7 @@ namespace LegendsViewer.Legends.Enums
         ExSpouse,
         [Description("Traveling Companion")]
         Companion,
+        [Description("Pet Owner")]
+        PetOwner
     }
 }

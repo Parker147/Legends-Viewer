@@ -55,6 +55,12 @@
     <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonMark.NET.0.15.1\lib\net40-client\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="Jdenticon, Version=1.0.1.0, Culture=neutral, PublicKeyToken=3fcf9f6e3475a4f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jdenticon-net.1.0.1\lib\net40\Jdenticon.dll</HintPath>
+    </Reference>
+    <Reference Include="Jdenticon.Gdi, Version=1.0.1.0, Culture=neutral, PublicKeyToken=3fcf9f6e3475a4f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jdenticon.Gdi.1.0.1\lib\net40\Jdenticon.Gdi.dll</HintPath>
+    </Reference>
     <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
       <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
     </Reference>
@@ -261,6 +267,9 @@
     <Compile Include="Legends\Enums\AgreementTopic.cs" />
     <Compile Include="Legends\Enums\BattleOutcome.cs" />
     <Compile Include="Legends\Enums\BodyState.cs" />
+    <Compile Include="Legends\Enums\ChangeHfStateReason.cs" />
+    <Compile Include="Legends\Enums\Circumstance.cs" />
+    <Compile Include="Legends\Enums\Claim.cs" />
     <Compile Include="Legends\Enums\ConfrontReason.cs" />
     <Compile Include="Legends\Enums\ConfrontSituation.cs" />
     <Compile Include="Legends\Enums\DeathCause.cs" />
@@ -275,7 +284,9 @@
     <Compile Include="Legends\Enums\HFState.cs" />
     <Compile Include="Legends\Enums\HistoricalFigureLinkType.cs" />
     <Compile Include="Legends\Enums\InsurrectionOutcome.cs" />
+    <Compile Include="Legends\Enums\Mood.cs" />
     <Compile Include="Legends\Enums\OccasionType.cs" />
+    <Compile Include="Legends\Enums\Reason.cs" />
     <Compile Include="Legends\Enums\ReferenceType.cs" />
     <Compile Include="Legends\Enums\ReputationType.cs" />
     <Compile Include="Legends\Enums\ScheduleType.cs" />
@@ -284,6 +295,7 @@
     <Compile Include="Legends\Enums\SiteLinkType.cs" />
     <Compile Include="Legends\Enums\SiteType.cs" />
     <Compile Include="Legends\Enums\StructureType.cs" />
+    <Compile Include="Legends\Enums\UnitType.cs" />
     <Compile Include="Legends\Enums\WorldConstructionType.cs" />
     <Compile Include="Legends\Enums\WrittenContentType.cs" />
     <Compile Include="Legends\Era.cs" />
@@ -300,6 +312,7 @@
     <Compile Include="Legends\EventCollections\PerformanceCollection.cs" />
     <Compile Include="Legends\EventCollections\ProcessionCollection.cs" />
     <Compile Include="Legends\EventCollections\Purge.cs" />
+    <Compile Include="Legends\EventCollections\Raid.cs" />
     <Compile Include="Legends\EventCollections\SiteConquered.cs" />
     <Compile Include="Legends\EventCollections\Theft.cs" />
     <Compile Include="Legends\EventCollections\War.cs" />
@@ -310,10 +323,15 @@
     <Compile Include="Legends\Events\AgreementFormed.cs" />
     <Compile Include="Legends\Events\AgreementMade.cs" />
     <Compile Include="Legends\Events\AgreementRejected.cs" />
+    <Compile Include="Legends\Events\ArtifactClaimFormed.cs" />
+    <Compile Include="Legends\Events\ArtifactCopied.cs" />
     <Compile Include="Legends\Events\ArtifactCreated.cs" />
     <Compile Include="Legends\Events\ArtifactDestroyed.cs" />
+    <Compile Include="Legends\Events\ArtifactFound.cs" />
+    <Compile Include="Legends\Events\ArtifactGiven.cs" />
     <Compile Include="Legends\Events\ArtifactLost.cs" />
     <Compile Include="Legends\Events\ArtifactPossessed.cs" />
+    <Compile Include="Legends\Events\ArtifactRecovered.cs" />
     <Compile Include="Legends\Events\ArtifactStored.cs" />
     <Compile Include="Legends\Events\ArtifactTransformed.cs" />
     <Compile Include="Legends\Events\AssumeIdentity.cs" />
@@ -350,14 +368,18 @@
     <Compile Include="Legends\Events\HFGainsSecretGoal.cs" />
     <Compile Include="Legends\Events\HFLearnsSecret.cs" />
     <Compile Include="Legends\Events\HFNewPet.cs" />
+    <Compile Include="Legends\Events\HfPrayedInsideStructure.cs" />
     <Compile Include="Legends\Events\HFProfanedStructure.cs" />
     <Compile Include="Legends\Events\HFRazedStructure.cs" />
     <Compile Include="Legends\Events\HFReachSummit.cs" />
+    <Compile Include="Legends\Events\HfRecruitedUnitTypeForEntity.cs" />
     <Compile Include="Legends\Events\HFRelationShipDenied.cs" />
     <Compile Include="Legends\Events\HFReunion.cs" />
     <Compile Include="Legends\Events\HFRevived.cs" />
+    <Compile Include="Legends\Events\HfsFormedReputationRelationship.cs" />
     <Compile Include="Legends\Events\HFSimpleBattleEvent.cs" />
     <Compile Include="Legends\Events\HFTravel.cs" />
+    <Compile Include="Legends\Events\HfViewedArtifact.cs" />
     <Compile Include="Legends\Events\HFWounded.cs" />
     <Compile Include="Legends\Events\ImpersonateHF.cs" />
     <Compile Include="Legends\Events\InsurrectionStarted.cs" />
@@ -395,13 +417,14 @@
     <Compile Include="Legends\Events\SiteRetired.cs" />
     <Compile Include="Legends\Events\SiteTakenOver.cs" />
     <Compile Include="Legends\Events\SiteTributeForced.cs" />
+    <Compile Include="Legends\Events\SneakIntoSite.cs" />
+    <Compile Include="Legends\Events\SpottedLeavingSite.cs" />
     <Compile Include="Legends\Events\WorldEvent.cs" />
     <Compile Include="Legends\Events\WrittenContentComposed.cs" />
     <Compile Include="Legends\Feature.cs" />
     <Compile Include="Legends\Formatting.cs" />
     <Compile Include="Legends\HistoricalFigure.cs" />
     <Compile Include="Legends\HistoricalFigureLink.cs" />
-    <Compile Include="Legends\IdenticonRenderer.cs" />
     <Compile Include="Legends\Interfaces\IFeatured.cs" />
     <Compile Include="Legends\Interfaces\IHasCoordinates.cs" />
     <Compile Include="Legends\Landmass.cs" />

@@ -8,6 +8,6 @@ namespace LegendsViewer.Legends.Enums
         [Description("Attacker Won")]
         AttackerWon,
         [Description("Defender Won")]
-        DefenderWon,
+        DefenderWon
     }
 }

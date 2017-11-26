@@ -13,6 +13,7 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "civ_id": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
@@ -20,6 +21,8 @@ namespace LegendsViewer.Legends.Events
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "builder_hfid": Builder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                 }
+            }
+
             if (SiteEntity != null)
             {
                 SiteEntity.Parent = Civ;
@@ -47,7 +50,11 @@ namespace LegendsViewer.Legends.Events
             }
             else
             {
-                if (SiteEntity != null) eventString += SiteEntity.ToLink(link, pov) + " of ";
+                if (SiteEntity != null)
+                {
+                    eventString += SiteEntity.ToLink(link, pov) + " of ";
+                }
+
                 eventString += Civ.ToLink(link, pov) + " founded " + Site.ToLink(link, pov);
             }
             eventString += PrintParentCollection(link, pov);

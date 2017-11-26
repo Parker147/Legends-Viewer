@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace LegendsViewer.Legends
 {
@@ -12,15 +13,18 @@ namespace LegendsViewer.Legends
             Y = y;
         }
 
-        public System.Drawing.Point ToPoint()
+        public Point ToPoint()
         {
-            return new System.Drawing.Point(X, Y);
+            return new Point(X, Y);
         }
 
         public static bool operator ==(Location a, Location b)
         {
             if ((object)a == null || (object)b == null)
+            {
                 return false;
+            }
+
             return a.X == b.X && a.Y == b.Y;
         }
 

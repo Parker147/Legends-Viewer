@@ -4,7 +4,7 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFWounded : WorldEvent
+    public class HfWounded : WorldEvent
     {
         public int WoundeeRace { get; set; }
         public int WoundeeCaste { get; set; }
@@ -18,10 +18,11 @@ namespace LegendsViewer.Legends.Events
         public Site Site;
         public WorldRegion Region;
         public UndergroundRegion UndergroundRegion;
-        public HFWounded(List<Property> properties, World world)
+        public HfWounded(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "woundee_hfid": Woundee = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
@@ -29,15 +30,17 @@ namespace LegendsViewer.Legends.Events
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
-                    case "woundee": if (Woundee == null) { Woundee = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "wounder": if (Wounder == null) { Wounder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "woundee": if (Woundee == null) { Woundee = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "wounder": if (Wounder == null) { Wounder = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "woundee_race": WoundeeRace = Convert.ToInt32(property.Value); break;
                     case "woundee_caste": WoundeeCaste = Convert.ToInt32(property.Value); break;
                     case "body_part": BodyPart = Convert.ToInt32(property.Value); break;
                     case "injury_type": InjuryType = Convert.ToInt32(property.Value); break;
                     case "part_lost": PartLost = Convert.ToInt32(property.Value); break;
                 }
+            }
+
             Woundee.AddEvent(this);
             Wounder.AddEvent(this);
             Site.AddEvent(this);
@@ -48,14 +51,23 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = GetYearTime();
             if (Woundee != null)
+            {
                 eventString += Woundee.ToLink(link, pov);
+            }
             else
+            {
                 eventString += "UNKNOWN HISTORICAL FIGURE";
+            }
+
             eventString += " was wounded by ";
             if (Wounder != null)
+            {
                 eventString += Wounder.ToLink(link, pov);
+            }
             else
+            {
                 eventString += "UNKNOWN HISTORICAL FIGURE";
+            }
 
             if (Site != null)
             {

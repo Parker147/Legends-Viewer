@@ -4,28 +4,31 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFRevived : WorldEvent
+    public class HfRevived : WorldEvent
     {
-        private string Ghost;
+        private string _ghost;
         public HistoricalFigure HistoricalFigure;
         public Site Site;
         public WorldRegion Region;
         public UndergroundRegion UndergroundRegion;
         public bool RaisedBefore { get; set; }
 
-        public HFRevived(List<Property> properties, World world)
+        public HfRevived(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
-                    case "ghost": Ghost = property.Value; break;
+                    case "ghost": _ghost = property.Value; break;
                     case "hfid": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "raised_before": RaisedBefore = true; property.Known = true;  break;
                 }
+            }
+
             HistoricalFigure.AddEvent(this);
             Site.AddEvent(this);
             Region.AddEvent(this);
@@ -37,11 +40,11 @@ namespace LegendsViewer.Legends.Events
             eventString += HistoricalFigure.ToLink(link, pov);
             if (RaisedBefore)
             {
-                eventString += " came back from the dead once more, this time as a " + Ghost;
+                eventString += " came back from the dead once more, this time as a " + _ghost;
             }
             else
             {
-                eventString += " came back from the dead as a " + Ghost;
+                eventString += " came back from the dead as a " + _ghost;
             }
             eventString += " in ";
             if (Site != null)

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using LegendsViewer.Legends.Parser;
 using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
@@ -11,7 +12,7 @@ namespace LegendsViewer.Legends
         public MusicalForm(List<Property> properties, World world)
             : base(properties, world)
         {
-            FormType = Enums.FormType.Musical;
+            FormType = FormType.Musical;
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
@@ -24,17 +25,11 @@ namespace LegendsViewer.Legends
 
                 if (pov != this)
                 {
-                    return Icon + "<a href=\"musicalform#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href=\"musicalform#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
-                else
-                {
-                    return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
-                }
+                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
-            else
-            {
-                return Name;
-            }
+            return Name;
         }
     }
 }

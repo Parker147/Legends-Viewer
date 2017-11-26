@@ -6,23 +6,23 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class RemoveHFSiteLink : WorldEvent
+    public class RemoveHfSiteLink : WorldEvent
     {
-        public int StructureID { get; set; }
+        public int StructureId { get; set; }
         public Structure Structure { get; set; } // TODO
         public Entity Civ { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
         public Site Site { get; set; }
         public SiteLinkType LinkType { get; set; }
 
-        public RemoveHFSiteLink(List<Property> properties, World world) : base(properties, world)
+        public RemoveHfSiteLink(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
             {
                 switch (property.Name)
                 {
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
-                    case "structure": StructureID = Convert.ToInt32(property.Value); break;
+                    case "structure": StructureId = Convert.ToInt32(property.Value); break;
                     case "civ": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "histfig": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "link_type":
@@ -42,12 +42,12 @@ namespace LegendsViewer.Legends.Events
                                 break;
                         }
                         break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                 }
             }
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.ID == StructureID);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
             }
             HistoricalFigure.AddEvent(this);
             Civ.AddEvent(this);

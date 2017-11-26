@@ -10,14 +10,14 @@ namespace LegendsViewer.Controls.Map
 {
     public class HeatMapMaker : IDisposable
     {
-        Bitmap HeatMap, HeatGradient, Occurence;
-        int OccurenceIntensity = 25, OccurenceDiameter = 75, MaxOccurencesToDraw = 50;
-        private bool disposed;
+        Bitmap _heatMap, _heatGradient, _occurence;
+        int _occurenceIntensity = 25, _occurenceDiameter = 75, _maxOccurencesToDraw = 50;
+        private bool _disposed;
 
         public static Bitmap Create(int width, int height, List<Location> occurences, List<int> occurencesCount = null)
         {
             HeatMapMaker heatmap = new HeatMapMaker(width, height, occurences, occurencesCount);
-            return heatmap.HeatMap;
+            return heatmap._heatMap;
         }
 
         private HeatMapMaker(int width, int height, List<Location> occurences, List<int> occurencesCount = null)
@@ -25,8 +25,8 @@ namespace LegendsViewer.Controls.Map
 
             MakeHeatGradient();
             MakeOccurence();
-            Bitmap AlphaMap = new Bitmap(width, height);
-            Graphics alphaMapGraphics = Graphics.FromImage(AlphaMap);
+            Bitmap alphaMap = new Bitmap(width, height);
+            Graphics alphaMapGraphics = Graphics.FromImage(alphaMap);
             alphaMapGraphics.SmoothingMode = SmoothingMode.None;
             alphaMapGraphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 
@@ -39,43 +39,58 @@ namespace LegendsViewer.Controls.Map
             }
             occurences = occurences.GroupBy(occurence => occurence).Select(occurence => occurence.Key).ToList();
             int maxOccurences;
-            if (occurencesCount.Count > 0) maxOccurences = occurencesCount.Max();
-            else maxOccurences = 0;
-            double drawNumRatio = Convert.ToDouble(MaxOccurencesToDraw) / maxOccurences;
+            if (occurencesCount.Count > 0)
+            {
+                maxOccurences = occurencesCount.Max();
+            }
+            else
+            {
+                maxOccurences = 0;
+            }
+
+            double drawNumRatio = Convert.ToDouble(_maxOccurencesToDraw) / maxOccurences;
             for (int i = 0; i < occurences.Count; i++)
             {
                 int drawNum = Convert.ToInt32(drawNumRatio * occurencesCount[i]);
-                if (drawNum == 0 && occurencesCount[i] > 0) drawNum = 1;
+                if (drawNum == 0 && occurencesCount[i] > 0)
+                {
+                    drawNum = 1;
+                }
+
                 for (int h = 0; h < drawNum; h++)
+                {
                     DrawOccurence(occurences[i], alphaMapGraphics);
+                }
             }
 
-            AlphaMap = Blur(AlphaMap);
-            HeatMap = new Bitmap(width, height);
-            ConvertAlphaMapToHeatMap(AlphaMap);
-            AlphaMap.Dispose();
+            alphaMap = Blur(alphaMap);
+            _heatMap = new Bitmap(width, height);
+            ConvertAlphaMapToHeatMap(alphaMap);
+            alphaMap.Dispose();
 
         }
 
         private void MakeHeatGradient()
         {
-            HeatGradient = new Bitmap(256, 25);
+            _heatGradient = new Bitmap(256, 25);
 
-            using (LinearGradientBrush heatGradient = new LinearGradientBrush(new Point(0, 0), new Point(HeatGradient.Width, HeatGradient.Height), Color.Red, Color.Yellow))
+            using (LinearGradientBrush heatGradient = new LinearGradientBrush(new Point(0, 0), new Point(_heatGradient.Width, _heatGradient.Height), Color.Red, Color.Yellow))
             {
-                ColorBlend colorBlend = new ColorBlend();
-                //colorBlend.Colors = new Color[] { Color.Red, Color.Yellow, Color.GreenYellow, Color.Transparent };
-                //colorBlend.Colors = new Color[] { Color.FromArgb(200, Color.Red), Color.FromArgb(200, Color.Yellow), Color.FromArgb(200, Color.GreenYellow), Color.Transparent };
-                //colorBlend.Positions = new float[] { 0.00f, 0.33f, 0.66f, 1.00f };
-                colorBlend.Colors = new Color[] { Color.FromArgb(200, Color.Red), Color.FromArgb(200, Color.Yellow), Color.FromArgb(200, Color.Green), Color.FromArgb(200, Color.Cyan), Color.FromArgb(200, Color.Blue), Color.Transparent };
-                colorBlend.Positions = new float[] { 0.00f, 0.20f, 0.40f, 0.60f, 0.80f, 1.00f };
+                ColorBlend colorBlend = new ColorBlend
+                {
+                    //colorBlend.Colors = new Color[] { Color.Red, Color.Yellow, Color.GreenYellow, Color.Transparent };
+                    //colorBlend.Colors = new Color[] { Color.FromArgb(200, Color.Red), Color.FromArgb(200, Color.Yellow), Color.FromArgb(200, Color.GreenYellow), Color.Transparent };
+                    //colorBlend.Positions = new float[] { 0.00f, 0.33f, 0.66f, 1.00f };
+                    Colors = new[] { Color.FromArgb(200, Color.Red), Color.FromArgb(200, Color.Yellow), Color.FromArgb(200, Color.Green), Color.FromArgb(200, Color.Cyan), Color.FromArgb(200, Color.Blue), Color.Transparent },
+                    Positions = new[] { 0.00f, 0.20f, 0.40f, 0.60f, 0.80f, 1.00f }
+                };
                 //colorBlend.Colors = new Color[] { Color.FromArgb(200, Color.White), Color.FromArgb(200, Color.Red), Color.FromArgb(200, Color.Yellow), Color.FromArgb(200, Color.Green), Color.FromArgb(200, Color.Cyan), Color.FromArgb(200, Color.Blue), Color.Transparent };
                 //colorBlend.Positions = new float[] { 0.00f, 0.166f, 0.332f, 0.498f, 0.664f, .083f, 1f };
                 //colorBlend.Colors = new Color[] { Color.FromArgb(200, Color.Red), Color.FromArgb(200, Color.Yellow), Color.FromArgb(200, Color.Green), Color.FromArgb(125, Color.Cyan), Color.FromArgb(50, Color.Blue)};
                 //colorBlend.Positions = new float[] { 0.00f, 0.25f, 0.50f, 0.75f, 1.00f };
                 heatGradient.InterpolationColors = colorBlend;
-                Graphics fillGradient = Graphics.FromImage(HeatGradient);
-                fillGradient.FillRectangle(heatGradient, 0, 0, HeatGradient.Width - 1, HeatGradient.Height);
+                Graphics fillGradient = Graphics.FromImage(_heatGradient);
+                fillGradient.FillRectangle(heatGradient, 0, 0, _heatGradient.Width - 1, _heatGradient.Height);
                 fillGradient.Dispose();
             }
         }
@@ -84,17 +99,17 @@ namespace LegendsViewer.Controls.Map
         {
             using (GraphicsPath gp = new GraphicsPath())
             {
-                int x = OccurenceDiameter / 2;
-                int y = OccurenceDiameter / 2;
-                gp.AddEllipse(0, 0, OccurenceDiameter, OccurenceDiameter);
+                int x = _occurenceDiameter / 2;
+                int y = _occurenceDiameter / 2;
+                gp.AddEllipse(0, 0, _occurenceDiameter, _occurenceDiameter);
                 using (PathGradientBrush gpBrush = new PathGradientBrush(gp))
                 {
-                    gpBrush.CenterPoint = new PointF(OccurenceDiameter / 2, OccurenceDiameter / 2);
-                    gpBrush.CenterColor = Color.FromArgb(OccurenceIntensity, Color.Black);
-                    gpBrush.SurroundColors = new Color[] { Color.Transparent };
+                    gpBrush.CenterPoint = new PointF(_occurenceDiameter / 2, _occurenceDiameter / 2);
+                    gpBrush.CenterColor = Color.FromArgb(_occurenceIntensity, Color.Black);
+                    gpBrush.SurroundColors = new[] { Color.Transparent };
 
-                    Occurence = new Bitmap(OccurenceDiameter, OccurenceDiameter);
-                    Graphics drawMap = Graphics.FromImage(Occurence);
+                    _occurence = new Bitmap(_occurenceDiameter, _occurenceDiameter);
+                    Graphics drawMap = Graphics.FromImage(_occurence);
                     drawMap.FillPath(gpBrush, gp);
                     drawMap.Dispose();
                 }
@@ -105,9 +120,9 @@ namespace LegendsViewer.Controls.Map
 
         private void DrawOccurence(Location occurence, Graphics g)
         {
-            int X = occurence.X - OccurenceDiameter / 2;
-            int Y = occurence.Y - OccurenceDiameter / 2;
-            g.DrawImage(Occurence, new Point(X, Y));
+            int x = occurence.X - _occurenceDiameter / 2;
+            int y = occurence.Y - _occurenceDiameter / 2;
+            g.DrawImage(_occurence, new Point(x, y));
         }
 
         private void ConvertAlphaMapToHeatMap(Bitmap alphaMap)
@@ -118,15 +133,17 @@ namespace LegendsViewer.Controls.Map
 
                 for (int x = 0; x < 256; x++)
                 {
-                    newColorMap[x] = new ColorMap();
-                    newColorMap[x].OldColor = Color.FromArgb(x, Color.Black);
-                    newColorMap[x].NewColor = HeatGradient.GetPixel(255 - x, 0);
+                    newColorMap[x] = new ColorMap
+                    {
+                        OldColor = Color.FromArgb(x, Color.Black),
+                        NewColor = _heatGradient.GetPixel(255 - x, 0)
+                    };
                 }
 
-                Graphics remap = Graphics.FromImage(HeatMap);
+                Graphics remap = Graphics.FromImage(_heatMap);
                 attributes.SetRemapTable(newColorMap);
-                remap = Graphics.FromImage(HeatMap);
-                remap.DrawImage(alphaMap, new Rectangle(0, 0, HeatMap.Width, HeatMap.Height), 0, 0, HeatMap.Width, HeatMap.Height, GraphicsUnit.Pixel, attributes);
+                remap = Graphics.FromImage(_heatMap);
+                remap.DrawImage(alphaMap, new Rectangle(0, 0, _heatMap.Width, _heatMap.Height), 0, 0, _heatMap.Width, _heatMap.Height, GraphicsUnit.Pixel, attributes);
                 remap.Dispose();
             }
         }
@@ -155,7 +172,9 @@ namespace LegendsViewer.Controls.Map
                     for (int kx = -radius; kx <= radius; kx++)
                     {
                         if (kx >= 0 && kx < width)
-                            total += row[(kx) * pixelSize + 3];
+                        {
+                            total += row[kx * pixelSize + 3];
+                        }
                     }
 
                     byte* rowSet = (byte*)blurredStart + yOffset;
@@ -167,13 +186,24 @@ namespace LegendsViewer.Controls.Map
                     for (int x = 1; x < width; x++)
                     {
                         if (x - radius - 1 >= 0)
+                        {
                             total -= row[xOffsetRemove];
+                        }
+
                         if (x + radius < width)
+                        {
                             total += row[xOffsetAdd];
+                        }
 
                         rowSet = (byte*)blurredStart + yOffset;
-                        if (total == 0) rowSet[xOffset] = 0;
-                        else rowSet[xOffset] = (byte)(total / (radius * 2 + 1));
+                        if (total == 0)
+                        {
+                            rowSet[xOffset] = 0;
+                        }
+                        else
+                        {
+                            rowSet[xOffset] = (byte)(total / (radius * 2 + 1));
+                        }
 
                         xOffset += pixelSize;
                         xOffsetRemove += pixelSize;
@@ -197,9 +227,11 @@ namespace LegendsViewer.Controls.Map
                     byte* row;
                     for (int ky = -radius; ky <= radius; ky++)
                     {
-                        row = (byte*)sourceStart + (ky * stride);
+                        row = (byte*)sourceStart + ky * stride;
                         if (ky >= 0 && ky < height)
+                        {
                             total += row[xOffset];
+                        }
                     }
 
                     byte* rowSet = (byte*)blurredStart;
@@ -222,7 +254,11 @@ namespace LegendsViewer.Controls.Map
                         }
 
                         rowSet = (byte*)blurredStart + yOffset;
-                        if (total == 0) rowSet[xOffset] = 0;
+                        if (total == 0)
+                        {
+                            rowSet[xOffset] = 0;
+                        }
+
                         rowSet[xOffset] = (byte)(total / (radius * 2 + 1));
                         yOffset += stride;
                         yOffsetRemove += stride;
@@ -245,15 +281,15 @@ namespace LegendsViewer.Controls.Map
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    HeatMap.Dispose();
-                    HeatGradient.Dispose();
-                    Occurence.Dispose();
+                    _heatMap.Dispose();
+                    _heatGradient.Dispose();
+                    _occurence.Dispose();
                 }
-                disposed = true;
+                _disposed = true;
             }
         }
     }

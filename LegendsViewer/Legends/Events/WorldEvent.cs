@@ -7,9 +7,9 @@ namespace LegendsViewer.Legends.Events
 {
     public class WorldEvent : IComparable<WorldEvent>
     {
-        private static readonly string[] MONTH_NAMES = { "Granite", "Slate", "Felsite", "Hematite", "Malachite", "Galena", "Limestone", "Sandstone", "Timber", "Moonstone", "Opal", "Obsidian" };
+        private static readonly string[] MonthNames = { "Granite", "Slate", "Felsite", "Hematite", "Malachite", "Galena", "Limestone", "Sandstone", "Timber", "Moonstone", "Opal", "Obsidian" };
 
-        public int ID { get; set; }
+        public int Id { get; set; }
         public int Year { get; set; }
         public int Month
         {
@@ -22,14 +22,14 @@ namespace LegendsViewer.Legends.Events
         {
             get
             {
-                return 1 + (Seconds72 % (28 * 1200)) / 1200;
+                return 1 + Seconds72 % (28 * 1200) / 1200;
             }
         }
         public string MonthName
         {
             get
             {
-                return MONTH_NAMES[Month - 1];
+                return MonthNames[Month - 1];
             }
         }
 
@@ -49,19 +49,21 @@ namespace LegendsViewer.Legends.Events
         public EventCollection ParentCollection { get; set; }
         public World World { get; set; }
 
-        public WorldEvent() { ID = -1; Year = -1; Seconds72 = -1; Type = "INVALID"; }
+        public WorldEvent() { Id = -1; Year = -1; Seconds72 = -1; Type = "INVALID"; }
 
         public WorldEvent(List<Property> properties, World world)
         {
             World = world;
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
-                    case "id": ID = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "id": Id = Convert.ToInt32(property.Value); property.Known = true; break;
                     case "year": Year = Convert.ToInt32(property.Value); property.Known = true; break;
                     case "seconds72": Seconds72 = Convert.ToInt32(property.Value); property.Known = true; break;
                     case "type": Type = string.Intern(property.Value); property.Known = true; break;
                 }
+            }
         }
 
         public virtual string Print(bool link = true, DwarfObject pov = null)
@@ -74,21 +76,48 @@ namespace LegendsViewer.Legends.Events
 
         public virtual string GetYearTime()
         {
-            if (Year == -1) return "In a time before time, ";
+            if (Year == -1)
+            {
+                return "In a time before time, ";
+            }
+
             string yearTime = "In " + Year + ", ";
             if (Seconds72 == -1)
+            {
                 return yearTime;
+            }
 
             int month = Seconds72 % 100800;
-            if (month <= 33600) yearTime += "early ";
-            else if (month <= 67200) yearTime += "mid";
-            else if (month <= 100800) yearTime += "late ";
+            if (month <= 33600)
+            {
+                yearTime += "early ";
+            }
+            else if (month <= 67200)
+            {
+                yearTime += "mid";
+            }
+            else if (month <= 100800)
+            {
+                yearTime += "late ";
+            }
 
             int season = Seconds72 % 403200;
-            if (season < 100800) yearTime += "spring, ";
-            else if (season < 201600) yearTime += "summer, ";
-            else if (season < 302400) yearTime += "autumn, ";
-            else if (season < 403200) yearTime += "winter, ";
+            if (season < 100800)
+            {
+                yearTime += "spring, ";
+            }
+            else if (season < 201600)
+            {
+                yearTime += "summer, ";
+            }
+            else if (season < 302400)
+            {
+                yearTime += "autumn, ";
+            }
+            else if (season < 403200)
+            {
+                yearTime += "winter, ";
+            }
 
             return yearTime + " (" + Formatting.AddOrdinal(Day) + " of " + MonthName + ") ";
         }
@@ -115,17 +144,17 @@ namespace LegendsViewer.Legends.Events
 
         public int Compare(WorldEvent worldEvent)
         {
-            return ID.CompareTo(worldEvent.ID);
+            return Id.CompareTo(worldEvent.Id);
         }
 
         public int CompareTo(object obj)
         {
-            return ID.CompareTo(obj);
+            return Id.CompareTo(obj);
         }
 
         public int CompareTo(WorldEvent other)
         {
-            return ID.CompareTo(other.ID);
+            return Id.CompareTo(other.Id);
         }
     }
 }

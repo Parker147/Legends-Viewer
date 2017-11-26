@@ -5,6 +5,6 @@
         Unknown,
         Pillaging,
         Destruction,
-        Conquest,
-    };
+        Conquest
+    }
 }

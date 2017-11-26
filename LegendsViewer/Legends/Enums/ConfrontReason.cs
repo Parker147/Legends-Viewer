@@ -4,6 +4,6 @@ namespace LegendsViewer.Legends.Enums
     {
         Unknown,
         Ageless,
-        Murder,
+        Murder
     }
 }

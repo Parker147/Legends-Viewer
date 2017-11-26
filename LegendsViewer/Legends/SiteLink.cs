@@ -9,8 +9,8 @@ namespace LegendsViewer.Legends
     {
         public SiteLinkType Type { get; set; }
         public Site Site { get; set; }
-        public int SubID { get; set; }
-        public int OccupationID { get; set; }
+        public int SubId { get; set; }
+        public int OccupationId { get; set; }
         public Entity Entity { get; set; }
         public SiteLink(List<Property> properties, World world)
         {
@@ -38,13 +38,13 @@ namespace LegendsViewer.Legends
                         Site = world.GetSite(Convert.ToInt32(property.Value)); 
                         break;
                     case "sub_id":
-                        SubID = Convert.ToInt32(property.Value);
+                        SubId = Convert.ToInt32(property.Value);
                         break;
                     case "entity_id":
                         Entity = world.GetEntity(Convert.ToInt32(property.Value));
                         break;
                     case "occupation_id":
-                        OccupationID = Convert.ToInt32(property.Value);
+                        OccupationId = Convert.ToInt32(property.Value);
                         break;
                 }
             }

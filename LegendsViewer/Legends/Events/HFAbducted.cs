@@ -1,21 +1,22 @@
 using System;
 using System.Collections.Generic;
-using LegendsViewer.Legends.Parser;
 using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFAbducted : WorldEvent
+    public class HfAbducted : WorldEvent
     {
         public HistoricalFigure Target { get; set; }
         public HistoricalFigure Snatcher { get; set; }
         public Site Site { get; set; }
         public WorldRegion Region { get; set; }
         public UndergroundRegion UndergroundRegion { get; set; }
-        public HFAbducted(List<Property> properties, World world)
+        public HfAbducted(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "target_hfid": Target = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
@@ -24,6 +25,8 @@ namespace LegendsViewer.Legends.Events
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                 }
+            }
+
             Target.AddEvent(this);
             Snatcher.AddEvent(this);
             Site.AddEvent(this);
@@ -34,9 +37,14 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = GetYearTime();
             if (Snatcher != null)
+            {
                 eventString += Snatcher.ToLink(link, pov);
+            }
             else
+            {
                 eventString += "UNKNOWN HISTORICAL FIGURE";
+            }
+
             eventString += " abducted " + Target.ToLink(link, pov) + " from " + Site.ToLink(link, pov);
             if (!(ParentCollection is Abduction))
             {

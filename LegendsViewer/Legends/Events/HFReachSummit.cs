@@ -4,7 +4,7 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFReachSummit : WorldEvent
+    public class HfReachSummit : WorldEvent
     {
         public HistoricalFigure HistoricalFigure { get; set; }
         public WorldRegion Region { get; set; }
@@ -12,7 +12,7 @@ namespace LegendsViewer.Legends.Events
         public Site Site { get; set; }
         public Location Coordinates;
 
-        public HFReachSummit(List<Property> properties, World world)
+        public HfReachSummit(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
@@ -24,7 +24,7 @@ namespace LegendsViewer.Legends.Events
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "site": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
-                    case "group": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "group": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                 }
             }
             HistoricalFigure.AddEvent(this);

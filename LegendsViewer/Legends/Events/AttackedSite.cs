@@ -13,6 +13,7 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "attacker_civ_id": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
@@ -22,6 +23,8 @@ namespace LegendsViewer.Legends.Events
                     case "attacker_general_hfid": AttackerGeneral = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "defender_general_hfid": DefenderGeneral = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                 }
+            }
+
             Attacker.AddEvent(this);
             Defender.AddEvent(this);
             SiteEntity.AddEvent(this);

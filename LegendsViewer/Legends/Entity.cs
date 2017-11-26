@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Docuverse.Identicon;
 using LegendsViewer.Controls;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
@@ -21,20 +20,7 @@ namespace LegendsViewer.Legends
         public List<HistoricalFigure> Worshipped { get; set; }
         public List<string> LeaderTypes { get; set; }
         public List<List<HistoricalFigure>> Leaders { get; set; }
-        public List<HistoricalFigure> AllLeaders { get { return Leaders.SelectMany(leaders => leaders).ToList(); } set { } }
         public List<Population> Populations { get; set; }
-        public List<string> PopulationsAsList
-        {
-            get
-            {
-                List<string> populations = new List<string>();
-                foreach (Population population in Populations)
-                    for (int i = 0; i < population.Count; i++)
-                        populations.Add(population.Race);
-                return populations;
-            }
-            set { }
-        }
         public Structure OriginStructure { get; set; }
         public List<Entity> Groups { get; set; }
         public List<OwnerPeriod> SiteHistory { get; set; }
@@ -58,33 +44,11 @@ namespace LegendsViewer.Legends
         public int WarLosses { get { return WarsAttacking.Sum(war => war.DefenderBattleVictories.Count) + WarsDefending.Sum(war => war.AttackerBattleVictories.Count); } set { } }
         public int WarKills { get { return WarsAttacking.Sum(war => war.DefenderDeathCount) + WarsDefending.Sum(war => war.AttackerDeathCount); } set { } }
         public int WarDeaths { get { return WarsAttacking.Sum(war => war.AttackerDeathCount) + WarsDefending.Sum(war => war.DefenderDeathCount); } set { } }
-        public double WarKillDeathRatio
-        {
-            get
-            {
-                if (WarDeaths == 0 && WarKills == 0) return 0;
-                if (WarDeaths == 0) return double.MaxValue;
-                return Math.Round(WarKills / Convert.ToDouble(WarDeaths), 2);
-            }
-            set { }
-        }
-        public double WarVictoryRatio
-        {
-            get
-            {
-                if (WarVictories == 0 && WarLosses == 0) return 0;
-                if (WarLosses == 0) return double.MaxValue;
-                return Math.Round(WarVictories / Convert.ToDouble(WarLosses), 2);
-            }
-            set { }
-        }
 
-        public string IdenticonString { get; set; }
-        public string SmallIdenticonString { get; set; }
-        public int IdenticonCode { get; set; }
-        public Color IdenticonColor { get; set; }
         public Color LineColor { get; set; }
         public Bitmap Identicon { get; set; }
+        public string IdenticonString { get; set; }
+        public string SmallIdenticonString { get; set; }
 
         private string _icon;
         public string Icon
@@ -100,7 +64,11 @@ namespace LegendsViewer.Legends
                     }
                     else if (World.MainRaces.ContainsKey(Race))
                     {
-                        Color civilizedPopColor = World.MainRaces.FirstOrDefault(r => r.Key == Race).Value;
+                        Color civilizedPopColor = LineColor;
+                        if (civilizedPopColor == Color.Empty)
+                        {
+                            civilizedPopColor = World.MainRaces.FirstOrDefault(r => r.Key == Race).Value;
+                        }
                         coloredIcon = "<span class=\"fa-stack fa-lg\" style=\"font-size:smaller;\">";
                         coloredIcon += "<i class=\"fa fa-square fa-stack-2x\"></i>";
                         coloredIcon += "<i class=\"fa fa-group fa-stack-1x\" style=\"color:" + ColorTranslator.ToHtml(civilizedPopColor) + ";\"></i>";
@@ -126,21 +94,7 @@ namespace LegendsViewer.Legends
         {
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
-        public Entity(World world)
-        {
-            ID = -1; Name = "INVALID ENTITY"; Race = "Unknown";
-            Parent = null;
-            Worshipped = new List<HistoricalFigure>();
-            LeaderTypes = new List<string>();
-            Leaders = new List<List<HistoricalFigure>>();
-            Groups = new List<Entity>();
-            SiteHistory = new List<OwnerPeriod>();
-            Wars = new List<War>();
-            Populations = new List<Population>();
-            EntityPositions = new List<EntityPosition>();
-            EntityPositionAssignments = new List<EntityPositionAssignment>();
-            Claims = new List<Location>();
-        }
+
         public Entity(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -206,22 +160,28 @@ namespace LegendsViewer.Legends
                     case "site_link":
                         property.Known = true;
                         if (property.SubProperties != null)
+                        {
                             SiteLinks.Add(new EntitySiteLink(property.SubProperties, world));
+                        }
+
                         break;
                     case "entity_link":
                         property.Known = true;
                         if (property.SubProperties != null)
+                        {
                             foreach (Property subProperty in property.SubProperties)
                             {
                                 subProperty.Known = true;
                             }
+                        }
+
                         world.AddEntityEntityLink(this, property);
                         break;
                     case "worship_id":
                         property.Known = true;
                         break;
                     case "claims":
-                        string[] coordinateStrings = property.Value.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] coordinateStrings = property.Value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (var coordinateString in coordinateStrings)
                         {
                             string[] xYCoordinates = coordinateString.Split(',');
@@ -236,18 +196,29 @@ namespace LegendsViewer.Legends
                     case "entity_position":
                         property.Known = true;
                         if (property.SubProperties != null)
-                            EntityPositions.Add(new EntityPosition(property.SubProperties, world)); break;
+                        {
+                            EntityPositions.Add(new EntityPosition(property.SubProperties, world));
+                        }
+
+                        break;
                     case "entity_position_assignment":
                         property.Known = true;
                         if (property.SubProperties != null)
-                            EntityPositionAssignments.Add(new EntityPositionAssignment(property.SubProperties, world)); break;
+                        {
+                            EntityPositionAssignments.Add(new EntityPositionAssignment(property.SubProperties, world));
+                        }
+
+                        break;
                     case "histfig_id":
                         property.Known = true; // historical figure == last known entitymember?
                         break;
                     case "occasion":
                         property.Known = true;
                         if (property.SubProperties != null)
+                        {
                             Occassions.Add(new EntityOccasion(property.SubProperties, world, this));
+                        }
+
                         break;
                 }
             }
@@ -275,12 +246,19 @@ namespace LegendsViewer.Legends
         public void AddOwnedSite(OwnerPeriod newSite)
         {
             if (newSite.StartCause == "UNKNOWN" && SiteHistory.All(s => s.Site != newSite.Site))
+            {
                 SiteHistory.Insert(0, newSite);
+            }
             else
+            {
                 SiteHistory.Add(newSite);
+            }
 
             if (newSite.Owner != this)
+            {
                 Groups.Add((Entity)newSite.Owner);
+            }
+
             if (Parent != null && Parent != null)
             {
                 Parent.AddOwnedSite(newSite);
@@ -294,9 +272,13 @@ namespace LegendsViewer.Legends
             {
                 Population popMatch = Populations.FirstOrDefault(pop => pop.Race == population.Race);
                 if (popMatch != null)
+                {
                     popMatch.Count += population.Count;
+                }
                 else
+                {
                     Populations.Add(new Population(population.Race, population.Count));
+                }
             }
             Populations = Populations.OrderByDescending(pop => pop.Count).ToList();
 
@@ -307,18 +289,19 @@ namespace LegendsViewer.Legends
             if (IsCiv)
             {
                 string printIdenticon = "<img src=\"data:image/gif;base64,";
-                if (fullSize) printIdenticon += IdenticonString;
-                else printIdenticon += SmallIdenticonString;
+                if (fullSize)
+                {
+                    printIdenticon += IdenticonString;
+                }
+                else
+                {
+                    printIdenticon += SmallIdenticonString;
+                }
+
                 printIdenticon += "\" align=absmiddle />";
                 return printIdenticon;
             }
             return "";
-        }
-
-        public Bitmap GetIdenticon(int size)
-        {
-            IdenticonRenderer identiconRenderer = new IdenticonRenderer();
-            return identiconRenderer.Render(IdenticonCode, size, IdenticonColor);
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
@@ -340,9 +323,9 @@ namespace LegendsViewer.Legends
                 }
                 if (pov != this)
                 {
-                    return Icon + "<a href = \"entity#" + ID + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href = \"entity#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
                 }
-                return Icon + "<a title=\"" + title + "\">" + HTMLStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
             return Name;
         }

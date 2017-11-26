@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using LegendsViewer.Controls.Map;
@@ -7,134 +7,161 @@ using LegendsViewer.Legends;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    class BattlePrinter : HTMLPrinter
+    class BattlePrinter : HtmlPrinter
     {
-        Battle Battle;
-        World World;
+        Battle _battle;
+        World _world;
 
         public BattlePrinter(Battle battle, World world)
         {
-            Battle = battle;
-            World = world;
+            _battle = battle;
+            _world = world;
         }
 
         public override string GetTitle()
         {
-            return Battle.Name;
+            return _battle.Name;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<h1>" + GetTitle() + "</h1></br>");
+            Html.AppendLine("<h1>" + GetTitle() + "</h1></br>");
 
-            string battleDescription = Battle.GetYearTime() + Battle.ToLink(false);
-            if (Battle.ParentCollection != null)
+            string battleDescription = _battle.GetYearTime() + _battle.ToLink(false);
+            if (_battle.ParentCollection != null)
             {
-                battleDescription += " occured as part of " + Battle.ParentCollection.ToLink();
-                battleDescription += " waged by " + (Battle.ParentCollection as War).Attacker.PrintEntity();
-                battleDescription += " on " + (Battle.ParentCollection as War).Defender.PrintEntity();
+                battleDescription += " occured as part of " + _battle.ParentCollection.ToLink();
+                battleDescription += " waged by " + (_battle.ParentCollection as War).Attacker.PrintEntity();
+                battleDescription += " on " + (_battle.ParentCollection as War).Defender.PrintEntity();
             }
-            if (Battle.Site != null)
+            if (_battle.Site != null)
             {
-                battleDescription += " at " + Battle.Site.ToLink();
+                battleDescription += " at " + _battle.Site.ToLink();
             }
-            if (Battle.Region != null)
+            if (_battle.Region != null)
             {
-                battleDescription += " in " + Battle.Region.ToLink();
+                battleDescription += " in " + _battle.Region.ToLink();
             }
-            HTML.AppendLine(battleDescription+".</br>");
+            Html.AppendLine(battleDescription+".</br>");
 
-            if (Battle.Conquering != null)
-                HTML.AppendLine("<b>Outcome:</b> " + Battle.Conquering.ToLink(true, Battle) + "</br>");
-            HTML.AppendLine("</br>");
+            if (_battle.Conquering != null)
+            {
+                Html.AppendLine("<b>Outcome:</b> " + _battle.Conquering.ToLink(true, _battle) + "</br>");
+            }
 
-            List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, Battle);
+            Html.AppendLine("</br>");
+
+            List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _battle);
             //HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
-            HTML.AppendLine("<table>");
-            HTML.AppendLine("<tr>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("</tr></table></br>");
+            Html.AppendLine("<table>");
+            Html.AppendLine("<tr>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("</tr></table></br>");
 
-            HTML.AppendLine("<center>" + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + "</center>" + LineBreak);
+            Html.AppendLine("<center>" + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + "</center>" + LineBreak);
 
-            HTML.AppendLine("<table>");
-            HTML.AppendLine("<tr><td valign=\"top\">");
-            if (Battle.Victor == Battle.Attacker) HTML.AppendLine("<center><b><u>Victor</u></b></center></br>");
-            else HTML.AppendLine("</br></br>");
-            HTML.AppendLine("<b>" + Battle.Attacker.PrintEntity() + " (Attacker) " + (Battle.NotableAttackers.Count + Battle.AttackerSquads.Sum(squad => squad.Numbers)) + " Members, " + Battle.AttackerDeathCount + " Losses</b> " + MakeLink("[Load]", LinkOption.LoadBattleAttackers) + LineBreak);
-            HTML.AppendLine("<ul>");
-            var squadRaces = from squad in Battle.AttackerSquads
+            Html.AppendLine("<table>");
+            Html.AppendLine("<tr><td valign=\"top\">");
+            if (_battle.Victor == _battle.Attacker)
+            {
+                Html.AppendLine("<center><b><u>Victor</u></b></center></br>");
+            }
+            else
+            {
+                Html.AppendLine("</br></br>");
+            }
+
+            Html.AppendLine("<b>" + _battle.Attacker.PrintEntity() + " (Attacker) " + (_battle.NotableAttackers.Count + _battle.AttackerSquads.Sum(squad => squad.Numbers)) + " Members, " + _battle.AttackerDeathCount + " Losses</b> " + MakeLink("[Load]", LinkOption.LoadBattleAttackers) + LineBreak);
+            Html.AppendLine("<ul>");
+            var squadRaces = from squad in _battle.AttackerSquads
                              group squad by squad.Race into squads
                              select new { Race = squads.Key, Numbers = squads.Sum(squad => squad.Numbers), Deaths = squads.Sum(squad => squad.Deaths) };
             squadRaces = squadRaces.OrderByDescending(squad => squad.Numbers);
 
             foreach (var squadRace in squadRaces)
             {
-                HTML.AppendLine("<li>" + squadRace.Numbers + " " + Formatting.MakePopulationPlural(squadRace.Race));
-                HTML.Append(", " + squadRace.Deaths + " Losses</br>");
+                Html.AppendLine("<li>" + squadRace.Numbers + " " + Formatting.MakePopulationPlural(squadRace.Race));
+                Html.Append(", " + squadRace.Deaths + " Losses</br>");
             }
-            foreach (HistoricalFigure attacker in Battle.NotableAttackers)
+            foreach (HistoricalFigure attacker in _battle.NotableAttackers)
             {
-                HTML.AppendLine("<li>" + attacker.ToLink());
-                if (Battle.Collection.OfType<FieldBattle>().Any(fieldBattle => fieldBattle.AttackerGeneral == attacker) ||
-                    Battle.Collection.OfType<AttackedSite>().Any(attack => attack.AttackerGeneral == attacker))
-                    HTML.Append(" <b>(Led the Attack)</b> ");
+                Html.AppendLine("<li>" + attacker.ToLink());
+                if (_battle.Collection.OfType<FieldBattle>().Any(fieldBattle => fieldBattle.AttackerGeneral == attacker) ||
+                    _battle.Collection.OfType<AttackedSite>().Any(attack => attack.AttackerGeneral == attacker))
+                {
+                    Html.Append(" <b>(Led the Attack)</b> ");
+                }
 
-                if (Battle.GetSubEvents().OfType<HFDied>().Any(death => death.HistoricalFigure == attacker))
-                    HTML.Append(" (Died) ");
+                if (_battle.GetSubEvents().OfType<HfDied>().Any(death => death.HistoricalFigure == attacker))
+                {
+                    Html.Append(" (Died) ");
+                }
             }
-            HTML.AppendLine("</ul>");
-            HTML.AppendLine("</td><td width=\"20\"></td><td valign=\"top\">");
+            Html.AppendLine("</ul>");
+            Html.AppendLine("</td><td width=\"20\"></td><td valign=\"top\">");
 
 
-            if (Battle.Victor == Battle.Defender) HTML.AppendLine("<center><b><u>Victor</u></b></center></br>");
-            else HTML.AppendLine("</br></br>");
-            HTML.AppendLine("<b>" + Battle.Defender.PrintEntity() + " (Defender) " + (Battle.NotableDefenders.Count + Battle.DefenderSquads.Sum(squad => squad.Numbers)) + " Members, " + Battle.DefenderDeathCount + " Losses</b> " + MakeLink("[Load]", LinkOption.LoadBattleDefenders) + LineBreak);
-            HTML.AppendLine("<ul>");
-            squadRaces = from squad in Battle.DefenderSquads
+            if (_battle.Victor == _battle.Defender)
+            {
+                Html.AppendLine("<center><b><u>Victor</u></b></center></br>");
+            }
+            else
+            {
+                Html.AppendLine("</br></br>");
+            }
+
+            Html.AppendLine("<b>" + _battle.Defender.PrintEntity() + " (Defender) " + (_battle.NotableDefenders.Count + _battle.DefenderSquads.Sum(squad => squad.Numbers)) + " Members, " + _battle.DefenderDeathCount + " Losses</b> " + MakeLink("[Load]", LinkOption.LoadBattleDefenders) + LineBreak);
+            Html.AppendLine("<ul>");
+            squadRaces = from squad in _battle.DefenderSquads
                          group squad by squad.Race into squads
                          select new { Race = squads.Key, Numbers = squads.Sum(squad => squad.Numbers), Deaths = squads.Sum(squad => squad.Deaths) };
             squadRaces = squadRaces.OrderByDescending(squad => squad.Numbers);
 
             foreach (var squadRace in squadRaces)
             {
-                HTML.AppendLine("<li>" + squadRace.Numbers + " " + Formatting.MakePopulationPlural(squadRace.Race));
-                HTML.Append(", " + squadRace.Deaths + " Losses</br>");
+                Html.AppendLine("<li>" + squadRace.Numbers + " " + Formatting.MakePopulationPlural(squadRace.Race));
+                Html.Append(", " + squadRace.Deaths + " Losses</br>");
             }
-            foreach (HistoricalFigure defender in Battle.NotableDefenders)
+            foreach (HistoricalFigure defender in _battle.NotableDefenders)
             {
-                HTML.AppendLine("<li>" + defender.ToLink());
-                if (Battle.Collection.OfType<FieldBattle>().Any(fieldBattle => fieldBattle.DefenderGeneral == defender) ||
-                    Battle.Collection.OfType<AttackedSite>().Any(attack => attack.DefenderGeneral == defender))
-                    HTML.Append(" <b>(Led the Defense)</b> ");
-
-                if (Battle.GetSubEvents().OfType<HFDied>().Any(death => death.HistoricalFigure == defender))
-                    HTML.Append(" (Died) ");
-            }
-            HTML.AppendLine("</ul>");
-            HTML.AppendLine("</td></tr></table></br>");
-
-            if (Battle.NonCombatants.Count > 0)
-            {
-                HTML.AppendLine("<b>Non Combatants</b></br>");
-                HTML.AppendLine("<ol>");
-                foreach (HistoricalFigure nonCombatant in Battle.NonCombatants)
+                Html.AppendLine("<li>" + defender.ToLink());
+                if (_battle.Collection.OfType<FieldBattle>().Any(fieldBattle => fieldBattle.DefenderGeneral == defender) ||
+                    _battle.Collection.OfType<AttackedSite>().Any(attack => attack.DefenderGeneral == defender))
                 {
-                    HTML.AppendLine("<li>" + nonCombatant.ToLink());
-                    if (Battle.Collection.OfType<HFDied>().Any(death => death.HistoricalFigure == nonCombatant))
-                        HTML.Append(" (Died) ");
+                    Html.Append(" <b>(Led the Defense)</b> ");
                 }
-                HTML.AppendLine("</ol>");
+
+                if (_battle.GetSubEvents().OfType<HfDied>().Any(death => death.HistoricalFigure == defender))
+                {
+                    Html.Append(" (Died) ");
+                }
+            }
+            Html.AppendLine("</ul>");
+            Html.AppendLine("</td></tr></table></br>");
+
+            if (_battle.NonCombatants.Count > 0)
+            {
+                Html.AppendLine("<b>Non Combatants</b></br>");
+                Html.AppendLine("<ol>");
+                foreach (HistoricalFigure nonCombatant in _battle.NonCombatants)
+                {
+                    Html.AppendLine("<li>" + nonCombatant.ToLink());
+                    if (_battle.Collection.OfType<HfDied>().Any(death => death.HistoricalFigure == nonCombatant))
+                    {
+                        Html.Append(" (Died) ");
+                    }
+                }
+                Html.AppendLine("</ol>");
             }
 
-            PrintEventLog(Battle.GetSubEvents(), Battle.Filters, Battle);
+            PrintEventLog(_battle.GetSubEvents(), Battle.Filters, _battle);
 
-            return HTML.ToString();
+            return Html.ToString();
         }
     }
 }

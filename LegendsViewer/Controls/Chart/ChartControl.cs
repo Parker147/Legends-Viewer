@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using LegendsViewer.Controls;
 using LegendsViewer.Legends;
 
-namespace LegendsViewer
+namespace LegendsViewer.Controls.Chart
 {
     public class ChartControl : PageControl, IDisposable
     {
@@ -18,7 +17,10 @@ namespace LegendsViewer
         {
             World = world; FocusObject = focusObject; TabControl = dwarfTabControl;
             Title = "Chart";
-            if (FocusObject != null) Title += " - " + FocusObject.ToLink(false, FocusObject);
+            if (FocusObject != null)
+            {
+                Title += " - " + FocusObject.ToLink(false, FocusObject);
+            }
         }
         public override Control GetControl()
         {
@@ -26,10 +28,15 @@ namespace LegendsViewer
             {
                 if (SeriesOptions != null)
                 {
-                    DwarfChart = new ChartPanel(World, FocusObject, SeriesOptions);
-                    DwarfChart.OtherChart = OtherChart;
+                    DwarfChart = new ChartPanel(World, FocusObject, SeriesOptions)
+                    {
+                        OtherChart = OtherChart
+                    };
                 }
-                else DwarfChart = new ChartPanel(World, FocusObject);
+                else
+                {
+                    DwarfChart = new ChartPanel(World, FocusObject);
+                }
             }
             return DwarfChart;
         }
@@ -42,7 +49,7 @@ namespace LegendsViewer
 
         protected override void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!Disposed)
             {
                 if (disposing)
                 {
@@ -56,7 +63,7 @@ namespace LegendsViewer
                     }
                 }
                 base.Dispose(disposing);
-                disposed = true;
+                Disposed = true;
             }
         }
     }

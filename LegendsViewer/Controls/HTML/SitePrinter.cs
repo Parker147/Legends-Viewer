@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using LegendsViewer.Controls.Map;
@@ -6,40 +8,37 @@ using LegendsViewer.Legends;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
-using System.IO;
-using System.Drawing;
-using System;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    class SitePrinter : HTMLPrinter
+    class SitePrinter : HtmlPrinter
     {
-        Site Site;
-        World World;
+        Site _site;
+        World _world;
 
         public SitePrinter(Site site, World world)
         {
-            Site = site;
-            World = world;
+            _site = site;
+            _world = world;
         }
 
         public override string GetTitle()
         {
-            return Site.Name;
+            return _site.Name;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<div class=\"container-fluid\">");
+            Html.AppendLine("<div class=\"container-fluid\">");
 
             PrintTitle();
             PrintMaps();
 
-            HTML.AppendLine("<div class=\"row\">");
-            PrintPopulations(Site.Populations);
-            HTML.AppendLine("</div>");
+            Html.AppendLine("<div class=\"row\">");
+            PrintPopulations(_site.Populations);
+            Html.AppendLine("</div>");
 
             PrintGeographyInfo();
             PrintStructures();
@@ -50,62 +49,62 @@ namespace LegendsViewer.Controls
             PrintOfficials();
             PrintConnections();
 
-            HTML.AppendLine("<div class=\"row\">");
+            Html.AppendLine("<div class=\"row\">");
             PrintBeastAttacks();
             PrintDeaths();
-            HTML.AppendLine("</div>");
+            Html.AppendLine("</div>");
 
-            PrintEventLog(Site.Events, Site.Filters, Site);
-            HTML.AppendLine("</div>");
+            PrintEventLog(_site.Events, Site.Filters, _site);
+            Html.AppendLine("</div>");
 
-            return HTML.ToString();
+            return Html.ToString();
         }
 
         private void PrintRelatedHistoricalFigures()
         {
-            if (Site.RelatedHistoricalFigures.Count == 0)
+            if (_site.RelatedHistoricalFigures.Count == 0)
             {
                 return;
             }
-            HTML.AppendLine("<div class=\"row\">");
-            HTML.AppendLine("<div class=\"col-md-12\">");
-            HTML.AppendLine(Bold("Related Historical Figures") + LineBreak);
+            Html.AppendLine("<div class=\"row\">");
+            Html.AppendLine("<div class=\"col-md-12\">");
+            Html.AppendLine(Bold("Related Historical Figures") + LineBreak);
             StartList(ListType.Unordered);
-            foreach (HistoricalFigure hf in Site.RelatedHistoricalFigures)
+            foreach (HistoricalFigure hf in _site.RelatedHistoricalFigures)
             {
-                SiteLink hfToSiteLink = hf.RelatedSites.FirstOrDefault(link => link.Site == Site);
+                SiteLink hfToSiteLink = hf.RelatedSites.FirstOrDefault(link => link.Site == _site);
                 if (hfToSiteLink != null)
                 {
-                    HTML.AppendLine(ListItem + hf.ToLink(true, Site));
-                    if (hfToSiteLink.SubID != 0)
+                    Html.AppendLine(ListItem + hf.ToLink(true, _site));
+                    if (hfToSiteLink.SubId != 0)
                     {
-                        Structure structure = Site.Structures.FirstOrDefault(s => s.ID == hfToSiteLink.SubID);
+                        Structure structure = _site.Structures.FirstOrDefault(s => s.Id == hfToSiteLink.SubId);
                         if (structure != null)
                         {
-                            HTML.AppendLine(" - " + structure.ToLink(true, Site) + " - ");
+                            Html.AppendLine(" - " + structure.ToLink(true, _site) + " - ");
                         }
                     }
-                    if (hfToSiteLink.OccupationID != 0)
+                    if (hfToSiteLink.OccupationId != 0)
                     {
-                        Structure structure = Site.Structures.FirstOrDefault(s => s.ID == hfToSiteLink.OccupationID);
+                        Structure structure = _site.Structures.FirstOrDefault(s => s.Id == hfToSiteLink.OccupationId);
                         if (structure != null)
                         {
-                            HTML.AppendLine(" - " + structure.ToLink(true, Site) + " - ");
+                            Html.AppendLine(" - " + structure.ToLink(true, _site) + " - ");
                         }
                     }
-                    HTML.AppendLine(" (" + hfToSiteLink.Type.GetDescription() + ")");
+                    Html.AppendLine(" (" + hfToSiteLink.Type.GetDescription() + ")");
                 }
             }
             EndList(ListType.Unordered);
-            HTML.AppendLine("</div>");
-            HTML.AppendLine("</div>");
+            Html.AppendLine("</div>");
+            Html.AppendLine("</div>");
         }
 
         private void PrintRelatedArtifacts()
         {
-            var createdArtifacts = Site.Events.OfType<ArtifactCreated>().Select(e => e.Artifact).ToList();
-            var storedArtifacts = Site.Events.OfType<ArtifactStored>().Select(e => e.Artifact).ToList();
-            var lostArtifacts = Site.Events.OfType<ArtifactLost>().Select(e => e.Artifact).ToList();
+            var createdArtifacts = _site.Events.OfType<ArtifactCreated>().Select(e => e.Artifact).ToList();
+            var storedArtifacts = _site.Events.OfType<ArtifactStored>().Select(e => e.Artifact).ToList();
+            var lostArtifacts = _site.Events.OfType<ArtifactLost>().Select(e => e.Artifact).ToList();
             var relatedArtifacts = createdArtifacts
                 .Union(storedArtifacts)
                 .Union(lostArtifacts)
@@ -115,17 +114,17 @@ namespace LegendsViewer.Controls
             {
                 return;
             }
-            HTML.AppendLine("<div class=\"row\">");
-            HTML.AppendLine("<div class=\"col-md-12\">");
-            HTML.AppendLine(Bold("Related Artifacts") + LineBreak);
+            Html.AppendLine("<div class=\"row\">");
+            Html.AppendLine("<div class=\"col-md-12\">");
+            Html.AppendLine(Bold("Related Artifacts") + LineBreak);
             StartList(ListType.Unordered);
             foreach (Artifact artifact in relatedArtifacts)
             {
-                HTML.AppendLine(ListItem + artifact.ToLink(true, Site));
+                Html.AppendLine(ListItem + artifact.ToLink(true, _site));
                 if (!string.IsNullOrWhiteSpace(artifact.Type))
                 {
-                    HTML.AppendLine(" a legendary " + artifact.Material + " ");
-                    HTML.AppendLine((!string.IsNullOrWhiteSpace(artifact.SubType) ? artifact.SubType : artifact.Type.ToLower()));
+                    Html.AppendLine(" a legendary " + artifact.Material + " ");
+                    Html.AppendLine(!string.IsNullOrWhiteSpace(artifact.SubType) ? artifact.SubType : artifact.Type.ToLower());
                 }
                 List<string> relations = new List<string>();
                 if (createdArtifacts.Contains(artifact))
@@ -142,59 +141,59 @@ namespace LegendsViewer.Controls
                 }
                 if (relations.Any())
                 {
-                    HTML.AppendLine(" (" + string.Join(", ", relations) + ")");
+                    Html.AppendLine(" (" + string.Join(", ", relations) + ")");
                 }
             }
             EndList(ListType.Unordered);
-            HTML.AppendLine("</div>");
-            HTML.AppendLine("</div>");
+            Html.AppendLine("</div>");
+            Html.AppendLine("</div>");
         }
 
         private void PrintConnections()
         {
-            if (Site.Connections.Count > 0)
+            if (_site.Connections.Count > 0)
             {
-                HTML.AppendLine("<div class=\"row\">");
-                HTML.AppendLine("<div class=\"col-md-12\">");
-                HTML.AppendLine("<b>Connections</b></br>");
-                HTML.AppendLine("<ol>");
-                foreach (Site connection in Site.Connections)
+                Html.AppendLine("<div class=\"row\">");
+                Html.AppendLine("<div class=\"col-md-12\">");
+                Html.AppendLine("<b>Connections</b></br>");
+                Html.AppendLine("<ol>");
+                foreach (Site connection in _site.Connections)
                 {
-                    HTML.AppendLine("<li>" + connection.ToLink());
+                    Html.AppendLine("<li>" + connection.ToLink());
                 }
-                HTML.AppendLine("</ol>");
-                HTML.AppendLine("</div>");
-                HTML.AppendLine("</div>");
+                Html.AppendLine("</ol>");
+                Html.AppendLine("</div>");
+                Html.AppendLine("</div>");
             }
         }
 
         private void PrintOfficials()
         {
-            if (Site.Officials.Count > 0)
+            if (_site.Officials.Count > 0)
             {
-                HTML.AppendLine("<div class=\"row\">");
-                HTML.AppendLine("<div class=\"col-md-12\">");
-                HTML.AppendLine("<b>Officials</b></br>");
-                HTML.AppendLine("<ol>");
-                foreach (Site.Official official in Site.Officials)
+                Html.AppendLine("<div class=\"row\">");
+                Html.AppendLine("<div class=\"col-md-12\">");
+                Html.AppendLine("<b>Officials</b></br>");
+                Html.AppendLine("<ol>");
+                foreach (Site.Official official in _site.Officials)
                 {
-                    HTML.AppendLine("<li>" + official.HistoricalFigure.ToLink() + ", " + official.Position);
+                    Html.AppendLine("<li>" + official.HistoricalFigure.ToLink() + ", " + official.Position);
                 }
-                HTML.AppendLine("</ol>");
-                HTML.AppendLine("</div>");
-                HTML.AppendLine("</div>");
+                Html.AppendLine("</ol>");
+                Html.AppendLine("</div>");
+                Html.AppendLine("</div>");
             }
         }
 
         private void PrintOwnerHistory()
         {
-            if (Site.OwnerHistory.Count > 0)
+            if (_site.OwnerHistory.Count > 0)
             {
-                HTML.AppendLine("<div class=\"row\">");
-                HTML.AppendLine("<div class=\"col-md-12\">");
-                HTML.AppendLine("<b>Owner History</b><br />");
-                HTML.AppendLine("<ol>");
-                foreach (OwnerPeriod owner in Site.OwnerHistory)
+                Html.AppendLine("<div class=\"row\">");
+                Html.AppendLine("<div class=\"col-md-12\">");
+                Html.AppendLine("<b>Owner History</b><br />");
+                Html.AppendLine("<ol>");
+                foreach (OwnerPeriod owner in _site.OwnerHistory)
                 {
                     string ownerString = "UNKNOWN ENTITY";
                     if (owner.Owner != null)
@@ -205,233 +204,257 @@ namespace LegendsViewer.Controls
                         }
                         else
                         {
-                            ownerString = owner.Owner.ToLink(true, Site);
+                            ownerString = owner.Owner.ToLink(true, _site);
                         }
                     }
                     string startyear = owner.StartYear == -1 ? "a time before time" : owner.StartYear.ToString();
-                    HTML.AppendLine("<li>" + ownerString + ", " + owner.StartCause + " " + Site.ToLink(true, Site) + " in " + startyear);
+                    Html.AppendLine("<li>" + ownerString + ", " + owner.StartCause + " " + _site.ToLink(true, _site) + " in " + startyear);
                     if (owner.EndYear >= 0)
-                        HTML.Append(" and it was " + owner.EndCause + " in " + owner.EndYear);
+                    {
+                        Html.Append(" and it was " + owner.EndCause + " in " + owner.EndYear);
+                    }
+
                     if (owner.Ender != null)
                     {
                         if (owner.Ender is Entity)
                         {
-                            HTML.Append(" by " + ((Entity)owner.Ender).PrintEntity());
+                            Html.Append(" by " + ((Entity)owner.Ender).PrintEntity());
                         }
                         else
                         {
-                            HTML.Append(" by " + owner.Ender.ToLink(true, Site));
+                            Html.Append(" by " + owner.Ender.ToLink(true, _site));
                         }
                     }
-                    HTML.AppendLine(".");
+                    Html.AppendLine(".");
                 }
-                HTML.AppendLine("</ol>");
-                HTML.AppendLine("</div>");
-                HTML.AppendLine("</div>");
+                Html.AppendLine("</ol>");
+                Html.AppendLine("</div>");
+                Html.AppendLine("</div>");
             }
         }
 
         private void PrintWarfareInfo()
         {
-            if (Site.Warfare.Count(battle => !World.FilterBattles || battle.Notable) > 0)
+            if (_site.Warfare.Count(battle => !_world.FilterBattles || battle.Notable) > 0)
             {
-                HTML.AppendLine("<div class=\"row\">");
-                HTML.AppendLine("<div class=\"col-md-12\">");
+                Html.AppendLine("<div class=\"row\">");
+                Html.AppendLine("<div class=\"col-md-12\">");
                 int warfareCount = 1;
-                HTML.AppendLine("<b>Warfare</b> " + MakeLink("[Load]", LinkOption.LoadSiteBattles));
-                if (World.FilterBattles) HTML.Append(" (Notable)");
-                HTML.Append("<table border=\"0\">");
-                foreach (EventCollection warfare in Site.Warfare.Where(battle => !World.FilterBattles || battle.Notable))
+                Html.AppendLine("<b>Warfare</b> " + MakeLink("[Load]", LinkOption.LoadSiteBattles));
+                if (_world.FilterBattles)
                 {
-                    HTML.AppendLine("<tr>");
-                    HTML.AppendLine("<td width=\"20\"  align=\"right\">" + warfareCount + ".</td><td width=\"10\"></td>");
-                    HTML.AppendLine("<td>" + warfare.StartYear + "</td>");
+                    Html.Append(" (Notable)");
+                }
+
+                Html.Append("<table border=\"0\">");
+                foreach (EventCollection warfare in _site.Warfare.Where(battle => !_world.FilterBattles || battle.Notable))
+                {
+                    Html.AppendLine("<tr>");
+                    Html.AppendLine("<td width=\"20\"  align=\"right\">" + warfareCount + ".</td><td width=\"10\"></td>");
+                    Html.AppendLine("<td>" + warfare.StartYear + "</td>");
                     string warfareString = warfare.ToLink();
                     if (warfareString.Contains(" as a result of"))
+                    {
                         warfareString = warfareString.Insert(warfareString.IndexOf(" as a result of"), "</br>");
-                    HTML.AppendLine("<td>" + warfareString + "</td>");
-                    HTML.AppendLine("<td>as part of</td>");
-                    HTML.AppendLine("<td>" + ((warfare.ParentCollection == null) ? "UNKNOWN" : warfare.ParentCollection.ToLink()) + "</td>");
-                    HTML.AppendLine("<td>by ");
+                    }
+
+                    Html.AppendLine("<td>" + warfareString + "</td>");
+                    Html.AppendLine("<td>as part of</td>");
+                    Html.AppendLine("<td>" + (warfare.ParentCollection == null ? "UNKNOWN" : warfare.ParentCollection.ToLink()) + "</td>");
+                    Html.AppendLine("<td>by ");
                     if (warfare.GetType() == typeof(Battle))
                     {
                         Battle battle = warfare as Battle;
-                        HTML.Append(battle.Attacker.PrintEntity() + "</td>");
-                        if (battle.Victor == battle.Attacker) HTML.AppendLine("<td>(V)</td>");
-                        else HTML.AppendLine("<td></td>");
-                        HTML.AppendLine("<td>(Deaths: " + (battle.AttackerDeathCount + battle.DefenderDeathCount) + ")</td>");
+                        Html.Append(battle.Attacker.PrintEntity() + "</td>");
+                        if (battle.Victor == battle.Attacker)
+                        {
+                            Html.AppendLine("<td>(V)</td>");
+                        }
+                        else
+                        {
+                            Html.AppendLine("<td></td>");
+                        }
+
+                        Html.AppendLine("<td>(Deaths: " + (battle.AttackerDeathCount + battle.DefenderDeathCount) + ")</td>");
                     }
-                    if (warfare.GetType() == typeof(SiteConquered)) HTML.Append((warfare as SiteConquered).Attacker.PrintEntity() + "</td>");
-                    HTML.AppendLine("</tr>");
+                    if (warfare.GetType() == typeof(SiteConquered))
+                    {
+                        Html.Append((warfare as SiteConquered).Attacker.PrintEntity() + "</td>");
+                    }
+
+                    Html.AppendLine("</tr>");
                     warfareCount++;
                 }
-                HTML.AppendLine("</table></br>");
+                Html.AppendLine("</table></br>");
 
-                if (World.FilterBattles && Site.Warfare.Count(battle => !battle.Notable) > 0)
+                if (_world.FilterBattles && _site.Warfare.Count(battle => !battle.Notable) > 0)
                 {
-                    HTML.AppendLine("<b>Warfare</b> (Unnotable)</br>");
-                    HTML.AppendLine("<ul>");
-                    HTML.AppendLine("<li>Battles: " + Site.Warfare.OfType<Battle>().Where(battle => !battle.Notable).Count());
-                    HTML.AppendLine("<li>Pillagings: " + Site.Warfare.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count());
-                    HTML.AppendLine("</ul>");
+                    Html.AppendLine("<b>Warfare</b> (Unnotable)</br>");
+                    Html.AppendLine("<ul>");
+                    Html.AppendLine("<li>Battles: " + _site.Warfare.OfType<Battle>().Where(battle => !battle.Notable).Count());
+                    Html.AppendLine("<li>Pillagings: " + _site.Warfare.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count());
+                    Html.AppendLine("</ul>");
                 }
 
-                HTML.AppendLine("</div>");
-                HTML.AppendLine("</div>");
+                Html.AppendLine("</div>");
+                Html.AppendLine("</div>");
             }
         }
 
         private void PrintStructures()
         {
-            if (Site.Structures.Any())
+            if (_site.Structures.Any())
             {
-                HTML.AppendLine("<div class=\"row\">");
-                HTML.AppendLine("<div class=\"col-md-12\">");
-                HTML.AppendLine("<b>Structures</b><br/>");
-                HTML.AppendLine("<ul>");
-                foreach (Structure structure in Site.Structures)
+                Html.AppendLine("<div class=\"row\">");
+                Html.AppendLine("<div class=\"col-md-12\">");
+                Html.AppendLine("<b>Structures</b><br/>");
+                Html.AppendLine("<ul>");
+                foreach (Structure structure in _site.Structures)
                 {
-                    HTML.AppendLine("<li>" + structure.ToLink() + ", ");
+                    Html.AppendLine("<li>" + structure.ToLink() + ", ");
                     if (structure.DungeonType != DungeonType.Unknown)
                     {
-                        HTML.AppendLine(structure.DungeonType.GetDescription());
+                        Html.AppendLine(structure.DungeonType.GetDescription());
                     }
                     else
                     {
-                        HTML.AppendLine(structure.Type.GetDescription());
+                        Html.AppendLine(structure.Type.GetDescription());
                     }
-                    HTML.AppendLine("</li>");
+                    Html.AppendLine("</li>");
                 }
-                HTML.AppendLine("</ul>");
-                HTML.AppendLine("</div>");
-                HTML.AppendLine("</div>");
+                Html.AppendLine("</ul>");
+                Html.AppendLine("</div>");
+                Html.AppendLine("</div>");
             }
         }
 
         private void PrintGeographyInfo()
         {
-            if (Site.Region != null || !Site.Rectangle.IsEmpty)
+            if (_site.Region != null || !_site.Rectangle.IsEmpty)
             {
-                HTML.AppendLine("<div class=\"row\">");
-                HTML.AppendLine("<div class=\"col-md-12\">");
-                HTML.AppendLine("<b>Geography</b><br/>");
-                HTML.AppendLine("<ul>");
-                if (Site.Region != null)
+                Html.AppendLine("<div class=\"row\">");
+                Html.AppendLine("<div class=\"col-md-12\">");
+                Html.AppendLine("<b>Geography</b><br/>");
+                Html.AppendLine("<ul>");
+                if (_site.Region != null)
                 {
-                    HTML.AppendLine("<li>Region: " + Site.Region.ToLink() + ", " + Site.Region.Type.GetDescription() + "</li>");
+                    Html.AppendLine("<li>Region: " + _site.Region.ToLink() + ", " + _site.Region.Type.GetDescription() + "</li>");
                 }
-                if (!Site.Rectangle.IsEmpty)
+                if (!_site.Rectangle.IsEmpty)
                 {
-                    HTML.AppendLine("<li>Position: X " + Site.Rectangle.X + " Y " + Site.Rectangle.Y + "</li>");
-                    if (Site.Rectangle.Width != 0 && Site.Rectangle.Height != 0)
+                    Html.AppendLine("<li>Position: X " + _site.Rectangle.X + " Y " + _site.Rectangle.Y + "</li>");
+                    if (_site.Rectangle.Width != 0 && _site.Rectangle.Height != 0)
                     {
-                        HTML.AppendLine("<li>Size: " + Site.Rectangle.Width + " x " + Site.Rectangle.Height + "</li>");
+                        Html.AppendLine("<li>Size: " + _site.Rectangle.Width + " x " + _site.Rectangle.Height + "</li>");
                     }
                 }
-                HTML.AppendLine("</ul>");
-                HTML.AppendLine("</div>");
-                HTML.AppendLine("</div>");
+                Html.AppendLine("</ul>");
+                Html.AppendLine("</div>");
+                Html.AppendLine("</div>");
             }
         }
 
         private void PrintMaps()
         {
-            HTML.AppendLine("<div class=\"row\">");
-            HTML.AppendLine("<div class=\"col-md-12\">");
-            List<Bitmap> maps = MapPanel.CreateBitmaps(World, Site);
-            HTML.AppendLine("<table>");
-            HTML.AppendLine("<tr>");
+            Html.AppendLine("<div class=\"row\">");
+            Html.AppendLine("<div class=\"col-md-12\">");
+            List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _site);
+            Html.AppendLine("<table>");
+            Html.AppendLine("<tr>");
             PrintSiteMap();
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("</tr></table></br>");
-            HTML.AppendLine("</div>");
-            HTML.AppendLine("</div>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("</tr></table></br>");
+            Html.AppendLine("</div>");
+            Html.AppendLine("</div>");
         }
 
         private void PrintTitle()
         {
-            HTML.AppendLine("<div class=\"row\">");
-            HTML.AppendLine("<div class=\"col-md-12\">");
-            if (!string.IsNullOrWhiteSpace(Site.Name))
+            Html.AppendLine("<div class=\"row\">");
+            Html.AppendLine("<div class=\"col-md-12\">");
+            if (!string.IsNullOrWhiteSpace(_site.Name))
             {
-                HTML.AppendLine("<h1>" + Site.UntranslatedName + ", \"" + Site.Name + "\"</h1>");
-                HTML.AppendLine("<b>" + Site.ToLink(false) + " is a " + Site.Type + "</b><br /><br />");
+                Html.AppendLine("<h1>" + _site.UntranslatedName + ", \"" + _site.Name + "\"</h1>");
+                Html.AppendLine("<b>" + _site.ToLink(false) + " is a " + _site.Type + "</b><br /><br />");
             }
             else
             {
-                HTML.AppendLine("<h1>" + Site.Type + "</h1>");
+                Html.AppendLine("<h1>" + _site.Type + "</h1>");
             }
-            HTML.AppendLine("</div>");
-            HTML.AppendLine("</div>");
+            Html.AppendLine("</div>");
+            Html.AppendLine("</div>");
         }
 
         private void PrintDeaths()
         {
-            int deathCount = Site.Events.OfType<HFDied>().Count();
-            if (deathCount > 0 || Site.Warfare.OfType<Battle>().Any())
+            int deathCount = _site.Events.OfType<HfDied>().Count();
+            if (deathCount > 0 || _site.Warfare.OfType<Battle>().Any())
             {
-                HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
+                Html.AppendLine("<div class=\"col-md-6 col-sm-12\">");
                 var popInBattle =
-                    Site.Warfare.OfType<Battle>()
+                    _site.Warfare.OfType<Battle>()
                         .Sum(
                             battle =>
                                 battle.AttackerSquads.Sum(squad => squad.Deaths) +
                                 battle.DefenderSquads.Sum(squad => squad.Deaths));
-                HTML.AppendLine("<b>Deaths</b> " + LineBreak);
+                Html.AppendLine("<b>Deaths</b> " + LineBreak);
                 if (deathCount > 100)
                 {
-                    HTML.AppendLine("<ul>");
-                    HTML.AppendLine("<li>Historical figures died at this site: " + deathCount);
+                    Html.AppendLine("<ul>");
+                    Html.AppendLine("<li>Historical figures died at this site: " + deathCount);
                     if (popInBattle > 0)
                     {
-                        HTML.AppendLine("<li>Population died in Battle: " + popInBattle);
+                        Html.AppendLine("<li>Population died in Battle: " + popInBattle);
                     }
-                    HTML.AppendLine("</ul>");
+                    Html.AppendLine("</ul>");
                 }
                 else
                 {
-                    HTML.AppendLine("<ol>");
-                    foreach (HFDied death in Site.Events.OfType<HFDied>())
+                    Html.AppendLine("<ol>");
+                    foreach (HfDied death in _site.Events.OfType<HfDied>())
                     {
-                        HTML.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
+                        Html.AppendLine("<li>" + death.HistoricalFigure.ToLink() + ", in " + death.Year + " (" + death.Cause.GetDescription() + ")");
                     }
                     if (popInBattle > 0)
                     {
-                        HTML.AppendLine("<li>Population in Battle: " + popInBattle);
+                        Html.AppendLine("<li>Population in Battle: " + popInBattle);
                     }
-                    HTML.AppendLine("</ol>");
+                    Html.AppendLine("</ol>");
                 }
-                HTML.AppendLine("</div>");
+                Html.AppendLine("</div>");
             }
         }
 
         private void PrintBeastAttacks()
         {
-            if (Site.BeastAttacks == null || Site.BeastAttacks.Count == 0)
+            if (_site.BeastAttacks == null || _site.BeastAttacks.Count == 0)
             {
                 return;
             }
-            HTML.AppendLine("<div class=\"col-md-6 col-sm-12\">");
-            HTML.AppendLine("<b>Beast Attacks</b>");
-            HTML.AppendLine("<ol>");
-            foreach (BeastAttack attack in Site.BeastAttacks)
+            Html.AppendLine("<div class=\"col-md-6 col-sm-12\">");
+            Html.AppendLine("<b>Beast Attacks</b>");
+            Html.AppendLine("<ol>");
+            foreach (BeastAttack attack in _site.BeastAttacks)
             {
-                HTML.AppendLine("<li>" + attack.StartYear + ", " + attack.ToLink(true, Site));
-                if (attack.GetSubEvents().OfType<HFDied>().Any()) HTML.Append(" (Deaths: " + attack.GetSubEvents().OfType<HFDied>().Count() + ")");
+                Html.AppendLine("<li>" + attack.StartYear + ", " + attack.ToLink(true, _site));
+                if (attack.GetSubEvents().OfType<HfDied>().Any())
+                {
+                    Html.Append(" (Deaths: " + attack.GetSubEvents().OfType<HfDied>().Count() + ")");
+                }
             }
-            HTML.AppendLine("</ol>");
-            HTML.AppendLine("</div>");
+            Html.AppendLine("</ol>");
+            Html.AppendLine("</div>");
         }
 
         private void PrintSiteMap()
         {
-            if (string.IsNullOrEmpty(FileLoader.SaveDirectory) || string.IsNullOrEmpty(FileLoader.RegionID))
+            if (string.IsNullOrEmpty(FileLoader.SaveDirectory) || string.IsNullOrEmpty(FileLoader.RegionId))
             {
                 return;
             }
-            string sitemapPath = Path.Combine(FileLoader.SaveDirectory, FileLoader.RegionID + "-site_map-" + Site.ID);
-            string sitemapPathFromProcessScript = Path.Combine(FileLoader.SaveDirectory, "site_maps\\" + FileLoader.RegionID + "-site_map-" + Site.ID);
+            string sitemapPath = Path.Combine(FileLoader.SaveDirectory, FileLoader.RegionId + "-site_map-" + _site.Id);
+            string sitemapPathFromProcessScript = Path.Combine(FileLoader.SaveDirectory, "site_maps\\" + FileLoader.RegionId + "-site_map-" + _site.Id);
             if (File.Exists(sitemapPath + ".bmp"))
             {
                 CreateSitemapBitmap(sitemapPath + ".bmp");
@@ -468,23 +491,23 @@ namespace LegendsViewer.Controls
 
         private void CreateSitemapBitmap(string sitemapPath)
         {
-            Site.SiteMapPath = sitemapPath;
+            _site.SiteMapPath = sitemapPath;
             Bitmap sitemap = null;
-            Bitmap Map = null;
+            Bitmap map = null;
             using (FileStream mapStream = new FileStream(sitemapPath, FileMode.Open))
             {
-                Map = new Bitmap(mapStream);
+                map = new Bitmap(mapStream);
             }
-            if (Map != null)
+            if (map != null)
             {
-                Formatting.ResizeImage(Map, ref sitemap, 250, 250, true, true);
+                Formatting.ResizeImage(map, ref sitemap, 250, 250, true, true);
             }
             if (sitemap != null)
             {
-                string htmlImage = BitmapToHTML(sitemap);
+                string htmlImage = BitmapToHtml(sitemap);
                 //string mapLink = MakeFileLink(htmlImage, sitemapPath);
                 string mapLink = MakeLink(htmlImage, LinkOption.LoadSiteMap);
-                HTML.AppendLine("<td>" + mapLink + "</td>");
+                Html.AppendLine("<td>" + mapLink + "</td>");
             }
         }
     }

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using LegendsViewer.Legends.Enums;
-using LegendsViewer.Legends.Parser;
 using LegendsViewer.Legends.Interfaces;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFDied : WorldEvent, IFeatured
+    public class HfDied : WorldEvent, IFeatured
     {
         public HistoricalFigure Slayer { get; set; }
         public HistoricalFigure HistoricalFigure { get; set; }
@@ -15,38 +15,39 @@ namespace LegendsViewer.Legends.Events
         public Site Site { get; set; }
         public WorldRegion Region { get; set; }
         public UndergroundRegion UndergroundRegion { get; set; }
-        public int SlayerItemID { get; set; }
-        public int SlayerShooterItemID { get; set; }
+        public int SlayerItemId { get; set; }
+        public int SlayerShooterItemId { get; set; }
         public string SlayerRace { get; set; }
         public string SlayerCaste { get; set; }
 
-        public int ItemID { get; set; }
+        public int ItemId { get; set; }
         public string ItemType { get; set; }
         public string ItemSubType { get; set; }
         public string ItemMaterial { get; set; }
         public Artifact Artifact { get; set; }
 
-        public int ShooterItemID { get; set; }
+        public int ShooterItemId { get; set; }
         public string ShooterItemType { get; set; }
         public string ShooterItemSubType { get; set; }
         public string ShooterItemMaterial { get; set; }
         public Artifact ShooterArtifact { get; set; }
 
-        public HFDied(List<Property> properties, World world)
+        public HfDied(List<Property> properties, World world)
             : base(properties, world)
         {
-            ItemID = -1;
-            ShooterItemID = -1;
-            SlayerItemID = -1;
-            SlayerShooterItemID = -1;
+            ItemId = -1;
+            ShooterItemId = -1;
+            SlayerItemId = -1;
+            SlayerShooterItemId = -1;
             SlayerRace = "UNKNOWN";
             SlayerCaste = "UNKNOWN";
             Cause = DeathCause.Unknown;
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
-                    case "slayer_item_id": SlayerItemID = Convert.ToInt32(property.Value); break;
-                    case "slayer_shooter_item_id": SlayerShooterItemID = Convert.ToInt32(property.Value); break;
+                    case "slayer_item_id": SlayerItemId = Convert.ToInt32(property.Value); break;
+                    case "slayer_shooter_item_id": SlayerShooterItemId = Convert.ToInt32(property.Value); break;
                     case "cause":
                         switch (property.Value)
                         {
@@ -89,6 +90,9 @@ namespace LegendsViewer.Legends.Events
                             case "heat": Cause = DeathCause.Heat; break;
                             case "vanish": Cause = DeathCause.Vanish; break;
                             case "cooling magma": Cause = DeathCause.CoolingMagma; break;
+                            case "vehicle": Cause = DeathCause.Vehicle; break;
+                            case "suicide drowned": Cause = DeathCause.SuicideDrowned; break;
+                            case "suicide leaping": Cause = DeathCause.SuicideLeaping; break;
                             default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("|==> Events 'hf died'/ \nUnknown Death Cause: " + UnknownCause); break;
                         }
                         break;
@@ -99,24 +103,29 @@ namespace LegendsViewer.Legends.Events
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
-                    case "victim_hf": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "slayer_hf": if (Slayer == null) { Slayer = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else property.Known = true; break;
-                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else property.Known = true; break;
+                    case "victim_hf": if (HistoricalFigure == null) { HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "slayer_hf": if (Slayer == null) { Slayer = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
+                    case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "death_cause": property.Known = true; break;
-                    case "item": ItemID = Convert.ToInt32(property.Value); break;
+                    case "item": ItemId = Convert.ToInt32(property.Value); break;
                     case "item_type": ItemType = property.Value; break;
                     case "item_subtype": ItemSubType = property.Value; break;
                     case "mat": ItemMaterial = property.Value; break;
                     case "artifact_id": Artifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
-                    case "shooter_item": ShooterItemID = Convert.ToInt32(property.Value); break;
+                    case "shooter_item": ShooterItemId = Convert.ToInt32(property.Value); break;
                     case "shooter_item_type": ShooterItemType = property.Value; break;
                     case "shooter_item_subtype": ShooterItemSubType = property.Value; break;
                     case "shooter_mat": ShooterItemMaterial = property.Value; break;
                     case "shooter_artifact_id": ShooterArtifact = world.GetArtifact(Convert.ToInt32(property.Value)); break;
                 }
+            }
+
             HistoricalFigure.AddEvent(this);
             if (HistoricalFigure.DeathCause == DeathCause.None)
+            {
                 HistoricalFigure.DeathCause = Cause;
+            }
+
             if (Slayer != null)
             {
                 Slayer.AddEvent(this);
@@ -152,70 +161,203 @@ namespace LegendsViewer.Legends.Events
             eventString += HistoricalFigure.ToLink(link, pov) + " ";
             string deathString = "";
 
-            if (Slayer != null || (SlayerRace != "UNKNOWN" && SlayerRace != "-1"))
+            if (Slayer != null || SlayerRace != "UNKNOWN" && SlayerRace != "-1")
             {
                 string slayerString;
-                if (Slayer == null) slayerString = " a " + SlayerRace.ToLower();
-                else slayerString = Slayer.ToLink(link, pov);
+                if (Slayer == null)
+                {
+                    slayerString = " a " + SlayerRace.ToLower();
+                }
+                else
+                {
+                    slayerString = Slayer.ToLink(link, pov);
+                }
 
-                if (Cause == DeathCause.DragonsFire) deathString = "burned up in " + slayerString + "'s dragon fire";
-                else if (Cause == DeathCause.Burned) deathString = "was burned to death by " + slayerString + "'s fire";
-                else if (Cause == DeathCause.Murdered) deathString = "was murdered by " + slayerString;
-                else if (Cause == DeathCause.Shot) deathString = "was shot and killed by " + slayerString;
-                else if (Cause == DeathCause.Struck) deathString = "was struck down by " + slayerString;
-                else if (Cause == DeathCause.ExecutedBuriedAlive) deathString = "was buried alive by " + slayerString;
-                else if (Cause == DeathCause.ExecutedBurnedAlive) deathString = "was burned alive by " + slayerString;
-                else if (Cause == DeathCause.ExecutedCrucified) deathString = "was crucified by " + slayerString;
-                else if (Cause == DeathCause.ExecutedDrowned) deathString = "was drowned by " + slayerString;
-                else if (Cause == DeathCause.ExecutedFedToBeasts) deathString = "was fed to beasts by " + slayerString;
-                else if (Cause == DeathCause.ExecutedHackedToPieces) deathString = "was hacked to pieces by " + slayerString;
-                else if (Cause == DeathCause.ExecutedBeheaded) deathString = "was beheaded by " + slayerString;
-                else if (Cause == DeathCause.DrainedBlood) deathString = "was drained of blood by " + slayerString;
-                else if (Cause == DeathCause.Collapsed) deathString = "collapsed, struck down by " + slayerString;
-                else if (Cause == DeathCause.ScaredToDeath) deathString = " was scared to death by " + slayerString;
-                else if (Cause == DeathCause.Bled) deathString = " bled to death, slain by " + slayerString;
-                else if (Cause == DeathCause.Spikes) deathString = " was impaled by " + slayerString;
-                else deathString += ", slain by " + slayerString;
+                switch (Cause)
+                {
+                    case DeathCause.DragonsFire:
+                        deathString = "burned up in " + slayerString + "'s dragon fire";
+                        break;
+                    case DeathCause.Burned:
+                        deathString = "was burned to death by " + slayerString + "'s fire";
+                        break;
+                    case DeathCause.Murdered:
+                        deathString = "was murdered by " + slayerString;
+                        break;
+                    case DeathCause.Shot:
+                        deathString = "was shot and killed by " + slayerString;
+                        break;
+                    case DeathCause.Struck:
+                        deathString = "was struck down by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedBuriedAlive:
+                        deathString = "was buried alive by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedBurnedAlive:
+                        deathString = "was burned alive by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedCrucified:
+                        deathString = "was crucified by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedDrowned:
+                        deathString = "was drowned by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedFedToBeasts:
+                        deathString = "was fed to beasts by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedHackedToPieces:
+                        deathString = "was hacked to pieces by " + slayerString;
+                        break;
+                    case DeathCause.ExecutedBeheaded:
+                        deathString = "was beheaded by " + slayerString;
+                        break;
+                    case DeathCause.DrainedBlood:
+                        deathString = "was drained of blood by " + slayerString;
+                        break;
+                    case DeathCause.Collapsed:
+                        deathString = "collapsed, struck down by " + slayerString;
+                        break;
+                    case DeathCause.ScaredToDeath:
+                        deathString = " was scared to death by " + slayerString;
+                        break;
+                    case DeathCause.Bled:
+                        deathString = " bled to death, slain by " + slayerString;
+                        break;
+                    case DeathCause.Spikes:
+                        deathString = " was impaled by " + slayerString;
+                        break;
+                    default:
+                        deathString += ", slain by " + slayerString;
+                        break;
+                }
             }
             else
             {
-                if (Cause == DeathCause.Thirst) deathString = "died of thirst";
-                else if (Cause == DeathCause.OldAge) deathString = "died of old age";
-                else if (Cause == DeathCause.Suffocated) deathString = "suffocated";
-                else if (Cause == DeathCause.Bled) deathString = "bled to death";
-                else if (Cause == DeathCause.Cold) deathString = "froze to death";
-                else if (Cause == DeathCause.CrushedByABridge) deathString = "was crushed by a drawbridge";
-                else if (Cause == DeathCause.Drowned) deathString = "drowned";
-                else if (Cause == DeathCause.Starved) deathString = "starved to death";
-                else if (Cause == DeathCause.Infection) deathString = "succumbed to infection";
-                else if (Cause == DeathCause.CollidedWithAnObstacle) deathString = "died after colliding with an obstacle";
-                else if (Cause == DeathCause.PutToRest) deathString = "was put to rest";
-                else if (Cause == DeathCause.StarvedQuit) deathString = "starved";
-                else if (Cause == DeathCause.Trap) deathString = "was killed by a trap";
-                else if (Cause == DeathCause.CaveIn) deathString = "was crushed under a collapsing ceiling";
-                else if (Cause == DeathCause.InACage) deathString = "died in a cage";
-                else if (Cause == DeathCause.FrozenInWater) deathString = "was incased in ice";
-                else if (Cause == DeathCause.Scuttled) deathString = "was scuttled";
-                else if (Cause == DeathCause.Slaughtered) deathString = "was slaughtered";
-                else if (Cause == DeathCause.FlyingObject) deathString = "was killed by a flying object";
-                else if (Cause == DeathCause.ExecutedBuriedAlive) deathString = "was buried alive";
-                else if (Cause == DeathCause.ExecutedBurnedAlive) deathString = "was burned alive";
-                else if (Cause == DeathCause.ExecutedCrucified) deathString = "was crucified";
-                else if (Cause == DeathCause.ExecutedDrowned) deathString = "was drowned";
-                else if (Cause == DeathCause.ExecutedFedToBeasts) deathString = "was fed to beasts";
-                else if (Cause == DeathCause.ExecutedHackedToPieces) deathString = "was hacked to pieces";
-                else if (Cause == DeathCause.ExecutedBeheaded) deathString = "was beheaded";
-                else if (Cause == DeathCause.Melted) deathString = "melted";
-                else if (Cause == DeathCause.Spikes) deathString = "was impaled";
-                else if (Cause == DeathCause.Heat) deathString = "died in the heat";
-                else if (Cause == DeathCause.Vanish) deathString = "vanished";
-                else if (Cause == DeathCause.CoolingMagma) deathString = "was encased in cooling magma";
-                else if (Cause == DeathCause.Unknown) deathString = "died (" + UnknownCause + ")";
+                switch (Cause)
+                {
+                    case DeathCause.Thirst:
+                        deathString = "died of thirst";
+                        break;
+                    case DeathCause.OldAge:
+                        deathString = "died of old age";
+                        break;
+                    case DeathCause.Suffocated:
+                        deathString = "suffocated";
+                        break;
+                    case DeathCause.Bled:
+                        deathString = "bled to death";
+                        break;
+                    case DeathCause.Cold:
+                        deathString = "froze to death";
+                        break;
+                    case DeathCause.CrushedByABridge:
+                        deathString = "was crushed by a drawbridge";
+                        break;
+                    case DeathCause.Drowned:
+                        deathString = "drowned";
+                        break;
+                    case DeathCause.Starved:
+                        deathString = "starved to death";
+                        break;
+                    case DeathCause.Infection:
+                        deathString = "succumbed to infection";
+                        break;
+                    case DeathCause.CollidedWithAnObstacle:
+                        deathString = "died after colliding with an obstacle";
+                        break;
+                    case DeathCause.PutToRest:
+                        deathString = "was put to rest";
+                        break;
+                    case DeathCause.StarvedQuit:
+                        deathString = "starved";
+                        break;
+                    case DeathCause.Trap:
+                        deathString = "was killed by a trap";
+                        break;
+                    case DeathCause.CaveIn:
+                        deathString = "was crushed under a collapsing ceiling";
+                        break;
+                    case DeathCause.InACage:
+                        deathString = "died in a cage";
+                        break;
+                    case DeathCause.FrozenInWater:
+                        deathString = "was incased in ice";
+                        break;
+                    case DeathCause.Scuttled:
+                        deathString = "was scuttled";
+                        break;
+                    case DeathCause.Slaughtered:
+                        deathString = "was slaughtered";
+                        break;
+                    case DeathCause.FlyingObject:
+                        deathString = "was killed by a flying object";
+                        break;
+                    case DeathCause.ExecutedBuriedAlive:
+                        deathString = "was buried alive";
+                        break;
+                    case DeathCause.ExecutedBurnedAlive:
+                        deathString = "was burned alive";
+                        break;
+                    case DeathCause.ExecutedCrucified:
+                        deathString = "was crucified";
+                        break;
+                    case DeathCause.ExecutedDrowned:
+                        deathString = "was drowned";
+                        break;
+                    case DeathCause.ExecutedFedToBeasts:
+                        deathString = "was fed to beasts";
+                        break;
+                    case DeathCause.ExecutedHackedToPieces:
+                        deathString = "was hacked to pieces";
+                        break;
+                    case DeathCause.ExecutedBeheaded:
+                        deathString = "was beheaded";
+                        break;
+                    case DeathCause.Melted:
+                        deathString = "melted";
+                        break;
+                    case DeathCause.Spikes:
+                        deathString = "was impaled";
+                        break;
+                    case DeathCause.Heat:
+                        deathString = "died in the heat";
+                        break;
+                    case DeathCause.Vanish:
+                        deathString = "vanished";
+                        break;
+                    case DeathCause.CoolingMagma:
+                        deathString = "was encased in cooling magma";
+                        break;
+                    case DeathCause.Vehicle:
+                        deathString = "was killed by a vehicle";
+                        break;
+                    case DeathCause.SuicideDrowned:
+                        deathString = "drowned ";
+                        switch (HistoricalFigure.Caste)
+                        {
+                            case "Female":
+                                deathString += "herself ";
+                                break;
+                            case "Male":
+                                deathString += "himself ";
+                                break;
+                            default:
+                                deathString += "itself ";
+                                break;
+                        }
+                        break;
+                    case DeathCause.SuicideLeaping:
+                        deathString = "leapt from a great height";
+                        break;
+                    case DeathCause.Unknown:
+                        deathString = "died (" + UnknownCause + ")";
+                        break;
+                }
             }
 
             eventString += deathString;
 
-            if (ItemID >= 0)
+            if (ItemId >= 0)
             {
                 if (Artifact != null)
                 {
@@ -228,7 +370,7 @@ namespace LegendsViewer.Legends.Events
                     eventString += !string.IsNullOrWhiteSpace(ItemSubType) ? ItemSubType : ItemType;
                 }
             }
-            else if (ShooterItemID >= 0)
+            else if (ShooterItemId >= 0)
             {
                 if (ShooterArtifact != null)
                 {
@@ -241,12 +383,28 @@ namespace LegendsViewer.Legends.Events
                     eventString += !string.IsNullOrWhiteSpace(ShooterItemSubType) ? ShooterItemSubType : ShooterItemType;
                 }
             }
-            else if (SlayerItemID >= 0) eventString += " with a (" + SlayerItemID + ")";
-            else if (SlayerShooterItemID >= 0) eventString += " (shot) with a (" + SlayerShooterItemID + ")";
+            else if (SlayerItemId >= 0)
+            {
+                eventString += " with a (" + SlayerItemId + ")";
+            }
+            else if (SlayerShooterItemId >= 0)
+            {
+                eventString += " (shot) with a (" + SlayerShooterItemId + ")";
+            }
 
-            if (Site != null) eventString += " in " + Site.ToLink(link, pov);
-            else if (Region != null) eventString += " in " + Region.ToLink(link, pov);
-            else if (UndergroundRegion != null) eventString += " in " + UndergroundRegion.ToLink(link, pov);
+            if (Site != null)
+            {
+                eventString += " in " + Site.ToLink(link, pov);
+            }
+            else if (Region != null)
+            {
+                eventString += " in " + Region.ToLink(link, pov);
+            }
+            else if (UndergroundRegion != null)
+            {
+                eventString += " in " + UndergroundRegion.ToLink(link, pov);
+            }
+
             return eventString;
         }
     }

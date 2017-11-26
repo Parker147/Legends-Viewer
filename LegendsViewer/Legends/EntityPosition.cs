@@ -1,12 +1,12 @@
-﻿using LegendsViewer.Legends.Parser;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
     public class EntityPosition
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string NameFemale { get; set; }
         public string NameMale { get; set; }
@@ -16,12 +16,12 @@ namespace LegendsViewer.Legends
 
         public EntityPosition(List<Property> properties, World world)
         {
-            ID = -1;
+            Id = -1;
             foreach (Property property in properties)
             {
                 switch (property.Name)
                 {
-                    case "id": ID = Convert.ToInt32(property.Value); break;
+                    case "id": Id = Convert.ToInt32(property.Value); break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "name_male": NameMale = Formatting.InitCaps(property.Value); break;
                     case "name_female": NameFemale = Formatting.InitCaps(property.Value); break;

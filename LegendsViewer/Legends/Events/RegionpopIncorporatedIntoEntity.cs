@@ -22,6 +22,7 @@ namespace LegendsViewer.Legends.Events
         public RegionpopIncorporatedIntoEntity(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "join_entity_id":
@@ -43,6 +44,8 @@ namespace LegendsViewer.Legends.Events
                         PopFlId = property.Value;
                         break;
                 }
+            }
+
             Site.AddEvent(this);
             JoinEntity.AddEvent(this);
             PopSourceRegion.AddEvent(this);

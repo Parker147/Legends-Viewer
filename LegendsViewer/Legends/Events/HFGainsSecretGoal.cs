@@ -5,13 +5,13 @@ using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
 {
-    public class HFGainsSecretGoal : WorldEvent
+    public class HfGainsSecretGoal : WorldEvent
     {
         public HistoricalFigure HistoricalFigure { get; set; }
         public SecretGoal Goal { get; set; }
-        private string UnknownGoal;
+        private string _unknownGoal;
 
-        public HFGainsSecretGoal(List<Property> properties, World world)
+        public HfGainsSecretGoal(List<Property> properties, World world)
             : base(properties, world)
         {
             foreach (Property property in properties)
@@ -25,8 +25,8 @@ namespace LegendsViewer.Legends.Events
                             case "immortality": Goal = SecretGoal.Immortality; break;
                             default:
                                 Goal = SecretGoal.Unknown;
-                                UnknownGoal = property.Value;
-                                world.ParsingErrors.Report("Unknown Secret Goal: " + UnknownGoal);
+                                _unknownGoal = property.Value;
+                                world.ParsingErrors.Report("Unknown Secret Goal: " + _unknownGoal);
                                 break;
                         }
                         break;
@@ -43,7 +43,7 @@ namespace LegendsViewer.Legends.Events
             switch (Goal)
             {
                 case SecretGoal.Immortality: goalString = " became obsessed with " + HistoricalFigure.CasteNoun(true) + " own mortality and sought to extend " + HistoricalFigure.CasteNoun(true) + " life by any means"; break;
-                case SecretGoal.Unknown: goalString = " gained secret goal (" + UnknownGoal + ")"; break;
+                case SecretGoal.Unknown: goalString = " gained secret goal (" + _unknownGoal + ")"; break;
             }
             eventString += goalString;
             eventString += PrintParentCollection(link, pov);

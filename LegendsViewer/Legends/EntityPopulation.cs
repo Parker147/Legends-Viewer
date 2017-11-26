@@ -10,7 +10,7 @@ namespace LegendsViewer.Legends
     {
         public string Race { get; set; } // legends_plus.xml
         public int Count { get; set; } // legends_plus.xml
-        public int EntityID { get; set; } // legends_plus.xml
+        public int EntityId { get; set; } // legends_plus.xml
         public Entity Entity { get; set; } // legends_plus.xml
         public List<HistoricalFigure> Member { get; set; } 
 
@@ -22,7 +22,7 @@ namespace LegendsViewer.Legends
         public EntityPopulation(List<Property> properties, World world)
             : base(properties, world)
         {
-            EntityID = -1;
+            EntityId = -1;
             foreach (Property property in properties)
             {
                 switch (property.Name)
@@ -33,7 +33,7 @@ namespace LegendsViewer.Legends
                         Count = Convert.ToInt32(raceCount[1]);
                         break;
                     case "civ_id":
-                        EntityID = property.ValueAsInt();
+                        EntityId = property.ValueAsInt();
                         break;
                 }
             }

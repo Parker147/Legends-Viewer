@@ -13,6 +13,7 @@ namespace LegendsViewer.Legends.Events
         public SiteTakenOver(List<Property> properties, World world) : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "attacker_civ_id":
@@ -31,15 +32,20 @@ namespace LegendsViewer.Legends.Events
                         Site = world.GetSite(Convert.ToInt32(property.Value));
                         break;
                 }
+            }
 
             if (Site.OwnerHistory.Count == 0)
+            {
                 if (SiteEntity != null && SiteEntity != Defender)
                 {
                     SiteEntity.Parent = Defender;
                     new OwnerPeriod(Site, SiteEntity, 1, "founded");
                 }
                 else
+                {
                     new OwnerPeriod(Site, Defender, 1, "founded");
+                }
+            }
 
             Site.OwnerHistory.Last().EndCause = "taken over";
             Site.OwnerHistory.Last().EndYear = Year;
@@ -51,14 +57,21 @@ namespace LegendsViewer.Legends.Events
             Defender.AddEvent(this);
             NewSiteEntity.AddEvent(this);
             if (SiteEntity != Defender)
+            {
                 SiteEntity.AddEvent(this);
+            }
+
             Site.AddEvent(this);
         }
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
-            if (SiteEntity != null && SiteEntity != Defender) eventString += SiteEntity.ToLink(link, pov) + " of ";
+            if (SiteEntity != null && SiteEntity != Defender)
+            {
+                eventString += SiteEntity.ToLink(link, pov) + " of ";
+            }
+
             if (Defender == null)
             {
                 eventString += "UNKNOWN";

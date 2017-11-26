@@ -18,7 +18,11 @@ namespace LegendsViewer.Controls.Map
         public MapControl(World world, object focusObject, DwarfTabControl dwarfTabControl)
         {
             Title = "Map";
-            if (focusObject != null && focusObject is DwarfObject) Title += " - " + (focusObject as DwarfObject).ToLink(false, (focusObject as DwarfObject));
+            if (focusObject != null && focusObject is DwarfObject)
+            {
+                Title += " - " + (focusObject as DwarfObject).ToLink(false, focusObject as DwarfObject);
+            }
+
             World = world; FocusObject = focusObject; TabControl = dwarfTabControl;
         }
         public override Control GetControl()
@@ -32,10 +36,26 @@ namespace LegendsViewer.Controls.Map
                     MapPanel.Center = Center;
                     MapPanel.ZoomToBoundsOnFirstPaint = false;
                     MapPanel.CurrentYear = CurrentYear;
-                    if (CivsToggled) MapPanel.ToggleCivs();
-                    if (SitesToggled) MapPanel.ToggleSites();
-                    if (WarsToggled) MapPanel.ToggleWars();
-                    if (BattlesToggled) MapPanel.ToggleBattles();
+                    if (CivsToggled)
+                    {
+                        MapPanel.ToggleCivs();
+                    }
+
+                    if (SitesToggled)
+                    {
+                        MapPanel.ToggleSites();
+                    }
+
+                    if (WarsToggled)
+                    {
+                        MapPanel.ToggleWars();
+                    }
+
+                    if (BattlesToggled)
+                    {
+                        MapPanel.ToggleBattles();
+                    }
+
                     Refresh();
                 }
                 return MapPanel;
@@ -50,7 +70,7 @@ namespace LegendsViewer.Controls.Map
 
         protected override void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!Disposed)
             {
                 if (disposing)
                 {
@@ -63,14 +83,18 @@ namespace LegendsViewer.Controls.Map
                         WarsToggled = MapPanel.WarsToggled;
                         BattlesToggled = MapPanel.BattlesToggled;
                         CurrentYear = MapPanel.CurrentYear;
-                        if (MapPanel.Overlay != null) MapPanel.Overlay.Dispose();
+                        if (MapPanel.Overlay != null)
+                        {
+                            MapPanel.Overlay.Dispose();
+                        }
+
                         MapPanel.Dispose();
                         MapPanel = null;
                     }
 
                 }
                 base.Dispose(disposing);
-                disposed = true;
+                Disposed = true;
             }
         }
     }

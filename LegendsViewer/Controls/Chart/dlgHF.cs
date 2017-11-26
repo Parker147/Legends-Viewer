@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using LegendsViewer.Legends;
 
-namespace LegendsViewer
+namespace LegendsViewer.Controls.Chart
 {
-    public partial class dlgHF : Form
+    public partial class DlgHf : Form
     {
         //List<string> Populations = new List<string>();
         public string SelectedRace;
-        public dlgHF(World world)
+        public DlgHf(World world)
         {
             InitializeComponent();
 
@@ -29,13 +24,17 @@ namespace LegendsViewer
         private void btnAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < listHFRaces.Items.Count; i++)
+            {
                 listHFRaces.SetSelected(i, true);
+            }
         }
 
         private void btnNone_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < listHFRaces.Items.Count; i++)
+            {
                 listHFRaces.SetSelected(i, false);
+            }
         }
 
         private void btnName_Click(object sender, EventArgs e)

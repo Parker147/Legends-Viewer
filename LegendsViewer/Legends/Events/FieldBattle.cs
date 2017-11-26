@@ -15,6 +15,7 @@ namespace LegendsViewer.Legends.Events
             : base(properties, world)
         {
             foreach (Property property in properties)
+            {
                 switch (property.Name)
                 {
                     case "coords": Coordinates = Formatting.ConvertToLocation(property.Value); break;
@@ -25,6 +26,8 @@ namespace LegendsViewer.Legends.Events
                     case "defender_general_hfid": DefenderGeneral = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                 }
+            }
+
             Attacker.AddEvent(this);
             Defender.AddEvent(this);
             AttackerGeneral.AddEvent(this);
