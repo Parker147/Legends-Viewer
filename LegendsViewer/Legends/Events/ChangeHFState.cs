@@ -73,6 +73,9 @@ namespace LegendsViewer.Legends.Events
                             case "fell":
                                 Mood = Mood.Fell;
                                 break;
+                            case "catatonic":
+                                Mood = Mood.Catatonic;
+                                break;
                             default:
                                 Mood = Mood.Unknown;
                                 property.Known = false;
@@ -191,6 +194,9 @@ namespace LegendsViewer.Legends.Events
                         break;
                     case Mood.Fell:
                         eventString += " was taken by a fell mood in ";
+                        break;
+                    case Mood.Catatonic:
+                        eventString += " stopped responding to the outside world in ";
                         break;
                 }
             }

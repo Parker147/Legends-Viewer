@@ -29,7 +29,7 @@ namespace LegendsViewer.Legends
                         else
                         {
                             Type = HistoricalFigureLinkType.Unknown;
-                            world.ParsingErrors.Report("Unknown HF Link Type: " + property.Value);
+                            world.ParsingErrors.Report("Unknown HF HF Link Type: " + property.Value);
                         }
                         break;
                 }

@@ -10,6 +10,7 @@
         Berserk,
         Fey,
         Melancholy,
-        Fell
+        Fell,
+        Catatonic
     }
 }

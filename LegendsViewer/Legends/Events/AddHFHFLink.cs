@@ -29,7 +29,7 @@ namespace LegendsViewer.Legends.Events
                         }
                         else
                         {
-                            world.ParsingErrors.Report("Unknown HF Link Type: " + property.Value);
+                            world.ParsingErrors.Report("Unknown HF HF Link Type: " + property.Value);
                         }
                         break;
                     case "histfig1":
@@ -150,8 +150,8 @@ namespace LegendsViewer.Legends.Events
                     }
 
                     break;
-                case HistoricalFigureLinkType.Spouse:
-                    eventString += " married ";
+                case HistoricalFigureLinkType.PetOwner:
+                    eventString += " became the owner of ";
                     break;
                 case HistoricalFigureLinkType.Unknown:
                     eventString += " linked (UNKNOWN) to ";
