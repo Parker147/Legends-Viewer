@@ -12,7 +12,6 @@ namespace LegendsViewer.Legends
     public class HistoricalFigure : WorldObject
     {
         private static readonly List<string> KnownEntitySubProperties = new List<string> { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
-        private static readonly List<string> KnownReputationSubProperties = new List<string> { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller", "rep_dancer", "rep_loyal_soldier", "rep_hero", "rep_hunter" };
         private static readonly List<string> KnownSiteLinkSubProperties = new List<string> { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
         private static readonly List<string> KnownEntitySquadLinkProperties = new List<string> { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
 
@@ -164,7 +163,7 @@ namespace LegendsViewer.Legends
                         property.Known = true;
                         if (property.SubProperties != null)
                         {
-                            foreach (string subPropertyName in KnownReputationSubProperties)
+                            foreach (string subPropertyName in Reputation.KnownReputationSubProperties)
                             {
                                 Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
                                 if (subProperty != null)

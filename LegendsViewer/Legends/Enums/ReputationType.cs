@@ -26,6 +26,10 @@ namespace LegendsViewer.Legends.Enums
         Hero,
         Hunter,
         [Description("Information Source")]
-        InformationSource
+        InformationSource,
+        [Description("Treasure Hunter")]
+        TreasureHunter,
+        [Description("Knowledge Preserver")]
+        KnowledgePreserver,
     }
 }
