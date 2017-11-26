@@ -416,6 +416,7 @@
     <Compile Include="Legends\Events\SiteRetired.cs" />
     <Compile Include="Legends\Events\SiteTakenOver.cs" />
     <Compile Include="Legends\Events\SiteTributeForced.cs" />
+    <Compile Include="Legends\Events\SneakIntoSite.cs" />
     <Compile Include="Legends\Events\WorldEvent.cs" />
     <Compile Include="Legends\Events\WrittenContentComposed.cs" />
     <Compile Include="Legends\Feature.cs" />

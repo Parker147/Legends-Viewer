@@ -603,6 +603,9 @@ namespace LegendsViewer.Legends.Parser
                 case "hf viewed artifact":
                     World.Events.Add(new HfViewedArtifact(properties, World));
                     break;
+                case "sneak into site":
+                    World.Events.Add(new SneakIntoSite(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
