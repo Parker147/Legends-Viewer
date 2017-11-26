@@ -44,6 +44,11 @@ namespace LegendsViewer
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             _version = fvi.FileVersion;
+            var versionNumbers = _version.Split('.');
+            if (versionNumbers.Length > 3)
+            {
+                _version = $"{versionNumbers[0]}.{versionNumbers[1]}.{versionNumbers[2]}";
+            }
 
             Text = "Legends Viewer";
             lblVersion.Text = "v" + _version;
