@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Text;
 
 namespace LegendsViewer.Legends
 {
@@ -101,6 +102,22 @@ namespace LegendsViewer.Legends
 
             return InitCaps(race.Replace('_', ' ').ToLower());
 
+        }
+
+        public static string RemoveSpecialCharacters(string str)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < str.Length; i++)
+            {
+                if ((str[i] >= '0' && str[i] <= '9')
+                    || (str[i] >= 'A' && str[i] <= 'z'
+                        || (str[i] == '.' || str[i] == '_')))
+                {
+                    sb.Append(str[i]);
+                }
+            }
+
+            return sb.ToString();
         }
 
         public static string ReplaceNonAscii(string name)

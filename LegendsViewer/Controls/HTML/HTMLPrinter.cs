@@ -89,7 +89,7 @@ namespace LegendsViewer.Controls.HTML
 
             if (printType == typeof(Artifact))
             {
-                return new ArtifactPrinter(printObject as Artifact);
+                return new ArtifactPrinter(printObject as Artifact, world);
             }
 
             if (printType == typeof(WorldConstruction))
@@ -278,7 +278,7 @@ namespace LegendsViewer.Controls.HTML
                             while (true)
                             {
                                 tempName = Path.Combine(LocalFileProvider.RootFolder, "temp",
-                                    Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + GetTitle() + ".png");
+                                    Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + Formatting.RemoveSpecialCharacters(GetTitle()) + ".png");
                                 if (!File.Exists(tempName))
                                 {
                                     break;

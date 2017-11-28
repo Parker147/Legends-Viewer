@@ -165,6 +165,12 @@ namespace LegendsViewer.Controls.Map
                 Center = new Point(site.Coordinates.X * TileSize + TileSize / 2, site.Coordinates.Y * TileSize + TileSize / 2);
                 ZoomCurrent = 0.85;
             }
+            else if (FocusObject.GetType() == typeof(Artifact))
+            {
+                Artifact artifact = focusObject as Artifact;
+                Center = new Point(artifact.Coordinates.X * TileSize + TileSize / 2, artifact.Coordinates.Y * TileSize + TileSize / 2);
+                ZoomCurrent = 0.85;
+            }
             else if (FocusObject.GetType() == typeof(Entity) || FocusObject.GetType() == typeof(War)
                      || FocusObject.GetType() == typeof(Battle) || FocusObject.GetType() == typeof(SiteConquered)
                      || FocusObject.GetType() == typeof(WorldRegion) || FocusObject.GetType() == typeof(UndergroundRegion)

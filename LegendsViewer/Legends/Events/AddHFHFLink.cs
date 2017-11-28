@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LegendsViewer.Controls;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Parser;
 
@@ -72,7 +71,7 @@ namespace LegendsViewer.Legends.Events
 
             if (pov == HistoricalFigureTarget)
             {
-                eventString += HistoricalFigureTarget.ToLink(link, pov);
+                eventString += HistoricalFigureTarget?.ToLink(link, pov) ?? "an unknown creature";
             }
             else
             {
@@ -139,6 +138,9 @@ namespace LegendsViewer.Legends.Events
                 case HistoricalFigureLinkType.Lover:
                     eventString += " became romantically involved with ";
                     break;
+                case HistoricalFigureLinkType.Spouse:
+                    eventString += " married ";
+                    break;
                 case HistoricalFigureLinkType.Prisoner:
                     if (pov == HistoricalFigureTarget)
                     {
@@ -153,16 +155,14 @@ namespace LegendsViewer.Legends.Events
                 case HistoricalFigureLinkType.PetOwner:
                     eventString += " became the owner of ";
                     break;
-                case HistoricalFigureLinkType.Unknown:
-                    eventString += " linked (UNKNOWN) to ";
-                    break;
                 default:
-                    throw new Exception("Unhandled Link Type in AddHFHFLink: " + LinkType.GetDescription());
+                    eventString += " linked ("+ LinkType + ") to ";
+                    break;
             }
 
             if (pov == HistoricalFigureTarget)
             {
-                eventString += HistoricalFigure.ToLink(link, pov);
+                eventString += HistoricalFigure?.ToLink(link, pov) ?? "an unknown creature";
             }
             else
             {
