@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Events;
 using LegendsViewer.Legends.Parser;
 
@@ -8,6 +9,9 @@ namespace LegendsViewer.Legends.EventCollections
 {
     public class Raid : EventCollection
     {
+        public static readonly string Icon = "<i class=\"fa fa-fw fa-bolt\"></i>";
+
+        public string Name { get { return "The " + GetOrdinal(Ordinal) + "Raid of " + Site.Name; } set { } }
         public int Ordinal { get; set; }
         public Location Coordinates { get; set; }
         public WorldRegion Region { get; set; }
@@ -15,6 +19,8 @@ namespace LegendsViewer.Legends.EventCollections
         public Site Site { get; set; }
         public Entity Attacker { get; set; }
         public Entity Defender { get; set; }
+        public List<HistoricalFigure> Deaths { get { return GetSubEvents().OfType<HfDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
+        public int DeathCount { get { return Deaths.Count; } set { } }
         public EventCollection ParentEventCol { get; set; }
 
         public static List<string> Filters;
@@ -51,12 +57,29 @@ namespace LegendsViewer.Legends.EventCollections
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
-            return "a raid";
+            if (link)
+            {
+                string title = Type;
+                title += "&#13";
+                title += "Deaths: " + DeathCount;
+
+                string linkedString = "";
+                if (pov != this)
+                {
+                    linkedString = Icon + "<a href = \"collection#" + Id + "\" title=\"" + title + "\"><font color=\"#6E5007\">" + Name + "</font></a>";
+                }
+                else
+                {
+                    linkedString = Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                }
+                return linkedString;
+            }
+            return Name;
         }
 
         public override string ToString()
         {
-            return ToLink(false);
+            return Name;
         }
     }
 }

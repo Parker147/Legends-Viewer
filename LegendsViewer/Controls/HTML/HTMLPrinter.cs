@@ -132,6 +132,11 @@ namespace LegendsViewer.Controls.HTML
                 return new MountainPeakPrinter(printObject as MountainPeak, world);
             }
 
+            if (printType == typeof(Raid))
+            {
+                return new RaidPrinter(printObject as Raid, world);
+            }
+
             if (printType == typeof(string))
             {
                 return new StringPrinter(printObject as string);

@@ -27,7 +27,6 @@ namespace LegendsViewer.Legends.Events
         public ItemStolen(List<Property> properties, World world)
             : base(properties, world)
         {
-            ItemType = "UNKNOWN ITEM";
             foreach (Property property in properties)
             {
                 switch (property.Name)
@@ -78,12 +77,19 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            eventString += " a ";
-            if (!string.IsNullOrWhiteSpace(Material))
+            if (string.IsNullOrEmpty(ItemType))
             {
-                eventString += Material + " ";
+                eventString += " an unknown item ";
             }
-            eventString += ItemType;
+            else
+            {
+                eventString += " a ";
+                if (!string.IsNullOrWhiteSpace(Material))
+                {
+                    eventString += Material + " ";
+                }
+                eventString += ItemType;
+            }
             eventString += " was stolen ";
             if (Structure != null)
             {

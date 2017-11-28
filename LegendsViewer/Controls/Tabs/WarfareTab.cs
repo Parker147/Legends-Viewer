@@ -17,6 +17,7 @@ namespace LegendsViewer.Controls.Tabs
         private BattlesList _battleSearch;
         private ConqueringsList _conqueringsSearch;
         private BeastAttackList _beastAttackSearch;
+        private RaidsList _raidsSearch;
 
         public WarfareTab()
         {
@@ -28,16 +29,14 @@ namespace LegendsViewer.Controls.Tabs
         {
             hint.SetToolTip(chkFilterWarfare, "Unnotable Battle = Attackers outnumber defenders 10 to 1 and win and suffer < 10% losses. \nUnnotable Conquering = All Pillagings.");
 
-            EventTabs = new[] {tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpBeastAttackEvents};
-            EventTabTypes = new[]{typeof(War), typeof(Battle), typeof(SiteConquered), typeof(BeastAttack)};
+            EventTabs = new[] {tpWarEvents, tpBattlesEvents, tpConqueringsEvents, tpBeastAttackEvents, tpRaidsEvents };
+            EventTabTypes = new[]{typeof(War), typeof(Battle), typeof(SiteConquered), typeof(BeastAttack), typeof(Raid) };
 
             listWarSearch.ShowGroups = false;
-
             listBattleSearch.ShowGroups = false;
-
             listConqueringSearch.ShowGroups = false;
-
             listBeastAttackSearch.ShowGroups = false;
+            listRaidSearch.ShowGroups = false;
         }
 
         internal override void ResetEvents() { }
@@ -49,6 +48,7 @@ namespace LegendsViewer.Controls.Tabs
             _battleSearch = new BattlesList(World);
             _conqueringsSearch = new ConqueringsList(World);
             _beastAttackSearch = new BeastAttackList(World);
+            _raidsSearch = new RaidsList(World);
 
             var conquerTypes = from conquer in World.EventCollections.OfType<SiteConquered>()
                                orderby conquer.ConquerType
@@ -71,14 +71,18 @@ namespace LegendsViewer.Controls.Tabs
                                    group eventType by eventType.Type into type
                                    select type.Key;
             var beastAttackEvents = from eventType in World.EventCollections.OfType<BeastAttack>().SelectMany(beastAttack => beastAttack.GetSubEvents())
-                                    group eventType by eventType.Type into type
-                                    select type.Key;
+                group eventType by eventType.Type into type
+                select type.Key;
+            var raidEvents = from eventType in World.EventCollections.OfType<Raid>().SelectMany(raid => raid.GetSubEvents())
+                group eventType by eventType.Type into type
+                select type.Key;
 
             TabEvents.Clear();
             TabEvents.Add(warEvents.ToList());
             TabEvents.Add(battleEvents.ToList());
             TabEvents.Add(conqueringEvents.ToList());
             TabEvents.Add(beastAttackEvents.ToList());
+            TabEvents.Add(raidEvents.ToList());
         }
 
         internal override void DoSearch()
@@ -86,7 +90,8 @@ namespace LegendsViewer.Controls.Tabs
             SearchBattleList(null, null);
             SearchConqueringList(null, null);
             SearchWarList(null, null);
-            SearchbeastAttackList(null, null);
+            SearchBeastAttackList(null, null);
+            SearchRaidsList(null, null);
             base.DoSearch();
         }
 
@@ -111,6 +116,10 @@ namespace LegendsViewer.Controls.Tabs
             listConqueringSearch.Items.Clear();
             cmbConqueringType.Items.Clear();
             radConqueringSortNone.Checked = true;
+
+            txtRaidSearch.Clear();
+            listRaidSearch.Items.Clear();
+            radRaidSortNone.Checked = true;
         }
 
         private void chkFilterWarfare_CheckedChanged(object sender, EventArgs e)
@@ -145,24 +154,7 @@ namespace LegendsViewer.Controls.Tabs
             label.Text = $"{shown} / {total}";
         }
 
-        public void ChangeWarBaseList(List<War> list, string listName)
-        {
-            FileLoader.Working = true;
-            lblWarList.Text = listName;
-            lblWarList.ForeColor = Color.Blue;
-            lblWarList.Font = new Font(lblWarList.Font.FontFamily, lblWarList.Font.Size, FontStyle.Bold);
-            _warSearch.BaseList = list;
-            txtWarSearch.Clear();
-            chkWarOngoing.Checked = false;
-            radWarSortNone.Checked = true;
-            //tcWorld.SelectedTab = tpWarfare;
-            tcWarfare.SelectedTab = tpWars;
-            tcWars.SelectedTab = tpWarSearch;
-            SearchWarList(null, null);
-            FileLoader.Working = false;
-        }
-
-        public void ResetWarBaseList(object sender, EventArgs e)
+        private void ResetWarBaseList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
@@ -171,6 +163,18 @@ namespace LegendsViewer.Controls.Tabs
                 lblWarList.Font = new Font(lblWarList.Font.FontFamily, lblWarList.Font.Size, FontStyle.Regular);
                 _warSearch.BaseList = World.EventCollections.OfType<War>().ToList();
                 SearchWarList(null, null);
+            }
+        }
+
+        private void ResetRaidBaseList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && World != null)
+            {
+                lblRaidList.Text = "All";
+                lblRaidList.ForeColor = DefaultForeColor;
+                lblRaidList.Font = new Font(lblRaidList.Font.FontFamily, lblRaidList.Font.Size, FontStyle.Regular);
+                _raidsSearch.BaseList = World.EventCollections.OfType<Raid>().ToList();
+                SearchRaidsList(null, null);
             }
         }
 
@@ -206,7 +210,7 @@ namespace LegendsViewer.Controls.Tabs
             FileLoader.Working = false;
         }
 
-        public void ResetBattleBaseList(object sender, EventArgs e)
+        private void ResetBattleBaseList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
@@ -234,7 +238,7 @@ namespace LegendsViewer.Controls.Tabs
             }
         }
 
-        private void SearchbeastAttackList(object sender, EventArgs e)
+        private void SearchBeastAttackList(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)
             {
@@ -246,6 +250,21 @@ namespace LegendsViewer.Controls.Tabs
                 var results = list.ToArray();
                 listBeastAttackSearch.SetObjects(results);
                 UpdateCounts(lblBeastAttackResults, results.Length, _beastAttackSearch.BaseList.Count);
+            }
+        }
+
+        private void SearchRaidsList(object sender, EventArgs e)
+        {
+            if (!FileLoader.Working && World != null)
+            {
+                _raidsSearch.Name = txtRaidSearch.Text;
+                _raidsSearch.SortEvents = radRaidSortEvents.Checked;
+                _raidsSearch.SortFiltered = radRaidSortFiltered.Checked;
+                _raidsSearch.SortDeaths = radRaidSortDeaths.Checked;
+                IEnumerable<Raid> list = _raidsSearch.GetList();
+                var results = list.ToArray();
+                listRaidSearch.SetObjects(results);
+                UpdateCounts(lblRaidResults, results.Length, _raidsSearch.BaseList.Count);
             }
         }
 
@@ -265,6 +284,11 @@ namespace LegendsViewer.Controls.Tabs
         }
 
         private void listBeastAttacks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListSearch_SelectedIndexChanged(sender, e);
+        }
+
+        private void listRaids_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListSearch_SelectedIndexChanged(sender, e);
         }

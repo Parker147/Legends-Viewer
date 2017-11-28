@@ -507,6 +507,42 @@ namespace LegendsViewer.Controls
         }
     }
 
+    public class RaidsList : WorldObjectList
+    {
+        public string Name;
+        public bool SortDeaths;
+        public List<Raid> BaseList;
+        public RaidsList(World setWorld) : base(setWorld)
+        {
+            BaseList = World.EventCollections.OfType<Raid>().ToList();
+        }
+        public IEnumerable<Raid> GetList()
+        {
+            IEnumerable<Raid> filtered = BaseList;
+            if (Name != "")
+            {
+                filtered = filtered.Where(raid => raid.Name.ToLower().Contains(Name.ToLower()));
+            }
+
+            if (SortEvents)
+            {
+                filtered = filtered.OrderByDescending(battle => battle.GetSubEvents().Count);
+            }
+
+            if (SortFiltered)
+            {
+                filtered = filtered.OrderByDescending(battle => battle.GetSubEvents().Count(ev => !Battle.Filters.Contains(ev.Type)));
+            }
+
+            if (SortDeaths)
+            {
+                filtered = filtered.OrderByDescending(battle => battle.Deaths.Count);
+            }
+
+            return MaxResults > 0 ? filtered.Take(MaxResults) : filtered;
+        }
+    }
+
     public class ArtifactsList : WorldObjectList
     {
         public bool ShowWrittenContent { get; set; }
