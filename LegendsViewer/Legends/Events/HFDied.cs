@@ -93,6 +93,7 @@ namespace LegendsViewer.Legends.Events
                             case "vehicle": Cause = DeathCause.Vehicle; break;
                             case "suicide drowned": Cause = DeathCause.SuicideDrowned; break;
                             case "suicide leaping": Cause = DeathCause.SuicideLeaping; break;
+                            case "chasm": Cause = DeathCause.Chasm; break;
                             default: Cause = DeathCause.Unknown; UnknownCause = property.Value; world.ParsingErrors.Report("|==> Events 'hf died'/ \nUnknown Death Cause: " + UnknownCause); break;
                         }
                         break;
@@ -348,6 +349,9 @@ namespace LegendsViewer.Legends.Events
                         break;
                     case DeathCause.SuicideLeaping:
                         deathString = "leapt from a great height";
+                        break;
+                    case DeathCause.Chasm:
+                        deathString = "fell into a deep chasm";
                         break;
                     case DeathCause.Unknown:
                         deathString = "died (" + UnknownCause + ")";

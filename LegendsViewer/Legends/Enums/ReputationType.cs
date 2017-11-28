@@ -31,5 +31,7 @@ namespace LegendsViewer.Legends.Enums
         TreasureHunter,
         [Description("Knowledge Preserver")]
         KnowledgePreserver,
+        [Description("Protector Of The Weak")]
+        ProtectorOfWeak
     }
 }

@@ -8,7 +8,26 @@ namespace LegendsViewer.Legends
 {
     public class Reputation
     {
-        public static readonly List<string> KnownReputationSubProperties = new List<string> { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter", "rep_trade_partner", "rep_killer", "rep_poet", "rep_bard", "rep_storyteller", "rep_dancer", "rep_loyal_soldier", "rep_hero", "rep_hunter", "rep_treasure_hunter", "rep_knowledge_preserver" };
+        public static readonly List<string> KnownReputationSubProperties = new List<string>
+        {
+            "entity_id",
+            "unsolved_murders",
+            "first_ageless_year",
+            "first_ageless_season_count",
+            "rep_enemy_fighter",
+            "rep_trade_partner",
+            "rep_killer",
+            "rep_poet",
+            "rep_bard",
+            "rep_storyteller",
+            "rep_dancer",
+            "rep_loyal_soldier",
+            "rep_hero",
+            "rep_hunter",
+            "rep_treasure_hunter",
+            "rep_knowledge_preserver",
+            "rep_protector_of_weak"
+        };
         public ReputationType Type { get; set; }
         public int Strength { get; set; }
 

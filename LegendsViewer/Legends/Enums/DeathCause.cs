@@ -69,6 +69,7 @@ namespace LegendsViewer.Legends.Enums
         [Description("Suicide - Drowned")]
         SuicideDrowned,
         [Description("Suicide - Leaping")]
-        SuicideLeaping
+        SuicideLeaping,
+        Chasm
     }
 }
