@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Text;
+using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.HTML
@@ -6,10 +9,12 @@ namespace LegendsViewer.Controls.HTML
     public class ArtifactPrinter : HtmlPrinter
     {
         private readonly Artifact _artifact;
+        private readonly World _world;
 
-        public ArtifactPrinter(Artifact artifact)
+        public ArtifactPrinter(Artifact artifact, World world)
         {
             _artifact = artifact;
+            _world = world;
         }
 
         public override string Print()
@@ -36,16 +41,27 @@ namespace LegendsViewer.Controls.HTML
             }
             Html.AppendLine("<br />");
 
-            if (_artifact.Site != null)
+            PrintMaps();
+
+            if (_artifact.Site != null || _artifact.Region != null)
             {
                 Html.AppendLine("<b>Current Location:</b><br/>");
                 Html.AppendLine("<ul>");
+                if (_artifact.Site != null)
+                {
                 Html.AppendLine("<li>" + _artifact.Site.ToLink());
                 if (_artifact.Structure != null)
                 {
                     Html.AppendLine(" (" + _artifact.Structure.ToLink() + ")");
                 }
                 Html.AppendLine("</li>");
+                    
+                }
+                else if (_artifact.Region != null)
+                {
+                    Html.AppendLine("<li>" + _artifact.Region.ToLink() + "</li>");
+                }
+
                 Html.AppendLine("</ul>");
             }
             if (_artifact.HolderId > 0)
@@ -72,6 +88,25 @@ namespace LegendsViewer.Controls.HTML
 
             PrintEventLog(_artifact.Events, Artifact.Filters, _artifact);
             return Html.ToString();
+        }
+
+        private void PrintMaps()
+        {
+            if (_artifact.Coordinates == null)
+            {
+                return;
+            }
+
+            Html.AppendLine("<div class=\"row\">");
+            Html.AppendLine("<div class=\"col-md-12\">");
+            var maps = MapPanel.CreateBitmaps(_world, _artifact);
+            Html.AppendLine("<table>");
+            Html.AppendLine("<tr>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("</tr></table></br>");
+            Html.AppendLine("</div>");
+            Html.AppendLine("</div>");
         }
 
         public override string GetTitle()

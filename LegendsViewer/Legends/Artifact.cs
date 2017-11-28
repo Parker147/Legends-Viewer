@@ -25,9 +25,11 @@ namespace LegendsViewer.Legends
 
         public List<int> WrittenContentIds { get; set; }
         public List<WrittenContent> WrittenContents { get; set; }
+
         public int AbsTileX { get; set; }
         public int AbsTileY { get; set; }
         public int AbsTileZ { get; set; }
+        public Location Coordinates { get; set; }
 
         public Site Site { get; set; }
         public WorldRegion Region { get; set; }
@@ -101,6 +103,14 @@ namespace LegendsViewer.Legends
                         Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == Convert.ToInt32(property.Value));
                         break;
                 }
+            }
+            if (AbsTileX > 0 && AbsTileY > 0)
+            {
+                Coordinates = new Location(AbsTileX / 816, AbsTileY / 816);
+            }
+            else if (Site != null)
+            {
+                Coordinates = Site.Coordinates;
             }
         }
 

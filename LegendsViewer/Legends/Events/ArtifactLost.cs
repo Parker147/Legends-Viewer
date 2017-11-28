@@ -27,8 +27,23 @@ namespace LegendsViewer.Legends.Events
         {
             string eventString = GetYearTime();
             eventString += Artifact != null ? Artifact.ToLink(link, pov) : "UNKNOWN ARTIFACT";
-            eventString += " was lost in ";
-            eventString += Site != null ? Site.ToLink(link, pov) : "an unknown site";
+            eventString += " was lost";
+            if (Site != null)
+            {
+                eventString += " in " + Site.ToLink(link, pov);
+            }
+            else if (Artifact != null)
+            {
+                if (Artifact.Site != null)
+                {
+                    eventString += " in " + Artifact.Site.ToLink(link, pov);
+                }
+                else if (Artifact.Region != null)
+                {
+                    eventString += " in " + Artifact.Region.ToLink(link, pov);
+                }
+            }
+
             eventString += PrintParentCollection(link, pov);
             eventString += ".";
             return eventString;
