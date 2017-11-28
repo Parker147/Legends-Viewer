@@ -8,6 +8,7 @@ namespace LegendsViewer.Legends.Events
     {
         public Entity SearcherCiv { get; set; }
         public Site Site { get; set; }
+        public string Result { get; set; }
 
         public EntitySearchedSite(List<Property> properties, World world)
             : base(properties, world)
@@ -18,6 +19,7 @@ namespace LegendsViewer.Legends.Events
                 {
                     case "searcher_civ_id": SearcherCiv = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "result": Result = property.Value; break;
                 }
             }
 
@@ -33,6 +35,10 @@ namespace LegendsViewer.Legends.Events
             eventString += " searched ";
             eventString += Site?.ToLink(true, pov) ?? "an unknown site";
             eventString += PrintParentCollection(link, pov);
+            if (!string.IsNullOrEmpty(Result))
+            {
+                eventString += " and " + Result;
+            }
             eventString += ".";
             return eventString;
         }

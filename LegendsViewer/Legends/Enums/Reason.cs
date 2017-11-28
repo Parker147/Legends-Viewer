@@ -4,6 +4,8 @@
     {
         Unknown,
         ArtifactIsHeirloomOfFamilyHfid,
-        ArtifactIsSymbolOfEntityPosition
+        ArtifactIsSymbolOfEntityPosition,
+        CementBondsOfFriendship,
+        PartOfTradeNegotiation
     }
 }
