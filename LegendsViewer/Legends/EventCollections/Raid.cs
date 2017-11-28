@@ -13,6 +13,8 @@ namespace LegendsViewer.Legends.EventCollections
         public WorldRegion Region { get; set; }
         public UndergroundRegion UndergroundRegion { get; set; }
         public Site Site { get; set; }
+        public Entity Attacker { get; set; }
+        public Entity Defender { get; set; }
         public EventCollection ParentEventCol { get; set; }
 
         public static List<string> Filters;
@@ -35,6 +37,8 @@ namespace LegendsViewer.Legends.EventCollections
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "attacking_enid": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "defending_enid": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
                 }
             }
         }

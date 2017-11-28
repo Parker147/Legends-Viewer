@@ -614,6 +614,9 @@ namespace LegendsViewer.Legends.Parser
                 case "spotted leaving site":
                     World.Events.Add(new SpottedLeavingSite(properties, World));
                     break;
+                case "entity searched site":
+                    World.Events.Add(new EntitySearchedSite(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
