@@ -310,6 +310,7 @@ namespace LegendsViewer.Controls.Tabs
             this.filterPanel.ShadowOffSet = 0;
             this.filterPanel.Size = new System.Drawing.Size(253, 233);
             this.filterPanel.TabIndex = 44;
+            this.filterPanel.OnPanelExpand += new System.EventHandler(this.filterPanel_OnPanelExpand);
             // 
             // groupBox1
             // 
