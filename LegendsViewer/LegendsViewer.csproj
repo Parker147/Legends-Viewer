@@ -112,6 +112,7 @@
     <Compile Include="Controls\HTML\ArtFormPrinter.cs" />
     <Compile Include="Controls\HTML\LandmassPrinter.cs" />
     <Compile Include="Controls\HTML\MountainPeakPrinter.cs" />
+    <Compile Include="Controls\HTML\RaidPrinter.cs" />
     <Compile Include="Controls\HTML\ReadMeControl.cs" />
     <Compile Include="Controls\HTML\StructurePrinter.cs" />
     <Compile Include="Controls\HTML\Utilities\BrowserUtil.cs" />
@@ -355,6 +356,7 @@
     <Compile Include="Legends\Events\EntityLaw.cs" />
     <Compile Include="Legends\Events\EntityPrimaryCriminals.cs" />
     <Compile Include="Legends\Events\EntityRelocate.cs" />
+    <Compile Include="Legends\Events\EntitySearchedSite.cs" />
     <Compile Include="Legends\Events\FieldBattle.cs" />
     <Compile Include="Legends\Events\FirstContact.cs" />
     <Compile Include="Legends\Events\FormCreatedEvent.cs" />

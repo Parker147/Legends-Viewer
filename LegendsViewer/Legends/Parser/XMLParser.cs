@@ -614,6 +614,9 @@ namespace LegendsViewer.Legends.Parser
                 case "spotted leaving site":
                     World.Events.Add(new SpottedLeavingSite(properties, World));
                     break;
+                case "entity searched site":
+                    World.Events.Add(new EntitySearchedSite(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
@@ -909,6 +912,23 @@ namespace LegendsViewer.Legends.Parser
                 }
             }
 
+            AssignBattleToSiteConquer();
+            AssignSiteToItemStolen();
+        }
+
+        private void AssignSiteToItemStolen()
+        {
+            foreach (var raid in World.EventCollections.OfType<Raid>().Where(r => r.Site != null))
+            {
+                foreach (var itemStolenEvent in raid.GetSubEvents().OfType<ItemStolen>().Where(i => i.Site == null))
+                {
+                    itemStolenEvent.Site = raid.Site;
+                }
+            }
+        }
+
+        private void AssignBattleToSiteConquer()
+        {
             //Assign a Conquering Event its corresponding battle
             //Battle = first Battle prior to the conquering?
             foreach (SiteConquered conquer in World.EventCollections.OfType<SiteConquered>())
@@ -923,12 +943,14 @@ namespace LegendsViewer.Legends.Parser
 
                     if (collection.GetType() == typeof(Battle))
                     {
-
                         conquer.Battle = collection as Battle;
-                        conquer.Battle.Conquering = conquer;
-                        if (conquer.Battle.Defender == null && conquer.Defender != null)
+                        if (conquer.Battle != null)
                         {
-                            conquer.Battle.Defender = conquer.Defender;
+                            conquer.Battle.Conquering = conquer;
+                            if (conquer.Battle.Defender == null && conquer.Defender != null)
+                            {
+                                conquer.Battle.Defender = conquer.Defender;
+                            }
                         }
 
                         break;

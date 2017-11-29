@@ -170,7 +170,7 @@ namespace LegendsViewer.Controls.HTML
                                attackerColor = ColorTranslator.ToHtml(race.Value),
                                defenderRace = war.Defender.Race,
                                defenderCiv = war.Defender.Parent != null ? war.Defender.Parent.Name : war.Defender.Name,
-                               defenderColor = ColorTranslator.ToHtml(World.MainRaces.First(x => x.Key == war.Defender.Race).Value)
+                               defenderColor = ColorTranslator.ToHtml(World.MainRaces.ContainsKey(war.Defender.Race) ? Color.Gray : World.MainRaces.FirstOrDefault(x => x.Key == war.Defender.Race).Value)
                            }).ToList();
 
             var allRaces = (from civilizedPopulations in _world.CivilizedPopulations select civilizedPopulations.Race).ToList();

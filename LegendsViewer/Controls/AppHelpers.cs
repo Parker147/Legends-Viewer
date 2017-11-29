@@ -117,6 +117,7 @@ namespace LegendsViewer.Controls
             new[] { "artifact found",                     "Artifact Found", ""},
             new[] { "sneak into site",                    "Sneak Into Site", ""},
             new[] { "spotted leaving site",               "Spotted Leaving Site", ""},
+            new[] { "entity searched site",               "Entity Searched Site", ""},
 
             new[] { "INVALID",                     "INVALID EVENT",                            ""}
         };

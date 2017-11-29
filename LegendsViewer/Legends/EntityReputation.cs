@@ -34,6 +34,7 @@ namespace LegendsViewer.Legends
                     case "rep_hunter": Reputations.Add(ReputationType.Hunter, Convert.ToInt32(property.Value)); break;
                     case "rep_treasure_hunter": Reputations.Add(ReputationType.TreasureHunter, Convert.ToInt32(property.Value)); break;
                     case "rep_knowledge_preserver": Reputations.Add(ReputationType.KnowledgePreserver, Convert.ToInt32(property.Value)); break;
+                    case "rep_protector_of_weak": Reputations.Add(ReputationType.ProtectorOfWeak, Convert.ToInt32(property.Value)); break;
                 }
             }
         }
