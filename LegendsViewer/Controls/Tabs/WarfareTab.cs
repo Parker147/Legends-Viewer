@@ -203,7 +203,6 @@ namespace LegendsViewer.Controls.Tabs
             txtBattleSearch.Clear();
 
             radBattleSortNone.Checked = true;
-            //tcWorld.SelectedTab = tpWarfare;
             tcWarfare.SelectedTab = tpBattles;
             tcBattles.SelectedTab = tpBattlesSearch;
             SearchBattleList(null, null);
@@ -260,7 +259,7 @@ namespace LegendsViewer.Controls.Tabs
                 _raidsSearch.Name = txtRaidSearch.Text;
                 _raidsSearch.SortEvents = radRaidSortEvents.Checked;
                 _raidsSearch.SortFiltered = radRaidSortFiltered.Checked;
-                _raidsSearch.SortDeaths = radRaidSortDeaths.Checked;
+                _raidsSearch.SortItemsStolen = radRaidSortStolen.Checked;
                 IEnumerable<Raid> list = _raidsSearch.GetList();
                 var results = list.ToArray();
                 listRaidSearch.SetObjects(results);

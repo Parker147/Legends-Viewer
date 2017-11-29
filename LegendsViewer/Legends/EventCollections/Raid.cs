@@ -19,8 +19,7 @@ namespace LegendsViewer.Legends.EventCollections
         public Site Site { get; set; }
         public Entity Attacker { get; set; }
         public Entity Defender { get; set; }
-        public List<HistoricalFigure> Deaths { get { return GetSubEvents().OfType<HfDied>().Select(death => death.HistoricalFigure).ToList(); } set { } }
-        public int DeathCount { get { return Deaths.Count; } set { } }
+        public int ItemsStolenCount { get { return GetSubEvents().OfType<ItemStolen>().Count(); } set { } }
         public EventCollection ParentEventCol { get; set; }
 
         public static List<string> Filters;
@@ -61,7 +60,7 @@ namespace LegendsViewer.Legends.EventCollections
             {
                 string title = Type;
                 title += "&#13";
-                title += "Deaths: " + DeathCount;
+                title += "Items Stolen: " + ItemsStolenCount;
 
                 string linkedString = "";
                 if (pov != this)

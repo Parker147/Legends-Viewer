@@ -510,7 +510,7 @@ namespace LegendsViewer.Controls
     public class RaidsList : WorldObjectList
     {
         public string Name;
-        public bool SortDeaths;
+        public bool SortItemsStolen;
         public List<Raid> BaseList;
         public RaidsList(World setWorld) : base(setWorld)
         {
@@ -526,17 +526,17 @@ namespace LegendsViewer.Controls
 
             if (SortEvents)
             {
-                filtered = filtered.OrderByDescending(battle => battle.GetSubEvents().Count);
+                filtered = filtered.OrderByDescending(raid => raid.GetSubEvents().Count);
             }
 
             if (SortFiltered)
             {
-                filtered = filtered.OrderByDescending(battle => battle.GetSubEvents().Count(ev => !Battle.Filters.Contains(ev.Type)));
+                filtered = filtered.OrderByDescending(raid => raid.GetSubEvents().Count(ev => !Battle.Filters.Contains(ev.Type)));
             }
 
-            if (SortDeaths)
+            if (SortItemsStolen)
             {
-                filtered = filtered.OrderByDescending(battle => battle.Deaths.Count);
+                filtered = filtered.OrderByDescending(raid => raid.ItemsStolenCount);
             }
 
             return MaxResults > 0 ? filtered.Take(MaxResults) : filtered;

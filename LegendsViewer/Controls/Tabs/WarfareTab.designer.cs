@@ -120,7 +120,7 @@ namespace LegendsViewer.Controls.Tabs
             this.btnRaidSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.radRaidSortDeaths = new System.Windows.Forms.RadioButton();
+            this.radRaidSortStolen = new System.Windows.Forms.RadioButton();
             this.radRaidSortFiltered = new System.Windows.Forms.RadioButton();
             this.radRaidSortNone = new System.Windows.Forms.RadioButton();
             this.radRaidSortEvents = new System.Windows.Forms.RadioButton();
@@ -1204,9 +1204,9 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // olvColumn8
             // 
-            this.olvColumn8.AspectName = "DeathCount";
+            this.olvColumn8.AspectName = "ItemsStolenCount";
             this.olvColumn8.IsEditable = false;
-            this.olvColumn8.Text = "Deaths";
+            this.olvColumn8.Text = "Stolen";
             this.olvColumn8.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.olvColumn8.Width = 50;
             // 
@@ -1255,7 +1255,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.radRaidSortDeaths);
+            this.groupBox2.Controls.Add(this.radRaidSortStolen);
             this.groupBox2.Controls.Add(this.radRaidSortFiltered);
             this.groupBox2.Controls.Add(this.radRaidSortNone);
             this.groupBox2.Controls.Add(this.radRaidSortEvents);
@@ -1266,17 +1266,17 @@ namespace LegendsViewer.Controls.Tabs
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sort By";
             // 
-            // radRaidSortDeaths
+            // radRaidSortStolen
             // 
-            this.radRaidSortDeaths.AutoSize = true;
-            this.radRaidSortDeaths.Location = new System.Drawing.Point(6, 63);
-            this.radRaidSortDeaths.Name = "radRaidSortDeaths";
-            this.radRaidSortDeaths.Size = new System.Drawing.Size(59, 17);
-            this.radRaidSortDeaths.TabIndex = 17;
-            this.radRaidSortDeaths.TabStop = true;
-            this.radRaidSortDeaths.Text = "Deaths";
-            this.radRaidSortDeaths.UseVisualStyleBackColor = true;
-            this.radRaidSortDeaths.CheckedChanged += new System.EventHandler(this.SearchRaidsList);
+            this.radRaidSortStolen.AutoSize = true;
+            this.radRaidSortStolen.Location = new System.Drawing.Point(6, 63);
+            this.radRaidSortStolen.Name = "radRaidSortStolen";
+            this.radRaidSortStolen.Size = new System.Drawing.Size(83, 17);
+            this.radRaidSortStolen.TabIndex = 17;
+            this.radRaidSortStolen.TabStop = true;
+            this.radRaidSortStolen.Text = "Items Stolen";
+            this.radRaidSortStolen.UseVisualStyleBackColor = true;
+            this.radRaidSortStolen.CheckedChanged += new System.EventHandler(this.SearchRaidsList);
             // 
             // radRaidSortFiltered
             // 
@@ -1477,7 +1477,7 @@ namespace LegendsViewer.Controls.Tabs
         private Button btnRaidSearch;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
-        private RadioButton radRaidSortDeaths;
+        private RadioButton radRaidSortStolen;
         private RadioButton radRaidSortFiltered;
         private RadioButton radRaidSortNone;
         private RadioButton radRaidSortEvents;
