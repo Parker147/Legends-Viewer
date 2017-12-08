@@ -104,8 +104,10 @@ namespace LegendsViewer.Legends.Events
                                 Reason = ChangeHfStateReason.Pilgrimage;
                                 break;
                             default:
-                                Reason = ChangeHfStateReason.Unknown;
-                                property.Known = false;
+                                if (property.Value != "-1")
+                                {
+                                    property.Known = false;
+                                }
                                 break;
                         }
                         break;

@@ -26,19 +26,19 @@ namespace LegendsViewer.Legends.Events
                     case "civ": Civ = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "histfig": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "link_type":
-                        switch (property.Value.Replace("_", " "))
+                        switch (property.Value)
                         {
                             case "lair": LinkType = SiteLinkType.Lair; break;
                             case "hangout": LinkType = SiteLinkType.Hangout; break;
-                            case "home site building": LinkType = SiteLinkType.HomeSiteBuilding; break;
-                            case "home site underground": LinkType = SiteLinkType.HomeSiteUnderground; break;
-                            case "home structure": LinkType = SiteLinkType.HomeStructure; break;
-                            case "seat of power": LinkType = SiteLinkType.SeatOfPower; break;
+                            case "home_site_building": LinkType = SiteLinkType.HomeSiteBuilding; break;
+                            case "home_site_underground": LinkType = SiteLinkType.HomeSiteUnderground; break;
+                            case "home_structure": LinkType = SiteLinkType.HomeStructure; break;
+                            case "seat_of_power": LinkType = SiteLinkType.SeatOfPower; break;
                             case "occupation": LinkType = SiteLinkType.Occupation; break;
-                            case "home site realization building": LinkType = SiteLinkType.HomeSiteRealizationBuilding; break;
+                            case "home_site_realization_building": LinkType = SiteLinkType.HomeSiteRealizationBuilding; break;
+                            case "home_site_abstract_building": LinkType = SiteLinkType.HomeSiteAbstractBuilding; break;
                             default:
-                                LinkType = SiteLinkType.Unknown;
-                                world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value.Replace("_", " "));
+                                property.Known = false;
                                 break;
                         }
                         break;
@@ -68,6 +68,7 @@ namespace LegendsViewer.Legends.Events
             }
             switch (LinkType)
             {
+                case SiteLinkType.HomeSiteAbstractBuilding:
                 case SiteLinkType.HomeSiteRealizationBuilding:
                     eventString += " moved out of ";
                     break;
@@ -76,6 +77,9 @@ namespace LegendsViewer.Legends.Events
                     break;
                 case SiteLinkType.SeatOfPower:
                     eventString += " stopped working from ";
+                    break;
+                case SiteLinkType.Occupation:
+                    eventString += " stopped working at ";
                     break;
                 default:
                     eventString += " UNKNOWN LINKTYPE (" + LinkType + ") ";

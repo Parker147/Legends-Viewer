@@ -72,11 +72,6 @@ namespace LegendsViewer.Legends.Events
                     CircumstanceHf.AddEvent(this);
                 }
             }
-            if (!string.IsNullOrWhiteSpace(WrittenContentId))
-            {
-                WrittenContent = world.GetWrittenContent(Convert.ToInt32(WrittenContentId));
-                WrittenContent.AddEvent(this);
-            }
         }
 
         public override string Print(bool link = true, DwarfObject pov = null)

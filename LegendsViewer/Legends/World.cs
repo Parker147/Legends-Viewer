@@ -106,6 +106,7 @@ namespace LegendsViewer.Legends
             ResolveSiteToRegionLinks();
             ResolveHfToEntityPopulation();
             ResolveArtifactProperties();
+            ResolveArtformEventsProperties();
 
             HistoricalFigure.Filters = new List<string>();
             Site.Filters = new List<string>();
@@ -758,6 +759,42 @@ namespace LegendsViewer.Legends
             foreach (var artifact in Artifacts)
             {
                 artifact.Resolve(this);
+            }
+        }
+
+        private void ResolveArtformEventsProperties()
+        {
+            foreach (var formCreated in Events.OfType<DanceFormCreated>())
+            {
+                if (!string.IsNullOrWhiteSpace(formCreated.FormId))
+                {
+                    formCreated.ArtForm = GetDanceForm(Convert.ToInt32(formCreated.FormId));
+                    formCreated.ArtForm.AddEvent(formCreated);
+                }
+            }
+            foreach (var formCreated in Events.OfType<MusicalFormCreated>())
+            {
+                if (!string.IsNullOrWhiteSpace(formCreated.FormId))
+                {
+                    formCreated.ArtForm = GetMusicalForm(Convert.ToInt32(formCreated.FormId));
+                    formCreated.ArtForm.AddEvent(formCreated);
+                }
+            }
+            foreach (var formCreated in Events.OfType<PoeticFormCreated>())
+            {
+                if (!string.IsNullOrWhiteSpace(formCreated.FormId))
+                {
+                    formCreated.ArtForm = GetPoeticForm(Convert.ToInt32(formCreated.FormId));
+                    formCreated.ArtForm.AddEvent(formCreated);
+                }
+            }
+            foreach (var writtenContentComposed in Events.OfType<WrittenContentComposed>())
+            {
+                if (!string.IsNullOrWhiteSpace(writtenContentComposed.WrittenContentId))
+                {
+                    writtenContentComposed.WrittenContent = GetWrittenContent(Convert.ToInt32(writtenContentComposed.WrittenContentId));
+                    writtenContentComposed.WrittenContent.AddEvent(writtenContentComposed);
+                }
             }
         }
 

@@ -35,7 +35,7 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            eventString += Attacker.PrintEntity(true, pov);
+            eventString += Attacker?.PrintEntity(true, pov) ?? "an unknown civilization";
             eventString += " attacked ";
             if (SiteEntity != null)
             {
@@ -43,7 +43,7 @@ namespace LegendsViewer.Legends.Events
             }
             else
             {
-                eventString += Defender.PrintEntity(true, pov);
+                eventString += Defender?.PrintEntity(true, pov) ?? "an unknown civilization";
             }
             eventString += " at " + Site.ToLink(link, pov) + ". ";
             if (AttackerGeneral != null)

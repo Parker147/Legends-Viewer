@@ -12,12 +12,12 @@ namespace LegendsViewer.Legends.Parser
 {
     public class XmlParser : IDisposable
     {
+        protected readonly XmlTextReader Xml;
         protected World World;
-        protected XmlTextReader Xml;
-        protected string CurrentSectionName = "";
         protected Section CurrentSection = Section.Unknown;
-        protected string CurrentItemName = "";
-        private XmlPlusParser _xmlPlusParser;
+
+        private string _currentItemName = "";
+        private readonly XmlPlusParser _xmlPlusParser;
 
         protected XmlParser(string xmlFile)
         {
@@ -45,7 +45,7 @@ namespace LegendsViewer.Legends.Parser
             }
         }
 
-        public void Parse()
+        public virtual void Parse()
         {
             while (!Xml.EOF)
             {
@@ -65,17 +65,6 @@ namespace LegendsViewer.Legends.Parser
                 }
             }
             Xml.Close();
-        }
-
-        private void GetSectionStart()
-        {
-            CurrentSectionName = "";
-            if (Xml.NodeType == XmlNodeType.Element)
-            {
-                CurrentSectionName = Xml.Name;
-            }
-
-            CurrentSection = GetSectionType(CurrentSectionName);
         }
 
         protected Section GetSectionType(string sectionName)
@@ -128,16 +117,13 @@ namespace LegendsViewer.Legends.Parser
             }
         }
 
-        protected void ParseSection()
+        protected virtual void ParseSection()
         {
             Xml.ReadStartElement();
             while (Xml.NodeType != XmlNodeType.EndElement)
             {
                 List<Property> item = ParseItem();
-                if (_xmlPlusParser != null)
-                {
-                    _xmlPlusParser.AddNewProperties(item, CurrentSection);
-                }
+                _xmlPlusParser?.AddNewProperties(item, CurrentSection);
                 AddItemToWorld(item);
             }
             ProcessXmlSection(CurrentSection); //Done with section, do post processing
@@ -155,9 +141,9 @@ namespace LegendsViewer.Legends.Parser
             Xml.ReadEndElement();
         }
 
-        public List<Property> ParseItem()
+        protected List<Property> ParseItem()
         {
-            CurrentItemName = Xml.Name;
+            _currentItemName = Xml.Name;
             if (Xml.NodeType == XmlNodeType.EndElement)
             {
                 return null;
@@ -165,7 +151,7 @@ namespace LegendsViewer.Legends.Parser
 
             Xml.ReadStartElement();
             List<Property> properties = new List<Property>();
-            while (Xml.NodeType != XmlNodeType.EndElement && Xml.Name != CurrentItemName)
+            while (Xml.NodeType != XmlNodeType.EndElement && Xml.Name != _currentItemName)
             {
                 properties.Add(ParseProperty());
             }
@@ -709,7 +695,7 @@ namespace LegendsViewer.Legends.Parser
             if (section == Section.HistoricalFigures)
             {
                 World.HistoricalFiguresByName = new List<HistoricalFigure>(World.HistoricalFigures);
-                World.HistoricalFiguresByName.Sort((a, b) => String.Compare(a.Name, b.Name));
+                World.HistoricalFiguresByName.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
                 World.ProcessHFtoHfLinks();
             }
 
@@ -717,7 +703,7 @@ namespace LegendsViewer.Legends.Parser
             if (section == Section.Entities)
             {
                 World.EntitiesByName = new List<Entity>(World.Entities);
-                World.EntitiesByName.Sort((a, b) => String.Compare(a.Name, b.Name));
+                World.EntitiesByName.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
                 World.ProcessReputations();
                 World.ProcessHFtoSiteLinks();
                 World.ProcessEntityEntityLinks();
@@ -801,11 +787,11 @@ namespace LegendsViewer.Legends.Parser
                 if (beastAttack.Beast == null && beastAttack.GetSubEvents().OfType<HfDied>().Any())
                 {
                     var hfDied = beastAttack.GetSubEvents().OfType<HfDied>().FirstOrDefault();
-                    if (hfDied.HistoricalFigure != null && hfDied.HistoricalFigure.RelatedSites.Any(siteLink => siteLink.Type == SiteLinkType.Lair))
+                    if (hfDied?.HistoricalFigure != null && hfDied.HistoricalFigure.RelatedSites.Any(siteLink => siteLink.Type == SiteLinkType.Lair))
                     {
                         beastAttack.Beast = hfDied.HistoricalFigure;
                     }
-                    else if (hfDied.Slayer != null && hfDied.Slayer.RelatedSites.Any(siteLink => siteLink.Type == SiteLinkType.Lair))
+                    else if (hfDied?.Slayer != null && hfDied.Slayer.RelatedSites.Any(siteLink => siteLink.Type == SiteLinkType.Lair))
                     {
                         beastAttack.Beast = hfDied.Slayer;
                     }
@@ -965,7 +951,7 @@ namespace LegendsViewer.Legends.Parser
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {

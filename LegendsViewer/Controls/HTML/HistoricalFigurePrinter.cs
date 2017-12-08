@@ -48,10 +48,12 @@ namespace LegendsViewer.Controls.HTML
 
         private void PrintRelatedArtifacts()
         {
-            var createdArtifacts = _historicalFigure.Events.OfType<ArtifactCreated>().Select(e => e.Artifact).ToList();
+            var createdArtifacts = _historicalFigure.Events.OfType<ArtifactCreated>().Where(e => e.HistoricalFigure == _historicalFigure).Select(e => e.Artifact).ToList();
+            var sanctifyArtifacts = _historicalFigure.Events.OfType<ArtifactCreated>().Where(e => e.SanctifyFigure == _historicalFigure).Select(e => e.Artifact).ToList();
             var possessedArtifacts = _historicalFigure.Events.OfType<ArtifactPossessed>().Select(e => e.Artifact).ToList();
             var storedArtifacts = _historicalFigure.Events.OfType<ArtifactStored>().Select(e => e.Artifact).ToList();
             var relatedArtifacts = createdArtifacts
+                .Union(sanctifyArtifacts)
                 .Union(possessedArtifacts)
                 .Union(storedArtifacts)
                 .Union(_historicalFigure.HoldingArtifacts)
@@ -75,6 +77,10 @@ namespace LegendsViewer.Controls.HTML
                 if (createdArtifacts.Contains(artifact))
                 {
                     relations.Add("created");
+                }
+                if (sanctifyArtifacts.Contains(artifact))
+                {
+                    relations.Add("sanctify");
                 }
                 if (possessedArtifacts.Contains(artifact))
                 {
