@@ -42,12 +42,12 @@ namespace LegendsViewer.Legends.Events
 
             if (DestSite != null)
             {
-                DestStructure = DestSite.Structures.FirstOrDefault(structure => structure.LocalId == DestStructureId);
+                DestStructure = DestSite.Structures.FirstOrDefault(structure => structure.Id == DestStructureId);
             }
 
             if (SourceSite != null)
             {
-                SourceStructure = SourceSite.Structures.FirstOrDefault(structure => structure.LocalId == SourceStructureId);
+                SourceStructure = SourceSite.Structures.FirstOrDefault(structure => structure.Id == SourceStructureId);
             }
 
             Artifact.AddEvent(this);

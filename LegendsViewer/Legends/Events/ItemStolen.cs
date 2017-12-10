@@ -83,7 +83,7 @@ namespace LegendsViewer.Legends.Events
             }
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
             }
             Thief.AddEvent(this);
             Site.AddEvent(this);

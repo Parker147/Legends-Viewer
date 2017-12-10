@@ -151,6 +151,11 @@ namespace LegendsViewer.Legends.Parser
 
                             if (matchingProperty != null)
                             {
+                                if (CurrentSection == Section.Sites && property.Name == "structures")
+                                {
+                                    matchingProperty.SubProperties = property.SubProperties;
+                                    continue;
+                                }
                                 matchingProperty.Value = property.Value;
                                 matchingProperty.Known = false;
                                 if (matchingProperty.SubProperties == null)
