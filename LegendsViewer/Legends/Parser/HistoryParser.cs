@@ -106,7 +106,7 @@ namespace LegendsViewer.Legends.Parser
                     }
                     catch (Exception e)
                     {
-                        worship = _world.HistoricalFiguresByName.FirstOrDefault(h => h.Name.Equals(worshipName, StringComparison.OrdinalIgnoreCase) && h.Deity);
+                        worship = _world.HistoricalFiguresByName.FirstOrDefault(h => h.Name.Equals(worshipName, StringComparison.OrdinalIgnoreCase) && (h.Deity || h.Force));
                         if (worship == null)
                         {
                             _log.AppendLine(e.Message + ", a Worship of " + _currentCiv.Name);
