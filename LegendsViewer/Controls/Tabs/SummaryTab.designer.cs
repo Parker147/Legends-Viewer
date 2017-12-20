@@ -51,8 +51,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // btnXMLPlus
             // 
-            this.btnXMLPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnXMLPlus.Location = new System.Drawing.Point(232, 114);
+            this.btnXMLPlus.Location = new System.Drawing.Point(8, 110);
             this.btnXMLPlus.Name = "btnXMLPlus";
             this.btnXMLPlus.Size = new System.Drawing.Size(30, 23);
             this.btnXMLPlus.TabIndex = 37;
@@ -65,7 +64,7 @@ namespace LegendsViewer.Controls.Tabs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtXMLPlus.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtXMLPlus.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtXMLPlus.Location = new System.Drawing.Point(8, 115);
+            this.txtXMLPlus.Location = new System.Drawing.Point(42, 111);
             this.txtXMLPlus.Name = "txtXMLPlus";
             this.txtXMLPlus.ReadOnly = true;
             this.txtXMLPlus.Size = new System.Drawing.Size(218, 20);
@@ -89,9 +88,9 @@ namespace LegendsViewer.Controls.Tabs
             this.btnChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnChart.AutoSize = true;
             this.btnChart.Image = global::LegendsViewer.Properties.Resources.chart16x16;
-            this.btnChart.Location = new System.Drawing.Point(182, 458);
+            this.btnChart.Location = new System.Drawing.Point(182, 457);
             this.btnChart.Name = "btnChart";
-            this.btnChart.Size = new System.Drawing.Size(78, 24);
+            this.btnChart.Size = new System.Drawing.Size(78, 25);
             this.btnChart.TabIndex = 34;
             this.btnChart.Text = "Charts";
             this.btnChart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -103,9 +102,9 @@ namespace LegendsViewer.Controls.Tabs
             this.btnStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnStats.AutoSize = true;
             this.btnStats.Image = global::LegendsViewer.Properties.Resources.globe16x16;
-            this.btnStats.Location = new System.Drawing.Point(10, 458);
+            this.btnStats.Location = new System.Drawing.Point(10, 457);
             this.btnStats.Name = "btnStats";
-            this.btnStats.Size = new System.Drawing.Size(78, 24);
+            this.btnStats.Size = new System.Drawing.Size(76, 25);
             this.btnStats.TabIndex = 33;
             this.btnStats.Text = "Summary";
             this.btnStats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -117,9 +116,9 @@ namespace LegendsViewer.Controls.Tabs
             this.btnShowMap.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnShowMap.AutoSize = true;
             this.btnShowMap.Image = global::LegendsViewer.Properties.Resources.map16x16;
-            this.btnShowMap.Location = new System.Drawing.Point(91, 458);
+            this.btnShowMap.Location = new System.Drawing.Point(91, 457);
             this.btnShowMap.Name = "btnShowMap";
-            this.btnShowMap.Size = new System.Drawing.Size(85, 24);
+            this.btnShowMap.Size = new System.Drawing.Size(85, 25);
             this.btnShowMap.TabIndex = 32;
             this.btnShowMap.Text = "World Map";
             this.btnShowMap.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -128,8 +127,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // btnMap
             // 
-            this.btnMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMap.Location = new System.Drawing.Point(232, 89);
+            this.btnMap.Location = new System.Drawing.Point(8, 86);
             this.btnMap.Name = "btnMap";
             this.btnMap.Size = new System.Drawing.Size(30, 23);
             this.btnMap.TabIndex = 31;
@@ -142,7 +140,7 @@ namespace LegendsViewer.Controls.Tabs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMap.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtMap.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtMap.Location = new System.Drawing.Point(8, 90);
+            this.txtMap.Location = new System.Drawing.Point(42, 87);
             this.txtMap.Name = "txtMap";
             this.txtMap.ReadOnly = true;
             this.txtMap.Size = new System.Drawing.Size(218, 20);
@@ -168,7 +166,7 @@ namespace LegendsViewer.Controls.Tabs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSitePops.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtSitePops.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtSitePops.Location = new System.Drawing.Point(8, 65);
+            this.txtSitePops.Location = new System.Drawing.Point(42, 63);
             this.txtSitePops.Name = "txtSitePops";
             this.txtSitePops.ReadOnly = true;
             this.txtSitePops.Size = new System.Drawing.Size(218, 20);
@@ -181,7 +179,7 @@ namespace LegendsViewer.Controls.Tabs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHistory.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtHistory.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtHistory.Location = new System.Drawing.Point(8, 40);
+            this.txtHistory.Location = new System.Drawing.Point(42, 40);
             this.txtHistory.Name = "txtHistory";
             this.txtHistory.ReadOnly = true;
             this.txtHistory.Size = new System.Drawing.Size(218, 20);
@@ -190,8 +188,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // btnSitePops
             // 
-            this.btnSitePops.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSitePops.Location = new System.Drawing.Point(232, 64);
+            this.btnSitePops.Location = new System.Drawing.Point(8, 62);
             this.btnSitePops.Name = "btnSitePops";
             this.btnSitePops.Size = new System.Drawing.Size(30, 23);
             this.btnSitePops.TabIndex = 26;
@@ -200,8 +197,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // btnHistory
             // 
-            this.btnHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHistory.Location = new System.Drawing.Point(232, 39);
+            this.btnHistory.Location = new System.Drawing.Point(8, 38);
             this.btnHistory.Name = "btnHistory";
             this.btnHistory.Size = new System.Drawing.Size(30, 23);
             this.btnHistory.TabIndex = 25;
@@ -210,8 +206,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // btnXML
             // 
-            this.btnXML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnXML.Location = new System.Drawing.Point(232, 14);
+            this.btnXML.Location = new System.Drawing.Point(8, 14);
             this.btnXML.Name = "btnXML";
             this.btnXML.Size = new System.Drawing.Size(30, 23);
             this.btnXML.TabIndex = 24;
@@ -224,7 +219,7 @@ namespace LegendsViewer.Controls.Tabs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtXML.BackColor = System.Drawing.SystemColors.MenuBar;
             this.txtXML.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.txtXML.Location = new System.Drawing.Point(8, 15);
+            this.txtXML.Location = new System.Drawing.Point(42, 16);
             this.txtXML.Name = "txtXML";
             this.txtXML.ReadOnly = true;
             this.txtXML.Size = new System.Drawing.Size(218, 20);
@@ -240,7 +235,7 @@ namespace LegendsViewer.Controls.Tabs
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(254, 284);
+            this.txtLog.Size = new System.Drawing.Size(252, 284);
             this.txtLog.TabIndex = 22;
             this.txtLog.Text = "";
             this.txtLog.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLog_KeyDown);
