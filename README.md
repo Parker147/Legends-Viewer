@@ -1,6 +1,6 @@
+[![Bay12Forum Thread](https://img.shields.io/badge/Bay12-Forum-blue.svg)](http://www.bay12forums.com/smf/index.php?topic=154617.0)
+[![DFFD Download](https://img.shields.io/badge/DFFD-Download-blue.svg)](http://dffd.bay12games.com/file.php?id=11455)
 [![Build status](https://ci.appveyor.com/api/projects/status/2dcxapcp3tium23l?svg=true)](https://ci.appveyor.com/project/Kromtec/legends-viewer)
-[![Bay12Forum Thread](https://img.shields.io/badge/Bay12-Forum-837E7A.svg)](http://www.bay12forums.com/smf/index.php?topic=154617.0)
-[![DFFD Download](https://img.shields.io/badge/DFFD-Download-837E7A.svg)](http://dffd.bay12games.com/file.php?id=11455)
 
 # Legends Viewer
 
