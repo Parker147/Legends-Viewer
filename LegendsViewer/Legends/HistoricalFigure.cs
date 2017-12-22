@@ -23,6 +23,43 @@ namespace LegendsViewer.Legends
 
         public static HistoricalFigure Unknown;
         public string Name { get; set; }
+
+        private string ShortName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_shortName))
+                {
+                    _shortName = Name.IndexOf(" ", StringComparison.Ordinal) >= 2 ? Name.Substring(0, Name.IndexOf(" ", StringComparison.Ordinal)) : Name;
+                }
+                return _shortName;
+            }
+        }
+
+        private string RaceString
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_raceString))
+                {
+                    _raceString = GetRaceString();
+                }
+                return _raceString;
+            }
+        }
+
+        private string Title
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_title))
+                {
+                    _title = GetAnchorTitle();
+                }
+                return _title;
+            }
+        }
+
         public string Race { get; set; }
         public string PreviousRace { get; set; }
         public string Caste { get; set; }
@@ -88,6 +125,10 @@ namespace LegendsViewer.Legends
         public string BreedId { get; set; }
 
         public static List<string> Filters;
+        private string _shortName;
+        private string _raceString;
+        private string _title;
+
         public override List<WorldEvent> FilteredEvents
         {
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
@@ -305,23 +346,22 @@ namespace LegendsViewer.Legends
             if (link)
             {
                 string icon = GetIcon();
-                string title = GetAnchorTitle();
                 if (pov == null || pov != this)
                 {
-                    if (pov != null && pov.GetType() == typeof(BeastAttack) && (pov as BeastAttack).Beast == this) //Highlight Beast when printing Beast Attack Log
+                    if (pov != null && pov.GetType() == typeof(BeastAttack) && (pov as BeastAttack)?.Beast == this) //Highlight Beast when printing Beast Attack Log
                     {
-                        return icon + "<a href=\"hf#" + Id + "\" title=\"" + title + "\"><font color=#339900>" + (Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name) + "</font></a>";
+                        return icon + "<a href=\"hf#" + Id + "\" title=\"" + Title + "\"><font color=#339900>" + ShortName + "</font></a>";
                     }
 
-                    return "the " + GetRaceString() + " " + icon + "<a href=\"hf#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return "the " + RaceString + " " + icon + "<a href=\"hf#" + Id + "\" title=\"" + Title + "\">" + Name + "</a>";
                 }
-                return "<a href=\"hf#" + Id + "\" title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name) + "</a>";
+                return "<a href=\"hf#" + Id + "\" title=\"" + Title + "\">" + HtmlStyleUtil.CurrentDwarfObject(ShortName) + "</a>";
             }
             if (pov == null || pov != this)
             {
-                return GetRaceString() + " " + Name;
+                return RaceString + " " + Name;
             }
-            return Name.IndexOf(" ") > 0 ? Name.Substring(0, Name.IndexOf(" ")) : Name;
+            return ShortName;
         }
 
         private string GetIcon()
@@ -363,7 +403,7 @@ namespace LegendsViewer.Legends
                 title += "&#13";
             }
             title += !string.IsNullOrWhiteSpace(Caste) && Caste != "Default" ? Caste + " " : "";
-            title += Formatting.InitCaps(GetRaceString());
+            title += Formatting.InitCaps(RaceString);
             if (!Deity && !Force)
             {
                 title += " (" + BirthYear + " - " + (DeathYear == -1 ? "Present" : DeathYear.ToString()) + ")";
@@ -399,9 +439,9 @@ namespace LegendsViewer.Legends
             string dead = DeathYear != -1 ? "<br/>" + HtmlStyleUtil.SymbolDead : "";
             if (pov == null || pov != this)
             {
-                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " href=\"hf#" + Id + "\" title=\"" + GetAnchorTitle() + "\">" + Race + (Deity ? " Deity" : "") + "<br/>" + Name + dead + "</a>";
+                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " href=\"hf#" + Id + "\" title=\"" + Title + "\">" + Race + (Deity ? " Deity" : "") + "<br/>" + Name + dead + "</a>";
             }
-            return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " title=\"" + GetAnchorTitle() + "\">" + Race + (Deity ? " Deity" : "") + "<br/>" + HtmlStyleUtil.CurrentDwarfObject(Name) + dead + "</a>";
+            return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " title=\"" + Title + "\">" + Race + (Deity ? " Deity" : "") + "<br/>" + HtmlStyleUtil.CurrentDwarfObject(Name) + dead + "</a>";
         }
 
         public class Position
