@@ -23,14 +23,13 @@ namespace LegendsViewer.Legends
                         {
                             case "lair": Type = SiteLinkType.Lair; break;
                             case "hangout": Type = SiteLinkType.Hangout; break;
-                            case "home site building": Type = SiteLinkType.HomeSiteBuilding; break;
-                            case "home site underground": Type = SiteLinkType.HomeSiteUnderground; break;
-                            case "home structure": Type = SiteLinkType.HomeStructure; break;
-                            case "seat of power": Type = SiteLinkType.SeatOfPower; break;
+                            case "home_site_building": Type = SiteLinkType.HomeSiteBuilding; break;
+                            case "home_site_underground": Type = SiteLinkType.HomeSiteUnderground; break;
+                            case "home_structure": Type = SiteLinkType.HomeStructure; break;
+                            case "seat_of_power": Type = SiteLinkType.SeatOfPower; break;
                             case "occupation": Type = SiteLinkType.Occupation; break;
-                            default: 
-                                Type = SiteLinkType.Unknown;
-                                world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value);
+                            default:
+                                property.Known = false;
                                 break;
                         }
                         break;

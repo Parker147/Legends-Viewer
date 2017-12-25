@@ -38,9 +38,9 @@ namespace LegendsViewer.Legends.Events
                             case "seat of power": LinkType = SiteLinkType.SeatOfPower; break;
                             case "occupation": LinkType = SiteLinkType.Occupation; break;
                             case "home site realization building": LinkType = SiteLinkType.HomeSiteRealizationBuilding; break;
+                            case "home site abstract building": LinkType = SiteLinkType.HomeSiteAbstractBuilding; break;
                             default:
-                                LinkType = SiteLinkType.Unknown;
-                                world.ParsingErrors.Report("Unknown Site Link Type: " + property.Value.Replace("_", " "));
+                                property.Known = false;
                                 break;
                         }
                         break;
@@ -49,7 +49,7 @@ namespace LegendsViewer.Legends.Events
             }
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
             }
             HistoricalFigure.AddEvent(this);
             Civ.AddEvent(this);
@@ -62,6 +62,7 @@ namespace LegendsViewer.Legends.Events
             eventString += HistoricalFigure != null ? HistoricalFigure.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
             switch (LinkType)
             {
+                case SiteLinkType.HomeSiteAbstractBuilding:
                 case SiteLinkType.HomeSiteRealizationBuilding:
                     eventString += " took up residence in ";
                     break;
@@ -70,6 +71,9 @@ namespace LegendsViewer.Legends.Events
                     break;
                 case SiteLinkType.SeatOfPower:
                     eventString += " started working from ";
+                    break;
+                case SiteLinkType.Occupation:
+                    eventString += " started working at ";
                     break;
                 default:
                     eventString += " UNKNOWN LINKTYPE (" + LinkType + ") ";

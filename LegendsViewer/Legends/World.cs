@@ -81,8 +81,6 @@ namespace LegendsViewer.Legends
             MainRaces.Clear();
             ParsingErrors = new ParsingErrors();
             Log = new StringBuilder();
-            //Log.AppendLine("Start: " + DateTime.Now.ToLongTimeString());
-            //Log.AppendLine();
 
             CreateUnknowns();
 
@@ -106,6 +104,7 @@ namespace LegendsViewer.Legends
             ResolveSiteToRegionLinks();
             ResolveHfToEntityPopulation();
             ResolveArtifactProperties();
+            ResolveArtformEventsProperties();
 
             HistoricalFigure.Filters = new List<string>();
             Site.Filters = new List<string>();
@@ -132,9 +131,9 @@ namespace LegendsViewer.Legends
             GenerateMaps(mapFile);
 
             Log.AppendLine(ParsingErrors.Print());
-            //Log.AppendLine("Finish: " + DateTime.Now.ToLongTimeString());
+
             sw.Stop();
-            Log.AppendLine("Duration: " + string.Format("{0} secs, {1:D3} ms ", sw.Elapsed.Seconds + sw.Elapsed.Minutes * 60, sw.Elapsed.Milliseconds));
+            Log.AppendLine($"Duration: {sw.Elapsed.Seconds + sw.Elapsed.Minutes * 60} secs, {sw.Elapsed.Milliseconds:D3} ms ");
         }
 
         public void AddPlayerRelatedDwarfObjects(DwarfObject dwarfObject)
@@ -305,23 +304,24 @@ namespace LegendsViewer.Legends
             while (min <= max)
             {
                 int mid = min + (max - min) / 2;
-                if (string.Compare(HistoricalFiguresByName[mid].Name, name, true) < 0)
+                if (string.Compare(HistoricalFiguresByName[mid].Name, name, StringComparison.OrdinalIgnoreCase) < 0)
                 {
                     min = mid + 1;
                 }
-                else if (string.Compare(HistoricalFiguresByName[mid].Name, name, true) > 0)
+                else if (string.Compare(HistoricalFiguresByName[mid].Name, name, StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     max = mid - 1;
                 }
-                else if (mid == 0 && string.Compare(HistoricalFigures[mid + 1].Name, name, true) != 0)
+                else if (mid == 0 && string.Compare(HistoricalFigures[mid + 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     return HistoricalFiguresByName[mid];
                 }
-                else if (mid == HistoricalFiguresByName.Count() - 1 && string.Compare(HistoricalFiguresByName[mid - 1].Name, name, true) != 0)
+                else if (mid == HistoricalFiguresByName.Count - 1 && string.Compare(HistoricalFiguresByName[mid - 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     return HistoricalFiguresByName[mid];
                 }
-                else if (string.Compare(HistoricalFiguresByName[mid - 1].Name, name, true) != 0 && string.Compare(HistoricalFiguresByName[mid + 1].Name, name, true) != 0) //checks duplicates
+                else if (string.Compare(HistoricalFiguresByName[mid - 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0 && 
+                         string.Compare(HistoricalFiguresByName[mid + 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0) //checks duplicates
                 {
                     return HistoricalFiguresByName[mid];
                 }
@@ -341,23 +341,23 @@ namespace LegendsViewer.Legends
             while (min <= max)
             {
                 int mid = min + (max - min) / 2;
-                if (string.Compare(EntitiesByName[mid].Name, name, true) < 0)
+                if (String.Compare(EntitiesByName[mid].Name, name, StringComparison.OrdinalIgnoreCase) < 0)
                 {
                     min = mid + 1;
                 }
-                else if (string.Compare(EntitiesByName[mid].Name, name, true) > 0)
+                else if (String.Compare(EntitiesByName[mid].Name, name, StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     max = mid - 1;
                 }
-                else if (mid == 0 && string.Compare(EntitiesByName[mid + 1].Name, name, true) != 0)
+                else if (mid == 0 && String.Compare(EntitiesByName[mid + 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     return EntitiesByName[mid];
                 }
-                else if (mid == EntitiesByName.Count - 1 && string.Compare(EntitiesByName[mid - 1].Name, name, true) != 0)
+                else if (mid == EntitiesByName.Count - 1 && String.Compare(EntitiesByName[mid - 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     return EntitiesByName[mid];
                 }
-                else if (string.Compare(EntitiesByName[mid - 1].Name, name, true) != 0 && string.Compare(EntitiesByName[mid + 1].Name, name, true) != 0)
+                else if (String.Compare(EntitiesByName[mid - 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0 && String.Compare(EntitiesByName[mid + 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     return EntitiesByName[mid];
                 }
@@ -758,6 +758,42 @@ namespace LegendsViewer.Legends
             foreach (var artifact in Artifacts)
             {
                 artifact.Resolve(this);
+            }
+        }
+
+        private void ResolveArtformEventsProperties()
+        {
+            foreach (var formCreated in Events.OfType<DanceFormCreated>())
+            {
+                if (!string.IsNullOrWhiteSpace(formCreated.FormId))
+                {
+                    formCreated.ArtForm = GetDanceForm(Convert.ToInt32(formCreated.FormId));
+                    formCreated.ArtForm.AddEvent(formCreated);
+                }
+            }
+            foreach (var formCreated in Events.OfType<MusicalFormCreated>())
+            {
+                if (!string.IsNullOrWhiteSpace(formCreated.FormId))
+                {
+                    formCreated.ArtForm = GetMusicalForm(Convert.ToInt32(formCreated.FormId));
+                    formCreated.ArtForm.AddEvent(formCreated);
+                }
+            }
+            foreach (var formCreated in Events.OfType<PoeticFormCreated>())
+            {
+                if (!string.IsNullOrWhiteSpace(formCreated.FormId))
+                {
+                    formCreated.ArtForm = GetPoeticForm(Convert.ToInt32(formCreated.FormId));
+                    formCreated.ArtForm.AddEvent(formCreated);
+                }
+            }
+            foreach (var writtenContentComposed in Events.OfType<WrittenContentComposed>())
+            {
+                if (!string.IsNullOrWhiteSpace(writtenContentComposed.WrittenContentId))
+                {
+                    writtenContentComposed.WrittenContent = GetWrittenContent(Convert.ToInt32(writtenContentComposed.WrittenContentId));
+                    writtenContentComposed.WrittenContent.AddEvent(writtenContentComposed);
+                }
             }
         }
 

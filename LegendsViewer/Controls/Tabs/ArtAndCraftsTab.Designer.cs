@@ -44,6 +44,7 @@ namespace LegendsViewer.Controls.Tabs
             this.lblArtifactList = new System.Windows.Forms.Label();
             this.btnArtifactSearch = new System.Windows.Forms.Button();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.chkWrittenContent = new System.Windows.Forms.CheckBox();
             this.lblArtMatFilter = new System.Windows.Forms.Label();
             this.cbmArtMatFilter = new System.Windows.Forms.ComboBox();
             this.lblArtTypeFilter = new System.Windows.Forms.Label();
@@ -113,7 +114,6 @@ namespace LegendsViewer.Controls.Tabs
             this.radPoeticFormsEvents = new System.Windows.Forms.RadioButton();
             this.txtPoeticFormsSearch = new System.Windows.Forms.TextBox();
             this.tpPoeticFormsEvents = new System.Windows.Forms.TabPage();
-            this.chkWrittenContent = new System.Windows.Forms.CheckBox();
             this.tcArtAndCrafts.SuspendLayout();
             this.tpArtifacts.SuspendLayout();
             this.tcArtifacts.SuspendLayout();
@@ -308,6 +308,17 @@ namespace LegendsViewer.Controls.Tabs
             this.groupBox19.TabIndex = 45;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Filter / Sort";
+            // 
+            // chkWrittenContent
+            // 
+            this.chkWrittenContent.AutoSize = true;
+            this.chkWrittenContent.Location = new System.Drawing.Point(6, 126);
+            this.chkWrittenContent.Name = "chkWrittenContent";
+            this.chkWrittenContent.Size = new System.Drawing.Size(130, 17);
+            this.chkWrittenContent.TabIndex = 22;
+            this.chkWrittenContent.Text = "Show Written Content";
+            this.chkWrittenContent.UseVisualStyleBackColor = true;
+            this.chkWrittenContent.CheckedChanged += new System.EventHandler(this.SearchArtifactList);
             // 
             // lblArtMatFilter
             // 
@@ -507,7 +518,7 @@ namespace LegendsViewer.Controls.Tabs
             // 
             // olvColumn2
             // 
-            this.olvColumn2.AspectName = "Type";
+            this.olvColumn2.AspectName = "TypeAsString";
             this.olvColumn2.IsEditable = false;
             this.olvColumn2.Text = "Type";
             this.olvColumn2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1162,17 +1173,6 @@ namespace LegendsViewer.Controls.Tabs
             this.tpPoeticFormsEvents.TabIndex = 1;
             this.tpPoeticFormsEvents.Text = "Events";
             this.tpPoeticFormsEvents.UseVisualStyleBackColor = true;
-            // 
-            // chkWrittenContent
-            // 
-            this.chkWrittenContent.AutoSize = true;
-            this.chkWrittenContent.Location = new System.Drawing.Point(6, 126);
-            this.chkWrittenContent.Name = "chkWrittenContent";
-            this.chkWrittenContent.Size = new System.Drawing.Size(130, 17);
-            this.chkWrittenContent.TabIndex = 22;
-            this.chkWrittenContent.Text = "Show Written Content";
-            this.chkWrittenContent.UseVisualStyleBackColor = true;
-            this.chkWrittenContent.CheckedChanged += new System.EventHandler(this.SearchArtifactList);
             // 
             // ArtAndCraftsTab
             // 

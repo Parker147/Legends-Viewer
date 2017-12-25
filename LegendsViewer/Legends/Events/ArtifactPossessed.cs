@@ -109,14 +109,17 @@ namespace LegendsViewer.Legends.Events
             }
             if (Site != null)
             {
-                eventString += " in " + Site.ToLink(link, pov);
+                eventString += " in ";
+                eventString += Site.ToLink(link, pov);
             }
             else if (Region != null)
             {
+                eventString += " in ";
                 eventString += Region.ToLink(link, pov);
             }
             else if (UndergroundRegion != null)
             {
+                eventString += " in ";
                 eventString += UndergroundRegion.ToLink(link, pov);
             }
 

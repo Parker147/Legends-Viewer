@@ -49,7 +49,7 @@ namespace LegendsViewer.Legends.Events
 
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
             }
             Artifact.AddEvent(this);
             HistoricalFigure.AddEvent(this);
@@ -77,10 +77,12 @@ namespace LegendsViewer.Legends.Events
             }
             else if (Region != null)
             {
+                eventString += " in ";
                 eventString += Region.ToLink(link, pov);
             }
             else if (UndergroundRegion != null)
             {
+                eventString += " in ";
                 eventString += UndergroundRegion.ToLink(link, pov);
             }
             eventString += PrintParentCollection(link, pov);

@@ -11,6 +11,7 @@ namespace LegendsViewer.Legends.Events
         public Site Site { get; set; }
         public int StructureId { get; set; }
         public Structure Structure { get; set; }
+        public string Action { get; set; }
 
 
         public HfPrayedInsideStructure(List<Property> properties, World world)
@@ -20,21 +21,41 @@ namespace LegendsViewer.Legends.Events
             {
                 switch (property.Name)
                 {
+                    case "histfig":
                     case "hist_fig_id":
-                        HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        if (HistoricalFigure == null)
+                        {
+                            HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        }
+                        else
+                        {
+                            property.Known = true;
+                        }
                         break;
+                    case "site":
                     case "site_id":
-                        Site = world.GetSite(Convert.ToInt32(property.Value));
+                        if (Site == null)
+                        {
+                            Site = world.GetSite(Convert.ToInt32(property.Value));
+                        }
+                        else
+                        {
+                            property.Known = true;
+                        }
                         break;
+                    case "structure":
                     case "structure_id":
                         StructureId = Convert.ToInt32(property.Value);
+                        break;
+                    case "action":
+                        Action = property.Value;
                         break;
                 }
             }
 
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
             }
             HistoricalFigure.AddEvent(this);
             Site.AddEvent(this);

@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace LegendsViewer.Legends.Parser
 {
-    class XmlPlusParser : XmlParser
+    public class XmlPlusParser : XmlParser
     {
         private bool _inMiddleOfSection;
         private List<Property> _currentItem;
@@ -11,10 +11,15 @@ namespace LegendsViewer.Legends.Parser
         public XmlPlusParser(World world, string xmlFile) : base(xmlFile)
         {
             World = world;
+            Init();
+        }
+
+        private void Init()
+        {
             Parse();
         }
 
-        new public void Parse()
+        public override void Parse()
         {
             if (Xml.ReadState == ReadState.Closed)
             {
@@ -49,7 +54,7 @@ namespace LegendsViewer.Legends.Parser
             }
         }
 
-        private new void ParseSection()
+        protected override void ParseSection()
         {
 
             while (Xml.NodeType == XmlNodeType.EndElement || Xml.NodeType == XmlNodeType.None)
@@ -113,48 +118,62 @@ namespace LegendsViewer.Legends.Parser
                 }
                 if (id != null && currentId != null && id.ValueAsInt().Equals(currentId.ValueAsInt()))
                 {
-                    foreach (var property in _currentItem)
+                    if (_currentItem != null)
                     {
-                        if (CurrentSection == Section.Entities && (property.Name == "entity_link" || property.Name == "child" || property.Name == "entity_position" || property.Name == "entity_position_assignment" || property.Name == "occasion"))
+                        foreach (var property in _currentItem)
                         {
-                            existingProperties.Add(property);
-                            continue;
-                        }
-                        if (CurrentSection == Section.Artifacts && property.Name == "writing")
-                        {
-                            existingProperties.Add(property);
-                            continue;
-                        }
-                        if (CurrentSection == Section.WrittenContent && property.Name == "style")
-                        {
-                            existingProperties.Add(property);
-                            continue;
-                        }
-                        Property matchingProperty = existingProperties.Find(p => p.Name == property.Name);
-                        if (CurrentSection == Section.Events && matchingProperty != null && 
-                            (matchingProperty.Name == "type" || matchingProperty.Name == "state" || matchingProperty.Name == "slayer_race"))
-                        {
-                            continue;
-                        }
-
-                        if (matchingProperty != null)
-                        {
-                            matchingProperty.Value = property.Value;
-                            matchingProperty.Known = false;
-                            if (matchingProperty.SubProperties == null)
+                            if (CurrentSection == Section.Entities &&
+                                (property.Name == "entity_link" || property.Name == "child" ||
+                                 property.Name == "entity_position" || property.Name == "entity_position_assignment" ||
+                                 property.Name == "occasion"))
                             {
-                                matchingProperty.SubProperties = property.SubProperties;
+                                existingProperties.Add(property);
+                                continue;
+                            }
+                            if (CurrentSection == Section.Artifacts && property.Name == "writing")
+                            {
+                                existingProperties.Add(property);
+                                continue;
+                            }
+                            if (CurrentSection == Section.WrittenContent && property.Name == "style")
+                            {
+                                existingProperties.Add(property);
+                                continue;
+                            }
+                            Property matchingProperty = existingProperties.Find(p => p.Name == property.Name);
+                            if (CurrentSection == Section.Events && matchingProperty != null &&
+                                (matchingProperty.Name == "type" || matchingProperty.Name == "state" ||
+                                 matchingProperty.Name == "slayer_race" || matchingProperty.Name == "circumstance" || 
+                                 matchingProperty.Name == "reason"))
+                            {
+                                continue;
+                            }
+
+                            if (matchingProperty != null)
+                            {
+                                if (CurrentSection == Section.Sites && property.Name == "structures")
+                                {
+                                    matchingProperty.SubProperties = property.SubProperties;
+                                    continue;
+                                }
+                                matchingProperty.Value = property.Value;
+                                matchingProperty.Known = false;
+                                if (matchingProperty.SubProperties == null)
+                                {
+                                    matchingProperty.SubProperties = property.SubProperties;
+                                }
+                                else
+                                {
+                                    matchingProperty.SubProperties.AddRange(property.SubProperties);
+                                }
                             }
                             else
                             {
-                                matchingProperty.SubProperties.AddRange(property.SubProperties);
+                                existingProperties.Add(property);
                             }
                         }
-                        else
-                        {
-                            existingProperties.Add(property);
-                        }
                     }
+
                     _currentItem = null;
                     Parse();
                 }

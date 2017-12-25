@@ -49,7 +49,7 @@ namespace LegendsViewer.Legends.Events
             }
             if (Site != null)
             {
-                Structure = Site.Structures.FirstOrDefault(structure => structure.LocalId == StructureId);
+                Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
             }
             Structure.AddEvent(this);
             HistoricalFigure.AddEvent(this);

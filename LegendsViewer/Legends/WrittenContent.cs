@@ -18,6 +18,7 @@ namespace LegendsViewer.Legends
         public HistoricalFigure Author { get; set; } // legends_plus.xml
         public List<string> Styles { get; set; } // legends_plus.xml
         public List<Reference> References { get; set; } // legends_plus.xml
+        public string TypeAsString { get { return Type.GetDescription(); } set { } }
         public int PageCount { get { return PageEnd - PageStart + 1; } set { } }
         public int AuthorRoll { get; set; }
         public int FormId { get; set; }
@@ -136,9 +137,7 @@ namespace LegendsViewer.Legends
                                 Type = WrittenContentType.BiographicalDictionary; break;
                             default:
                                 Type = WrittenContentType.Unknown;
-                                //world.ParsingErrors.Report("|==> WrittenContentType: " + property.Value);
-                                int typeId;
-                                if (!int.TryParse(property.Value.Replace("unknown ", ""), out typeId))
+                                if (!int.TryParse(property.Value.Replace("unknown ", ""), out _))
                                 {
                                     property.Known = false;
                                 }

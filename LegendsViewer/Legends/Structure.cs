@@ -28,7 +28,6 @@ namespace LegendsViewer.Legends
 
         public Site Site { get; set; }
 
-        public int LocalId { get; set; }
         public int GlobalId { get; set; }
         public List<int> CopiedArtifactIds { get; set; }
         public List<Artifact> CopiedArtifacts { get; set; }
@@ -46,12 +45,13 @@ namespace LegendsViewer.Legends
             CopiedArtifactIds = new List<int>();
             DeityId = -1;
             ReligionId = -1;
+            EntityId = -1;
 
             foreach (Property property in properties)
             {
                 switch (property.Name)
                 {
-                    case "local_id": LocalId = Convert.ToInt32(property.Value); break;
+                    case "local_id": Id = Convert.ToInt32(property.Value); break;
                     case "name": Name = Formatting.InitCaps(property.Value); break;
                     case "name2": AltName = Formatting.InitCaps(property.Value); break;
                     case "inhabitant":

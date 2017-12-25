@@ -15,13 +15,13 @@ namespace LegendsViewer.Legends.Parser
         HistoricalFigures,
         EntityPopulations,
         Entities,
-        PoeticForms,
-        MusicalForms,
-        DanceForms,
-        WrittenContent,
         Events,
         EventCollections,
-        Eras
+        Eras,
+        WrittenContent,
+        PoeticForms,
+        MusicalForms,
+        DanceForms
     }
     // !!! In order as they appear in the XML. !!!
 }
