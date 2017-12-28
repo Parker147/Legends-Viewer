@@ -30,11 +30,12 @@ namespace LegendsViewer.Legends.Events
             FreeingCiv.AddEvent(this);
             Site.AddEvent(this);
         }
+
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
             eventString += "the forces of ";
-            eventString += FreeingCiv.ToLink(link, pov);
+            eventString += FreeingCiv?.ToLink(link, pov) ?? "an unknown civilization";
             eventString += " freed ";
             for (int i = 0; i < RescuedHistoricalFigures.Count; i++)
             {
@@ -42,7 +43,7 @@ namespace LegendsViewer.Legends.Events
                 {
                     eventString += " and ";
                 }
-                eventString += RescuedHistoricalFigures[i].ToLink(link, pov);
+                eventString += RescuedHistoricalFigures[i]?.ToLink(link, pov) ?? "an unknown creature";
             }
             if (Site != null)
             {
