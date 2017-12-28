@@ -603,6 +603,9 @@ namespace LegendsViewer.Legends.Parser
                 case "entity searched site":
                     World.Events.Add(new EntitySearchedSite(properties, World));
                     break;
+                case "hf freed":
+                    World.Events.Add(new HfFreed(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
