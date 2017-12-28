@@ -103,6 +103,9 @@ namespace LegendsViewer.Legends.Events
                             case "on a pilgrimage":
                                 Reason = ChangeHfStateReason.Pilgrimage;
                                 break;
+                            case "lack of sleep":
+                                Reason = ChangeHfStateReason.LackOfSleep;
+                                break;
                             default:
                                 if (property.Value != "-1")
                                 {
@@ -245,6 +248,9 @@ namespace LegendsViewer.Legends.Events
                         break;
                     case ChangeHfStateReason.Pilgrimage:
                         eventString += " on a pilgrimage";
+                        break;
+                    case ChangeHfStateReason.LackOfSleep:
+                        eventString += " due to lack of sleep";
                         break;
                 }
             }

@@ -32,7 +32,14 @@ namespace LegendsViewer.Legends.Events
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Trickster.ToLink(link, pov) + " fooled " + Target.ToLink(link, pov) + " into believing " + Trickster.CasteNoun() + " was " + Identity.ToLink(link, pov);
+            string eventString = GetYearTime();
+            eventString += Trickster?.ToLink(link, pov) ?? "an unknown creature";
+            eventString += " fooled ";
+            eventString += Target?.ToLink(link, pov) ?? "an unknown creature";
+            eventString += " into believing ";
+            eventString += Trickster?.ToLink(link, pov) ?? "an unknown creature";
+            eventString += " was ";
+            eventString += Identity.ToLink(link, pov);
             eventString += PrintParentCollection(link, pov);
             eventString += ".";
             return eventString;
