@@ -35,7 +35,7 @@ namespace LegendsViewer.Legends.Events
             string eventString = GetYearTime();
             eventString += Trickster?.ToLink(link, pov) ?? "an unknown creature";
             eventString += " fooled ";
-            eventString += Target?.ToLink(link, pov) ?? "an unknown creature";
+            eventString += Target?.ToLink(link, pov) ?? "an unknown civilization";
             eventString += " into believing ";
             eventString += Trickster?.ToLink(link, pov) ?? "an unknown creature";
             eventString += " was ";
