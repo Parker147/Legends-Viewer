@@ -259,7 +259,7 @@ namespace LegendsViewer.Legends
                 Groups.Add((Entity)newSite.Owner);
             }
 
-            if (Parent != null && Parent != null)
+            if (!IsCiv && Parent != null)
             {
                 Parent.AddOwnedSite(newSite);
                 Race = Parent.Race;

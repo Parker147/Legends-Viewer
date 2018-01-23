@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
 
 namespace LegendsViewer.Legends.Parser
@@ -25,9 +26,9 @@ namespace LegendsViewer.Legends.Parser
         public void Parse()
         {
             ReadLine();
-            while (_currentLine != "")
+            ReadWorldPopulations();
+            while (_currentLine != "" && InSites())
             {
-                SkipWorldPopulations();
                 ReadSite();
                 ReadSiteOwner();
                 ReadParentCiv();
@@ -55,7 +56,7 @@ namespace LegendsViewer.Legends.Parser
             return !_sitesAndPops.EndOfStream && !_currentLine.StartsWith("\t");
         }
 
-        private void SkipWorldPopulations()
+        private void ReadWorldPopulations()
         {
             if (_currentLine == "Civilized World Population")
             {
@@ -119,7 +120,8 @@ namespace LegendsViewer.Legends.Parser
                 }
                 catch (Exception ex)
                 {
-                    _owner = _world.EntitiesByName.FirstOrDefault(e => e.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase) && e.Sites.Contains(_site));
+                    _owner = _world.Entities.FirstOrDefault(entity =>
+                        string.Compare(entity.Name, entityName, StringComparison.OrdinalIgnoreCase) == 0);
                     if (_owner == null)
                     {
                         _world.ParsingErrors.Report(ex.Message + ", Site Owner of " + _site.Name);
@@ -131,6 +133,14 @@ namespace LegendsViewer.Legends.Parser
                     if (string.IsNullOrWhiteSpace(_owner.Race))
                     {
                         _owner.Race = "Unknown";
+                    }
+                    if (!_owner.Sites.Contains(_site))
+                    {
+                        _owner.Sites.Add(_site);
+                    }
+                    if (!_owner.CurrentSites.Contains(_site))
+                    {
+                        _owner.CurrentSites.Add(_site);
                     }
                 }
                 ReadLine();
@@ -145,6 +155,26 @@ namespace LegendsViewer.Legends.Parser
                 try
                 {
                     _parent = _world.GetEntity(civName);
+                }
+                catch (Exception e)
+                {
+                    _parent = _world.Entities.FirstOrDefault(entity =>
+                        string.Compare(entity.Name, civName, StringComparison.OrdinalIgnoreCase) == 0 &&
+                        (entity.Type == EntityType.Civilization || entity.Type == EntityType.Unknown));
+                    if (_parent == null)
+                    {
+                        if (_owner != null)
+                        {
+                            _world.ParsingErrors.Report(e.Message + ", Parent Civ of " + _owner.Name + ", Site Owner of " + _site.Name);
+                        }
+                        else
+                        {
+                            _world.ParsingErrors.Report(e.Message + ", Parent Civ of Site Owner of " + _site.Name);
+                        }
+                    }
+                }
+                if (_parent != null)
+                {
                     _parent.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2));
                     if (string.IsNullOrWhiteSpace(_parent.Race))
                     {
@@ -153,7 +183,7 @@ namespace LegendsViewer.Legends.Parser
                     if (_owner != null)
                     {
                         var current = _owner;
-                        while (current.Parent != null)
+                        while (!current.IsCiv && current.Parent != null)
                         {
                             current = current.Parent;
                         }
@@ -165,17 +195,6 @@ namespace LegendsViewer.Legends.Parser
                         {
                             _parent.Groups.Add(_owner);
                         }
-                    }
-                }
-                catch (Exception e)
-                {
-                    if (_owner != null)
-                    {
-                        _world.ParsingErrors.Report(e.Message + ", Parent Civ of " + _owner.Name + ", Site Owner of " + _site.Name);
-                    }
-                    else
-                    {
-                        _world.ParsingErrors.Report(e.Message + ", Parent Civ of Site Owner of " + _site.Name);
                     }
                 }
 
@@ -197,9 +216,14 @@ namespace LegendsViewer.Legends.Parser
                     }
                     catch (Exception e)
                     {
-                        _world.ParsingErrors.Report(e.Message + ", Official of " + _site.Name);
-                        ReadLine();
-                        continue;
+                        siteOfficial = _world.HistoricalFigures.FirstOrDefault(hf =>
+                            string.Compare(hf.Name, officialName, StringComparison.OrdinalIgnoreCase) == 0);
+                        if (siteOfficial == null)
+                        {
+                            _world.ParsingErrors.Report(e.Message + ", Official of " + _site.Name);
+                            ReadLine();
+                            continue;
+                        }
                     }
                     string siteOfficialPosition = _currentLine.Substring(1, _currentLine.IndexOf(":") - 1);
                     _site.Officials.Add(new Site.Official(siteOfficial, siteOfficialPosition));
