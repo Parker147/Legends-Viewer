@@ -10,12 +10,11 @@ namespace LegendsViewer.Legends.Parser
 {
     class SitesAndPopulationsParser : IDisposable
     {
-        StreamReader _sitesAndPops;
-        string _currentLine;
-        World _world;
-        Site _site;
-        Entity _owner;
-        Entity _parent;
+        private readonly StreamReader _sitesAndPops;
+        private string _currentLine;
+        private readonly World _world;
+        private Site _site;
+        private Entity _owner;
 
         public SitesAndPopulationsParser(World world, string sitesAndPopsFile)
         {
@@ -152,16 +151,17 @@ namespace LegendsViewer.Legends.Parser
             if (_currentLine.Contains("Parent Civ:"))
             {
                 string civName = _currentLine.Substring(_currentLine.IndexOf(":") + 2, _currentLine.IndexOf(",") - _currentLine.IndexOf(":") - 2);
+                Entity parent;
                 try
                 {
-                    _parent = _world.GetEntity(civName);
+                    parent = _world.GetEntity(civName);
                 }
                 catch (Exception e)
                 {
-                    _parent = _world.Entities.FirstOrDefault(entity =>
+                    parent = _world.Entities.FirstOrDefault(entity =>
                         string.Compare(entity.Name, civName, StringComparison.OrdinalIgnoreCase) == 0 &&
                         (entity.Type == EntityType.Civilization || entity.Type == EntityType.Unknown));
-                    if (_parent == null)
+                    if (parent == null)
                     {
                         if (_owner != null)
                         {
@@ -173,12 +173,12 @@ namespace LegendsViewer.Legends.Parser
                         }
                     }
                 }
-                if (_parent != null)
+                if (parent != null)
                 {
-                    _parent.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2));
-                    if (string.IsNullOrWhiteSpace(_parent.Race))
+                    parent.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2));
+                    if (string.IsNullOrWhiteSpace(parent.Race))
                     {
-                        _parent.Race = "Unknown";
+                        parent.Race = "Unknown";
                     }
                     if (_owner != null)
                     {
@@ -187,13 +187,13 @@ namespace LegendsViewer.Legends.Parser
                         {
                             current = current.Parent;
                         }
-                        if (current != _parent)
+                        if (!current.IsCiv && current.Parent == null && current != parent)
                         {
-                            current.Parent = _parent;
+                            current.Parent = parent;
                         }
-                        if (!_parent.Groups.Contains(_owner))
+                        if (!parent.Groups.Contains(_owner))
                         {
-                            _parent.Groups.Add(_owner);
+                            parent.Groups.Add(_owner);
                         }
                     }
                 }
@@ -245,14 +245,7 @@ namespace LegendsViewer.Legends.Parser
             }
 
             _site.Populations = populations.OrderByDescending(pop => pop.Count).ToList();
-            if (_owner != null)
-            {
-                _owner.AddPopulations(populations);
-                if (_owner.Parent != null)
-                {
-                    _owner.Parent.AddPopulations(populations);
-                }
-            }
+            _owner?.AddPopulations(populations);
             _world.SitePopulations.AddRange(populations);
         }
 
@@ -314,11 +307,15 @@ namespace LegendsViewer.Legends.Parser
             ReadLine();
             while (_currentLine != "" && !_sitesAndPops.EndOfStream)
             {
-                if (_currentLine == "") { _currentLine = _sitesAndPops.ReadLine(); continue; }
-                string countString, population;
+                if (_currentLine == "")
+                {
+                    _currentLine = _sitesAndPops.ReadLine();
+                    continue;
+                }
+
                 int count;
-                population = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(" ") + 1));
-                countString = _currentLine.Substring(1, _currentLine.IndexOf(" ") - 1);
+                var population = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(" ") + 1));
+                var countString = _currentLine.Substring(1, _currentLine.IndexOf(" ") - 1);
                 if (countString == "Unnumbered")
                 {
                     count = Int32.MaxValue;
@@ -341,10 +338,10 @@ namespace LegendsViewer.Legends.Parser
             while (!_sitesAndPops.EndOfStream)
             {
                 if (_currentLine == "") { _currentLine = _sitesAndPops.ReadLine(); continue; }
-                string countString, population;
+
                 int count;
-                population = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(" ") + 1));
-                countString = _currentLine.Substring(1, _currentLine.IndexOf(" ") - 1);
+                var population = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(" ") + 1));
+                var countString = _currentLine.Substring(1, _currentLine.IndexOf(" ") - 1);
                 if (countString == "Unnumbered")
                 {
                     count = Int32.MaxValue;

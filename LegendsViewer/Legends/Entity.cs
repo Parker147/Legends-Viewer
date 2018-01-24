@@ -281,7 +281,7 @@ namespace LegendsViewer.Legends
                 }
             }
             Populations = Populations.OrderByDescending(pop => pop.Count).ToList();
-
+            Parent?.AddPopulations(populations);
         }
 
         public string PrintIdenticon(bool fullSize = false)
