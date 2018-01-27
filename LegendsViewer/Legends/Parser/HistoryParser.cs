@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using LegendsViewer.Legends.Enums;
 
 namespace LegendsViewer.Legends.Parser
 {
@@ -56,9 +57,15 @@ namespace LegendsViewer.Legends.Parser
             }
             catch (Exception e)
             {
-                _log.AppendLine(e.Message + ", Civ");
-                ReadLine();
-                return false;
+                _currentCiv = _world.Entities.FirstOrDefault(entity =>
+                    string.Compare(entity.Name, civName, StringComparison.OrdinalIgnoreCase) == 0 && 
+                    (entity.Type == EntityType.Civilization || entity.Type == EntityType.Unknown));
+                if (_currentCiv == null)
+                {
+                    _log.AppendLine(e.Message + ", Civ");
+                    ReadLine();
+                    return false;
+                }
             }
             _currentCiv.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2).ToLower());
             foreach (Entity group in _currentCiv.Groups)
@@ -69,26 +76,6 @@ namespace LegendsViewer.Legends.Parser
             _currentCiv.IsCiv = true;
             ReadLine();
             return true;
-        }
-
-        private void ReadEosCiv()
-        {
-            string civName = _currentLine.Substring(0, _currentLine.IndexOf(","));
-            try
-            {
-                _currentCiv = _world.GetEntity(civName);
-            }
-            catch (Exception e)
-            {
-                _log.AppendLine(e.Message + ", Civ");
-            }
-            _currentCiv.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2).ToLower());
-            foreach (Entity group in _currentCiv.Groups)
-            {
-                group.Race = _currentCiv.Race;
-            }
-
-            _currentCiv.IsCiv = true;
         }
 
         private void ReadWorships()
@@ -128,7 +115,7 @@ namespace LegendsViewer.Legends.Parser
 
         private void ReadLeaders()
         {
-            while(LeaderStart())
+            while (LeaderStart())
             {
                 string leaderType = Formatting.InitCaps(_currentLine.Substring(1, _currentLine.IndexOf("List") - 2));
                 _currentCiv.LeaderTypes.Add(leaderType);
@@ -146,9 +133,14 @@ namespace LegendsViewer.Legends.Parser
                         }
                         catch (Exception e)
                         {
-                            _log.AppendLine(e.Message + ", a Leader of " + _currentCiv.Name);
-                            ReadLine();
-                            continue;
+                            leader = _world.HistoricalFigures.FirstOrDefault(hf =>
+                                string.Compare(hf.Name, leaderName, StringComparison.OrdinalIgnoreCase) == 0);
+                            if (leader == null)
+                            {
+                                _log.AppendLine(e.Message + ", a Leader of " + _currentCiv.Name);
+                                ReadLine();
+                                continue;
+                            }
                         }
 
                         int reignBegan = Convert.ToInt32(_currentLine.Substring(_currentLine.IndexOf(":") + 2, _currentLine.IndexOf("), ") - _currentLine.IndexOf(":") - 2));
@@ -189,7 +181,7 @@ namespace LegendsViewer.Legends.Parser
             _world.Name += ", " + _history.ReadLine();
             ReadLine();
             SkipAnimalPeople();
-            
+
             while (!_history.EndOfStream)
             {
                 if (ReadCiv())
@@ -202,13 +194,13 @@ namespace LegendsViewer.Legends.Parser
                     SkipToNextCiv();
                 }
             }
+            if (_currentLine != null && CivStart())
+            {
+                ReadCiv();
+            }
 
             _history.Close();
 
-            if (_currentLine != null && CivStart())
-            {
-                ReadEosCiv();
-            }
 
             return _log.ToString();
         }

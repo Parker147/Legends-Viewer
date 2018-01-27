@@ -118,6 +118,7 @@ namespace LegendsViewer.Controls
             new[] { "sneak into site",                    "Sneak Into Site", ""},
             new[] { "spotted leaving site",               "Spotted Leaving Site", ""},
             new[] { "entity searched site",               "Entity Searched Site", ""},
+            new[] { "hf freed",                           "Histroical Figure Freed", ""},
 
             new[] { "INVALID",                     "INVALID EVENT",                            ""}
         };

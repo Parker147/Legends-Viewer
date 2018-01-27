@@ -8,6 +8,7 @@
         BeWithMaster,
         Flight,
         Scholarship,
-        Pilgrimage
+        Pilgrimage,
+        LackOfSleep
     }
 }
