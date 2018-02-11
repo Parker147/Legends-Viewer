@@ -798,7 +798,7 @@ namespace LegendsViewer.Controls.HTML
                     if (battle.NotableAttackers.Contains(_historicalFigure))
                     {
                         battleTable.AddData("against");
-                        battleTable.AddData(battle.Defender.PrintEntity());
+                        battleTable.AddData(battle.Defender?.PrintEntity() ?? " an unknown civilization ");
                         if (battle.Victor == battle.Attacker)
                         {
                             battleTable.AddData("and won");
@@ -811,7 +811,7 @@ namespace LegendsViewer.Controls.HTML
                     else if (battle.NotableDefenders.Contains(_historicalFigure))
                     {
                         battleTable.AddData("against");
-                        battleTable.AddData(battle.Attacker.PrintEntity());
+                        battleTable.AddData(battle.Attacker?.PrintEntity() ?? " an unknown civilization ");
                         if (battle.Victor == battle.Defender)
                         {
                             battleTable.AddData("and won");

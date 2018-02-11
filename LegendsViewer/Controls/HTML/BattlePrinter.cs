@@ -55,13 +55,15 @@ namespace LegendsViewer.Controls.HTML
 
             Html.AppendLine("</br>");
 
-            List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _battle);
-            //HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
-            Html.AppendLine("<table>");
-            Html.AppendLine("<tr>");
-            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
-            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
-            Html.AppendLine("</tr></table></br>");
+            if (_battle.Attacker != null && _battle.Defender != null)
+            {
+                List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _battle);
+                Html.AppendLine("<table>");
+                Html.AppendLine("<tr>");
+                Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+                Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+                Html.AppendLine("</tr></table></br>");
+            }
 
             Html.AppendLine("<center>" + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + "</center>" + LineBreak);
 
@@ -76,7 +78,7 @@ namespace LegendsViewer.Controls.HTML
                 Html.AppendLine("</br></br>");
             }
 
-            Html.AppendLine("<b>" + _battle.Attacker.PrintEntity() + " (Attacker) " + (_battle.NotableAttackers.Count + _battle.AttackerSquads.Sum(squad => squad.Numbers)) + " Members, " + _battle.AttackerDeathCount + " Losses</b> " + MakeLink("[Load]", LinkOption.LoadBattleAttackers) + LineBreak);
+            Html.AppendLine("<b>" + (_battle.Attacker?.PrintEntity() ?? "an unknown civilization") + " (Attacker) " + (_battle.NotableAttackers.Count + _battle.AttackerSquads.Sum(squad => squad.Numbers)) + " Members, " + _battle.AttackerDeathCount + " Losses</b> " + MakeLink("[Load]", LinkOption.LoadBattleAttackers) + LineBreak);
             Html.AppendLine("<ul>");
             var squadRaces = from squad in _battle.AttackerSquads
                              group squad by squad.Race into squads
@@ -115,7 +117,7 @@ namespace LegendsViewer.Controls.HTML
                 Html.AppendLine("</br></br>");
             }
 
-            Html.AppendLine("<b>" + _battle.Defender.PrintEntity() + " (Defender) " + (_battle.NotableDefenders.Count + _battle.DefenderSquads.Sum(squad => squad.Numbers)) + " Members, " + _battle.DefenderDeathCount + " Losses</b> " + MakeLink("[Load]", LinkOption.LoadBattleDefenders) + LineBreak);
+            Html.AppendLine("<b>" + (_battle.Defender?.PrintEntity() ?? "an unknown civilization") + " (Defender) " + (_battle.NotableDefenders.Count + _battle.DefenderSquads.Sum(squad => squad.Numbers)) + " Members, " + _battle.DefenderDeathCount + " Losses</b> " + MakeLink("[Load]", LinkOption.LoadBattleDefenders) + LineBreak);
             Html.AppendLine("<ul>");
             squadRaces = from squad in _battle.DefenderSquads
                          group squad by squad.Race into squads
