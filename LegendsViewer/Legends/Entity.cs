@@ -20,6 +20,7 @@ namespace LegendsViewer.Legends
         public List<HistoricalFigure> Worshipped { get; set; }
         public List<string> LeaderTypes { get; set; }
         public List<List<HistoricalFigure>> Leaders { get; set; }
+
         public List<Population> Populations { get; set; }
         public Structure OriginStructure { get; set; }
         public List<Entity> Groups { get; set; }
@@ -44,6 +45,33 @@ namespace LegendsViewer.Legends
         public int WarLosses { get { return WarsAttacking.Sum(war => war.DefenderBattleVictories.Count) + WarsDefending.Sum(war => war.AttackerBattleVictories.Count); } set { } }
         public int WarKills { get { return WarsAttacking.Sum(war => war.DefenderDeathCount) + WarsDefending.Sum(war => war.AttackerDeathCount); } set { } }
         public int WarDeaths { get { return WarsAttacking.Sum(war => war.AttackerDeathCount) + WarsDefending.Sum(war => war.DefenderDeathCount); } set { } }
+        public List<HistoricalFigure> AllLeaders => Leaders.SelectMany(l => l).ToList();
+        public List<string> PopulationsAsList
+        {
+            get
+            {
+                var populations = new List<string>();
+                foreach (var population in Populations)
+                {
+                    for (var i = 0; i < population.Count; i++)
+                    {
+                        populations.Add(population.Race);
+                    }
+                }
+
+                return populations;
+            }
+        }
+
+        public double WarKillDeathRatio
+        {
+            get
+            {
+                if (WarDeaths == 0 && WarKills == 0) return 0;
+                if (WarDeaths == 0) return double.MaxValue;
+                return Math.Round(WarKills / Convert.ToDouble(WarDeaths), 2);
+            }
+        }
 
         public Color LineColor { get; set; }
         public Bitmap Identicon { get; set; }

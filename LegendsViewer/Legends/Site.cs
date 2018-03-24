@@ -45,6 +45,22 @@ namespace LegendsViewer.Legends
         public List<DwarfObject> PreviousOwners { get { return OwnerHistory.Where(site => site.EndYear >= 0).Select(site => site.Owner).ToList(); } set { } }
         public List<Site> Connections { get; set; }
         public List<Population> Populations { get; set; }
+        public List<string> PopulationsAsList
+        {
+            get
+            {
+                List<string> populations = new List<string>();
+                foreach (Population population in Populations)
+                {
+                    for (int i = 0; i < population.Count; i++)
+                    {
+                        populations.Add(population.Race);
+                    }
+                }
+
+                return populations;
+            }
+        }
 
         public List<Official> Officials { get; set; }
         public List<string> Deaths
