@@ -606,6 +606,12 @@ namespace LegendsViewer.Legends.Parser
                 case "hf freed":
                     World.Events.Add(new HfFreed(properties, World));
                     break;
+                case "tactical situation":
+                    World.Events.Add(new TacticalSituation(properties, World));
+                    break;
+                case "squad vs squad":
+                    World.Events.Add(new SquadVsSquad(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

@@ -7,8 +7,6 @@ namespace LegendsViewer.Legends.Events
     public class Merchant : WorldEvent
     {
         public Entity Source { get; set; }
-        public Entity TraderEntity { get; set; }
-        public Entity DepotEntity { get; set; }
         public Entity Destination { get; set; }
         public Site Site { get; set; }
 
