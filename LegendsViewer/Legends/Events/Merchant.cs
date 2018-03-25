@@ -9,6 +9,8 @@ namespace LegendsViewer.Legends.Events
         public Entity Source { get; set; }
         public Entity Destination { get; set; }
         public Site Site { get; set; }
+        public bool Seizure { get; set; }
+        public bool LostValue { get; set; }
 
         public Merchant(List<Property> properties, World world)
             : base(properties, world)
@@ -17,9 +19,53 @@ namespace LegendsViewer.Legends.Events
             {
                 switch (property.Name)
                 {
-                    case "source": Source = world.GetEntity(Convert.ToInt32(property.Value)); break;
-                    case "destination": Destination = world.GetEntity(Convert.ToInt32(property.Value)); break;
-                    case "site": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "source":
+                    case "trader_entity_id":
+                        Entity source = world.GetEntity(Convert.ToInt32(property.Value));
+                        if (Source == null)
+                        {
+                            Source = source;
+                        }
+                        else if (Source != source)
+                        {
+                            property.Known = false;
+                        }
+                        else
+                        {
+                            property.Known = true;
+                        }
+                        break;
+                    case "destination":
+                    case "depot_entity_id":
+                        Entity destination = world.GetEntity(Convert.ToInt32(property.Value));
+                        if (Destination == null)
+                        {
+                            Destination = destination;
+                        }
+                        else if (Destination != destination)
+                        {
+                            property.Known = false;
+                        }
+                        else
+                        {
+                            property.Known = true;
+                        }
+                        break;
+                    case "site":
+                        Site = world.GetSite(Convert.ToInt32(property.Value));
+                        break;
+                    case "site_id":
+                        // points to wrong site
+                        property.Known = true;
+                        break;
+                    case "seizure":
+                        Seizure = true;
+                        property.Known = true;
+                        break;
+                    case "lost_value":
+                        LostValue = true;
+                        property.Known = true;
+                        break;
                 }
             }
             Source.AddEvent(this);
@@ -36,6 +82,10 @@ namespace LegendsViewer.Legends.Events
             eventString += " at ";
             eventString += Site != null ? Site.ToLink(link, pov) : "UNKNOWN SITE";
             eventString += ".";
+            if (Seizure)
+            {
+                eventString += " They reported a seizure of goods.";
+            }
             return eventString;
         }
     }

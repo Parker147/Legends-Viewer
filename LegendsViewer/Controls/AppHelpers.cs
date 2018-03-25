@@ -119,6 +119,8 @@ namespace LegendsViewer.Controls
             new[] { "spotted leaving site",               "Spotted Leaving Site", ""},
             new[] { "entity searched site",               "Entity Searched Site", ""},
             new[] { "hf freed",                           "Histroical Figure Freed", ""},
+            new[] { "tactical situation",                 "Tactical Situation", ""},
+            new[] { "squad vs squad",                     "Squad vs. Squad", ""},
 
             new[] { "INVALID",                     "INVALID EVENT",                            ""}
         };

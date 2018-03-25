@@ -95,9 +95,14 @@ namespace LegendsViewer.Legends
 
         public List<string> JourneyPets { get; set; }
         public List<HfDied> NotableKills { get; set; }
+        public List<HistoricalFigure> HFKills => NotableKills.Select(kill => kill.HistoricalFigure).ToList();
         public List<HistoricalFigure> Abductions { get { return Events.OfType<HfAbducted>().Where(abduction => abduction.Snatcher == this).Select(abduction => abduction.Target).ToList(); } set { } }
+        public int Abducted => Events.OfType<HfAbducted>().Count(abduction => abduction.Target == this);
         public List<string> Spheres { get; set; }
         public List<Battle> Battles { get; set; }
+        public List<Battle> BattlesAttacking => Battles.Where(battle => battle.NotableAttackers.Contains(this)).ToList();
+        public List<Battle> BattlesDefending => Battles.Where(battle => battle.NotableDefenders.Contains(this)).ToList();
+        public List<Battle> BattlesNonCombatant => Battles.Where(battle => battle.NonCombatants.Contains(this)).ToList();
         public List<Position> Positions { get; set; }
         public Entity WorshippedBy { get; set; }
         public List<BeastAttack> BeastAttacks { get; set; }

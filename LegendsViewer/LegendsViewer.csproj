@@ -296,6 +296,7 @@
     <Compile Include="Legends\Enums\SiteLinkType.cs" />
     <Compile Include="Legends\Enums\SiteType.cs" />
     <Compile Include="Legends\Enums\StructureType.cs" />
+    <Compile Include="Legends\Enums\TacticalSituationType.cs" />
     <Compile Include="Legends\Enums\UnitType.cs" />
     <Compile Include="Legends\Enums\WorldConstructionType.cs" />
     <Compile Include="Legends\Enums\WrittenContentType.cs" />
@@ -422,6 +423,8 @@
     <Compile Include="Legends\Events\SiteTributeForced.cs" />
     <Compile Include="Legends\Events\SneakIntoSite.cs" />
     <Compile Include="Legends\Events\SpottedLeavingSite.cs" />
+    <Compile Include="Legends\Events\SquadVsSquad.cs" />
+    <Compile Include="Legends\Events\TacticalSituation.cs" />
     <Compile Include="Legends\Events\WorldEvent.cs" />
     <Compile Include="Legends\Events\WrittenContentComposed.cs" />
     <Compile Include="Legends\Feature.cs" />

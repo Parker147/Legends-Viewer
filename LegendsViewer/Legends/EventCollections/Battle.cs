@@ -29,12 +29,43 @@ namespace LegendsViewer.Legends.EventCollections
         public List<HistoricalFigure> NonCombatants { get; set; }
         public List<Squad> AttackerSquads { get; set; }
         public List<Squad> DefenderSquads { get; set; }
+        public int AttackerCount { get { return NotableAttackers.Count + AttackerSquads.Sum(squad => squad.Numbers); } set { } }
+        public int DefenderCount { get { return NotableDefenders.Count + DefenderSquads.Sum(squad => squad.Numbers); } set { } }
         public int AttackersRemainingCount { get { return Attackers.Sum(squad => squad.Numbers - squad.Deaths); } set { } }
         public int DefendersRemainingCount { get { return Defenders.Sum(squad => squad.Numbers - squad.Deaths); } set { } }
         public int DeathCount { get { return AttackerDeathCount + DefenderDeathCount; } set { } }
         public List<string> Deaths { get; set; }
+        public List<HistoricalFigure> NotableDeaths {
+            get
+            {
+                return NotableAttackers.Where(attacker => GetSubEvents().OfType<HfDied>()
+                    .Count(death => death.HistoricalFigure == attacker) > 0)
+                    .Concat(NotableDefenders.Where(defender => GetSubEvents().OfType<HfDied>().Count(death => death.HistoricalFigure == defender) > 0))
+                    .ToList(); 
+            } 
+        }
         public int AttackerDeathCount { get; set; }
         public int DefenderDeathCount { get; set; }
+        public double AttackersToDefenders
+        {
+            get
+            {
+                if (AttackerCount == 0 && DefenderCount == 0) return 0;
+                if (DefenderCount == 0) return double.MaxValue;
+                return Math.Round(AttackerCount / Convert.ToDouble(DefenderCount), 2);
+            }
+            set { }
+        }
+        public double AttackersToDefendersRemaining
+        {
+            get
+            {
+                if (AttackersRemainingCount == 0 && DefendersRemainingCount == 0) return 0;
+                if (DefendersRemainingCount == 0) return double.MaxValue;
+                return Math.Round(AttackersRemainingCount / Convert.ToDouble(DefendersRemainingCount), 2);
+            }
+            set { }
+        }
 
         public List<string> AttackersAsList { get; set; }
 

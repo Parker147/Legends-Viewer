@@ -109,9 +109,7 @@ namespace LegendsViewer.Legends
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < str.Length; i++)
             {
-                if ((str[i] >= '0' && str[i] <= '9')
-                    || (str[i] >= 'A' && str[i] <= 'z'
-                        || (str[i] == '.' || str[i] == '_')))
+                if (str[i] >= '0' && str[i] <= '9' || str[i] >= 'A' && str[i] <= 'z' || str[i] == '.' || str[i] == '_')
                 {
                     sb.Append(str[i]);
                 }
@@ -386,6 +384,118 @@ namespace LegendsViewer.Legends
                 default:
                     return num + "th";
             }
+        }
+
+        public static string IntegerToWords(long inputNum)
+        {
+            int level = 0;
+
+            string retval = "";
+            string[] ones ={
+                "zero",
+                "one",
+                "two",
+                "three",
+                "four",
+                "five",
+                "six",
+                "seven",
+                "eight",
+                "nine",
+                "ten",
+                "eleven",
+                "twelve",
+                "thirteen",
+                "fourteen",
+                "fifteen",
+                "sixteen",
+                "seventeen",
+                "eighteen",
+                "nineteen"
+              };
+            string[] tens ={
+                "zero",
+                "ten",
+                "twenty",
+                "thirty",
+                "forty",
+                "fifty",
+                "sixty",
+                "seventy",
+                "eighty",
+                "ninety"
+              };
+            string[] thou ={
+                "",
+                "thousand",
+                "million",
+                "billion",
+                "trillion",
+                "quadrillion",
+                "quintillion"
+              };
+
+            bool isNegative = false;
+            if (inputNum < 0)
+            {
+                isNegative = true;
+                inputNum *= -1;
+            }
+
+            if (inputNum == 0)
+                return "zero";
+
+            string s = inputNum.ToString();
+
+            while (s.Length > 0)
+            {
+                // Get the three rightmost characters
+                var x = s.Length < 3 ? s : s.Substring(s.Length - 3, 3);
+
+                // Separate the three digits
+                var threeDigits = int.Parse(x);
+                var lasttwo = threeDigits % 100;
+                var dig1 = threeDigits / 100;
+                var dig2 = lasttwo / 10;
+                var dig3 = threeDigits % 10;
+
+                // append a "thousand" where appropriate
+                if (level > 0 && dig1 + dig2 + dig3 > 0)
+                {
+                    retval = thou[level] + " " + retval;
+                    retval = retval.Trim();
+                }
+
+                // check that the last two digits is not a zero
+                if (lasttwo > 0)
+                {
+                    if (lasttwo < 20) // if less than 20, use "ones" only
+                        retval = ones[lasttwo] + " " + retval;
+                    else // otherwise, use both "tens" and "ones" array
+                        retval = tens[dig2] + " " + ones[dig3] + " " + retval;
+                }
+
+                // if a hundreds part is there, translate it
+                if (dig1 > 0)
+                    retval = ones[dig1] + " hundred " + retval;
+
+                s = s.Length - 3 > 0 ? s.Substring(0, s.Length - 3) : "";
+                level++;
+            }
+
+            while (retval.IndexOf("  ", StringComparison.Ordinal) > 0)
+            {
+                retval = retval.Replace("  ", " ");
+            }
+
+            retval = retval.Trim();
+
+            if (isNegative)
+            {
+                retval = "negative " + retval;
+            }
+
+            return retval;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace LegendsViewer.Legends.Events
         public Entity Defender { get; set; }
         public Entity SiteEntity { get; set; }
         public Site Site { get; set; }
+        public string Season { get; set; }
 
         public SiteTributeForced(List<Property> properties, World world) : base(properties, world)
         {
@@ -29,6 +30,9 @@ namespace LegendsViewer.Legends.Events
                     case "site_id":
                         Site = world.GetSite(Convert.ToInt32(property.Value));
                         break;
+                    case "season":
+                        Season = property.Value;
+                        break;
                 }
             }
 
@@ -46,6 +50,10 @@ namespace LegendsViewer.Legends.Events
                 eventString += " of " + Defender.ToLink(link, pov);
             }
             eventString += ", to be delivered from " + Site.ToLink(link, pov);
+            if (!string.IsNullOrWhiteSpace(Season))
+            {
+                eventString += " every " + Season.Trim();
+            }
             eventString += PrintParentCollection(link, pov);
             eventString += ".";
             return eventString;
