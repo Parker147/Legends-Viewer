@@ -25,9 +25,10 @@ namespace LegendsViewer.Legends.Events
                             case "treequota": Topic = AgreementTopic.TreeQuota; break;
                             case "becomelandholder": Topic = AgreementTopic.BecomeLandHolder; break;
                             case "promotelandholder": Topic = AgreementTopic.PromoteLandHolder; break;
+                            case "unknown 9": Topic = AgreementTopic.Tribute; break;
                             default:
                                 Topic = AgreementTopic.Unknown;
-                                world.ParsingErrors.Report("Unknown Agreement Topic: " + property.Value);
+                                property.Known = false;
                                 break;
                         }
                         break;
@@ -56,11 +57,13 @@ namespace LegendsViewer.Legends.Events
                 case AgreementTopic.PromoteLandHolder:
                     eventString += "the elevation of the landed nobility proposed by ";
                     break;
+                case AgreementTopic.Tribute:
+                    eventString += "a tribute agreement proposed by ";
+                    break;
                 default:
                     eventString += "UNKNOWN AGREEMENT";
                     break;
             }
-            eventString += " proposed by ";
             eventString += Source != null ? Source.ToLink(link, pov) : "UNKNOWN ENTITY";
             eventString += " was accepted by ";
             eventString += Destination != null ? Destination.ToLink(link, pov) : "UNKNOWN ENTITY";
