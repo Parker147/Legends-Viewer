@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
@@ -32,16 +33,9 @@ namespace LegendsViewer.Legends.Events
             {
                 eventString += " in " + Site.ToLink(link, pov);
             }
-            else if (Artifact != null)
+            else if (Artifact != null && Artifact.Events.Last() == this && Artifact.Region != null)
             {
-                if (Artifact.Site != null)
-                {
-                    eventString += " in " + Artifact.Site.ToLink(link, pov);
-                }
-                else if (Artifact.Region != null)
-                {
-                    eventString += " in " + Artifact.Region.ToLink(link, pov);
-                }
+                eventString += " in " + Artifact.Region.ToLink(link, pov);
             }
 
             eventString += PrintParentCollection(link, pov);
