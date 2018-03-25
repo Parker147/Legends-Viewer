@@ -14,6 +14,7 @@ namespace LegendsViewer.Legends.Events
         public bool NoDefeatMention { get; set; }
         public bool WasRaid { get; set; }
         public bool TookLiveStock { get; set; }
+        public bool TookItems { get; set; }
 
         public PlunderedSite(List<Property> properties, World world)
             : base(properties, world)
@@ -54,6 +55,13 @@ namespace LegendsViewer.Legends.Events
                             TookLiveStock = true;
                         }
                         break;
+                    case "took_items":
+                        if (string.IsNullOrEmpty(property.Value))
+                        {
+                            property.Known = true;
+                            TookItems = true;
+                        }
+                        break;
                 }
             }
 
@@ -70,10 +78,17 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            if (TookLiveStock)
+            if (TookLiveStock || TookItems)
             {
                 eventString += Attacker.ToLink(link, pov);
-                eventString += " stole livestock from ";
+                if (TookLiveStock)
+                {
+                    eventString += " stole livestock from ";
+                }
+                else if (TookItems)
+                {
+                    eventString += " stole treasure from ";
+                }
                 if (SiteEntity != null && Defender != SiteEntity)
                 {
                     eventString += SiteEntity.ToLink(link, pov) + " of ";
