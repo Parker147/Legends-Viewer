@@ -6,8 +6,15 @@ namespace LegendsViewer.Legends.Events
 {
     public class PlunderedSite : WorldEvent
     {
-        public Entity Attacker, Defender, SiteEntity;
-        public Site Site;
+        public readonly Entity Attacker;
+        public readonly Entity Defender;
+        public readonly Entity SiteEntity;
+        public readonly Site Site;
+        public bool Detected { get; set; }
+        public bool NoDefeatMention { get; set; }
+        public bool WasRaid { get; set; }
+        public bool TookLiveStock { get; set; }
+
         public PlunderedSite(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -19,6 +26,34 @@ namespace LegendsViewer.Legends.Events
                     case "defender_civ_id": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "site_id": Site = world.GetSite(Convert.ToInt32(property.Value)); break;
+                    case "detected":
+                        if (string.IsNullOrEmpty(property.Value))
+                        {
+                            property.Known = true;
+                            Detected = true;
+                        }
+                        break;
+                    case "no_defeat_mention":
+                        if (string.IsNullOrEmpty(property.Value))
+                        {
+                            property.Known = true;
+                            NoDefeatMention = true;
+                        }
+                        break;
+                    case "was_raid":
+                        if (string.IsNullOrEmpty(property.Value))
+                        {
+                            property.Known = true;
+                            WasRaid = true;
+                        }
+                        break;
+                    case "took_livestock":
+                        if (string.IsNullOrEmpty(property.Value))
+                        {
+                            property.Known = true;
+                            TookLiveStock = true;
+                        }
+                        break;
                 }
             }
 
@@ -31,15 +66,34 @@ namespace LegendsViewer.Legends.Events
 
             Site.AddEvent(this);
         }
+
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
-            if (SiteEntity != null && Defender != SiteEntity)
+            string eventString = GetYearTime();
+            if (TookLiveStock)
             {
-                eventString += SiteEntity.ToLink(link, pov) + " of ";
+                eventString += Attacker.ToLink(link, pov);
+                eventString += " stole livestock from ";
+                if (SiteEntity != null && Defender != SiteEntity)
+                {
+                    eventString += SiteEntity.ToLink(link, pov) + " of ";
+                }
+                eventString += Defender.ToLink(link, pov);
+                eventString += " in ";
+                eventString += Site.ToLink(link, pov);
             }
-
-            eventString += Defender.ToLink(link, pov) + " and pillaged " + Site.ToLink(link, pov);
+            else
+            {
+                eventString += Attacker.ToLink(link, pov);
+                eventString += " defeated ";
+                if (SiteEntity != null && Defender != SiteEntity)
+                {
+                    eventString += SiteEntity.ToLink(link, pov) + " of ";
+                }
+                eventString += Defender.ToLink(link, pov);
+                eventString += " and pillaged ";
+                eventString += Site.ToLink(link, pov);
+            }
             eventString += PrintParentCollection(link, pov);
             eventString += ".";
             return eventString;
