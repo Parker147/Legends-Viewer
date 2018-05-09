@@ -157,14 +157,15 @@ namespace LegendsViewer.Controls.HTML
                 allBattles.AddRange(war.Battles);
             }
 
-            _allEnemies = allBattles
-                .Select(x => x.Attacker).Concat(allBattles.Select(x => x.Defender))
+            _allEnemies = allBattles.Where(x => x.Attacker != null)
+                .Select(x => x.Attacker)
+                .Concat(allBattles.Where(x => x.Defender != null).Select(x => x.Defender))
                 .Distinct()
                 .OrderBy(entity => entity.Race)
                 .ToList();
             var entityLabels = string.Join(",", _allEnemies.Where(x => x.Name != _entity.Name).Select(x => $"'{x.Name} - {x.Race}'"));
-            var battleVictorData = string.Join(",", _allEnemies.Where(x => x.Name != _entity.Name).Select(x => $"{allBattles.Count(y => y.Victor == _entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
-            var battleLoserData = string.Join(",", _allEnemies.Where(x => x.Name != _entity.Name).Select(x => $"{allBattles.Count(y => y.Victor != _entity && (y.Attacker.Name == x.Name || y.Defender.Name == x.Name))}"));
+            var battleVictorData = string.Join(",", _allEnemies.Where(x => x.Name != _entity.Name).Select(x => $"{allBattles.Count(y => y.Victor == _entity && (y.Attacker?.Name == x.Name || y.Defender?.Name == x.Name))}"));
+            var battleLoserData = string.Join(",", _allEnemies.Where(x => x.Name != _entity.Name).Select(x => $"{allBattles.Count(y => y.Victor != _entity && (y.Attacker?.Name == x.Name || y.Defender?.Name == x.Name))}"));
 
             var victorColor = "255, 206, 86";
             var loserColor = "153, 102, 255";
@@ -252,25 +253,36 @@ namespace LegendsViewer.Controls.HTML
             {
                 foreach (var battle in war.Battles)
                 {
-                    string attacker = CreateNode(battle.Attacker);
-                    if (!nodes.Contains(attacker))
+                    if (battle.Attacker != null)
                     {
-                        nodes.Add(attacker);
+                        string attacker = CreateNode(battle.Attacker);
+                        if (!nodes.Contains(attacker))
+                        {
+                            nodes.Add(attacker);
+                        }
                     }
-                    string defender = CreateNode(battle.Defender);
-                    if (!nodes.Contains(defender))
+
+                    if (battle.Defender != null)
                     {
-                        nodes.Add(defender);
+                        string defender = CreateNode(battle.Defender);
+                        if (!nodes.Contains(defender))
+                        {
+                            nodes.Add(defender);
+                        }
                     }
-                    string faveColor = GetHtmlColorByEntity(battle.Attacker);
-                    string edge = "{ data: { source: '" + battle.Attacker.Id + "', target: '" + battle.Defender.Id + "', faveColor: '" + faveColor + "', width: WIDTH, label: LABEL } },";
-                    if (edges.ContainsKey(edge))
+
+                    if (battle.Attacker != null && battle.Defender != null)
                     {
-                        edges[edge]++;
-                    }
-                    else
-                    {
-                        edges[edge] = 1;
+                        string faveColor = GetHtmlColorByEntity(battle.Attacker);
+                        string edge = "{ data: { source: '" + battle.Attacker.Id + "', target: '" + battle.Defender.Id + "', faveColor: '" + faveColor + "', width: WIDTH, label: LABEL } },";
+                        if (edges.ContainsKey(edge))
+                        {
+                            edges[edge]++;
+                        }
+                        else
+                        {
+                            edges[edge] = 1;
+                        }
                     }
                 }
             }
@@ -548,8 +560,8 @@ namespace LegendsViewer.Controls.HTML
                         sitesLost = war.AttackerVictories.OfType<SiteConquered>().Count(conquering => conquering.ConquerType != SiteConqueredType.Pillaging);
                     }
 
-                    kills = war.Collections.OfType<Battle>().Where(battle => battle.Attacker == _entity || battle.Attacker.Parent == _entity).Sum(battle => battle.DefenderDeathCount) + war.Collections.OfType<Battle>().Where(battle => battle.Defender == _entity || battle.Defender.Parent == _entity).Sum(battle => battle.AttackerDeathCount);
-                    losses = war.Collections.OfType<Battle>().Where(battle => battle.Attacker == _entity || battle.Attacker.Parent == _entity).Sum(battle => battle.AttackerDeathCount) + war.Collections.OfType<Battle>().Where(battle => battle.Defender == _entity || battle.Defender.Parent == _entity).Sum(battle => battle.DefenderDeathCount);
+                    kills = war.Collections.OfType<Battle>().Where(battle => battle.Attacker == _entity || battle.Attacker?.Parent == _entity).Sum(battle => battle.DefenderDeathCount) + war.Collections.OfType<Battle>().Where(battle => battle.Defender == _entity || battle.Defender?.Parent == _entity).Sum(battle => battle.AttackerDeathCount);
+                    losses = war.Collections.OfType<Battle>().Where(battle => battle.Attacker == _entity || battle.Attacker?.Parent == _entity).Sum(battle => battle.AttackerDeathCount) + war.Collections.OfType<Battle>().Where(battle => battle.Defender == _entity || battle.Defender?.Parent == _entity).Sum(battle => battle.DefenderDeathCount);
 
                     warTable.AddData("(V/L)");
                     warTable.AddData("Battles:");
