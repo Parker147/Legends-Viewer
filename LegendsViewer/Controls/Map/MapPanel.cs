@@ -67,7 +67,7 @@ namespace LegendsViewer.Controls.Map
             {
                 Open = true
             };
-            _optionsMenu.AddOptions(new List<object> { "Load Alternate Map...", "Overlays" });
+            _optionsMenu.AddOptions(new List<object> { "Load Alternate Map...", "Export Map...", "Overlays" });
             MapMenu overlayOptions = new MapMenu(this);
             overlayOptions.AddOptions(new List<object> { "Battles", "Battles (Notable)", "Battle Deaths", "Beast Attacks", "Site Population...", "Site Events", "Site Events (Filtered)" });
             overlayOptions.Options.ForEach(option => option.OptionObject = "Overlay");
@@ -379,34 +379,49 @@ namespace LegendsViewer.Controls.Map
             }
         }
 
-        private void DrawMap(Graphics g)
+        private void DrawMap(Graphics g, bool originalSize = false)
         {
-            g.FillRectangle(new SolidBrush(Color.FromArgb(0, 0, 50)), new Rectangle(Location, Size));
+            if (!originalSize)
+            {
+                g.FillRectangle(new SolidBrush(Color.FromArgb(0, 0, 50)), new Rectangle(Location, Size));
+            }
 
             if (AlternateMapToggled && _altMapAlpha > 0)
             {
                 if (_altMapAlpha < 1)
                 {
-                    g.DrawImage(_map, ClientRectangle, Source, GraphicsUnit.Pixel);
+                    g.DrawImage(_map, originalSize ? getOriginalSize(_map) : ClientRectangle, originalSize ? getOriginalSize(_map) : Source, GraphicsUnit.Pixel);
                     using (ImageAttributes adjustAlpha = new ImageAttributes())
                     {
                         ColorMatrix adjustAlphaMatrix = new ColorMatrix();
                         adjustAlphaMatrix.Matrix00 = adjustAlphaMatrix.Matrix11 = adjustAlphaMatrix.Matrix22 = adjustAlphaMatrix.Matrix44 = 1.0f;
                         adjustAlphaMatrix.Matrix33 = _altMapAlpha;
                         adjustAlpha.SetColorMatrix(adjustAlphaMatrix);
-                        g.DrawImage(AlternateMap, ClientRectangle, Source.X, Source.Y, Source.Width, Source.Height, GraphicsUnit.Pixel, adjustAlpha);
+                        if (originalSize)
+                        {
+                            g.DrawImage(AlternateMap, getOriginalSize(AlternateMap), 0, 0, AlternateMap.Width, AlternateMap.Height, GraphicsUnit.Pixel, adjustAlpha);
+                        }
+                        else
+                        {
+                            g.DrawImage(AlternateMap, ClientRectangle, Source.X, Source.Y, Source.Width, Source.Height, GraphicsUnit.Pixel, adjustAlpha);
+                        }
                     }
 
                 }
                 else
                 {
-                    g.DrawImage(AlternateMap, ClientRectangle, Source, GraphicsUnit.Pixel);
+                    g.DrawImage(AlternateMap, originalSize ? getOriginalSize(AlternateMap) : ClientRectangle, originalSize ? getOriginalSize(AlternateMap) : Source, GraphicsUnit.Pixel);
                 }
             }
             else
             {
-                g.DrawImage(_map, ClientRectangle, Source, GraphicsUnit.Pixel);
+                g.DrawImage(_map, originalSize ? getOriginalSize(_map) : ClientRectangle, originalSize ? getOriginalSize(_map) : Source, GraphicsUnit.Pixel);
             }
+        }
+
+        private Rectangle getOriginalSize(Bitmap map)
+        {
+            return new Rectangle(0, 0, map.Width, map.Height);
         }
 
         private void DrawMiniMap(Graphics g)
@@ -426,7 +441,6 @@ namespace LegendsViewer.Controls.Map
             g.FillRectangle(new SolidBrush(Color.FromArgb(0, 0, 50)), minimapArea);
             g.DrawImage(_minimap, new Rectangle(miniMapDrawLocation.X, miniMapDrawLocation.Y, _minimap.Width, _minimap.Height), new Rectangle(0, 0, _minimap.Width, _minimap.Height), GraphicsUnit.Pixel);
 
-            //Point miniSourceLocation = new Point(minimapArea.X + Convert.ToInt32(Source.X * minimapRatio), minimapArea.Y + Convert.ToInt32(Source.Y * minimapRatio));
             Point miniSourceLocation = new Point(miniMapDrawLocation.X + Convert.ToInt32(Source.X * minimapRatio), miniMapDrawLocation.Y + Convert.ToInt32(Source.Y * minimapRatio));
             Size miniSourceSize = new Size(Convert.ToInt32(Source.Width * minimapRatio), Convert.ToInt32(Source.Height * minimapRatio));
             Rectangle miniSource = new Rectangle(miniSourceLocation, miniSourceSize);
@@ -452,61 +466,63 @@ namespace LegendsViewer.Controls.Map
             }
         }
 
-        public void DrawDisplayObjects(Graphics g)
+        public void DrawDisplayObjects(Graphics g, bool originalSize = false)
         {
-            SizeF scaleTileSize = new SizeF((float)(PixelWidth * TileSize), (float)(PixelHeight * TileSize));
-            Pen sitePen = new Pen(Color.White);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             g.PixelOffsetMode = PixelOffsetMode.Half;
+
+            DrawEntities(g, _displayObjects.OfType<Entity>().ToList(), originalSize);
+            DrawCivPaths(g, originalSize);
+            
+            Rectangle rectangle = originalSize ? getOriginalSize(_map) : Source;
+            SizeF scaleTileSize = new SizeF((float)(PixelWidth * TileSize), (float)(PixelHeight * TileSize));
             foreach (Site site in _displayObjects.OfType<Site>())
             {
                 PointF siteLocation = new PointF
                 {
-                    X = (float)((site.Coordinates.X * TileSize - Source.X) * PixelWidth + 2 * PixelWidth),
-                    Y = (float)((site.Coordinates.Y * TileSize - Source.Y) * PixelHeight + 2 * PixelHeight)
+                    X = (float)((site.Coordinates.X * TileSize - rectangle.X) * PixelWidth),
+                    Y = (float)((site.Coordinates.Y * TileSize - rectangle.Y) * PixelHeight)
                 };
-                g.DrawRectangle(sitePen, siteLocation.X, siteLocation.Y, scaleTileSize.Width - (float)(4 * PixelWidth), scaleTileSize.Height - (float)(4 * PixelHeight));
+                using (Pen sitePen = new Pen(Color.White))
+                {
+                    g.DrawRectangle(sitePen, siteLocation.X, siteLocation.Y, scaleTileSize.Width, scaleTileSize.Height);
+                }
             }
-            sitePen.Dispose();
-
-
-
-            DrawEntities(g, _displayObjects.OfType<Entity>().ToList());
-            DrawCivPaths(g);
-
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-
-            g.PixelOffsetMode = PixelOffsetMode.Half;
-            /*var battleLocations = from battle in DisplayObjects.OfType<Battle>()
-                                  group battle by battle.Coordinates into battleLocation
-                                  select new { Coordinates = battleLocation.Key };*/
-
             foreach (var battle in _battleLocations)
             {
                 PointF battleLocation = new PointF
                 {
-                    X = (float)((battle.X * TileSize - Source.X) * PixelWidth),
-                    Y = (float)((battle.Y * TileSize - Source.Y) * PixelHeight)
+                    X = (float)((battle.X * TileSize - rectangle.X) * PixelWidth),
+                    Y = (float)((battle.Y * TileSize - rectangle.Y) * PixelHeight)
                 };
                 using (Pen battlePen = new Pen(Color.FromArgb(175, Color.White), 2))
                 {
-                    g.DrawEllipse(battlePen, battleLocation.X + scaleTileSize.Width / 4, battleLocation.Y + scaleTileSize.Height / 4, scaleTileSize.Width / 2, scaleTileSize.Height / 2);
+                    g.DrawEllipse(battlePen, battleLocation.X, battleLocation.Y, scaleTileSize.Width, scaleTileSize.Height);
                 }
             }
 
-            if (FocusObject != null && FocusObject is IHasCoordinates)
+            foreach (War war in _displayObjects.OfType<War>().Where(war => war.StartYear <= CurrentYear && (war.EndYear >= CurrentYear || war.EndYear == -1)))
+            {
+                foreach (Battle battle in war.Collections.OfType<Battle>().Where(battle => battle.StartYear == CurrentYear))
+                {
+                    DrawBattlePaths(g, battle, originalSize);
+                }
+            }
+
+            if (FocusObject is IHasCoordinates coordinates)
             {
                 float margin = (float)(4 * PixelWidth);
-                if (FocusObject.GetType() == typeof(Landmass))
+                if (coordinates.GetType() == typeof(Landmass))
                 {
                     PointF startloc = new PointF
                     {
-                        X = (float)((((IHasCoordinates)FocusObject).Coordinates[0].X * TileSize - Source.X) * PixelWidth),
-                        Y = (float)((((IHasCoordinates)FocusObject).Coordinates[0].Y * TileSize - Source.Y) * PixelHeight)
+                        X = (float)((coordinates.Coordinates[0].X * TileSize - rectangle.X) * PixelWidth),
+                        Y = (float)((coordinates.Coordinates[0].Y * TileSize - rectangle.Y) * PixelHeight)
                     };
                     PointF endloc = new PointF
                     {
-                        X = (float)((((IHasCoordinates)FocusObject).Coordinates[1].X * TileSize - Source.X) * PixelWidth),
-                        Y = (float)((((IHasCoordinates)FocusObject).Coordinates[1].Y * TileSize - Source.Y) * PixelHeight)
+                        X = (float)((coordinates.Coordinates[1].X * TileSize - rectangle.X) * PixelWidth),
+                        Y = (float)((coordinates.Coordinates[1].Y * TileSize - rectangle.Y) * PixelHeight)
                     };
 
                     using (Pen pen = new Pen(Color.FromArgb(255, Color.White), 2))
@@ -517,32 +533,32 @@ namespace LegendsViewer.Controls.Map
                 }
                 else
                 {
-                    foreach (Location coord in ((IHasCoordinates)FocusObject).Coordinates)
+                    foreach (Location coord in coordinates.Coordinates)
                     {
                         PointF loc = new PointF
                         {
-                            X = (float)((coord.X * TileSize - Source.X) * PixelWidth),
-                            Y = (float)((coord.Y * TileSize - Source.Y) * PixelHeight)
+                            X = (float)((coord.X * TileSize - rectangle.X) * PixelWidth),
+                            Y = (float)((coord.Y * TileSize - rectangle.Y) * PixelHeight)
                         };
 
                         using (Pen pen = new Pen(Color.FromArgb(255, Color.White), 2))
                         {
-                            if (FocusObject.GetType() == typeof(WorldRegion))
+                            if (coordinates.GetType() == typeof(WorldRegion))
                             {
                                 g.FillRectangle(new SolidBrush(Color.LightGreen), loc.X + margin, loc.Y + margin,
                                     scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                             }
-                            else if (FocusObject.GetType() == typeof(UndergroundRegion))
+                            else if (coordinates.GetType() == typeof(UndergroundRegion))
                             {
                                 g.FillRectangle(new SolidBrush(Color.SandyBrown), loc.X + margin, loc.Y + margin,
                                     scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                             }
-                            else if (FocusObject.GetType() == typeof(WorldConstruction))
+                            else if (coordinates.GetType() == typeof(WorldConstruction))
                             {
                                 g.FillRectangle(new SolidBrush(Color.Gold), loc.X + margin, loc.Y + margin,
                                     scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
                             }
-                            else if (FocusObject.GetType() == typeof(MountainPeak))
+                            else if (coordinates.GetType() == typeof(MountainPeak))
                             {
                                 g.FillRectangle(new SolidBrush(Color.CornflowerBlue), loc.X + margin, loc.Y + margin,
                                     scaleTileSize.Width - 2 * margin, scaleTileSize.Height - 2 * margin);
@@ -563,28 +579,21 @@ namespace LegendsViewer.Controls.Map
             {
                 DrawBattlePaths(g, ((SiteConquered)FocusObject).Battle);
             }
-
-            foreach (War war in _displayObjects.OfType<War>().Where(war => war.StartYear <= CurrentYear && (war.EndYear >= CurrentYear || war.EndYear == -1)))
-            {
-                foreach (Battle battle in war.Collections.OfType<Battle>().Where(battle => battle.StartYear == CurrentYear))
-                {
-                    DrawBattlePaths(g, battle);
-                }
-            }
         }
 
-        private void DrawOverlay(Graphics g)
+        private void DrawOverlay(Graphics g, bool originalSize = false)
         {
             g.SmoothingMode = SmoothingMode.None;
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
             if (OverlayToggled)
             {
-                g.DrawImage(Overlay, ClientRectangle, Source, GraphicsUnit.Pixel);
+                g.DrawImage(Overlay, originalSize ? getOriginalSize(_map) : ClientRectangle, originalSize ? getOriginalSize(_map) : Source, GraphicsUnit.Pixel);
             }
         }
 
-        private void DrawEntities(Graphics g, List<Entity> entities)
+        private void DrawEntities(Graphics g, List<Entity> entities, bool originalSize = false)
         {
+            var rectangle = originalSize ? getOriginalSize(_map) : Source;
             SizeF scaleTileSize = new SizeF((float)PixelWidth * TileSize, (float)PixelHeight * TileSize);
             g.InterpolationMode = InterpolationMode.Default;
             g.PixelOffsetMode = PixelOffsetMode.Half;
@@ -595,8 +604,8 @@ namespace LegendsViewer.Controls.Map
                 {
                     PointF siteLocation = new PointF
                     {
-                        X = (float)((site.Site.Coordinates.X * TileSize - Source.X) * PixelWidth - 0),
-                        Y = (float)((site.Site.Coordinates.Y * TileSize - Source.Y) * PixelHeight - 0)
+                        X = (float)((site.Site.Coordinates.X * TileSize - rectangle.X) * PixelWidth - 0),
+                        Y = (float)((site.Site.Coordinates.Y * TileSize - rectangle.Y) * PixelHeight - 0)
                     };
                     if (site.EndYear == CurrentYear)
                     {
@@ -622,7 +631,7 @@ namespace LegendsViewer.Controls.Map
             }
         }
 
-        private void DrawBattlePaths(Graphics g, Battle battle)
+        private void DrawBattlePaths(Graphics g, Battle battle, bool originalSize = false)
         {
             using (Pen attackerLine = new Pen(Color.Black, 3))
             using (Pen defenderLine = new Pen(Color.Black, 3))
@@ -650,15 +659,15 @@ namespace LegendsViewer.Controls.Map
                     defenderLine.CustomEndCap = victorCap;
                 }
 
-                g.DrawLine(attackerLine, SiteToScreen(attackerSite.Coordinates), SiteToScreen(battle.Coordinates));
+                g.DrawLine(attackerLine, SiteToScreen(attackerSite.Coordinates, originalSize), SiteToScreen(battle.Coordinates, originalSize));
                 if (defenderSite != null && defenderSite.Coordinates != battle.Coordinates)
                 {
-                    g.DrawLine(defenderLine, SiteToScreen(defenderSite.Coordinates), SiteToScreen(battle.Coordinates));
+                    g.DrawLine(defenderLine, SiteToScreen(defenderSite.Coordinates, originalSize), SiteToScreen(battle.Coordinates, originalSize));
                 }
             }
         }
 
-        private void DrawCivPaths(Graphics g)
+        private void DrawCivPaths(Graphics g, bool originalSize = false)
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
             foreach (CivPaths civPaths in _allCivPaths)
@@ -682,7 +691,7 @@ namespace LegendsViewer.Controls.Map
                     {
                         using (Pen pathPen = new Pen(civPaths.Civ.LineColor, 2))
                         {
-                            g.DrawLine(pathPen, SiteToScreen(site1.Coordinates), SiteToScreen(site2.Coordinates));
+                            g.DrawLine(pathPen, SiteToScreen(site1.Coordinates, originalSize), SiteToScreen(site2.Coordinates, originalSize));
                         }
                     }
                 }
@@ -1034,6 +1043,55 @@ namespace LegendsViewer.Controls.Map
             GC.Collect();
         }
 
+        public void ExportMap()
+        {
+            SaveFileDialog exportMapDialog =
+                new SaveFileDialog
+                {
+                    Filter = "Png Image (.png)|*.png|JPEG Image (.jpeg)|*.jpeg|Gif Image (.gif)|*.gif|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = true
+                };
+
+            if (exportMapDialog.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap map = new Bitmap(_world.Map.Height, _world.Map.Width);
+
+                using (Graphics mapGraphics = Graphics.FromImage(map))
+                {
+                    mapGraphics.PixelOffsetMode = PixelOffsetMode.Half;
+                    DrawMap(mapGraphics, true);
+                    DrawDisplayObjects(mapGraphics, true);
+                    DrawOverlay(mapGraphics, true);
+                    using (Stream exportStream = exportMapDialog.OpenFile())
+                    {
+                        switch (exportMapDialog.FilterIndex)
+                        {
+                            case 1:
+                                map.Save(exportStream, ImageFormat.Png);
+                                break;
+                            case 2:
+                                map.Save(exportStream, ImageFormat.Jpeg);
+                                break;
+                            case 3:
+                                map.Save(exportStream, ImageFormat.Gif);
+                                break;
+                            case 4:
+                                map.Save(exportStream, ImageFormat.Bmp);
+                                break;
+                            case 5:
+                                map.Save(exportStream, ImageFormat.Tiff);
+                                break;
+                            default:
+                                map.Save(exportStream, ImageFormat.Png);
+                                break;
+                        }
+                        exportStream.Close();
+                    }
+                }
+            }
+        }
+
         public void ChangeMap()
         {
             OpenFileDialog openMap = new OpenFileDialog();
@@ -1115,12 +1173,13 @@ namespace LegendsViewer.Controls.Map
             Invalidate();
         }
 
-        private PointF SiteToScreen(Location siteCoordinates)
+        private PointF SiteToScreen(Location siteCoordinates, bool originalSize = false)
         {
+            var rectangle = originalSize ? getOriginalSize(_map) : Source;
             PointF screenCoordinates = new PointF
             {
-                X = (float)((siteCoordinates.X * TileSize - Source.X + TileSize / 2) * PixelWidth),
-                Y = (float)((siteCoordinates.Y * TileSize - Source.Y + TileSize / 2) * PixelHeight)
+                X = (float)((siteCoordinates.X * TileSize - rectangle.X + TileSize / 2) * PixelWidth),
+                Y = (float)((siteCoordinates.Y * TileSize - rectangle.Y + TileSize / 2) * PixelHeight)
             };
             return screenCoordinates;
         }
