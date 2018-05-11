@@ -57,6 +57,10 @@ namespace LegendsViewer.Legends.Events
                     case "structure_id": StructureId = Convert.ToInt32(property.Value); break;
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
+                    case "start":
+                        // TODO last checked in version 0.44.10
+                        property.Known = true;
+                        break;
                 }
             }
             if (Site != null)

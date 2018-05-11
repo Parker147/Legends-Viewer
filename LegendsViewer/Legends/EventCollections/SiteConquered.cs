@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LegendsViewer.Controls;
 using LegendsViewer.Controls.HTML.Utilities;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Events;
@@ -12,7 +13,7 @@ namespace LegendsViewer.Legends.EventCollections
     {
         public string Icon = "<i class=\"glyphicon fa-fw glyphicon-pawn\"></i>";
 
-        public string Name { get { return GetOrdinal(Ordinal) + ConquerType + " of " + Site.Name; } set { } }
+        public string Name { get { return GetOrdinal(Ordinal) + ConquerType.GetDescription() + " of " + Site.Name; } set { } }
         public int DeathCount { get { return Deaths.Count; } set { } }
 
         public int Ordinal { get; set; }
@@ -60,28 +61,35 @@ namespace LegendsViewer.Legends.EventCollections
             {
                 ConquerType = SiteConqueredType.Conquest;
             }
+            else if (Collection.OfType<SiteTributeForced>().Any())
+            {
+                ConquerType = SiteConqueredType.TributeEnforcement;
+            }
             else
             {
-                ConquerType = SiteConqueredType.Unknown;
+                ConquerType = SiteConqueredType.Invasion;
             }
 
-            if (ConquerType == SiteConqueredType.Pillaging)
+            if (ConquerType == SiteConqueredType.Pillaging || 
+                ConquerType == SiteConqueredType.Invasion || 
+                ConquerType == SiteConqueredType.TributeEnforcement)
             {
                 Notable = false;
             }
 
             Site.Warfare.Add(this);
-            if (ParentCollection != null)
+            if (ParentCollection is War)
             {
-                (ParentCollection as War).DeathCount += Collection.OfType<HfDied>().Count();
+                War war = ParentCollection as War;
+                war.DeathCount += Collection.OfType<HfDied>().Count();
 
-                if (Attacker == (ParentCollection as War).Attacker)
+                if (Attacker == war.Attacker)
                 {
-                    (ParentCollection as War).AttackerVictories.Add(this);
+                    war.AttackerVictories.Add(this);
                 }
                 else
                 {
-                    (ParentCollection as War).DefenderVictories.Add(this);
+                    war.DefenderVictories.Add(this);
                 }
             }
 
@@ -94,7 +102,9 @@ namespace LegendsViewer.Legends.EventCollections
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
-            string name = "The " + GetOrdinal(Ordinal) + ConquerType + " of " + Site.ToLink(false);
+            string name = "The ";
+            name += GetOrdinal(Ordinal);
+            name += ConquerType.GetDescription() + " of " + Site.ToLink(false);
             if (link)
             {
                 string title = Type;

@@ -33,16 +33,12 @@ namespace LegendsViewer.Legends.Events
                     case "d_squad_id": DefenderSquadId = Convert.ToInt32(property.Value); break;
                     case "d_race": DefenderRaceId = Convert.ToInt32(property.Value); break;
                     case "d_interaction":
-                        if (property.Value != "-1")
-                        {
-                            property.Known = false;
-                        }
+                        // TODO last checked in version 0.44.10
+                        property.Known = true;
                         break;
                     case "d_effect":
-                        if (property.Value != "-1")
-                        {
-                            property.Known = false;
-                        }
+                        // TODO last checked in version 0.44.10
+                        property.Known = true;
                         break;
                     case "d_number": DefenderNumber = Convert.ToInt32(property.Value); break;
                     case "d_slain": DefenderSlain = Convert.ToInt32(property.Value); break;
