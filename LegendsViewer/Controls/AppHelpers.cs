@@ -11,7 +11,7 @@ namespace LegendsViewer.Controls
 {
     public static class AppHelpers
     {
-        public static string[][] EventInfo = {
+        public static readonly string[][] EventInfo = {
 
             new[] {"add hf entity link",           "Historical Figure - Entity Link",          "Enemy / Prisoner / Member / General / King / Queen / Etc."},
             new[] {"add hf hf link",               "Historical Figure Links",                  "Marriage / Imprisonment / Worship"},
@@ -121,6 +121,9 @@ namespace LegendsViewer.Controls
             new[] { "hf freed",                           "Histroical Figure Freed", ""},
             new[] { "tactical situation",                 "Tactical Situation", ""},
             new[] { "squad vs squad",                     "Squad vs. Squad", ""},
+            new[] { "agreement void",                     "Agreement Void", ""},
+            new[] { "entity rampaged in site",            "Entity Rampaged In Site", ""},
+            new[] { "entity fled site",                   "Entity Fled Site", ""},
 
             new[] { "INVALID",                     "INVALID EVENT",                            ""}
         };

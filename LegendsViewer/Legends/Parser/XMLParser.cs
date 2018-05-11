@@ -612,6 +612,9 @@ namespace LegendsViewer.Legends.Parser
                 case "squad vs squad":
                     World.Events.Add(new SquadVsSquad(properties, World));
                     break;
+                case "agreement void":
+                    World.Events.Add(new AgreementVoid(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;

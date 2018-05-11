@@ -325,6 +325,7 @@
     <Compile Include="Legends\Events\AgreementFormed.cs" />
     <Compile Include="Legends\Events\AgreementMade.cs" />
     <Compile Include="Legends\Events\AgreementRejected.cs" />
+    <Compile Include="Legends\Events\AgreementVoid.cs" />
     <Compile Include="Legends\Events\ArtifactClaimFormed.cs" />
     <Compile Include="Legends\Events\ArtifactCopied.cs" />
     <Compile Include="Legends\Events\ArtifactCreated.cs" />
