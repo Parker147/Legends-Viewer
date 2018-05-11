@@ -257,6 +257,7 @@
     <Compile Include="Legends\DwarfObject.cs" />
     <Compile Include="Legends\Entity.cs" />
     <Compile Include="Legends\EntityEntityLink.cs" />
+    <Compile Include="Legends\Events\EntityFledSite.cs" />
     <Compile Include="Legends\EntityLink.cs" />
     <Compile Include="Legends\EntityOccasion.cs" />
     <Compile Include="Legends\EntityPopulation.cs" />
@@ -357,6 +358,7 @@
     <Compile Include="Legends\Events\EntityCreated.cs" />
     <Compile Include="Legends\Events\EntityLaw.cs" />
     <Compile Include="Legends\Events\EntityPrimaryCriminals.cs" />
+    <Compile Include="Legends\Events\EntityRampagedInSite.cs" />
     <Compile Include="Legends\Events\EntityRelocate.cs" />
     <Compile Include="Legends\Events\EntitySearchedSite.cs" />
     <Compile Include="Legends\Events\FieldBattle.cs" />
