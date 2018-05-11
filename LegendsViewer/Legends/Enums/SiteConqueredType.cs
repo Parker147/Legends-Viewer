@@ -1,10 +1,15 @@
-﻿namespace LegendsViewer.Legends.Enums
+﻿using System.ComponentModel;
+
+namespace LegendsViewer.Legends.Enums
 {
     public enum SiteConqueredType
     {
         Unknown,
         Pillaging,
         Destruction,
-        Conquest
+        Conquest,
+        [Description("Tribute Enforcement")]
+        TributeEnforcement,
+        Invasion
     }
 }

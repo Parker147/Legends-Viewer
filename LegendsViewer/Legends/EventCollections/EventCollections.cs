@@ -116,15 +116,15 @@ namespace LegendsViewer.Legends.EventCollections
 
             return yearTime;
         }
-        public string GetOrdinal(int oridinal)
+        public string GetOrdinal(int ordinal)
         {
-            string suffix = "";
-            string numeral = oridinal.ToString();
-            if (numeral == "1")
+            if (ordinal <= 1)
             {
                 return "";
             }
 
+            string suffix = "";
+            string numeral = ordinal.ToString();
             if (numeral.EndsWith("11") || numeral.EndsWith("12") || numeral.EndsWith("13"))
             {
                 suffix = "th";
@@ -148,12 +148,7 @@ namespace LegendsViewer.Legends.EventCollections
 
             return numeral + suffix + " ";
         }
-        /*protected void AddEvent(WorldEvent collectionEvent)
-        {
-            if (ParentCollection == null) return;
-            ParentCollection.Collection.Insert(collectionEvent);
-            ParentCollection.AddEvent(collectionEvent);
-        }*/
+
         public List<WorldEvent> GetSubEvents()
         {
             List<WorldEvent> events = new List<WorldEvent>();
@@ -165,30 +160,5 @@ namespace LegendsViewer.Legends.EventCollections
             events.AddRange(Collection);
             return events.OrderBy(collectionEvent => collectionEvent.Id).ToList();
         }
-
-        public string GetCollectionParentString()
-        {
-            if (ParentCollection != null)
-            {
-                return ParentCollection.GetCollectionParentString() + " > " + Type;
-            }
-
-            return Type;
-        }
     }
-
-
-
-   
-
-
-
-
-    
-
-
-
-
-
-
 }

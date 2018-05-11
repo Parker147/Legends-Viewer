@@ -41,15 +41,23 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            eventString += Concluder != null ? Concluder.ToLink(link, pov) : "UNKNOWN HISTORICAL FIGURE";
-            eventString += " formed an agreement";
+            if (Concluder != null)
+            {
+                eventString += Concluder.ToLink(link, pov);
+                eventString += " formed an agreement";
+            }
+            else
+            {
+                eventString += " an agreement has been formed";
+            }
+
             switch (Reason)
             {
                 case AgreementReason.Whim:
                     eventString += " on a whim";
                     break;
                 case AgreementReason.ViolentDisagreement:
-                    eventString += " a violent disagreement";
+                    eventString += " after a violent disagreement";
                     break;
                 case AgreementReason.ArrivedAtLocation:
                     eventString += " after arriving at the location";

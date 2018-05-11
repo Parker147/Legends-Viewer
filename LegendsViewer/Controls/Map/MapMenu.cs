@@ -386,6 +386,7 @@ namespace LegendsViewer.Controls.Map
                     case "Toggle Overlay": Parent.Map.ToggleOverlay(); break;
                     case "Toggle Alt Map": Parent.Map.ToggleAlternateMap(); break;
                     case "Load Alternate Map...": Parent.Map.ChangeMap(); break;
+                    case "Export Map...": Parent.Map.ExportMap(); break;
                     case "Zoom In": Parent.Map.ZoomIn(); break;
                     case "Zoom Out": Parent.Map.ZoomOut(); break;
                     case "+1000": Parent.Map.ChangeYear(1000); break;

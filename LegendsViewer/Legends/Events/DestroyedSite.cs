@@ -7,8 +7,12 @@ namespace LegendsViewer.Legends.Events
 {
     public class DestroyedSite : WorldEvent
     {
-        public Site Site;
-        public Entity SiteEntity, Attacker, Defender;
+        public Site Site { get; set; }
+        public Entity SiteEntity { get; set; }
+        public Entity Attacker { get; set; }
+        public Entity Defender { get; set; }
+        public bool NoDefeatMention { get; set; }
+
         public DestroyedSite(List<Property> properties, World world)
             : base(properties, world)
         {
@@ -20,6 +24,10 @@ namespace LegendsViewer.Legends.Events
                     case "site_civ_id": SiteEntity = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "attacker_civ_id": Attacker = world.GetEntity(Convert.ToInt32(property.Value)); break;
                     case "defender_civ_id": Defender = world.GetEntity(Convert.ToInt32(property.Value)); break;
+                    case "no_defeat_mention":
+                        NoDefeatMention = true;
+                        property.Known = true;
+                        break;
                 }
             }
 
@@ -52,13 +60,21 @@ namespace LegendsViewer.Legends.Events
 
         public override string Print(bool link = true, DwarfObject pov = null)
         {
-            string eventString = GetYearTime() + Attacker.ToLink(link, pov) + " defeated ";
-            if (SiteEntity != null && SiteEntity != Defender)
+            string eventString = GetYearTime();
+            eventString += Attacker?.ToLink(link, pov) ?? "an unknown entity";
+            if (!NoDefeatMention)
             {
-                eventString += SiteEntity.ToLink(link, pov) + " of ";
-            }
+                eventString += " defeated ";
+                if (SiteEntity != null && SiteEntity != Defender)
+                {
+                    eventString += SiteEntity.ToLink(link, pov) + " of ";
+                }
 
-            eventString += Defender.ToLink(link, pov) + " and destroyed " + Site.ToLink(link, pov);
+                eventString += Defender?.ToLink(link, pov) ?? "an unknown entity";
+                eventString += " and";
+            }
+            eventString += " destroyed ";
+            eventString += Site?.ToLink(link, pov) ?? "an unknown site";
             eventString += PrintParentCollection(link, pov);
             eventString += ".";
             return eventString;
