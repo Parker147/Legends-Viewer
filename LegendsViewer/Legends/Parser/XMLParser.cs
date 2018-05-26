@@ -712,16 +712,12 @@ namespace LegendsViewer.Legends.Parser
             //Create sorted Historical Figures so they can be binary searched by name, needed for parsing History file
             if (section == Section.HistoricalFigures)
             {
-                World.HistoricalFiguresByName = new List<HistoricalFigure>(World.HistoricalFigures);
-                World.HistoricalFiguresByName.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
                 World.ProcessHFtoHfLinks();
             }
 
             //Create sorted entities so they can be binary searched by name, needed for History/sites files
             if (section == Section.Entities)
             {
-                World.EntitiesByName = new List<Entity>(World.Entities);
-                World.EntitiesByName.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
                 World.ProcessReputations();
                 World.ProcessHFtoSiteLinks();
                 World.ProcessEntityEntityLinks();

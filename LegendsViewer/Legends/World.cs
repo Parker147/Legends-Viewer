@@ -26,9 +26,7 @@ namespace LegendsViewer.Legends
         public readonly List<MountainPeak> MountainPeaks = new List<MountainPeak>();
         public readonly List<Site> Sites = new List<Site>();
         public readonly List<HistoricalFigure> HistoricalFigures = new List<HistoricalFigure>();
-        public List<HistoricalFigure> HistoricalFiguresByName;
         public readonly List<Entity> Entities = new List<Entity>();
-        public List<Entity> EntitiesByName;
         public List<War> Wars;
         public List<Battle> Battles;
         public List<BeastAttack> BeastAttacks;
@@ -295,80 +293,6 @@ namespace LegendsViewer.Legends
         }
 
         #region GetWorldItemsFunctions
-
-        public HistoricalFigure GetHistoricalFigure(string name)
-        {
-            name = Formatting.InitCaps(name.Replace("'", "`"));
-            int min = 0;
-            int max = HistoricalFigures.Count - 1;
-            while (min <= max)
-            {
-                int mid = min + (max - min) / 2;
-                if (string.Compare(HistoricalFiguresByName[mid].Name, name, StringComparison.OrdinalIgnoreCase) < 0)
-                {
-                    min = mid + 1;
-                }
-                else if (string.Compare(HistoricalFiguresByName[mid].Name, name, StringComparison.OrdinalIgnoreCase) > 0)
-                {
-                    max = mid - 1;
-                }
-                else if (mid == 0 && string.Compare(HistoricalFigures[mid + 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    return HistoricalFiguresByName[mid];
-                }
-                else if (mid == HistoricalFiguresByName.Count - 1 && string.Compare(HistoricalFiguresByName[mid - 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    return HistoricalFiguresByName[mid];
-                }
-                else if (string.Compare(HistoricalFiguresByName[mid - 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0 && 
-                         string.Compare(HistoricalFiguresByName[mid + 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0) //checks duplicates
-                {
-                    return HistoricalFiguresByName[mid];
-                }
-                else
-                {
-                    throw new Exception("Duplicate Historical Figure Name: " + name);
-                }
-            }
-            throw new Exception("Couldn't Find Historical Figure: " + name);
-        }
-
-        public Entity GetEntity(string name)
-        {
-            name = Formatting.InitCaps(name);
-            int min = 0;
-            int max = EntitiesByName.Count - 1;
-            while (min <= max)
-            {
-                int mid = min + (max - min) / 2;
-                if (String.Compare(EntitiesByName[mid].Name, name, StringComparison.OrdinalIgnoreCase) < 0)
-                {
-                    min = mid + 1;
-                }
-                else if (String.Compare(EntitiesByName[mid].Name, name, StringComparison.OrdinalIgnoreCase) > 0)
-                {
-                    max = mid - 1;
-                }
-                else if (mid == 0 && String.Compare(EntitiesByName[mid + 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    return EntitiesByName[mid];
-                }
-                else if (mid == EntitiesByName.Count - 1 && String.Compare(EntitiesByName[mid - 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    return EntitiesByName[mid];
-                }
-                else if (String.Compare(EntitiesByName[mid - 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0 && String.Compare(EntitiesByName[mid + 1].Name, name, StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    return EntitiesByName[mid];
-                }
-                else
-                {
-                    throw new Exception("Duplicate Entity Name: " + name);
-                }
-            }
-            throw new Exception("Couldn't Find Entity: " + name);
-        }
-
 
         public WorldRegion GetRegion(int id)
         {

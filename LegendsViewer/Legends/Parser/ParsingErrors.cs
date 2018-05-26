@@ -5,21 +5,15 @@ namespace LegendsViewer.Legends.Parser
 {
     public class ParsingErrors
     {
-        private List<string> _reportedErrorTypes;
-        private StringBuilder _log;
+        private readonly List<string> _reportedErrorTypes = new List<string>();
+        private readonly StringBuilder _log = new StringBuilder();
 
-        public ParsingErrors()
+        public void Report(string description, string details = null)
         {
-            _reportedErrorTypes = new List<string>();
-            _log = new StringBuilder();
-        }
-
-        public void Report(string description, string details = "", bool forceReport = false)
-        {
-            if (forceReport || _reportedErrorTypes.FindIndex(error => error == description) == -1)
+            if (_reportedErrorTypes.FindIndex(error => error == description) == -1)
             {
                 _log.Append(description);
-                if (details != "")
+                if (!string.IsNullOrWhiteSpace(details))
                 {
                     _log.AppendLine(" (" + details + ")");
                 }

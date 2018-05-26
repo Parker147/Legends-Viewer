@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using LegendsViewer.Legends.Enums;
 
 namespace LegendsViewer.Legends.Parser
 {
-    class HistoryParser : IDisposable
+    public class HistoryParser : IDisposable
     {
-        World _world;
-        StreamReader _history;
-        string _currentLine;
-        Entity _currentCiv;
-        StringBuilder _log;
+        private readonly World _world;
+        private readonly StreamReader _history;
+        private readonly StringBuilder _log;
+
+        private string _currentLine;
+        private Entity _currentCiv;
 
         public HistoryParser(World world, string historyFile)
         {
@@ -50,30 +50,34 @@ namespace LegendsViewer.Legends.Parser
 
         private bool ReadCiv()
         {
-            string civName = _currentLine.Substring(0, _currentLine.IndexOf(","));
-            try
+            string civName = _currentLine.Substring(0, _currentLine.IndexOf(",", StringComparison.Ordinal));
+            var entities = _world.Entities
+                .Where(entity => string.Compare(entity.Name, civName, StringComparison.OrdinalIgnoreCase) == 0).ToList();
+            if (entities.Count == 1)
             {
-                _currentCiv = _world.GetEntity(civName);
+                _currentCiv = entities.First();
             }
-            catch (Exception e)
+            else if (entities.Count == 0)
             {
-                _currentCiv = _world.Entities.FirstOrDefault(entity =>
-                    string.Compare(entity.Name, civName, StringComparison.OrdinalIgnoreCase) == 0 && 
-                    (entity.Type == EntityType.Civilization || entity.Type == EntityType.Unknown));
-                if (_currentCiv == null)
+                _world.ParsingErrors.Report($"Couldn\'t Find Civilization:\n{civName}");
+            }
+#if DEBUG
+            else
+            {
+                _world.ParsingErrors.Report($"Ambiguous ({entities.Count}) Civilization Name:\n{civName}");
+            }
+#endif
+            if (_currentCiv != null)
+            {
+                _currentCiv.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",", StringComparison.Ordinal) + 2, 
+                    _currentLine.Length - _currentLine.IndexOf(",", StringComparison.Ordinal) - 2).ToLower());
+                foreach (Entity group in _currentCiv.Groups)
                 {
-                    _log.AppendLine(e.Message + ", Civ");
-                    ReadLine();
-                    return false;
+                    group.Race = _currentCiv.Race;
                 }
-            }
-            _currentCiv.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",") + 2, _currentLine.Length - _currentLine.IndexOf(",") - 2).ToLower());
-            foreach (Entity group in _currentCiv.Groups)
-            {
-                group.Race = _currentCiv.Race;
-            }
 
-            _currentCiv.IsCiv = true;
+                _currentCiv.IsCiv = true;
+            }
             ReadLine();
             return true;
         }
@@ -85,24 +89,25 @@ namespace LegendsViewer.Legends.Parser
                 ReadLine();
                 while (_currentLine != null && _currentLine.StartsWith("  "))
                 {
-                    string worshipName = Formatting.InitCaps(Formatting.ReplaceNonAscii(_currentLine.Substring(2, _currentLine.IndexOf(",") - 2)));
-                    HistoricalFigure worship = null;
-                    try
+                    string deityName = Formatting.InitCaps(Formatting.ReplaceNonAscii(_currentLine.Substring(2, 
+                        _currentLine.IndexOf(",", StringComparison.Ordinal) - 2)));
+                    var deities = _world.HistoricalFigures.Where(h => h.Name.Equals(deityName.Replace("'", "`"), StringComparison.OrdinalIgnoreCase) && (h.Deity || h.Force)).ToList();
+                    if (deities.Count == 1)
                     {
-                        worship = _world.GetHistoricalFigure(worshipName);
+                        var deity = deities.First();
+                        deity.WorshippedBy = _currentCiv;
+                        _currentCiv.Worshipped.Add(deity);
                     }
-                    catch (Exception e)
+                    else if (deities.Count == 0)
                     {
-                        worship = _world.HistoricalFiguresByName.FirstOrDefault(h => h.Name.Equals(worshipName, StringComparison.OrdinalIgnoreCase) && (h.Deity || h.Force));
-                        if (worship == null)
-                        {
-                            _log.AppendLine(e.Message + ", a Worship of " + _currentCiv.Name);
-                            ReadLine();
-                            continue;
-                        }
+                        _world.ParsingErrors.Report($"Couldn\'t Find Deity:\n{deityName}, Deity of {_currentCiv.Name}");
                     }
-                    worship.WorshippedBy = _currentCiv;
-                    _currentCiv.Worshipped.Add(worship);
+#if DEBUG
+                    else
+                    {
+                        _world.ParsingErrors.Report($"Ambiguous ({deities.Count}) Deity Name:\n{deityName}, Deity of {_currentCiv.Name}");
+                    }
+#endif
                     ReadLine();
                 }
             }
@@ -117,7 +122,7 @@ namespace LegendsViewer.Legends.Parser
         {
             while (LeaderStart())
             {
-                string leaderType = Formatting.InitCaps(_currentLine.Substring(1, _currentLine.IndexOf("List") - 2));
+                string leaderType = Formatting.InitCaps(_currentLine.Substring(1, _currentLine.IndexOf("List", StringComparison.Ordinal) - 2));
                 _currentCiv.LeaderTypes.Add(leaderType);
                 _currentCiv.Leaders.Add(new List<HistoricalFigure>());
                 ReadLine();
@@ -125,50 +130,50 @@ namespace LegendsViewer.Legends.Parser
                 {
                     if (_currentLine.Contains("[*]"))
                     {
-                        string leaderName = Formatting.ReplaceNonAscii(_currentLine.Substring(_currentLine.IndexOf("[*]") + 4, _currentLine.IndexOf("(b") - _currentLine.IndexOf("[*]") - 5));
-                        HistoricalFigure leader = null;
-                        try
+                        string leaderName = Formatting.ReplaceNonAscii(_currentLine.Substring(_currentLine.IndexOf("[*]", StringComparison.Ordinal) + 4, 
+                            _currentLine.IndexOf("(b", StringComparison.Ordinal) - _currentLine.IndexOf("[*]", StringComparison.Ordinal) - 5));
+                        var leaders = _world.HistoricalFigures.Where(hf =>
+                                string.Compare(hf.Name, leaderName.Replace("'", "`"), StringComparison.OrdinalIgnoreCase) == 0).ToList();
+                        if (leaders.Count == 1)
                         {
-                            leader = _world.GetHistoricalFigure(leaderName);
-                        }
-                        catch (Exception e)
-                        {
-                            leader = _world.HistoricalFigures.FirstOrDefault(hf =>
-                                string.Compare(hf.Name, leaderName, StringComparison.OrdinalIgnoreCase) == 0);
-                            if (leader == null)
+                            var leader = leaders.First();
+                            int reignBegan = Convert.ToInt32(_currentLine.Substring(_currentLine.IndexOf(":", StringComparison.Ordinal) + 2, 
+                                _currentLine.IndexOf("), ", StringComparison.Ordinal) - _currentLine.IndexOf(":", StringComparison.Ordinal) - 2));
+                            if (_currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Count > 0) //End of previous leader's reign
                             {
-                                _log.AppendLine(e.Message + ", a Leader of " + _currentCiv.Name);
-                                ReadLine();
-                                continue;
+                                _currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Last().Positions.Last().Ended = reignBegan - 1;
                             }
-                        }
 
-                        int reignBegan = Convert.ToInt32(_currentLine.Substring(_currentLine.IndexOf(":") + 2, _currentLine.IndexOf("), ") - _currentLine.IndexOf(":") - 2));
-                        if (_currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Count > 0) //End of previous leader's reign
-                        {
-                            _currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Last().Positions.Last().Ended = reignBegan - 1;
-                        }
+                            if (leader.Positions.Count > 0 && leader.Positions.Last().Ended == -1) //End of leader's last leader position (move up rank etc.)
+                            {
+                                HistoricalFigure.Position lastPosition = leader.Positions.Last();
+                                lastPosition.Ended = reignBegan;
+                                lastPosition.Length = lastPosition.Began - reignBegan;
+                            }
+                            HistoricalFigure.Position newPosition = new HistoricalFigure.Position(_currentCiv, reignBegan, -1, leaderType);
+                            if (leader.DeathYear != -1)
+                            {
+                                newPosition.Ended = leader.DeathYear;
+                                newPosition.Length = leader.DeathYear - newPosition.Ended;
+                            }
+                            else
+                            {
+                                newPosition.Length = _world.Events.Last().Year - newPosition.Began;
+                            }
 
-                        if (leader.Positions.Count > 0 && leader.Positions.Last().Ended == -1) //End of leader's last leader position (move up rank etc.)
-                        {
-                            HistoricalFigure.Position lastPosition = leader.Positions.Last();
-                            lastPosition.Ended = reignBegan;
-                            lastPosition.Length = lastPosition.Began - reignBegan;
+                            leader.Positions.Add(newPosition);
+                            _currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Add(leader);
                         }
-                        HistoricalFigure.Position newPosition = new HistoricalFigure.Position(_currentCiv, reignBegan, -1, leaderType);
-                        if (leader.DeathYear != -1)
+                        else if (leaders.Count == 0)
                         {
-                            newPosition.Ended = leader.DeathYear;
-                            newPosition.Length = leader.DeathYear - newPosition.Ended;
+                            _world.ParsingErrors.Report($"Couldn\'t Find Leader:\n{leaderName}, Leader of {_currentCiv.Name}");
                         }
+#if DEBUG
                         else
                         {
-                            newPosition.Length = _world.Events.Last().Year - newPosition.Began;
+                            _world.ParsingErrors.Report($"Ambiguous ({leaders.Count}) Leader Name:\n{leaderName}, Leader of {_currentCiv.Name}");
                         }
-
-                        leader.Positions.Add(newPosition);
-                        _currentCiv.Leaders[_currentCiv.LeaderTypes.Count - 1].Add(leader);
-
+#endif
                     }
                     ReadLine();
                 }
