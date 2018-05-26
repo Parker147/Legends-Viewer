@@ -271,25 +271,25 @@ namespace LegendsViewer.Legends
         }
 
         //TODO: Check and possibly move logic
-        public void AddOwnedSite(OwnerPeriod newSite)
+        public void AddOwnedSite(OwnerPeriod ownerPeriod)
         {
-            if (newSite.StartCause == "UNKNOWN" && SiteHistory.All(s => s.Site != newSite.Site))
+            if (ownerPeriod.StartCause == "UNKNOWN" && SiteHistory.All(s => s.Site != ownerPeriod.Site))
             {
-                SiteHistory.Insert(0, newSite);
+                SiteHistory.Insert(0, ownerPeriod);
             }
             else
             {
-                SiteHistory.Add(newSite);
+                SiteHistory.Add(ownerPeriod);
             }
 
-            if (newSite.Owner != this)
+            if (ownerPeriod.Owner != this)
             {
-                Groups.Add((Entity)newSite.Owner);
+                Groups.Add((Entity)ownerPeriod.Owner);
             }
 
             if (!IsCiv && Parent != null)
             {
-                Parent.AddOwnedSite(newSite);
+                Parent.AddOwnedSite(ownerPeriod);
                 Race = Parent.Race;
             }
         }

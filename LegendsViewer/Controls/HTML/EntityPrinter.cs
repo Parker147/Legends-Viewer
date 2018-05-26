@@ -587,7 +587,7 @@ namespace LegendsViewer.Controls.HTML
         {
             if (_entity.SiteHistory.Count > 0)
             {
-                Html.AppendLine(Bold("Site History") + " " + MakeLink("[Load]", LinkOption.LoadEntitySites) + LineBreak);
+                Html.AppendLine(Bold("Site History") + LineBreak);
                 TableMaker siteTable = new TableMaker(true);
                 foreach (OwnerPeriod ownedSite in _entity.SiteHistory.OrderBy(sh => sh.StartYear))
                 {
@@ -595,7 +595,8 @@ namespace LegendsViewer.Controls.HTML
                     siteTable.AddData(ownedSite.Owner.ToLink(true, _entity));
                     siteTable.AddData(ownedSite.StartCause);
                     siteTable.AddData(ownedSite.Site.ToLink());
-                    siteTable.AddData(ownedSite.StartYear.ToString(), 0, TableDataAlign.Right);
+                    var startYear = ownedSite.StartYear >= 0 ? ownedSite.StartYear.ToString() : "in a time before time";
+                    siteTable.AddData(startYear, 0, TableDataAlign.Right);
                     if (ownedSite.EndYear >= 0)
                     {
                         siteTable.AddData(ownedSite.EndCause);
@@ -603,9 +604,9 @@ namespace LegendsViewer.Controls.HTML
                     }
                     if (ownedSite.Ender != null)
                     {
-                        if (ownedSite.Ender is Entity)
+                        if (ownedSite.Ender is Entity entity)
                         {
-                            siteTable.AddData(" by " + ((Entity)ownedSite.Ender).PrintEntity());
+                            siteTable.AddData(" by " + entity.PrintEntity());
                         }
                         else
                         {

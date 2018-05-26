@@ -1,27 +1,33 @@
-﻿namespace LegendsViewer.Legends
+﻿using System;
+
+namespace LegendsViewer.Legends
 {
-    //TODO: Move site/owner add period/site lines to site creation/destruction events
-    //TODO: Make Enums for start/end cause, search "new ownerperiod"
     public class OwnerPeriod
     {
-        public Site Site;
+        public readonly Site Site;
         public DwarfObject Owner;
         public DwarfObject Ender;
-        public int StartYear, EndYear;
-        public string StartCause, EndCause;
-        public OwnerPeriod(Site site, DwarfObject newowner, int year, string cause)
+        public readonly int StartYear;
+        public int EndYear;
+        public string StartCause;
+        public string EndCause;
+
+        public OwnerPeriod(Site site, DwarfObject owner, int startYear, string startCause)
         {
             Site = site;
-            Owner = newowner;
-            StartYear = year;
-            StartCause = cause;
+            Owner = owner;
+            StartYear = startYear;
+            StartCause = startCause;
             EndYear = -1;
 
-            if (Owner != null && Owner is Entity)
+            if (Owner is Entity entity)
             {
-                ((Entity)Owner).AddOwnedSite(this);
+                entity.AddOwnedSite(this);
             }
-            Site.OwnerHistory.Add(this);
+            else
+            {
+                Console.WriteLine();
+            }
         }
     }
 }

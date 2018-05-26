@@ -269,7 +269,7 @@ namespace LegendsViewer.Legends.Parser
             {
                 if (_site.OwnerHistory.Count == 0)
                 {
-                    new OwnerPeriod(_site, _owner, 1, "founded");
+                    _site.OwnerHistory.Add(new OwnerPeriod(_site, _owner, -1, "founded"));
                 }
                 else if (_site.OwnerHistory.Last().Owner != _owner)
                 {
@@ -278,18 +278,24 @@ namespace LegendsViewer.Legends.Parser
                     {
                         if (lastKnownOwner.DeathYear != -1)
                         {
-                            new OwnerPeriod(_site, _owner, lastKnownOwner.DeathYear, "after death of last owner (" + lastKnownOwner.DeathCause + ") took over");
+                            _site.OwnerHistory.Add(new OwnerPeriod(_site, _owner, lastKnownOwner.DeathYear, "after death of last owner (" + lastKnownOwner.DeathCause + ") took over"));
                             found = true;
                         }
-                        else if (_site.Type == "Vault" && _owner is Entity)
+                        else
                         {
-                            _site.OwnerHistory.Last().Owner = _owner;
-                            found = true;
+                            if (_site.Type == "Vault")
+                            {
+                                if (_owner is Entity entity)
+                                {
+                                    _site.OwnerHistory.Add(new OwnerPeriod(_site, entity, -1, "moved into"));
+                                    found = true;
+                                }
+                            }
                         }
                     }
                     else if (_site.CurrentOwner == null)
                     {
-                        new OwnerPeriod(_site, _owner, _site.OwnerHistory.Last().EndYear, "slowly repopulated after the site was " + _site.OwnerHistory.Last().EndCause);
+                        _site.OwnerHistory.Add(new OwnerPeriod(_site, _owner, _site.OwnerHistory.Last().EndYear, "slowly repopulated after the site was " + _site.OwnerHistory.Last().EndCause));
                         found = true;
                     }
                     if (!found)
@@ -297,7 +303,7 @@ namespace LegendsViewer.Legends.Parser
                         ChangeHfState lastSettledEvent = _site.Events.OfType<ChangeHfState>().LastOrDefault();
                         if (lastSettledEvent != null)
                         {
-                            new OwnerPeriod(_site, _owner, lastSettledEvent.Year, "settled in");
+                            _site.OwnerHistory.Add(new OwnerPeriod(_site, _owner, lastSettledEvent.Year, "settled in"));
                         }
                         else
                         {
