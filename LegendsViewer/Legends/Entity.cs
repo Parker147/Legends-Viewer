@@ -336,26 +336,71 @@ namespace LegendsViewer.Legends
         {
             if (link)
             {
-                string title;
-                if (IsCiv)
-                {
-                    title = "Civilization of " + Race;
-                }
-                else
-                {
-                    title = "Group of " + Race;
-                }
-                if (Parent != null)
-                {
-                    title += ", of " + Parent.Name;
-                }
                 if (pov != this)
                 {
-                    return Icon + "<a href = \"entity#" + Id + "\" title=\"" + title + "\">" + Name + "</a>";
+                    return Icon + "<a href = \"entity#" + Id + "\" title=\"" + GetToolTip() + "\">" + Name + "</a>";
                 }
-                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
+                return Icon + "<a title=\"" + GetToolTip() + "\">" + HtmlStyleUtil.CurrentDwarfObject(Name) + "</a>";
             }
             return Name;
+        }
+
+        private string GetToolTip()
+        {
+            string title = GetTitle();
+            if (Parent != null)
+            {
+                title += "&#13";
+                title += "Part of " + Parent.Name;
+            }
+            title += "&#13";
+            title += "Events: " + Events.Count;
+            return title;
+        }
+
+        private string GetTitle()
+        {
+            string title = "";
+            if (IsCiv)
+            {
+                title += "Civilization";
+            }
+            else
+            {
+                switch (Type)
+                {
+                    case EntityType.Civilization:
+                        title += "Civilization";
+                        break;
+                    case EntityType.NomadicGroup:
+                        title += "Nomadic group";
+                        break;
+                    case EntityType.MigratingGroup:
+                        title += "Migrating group";
+                        break;
+                    case EntityType.Outcast:
+                        title += "Collection of outcasts";
+                        break;
+                    case EntityType.Religion:
+                        title += "Religious group";
+                        break;
+                    case EntityType.SiteGovernment:
+                        title += "Site government";
+                        break;
+                    case EntityType.PerformanceTroupe:
+                        title += "Performance troupe";
+                        break;
+                    default:
+                        title += "Group";
+                        break;
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(Race) && Race != "Unknown")
+            {
+                title += " of ";
+                title += Race;
+            }
+            return title;
         }
     }
 }
