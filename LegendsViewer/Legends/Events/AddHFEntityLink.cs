@@ -134,18 +134,25 @@ namespace LegendsViewer.Legends.Events
             }
 
             eventString += " to the position of ";
-            EntityPosition position = Entity.EntityPositions.FirstOrDefault(pos => pos.Name.ToLower() == Position.ToLower());
-            if (position != null)
+            if (Position != null)
             {
-                string positionName = position.GetTitleByCaste(HistoricalFigure.Caste);
-                eventString += positionName;
+                EntityPosition position = Entity.EntityPositions.FirstOrDefault(pos => pos.Name.ToLower() == Position.ToLower());
+                if (position != null)
+                {
+                    string positionName = position.GetTitleByCaste(HistoricalFigure?.Caste);
+                    eventString += positionName;
+                }
+                else
+                {
+                    eventString += Position;
+                }
             }
             else
             {
-                eventString += Position;
+                eventString += "UNKNOWN POSITION";
             }
             eventString += " of ";
-            eventString += Entity.ToLink(link, pov);
+            eventString += Entity?.ToLink(link, pov) ?? "UNKNOWN ENTITY";
             eventString += " in ";
             eventString += Year;
             return eventString;
