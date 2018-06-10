@@ -19,6 +19,7 @@ namespace LegendsViewer.Legends.Events
         public OccasionType OccasionType { get; set; }
         public EntityOccasion EntityOccasion { get; set; }
         public Schedule Schedule { get; set; }
+        public ArtForm ReferencedArtForm { get; set; }
 
         public OccasionEvent(List<Property> properties, World world) : base(properties, world)
         {
@@ -53,7 +54,7 @@ namespace LegendsViewer.Legends.Events
                 if (EntityOccasion != null)
                 {
                     Schedule = EntityOccasion.Schedules.ElementAt(ScheduleId);
-                    
+
                     // DEBUG
 
                     //if (Schedule.Reference != -1 && Schedule.Type == ScheduleType.Storytelling)
@@ -73,6 +74,35 @@ namespace LegendsViewer.Legends.Events
             UndergroundRegion.AddEvent(this);
         }
 
+        public void ResolveArtForm()
+        {
+            if (Schedule != null)
+            {
+                switch (Schedule.Type)
+                {
+                    case ScheduleType.PoetryRecital:
+                        if (Schedule.Reference != -1)
+                        {
+                            ReferencedArtForm = World.GetPoeticForm(Schedule.Reference);
+                        }
+                        break;
+                    case ScheduleType.MusicalPerformance:
+                        if (Schedule.Reference != -1)
+                        {
+                            ReferencedArtForm = World.GetMusicalForm(Schedule.Reference);
+                        }
+                        break;
+                    case ScheduleType.DancePerformance:
+                        if (Schedule.Reference != -1)
+                        {
+                            ReferencedArtForm = World.GetDanceForm(Schedule.Reference);
+                        }
+                        break;
+                }
+                ReferencedArtForm.AddEvent(this);
+            }
+        }
+
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
@@ -86,46 +116,19 @@ namespace LegendsViewer.Legends.Events
                     eventString += " ";
                 }
             }
-            eventString += Schedule != null ? Schedule.Type.GetDescription().ToLower() :OccasionType.ToString().ToLower();
-            if (Schedule != null)
+            eventString += Schedule?.Type.GetDescription().ToLower() ?? OccasionType.ToString().ToLower();
+            if (ReferencedArtForm != null)
             {
-                switch (Schedule.Type)
+                eventString += " of ";
+                eventString += ReferencedArtForm.ToLink(link, pov);
+            }
+            else if (Schedule != null && Schedule.Type == ScheduleType.Storytelling && Schedule.Reference != -1)
+            {
+                WorldEvent worldEvent = World.GetEvent(Schedule.Reference);
+                if (worldEvent is IFeatured featured)
                 {
-                    case ScheduleType.PoetryRecital:
-                        if (Schedule.Reference != -1)
-                        {
-                            PoeticForm form = World.GetPoeticForm(Schedule.Reference);
-                            eventString += " of ";
-                            eventString += form != null ? form.ToLink(link, pov) : "UNKNOWN POETRICFORM";
-                        }
-                        break;
-                    case ScheduleType.MusicalPerformance:
-                        if (Schedule.Reference != -1)
-                        {
-                            MusicalForm form = World.GetMusicalForm(Schedule.Reference);
-                            eventString += " of ";
-                            eventString += form != null ? form.ToLink(link, pov) : "UNKNOWN MUSICALFORM";
-                        }
-                        break;
-                    case ScheduleType.DancePerformance:
-                        if (Schedule.Reference != -1)
-                        {
-                            DanceForm form = World.GetDanceForm(Schedule.Reference);
-                            eventString += " of ";
-                            eventString += form != null ? form.ToLink(link, pov) : "UNKNOWN DANCEFORM";
-                        }
-                        break;
-                    case ScheduleType.Storytelling:
-                        if (Schedule.Reference != -1)
-                        {
-                            WorldEvent worldEvent = World.GetEvent(Schedule.Reference);
-                            if (worldEvent is IFeatured)
-                            {
-                                eventString += " of ";
-                                eventString += worldEvent != null ? ((IFeatured)worldEvent).PrintFeature() : "UNKNOWN EVENT";
-                            }
-                        }
-                        break;
+                    eventString += " of ";
+                    eventString += featured.PrintFeature();
                 }
             }
             eventString += " in ";

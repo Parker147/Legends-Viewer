@@ -621,10 +621,7 @@ namespace LegendsViewer.Legends
                 HistoricalFigure hf = _hFtoSiteLinkHFs[i];
                 SiteLink hfToSiteLink = new SiteLink(link.SubProperties, this);
                 hf.RelatedSites.Add(hfToSiteLink);
-                if (hfToSiteLink.Site != null)
-                {
-                    hfToSiteLink.Site.RelatedHistoricalFigures.Add(hf);
-                }
+                hfToSiteLink.Site?.RelatedHistoricalFigures.Add(hf);
             }
 
             _hFtoSiteLinkHFs.Clear();
@@ -710,6 +707,10 @@ namespace LegendsViewer.Legends
                     formCreated.ArtForm = GetPoeticForm(Convert.ToInt32(formCreated.FormId));
                     formCreated.ArtForm.AddEvent(formCreated);
                 }
+            }
+            foreach (var occasionEvent in Events.OfType<OccasionEvent>())
+            {
+                occasionEvent.ResolveArtForm();
             }
             foreach (var writtenContentComposed in Events.OfType<WrittenContentComposed>())
             {
