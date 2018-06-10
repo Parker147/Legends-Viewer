@@ -265,7 +265,7 @@ namespace LegendsViewer.Controls.HTML
                     if (warfare.GetType() == typeof(Battle))
                     {
                         Battle battle = warfare as Battle;
-                        Html.Append(battle.Attacker.PrintEntity() + "</td>");
+                        Html.Append(battle.Attacker?.PrintEntity() + "</td>");
                         if (battle.Victor == battle.Attacker)
                         {
                             Html.AppendLine("<td>(V)</td>");
