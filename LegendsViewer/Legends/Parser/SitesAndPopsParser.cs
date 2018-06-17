@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace LegendsViewer.Legends.Parser
 {
     public class SitesAndPopulationsParser : IDisposable
     {
+        private readonly BackgroundWorker _worker;
         private readonly World _world;
         private readonly StreamReader _sitesAndPops;
 
@@ -16,16 +18,19 @@ namespace LegendsViewer.Legends.Parser
         private Site _site;
         private Entity _owner;
 
-        public SitesAndPopulationsParser(World world, string sitesAndPopsFile)
+        public SitesAndPopulationsParser(BackgroundWorker worker, World world, string sitesAndPopsFile)
         {
+            _worker = worker;
             _world = world;
             _sitesAndPops = new StreamReader(sitesAndPopsFile, Encoding.GetEncoding("windows-1252"));
+            _worker.ReportProgress(0, "\nParsing Sites and Populations...");
         }
 
         public void Parse()
         {
             ReadLine();
             ReadWorldPopulations();
+            _worker.ReportProgress(0, "... Sites");
             while (_currentLine != "" && InSites())
             {
                 ReadSite();
@@ -59,6 +64,7 @@ namespace LegendsViewer.Legends.Parser
         {
             if (_currentLine == "Civilized World Population")
             {
+                _worker.ReportProgress(0, "... World Populations");
                 ReadLine();
                 _currentLine = _sitesAndPops.ReadLine();
                 while (!string.IsNullOrEmpty(_currentLine) && !_sitesAndPops.EndOfStream)
@@ -166,7 +172,7 @@ namespace LegendsViewer.Legends.Parser
             if (_currentLine.Contains("Parent Civ:"))
             {
                 Entity parent = null;
-                string civName = _currentLine.Substring(_currentLine.IndexOf(":", StringComparison.Ordinal) + 2, 
+                string civName = _currentLine.Substring(_currentLine.IndexOf(":", StringComparison.Ordinal) + 2,
                     _currentLine.IndexOf(",", StringComparison.Ordinal) - _currentLine.IndexOf(":", StringComparison.Ordinal) - 2);
                 var entities = _world.Entities
                     .Where(entity => string.Compare(entity.Name, civName, StringComparison.OrdinalIgnoreCase) == 0).ToList();
@@ -186,7 +192,7 @@ namespace LegendsViewer.Legends.Parser
 #endif
                 if (parent != null)
                 {
-                    parent.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",", StringComparison.Ordinal) + 2, 
+                    parent.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",", StringComparison.Ordinal) + 2,
                         _currentLine.Length - _currentLine.IndexOf(",", StringComparison.Ordinal) - 2));
                     if (string.IsNullOrWhiteSpace(parent.Race))
                     {
@@ -220,7 +226,7 @@ namespace LegendsViewer.Legends.Parser
             {
                 while (!_sitesAndPops.EndOfStream && _currentLine.Contains(":") && !SiteStart())
                 {
-                    string officialName = Formatting.ReplaceNonAscii(_currentLine.Substring(_currentLine.IndexOf(":", StringComparison.Ordinal) + 2, 
+                    string officialName = Formatting.ReplaceNonAscii(_currentLine.Substring(_currentLine.IndexOf(":", StringComparison.Ordinal) + 2,
                         _currentLine.IndexOf(",", StringComparison.Ordinal) - _currentLine.IndexOf(":", StringComparison.Ordinal) - 2));
                     var officials = _world.HistoricalFigures.Where(hf =>
                             string.Compare(hf.Name, officialName.Replace("'", "`"), StringComparison.OrdinalIgnoreCase) == 0).ToList();
@@ -322,6 +328,7 @@ namespace LegendsViewer.Legends.Parser
 
         private void ReadOutdoorPopulations()
         {
+            _worker.ReportProgress(0, "... Outdoor Populations");
             ReadLine();
             ReadLine();
             while (!string.IsNullOrEmpty(_currentLine) && !_sitesAndPops.EndOfStream)
@@ -344,6 +351,7 @@ namespace LegendsViewer.Legends.Parser
 
         private void ReadUndergroundPopulations()
         {
+            _worker.ReportProgress(0, "... Underground Populations");
             ReadLine();
             ReadLine();
             while (!string.IsNullOrEmpty(_currentLine) && !_sitesAndPops.EndOfStream)

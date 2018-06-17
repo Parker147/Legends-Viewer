@@ -19,9 +19,9 @@ namespace LegendsViewer
     public partial class FrmLegendsViewer : Form
     {
         string _version = "n/a";
-        internal DwarfTabControl Browser;
+        internal readonly DwarfTabControl Browser;
         internal bool DontRefreshBrowserPages = true;
-        private string _commandFile;
+        private readonly string _commandFile;
 
         internal World World { get; private set; }
 

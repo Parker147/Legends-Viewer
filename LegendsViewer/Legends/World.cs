@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -17,6 +18,7 @@ namespace LegendsViewer.Legends
 {
     public class World : IDisposable
     {
+        private readonly BackgroundWorker _worker;
         public static readonly Dictionary<string, Color> MainRaces = new Dictionary<string, Color>();
 
         public string Name;
@@ -71,8 +73,9 @@ namespace LegendsViewer.Legends
         private readonly List<Entity> _entityEntityLinkEntities = new List<Entity>();// legends_plus.xml
         private readonly List<Property> _entityEntityLinks = new List<Property>();// legends_plus.xml
 
-        public World(string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile, string xmlPlusFile)
+        public World(BackgroundWorker worker, string xmlFile, string historyFile, string sitesAndPopulationsFile, string mapFile, string xmlPlusFile)
         {
+            _worker = worker;
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
@@ -82,25 +85,20 @@ namespace LegendsViewer.Legends
 
             CreateUnknowns();
 
-            XmlParser xml = new XmlParser(this, xmlFile);
+            XmlParser xml = new XmlParser(worker, this, xmlFile);
             xml.Parse();
 
-            if (!string.IsNullOrEmpty(xmlPlusFile))
-            {
-                var xmlPlus = new XmlPlusParser(this, xmlPlusFile);
-                xmlPlus.Parse();
-            }
-
-            HistoryParser history = new HistoryParser(this, historyFile);
+            HistoryParser history = new HistoryParser(worker, this, historyFile);
             Log.Append(history.Parse());
-            SitesAndPopulationsParser sitesAndPopulations = new SitesAndPopulationsParser(this, sitesAndPopulationsFile);
+            SitesAndPopulationsParser sitesAndPopulations = new SitesAndPopulationsParser(worker, this, sitesAndPopulationsFile);
             sitesAndPopulations.Parse();
 
+            _worker.ReportProgress(0, "\nResolving Links between...");
             ProcessHFtoEntityLinks();
+            ResolveHfToEntityPopulation();
             ResolveStructureProperties();
             ResolveMountainPeakToRegionLinks();
             ResolveSiteToRegionLinks();
-            ResolveHfToEntityPopulation();
             ResolveArtifactProperties();
             ResolveArtformEventsProperties();
 
@@ -124,8 +122,8 @@ namespace LegendsViewer.Legends
             WorldConstruction.Filters = new List<string>();
             Structure.Filters = new List<string>();
 
+            _worker.ReportProgress(0, "\nGenerating Graphics...");
             GenerateCivIdenticons();
-
             GenerateMaps(mapFile);
 
             Log.AppendLine(ParsingErrors.Print());
@@ -149,6 +147,7 @@ namespace LegendsViewer.Legends
 
         private void GenerateCivIdenticons()
         {
+            _worker.ReportProgress(0, "... Civilization Identicons");
             List<Entity> civs = Entities.Where(entity => entity.IsCiv).ToList();
             List<string> races = Entities.Where(entity => entity.IsCiv).GroupBy(entity => entity.Race).Select(entity => entity.Key).OrderBy(entity => entity).ToList();
 
@@ -244,6 +243,7 @@ namespace LegendsViewer.Legends
 
         private void GenerateMaps(string mapFile)
         {
+            _worker.ReportProgress(0, "... Maps");
             int biggestXCoordinate = 0;
             int biggestYCoordinates = 0;
             int[] worldSizes = { 17, 33, 65, 129, 257 };
@@ -589,6 +589,10 @@ namespace LegendsViewer.Legends
 
         public void ProcessHFtoEntityLinks()
         {
+            if (_hFtoEntityLinks.Any())
+            {
+                _worker.ReportProgress(0, "... Historical Figures and Entities");
+            }
             for (int i = 0; i < _hFtoEntityLinks.Count; i++)
             {
                 Property link = _hFtoEntityLinks[i];
@@ -668,6 +672,10 @@ namespace LegendsViewer.Legends
 
         private void ResolveStructureProperties()
         {
+            if (Structures.Count > 0)
+            {
+                _worker.ReportProgress(0, "... Sites and Structures");
+            }
             foreach (Structure structure in Structures)
             {
                 structure.Resolve(this);
@@ -676,6 +684,10 @@ namespace LegendsViewer.Legends
 
         private void ResolveArtifactProperties()
         {
+            if (Artifacts.Count > 0)
+            {
+                _worker.ReportProgress(0, "... Artifacts and Historical Figures");
+            }
             foreach (var artifact in Artifacts)
             {
                 artifact.Resolve(this);
@@ -684,6 +696,7 @@ namespace LegendsViewer.Legends
 
         private void ResolveArtformEventsProperties()
         {
+            _worker.ReportProgress(0, "... Artforms and Events");
             foreach (var formCreated in Events.OfType<DanceFormCreated>())
             {
                 if (!string.IsNullOrWhiteSpace(formCreated.FormId))
@@ -724,6 +737,10 @@ namespace LegendsViewer.Legends
 
         private void ResolveMountainPeakToRegionLinks()
         {
+            if (MountainPeaks.Count > 0)
+            {
+                _worker.ReportProgress(0, "... Mountain Peaks and Regions");
+            }
             foreach (MountainPeak peak in MountainPeaks)
             {
                 foreach (WorldRegion region in Regions)
@@ -740,6 +757,7 @@ namespace LegendsViewer.Legends
 
         private void ResolveSiteToRegionLinks()
         {
+            _worker.ReportProgress(0, "... Sites and Regions");
             foreach (Site site in Sites)
             {
                 foreach (WorldRegion region in Regions)
@@ -758,6 +776,7 @@ namespace LegendsViewer.Legends
         {
             if (EntityPopulations.Any(ep => ep.Entity != null))
             {
+                _worker.ReportProgress(0, "... Historical Figures and Entity Populations");
                 foreach (HistoricalFigure historicalFigure in HistoricalFigures.Where(hf => hf.EntityPopulationId != -1))
                 {
                     historicalFigure.EntityPopulation = GetEntityPopulation(historicalFigure.EntityPopulationId);

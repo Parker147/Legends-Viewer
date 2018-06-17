@@ -404,12 +404,16 @@ namespace LegendsViewer
             _statusLabel.Text = "Loading...";
             _statusLabel.ForeColor = Color.Blue;
 
-            BackgroundWorker load = new BackgroundWorker();
-            load.DoWork += load_DoWork;
-            load.RunWorkerCompleted += load_RunWorkerCompleted;
+            BackgroundWorker backgroundWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true
+            };
+            backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
+            backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
+            backgroundWorker.RunWorkerCompleted += BackgroundWorkerOnRunWorkerCompleted;
 
-            load.RunWorkerAsync(files);
-            while (load.IsBusy)
+            backgroundWorker.RunWorkerAsync(files);
+            while (backgroundWorker.IsBusy)
             {
                 Application.DoEvents();
             }
@@ -419,12 +423,18 @@ namespace LegendsViewer
             XmlState = HistoryState = SitesState = MapState = XmlPlusState = FileState.Default;
         }
 
-        private void load_DoWork(object sender, DoWorkEventArgs e)
+        private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs progressChangedEventArgs)
         {
+            _logText.AppendText(progressChangedEventArgs.UserState + "\n");
+        }
+
+        private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
             string[] files = e.Argument as string[];
             try
             {
-                e.Result = new World(files[0], files[1], files[2], files[3], files[4]);
+                e.Result = new World(worker, files[0], files[1], files[2], files[3], files[4]);
             }
             catch (XmlException)
             {
@@ -435,7 +445,7 @@ namespace LegendsViewer
                     {
                         _extractedFiles.Add(repairedXmlFile);
                     }
-                    e.Result = new World(repairedXmlFile, files[1], files[2], files[3], files[4]);
+                    e.Result = new World(worker, repairedXmlFile, files[1], files[2], files[3], files[4]);
                 }
                 else
                 {
@@ -444,19 +454,19 @@ namespace LegendsViewer
             }
         }
 
-        public static string RepairXmlFile(string xmlFile)
+        private static string RepairXmlFile(string xmlFile)
         {
             DialogResult response =
                 MessageBox.Show("There was an error loading this XML file! Do you wish to attempt a repair?",
                     "Error loading XML", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (response == DialogResult.Yes)
             {
-                string currentLine = String.Empty;
                 string safeFile = Path.GetTempFileName();
                 using (StreamReader inputReader = new StreamReader(xmlFile))
                 {
                     using (StreamWriter outputWriter = File.AppendText(safeFile))
                     {
+                        string currentLine;
                         while (null != (currentLine = inputReader.ReadLine()))
                         {
                             outputWriter.WriteLine(Regex.Replace(currentLine, "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]",
@@ -481,7 +491,7 @@ namespace LegendsViewer
 
         public event EventHandler<EventArgs<World>> AfterLoad;
 
-        private void load_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
 
             if (e.Result != null)

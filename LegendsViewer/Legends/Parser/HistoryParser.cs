@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace LegendsViewer.Legends.Parser
 {
     public class HistoryParser : IDisposable
     {
+        private readonly BackgroundWorker _worker;
         private readonly World _world;
         private readonly StreamReader _history;
         private readonly StringBuilder _log;
@@ -15,11 +17,13 @@ namespace LegendsViewer.Legends.Parser
         private string _currentLine;
         private Entity _currentCiv;
 
-        public HistoryParser(World world, string historyFile)
+        public HistoryParser(BackgroundWorker worker, World world, string historyFile)
         {
+            _worker = worker;
             _world = world;
             _history = new StreamReader(historyFile, Encoding.GetEncoding("windows-1252"));
             _log = new StringBuilder();
+            _worker.ReportProgress(0, "\nParsing History File...");
         }
 
         private bool CivStart()
@@ -182,6 +186,7 @@ namespace LegendsViewer.Legends.Parser
 
         public string Parse()
         {
+            _worker.ReportProgress(0, "... Civilization Infos");
             _world.Name = Formatting.ReplaceNonAscii(_history.ReadLine());
             _world.Name += ", " + _history.ReadLine();
             ReadLine();
