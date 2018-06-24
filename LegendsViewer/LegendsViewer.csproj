@@ -250,6 +250,7 @@
     <Compile Include="Legends\DwarfObject.cs" />
     <Compile Include="Legends\Entity.cs" />
     <Compile Include="Legends\EntityEntityLink.cs" />
+    <Compile Include="Legends\Enums\AbuseType.cs" />
     <Compile Include="Legends\Events\EntityFledSite.cs" />
     <Compile Include="Legends\EntityLink.cs" />
     <Compile Include="Legends\EntityOccasion.cs" />

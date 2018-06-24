@@ -147,6 +147,11 @@ namespace LegendsViewer.Legends.Parser
                                 existingProperties.Add(property);
                                 continue;
                             }
+                            if (CurrentSection == Section.Events && property.Name == "bodies")
+                            {
+                                existingProperties.Add(property);
+                                continue;
+                            }
                             Property matchingProperty = existingProperties.Find(p => p.Name == property.Name);
                             if (CurrentSection == Section.Events && matchingProperty != null &&
                                 (matchingProperty.Name == "type" || matchingProperty.Name == "state" ||
