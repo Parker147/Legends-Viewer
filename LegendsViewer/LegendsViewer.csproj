@@ -71,14 +71,7 @@
     </Reference>
     <Reference Include="System.Core">
     </Reference>
-    <Reference Include="System.Data.Entity.Design">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.Entity.Design.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Forms.DataVisualization" />
-    <Reference Include="System.Xml.Linq">
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-    </Reference>
     <Reference Include="System.Data">
     </Reference>
     <Reference Include="System.Deployment">
@@ -257,6 +250,7 @@
     <Compile Include="Legends\DwarfObject.cs" />
     <Compile Include="Legends\Entity.cs" />
     <Compile Include="Legends\EntityEntityLink.cs" />
+    <Compile Include="Legends\Enums\AbuseType.cs" />
     <Compile Include="Legends\Events\EntityFledSite.cs" />
     <Compile Include="Legends\EntityLink.cs" />
     <Compile Include="Legends\EntityOccasion.cs" />
@@ -517,6 +511,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\appveyor.yml">
+      <Link>appveyor.yml</Link>
+    </None>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>

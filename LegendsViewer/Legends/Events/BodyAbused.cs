@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends.Events
@@ -13,10 +15,10 @@ namespace LegendsViewer.Legends.Events
         public int PileTypeId { get; set; } // legends_plus.xml
         public int MaterialTypeId { get; set; } // legends_plus.xml
         public int MaterialIndex { get; set; } // legends_plus.xml
-        public int AbuseTypeId { get; set; } // legends_plus.xml
 
+        public AbuseType AbuseType { get; set; } // legends_plus.xml
         public Entity Abuser { get; set; } // legends_plus.xml
-        public HistoricalFigure Body { get; set; } // legends_plus.xml
+        public List<HistoricalFigure> Bodies { get; set; } // legends_plus.xml
         public HistoricalFigure HistoricalFigure { get; set; } // legends_plus.xml
         public Site Site { get; set; }
         public WorldRegion Region { get; set; }
@@ -25,6 +27,7 @@ namespace LegendsViewer.Legends.Events
         public BodyAbused(List<Property> properties, World world)
             : base(properties, world)
         {
+            Bodies = new List<HistoricalFigure>();
             foreach (Property property in properties)
             {
                 switch (property.Name)
@@ -35,12 +38,37 @@ namespace LegendsViewer.Legends.Events
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "site": if (Site == null) { Site = world.GetSite(Convert.ToInt32(property.Value)); } else { property.Known = true; } break;
                     case "civ": Abuser = world.GetEntity(Convert.ToInt32(property.Value)); break;
-                    case "bodies": Body = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "bodies": Bodies.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value))); break;
                     case "histfig": HistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "props_item_type": ItemType = property.Value; break;
                     case "props_item_subtype": ItemSubType = property.Value; break;
                     case "props_item_mat": Material = property.Value; break;
-                    case "abuse_type": AbuseTypeId = Convert.ToInt32(property.Value); break;
+                    case "abuse_type":
+                        switch (property.Value)
+                        {
+                            case "0":
+                                AbuseType = AbuseType.Impaled;
+                                break;
+                            case "1":
+                                AbuseType = AbuseType.Piled;
+                                break;
+                            case "2":
+                                AbuseType = AbuseType.Flayed;
+                                break;
+                            case "3":
+                                AbuseType = AbuseType.Hung;
+                                break;
+                            case "4":
+                                AbuseType = AbuseType.Mutilated;
+                                break;
+                            case "5":
+                                AbuseType = AbuseType.Animated;
+                                break;
+                            default:
+                                property.Known = false;
+                                break;
+                        }
+                        break;
                     case "props_pile_type": PileTypeId = Convert.ToInt32(property.Value); break;
                     case "props_item_mat_type": MaterialTypeId = Convert.ToInt32(property.Value); break;
                     case "props_item_mat_index": MaterialIndex = Convert.ToInt32(property.Value); break;
@@ -50,50 +78,100 @@ namespace LegendsViewer.Legends.Events
             Site.AddEvent(this);
             Region.AddEvent(this);
             UndergroundRegion.AddEvent(this);
-            Body.AddEvent(this);
+            Bodies.ForEach(body => body.AddEvent(this));
             HistoricalFigure.AddEvent(this);
             Abuser.AddEvent(this);
         }
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
-            if (HistoricalFigure != null)
+            if (Bodies.Count > 1)
             {
-                eventString += "the body of ";
-                if (Body != null)
+                eventString += "the bodies of ";
+                for (int i = 0; i < Bodies.Count; i++)
                 {
-                    eventString += Body.ToLink(link, pov);
+                    eventString += Bodies[i].ToLink(link, pov) ?? "UNKNOWN HISTORICAL FIGURE";
+                    if (i != Bodies.Count - 1)
+                    {
+                        if (i == Bodies.Count - 2)
+                        {
+                            eventString += " and ";
+                        }
+                        else
+                        {
+                            eventString += ", ";
+                        }
+                    }
                 }
-                else
-                {
-                    eventString += "UNKNOWN HISTORICAL FIGURE";
-                }
-                eventString += " was animated by ";
-                eventString += HistoricalFigure.ToLink(link, pov);
+                eventString += " were ";
             }
             else
             {
-                if (Body != null)
-                {
-                    eventString += Body.ToLink(link, pov);
-                }
-                else
-                {
-                    eventString += "UNKNOWN HISTORICAL FIGURE";
-                }
-                eventString += "'s body was abused by ";
+                eventString += "the body of ";
+                eventString += Bodies.FirstOrDefault()?.ToLink(link, pov) ?? "UNKNOWN HISTORICAL FIGURE";
+                eventString += " was ";
+            }
+            switch (AbuseType)
+            {
+                case AbuseType.Impaled:
+                    eventString += "impaled on a ";
+                    eventString += !string.IsNullOrWhiteSpace(Material) ? Material + " " : "";
+                    if (!string.IsNullOrWhiteSpace(ItemSubType) && ItemSubType != "-1")
+                    {
+                        eventString += ItemSubType;
+                    }
+                    else
+                    {
+                        eventString += !string.IsNullOrWhiteSpace(ItemType) ? ItemType : "UNKNOWN ITEM";
+                    }
+                    break;
+                case AbuseType.Piled:
+                    eventString += "added to a grisly mound";
+                    break;
+                case AbuseType.Flayed:
+                    eventString += "flayed";
+                    break;
+                case AbuseType.Hung:
+                    eventString += "hung";
+                    break;
+                case AbuseType.Mutilated:
+                    eventString += "horribly mutilated";
+                    break;
+                case AbuseType.Animated:
+                    eventString += "animated";
+                    break;
+                default:
+                    eventString += "abused";
+                    break;
+            }
+            eventString += " by ";
+
+            if (HistoricalFigure != null)
+            {
+                eventString += HistoricalFigure.ToLink(link, pov);
                 if (Abuser != null)
                 {
-                    eventString += Abuser.ToLink(link, pov);
+                    eventString += " of ";
                 }
-                else
-                {
-                    eventString += "UNKNOWN ENTITY";
-                }
+            }
+            if (Abuser != null)
+            {
+                eventString += Abuser.ToLink(link, pov);
             }
             if (Site != null)
             {
-                eventString += " in " + Site.ToLink(link, pov);
+                eventString += " in ";
+                eventString += Site.ToLink(link, pov);
+            }
+            else if (Region != null)
+            {
+                eventString += " in ";
+                eventString += Region.ToLink(link, pov);
+            }
+            else if (UndergroundRegion != null)
+            {
+                eventString += " in ";
+                eventString += UndergroundRegion.ToLink(link, pov);
             }
             eventString += PrintParentCollection(link, pov);
             eventString += ".";

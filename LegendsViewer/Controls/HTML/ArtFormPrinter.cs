@@ -5,8 +5,8 @@ namespace LegendsViewer.Controls.HTML
 {
     public class ArtFormPrinter : HtmlPrinter
     {
-        ArtForm _artform;
-        World _world;
+        private readonly ArtForm _artform;
+        private readonly World _world;
 
         public ArtFormPrinter(ArtForm artform, World world)
         {
@@ -26,7 +26,7 @@ namespace LegendsViewer.Controls.HTML
             Html.AppendLine("<h1>" + _artform.Name + ", " + _artform.FormType + " Form</h1><br />");
             if (!string.IsNullOrEmpty(_artform.Description))
             {
-                Html.AppendLine(_artform.Description.Replace("[B]", "<br />") + "<br />");
+                Html.AppendLine(_artform.Description.Replace("[B]", "<br />") + "<br /><br />");
             }
             PrintEventLog(_artform.Events, ArtForm.Filters, _artform);
 

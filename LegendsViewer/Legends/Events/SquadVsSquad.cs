@@ -8,6 +8,7 @@ namespace LegendsViewer.Legends.Events
     public class SquadVsSquad : WorldEvent
     {
         public HistoricalFigure AttackerHistoricalFigure { get; set; }
+        public HistoricalFigure DefenderHistoricalFigure { get; set; }
         public int AttackerSquadId { get; set; }
         public int DefenderSquadId { get; set; }
         public int DefenderRaceId { get; set; }
@@ -19,7 +20,9 @@ namespace LegendsViewer.Legends.Events
         public WorldRegion Region { get; set; }
         public UndergroundRegion UndergroundRegion { get; set; }
         public HistoricalFigure AttackerLeader { get; set; }
+        public HistoricalFigure DefenderLeader { get; set; }
         public int AttackerLeadershipRoll { get; set; }
+        public int DefenderLeadershipRoll { get; set; }
 
         public SquadVsSquad(List<Property> properties, World world)
             : base(properties, world)
@@ -29,6 +32,7 @@ namespace LegendsViewer.Legends.Events
                 switch (property.Name)
                 {
                     case "a_hfid": AttackerHistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "d_hfid": DefenderHistoricalFigure = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "a_squad_id": AttackerSquadId = Convert.ToInt32(property.Value); break;
                     case "d_squad_id": DefenderSquadId = Convert.ToInt32(property.Value); break;
                     case "d_race": DefenderRaceId = Convert.ToInt32(property.Value); break;
@@ -47,7 +51,9 @@ namespace LegendsViewer.Legends.Events
                     case "subregion_id": Region = world.GetRegion(Convert.ToInt32(property.Value)); break;
                     case "feature_layer_id": UndergroundRegion = world.GetUndergroundRegion(Convert.ToInt32(property.Value)); break;
                     case "a_leader_hfid": AttackerLeader = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
+                    case "d_leader_hfid": DefenderLeader = world.GetHistoricalFigure(Convert.ToInt32(property.Value)); break;
                     case "a_leadership_roll": AttackerLeadershipRoll = Convert.ToInt32(property.Value); break;
+                    case "d_leadership_roll": DefenderLeadershipRoll = Convert.ToInt32(property.Value); break;
                 }
             }
             if (Site != null)
@@ -55,11 +61,13 @@ namespace LegendsViewer.Legends.Events
                 Structure = Site.Structures.FirstOrDefault(structure => structure.Id == StructureId);
             }
             AttackerHistoricalFigure.AddEvent(this);
+            DefenderHistoricalFigure.AddEvent(this);
             Site.AddEvent(this);
             Structure.AddEvent(this);
             Region.AddEvent(this);
             UndergroundRegion.AddEvent(this);
             AttackerLeader.AddEvent(this);
+            DefenderLeader.AddEvent(this);
         }
 
         public override string Print(bool link = true, DwarfObject pov = null)
@@ -82,12 +90,39 @@ namespace LegendsViewer.Legends.Events
                 eventString += ",";
             }
             eventString += " clashed with ";
-            eventString += Formatting.IntegerToWords(DefenderNumber);
-            eventString += " ";
-            eventString += DefenderRaceId;
+            if (DefenderHistoricalFigure != null)
+            {
+                eventString += DefenderHistoricalFigure.ToLink(link, pov);
+                eventString += " as part of squad";
+            }
+            else
+            {
+                if (DefenderNumber > 0 && DefenderRaceId > 0)
+                {
+                    eventString += Formatting.IntegerToWords(DefenderNumber);
+                    eventString += " <span title='"+ DefenderRaceId + "'>creatures</span>";
+                }
+                else
+                {
+                    eventString += "another squad";
+                }
+            }
             if (Site != null)
             {
                 eventString += " in " + Site.ToLink(link, pov);
+            }
+            if (DefenderLeader != null)
+            {
+                if (DefenderLeadershipRoll <= 25)
+                {
+                    eventString += " poorly";
+                }
+                else if (DefenderLeadershipRoll >= 100)
+                {
+                    eventString += " ably";
+                }
+                eventString += " led by ";
+                eventString += DefenderLeader.ToLink(link, pov);
             }
             if (DefenderNumber == DefenderSlain)
             {

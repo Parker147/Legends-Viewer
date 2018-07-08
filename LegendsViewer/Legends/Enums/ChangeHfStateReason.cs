@@ -9,6 +9,7 @@
         Flight,
         Scholarship,
         Pilgrimage,
-        LackOfSleep
+        LackOfSleep,
+        GreatDealOfStress
     }
 }

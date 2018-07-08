@@ -26,15 +26,15 @@ namespace LegendsViewer.Legends.Events
             if (SiteEntity != null)
             {
                 SiteEntity.Parent = Civ;
-                new OwnerPeriod(Site, SiteEntity, Year, "founded");
+                Site.OwnerHistory.Add(new OwnerPeriod(Site, SiteEntity, Year, "founded"));
             }
             else if (Civ != null)
             {
-                new OwnerPeriod(Site, Civ, Year, "founded");
+                Site.OwnerHistory.Add(new OwnerPeriod(Site, Civ, Year, "founded"));
             }
             else if (Builder != null)
             {
-                new OwnerPeriod(Site, Builder, Year, "created");
+                Site.OwnerHistory.Add(new OwnerPeriod(Site, Builder, Year, "created"));
             }
             Site.AddEvent(this);
             SiteEntity.AddEvent(this);

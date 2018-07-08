@@ -106,6 +106,9 @@ namespace LegendsViewer.Legends.Events
                             case "lack of sleep":
                                 Reason = ChangeHfStateReason.LackOfSleep;
                                 break;
+                            case "great deal of stress":
+                                Reason = ChangeHfStateReason.GreatDealOfStress;
+                                break;
                             default:
                                 if (property.Value != "-1")
                                 {
@@ -251,6 +254,9 @@ namespace LegendsViewer.Legends.Events
                         break;
                     case ChangeHfStateReason.LackOfSleep:
                         eventString += " due to lack of sleep";
+                        break;
+                    case ChangeHfStateReason.GreatDealOfStress:
+                        eventString += " after a great deal of stress";
                         break;
                 }
             }

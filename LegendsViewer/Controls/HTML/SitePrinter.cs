@@ -193,36 +193,36 @@ namespace LegendsViewer.Controls.HTML
                 Html.AppendLine("<div class=\"col-md-12\">");
                 Html.AppendLine("<b>Owner History</b><br />");
                 Html.AppendLine("<ol>");
-                foreach (OwnerPeriod owner in _site.OwnerHistory)
+                foreach (OwnerPeriod ownerPeriod in _site.OwnerHistory)
                 {
-                    string ownerString = "UNKNOWN ENTITY";
-                    if (owner.Owner != null)
+                    string ownerString = "An unknown civilization";
+                    if (ownerPeriod.Owner != null)
                     {
-                        if (owner.Owner is Entity)
+                        if (ownerPeriod.Owner is Entity entity)
                         {
-                            ownerString = ((Entity)owner.Owner).PrintEntity();
+                            ownerString = entity.PrintEntity();
                         }
                         else
                         {
-                            ownerString = owner.Owner.ToLink(true, _site);
+                            ownerString = ownerPeriod.Owner.ToLink(true, _site);
                         }
                     }
-                    string startyear = owner.StartYear == -1 ? "a time before time" : owner.StartYear.ToString();
-                    Html.AppendLine("<li>" + ownerString + ", " + owner.StartCause + " " + _site.ToLink(true, _site) + " in " + startyear);
-                    if (owner.EndYear >= 0)
+                    string startyear = ownerPeriod.StartYear == -1 ? "a time before time" : ownerPeriod.StartYear.ToString();
+                    Html.Append("<li>" + ownerString + ", " + ownerPeriod.StartCause + " " + _site.ToLink(true, _site) + " in " + startyear);
+                    if (ownerPeriod.EndYear >= 0)
                     {
-                        Html.Append(" and it was " + owner.EndCause + " in " + owner.EndYear);
+                        Html.Append(" and it was " + ownerPeriod.EndCause + " in " + ownerPeriod.EndYear);
                     }
 
-                    if (owner.Ender != null)
+                    if (ownerPeriod.Ender != null)
                     {
-                        if (owner.Ender is Entity)
+                        if (ownerPeriod.Ender is Entity entity)
                         {
-                            Html.Append(" by " + ((Entity)owner.Ender).PrintEntity());
+                            Html.Append(" by " + entity.PrintEntity());
                         }
                         else
                         {
-                            Html.Append(" by " + owner.Ender.ToLink(true, _site));
+                            Html.Append(" by " + ownerPeriod.Ender.ToLink(true, _site));
                         }
                     }
                     Html.AppendLine(".");
@@ -265,7 +265,7 @@ namespace LegendsViewer.Controls.HTML
                     if (warfare.GetType() == typeof(Battle))
                     {
                         Battle battle = warfare as Battle;
-                        Html.Append(battle.Attacker.PrintEntity() + "</td>");
+                        Html.Append(battle.Attacker?.PrintEntity() + "</td>");
                         if (battle.Victor == battle.Attacker)
                         {
                             Html.AppendLine("<td>(V)</td>");

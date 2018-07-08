@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using LegendsViewer.Controls;
 using LegendsViewer.Legends.Enums;
 using LegendsViewer.Legends.EventCollections;
 using LegendsViewer.Legends.Events;
@@ -13,6 +15,7 @@ namespace LegendsViewer.Legends.Parser
     public class XmlParser : IDisposable
     {
         protected readonly XmlTextReader Xml;
+        private readonly BackgroundWorker _worker;
         protected World World;
         protected Section CurrentSection = Section.Unknown;
 
@@ -28,13 +31,15 @@ namespace LegendsViewer.Legends.Parser
             };
         }
 
-        public XmlParser(World world, string xmlFile) : this(xmlFile)
+        public XmlParser(BackgroundWorker worker, World world, string xmlFile) : this(xmlFile)
         {
+            _worker = worker;
             World = world;
+            _worker.ReportProgress(0, "Parsing XML Sections...");
             string xmlPlusFile = xmlFile.Replace(".xml", "_plus.xml");
             if (File.Exists(xmlPlusFile))
             {
-                _xmlPlusParser = new XmlPlusParser(world, xmlPlusFile);
+                _xmlPlusParser = new XmlPlusParser(worker, world, xmlPlusFile);
                 World.Log.AppendLine("Found LEGENDS_PLUS.XML!");
                 World.Log.AppendLine("Parsed additional data...\n");
             }
@@ -120,6 +125,7 @@ namespace LegendsViewer.Legends.Parser
         protected virtual void ParseSection()
         {
             Xml.ReadStartElement();
+            _worker.ReportProgress(0, "... " + CurrentSection.GetDescription());
             while (Xml.NodeType != XmlNodeType.EndElement)
             {
                 List<Property> item = ParseItem();
@@ -712,16 +718,12 @@ namespace LegendsViewer.Legends.Parser
             //Create sorted Historical Figures so they can be binary searched by name, needed for parsing History file
             if (section == Section.HistoricalFigures)
             {
-                World.HistoricalFiguresByName = new List<HistoricalFigure>(World.HistoricalFigures);
-                World.HistoricalFiguresByName.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
                 World.ProcessHFtoHfLinks();
             }
 
             //Create sorted entities so they can be binary searched by name, needed for History/sites files
             if (section == Section.Entities)
             {
-                World.EntitiesByName = new List<Entity>(World.Entities);
-                World.EntitiesByName.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
                 World.ProcessReputations();
                 World.ProcessHFtoSiteLinks();
                 World.ProcessEntityEntityLinks();
@@ -874,7 +876,7 @@ namespace LegendsViewer.Legends.Parser
                     {
                         devoured.Eater = beastAttack.Beast;
                     }
-                    else if(beastAttack.Beast == null)
+                    else if (beastAttack.Beast == null)
                     {
                         beastAttack.Beast = devoured.Eater;
                     }

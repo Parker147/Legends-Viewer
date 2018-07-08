@@ -52,7 +52,6 @@ namespace LegendsViewer.Controls.Tabs
             txtLog.Clear();
         }
 
-
         private void btnShowMap_Click(object sender, EventArgs e)
         {
             if (!FileLoader.Working && World != null)

@@ -39,11 +39,11 @@ namespace LegendsViewer.Legends.Events
                 if (SiteEntity != null && SiteEntity != Defender)
                 {
                     SiteEntity.Parent = Defender;
-                    new OwnerPeriod(Site, SiteEntity, 1, "founded");
+                    Site.OwnerHistory.Add(new OwnerPeriod(Site, SiteEntity, -1, "founded"));
                 }
                 else
                 {
-                    new OwnerPeriod(Site, Defender, 1, "founded");
+                    Site.OwnerHistory.Add(new OwnerPeriod(Site, Defender, -1, "founded"));
                 }
             }
 
@@ -51,7 +51,7 @@ namespace LegendsViewer.Legends.Events
             Site.OwnerHistory.Last().EndYear = Year;
             Site.OwnerHistory.Last().Ender = Attacker;
             NewSiteEntity.Parent = Attacker;
-            new OwnerPeriod(Site, NewSiteEntity, Year, "took over");
+            Site.OwnerHistory.Add(new OwnerPeriod(Site, NewSiteEntity, Year, "took over"));
 
             Attacker.AddEvent(this);
             Defender.AddEvent(this);

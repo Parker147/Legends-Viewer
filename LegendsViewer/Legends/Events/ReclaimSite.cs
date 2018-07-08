@@ -33,20 +33,20 @@ namespace LegendsViewer.Legends.Events
             //Make sure period was lost by an event, otherwise unknown loss
             if (Site.OwnerHistory.Count == 0)
             {
-                new OwnerPeriod(Site, null, 1, "founded");
+                Site.OwnerHistory.Add(new OwnerPeriod(Site, null, -1, "founded"));
             }
             if (Site.OwnerHistory.Last().EndYear == -1)
             {
                 Site.OwnerHistory.Last().EndCause = "abandoned";
-                Site.OwnerHistory.Last().EndYear = Year - 1;
+                Site.OwnerHistory.Last().EndYear = Year - 1 == 0 ? -1 : Year - 1;
             }
             if (Unretired)
             {
-                new OwnerPeriod(Site, SiteEntity, Year, "unretired");
+                Site.OwnerHistory.Add(new OwnerPeriod(Site, SiteEntity, Year, "unretired"));
             }
             else
             {
-                new OwnerPeriod(Site, SiteEntity, Year, "reclaimed");
+                Site.OwnerHistory.Add(new OwnerPeriod(Site, SiteEntity, Year, "reclaimed"));
             }
 
             Civ.AddEvent(this);

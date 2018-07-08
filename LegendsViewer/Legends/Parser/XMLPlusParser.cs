@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Xml;
+using LegendsViewer.Controls;
 
 namespace LegendsViewer.Legends.Parser
 {
     public class XmlPlusParser : XmlParser
     {
+        private readonly BackgroundWorker _worker;
         private bool _inMiddleOfSection;
         private List<Property> _currentItem;
 
-        public XmlPlusParser(World world, string xmlFile) : base(xmlFile)
+        public XmlPlusParser(BackgroundWorker worker, World world, string xmlFile) : base(xmlFile)
         {
+            _worker = worker;
             World = world;
             Init();
         }
@@ -32,6 +36,10 @@ namespace LegendsViewer.Legends.Parser
                 if (!_inMiddleOfSection)
                 {
                     CurrentSection = GetSectionType(Xml.Name);
+                    if (CurrentSection != Section.Junk)
+                    {
+                        _worker.ReportProgress(0, "... " + CurrentSection.GetDescription() + " XMLPLUS");
+                    }
                 }
 
                 if (CurrentSection == Section.Junk)
@@ -56,7 +64,6 @@ namespace LegendsViewer.Legends.Parser
 
         protected override void ParseSection()
         {
-
             while (Xml.NodeType == XmlNodeType.EndElement || Xml.NodeType == XmlNodeType.None)
             {
                 if (Xml.NodeType == XmlNodeType.None)
@@ -136,6 +143,11 @@ namespace LegendsViewer.Legends.Parser
                                 continue;
                             }
                             if (CurrentSection == Section.WrittenContent && property.Name == "style")
+                            {
+                                existingProperties.Add(property);
+                                continue;
+                            }
+                            if (CurrentSection == Section.Events && property.Name == "bodies")
                             {
                                 existingProperties.Add(property);
                                 continue;
