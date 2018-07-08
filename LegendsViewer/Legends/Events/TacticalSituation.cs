@@ -119,6 +119,10 @@ namespace LegendsViewer.Legends.Events
                 eventString += AttackerTacticsRoll > DefenderTacticsRoll ? "poor" : "good";
                 eventString += " tactics";
             }
+            else
+            {
+                eventString += "the forces shifted";
+            }
             switch (Situation)
             {
                 case TacticalSituationType.NeitherFavored:
