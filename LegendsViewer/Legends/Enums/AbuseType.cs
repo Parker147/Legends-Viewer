@@ -4,6 +4,7 @@
     {
         Unknown,
         Impaled,
+        Flayed,
         Piled,
         Hung,
         Mutilated,

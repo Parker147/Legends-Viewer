@@ -52,6 +52,9 @@ namespace LegendsViewer.Legends.Events
                             case "1":
                                 AbuseType = AbuseType.Piled;
                                 break;
+                            case "2":
+                                AbuseType = AbuseType.Flayed;
+                                break;
                             case "3":
                                 AbuseType = AbuseType.Hung;
                                 break;
@@ -124,6 +127,9 @@ namespace LegendsViewer.Legends.Events
                     break;
                 case AbuseType.Piled:
                     eventString += "added to a grisly mound";
+                    break;
+                case AbuseType.Flayed:
+                    eventString += "flayed";
                     break;
                 case AbuseType.Hung:
                     eventString += "hung";
