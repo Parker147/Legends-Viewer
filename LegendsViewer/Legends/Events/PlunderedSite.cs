@@ -78,34 +78,50 @@ namespace LegendsViewer.Legends.Events
         public override string Print(bool link = true, DwarfObject pov = null)
         {
             string eventString = GetYearTime();
+            eventString += Attacker.ToLink(link, pov);
             if (TookLiveStock || TookItems)
             {
-                eventString += Attacker.ToLink(link, pov);
+                eventString += " stole ";
                 if (TookLiveStock)
                 {
-                    eventString += " stole livestock from ";
+                    eventString += "livestock ";
                 }
                 else if (TookItems)
                 {
-                    eventString += " stole treasure from ";
+                    eventString += "treasure ";
                 }
-                if (SiteEntity != null && Defender != SiteEntity)
+
+                if (SiteEntity != null || Defender != null)
                 {
-                    eventString += SiteEntity.ToLink(link, pov) + " of ";
+                    eventString += "from ";
                 }
-                eventString += Defender.ToLink(link, pov);
+                if (SiteEntity != null)
+                {
+                    eventString += SiteEntity.ToLink(link, pov);
+                    if (Defender != SiteEntity && Defender != null)
+                    {
+                        eventString += " of ";
+                    }
+                }
+                if (Defender != null)
+                {
+                    eventString += Defender.ToLink(link, pov);
+                }
                 eventString += " in ";
                 eventString += Site.ToLink(link, pov);
             }
             else
             {
-                eventString += Attacker.ToLink(link, pov);
                 eventString += " defeated ";
                 if (SiteEntity != null && Defender != SiteEntity)
                 {
-                    eventString += SiteEntity.ToLink(link, pov) + " of ";
+                    eventString += SiteEntity.ToLink(link, pov);
                 }
-                eventString += Defender.ToLink(link, pov);
+                if (Defender != null)
+                {
+                    eventString += " of ";
+                    eventString += Defender.ToLink(link, pov);
+                }
                 eventString += " and pillaged ";
                 eventString += Site.ToLink(link, pov);
             }
