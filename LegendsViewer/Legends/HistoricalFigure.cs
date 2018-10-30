@@ -278,7 +278,11 @@ namespace LegendsViewer.Legends
                     case "current_identity_id": CurrentIdentityId = Convert.ToInt32(property.Value); break;
                     case "used_identity_id": UsedIdentityIds.Add(Convert.ToInt32(property.Value)); break;
                     case "ent_pop_id": EntityPopulationId = Convert.ToInt32(property.Value); break;
-                    case "holds_artifact": HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
+                    case "holds_artifact":
+                        var artifact = world.GetArtifact(Convert.ToInt32(property.Value));
+                        HoldingArtifacts.Add(artifact);
+                        artifact.Holder = this;
+                        break;
                     case "adventurer":
                         Adventurer = true;
                         property.Known = true;

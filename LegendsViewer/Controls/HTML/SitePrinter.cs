@@ -153,6 +153,10 @@ namespace LegendsViewer.Controls.HTML
                 {
                     relations.Add("currently in possession of " + artifact.Holder.ToLink(true, _site));
                 }
+                else if (artifact.Site != null && artifact.Site != _site)
+                {
+                    relations.Add("currently stored in " + artifact.Site.ToLink(true, _site));
+                }
                 if (relations.Any())
                 {
                     Html.AppendLine(" (" + string.Join(", ", relations) + ")");
