@@ -417,6 +417,7 @@
     <Compile Include="Legends\Events\SiteDied.cs" />
     <Compile Include="Legends\Events\SiteDispute.cs" />
     <Compile Include="Legends\Events\SiteRetired.cs" />
+    <Compile Include="Legends\Events\SiteSurrendered.cs" />
     <Compile Include="Legends\Events\SiteTakenOver.cs" />
     <Compile Include="Legends\Events\SiteTributeForced.cs" />
     <Compile Include="Legends\Events\SneakIntoSite.cs" />
