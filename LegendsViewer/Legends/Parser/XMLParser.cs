@@ -627,6 +627,9 @@ namespace LegendsViewer.Legends.Parser
                 case "entity fled site":
                     World.Events.Add(new EntityFledSite(properties, World));
                     break;
+                case "entity expels hf":
+                    World.Events.Add(new EntityExpelsHf(properties, World));
+                    break;
                 default:
                     World.ParsingErrors.Report("Unknown Event: " + type);
                     break;
