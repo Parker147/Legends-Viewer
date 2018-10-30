@@ -102,12 +102,14 @@ namespace LegendsViewer.Controls.HTML
 
         private void PrintRelatedArtifacts()
         {
-            var createdArtifacts = _site.Events.OfType<ArtifactCreated>().Select(e => e.Artifact).ToList();
-            var storedArtifacts = _site.Events.OfType<ArtifactStored>().Select(e => e.Artifact).ToList();
-            var lostArtifacts = _site.Events.OfType<ArtifactLost>().Select(e => e.Artifact).ToList();
+            var createdArtifacts = _site.Events.OfType<ArtifactCreated>().Where(e => e.Artifact != null).Select(e => e.Artifact).ToList();
+            var storedArtifacts = _site.Events.OfType<ArtifactStored>().Where(e => e.Artifact != null).Select(e => e.Artifact).ToList();
+            var stolenArtifacts = _site.Events.OfType<ItemStolen>().Where(e => e.Artifact != null).Select(e => e.Artifact).ToList();
+            var lostArtifacts = _site.Events.OfType<ArtifactLost>().Where(e => e.Artifact != null).Select(e => e.Artifact).ToList();
             var relatedArtifacts = createdArtifacts
                 .Union(storedArtifacts)
                 .Union(lostArtifacts)
+                .Union(stolenArtifacts)
                 .Distinct()
                 .ToList();
             if (relatedArtifacts.Count == 0)
@@ -131,13 +133,25 @@ namespace LegendsViewer.Controls.HTML
                 {
                     relations.Add("created");
                 }
-                if (storedArtifacts.Contains(artifact))
+                if (storedArtifacts.Contains(artifact) && (artifact.Site == null || !artifact.Site.Equals(_site)))
                 {
-                    relations.Add("stored");
+                    relations.Add("previously stored");
+                }
+                if (stolenArtifacts.Contains(artifact))
+                {
+                    relations.Add("stolen");
                 }
                 if (lostArtifacts.Contains(artifact))
                 {
                     relations.Add("lost");
+                }
+                if (storedArtifacts.Contains(artifact) && artifact.Site != null && artifact.Site.Equals(_site))
+                {
+                    relations.Add("stored");
+                }
+                if (artifact.Holder != null)
+                {
+                    relations.Add("currently in possession of " + artifact.Holder.ToLink(true, _site));
                 }
                 if (relations.Any())
                 {

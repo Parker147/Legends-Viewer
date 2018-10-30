@@ -92,7 +92,7 @@ namespace LegendsViewer.Controls.HTML
                 }
                 if (_historicalFigure.HoldingArtifacts.Contains(artifact))
                 {
-                    relations.Add("currently holding");
+                    relations.Add("currently in possession");
                 }
                 if (relations.Any())
                 {

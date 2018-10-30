@@ -116,9 +116,13 @@ namespace LegendsViewer.Legends
 
         public void Resolve(World world)
         {
-            if (HolderId != -1)
+            if (HolderId > 0)
             {
                 Holder = world.GetHistoricalFigure(HolderId);
+                if (Holder != null && !Holder.HoldingArtifacts.Contains(this))
+                {
+                    Holder.HoldingArtifacts.Add(this);
+                }
             }
             if (WrittenContentIds.Any())
             {

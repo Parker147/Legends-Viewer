@@ -123,7 +123,7 @@ namespace LegendsViewer.Legends.Events
         public string PrintFeature(bool link = true, DwarfObject pov = null)
         {
             string eventString = "";
-            eventString += "the ascention of ";
+            eventString += "the ascension of ";
             if (HistoricalFigure != null)
             {
                 eventString += HistoricalFigure.ToLink(link, pov);
