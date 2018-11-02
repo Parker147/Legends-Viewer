@@ -64,7 +64,7 @@ namespace LegendsViewer.Controls.HTML
 
                 Html.AppendLine("</ul>");
             }
-            if (_artifact.HolderId > 0)
+            if (_artifact.Holder != null)
             {
                 Html.AppendLine("<b>Current Holder:</b><br/>");
                 Html.AppendLine("<ul>");

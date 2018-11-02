@@ -51,10 +51,12 @@ namespace LegendsViewer.Controls.HTML
             var createdArtifacts = _historicalFigure.Events.OfType<ArtifactCreated>().Where(e => e.HistoricalFigure == _historicalFigure).Select(e => e.Artifact).ToList();
             var sanctifyArtifacts = _historicalFigure.Events.OfType<ArtifactCreated>().Where(e => e.SanctifyFigure == _historicalFigure).Select(e => e.Artifact).ToList();
             var possessedArtifacts = _historicalFigure.Events.OfType<ArtifactPossessed>().Select(e => e.Artifact).ToList();
+            var stolenArtifacts = _historicalFigure.Events.OfType<ItemStolen>().Where(e => e.Artifact != null).Select(e => e.Artifact).ToList();
             var storedArtifacts = _historicalFigure.Events.OfType<ArtifactStored>().Select(e => e.Artifact).ToList();
             var relatedArtifacts = createdArtifacts
                 .Union(sanctifyArtifacts)
                 .Union(possessedArtifacts)
+                .Union(stolenArtifacts)
                 .Union(storedArtifacts)
                 .Union(_historicalFigure.HoldingArtifacts)
                 .Distinct()
@@ -80,11 +82,15 @@ namespace LegendsViewer.Controls.HTML
                 }
                 if (sanctifyArtifacts.Contains(artifact))
                 {
-                    relations.Add("sanctify");
+                    relations.Add("sanctified");
                 }
                 if (possessedArtifacts.Contains(artifact))
                 {
                     relations.Add("possessed");
+                }
+                if (stolenArtifacts.Contains(artifact))
+                {
+                    relations.Add("stolen");
                 }
                 if (storedArtifacts.Contains(artifact))
                 {
@@ -92,7 +98,18 @@ namespace LegendsViewer.Controls.HTML
                 }
                 if (_historicalFigure.HoldingArtifacts.Contains(artifact))
                 {
-                    relations.Add("currently holding");
+                    relations.Add("currently in possession");
+                }
+                if (artifact.Holder != _historicalFigure)
+                {
+                    if (artifact.Holder != null)
+                    {
+                        relations.Add("currently in possession of " + artifact.Holder.ToLink(true, _historicalFigure));
+                    }
+                    else if (artifact.Site != null)
+                    {
+                        relations.Add("currently stored in " + artifact.Site.ToLink(true, _historicalFigure));
+                    }
                 }
                 if (relations.Any())
                 {

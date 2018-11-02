@@ -55,6 +55,8 @@ namespace LegendsViewer.Legends.Parser
         private bool ReadCiv()
         {
             string civName = _currentLine.Substring(0, _currentLine.IndexOf(",", StringComparison.Ordinal));
+            string civRace = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",", StringComparison.Ordinal) + 2, 
+                _currentLine.Length - _currentLine.IndexOf(",", StringComparison.Ordinal) - 2).ToLower());
             var entities = _world.Entities
                 .Where(entity => string.Compare(entity.Name, civName, StringComparison.OrdinalIgnoreCase) == 0).ToList();
             if (entities.Count == 1)
@@ -65,16 +67,24 @@ namespace LegendsViewer.Legends.Parser
             {
                 _world.ParsingErrors.Report($"Couldn\'t Find Civilization:\n{civName}");
             }
-#if DEBUG
             else
             {
-                _world.ParsingErrors.Report($"Ambiguous ({entities.Count}) Civilization Name:\n{civName}");
-            }
+                var currentEntity = entities.Where(entity =>
+                    string.Compare(entity.Race, civRace, StringComparison.OrdinalIgnoreCase) == 0).ToList();
+                if (currentEntity.Count == 1)
+                {
+                    _currentCiv = entities.First();
+                }
+                else
+                {
+#if DEBUG
+                    _world.ParsingErrors.Report($"Ambiguous ({entities.Count}) Civilization Name:\n{civName}");
 #endif
+                }
+            }
             if (_currentCiv != null)
             {
-                _currentCiv.Race = Formatting.InitCaps(_currentLine.Substring(_currentLine.IndexOf(",", StringComparison.Ordinal) + 2, 
-                    _currentLine.Length - _currentLine.IndexOf(",", StringComparison.Ordinal) - 2).ToLower());
+                _currentCiv.Race = civRace;
                 foreach (Entity group in _currentCiv.Groups)
                 {
                     group.Race = _currentCiv.Race;
@@ -93,25 +103,28 @@ namespace LegendsViewer.Legends.Parser
                 ReadLine();
                 while (_currentLine != null && _currentLine.StartsWith("  "))
                 {
-                    string deityName = Formatting.InitCaps(Formatting.ReplaceNonAscii(_currentLine.Substring(2, 
-                        _currentLine.IndexOf(",", StringComparison.Ordinal) - 2)));
-                    var deities = _world.HistoricalFigures.Where(h => h.Name.Equals(deityName.Replace("'", "`"), StringComparison.OrdinalIgnoreCase) && (h.Deity || h.Force)).ToList();
-                    if (deities.Count == 1)
+                    if (_currentCiv != null)
                     {
-                        var deity = deities.First();
-                        deity.WorshippedBy = _currentCiv;
-                        _currentCiv.Worshipped.Add(deity);
-                    }
-                    else if (deities.Count == 0)
-                    {
-                        _world.ParsingErrors.Report($"Couldn\'t Find Deity:\n{deityName}, Deity of {_currentCiv.Name}");
-                    }
+                        string deityName = Formatting.InitCaps(Formatting.ReplaceNonAscii(_currentLine.Substring(2, 
+                            _currentLine.IndexOf(",", StringComparison.Ordinal) - 2)));
+                        var deities = _world.HistoricalFigures.Where(h => h.Name.Equals(deityName.Replace("'", "`"), StringComparison.OrdinalIgnoreCase) && (h.Deity || h.Force)).ToList();
+                        if (deities.Count == 1)
+                        {
+                            var deity = deities.First();
+                            deity.WorshippedBy = _currentCiv;
+                            _currentCiv.Worshipped.Add(deity);
+                        }
+                        else if (deities.Count == 0)
+                        {
+                            _world.ParsingErrors.Report($"Couldn\'t Find Deity:\n{deityName}, Deity of {_currentCiv.Name}");
+                        }
 #if DEBUG
-                    else
-                    {
-                        _world.ParsingErrors.Report($"Ambiguous ({deities.Count}) Deity Name:\n{deityName}, Deity of {_currentCiv.Name}");
-                    }
+                        else
+                        {
+                            _world.ParsingErrors.Report($"Ambiguous ({deities.Count}) Deity Name:\n{deityName}, Deity of {_currentCiv.Name}");
+                        }
 #endif
+                    }
                     ReadLine();
                 }
             }
@@ -127,12 +140,12 @@ namespace LegendsViewer.Legends.Parser
             while (LeaderStart())
             {
                 string leaderType = Formatting.InitCaps(_currentLine.Substring(1, _currentLine.IndexOf("List", StringComparison.Ordinal) - 2));
-                _currentCiv.LeaderTypes.Add(leaderType);
-                _currentCiv.Leaders.Add(new List<HistoricalFigure>());
+                _currentCiv?.LeaderTypes.Add(leaderType);
+                _currentCiv?.Leaders.Add(new List<HistoricalFigure>());
                 ReadLine();
                 while (_currentLine != null && _currentLine.StartsWith("  "))
                 {
-                    if (_currentLine.Contains("[*]"))
+                    if (_currentCiv != null && _currentLine.Contains("[*]"))
                     {
                         string leaderName = Formatting.ReplaceNonAscii(_currentLine.Substring(_currentLine.IndexOf("[*]", StringComparison.Ordinal) + 4, 
                             _currentLine.IndexOf("(b", StringComparison.Ordinal) - _currentLine.IndexOf("[*]", StringComparison.Ordinal) - 5));

@@ -53,7 +53,6 @@ namespace LegendsViewer.Controls.Map
             _displayObjects = new List<object>();
             DoubleBuffered = true;
             Dock = DockStyle.Fill;
-            //Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             Source = new Rectangle(new Point(Center.X - Width / 2, Center.Y - Height / 2), new Size(Width, Height));
 
             _hoverMenu = new MapMenu(this);
@@ -84,7 +83,6 @@ namespace LegendsViewer.Controls.Map
             _altMapTransparency.Scroll += ChangeAltMapTransparency;
             _altMapTransparency.Value = 100;
             Controls.Add(_altMapTransparency);
-            //AltMapTransparency.Anchor = AnchorStyles.Bottom;
             _altMapTransparency.Location = new Point(MiniMapAreaSideLength + _yearMenu.MenuBox.Width, Height - _altMapTransparency.Height);
 
 
@@ -191,8 +189,7 @@ namespace LegendsViewer.Controls.Map
 
                 foreach (Entity displayEntity in entities)
                 {
-                    foreach (OwnerPeriod sitePeriod in displayEntity.SiteHistory.Where(site => (site.StartYear == CurrentYear && site.StartCause != "took over" || site.StartYear < CurrentYear)
-                                                                                               && (site.EndYear >= CurrentYear || site.EndYear == -1)))
+                    foreach (OwnerPeriod sitePeriod in displayEntity.SiteHistory.Where(ownerPeriod => ownerPeriod.StartYear <= CurrentYear && ownerPeriod.EndYear >= CurrentYear || ownerPeriod.EndYear == -1))
                     {
                         if (_zoomBounds.Top == -1)
                         {
@@ -597,36 +594,42 @@ namespace LegendsViewer.Controls.Map
             SizeF scaleTileSize = new SizeF((float)PixelWidth * TileSize, (float)PixelHeight * TileSize);
             g.InterpolationMode = InterpolationMode.Default;
             g.PixelOffsetMode = PixelOffsetMode.Half;
-            foreach (Entity civ in entities)
+            foreach (Site site in entities.SelectMany(entity => entity.Sites).Distinct())
             {
-                foreach (OwnerPeriod site in civ.SiteHistory.Where(site => (site.StartYear == CurrentYear && site.StartCause != "took over" || site.StartYear < CurrentYear)
-                                                                           && (site.EndYear >= CurrentYear || site.EndYear == -1)))
+                PointF siteLocation = new PointF
                 {
-                    PointF siteLocation = new PointF
+                    X = (float)((site.Coordinates.X * TileSize - rectangle.X) * PixelWidth),
+                    Y = (float)((site.Coordinates.Y * TileSize - rectangle.Y) * PixelHeight)
+                };
+                OwnerPeriod ownerPeriod = site.OwnerHistory.LastOrDefault(op => op.StartYear <= CurrentYear && op.EndYear >= CurrentYear || op.EndYear == -1);
+                Entity entity = ownerPeriod?.Owner as Entity;
+                if (entity == null)
+                {
+                    continue;
+                }
+                if (ownerPeriod.EndYear != -1 && ownerPeriod.EndYear <= CurrentYear)
+                {
+                    ImageAttributes imageAttributes = new ImageAttributes();
+                    imageAttributes.SetColorMatrix(new ColorMatrix
                     {
-                        X = (float)((site.Site.Coordinates.X * TileSize - rectangle.X) * PixelWidth - 0),
-                        Y = (float)((site.Site.Coordinates.Y * TileSize - rectangle.Y) * PixelHeight - 0)
-                    };
-                    if (site.EndYear == CurrentYear)
+                        Matrix00 = 0.66f,
+                        Matrix11 = 0.66f,
+                        Matrix22 = 0.66f,
+                        Matrix33 = 1.00f,
+                        Matrix44 = 0.66f
+                    });
+                    using (Bitmap lostSiteIdenticon = new Bitmap(entity.Identicon.Width, entity.Identicon.Height))
                     {
-                        ColorMatrix cm = new ColorMatrix();
-                        cm.Matrix00 = cm.Matrix11 = cm.Matrix22 = cm.Matrix44 = 0.66f;
-                        cm.Matrix33 = 1f;
-                        ImageAttributes ia = new ImageAttributes();
-                        ia.SetColorMatrix(cm);
-                        using (Bitmap lostSiteIdenticon = new Bitmap(civ.Identicon.Width, civ.Identicon.Height))
+                        using (Graphics drawLostSite = Graphics.FromImage(lostSiteIdenticon))
                         {
-                            using (Graphics drawLostSite = Graphics.FromImage(lostSiteIdenticon))
-                            {
-                                drawLostSite.DrawImage(civ.Identicon, new Rectangle(0, 0, civ.Identicon.Width, civ.Identicon.Height), 0, 0, civ.Identicon.Width, civ.Identicon.Height, GraphicsUnit.Pixel, ia);
-                            }
-                            g.DrawImage(lostSiteIdenticon, new RectangleF(siteLocation.X, siteLocation.Y, scaleTileSize.Width + 1, scaleTileSize.Height + 1));
+                            drawLostSite.DrawImage(entity.Identicon, new Rectangle(0, 0, entity.Identicon.Width, entity.Identicon.Height), 0, 0, entity.Identicon.Width, entity.Identicon.Height, GraphicsUnit.Pixel, imageAttributes);
                         }
+                        g.DrawImage(lostSiteIdenticon, new RectangleF(siteLocation.X, siteLocation.Y, scaleTileSize.Width + 1, scaleTileSize.Height + 1));
                     }
-                    else
-                    {
-                        g.DrawImage(civ.Identicon, new RectangleF(siteLocation.X, siteLocation.Y, scaleTileSize.Width + 1, scaleTileSize.Height + 1));
-                    }
+                }
+                else
+                {
+                    g.DrawImage(entity.Identicon, new RectangleF(siteLocation.X, siteLocation.Y, scaleTileSize.Width + 1, scaleTileSize.Height + 1));
                 }
             }
         }
@@ -1342,15 +1345,15 @@ namespace LegendsViewer.Controls.Map
         {
             if (!_controlMenu.HighlightOption(e.X, e.Y) && !_yearMenu.HighlightOption(e.X, e.Y) && !_optionsMenu.HighlightOption(e.X, e.Y) && !_hoverMenu.Open)
             {
-                List<Object> addOptions = new List<Object>();
+                List<object> addOptions = new List<object>();
                 Location tile = WindowToWorldTile(e.Location);
-                foreach (Entity civ in _displayObjects.OfType<Entity>())
+                foreach (Site site in _displayObjects.OfType<Entity>().SelectMany(entity => entity.Sites).Where(site => site.Coordinates == tile).Distinct())
                 {
-                    foreach (OwnerPeriod sitePeriod in civ.SiteHistory.Where(site => (site.StartYear == CurrentYear && site.StartCause != "took over" || site.StartYear < CurrentYear)
-                                                                                     && (site.EndYear >= CurrentYear || site.EndYear == -1) && site.Site.Coordinates == tile))
+                    OwnerPeriod ownerPeriod = site.OwnerHistory.LastOrDefault(op => op.StartYear <= CurrentYear && op.EndYear >= CurrentYear || op.EndYear == -1);
+                    if(ownerPeriod != null && ownerPeriod.Owner is Entity entity)
                     {
-                        addOptions.Add(civ);
-                        addOptions.Add(sitePeriod.Site);
+                        addOptions.Add(entity);
+                        addOptions.Add(ownerPeriod.Site);
                     }
                 }
 
@@ -1371,9 +1374,8 @@ namespace LegendsViewer.Controls.Map
 
                 if (BattlesToggled || _battles.Count > 0)
                 {
-                    if (_battleLocations.Count(battle => battle == tile) > 0)
+                    if (_battleLocations.Any(location => location == tile))
                     {
-                        //List<Battle> battles = DisplayObjects.OfType<Battle>().Where(battle => battle.Coordinates == tile).ToList();
                         List<Battle> battles = _battles.Where(battle => battle.Coordinates == tile).ToList();
                         if (battles.Count > 0)
                         {
@@ -1477,7 +1479,6 @@ namespace LegendsViewer.Controls.Map
             }
 
             createBitmaps.MiniMapAreaSideLength = maxSize;
-            //createBitmaps.SetupMinimap();
             createBitmaps._minimap = world.PageMiniMap;
 
             Bitmap miniMap = new Bitmap(maxSize, maxSize);
@@ -1491,7 +1492,6 @@ namespace LegendsViewer.Controls.Map
 
             using (Graphics mapGraphics = Graphics.FromImage(map))
             {
-                //mapGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                 mapGraphics.PixelOffsetMode = PixelOffsetMode.Half;
                 createBitmaps.DrawMap(mapGraphics);
                 createBitmaps.DrawDisplayObjects(mapGraphics);
@@ -1504,8 +1504,7 @@ namespace LegendsViewer.Controls.Map
         {
             double closestDistance = double.MaxValue;
             Site closestSite = null;
-            foreach (OwnerPeriod period in civ.SiteHistory.Where(site => (site.StartYear == CurrentYear && site.StartCause != "took over" || site.StartYear < CurrentYear)
-                                                                         && (site.EndYear >= CurrentYear || site.EndYear == -1)))
+            foreach (OwnerPeriod period in civ.SiteHistory.Where(ownerPeriod => ownerPeriod.StartYear <= CurrentYear && ownerPeriod.EndYear >= CurrentYear || ownerPeriod.EndYear == -1))
             {
                 int rise = period.Site.Coordinates.Y - coordinates.Y;
                 int run = period.Site.Coordinates.X - coordinates.X;

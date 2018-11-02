@@ -58,50 +58,50 @@ namespace LegendsViewer.Controls.Map
             public SitePath(double distance, SiteNode siteNode) { Weight = distance; SiteNode = siteNode; }
         }
 
-        private static void SetPathsDijkstra(List<SiteNode> siteList)
-        {
-            List<SiteNode> sites = new List<SiteNode>(siteList);
-            foreach (SiteNode node in sites)
-            {
-                node.Distance = double.MaxValue;
-                node.Previous = null;
-            }
+        //private static void SetPathsDijkstra(List<SiteNode> siteList)
+        //{
+        //    List<SiteNode> sites = new List<SiteNode>(siteList);
+        //    foreach (SiteNode node in sites)
+        //    {
+        //        node.Distance = double.MaxValue;
+        //        node.Previous = null;
+        //    }
 
-            if (sites.Count > 0)
-            {
-                sites.First().Distance = 0;
-            }
+        //    if (sites.Count > 0)
+        //    {
+        //        sites.First().Distance = 0;
+        //    }
 
-            while (sites.Count > 0)
-            {
-                SiteNode current = sites.First();
-                foreach (SiteNode site in sites)
-                {
-                    if (site.Distance < current.Distance)
-                    {
-                        current = site;
-                    }
-                }
+        //    while (sites.Count > 0)
+        //    {
+        //        SiteNode current = sites.First();
+        //        foreach (SiteNode site in sites)
+        //        {
+        //            if (site.Distance < current.Distance)
+        //            {
+        //                current = site;
+        //            }
+        //        }
 
-                if (current.Distance == double.MaxValue)
-                {
-                    break;
-                }
+        //        if (current.Distance == double.MaxValue)
+        //        {
+        //            break;
+        //        }
 
-                sites.Remove(current);
+        //        sites.Remove(current);
 
 
-                foreach (SitePath path in current.Paths)
-                {
-                    double distance = current.Distance + path.Weight;
-                    if (distance < path.SiteNode.Distance)
-                    {
-                        path.SiteNode.Distance = distance;
-                        path.SiteNode.Previous = current;
-                    }
-                }
-            }
-        }
+        //        foreach (SitePath path in current.Paths)
+        //        {
+        //            double distance = current.Distance + path.Weight;
+        //            if (distance < path.SiteNode.Distance)
+        //            {
+        //                path.SiteNode.Distance = distance;
+        //                path.SiteNode.Previous = current;
+        //            }
+        //        }
+        //    }
+        //}
 
         private static void SetPathsPrim(List<SiteNode> siteList)
         {
@@ -150,8 +150,7 @@ namespace LegendsViewer.Controls.Map
         private static List<SiteNode> CreateSiteNodes(Entity civ, int year)
         {
             List<SiteNode> sites = new List<SiteNode>();
-            foreach (OwnerPeriod sitePeriod in civ.SiteHistory.Where(site => (site.StartYear == year && site.StartCause != "took over" || site.StartYear < year)
-                        && (site.EndYear >= year || site.EndYear == -1)))
+            foreach (OwnerPeriod sitePeriod in civ.SiteHistory.Where(ownerPeriod => ownerPeriod.StartYear <= year && ownerPeriod.EndYear >= year || ownerPeriod.EndYear == -1))
             {
                 sites.Add(new SiteNode(sitePeriod.Site));
             }

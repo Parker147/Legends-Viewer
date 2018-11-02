@@ -124,6 +124,8 @@ namespace LegendsViewer.Controls
             new[] { "agreement void",                     "Agreement Void", ""},
             new[] { "entity rampaged in site",            "Entity Rampaged In Site", ""},
             new[] { "entity fled site",                   "Entity Fled Site", ""},
+            new[] { "entity expels hf",                   "Entity Expels Historical Figure", ""},
+            new[] { "site surrendered",                   "Site Surrendered", ""},
 
             new[] { "INVALID",                     "INVALID EVENT",                            ""}
         };

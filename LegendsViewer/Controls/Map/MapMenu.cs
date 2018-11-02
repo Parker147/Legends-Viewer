@@ -31,10 +31,10 @@ namespace LegendsViewer.Controls.Map
             Map = map;
         }
 
-        public void AddOptions(List<Object> addOptions)
+        public void AddOptions(List<object> addOptions)
         {
             Options.Clear();
-            addOptions = addOptions.GroupBy(optionObject => optionObject).Select(test => test.Key).ToList(); //remove duplicates
+            addOptions = addOptions.Distinct().ToList(); //remove duplicates
             foreach (Entity civ in addOptions.OfType<Entity>())
             {
                 Options.Add(new MapMenuOption(this, civ));
@@ -63,7 +63,7 @@ namespace LegendsViewer.Controls.Map
             CalculateSize();
         }
 
-        public void AddOption(Object option)
+        public void AddOption(object option)
         {
             Options.Add(new MapMenuOption(this, option));
             CalculateSize();
@@ -249,7 +249,7 @@ namespace LegendsViewer.Controls.Map
         public MapMenu SubMenu;
         public int Width;
 
-        public MapMenuOption(MapMenu parent, Object itemObject = null)
+        public MapMenuOption(MapMenu parent, object itemObject = null)
         {
             Parent = parent;
             OptionObject = itemObject;
