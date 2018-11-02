@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
-using LegendsViewer.Legends;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace LegendsViewer.Controls.Query
 {
@@ -30,21 +28,21 @@ namespace LegendsViewer.Controls.Query
 
             //BackColor = Color.White;
 
-            Insert.Text = "Insert"; Insert.Width = 40; Insert.Height = 19; Insert.FlatStyle = FlatStyle.Flat; Insert.Font = new System.Drawing.Font("Arial", 6.5f);
+            Insert.Text = "Insert"; Insert.Width = 40; Insert.Height = 19; Insert.FlatStyle = FlatStyle.Flat; Insert.Font = new Font("Arial", 6.5f);
             Insert.FlatAppearance.BorderSize = 0;
 
-            Remove.Text = "Remove"; Remove.Width = 51; Remove.Height = 19; Remove.FlatStyle = FlatStyle.Flat; Remove.Font = new System.Drawing.Font("Arial", 6.5f);
+            Remove.Text = "Remove"; Remove.Width = 51; Remove.Height = 19; Remove.FlatStyle = FlatStyle.Flat; Remove.Font = new Font("Arial", 6.5f);
             Remove.FlatAppearance.BorderSize = 0;
 
             QueryOperatorSelect.Items.AddRange(new object[] { QueryOperator.And, QueryOperator.Or });
             QueryOperatorSelect.Width = 45;
             QueryOperatorSelect.DropDownStyle = ComboBoxStyle.DropDownList;
             QueryOperatorSelect.SelectedIndex = 0;
-            QueryOperatorSelect.SelectedIndexChanged += delegate(object sender, EventArgs e)
+            QueryOperatorSelect.SelectedIndexChanged += delegate
             {
-                this.GetValueOptions();
+                GetValueOptions();
                 object value = ValueSelect.SelectedItem;
-                (this.Parent as CriteriaPanel).UpdateValueSelects(this);
+                (Parent as CriteriaPanel).UpdateValueSelects(this);
                 ValueSelect.SelectedItem = value;
             };
             //QueryOperatorSelect.Visible = false;
@@ -66,13 +64,13 @@ namespace LegendsViewer.Controls.Query
 
             //ValueSelect.FlatStyle = FlatStyle.Flat;
             ValueSelect.Width = 175;
-            ValueSelect.TextChanged += delegate(object sender, EventArgs e)
+            ValueSelect.TextChanged += delegate
             {
-                (this.Parent as CriteriaPanel).UpdateValueSelects(this);
+                (Parent as CriteriaPanel).UpdateValueSelects(this);
             };
-            ValueSelect.SelectedIndexChanged += delegate(object sender, EventArgs e)
+            ValueSelect.SelectedIndexChanged += delegate
             {
-                (this.Parent as CriteriaPanel).UpdateValueSelects(this);
+                (Parent as CriteriaPanel).UpdateValueSelects(this);
             };
             ValueSelect.FormattingEnabled = true;
             ValueSelect.Format += delegate(object sender, ListControlConvertEventArgs e)
@@ -88,11 +86,15 @@ namespace LegendsViewer.Controls.Query
             //OrderBySelect.FlatStyle = FlatStyle.Flat;
 
             if (OrderByCriteria)
+            {
                 Controls.AddRange(new Control[] { PropertySelect, OrderBySelect, Insert, Remove });
+            }
             else
+            {
                 Controls.AddRange(new Control[] { QueryOperatorSelect, PropertySelect, ComparerSelect, ValueSelect, Insert, Remove });
+            }
 
-            Height = CriteriaLine.LineHeight;
+            Height = LineHeight;
         }
 
         private void OnPropertyChange(object sender, EventArgs e)
@@ -113,22 +115,34 @@ namespace LegendsViewer.Controls.Query
             ValueSelect.Location = new Point(ComparerSelect.Right + 3, 0);
 
             if (OrderByCriteria && Controls.Contains(ValueSelect))
+            {
                 OrderBySelect.Location = new Point(ValueSelect.Right + 3, 0);
+            }
             else if (OrderByCriteria && Controls.Contains(ComparerSelect))
+            {
                 OrderBySelect.Location = new Point(ComparerSelect.Right + 3, 0);
+            }
             else if (OrderByCriteria)
+            {
                 OrderBySelect.Location = new Point(PropertySelect.GetRightSide() + 3, 0);
-
+            }
 
             if (OrderByCriteria)
+            {
                 Insert.Location = new Point(OrderBySelect.Right + 15, 0);
+            }
             else
+            {
                 Insert.Location = new Point(ValueSelect.Right + 15, 0);
+            }
 
             Remove.Location = new Point(Insert.Right + 3, 0);
 
             Width = Remove.Right;
-            if (Parent != null) (Parent as CriteriaPanel).AutoResize();
+            if (Parent != null)
+            {
+                (Parent as CriteriaPanel).AutoResize();
+            }
         }
 
         public void GetComparers()
@@ -153,12 +167,17 @@ namespace LegendsViewer.Controls.Query
             Type propertyType = PropertySelect.GetLowestPropertyType();
             List<QueryComparer> comparers = SearchProperty.GetComparers(propertyType);
             if (OrderByCriteria && PropertySelect.Child != null && (propertyType == typeof(int) || propertyType == typeof(double) || propertyType.IsGenericType))
-                comparers.AddRange(new List<QueryComparer>() { QueryComparer.Min, QueryComparer.Max, QueryComparer.Average, QueryComparer.Sum });
+            {
+                comparers.AddRange(new List<QueryComparer> { QueryComparer.Min, QueryComparer.Max, QueryComparer.Average, QueryComparer.Sum });
+            }
 
             ComparerSelect.Items.AddRange(comparers.Cast<object>().ToArray());
             //foreach (QueryComparer comparer in comparers)
             //    ComparerSelect.Items.Insert(SearchProperty.ComparerToString(comparer));
-            if (comparers.Count > 0) ComparerSelect.SelectedIndex = 0;
+            if (comparers.Count > 0)
+            {
+                ComparerSelect.SelectedIndex = 0;
+            }
         }
 
         private void ComparerChanged(object sender, EventArgs e)
@@ -167,9 +186,13 @@ namespace LegendsViewer.Controls.Query
             {
                 QueryComparer comparer = (QueryComparer)ComparerSelect.SelectedItem;
                 if (comparer == QueryComparer.Min || comparer == QueryComparer.Max || comparer == QueryComparer.Average || comparer == QueryComparer.Sum)
+                {
                     Controls.Remove(ValueSelect);
+                }
                 else if (!Controls.Contains(ValueSelect) && PropertySelect.Child != null && PropertySelect.Child.SelectedProperty != null && !PropertySelect.ContainsListLast())
+                {
                     Controls.Add(ValueSelect);
+                }
             }
         }
 
@@ -180,7 +203,11 @@ namespace LegendsViewer.Controls.Query
             ValueSelect.DropDownStyle = ComboBoxStyle.DropDown;
             Type selectedType = PropertySelect.GetLowestPropertyType();
             SearchProperty selected = PropertySelect.GetLowestProperty();
-            if (selected == null) return;
+            if (selected == null)
+            {
+                return;
+            }
+
             if (selectedType == typeof(bool))
             {
                 ValueSelect.Items.Add(true);
@@ -207,17 +234,29 @@ namespace LegendsViewer.Controls.Query
             else //if (!selected.Type.IsGenericType)// && selected.Type != typeof(int) && selected.Type != typeof(double))// && PropertySelect.GetLowestProperty().Name != "Name")
             {
                 IEnumerable<object> options;
-                if (SelectCriteria) options = (this.Parent.Parent as QueryControl).SearchSelection(this);
-                else options = (this.Parent.Parent as QueryControl).Search(this);
-                SearchInfo available = this.BuildSearchInfo(true);
+                if (SelectCriteria)
+                {
+                    options = (Parent.Parent as QueryControl).SearchSelection(this);
+                }
+                else
+                {
+                    options = (Parent.Parent as QueryControl).Search(this);
+                }
+
+                SearchInfo available = BuildSearchInfo(true);
                 if (available != null)
                 {
                     options = available.Select(options);
                     options = options.GroupBy(option => option).Select(option => option.Key);
                     if (options.FirstOrDefault() != null && (options.First().GetType() == typeof(int) || options.First().GetType() == typeof(double)))
+                    {
                         options = options.OrderBy(option => option);
+                    }
                     else
+                    {
                         options = options.OrderBy(option => option.GetDescription()).ToList();
+                    }
+
                     ValueSelect.Items.AddRange(options.ToArray());
                 }
             }
@@ -225,7 +264,10 @@ namespace LegendsViewer.Controls.Query
             if (selectedType == typeof(bool) || selectedType.IsEnum)
             {
                 ValueSelect.DropDownStyle = ComboBoxStyle.DropDownList;
-                if (ValueSelect.Items.Count > 0) ValueSelect.SelectedIndex = 0;
+                if (ValueSelect.Items.Count > 0)
+                {
+                    ValueSelect.SelectedIndex = 0;
+                }
             }
 
             if (PropertySelect.GetLowestProperty().Name == "Name")
@@ -234,10 +276,14 @@ namespace LegendsViewer.Controls.Query
                 ValueSelect.AutoCompleteSource = AutoCompleteSource.ListItems;
             }
             else
+            {
                 ValueSelect.AutoCompleteMode = AutoCompleteMode.None;
+            }
 
-            if (previousSelection != null && ValueSelect.Items.Contains(previousSelection)) ValueSelect.SelectedItem = previousSelection;
-            (this.Parent as CriteriaPanel).UpdateValueSelects(this);
+            if (previousSelection != null && ValueSelect.Items.Contains(previousSelection))
+            {
+                ValueSelect.SelectedItem = previousSelection;
+            } (Parent as CriteriaPanel).UpdateValueSelects(this);
 
         }
 
@@ -256,17 +302,31 @@ namespace LegendsViewer.Controls.Query
         public bool IsComplete()
         {
             if (!OrderByCriteria)
+            {
                 return PropertySelect.SelectedIndex >= 0 && ComparerSelect.SelectedIndex >= 0 && ValueSelect.Text != "";
-            bool complete = (PropertySelect.SelectedIndex >= 0) && (PropertySelect.GetLowestPropertyType().IsGenericType || PropertySelect.GetLowestPropertyType() == typeof(int) || PropertySelect.GetLowestPropertyType() == typeof(double) || PropertySelect.GetLowestPropertyType() == typeof(string) || PropertySelect.GetLowestPropertyType().IsEnum);
+            }
+
+            bool complete = PropertySelect.SelectedIndex >= 0 && (PropertySelect.GetLowestPropertyType().IsGenericType || PropertySelect.GetLowestPropertyType() == typeof(int) || PropertySelect.GetLowestPropertyType() == typeof(double) || PropertySelect.GetLowestPropertyType() == typeof(string) || PropertySelect.GetLowestPropertyType().IsEnum);
             if (Controls.Contains(ComparerSelect) && Controls.Contains(ValueSelect))
+            {
                 complete = complete && ComparerSelect.SelectedIndex >= 0 && ValueSelect.Text != "";
+            }
+
             return complete;
         }
 
         public SearchInfo BuildSearchInfo(bool gettingValuesOnly = false)
         {
-            if (!OrderByCriteria && !(PropertySelect.SelectedIndex >= 0 && ComparerSelect.SelectedIndex >= 0)) return null;
-            if (OrderByCriteria && Controls.Contains(ComparerSelect) && ComparerSelect.SelectedIndex < 0) return null;
+            if (!OrderByCriteria && !(PropertySelect.SelectedIndex >= 0 && ComparerSelect.SelectedIndex >= 0))
+            {
+                return null;
+            }
+
+            if (OrderByCriteria && Controls.Contains(ComparerSelect) && ComparerSelect.SelectedIndex < 0)
+            {
+                return null;
+            }
+
             SearchInfo criteria = SearchInfo.Make(PropertySelect.ParentType);
 
             criteria.Operator = (QueryOperator)QueryOperatorSelect.SelectedItem;
@@ -277,24 +337,41 @@ namespace LegendsViewer.Controls.Query
             //build comparer
             if (OrderByCriteria)
             {
-                if (OrderBySelect.Text == "Descending") criteria.OrderByDescending = true;
+                if (OrderBySelect.Text == "Descending")
+                {
+                    criteria.OrderByDescending = true;
+                }
+
                 if (Controls.Contains(ComparerSelect))
+                {
                     criteria.SetupOrderByComparers((QueryComparer)ComparerSelect.SelectedItem);
+                }
                 else if (PropertySelect.GetLowestPropertyType().IsGenericType)
+                {
                     criteria.SetupOrderByComparers(QueryComparer.All);
+                }
             }
             else
+            {
                 criteria.SetupComparers((QueryComparer)ComparerSelect.SelectedItem);//  SearchProperty.StringToComparer(ComparerSelect.Text));
+            }
 
             //build value
             if (PropertySelect.GetLowestPropertyType() == typeof(int) || PropertySelect.GetLowestPropertyType() == typeof(List<int>) || PropertySelect.GetLowestPropertyType().IsGenericType)
+            {
                 if (Controls.Contains(ValueSelect) && !gettingValuesOnly)
+                {
                     try
                     {
                         criteria.SetupValue(Convert.ToInt32(ValueSelect.Text));
                     }
                     catch { return null; }
-                else criteria.SetupValue(0);
+                }
+                else
+                {
+                    criteria.SetupValue(0);
+                }
+            }
             else if (PropertySelect.GetLowestPropertyType() == typeof(double) || PropertySelect.GetLowestPropertyType() == typeof(List<double>))
             {
                 if (Controls.Contains(ValueSelect) && !gettingValuesOnly)
@@ -307,9 +384,13 @@ namespace LegendsViewer.Controls.Query
                 }
             }
             else if (ValueSelect.DropDownStyle == ComboBoxStyle.DropDownList)
+            {
                 criteria.SetupValue(ValueSelect.SelectedItem);
+            }
             else
+            {
                 criteria.SetupValue(ValueSelect.Text);
+            }
 
             return criteria;
         }

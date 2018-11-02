@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.Parser;
+
+namespace LegendsViewer.Legends.Events
+{
+    public class Competition : OccasionEvent
+    {
+        private HistoricalFigure Winner { get; set; }
+        private List<HistoricalFigure> Competitors { get; set; }
+
+        public Competition(List<Property> properties, World world) : base(properties, world)
+        {
+            OccasionType = OccasionType.Competition;
+            Competitors = new List<HistoricalFigure>();
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
+                {
+                    case "winner_hfid":
+                        Winner = world.GetHistoricalFigure(Convert.ToInt32(property.Value));
+                        break;
+                    case "competitor_hfid":
+                        Competitors.Add(world.GetHistoricalFigure(Convert.ToInt32(property.Value)));
+                        break;
+                }
+            }
+
+            Winner.AddEvent(this);
+            Competitors.ForEach(competitor => competitor.AddEvent(this));
+        }
+
+        public override string Print(bool link = true, DwarfObject pov = null)
+        {
+            string eventString = base.Print(link, pov);
+            if (Competitors.Any())
+            {
+                eventString += "</br>";
+                eventString += "Competing were ";
+                for (int i = 0; i < Competitors.Count; i++)
+                {
+                    HistoricalFigure competitor = Competitors.ElementAt(i);
+                    if (i == 0)
+                    {
+                        eventString += competitor.ToLink(link, pov);
+                    }
+                    else if (i == Competitors.Count - 1)
+                    {
+                        eventString += " and " + competitor.ToLink(link, pov);
+                    }
+                    else
+                    {
+                        eventString += ", " + competitor.ToLink(link, pov);
+                    }
+                }
+                eventString += ". ";
+            }
+            if (Winner != null)
+            {
+                eventString += "The winner was ";
+                eventString += Winner.ToLink(link, pov);
+                eventString += ".";
+            }
+            return eventString;
+        }
+    }
+}

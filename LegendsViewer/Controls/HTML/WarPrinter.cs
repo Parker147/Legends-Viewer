@@ -1,128 +1,141 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using LegendsViewer.Controls.Map;
 using LegendsViewer.Legends;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    class WarPrinter : HTMLPrinter
+    class WarPrinter : HtmlPrinter
     {
-        War War;
-        World World;
+        War _war;
+        World _world;
 
         public WarPrinter(War war, World world)
         {
-            War = war;
-            World = world;
+            _war = war;
+            _world = world;
         }
 
         public override string GetTitle()
         {
-            return War.Name;
+            return _war.Name;
         }
 
         public override string Print()
         {
-            HTML = new StringBuilder();
-            PrintStyle();
+            Html = new StringBuilder();
 
-            HTML.AppendLine("<b>" + War.Name + " was waged by " + War.Attacker.PrintEntity() + " on " + War.Defender.PrintEntity() + "</b><br/>");
-            HTML.AppendLine("Started " + War.GetYearTime().ToLower() + "and ");
-            if (War.EndYear == -1)
-                HTML.AppendLine("is still ongoing.");
+            Html.AppendLine("<h1>" + GetTitle() + "</h1></br>");
+            Html.AppendLine("Started " + _war.GetYearTime().ToLower() + "and ");
+            if (_war.EndYear == -1)
+            {
+                Html.AppendLine("is still ongoing.");
+            }
             else
-                HTML.AppendLine("ended " + War.GetYearTime(false).ToLower().Substring(0, War.GetYearTime(false).Length - 1) + ". ");
-            HTML.AppendLine("</br></br>");
+            {
+                Html.AppendLine("ended " + _war.GetYearTime(false).ToLower().Substring(0, _war.GetYearTime(false).Length - 1) + ". ");
+            }
 
-            List<System.Drawing.Bitmap> maps = MapPanel.CreateBitmaps(World, War);
-            HTML.AppendLine("<table border=\"0\" width=\"" + (maps[0].Width + maps[1].Width + 10) + "\">");
-            HTML.AppendLine("<tr>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[0]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("<td>" + MakeLink(BitmapToHTML(maps[1]), LinkOption.LoadMap) + "</td>");
-            HTML.AppendLine("</tr></table></br>");
+            Html.AppendLine(_war.Name + " was waged by " + _war.Attacker.PrintEntity() + " on " + _war.Defender.PrintEntity() + ".<br/>");
+            Html.AppendLine("</br></br>");
 
-            War.Collections.OfType<Battle>().Sum(battle => battle.Collection.OfType<HFDied>().Where(death => battle.NotableAttackers.Contains(death.HistoricalFigure)).Count());
-            HTML.AppendLine("<b>" + War.Attacker.PrintEntity() + " (Attacker)</b>");
-            HTML.AppendLine("<ul>");
-            HTML.AppendLine("<li>Kills: " + (War.Collections.OfType<Battle>().Where(battle => battle.Attacker == War.Attacker).Sum(battle => battle.DefenderDeathCount) + War.Collections.OfType<Battle>().Where(battle => battle.Defender == War.Attacker).Sum(battle => battle.AttackerDeathCount)) + "</br>");
-            HTML.AppendLine("<li>Battle Victories: " + War.AttackerVictories.OfType<Battle>().Count());
-            HTML.AppendLine("<li>Conquerings: " + War.AttackerVictories.OfType<SiteConquered>().Count());
-            HTML.AppendLine(" (" + War.AttackerVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count() + " Pillagings, ");
-            HTML.AppendLine(War.AttackerVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Destruction).Count() + " Destructions, ");
-            HTML.AppendLine(War.AttackerVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Conquest).Count() + " Conquests)");
-            HTML.AppendLine("</ul>");
+            List<Bitmap> maps = MapPanel.CreateBitmaps(_world, _war);
 
-            HTML.AppendLine("<b>" + War.Defender.PrintEntity() + " (Defender)</b>");
-            HTML.AppendLine("<ul>");
-            HTML.AppendLine("<li>Kills: " + (War.Collections.OfType<Battle>().Where(battle => battle.Attacker == War.Defender).Sum(battle => battle.DefenderDeathCount) + War.Collections.OfType<Battle>().Where(battle => battle.Defender == War.Defender).Sum(battle => battle.AttackerDeathCount)) + "</br>");
-            HTML.AppendLine("<li>Battle Victories: " + War.DefenderVictories.OfType<Battle>().Count());
-            HTML.AppendLine("<li>Conquerings: " + War.DefenderVictories.OfType<SiteConquered>().Count());
-            HTML.AppendLine(" (" + War.DefenderVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count() + " Pillagings, ");
-            HTML.AppendLine(War.DefenderVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Destruction).Count() + " Destructions, ");
-            HTML.AppendLine(War.DefenderVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Conquest).Count() + " Conquests)");
-            HTML.AppendLine("</ul>");
+            Html.AppendLine("<table>");
+            Html.AppendLine("<tr>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[0]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("<td>" + MakeLink(BitmapToHtml(maps[1]), LinkOption.LoadMap) + "</td>");
+            Html.AppendLine("</tr></table></br>");
 
-            if (War.Collections.Count(battle => !World.FilterBattles || battle.Notable) > 0)
+            _war.Collections.OfType<Battle>().Sum(battle => battle.Collection.OfType<HfDied>().Where(death => battle.NotableAttackers.Contains(death.HistoricalFigure)).Count());
+            Html.AppendLine("<b>" + _war.Attacker.PrintEntity() + " (Attacker)</b>");
+            Html.AppendLine("<ul>");
+            Html.AppendLine("<li>Kills: " + (_war.Collections.OfType<Battle>().Where(battle => battle.Attacker == _war.Attacker).Sum(battle => battle.DefenderDeathCount) + _war.Collections.OfType<Battle>().Where(battle => battle.Defender == _war.Attacker).Sum(battle => battle.AttackerDeathCount)) + "</br>");
+            Html.AppendLine("<li>Battle Victories: " + _war.AttackerVictories.OfType<Battle>().Count());
+            Html.AppendLine("<li>Conquerings: " + _war.AttackerVictories.OfType<SiteConquered>().Count());
+            Html.AppendLine(" (" + _war.AttackerVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count() + " Pillagings, ");
+            Html.AppendLine(_war.AttackerVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Destruction).Count() + " Destructions, ");
+            Html.AppendLine(_war.AttackerVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Conquest).Count() + " Conquests)");
+            Html.AppendLine("</ul>");
+
+            Html.AppendLine("<b>" + _war.Defender.PrintEntity() + " (Defender)</b>");
+            Html.AppendLine("<ul>");
+            Html.AppendLine("<li>Kills: " + (_war.Collections.OfType<Battle>().Where(battle => battle.Attacker == _war.Defender).Sum(battle => battle.DefenderDeathCount) + _war.Collections.OfType<Battle>().Where(battle => battle.Defender == _war.Defender).Sum(battle => battle.AttackerDeathCount)) + "</br>");
+            Html.AppendLine("<li>Battle Victories: " + _war.DefenderVictories.OfType<Battle>().Count());
+            Html.AppendLine("<li>Conquerings: " + _war.DefenderVictories.OfType<SiteConquered>().Count());
+            Html.AppendLine(" (" + _war.DefenderVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count() + " Pillagings, ");
+            Html.AppendLine(_war.DefenderVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Destruction).Count() + " Destructions, ");
+            Html.AppendLine(_war.DefenderVictories.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Conquest).Count() + " Conquests)");
+            Html.AppendLine("</ul>");
+
+            if (_war.Collections.Count(battle => !_world.FilterBattles || battle.Notable) > 0)
             {
                 int warfareCount = 1;
-                HTML.AppendLine("<b>Warfare</b> " + MakeLink("[Load]", LinkOption.LoadWarBattles));
-                if (World.FilterBattles) HTML.Append(" (Notable)");
-                HTML.Append("</br>");
-                HTML.AppendLine("<table>");
-                HTML.AppendLine("<tr><td colspan=6></td>");
-                HTML.AppendLine("<td align=right>" + StringToImageHTML(War.Attacker.SmallIdenticonString) + "</td>");
-                HTML.AppendLine("<td>/</td>");
-                HTML.AppendLine("<td align=left>" + StringToImageHTML(War.Defender.SmallIdenticonString) + "</td>");
-                HTML.AppendLine("</tr>");
-                foreach (EventCollection warfare in War.Collections.Where(battle => !World.FilterBattles || battle.Notable))
+                Html.AppendLine("<b>Warfare</b> " + MakeLink("[Load]", LinkOption.LoadWarBattles));
+                if (_world.FilterBattles)
                 {
-                    HTML.AppendLine("<tr>");
-                    HTML.AppendLine("<td width=\"20\" align=\"right\">" + warfareCount + ".<td width=\"10\"></td><td>" + warfare.StartYear + "</td>");
+                    Html.Append(" (Notable)");
+                }
+
+                Html.Append("</br>");
+                Html.AppendLine("<table>");
+                Html.AppendLine("<tr>");
+                Html.AppendLine("<th align=right>#</th>");
+                Html.AppendLine("<th align=right>Year</th>");
+                Html.AppendLine("<th>Battle</th>");
+                Html.AppendLine("<th>Victor</th>");
+                Html.AppendLine("<th align=right>" + Base64ToHtml(_war.Attacker.SmallIdenticonString) + "</th>");
+                Html.AppendLine("<th>/</th>");
+                Html.AppendLine("<th align=left>" + Base64ToHtml(_war.Defender.SmallIdenticonString) + "</th>");
+                Html.AppendLine("</tr>");
+                foreach (EventCollection warfare in _war.Collections.Where(battle => !_world.FilterBattles || battle.Notable))
+                {
+                    Html.AppendLine("<tr>");
+                    Html.AppendLine("<td align=right>" + warfareCount + ".</td>");
+                    Html.AppendLine("<td align=right>" + warfare.StartYear + "</td>");
                     string warfareString = warfare.ToLink();
                     if (warfareString.Contains(" as a result of"))
+                    {
                         warfareString = warfareString.Insert(warfareString.IndexOf(" as a result of"), "</br>");
-                    HTML.Append("<td>" + warfareString + "</td>");
+                    }
+
+                    Html.Append("<td>" + warfareString + "</td>");
                     if (warfare.GetType() == typeof(Battle))
                     {
                         Battle battle = warfare as Battle;
-                        HTML.Append("<td>Victor: </td><td align=\"right\">");
-                        if (battle.Victor == War.Attacker) HTML.Append(battle.Attacker.PrintEntity());
-                        else HTML.Append(battle.Defender.PrintEntity());
-
-                        if (battle.Attacker == War.Attacker) HTML.AppendLine("<td align=right>" + battle.DefenderDeathCount + "</td>");
-                        else HTML.AppendLine("<td align=right>" + battle.AttackerDeathCount + "</td>");
-
-                        HTML.AppendLine("<td>/</td>");
-
-                        if (battle.Defender == War.Attacker) HTML.AppendLine("<td align=left>" + battle.DefenderDeathCount + "</td>");
-                        else HTML.AppendLine("<td align=left>" + battle.AttackerDeathCount + "</td>");
-
-                        HTML.AppendLine("</td>");
+                        Html.AppendLine("<td>"+ (battle.Victor == _war.Attacker? battle.Attacker.PrintEntity(): battle.Defender.PrintEntity())+ "</td>");
+                        Html.AppendLine("<td align=right>" + (battle.Attacker == _war.Attacker ? battle.DefenderDeathCount : battle.AttackerDeathCount) + "</td>");
+                        Html.AppendLine("<td>/</td>");
+                        Html.AppendLine("<td align=left>" + (battle.Defender == _war.Attacker ? battle.DefenderDeathCount : battle.AttackerDeathCount) + "</td>");
                     }
-                    if (warfare.GetType() == typeof(SiteConquered))
-                        HTML.AppendLine("<td>Victor: </td><td align=right>" + (warfare as SiteConquered).Attacker.PrintEntity() + "</td>");
+                    else if (warfare.GetType() == typeof(SiteConquered))
+                    {
+                        Html.AppendLine("<td align=right>" + (warfare as SiteConquered).Attacker.PrintEntity() + "</td>");
+                    }
 
-                    HTML.AppendLine("</tr>");
+                    Html.AppendLine("</tr>");
                     warfareCount++;
                 }
-                HTML.AppendLine("</table></br>");
+                Html.AppendLine("</table></br>");
             }
 
-            if (World.FilterBattles && War.Collections.Count(battle => !battle.Notable) > 0)
+            if (_world.FilterBattles && _war.Collections.Count(battle => !battle.Notable) > 0)
             {
-                HTML.AppendLine("<b>Warfare</b> (Unnotable)</br>");
-                HTML.AppendLine("<ul>");
-                HTML.AppendLine("<li>Battles: " + War.Collections.OfType<Battle>().Where(battle => !battle.Notable).Count());
-                HTML.AppendLine("<li>Pillagings: " + War.Collections.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count());
-                HTML.AppendLine("</ul>");
+                Html.AppendLine("<b>Warfare</b> (Unnotable)</br>");
+                Html.AppendLine("<ul>");
+                Html.AppendLine("<li>Battles: " + _war.Collections.OfType<Battle>().Where(battle => !battle.Notable).Count());
+                Html.AppendLine("<li>Pillagings: " + _war.Collections.OfType<SiteConquered>().Where(conquering => conquering.ConquerType == SiteConqueredType.Pillaging).Count());
+                Html.AppendLine("</ul>");
             }
 
-            HTML.AppendLine("<b>Event Log</b> " + MakeLink(Font("[Chart]", "Maroon"), LinkOption.LoadChart) + LineBreak);
-            foreach (WorldEvent printEvent in War.GetSubEvents())
-                if (!War.Filters.Contains(printEvent.Type))
-                    HTML.AppendLine(printEvent.Print(true, War) + "<br/><br/>");
-            return HTML.ToString();
+            PrintEventLog(_war.GetSubEvents(), War.Filters, _war);
+
+            return Html.ToString();
         }
     }
 }

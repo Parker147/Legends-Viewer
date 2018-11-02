@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace LegendsViewer.Controls.Query
 {
@@ -26,129 +27,207 @@ namespace LegendsViewer.Controls.Query
             Type genericSearchInfo = typeof(SearchInfo<>);
             Type searchType;
             if (type.IsGenericType)
+            {
                 searchType = genericSearchInfo.MakeGenericType(type.GetGenericArguments()[0]);
+            }
             else
+            {
                 searchType = genericSearchInfo.MakeGenericType(type);
+            }
+
             return Activator.CreateInstance(searchType) as SearchInfo;
         }
         public void SetupComparers(QueryComparer comparer)
         {
-            if (this.Next != null)
+            if (Next != null)
             {
-                if (this.GetSearchType().GetProperty(this.PropertyName).PropertyType.IsGenericType)
-                    this.Comparer = QueryComparer.Count;
+                if (GetSearchType().GetProperty(PropertyName).PropertyType.IsGenericType)
+                {
+                    Comparer = QueryComparer.Count;
+                }
                 else
-                    this.Comparer = QueryComparer.Property;
-                this.Next.SetupComparers(comparer);
+                {
+                    Comparer = QueryComparer.Property;
+                }
+
+                Next.SetupComparers(comparer);
             }
             else
             {
                 if (comparer == QueryComparer.Equals || comparer == QueryComparer.NotEqual)
                 {
-                    if ((this.PropertyName != "Value" && this.GetSearchType().GetProperty(this.PropertyName).PropertyType == typeof(string))
-                      || (this.PropertyName == "Value" && this.GetSearchType() == typeof(string)))
+                    if (PropertyName != "Value" && GetSearchType().GetProperty(PropertyName).PropertyType == typeof(string)
+                      || PropertyName == "Value" && GetSearchType() == typeof(string))
                     {
-                        if (comparer == QueryComparer.Equals) comparer = QueryComparer.StringEquals;
-                        if (comparer == QueryComparer.NotEqual) comparer = QueryComparer.StringNotEqual;
+                        if (comparer == QueryComparer.Equals)
+                        {
+                            comparer = QueryComparer.StringEquals;
+                        }
+
+                        if (comparer == QueryComparer.NotEqual)
+                        {
+                            comparer = QueryComparer.StringNotEqual;
+                        }
                     }
 
-                    if (this.PropertyName != "Value" && this.GetSearchType().GetProperty(this.PropertyName).PropertyType == typeof(bool))
+                    if (PropertyName != "Value" && GetSearchType().GetProperty(PropertyName).PropertyType == typeof(bool))
                     {
                         comparer = QueryComparer.Is;
                     }
 
 
                 }
-                if (this.PropertyName != "Value" && this.GetSearchType().GetProperty(this.PropertyName).PropertyType.IsGenericType)
+                if (PropertyName != "Value" && GetSearchType().GetProperty(PropertyName).PropertyType.IsGenericType)
                 {
                     switch (comparer)
                     {
-                        case QueryComparer.Equals: comparer = LegendsViewer.Controls.Query.QueryComparer.ListEquals; break;
+                        case QueryComparer.Equals: comparer = QueryComparer.ListEquals; break;
                         case QueryComparer.GreaterThan: comparer = QueryComparer.ListGreaterThan; break;
                         case QueryComparer.LessThan: comparer = QueryComparer.ListLessThan; break;
                     }
-                    this.Next = SearchInfo.Make(this.GetSearchType().GetProperty(this.PropertyName).PropertyType);
-                    this.Next.Operator = QueryOperator.Or;
-                    this.Next.Previous = this;
-                    this.Next.Comparer = QueryComparer.All;
+                    Next = Make(GetSearchType().GetProperty(PropertyName).PropertyType);
+                    Next.Operator = QueryOperator.Or;
+                    Next.Previous = this;
+                    Next.Comparer = QueryComparer.All;
                 }
 
-                this.Comparer = comparer;
+                Comparer = comparer;
             }
         }
 
         public void SetupOrderByComparers(QueryComparer comparer)
         {
-            if (this.Next != null)
+            if (Next != null)
             {
                 if (comparer == QueryComparer.Min || comparer == QueryComparer.Max || comparer == QueryComparer.Average || comparer == QueryComparer.Sum)
                 {
-                    this.Comparer = comparer;
-                    this.Next.Comparer = this.Comparer;
+                    Comparer = comparer;
+                    Next.Comparer = Comparer;
                 }
 
-                if (!this.GetSearchType().GetProperty(this.PropertyName).PropertyType.IsGenericType)
-                    this.Comparer = QueryComparer.Property;
+                if (!GetSearchType().GetProperty(PropertyName).PropertyType.IsGenericType)
+                {
+                    Comparer = QueryComparer.Property;
+                }
 
-                this.Next.SetupOrderByComparers(comparer);
+                Next.SetupOrderByComparers(comparer);
             }
             else
             {
                 if (comparer == QueryComparer.All)
                 {
-                    this.Comparer = QueryComparer.All;
-                    this.Next = SearchInfo.Make(this.GetSearchType().GetProperty(this.PropertyName).PropertyType);
-                    this.Next.Operator = QueryOperator.Or;
-                    this.Next.Previous = Next;
-                    this.Next.Comparer = QueryComparer.All;
+                    Comparer = QueryComparer.All;
+                    Next = Make(GetSearchType().GetProperty(PropertyName).PropertyType);
+                    Next.Operator = QueryOperator.Or;
+                    Next.Previous = Next;
+                    Next.Comparer = QueryComparer.All;
                 }
                 else
                 {
                     if (comparer == QueryComparer.Equals || comparer == QueryComparer.NotEqual)
                     {
                         bool propertyIsString;
-                        if (this.PropertyName != "Value") propertyIsString = this.GetSearchType().GetProperty(this.PropertyName).PropertyType == typeof(string);
-                        else propertyIsString = this.Previous.GetSearchType().GetProperty(Previous.PropertyName).PropertyType.GetGenericArguments()[0] == typeof(string);
-                        if (propertyIsString && comparer == QueryComparer.Equals) comparer = QueryComparer.StringEquals;
-                        if (propertyIsString && comparer == QueryComparer.NotEqual) comparer = QueryComparer.StringNotEqual;
+                        if (PropertyName != "Value")
+                        {
+                            propertyIsString = GetSearchType().GetProperty(PropertyName).PropertyType == typeof(string);
+                        }
+                        else
+                        {
+                            propertyIsString = Previous.GetSearchType().GetProperty(Previous.PropertyName).PropertyType.GetGenericArguments()[0] == typeof(string);
+                        }
+
+                        if (propertyIsString && comparer == QueryComparer.Equals)
+                        {
+                            comparer = QueryComparer.StringEquals;
+                        }
+
+                        if (propertyIsString && comparer == QueryComparer.NotEqual)
+                        {
+                            comparer = QueryComparer.StringNotEqual;
+                        }
                     }
 
-                    this.Comparer = comparer;
+                    Comparer = comparer;
                 }
             }
         }
 
         public void SetupValue(object value)
         {
-            if (this.Next != null) this.Next.SetupValue(value);
+            if (Next != null)
+            {
+                Next.SetupValue(value);
+            }
             else
             {
-                if (this.Comparer == QueryComparer.All) Previous.Value = value;
-                if (this.Comparer == QueryComparer.Is && value.Equals(false)) this.Comparer = QueryComparer.IsNot;
-                else this.Value = value;
+                if (Comparer == QueryComparer.All)
+                {
+                    Previous.Value = value;
+                }
+
+                if (Comparer == QueryComparer.Is && value.Equals(false))
+                {
+                    Comparer = QueryComparer.IsNot;
+                }
+                else
+                {
+                    Value = value;
+                }
             }
         }
 
         public string PropertyString()
         {
-            if (Next == null) return PropertyName;
-            if (Next.PropertyName == null) return PropertyName;
+            if (Next == null)
+            {
+                return PropertyName;
+            }
+
+            if (Next.PropertyName == null)
+            {
+                return PropertyName;
+            }
+
             return PropertyName + "." + Next.PropertyString();
         }
 
         public bool ContainsListProperties()
         {
-            if (this.GetSearchType().GetProperty(this.PropertyName).PropertyType.IsGenericType) return true;
-            if (Next != null) return Next.ContainsListProperties();
+            if (GetSearchType().GetProperty(PropertyName).PropertyType.IsGenericType)
+            {
+                return true;
+            }
+
+            if (Next != null)
+            {
+                return Next.ContainsListProperties();
+            }
+
             return false;
         }
 
         public bool ContainsListPropertyLast()
         {
-            if (this.GetSearchType().GetProperty(this.PropertyName).PropertyType.IsGenericType && Next != null && Next.Comparer == QueryComparer.All) return true;
-            if (this.GetSearchType().GetProperty(this.PropertyName).PropertyType.IsGenericType && Next != null) return false;
-            if (this.GetSearchType().GetProperty(this.PropertyName).PropertyType.IsGenericType && Next == null) return true;
-            if (Next != null) return Next.ContainsListPropertyLast();
+            if (GetSearchType().GetProperty(PropertyName).PropertyType.IsGenericType && Next != null && Next.Comparer == QueryComparer.All)
+            {
+                return true;
+            }
+
+            if (GetSearchType().GetProperty(PropertyName).PropertyType.IsGenericType && Next != null)
+            {
+                return false;
+            }
+
+            if (GetSearchType().GetProperty(PropertyName).PropertyType.IsGenericType && Next == null)
+            {
+                return true;
+            }
+
+            if (Next != null)
+            {
+                return Next.ContainsListPropertyLast();
+            }
+
             return false;
         }
     }
@@ -196,11 +275,15 @@ namespace LegendsViewer.Controls.Query
             var exp = whereArg as Expression<Func<T, bool>>;
 
             if (Previous != null)
+            {
                 predicate = Operator == QueryOperator.And
                             ? predicate.And(exp)
                             : predicate.Or(exp);
+            }
             else
+            {
                 predicate = exp;
+            }
 
             return predicate;
         }
@@ -228,12 +311,12 @@ namespace LegendsViewer.Controls.Query
         public override Expression GetComparer(Expression property)
         {
             Expression comparer;
-            System.Reflection.MethodInfo methodInfo = null;
+            MethodInfo methodInfo = null;
             switch (Comparer)
             {
                 case QueryComparer.GreaterThan: comparer = Expression.GreaterThan(property, Expression.Constant(Value)); break;
                 case QueryComparer.LessThan: comparer = Expression.LessThan(property, Expression.Constant(Value)); break;
-                case QueryComparer.All: comparer = Expression.Constant(Expression.Equals(1, 1)); break;
+                case QueryComparer.All: comparer = Expression.Constant(Equals(1, 1)); break;
                 case QueryComparer.Is: comparer = Expression.IsTrue(property); break;
                 case QueryComparer.IsNot: comparer = Expression.IsFalse(property); break;
                 case QueryComparer.StartsWith:
@@ -244,18 +327,25 @@ namespace LegendsViewer.Controls.Query
                     methodInfo = GetMethodInfo();
                     comparer = Expression.Call(property, methodInfo, Expression.Constant(Value), Expression.Constant(StringComparison.CurrentCultureIgnoreCase));
                     if (Comparer == QueryComparer.NotEndsWith || Comparer == QueryComparer.NotStartsWith)
+                    {
                         comparer = Expression.Not(comparer);
+                    }
+
                     break;
                 case QueryComparer.StringNotEqual:
                     methodInfo = GetMethodInfo();
                     comparer = Expression.Not(Expression.Call(property, methodInfo, Expression.Constant(Value), Expression.Constant(StringComparison.CurrentCultureIgnoreCase))); break;
                 case QueryComparer.Contains:
                 case QueryComparer.NotContains:
-                    System.Reflection.MethodInfo toLower = typeof(string).GetMethod("ToLower", new Type[] { });
+                    MethodInfo toLower = typeof(string).GetMethod("ToLower", new Type[] { });
                     property = Expression.Call(property, toLower);
                     methodInfo = GetMethodInfo();
                     comparer = Expression.Call(property, methodInfo, Expression.Constant((Value as string).ToLower()));
-                    if (Comparer == QueryComparer.NotContains) comparer = Expression.Not(comparer);
+                    if (Comparer == QueryComparer.NotContains)
+                    {
+                        comparer = Expression.Not(comparer);
+                    }
+
                     break;
                 case QueryComparer.Equals:
                     methodInfo = GetMethodInfo();
@@ -291,7 +381,7 @@ namespace LegendsViewer.Controls.Query
                     comparer = Expression.Call(property, methodInfo, property);
                     break;
                 default:
-                    throw new ArgumentException("No comparison supported for " + Comparer.ToString());
+                    throw new ArgumentException("No comparison supported for " + Comparer);
             }
             return comparer;
         }
@@ -301,10 +391,10 @@ namespace LegendsViewer.Controls.Query
             return Expression.TypeAs(property, typeof(IEnumerable<T>));
         }
 
-        private System.Reflection.MethodInfo GetMethodInfo()
+        private MethodInfo GetMethodInfo()
         {
             List<Type> types = new List<Type>();
-            System.Reflection.MethodInfo methodInfo = null;
+            MethodInfo methodInfo = null;
             switch (Comparer)
             {
                 case QueryComparer.Contains:
@@ -325,23 +415,35 @@ namespace LegendsViewer.Controls.Query
                 case QueryComparer.NotEqual:
                     //types.Insert(typeof(T));
                     //methodInfo = typeof(T).GetMethod("Equals", types.ToArray()); break;
-                    if (PropertyName == null || PropertyName == "Value") types.Add(typeof(T));
-                    else types.Add(typeof(T).GetProperty(this.PropertyName).PropertyType);
+                    if (PropertyName == null || PropertyName == "Value")
+                    {
+                        types.Add(typeof(T));
+                    }
+                    else
+                    {
+                        types.Add(typeof(T).GetProperty(PropertyName).PropertyType);
+                    }
+
                     methodInfo = types.First().GetMethod("Equals", types.ToArray()); break;
                 case QueryComparer.StringEquals:
                 case QueryComparer.StringNotEqual:
-                    methodInfo = typeof(string).GetMethod("Equals", new Type[] { typeof(string), typeof(StringComparison) }); break;
+                    methodInfo = typeof(string).GetMethod("Equals", new[] { typeof(string), typeof(StringComparison) }); break;
                 case QueryComparer.Count:
                 case QueryComparer.ListEquals:
                 case QueryComparer.ListGreaterThan:
                 case QueryComparer.ListLessThan:
                     types.Add(typeof(Func<T, bool>));
                     if (Next != null)
+                    {
                         methodInfo = typeof(Enumerable).GetMethods().Single(method => method.Name == "Count"
                             && method.IsStatic && method.GetParameters().Length == 2);
+                    }
                     else
+                    {
                         methodInfo = typeof(Enumerable).GetMethods().Single(method => method.Name == "Count"
                             && method.IsStatic && method.GetParameters().Length == 1);
+                    }
+
                     break;
                 case QueryComparer.Min:
                     //methodInfo = typeof(Enumerable).GetMethods().Single(method => method.Name == "Min" && method.GetGenericArguments().Count() == 2);
@@ -350,7 +452,9 @@ namespace LegendsViewer.Controls.Query
             }
 
             if (methodInfo == null)
-                throw new ArgumentException("No method info supported for " + Comparer.ToString());
+            {
+                throw new ArgumentException("No method info supported for " + Comparer);
+            }
 
             return methodInfo;
 
@@ -361,19 +465,28 @@ namespace LegendsViewer.Controls.Query
             int count = 0;
             if (Previous == null)
             {
-                List<T> itemList = new List<T>() { (T)item };
-                System.Collections.IEnumerator selectedList;
+                List<T> itemList = new List<T> { (T)item };
+                IEnumerator selectedList;
                 selectedList = itemList.AsQueryable().Select(PropertyName).GetEnumerator();
 
                 while (selectedList.MoveNext())
+                {
                     count += Next.GetCount(selectedList.Current);
+                }
             }
             else
             {
                 List<T> itemList;
-                if (item.GetType().IsGenericType) itemList = item as List<T>;
-                else itemList = new List<T>() { (T)item };
-                count = itemList.Count((GetPredicate()).Compile());
+                if (item.GetType().IsGenericType)
+                {
+                    itemList = item as List<T>;
+                }
+                else
+                {
+                    itemList = new List<T> { (T)item };
+                }
+
+                count = itemList.Count(GetPredicate().Compile());
             }
             return count;
         }
@@ -386,33 +499,52 @@ namespace LegendsViewer.Controls.Query
 
                 List<T> baseList;
                 if (baseObject.GetType().GetGenericArguments()[0] == typeof(object))
+                {
                     baseList = (baseObject as List<object>).Cast<T>().ToList();
+                }
                 else
-                    baseList = (baseObject as List<T>);
-                if (this.PropertyName == "Value") return baseList.Cast<object>().ToList();
-                if (this.GetSearchType().GetProperty(this.PropertyName).PropertyType.IsGenericType)
-                    if (Next == null || Next.Comparer == QueryComparer.All)
-                        return baseList.AsQueryable().Select(this.PropertyName + ".Count").Cast<object>().ToList();
-                    else
-                        return Next.Select(baseList.AsQueryable().SelectMany(this.PropertyName).Cast<object>().ToList());
-                else
-                    if (Next == null)
-                        return baseList.AsQueryable().Select(this.PropertyName).Cast<object>().ToList();
-                    else
-                        return Next.Select(baseList.AsQueryable().Select(this.PropertyName).Cast<object>().ToList());
+                {
+                    baseList = baseObject as List<T>;
+                }
 
-            }
-            else
-            {
-                System.Reflection.PropertyInfo property = baseObject.GetType().GetProperty(this.PropertyName);
-                if (property.PropertyType.IsGenericType)
-                    if (Next == null)
-                        return null;//new List<object>() { (property.GetValue(baseObject, null) as List<object>).Count };
+                if (PropertyName == "Value")
+                {
+                    return baseList.Cast<object>().ToList();
+                }
+
+                if (GetSearchType().GetProperty(PropertyName).PropertyType.IsGenericType)
+                {
+                    if (Next == null || Next.Comparer == QueryComparer.All)
+                    {
+                        return baseList.AsQueryable().Select(PropertyName + ".Count").Cast<object>().ToList();
+                    }
                     else
-                        return Next.Select(property.GetValue(baseObject, null));
-                else
-                    return new List<object>() { property.GetValue(baseObject, null) };
+                    {
+                        return Next.Select(baseList.AsQueryable().SelectMany(PropertyName).Cast<object>().ToList());
+                    }
+                }
+
+                if (Next == null)
+                {
+                    return baseList.AsQueryable().Select(PropertyName).Cast<object>().ToList();
+                }
+
+                return Next.Select(baseList.AsQueryable().Select(PropertyName).Cast<object>().ToList());
             }
+            PropertyInfo property = baseObject.GetType().GetProperty(PropertyName);
+            if (property.PropertyType.IsGenericType)
+            {
+                if (Next == null)
+                {
+                    return null;//new List<object>() { (property.GetValue(baseObject, null) as List<object>).Count };
+                }
+                else
+                {
+                    return Next.Select(property.GetValue(baseObject, null));
+                }
+            }
+
+            return new List<object> { property.GetValue(baseObject, null) };
         }
 
     }

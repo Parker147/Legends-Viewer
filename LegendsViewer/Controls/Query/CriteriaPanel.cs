@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace LegendsViewer.Controls.Query
 {
@@ -18,10 +18,9 @@ namespace LegendsViewer.Controls.Query
         public bool SearchCriteria;
 
         public CriteriaPanel()
-            : base()
         {
 
-            Add.Text = "Add Criteria"; Add.Width = 90; Add.Height = 19; Add.FlatStyle = FlatStyle.Flat; Add.Font = new System.Drawing.Font("Arial", 6.5f);
+            Add.Text = "Add Criteria"; Add.Width = 90; Add.Height = 19; Add.FlatStyle = FlatStyle.Flat; Add.Font = new Font("Arial", 6.5f);
             Add.Click += AddClick;
             Add.Visible = false;
             //Insert.Location = new Point(10, CriteriaStartLocation + 3);
@@ -35,7 +34,7 @@ namespace LegendsViewer.Controls.Query
         }
         public void AddNew(int index = -1)
         {
-            CriteriaLine criteria = new CriteriaLine(this.SelectCriteria, this.SearchCriteria, this.OrderByCriteria);
+            CriteriaLine criteria = new CriteriaLine(SelectCriteria, SearchCriteria, OrderByCriteria);
             if (index >= 0)
             {
                 //index++;
@@ -56,14 +55,19 @@ namespace LegendsViewer.Controls.Query
             criteria.Insert.Click += AddClick;
 
             if (CriteriaType != null)
+            {
                 criteria.PropertySelect.ParentType = CriteriaType;
+            }
 
             Controls.Add(criteria);
             Add.Location = new Point(10, Criteria.Last().Bottom + 3);
             Add.Visible = true;
             Criteria.First().QueryOperatorSelect.Visible = false;
             if (Criteria.Count > 1)
+            {
                 Criteria[1].QueryOperatorSelect.Visible = true;
+            }
+
             AutoResize();
         }
 
@@ -82,7 +86,11 @@ namespace LegendsViewer.Controls.Query
             }
             Criteria.Remove(criteria);
             Controls.Remove(criteria);
-            if (Criteria.Count == 0) AddNew();
+            if (Criteria.Count == 0)
+            {
+                AddNew();
+            }
+
             Criteria.First().QueryOperatorSelect.Visible = false;
             Criteria.First().QueryOperatorSelect.SelectedItem = QueryOperator.And;
             Add.Location = new Point(10, Criteria.Last().Bottom + 3);
@@ -93,7 +101,10 @@ namespace LegendsViewer.Controls.Query
         public void Clear()
         {
             foreach (CriteriaLine criteria in Criteria)
+            {
                 Controls.Remove(criteria);
+            }
+
             Criteria.Clear();
             AutoResize();
         }
@@ -102,13 +113,18 @@ namespace LegendsViewer.Controls.Query
         {
             int panelHeight = 0;
             int panelWidth = 0;
-            System.Collections.IEnumerator selectionEnumerator = Controls.GetEnumerator();
+            IEnumerator selectionEnumerator = Controls.GetEnumerator();
             while (selectionEnumerator.MoveNext())
             {
                 if ((selectionEnumerator.Current as Control).Bottom > panelHeight)
+                {
                     panelHeight = (selectionEnumerator.Current as Control).Bottom;
+                }
+
                 if ((selectionEnumerator.Current as Control).Right > panelWidth)
+                {
                     panelWidth = (selectionEnumerator.Current as Control).Right;
+                }
             }
             Height = panelHeight + 3;
             Width = panelWidth + 3;
@@ -120,21 +136,36 @@ namespace LegendsViewer.Controls.Query
             {
                 line.GetValueOptions();
             }
-            if (SelectCriteria) (Parent as QueryControl).SearchPanel.UpdateAllValueSelects();
+            if (SelectCriteria)
+            {
+                (Parent as QueryControl).SearchPanel.UpdateAllValueSelects();
+            }
         }
 
         public void UpdateValueSelects(int index)
         {
-            foreach (CriteriaLine line in Criteria.Where(criteria => Criteria.IndexOf(criteria) > (index - 1)))
+            foreach (CriteriaLine line in Criteria.Where(criteria => Criteria.IndexOf(criteria) > index - 1))
+            {
                 line.GetValueOptions();
-            if (SelectCriteria) (Parent as QueryControl).SearchPanel.UpdateAllValueSelects();
+            }
+
+            if (SelectCriteria)
+            {
+                (Parent as QueryControl).SearchPanel.UpdateAllValueSelects();
+            }
         }
 
         public void UpdateAllValueSelects()
         {
             foreach (CriteriaLine line in Criteria)
+            {
                 line.GetValueOptions();
-            if (SelectCriteria) (Parent as QueryControl).SearchPanel.UpdateAllValueSelects();
+            }
+
+            if (SelectCriteria)
+            {
+                (Parent as QueryControl).SearchPanel.UpdateAllValueSelects();
+            }
         }
 
         public List<SearchInfo> BuildQuery(CriteriaLine breakCriteria = null)
@@ -157,7 +188,11 @@ namespace LegendsViewer.Controls.Query
 
             foreach (CriteriaLine line in Criteria.Where(line => line.IsComplete() || line == breakCriteria))
             {
-                if (line == breakCriteria) break;
+                if (line == breakCriteria)
+                {
+                    break;
+                }
+
                 SearchInfo criteria = line.BuildSearchInfo();
                 if (criteria != null)
                 {
@@ -166,7 +201,10 @@ namespace LegendsViewer.Controls.Query
                 }
             }
             if (query.Count > 0)
+            {
                 query.First().Operator = QueryOperator.Or;
+            }
+
             return query;
         }
     }

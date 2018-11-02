@@ -1,29 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.Enums;
+using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
     public class HistoricalFigure : WorldObject
     {
+        private static readonly List<string> KnownEntitySubProperties = new List<string> { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
+        private static readonly List<string> KnownSiteLinkSubProperties = new List<string> { "link_type", "site_id", "sub_id", "entity_id", "occupation_id" };
+        private static readonly List<string> KnownEntitySquadLinkProperties = new List<string> { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
+
+        public static readonly string ForceNatureIcon = "<i class=\"glyphicon fa-fw glyphicon-leaf\"></i>";
+        public static readonly string DeityIcon = "<i class=\"fa fa-fw fa-sun-o\"></i>";
+        public static readonly string NeuterIcon = "<i class=\"fa fa-fw fa-neuter\"></i>";
+        public static readonly string FemaleIcon = "<i class=\"fa fa-fw fa-venus\"></i>";
+        public static readonly string MaleIcon = "<i class=\"fa fa-fw fa-mars\"></i>";
+
         public static HistoricalFigure Unknown;
         public string Name { get; set; }
+
+        private string ShortName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_shortName))
+                {
+                    _shortName = Name.IndexOf(" ", StringComparison.Ordinal) >= 2 ? Name.Substring(0, Name.IndexOf(" ", StringComparison.Ordinal)) : Name;
+                }
+                return _shortName;
+            }
+        }
+
+        private string RaceString
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_raceString))
+                {
+                    _raceString = GetRaceString();
+                }
+                return _raceString;
+            }
+        }
+
+        private string Title
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_title))
+                {
+                    _title = GetAnchorTitle();
+                }
+                return _title;
+            }
+        }
+
         public string Race { get; set; }
         public string PreviousRace { get; set; }
         public string Caste { get; set; }
         public string AssociatedType { get; set; }
+        public int EntityPopulationId { get; set; }
         public EntityPopulation EntityPopulation { get; set; }
-        public HFState CurrentState { get; set; }
-        public HistoricalFigure UsedIdentity { get; set; }
-        public HistoricalFigure CurrentIdentity { get; set; }
+        public HfState CurrentState { get; set; }
+        public List<int> UsedIdentityIds { get; set; }
+        public int CurrentIdentityId { get; set; }
         public List<Artifact> HoldingArtifacts { get; set; }
         public List<State> States { get; set; }
         public List<HistoricalFigureLink> RelatedHistoricalFigures { get; set; }
         public List<EntityLink> RelatedEntities { get; set; }
         public List<EntityReputation> Reputations { get; set; }
+        public List<RelationshipProfileHf> RelationshipProfiles { get; set; }
         public List<SiteLink> RelatedSites { get; set; }
         public List<Skill> Skills { get; set; }
+        public List<Structure> DedicatedStructures { get; set; }
         public int Age { get; set; }
         public int Appeared { get; set; }
         public int BirthYear { get; set; }
@@ -34,182 +88,240 @@ namespace LegendsViewer.Legends
         public List<string> ActiveInteractions { get; set; }
         public List<string> InteractionKnowledge { get; set; }
         public string Goal { get; set; }
+        public string Interaction { get; set; }
+
+        public HistoricalFigure LineageCurseParent { get; set; }
+        public List<HistoricalFigure> LineageCurseChilds { get; set; }
+
         public List<string> JourneyPets { get; set; }
-        public string DeathCollectionType
-        {
-            get
-            {
-                HFDied death = Events.OfType<HFDied>().FirstOrDefault(death1 => death1.HistoricalFigure == this);
-                if (death != null && death.ParentCollection != null)
-                    return death.ParentCollection.GetCollectionParentString();
-                else if (death != null)
-                    return "None";
-                else
-                    return "Not Dead";
-            }
-            set { }
-        }
-        public List<HFDied> NotableKills { get; set; }
-        public List<HistoricalFigure> HFKills { get { return NotableKills.Select(kill => kill.HistoricalFigure).ToList(); } set { } }
-        public List<HistoricalFigure> Abductions { get { return Events.OfType<HFAbducted>().Where(abduction => abduction.Snatcher == this).Select(abduction => abduction.Target).ToList(); } set { } }
-        public int Abducted { get { return Events.OfType<HFAbducted>().Count(abduction => abduction.Target == this); } set { } }
+        public List<HfDied> NotableKills { get; set; }
+        public List<HistoricalFigure> HFKills => NotableKills.Select(kill => kill.HistoricalFigure).ToList();
+        public List<HistoricalFigure> Abductions { get { return Events.OfType<HfAbducted>().Where(abduction => abduction.Snatcher == this).Select(abduction => abduction.Target).ToList(); } set { } }
+        public int Abducted => Events.OfType<HfAbducted>().Count(abduction => abduction.Target == this);
         public List<string> Spheres { get; set; }
         public List<Battle> Battles { get; set; }
-        public List<Battle> BattlesAttacking { get { return Battles.Where(battle => battle.NotableAttackers.Contains(this)).ToList(); } set { } }
-        public List<Battle> BattlesDefending { get { return Battles.Where(battle => battle.NotableDefenders.Contains(this)).ToList(); } set { } }
-        public List<Battle> BattlesNonCombatant { get { return Battles.Where(battle => battle.NonCombatants.Contains(this)).ToList(); } set { } }
+        public List<Battle> BattlesAttacking => Battles.Where(battle => battle.NotableAttackers.Contains(this)).ToList();
+        public List<Battle> BattlesDefending => Battles.Where(battle => battle.NotableDefenders.Contains(this)).ToList();
+        public List<Battle> BattlesNonCombatant => Battles.Where(battle => battle.NonCombatants.Contains(this)).ToList();
         public List<Position> Positions { get; set; }
         public Entity WorshippedBy { get; set; }
         public List<BeastAttack> BeastAttacks { get; set; }
-        public bool Alive { get { if (DeathYear == -1) return true; else return false; } set { } }
+        public bool Alive
+        {
+            get
+            {
+                if (DeathYear == -1)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            set { }
+        }
         public bool Deity { get; set; }
         public bool Skeleton { get; set; }
         public bool Force { get; set; }
         public bool Zombie { get; set; }
         public bool Ghost { get; set; }
-        public bool Beast { get; set; }
         public bool Animated { get; set; }
         public string AnimatedType { get; set; }
         public bool Adventurer { get; set; }
+        public string BreedId { get; set; }
+
         public static List<string> Filters;
+        private string _shortName;
+        private string _raceString;
+        private string _title;
+
         public override List<WorldEvent> FilteredEvents
         {
             get { return Events.Where(dwarfEvent => !Filters.Contains(dwarfEvent.Type)).ToList(); }
         }
-        public HistoricalFigure() 
-        { 
+        public HistoricalFigure()
+        {
             Initialize();
-            Name = "UNKNOWN HISTORICAL FIGURE";
+            Name = "an unknown creature";
             Race = "UNKNOWN";
             Caste = "UNKNOWN";
-            AssociatedType = "UNKNOWN"; 
+            AssociatedType = "UNKNOWN";
         }
-        public override string ToString() { return this.Name; }
+        public override string ToString() { return Name; }
         public HistoricalFigure(List<Property> properties, World world)
             : base(properties, world)
         {
             Initialize();
-            List<string> knownEntitySubProperties = new List<string>() { "entity_id", "link_strength", "link_type", "position_profile_id", "start_year", "end_year" };
-            List<string> knownReputationSubProperties = new List<string>() { "entity_id", "unsolved_murders", "first_ageless_year", "first_ageless_season_count", "rep_enemy_fighter" };
-            List<string> knownSiteLinkSubProperties = new List<string>() { "link_type", "site_id", "sub_id", "entity_id" };
-            List<string> knownEntitySquadLinkProperties = new List<string>() { "squad_id", "squad_position", "entity_id", "start_year", "end_year" };
-            List<string> knownRelationshipProfileProperties = new List<string>() { "hf_id", "meet_count", "last_meet_year", "last_meet_seconds72", "rep_friendly", "rep_buddy", "rep_grudge" };
-            foreach(Property property in properties)
-                switch(property.Name)
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
                 {
                     case "appeared": Appeared = Convert.ToInt32(property.Value); break;
                     case "birth_year": BirthYear = Convert.ToInt32(property.Value); break;
                     case "birth_seconds72": BirthSeconds72 = Convert.ToInt32(property.Value); break;
                     case "death_year": DeathYear = Convert.ToInt32(property.Value); break;
                     case "death_seconds72": DeathSeconds72 = Convert.ToInt32(property.Value); break;
-                    case "name": Name = String.Intern(Formatting.InitCaps(property.Value)); break;
-                    case "race": Race = String.Intern(Formatting.FormatRace(property.Value)); break;
-                    case "caste": Caste = Formatting.InitCaps(property.Value.ToLower().Replace('_', ' ')); break;
-                    case "associated_type": AssociatedType = Formatting.InitCaps(property.Value.ToLower().Replace('_', ' ')); break;
+                    case "name": Name = Formatting.InitCaps(property.Value.Replace("'", "`")); break;
+                    case "race": Race = string.Intern(Formatting.FormatRace(property.Value)); break;
+                    case "caste": Caste = string.Intern(Formatting.InitCaps(property.Value.ToLower().Replace('_', ' '))); break;
+                    case "associated_type": AssociatedType = string.Intern(Formatting.InitCaps(property.Value.ToLower().Replace('_', ' '))); break;
                     case "deity": Deity = true; property.Known = true; break;
                     case "skeleton": Skeleton = true; property.Known = true; break;
-                    case "force": Force = true; property.Known = true; break;
+                    case "force": Force = true; property.Known = true; Race = "Force"; break;
                     case "zombie": Zombie = true; property.Known = true; break;
                     case "ghost": Ghost = true; property.Known = true; break;
                     case "hf_link": //Will be processed after all HFs have been loaded
-                        world.AddHFtoHFLink(this, property);
+                        world.AddHFtoHfLink(this, property);
                         property.Known = true;
-                        List<string> knownSubProperties = new List<string>() { "hfid", "link_strength", "link_type" };
-                        foreach (string subPropertyName in knownSubProperties)
+                        List<string> knownSubProperties = new List<string> { "hfid", "link_strength", "link_type" };
+                        if (property.SubProperties != null)
                         {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
+                            foreach (string subPropertyName in knownSubProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                {
+                                    subProperty.Known = true;
+                                }
+                            }
                         }
+
                         break;
                     case "entity_link":
                     case "entity_former_position_link":
                     case "entity_position_link":
                         world.AddHFtoEntityLink(this, property);
-                        foreach (string subPropertyName in knownEntitySubProperties)
+                        property.Known = true;
+                        if (property.SubProperties != null)
                         {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
+                            foreach (string subPropertyName in KnownEntitySubProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                {
+                                    subProperty.Known = true;
+                                }
+                            }
                         }
+
                         break;
                     case "entity_reputation":
                         world.AddReputation(this, property);
-                        foreach (string subPropertyName in knownReputationSubProperties)
+                        property.Known = true;
+                        if (property.SubProperties != null)
                         {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
+                            foreach (string subPropertyName in Reputation.KnownReputationSubProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                {
+                                    subProperty.Known = true;
+                                }
+                            }
                         }
+
                         break;
                     case "entity_squad_link":
                     case "entity_former_squad_link":
                         property.Known = true;
-                        foreach (string subPropertyName in knownEntitySquadLinkProperties)
+                        if (property.SubProperties != null)
                         {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
+                            foreach (string subPropertyName in KnownEntitySquadLinkProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                {
+                                    subProperty.Known = true;
+                                }
+                            }
                         }
+
                         break;
                     case "relationship_profile_hf":
+                    case "relationship_profile_hf_visual":
                         property.Known = true;
-                        foreach (string subPropertyName in knownRelationshipProfileProperties)
+                        if (property.SubProperties != null)
                         {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
+                            RelationshipProfiles.Add(new RelationshipProfileHf(property.SubProperties));
                         }
                         break;
                     case "site_link":
                         world.AddHFtoSiteLink(this, property);
-                        foreach (string subPropertyName in knownSiteLinkSubProperties)
+                        property.Known = true;
+                        if (property.SubProperties != null)
                         {
-                            Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
-                            if (subProperty != null)
-                                subProperty.Known = true;
+                            foreach (string subPropertyName in KnownSiteLinkSubProperties)
+                            {
+                                Property subProperty = property.SubProperties.FirstOrDefault(property1 => property1.Name == subPropertyName);
+                                if (subProperty != null)
+                                {
+                                    subProperty.Known = true;
+                                }
+                            }
                         }
+
                         break;
-                    case "hf_skill": Skills.Add(new Skill(property.SubProperties)); break;
-                    case "active_interaction":
-                        ActiveInteractions.Add(property.Value);
+                    case "hf_skill":
+                        property.Known = true;
+                        if (property.SubProperties != null)
+                        {
+                            Skills.Add(new Skill(property.SubProperties));
+                        }
+
                         break;
-                    case "interaction_knowledge":
-                        InteractionKnowledge.Add(property.Value);
-                        break;
+                    case "active_interaction": ActiveInteractions.Add(string.Intern(property.Value)); break;
+                    case "interaction_knowledge": InteractionKnowledge.Add(string.Intern(property.Value)); break;
                     case "animated": Animated = true; property.Known = true; break;
-                    case "animated_string":
-                        if (AnimatedType != "") throw new Exception("Animated Type already exists.");
-                        AnimatedType = Formatting.InitCaps(property.Value); break;
+                    case "animated_string": if (AnimatedType != "") { throw new Exception("Animated Type already exists."); } AnimatedType = Formatting.InitCaps(property.Value); break;
                     case "journey_pet": JourneyPets.Add(Formatting.FormatRace(property.Value)); break;
                     case "goal": Goal = Formatting.InitCaps(property.Value); break;
-                    case "sphere":
-                        Spheres.Add(property.Value); break;
-                    case "current_identity_id":
-                        world.AddHFCurrentIdentity(this, Convert.ToInt32(property.Value));
+                    case "sphere": Spheres.Add(property.Value); break;
+                    case "current_identity_id": CurrentIdentityId = Convert.ToInt32(property.Value); break;
+                    case "used_identity_id": UsedIdentityIds.Add(Convert.ToInt32(property.Value)); break;
+                    case "ent_pop_id": EntityPopulationId = Convert.ToInt32(property.Value); break;
+                    case "holds_artifact":
+                        var artifact = world.GetArtifact(Convert.ToInt32(property.Value));
+                        HoldingArtifacts.Add(artifact);
+                        artifact.Holder = this;
                         break;
-                    case "used_identity_id":
-                        world.AddHFUsedIdentity(this, Convert.ToInt32(property.Value));
-                        break;
-                    case "ent_pop_id":
-                        EntityPopulation = world.GetEntityPopulation(Convert.ToInt32(property.Value)); break;
-                    case "holds_artifact": 
-                        HoldingArtifacts.Add(world.GetArtifact(Convert.ToInt32(property.Value))); break;
                     case "adventurer":
                         Adventurer = true;
                         property.Known = true;
                         break;
+                    case "breed_id":
+                        BreedId = property.Value;
+                        if (!string.IsNullOrWhiteSpace(BreedId))
+                        {
+                            if (world.Breeds.ContainsKey(BreedId))
+                            {
+                                world.Breeds[BreedId].Add(this);
+                            }
+                            else
+                            {
+                                world.Breeds.Add(BreedId, new List<HistoricalFigure> { this });
+                            }
+                        }
+                        break;
+                    case "sex": property.Known = true; break;
                 }
-            if (Name == "") Name = "(Unnamed)";
+            }
+
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                Name = !string.IsNullOrWhiteSpace(AnimatedType) ? Formatting.InitCaps(AnimatedType) : "(Unnamed)";
+            }
+            if (Adventurer)
+            {
+                world.AddPlayerRelatedDwarfObjects(this);
+            }
         }
 
         private void Initialize()
         {
-            Appeared = BirthYear = BirthSeconds72 = DeathYear = DeathSeconds72 = -1;
+            Appeared = BirthYear = BirthSeconds72 = DeathYear = DeathSeconds72 = EntityPopulationId = -1;
             Name = Race = Caste = AssociatedType = "";
             DeathCause = DeathCause.None;
-            CurrentState = HFState.None;
-            NotableKills = new List<HFDied>();
+            CurrentState = HfState.None;
+            NotableKills = new List<HfDied>();
             Battles = new List<Battle>();
             Positions = new List<Position>();
             Spheres = new List<string>();
@@ -218,6 +330,7 @@ namespace LegendsViewer.Legends
             RelatedHistoricalFigures = new List<HistoricalFigureLink>();
             RelatedEntities = new List<EntityLink>();
             Reputations = new List<EntityReputation>();
+            RelationshipProfiles = new List<RelationshipProfileHf>();
             RelatedSites = new List<SiteLink>();
             Skills = new List<Skill>();
             AnimatedType = "";
@@ -227,39 +340,117 @@ namespace LegendsViewer.Legends
             InteractionKnowledge = new List<string>();
             JourneyPets = new List<string>();
             HoldingArtifacts = new List<Artifact>();
+            LineageCurseChilds = new List<HistoricalFigure>();
+            DedicatedStructures = new List<Structure>();
+            UsedIdentityIds = new List<int>();
         }
 
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
-            if (this == HistoricalFigure.Unknown) return this.Name;
-            if (link)
-                if ((pov == null || pov != this))
-                {
-                    string title = Caste + ", " + AssociatedType + " (" + BirthYear + " - ";
-                    if (DeathYear == -1) title += "Present)";
-                    else title += DeathYear + ")";
-                    title += "&#13Events: " + Events.Count;
-                    if (pov != null && pov.GetType() == typeof(BeastAttack) && (pov as BeastAttack).Beast == this) //Highlight Beast when printing Beast Attack Log
-                        if (this.Name.IndexOf(" ") > 0)
-                            return "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name.Substring(0, this.Name.IndexOf(" ")) + "</font></a>";
-                        else return "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\"><font color=#339900>" + this.Name + "</font></a>";
-                    else
-                        return "the " + GetRaceString() + " " + "<a href = \"hf#" + this.ID + "\" title=\"" + title + "\">" + this.Name + "</a>";
-                }
-                else// (pov != null && pov.ID == this.ID)
-                    if (this.Name.IndexOf(" ") > 0)
-                        return "<font color=\"Blue\">" + this.Name.Substring(0, this.Name.IndexOf(" ")) + "</font>";
-                    else
-                        return "<font color=\"Blue\">" + this.Name + "</font>";
-            else
+            if (this == Unknown)
+            {
+                return Name;
+            }
 
-                if ((pov == null || pov != this))
-                    return GetRaceString() + " " + this.Name;
-                else //(pov != null && pov.ID == this.ID)
-                    if (this.Name.IndexOf(" ") > 0)
-                        return this.Name.Substring(0, this.Name.IndexOf(" ") + 1);
-                    else
-                        return this.Name;
+            if (link)
+            {
+                string icon = GetIcon();
+                if (pov == null || pov != this)
+                {
+                    if (pov != null && pov.GetType() == typeof(BeastAttack) && (pov as BeastAttack)?.Beast == this) //Highlight Beast when printing Beast Attack Log
+                    {
+                        return icon + "<a href=\"hf#" + Id + "\" title=\"" + Title + "\"><font color=#339900>" + ShortName + "</font></a>";
+                    }
+
+                    return "the " + RaceString + " " + icon + "<a href=\"hf#" + Id + "\" title=\"" + Title + "\">" + Name + "</a>";
+                }
+                return "<a href=\"hf#" + Id + "\" title=\"" + Title + "\">" + HtmlStyleUtil.CurrentDwarfObject(ShortName) + "</a>";
+            }
+            if (pov == null || pov != this)
+            {
+                return RaceString + " " + Name;
+            }
+            return ShortName;
+        }
+
+        private string GetIcon()
+        {
+            if (Force)
+            {
+                return ForceNatureIcon;
+            }
+            if (Deity)
+            {
+                return DeityIcon;
+            }
+            if (Caste == "Female")
+            {
+                return FemaleIcon;
+            }
+            if (Caste == "Male")
+            {
+                return MaleIcon;
+            }
+            if (Caste == "Default")
+            {
+                return NeuterIcon;
+            }
+            return "";
+        }
+
+        private string GetAnchorTitle()
+        {
+            string title = "";
+            if (Positions.Any())
+            {
+                title += GetLastNoblePosition();
+                title += "&#13";
+            }
+            if (!string.IsNullOrWhiteSpace(AssociatedType) && AssociatedType != "Standard")
+            {
+                title += AssociatedType;
+                title += "&#13";
+            }
+            title += !string.IsNullOrWhiteSpace(Caste) && Caste != "Default" ? Caste + " " : "";
+            title += Formatting.InitCaps(RaceString);
+            if (!Deity && !Force)
+            {
+                title += " (" + BirthYear + " - " + (DeathYear == -1 ? "Present" : DeathYear.ToString()) + ")";
+            }
+            title += "&#13";
+            title += "Events: " + Events.Count;
+            return title;
+        }
+
+        public string GetLastNoblePosition()
+        {
+            string title = "";
+            if (Positions.Any())
+            {
+                string positionName = "";
+                var hfposition = Positions.Last();
+                EntityPosition position = hfposition.Entity.EntityPositions.FirstOrDefault(pos => pos.Name.ToLower() == hfposition.Title.ToLower());
+                if (position != null)
+                {
+                    positionName = position.GetTitleByCaste(Caste);
+                }
+                else
+                {
+                    positionName = hfposition.Title;
+                }
+                title += (hfposition.Ended == -1 ? "" : "Former ") + positionName + " of " + hfposition.Entity.Name;
+            }
+            return title;
+        }
+
+        public string ToTreeLeafLink(DwarfObject pov = null)
+        {
+            string dead = DeathYear != -1 ? "<br/>" + HtmlStyleUtil.SymbolDead : "";
+            if (pov == null || pov != this)
+            {
+                return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " href=\"hf#" + Id + "\" title=\"" + Title + "\">" + Race + (Deity ? " Deity" : "") + "<br/>" + Name + dead + "</a>";
+            }
+            return "<a " + (Deity ? "class=\"hf_deity\"" : "") + " title=\"" + Title + "\">" + Race + (Deity ? " Deity" : "") + "<br/>" + HtmlStyleUtil.CurrentDwarfObject(Name) + dead + "</a>";
         }
 
         public class Position
@@ -269,103 +460,153 @@ namespace LegendsViewer.Legends
             public int Ended { get; set; }
             public string Title { get; set; }
             public int Length { get; set; }
-            public Position(Entity civ, int began, int ended, string title) { Entity = civ; Began = began; Ended = ended; Title = title;}
+            public Position(Entity civ, int began, int ended, string title) { Entity = civ; Began = began; Ended = ended; Title = title; }
         }
 
         public class State
         {
-            public HFState HFState { get; set; }
+            public HfState HfState { get; set; }
             public int StartYear { get; set; }
             public int EndYear { get; set; }
 
-            public State(HFState state, int start)
+            public State(HfState state, int start)
             {
-                HFState = state;
+                HfState = state;
                 StartYear = start;
                 EndYear = -1;
             }
         }
 
-        
         public string CasteNoun(bool owner = false)
         {
-            if (this.Caste.ToLower() == "male")
-                if (owner) return "his";
-                else return "he";
-            else if (this.Caste.ToLower() == "female")
-                if (owner) return "her";
-                else return "she";
-            else
-                if (owner) return "it's";
-                else return "it";
+            if (Caste.ToLower() == "male")
+            {
+                if (owner)
+                {
+                    return "his";
+                }
+                else
+                {
+                    return "he";
+                }
+            }
+
+            if (Caste.ToLower() == "female")
+            {
+                if (owner)
+                {
+                    return "her";
+                }
+                else
+                {
+                    return "she";
+                }
+            }
+
+            if (owner)
+            {
+                return "it's";
+            }
+
+            return "it";
         }
 
         public string GetRaceTitleString()
         {
             string hfraceString = "";
-            if (Race == "Night Creature" && PreviousRace != "")
-                return PreviousRace.ToLower() + " turned night creature";
 
-            if (Ghost) hfraceString += "ghostly ";
-            if (Skeleton) hfraceString += "skeletal ";
-            if (Zombie) hfraceString += "zombie ";
-            if (Caste.ToUpper() == "MALE") hfraceString += "male ";
-            else if (Caste.ToUpper() == "FEMALE") hfraceString += "female ";
-            
+            if (Ghost)
+            {
+                hfraceString += "ghostly ";
+            }
+
+            if (Skeleton)
+            {
+                hfraceString += "skeletal ";
+            }
+
+            if (Zombie)
+            {
+                hfraceString += "zombie ";
+            }
+
+            if (Caste.ToUpper() == "MALE")
+            {
+                hfraceString += "male ";
+            }
+            else if (Caste.ToUpper() == "FEMALE")
+            {
+                hfraceString += "female ";
+            }
+
+            if (PreviousRace != "")
+            {
+                hfraceString += PreviousRace.ToLower() + " turned ";
+            }
+
             hfraceString += Race.ToLower();
 
-            if (ActiveInteractions.Contains("VAMPIRE"))
-                return hfraceString += " vampire";
-            return hfraceString;
+            if (ActiveInteractions.Any(it => it.Contains("VAMPIRE")))
+            {
+                return hfraceString + " vampire";
+            }
 
+            if (ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
+            {
+                return hfraceString + " werebeast";
+            }
+
+            if (ActiveInteractions.Any(it => it.Contains("SECRET") && !it.Contains("ANIMATE")))
+            {
+                return hfraceString + " necromancer";
+            }
+
+            if (ActiveInteractions.Any(it => it.Contains("ANIMATE")))
+            {
+                return hfraceString + " animated corpse";
+            }
+
+            return hfraceString;
         }
 
         public string GetRaceString()
         {
             if (Deity)
+            {
                 return Race.ToLower() + " deity";
-            if (Race == "Night Creature" && PreviousRace != "")
-                return PreviousRace.ToLower() + " turned night creature";
-            if (ActiveInteractions.Contains("VAMPIRE"))
-                return Race.ToLower() + " vampire";
-            return Race.ToLower();
-        }
-    }
+            }
 
-    public class Skill
-    {
-        public string Name { get; set; }
-        public int Points { get; set; }
-        public string Rank
-        {
-            get
+            if (Force)
             {
-                int[] pointCutoffs = { 29000, 26600, 24300, 22100, 20000, 18000, 16100, 14300, 12600, 11000, 9500, 8100, 
-                                         6800, 5600, 4500, 3500, 2600, 1800, 1100, 500, 1 };
-                string[] titles = { "Legendary+5", "Legendary+4", "Legendary+3", "Legendary+2", "Legendary+1", "Legendary", 
-                                      "Grand Master", "High Master", "Master", "Great", "Accomplished", "Professional", 
-                                      "Expert", "Adept", "Talented", "Proficient", "Skilled", "Competent", "Adequate", "Novice", "Dabbling" };
-                for (int i = 0; i < pointCutoffs.Length; i++)
-                    if (Points >= pointCutoffs[i])
-                        return titles[i];
-                return "Unknown";
+                return "Force";
             }
-            set { }
-        }
-        public Skill(List<Property> properties)
-        {
-            foreach(Property property in properties)
+
+            if (Race == "Night Creature" && PreviousRace != "")
             {
-                switch(property.Name)
-                {
-                    case "skill":
-                        Name = Formatting.InitCaps(property.Value.Replace('_', ' ').ToLower());
-                        break;
-                    case "total_ip":
-                        Points = Convert.ToInt32(property.Value);
-                        break;
-                }
+                return PreviousRace.ToLower() + " turned night creature";
             }
+
+            if (ActiveInteractions.Any(it => it.Contains("VAMPIRE")))
+            {
+                return Race.ToLower() + " vampire";
+            }
+
+            if (ActiveInteractions.Any(it => it.Contains("WEREBEAST")))
+            {
+                return Race.ToLower() + " werebeast";
+            }
+
+            if (ActiveInteractions.Any(it => it.Contains("SECRET") && !it.Contains("ANIMATE")))
+            {
+                return Race.ToLower() + " necromancer";
+            }
+
+            if (ActiveInteractions.Any(it => it.Contains("ANIMATE")))
+            {
+                return Race.ToLower() + " animated corpse";
+            }
+
+            return Race.ToLower();
         }
     }
 }

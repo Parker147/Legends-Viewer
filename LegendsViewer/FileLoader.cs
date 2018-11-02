@@ -1,56 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Xml;
+using LegendsViewer.Controls;
 using LegendsViewer.Legends;
 using SevenZip;
-using System.Xml;
 
 namespace LegendsViewer
 {
     public class FileLoader
     {
         public bool Working;
-        private frmLegendsViewer Form;
-        private Button XMLButton, HistoryButton, SitesButton, MapButton;
-        private TextBox XMLText, HistoryText, SitesText, MapText;
-        private RichTextBox LogText;
-        private Label StatusLabel;
-        private Color ReadyColor = Color.FromArgb(220, 255, 220);
-        private Color NotReadyColor = Color.FromArgb(255, 220, 220);
-        private Color DefaultColor = SystemColors.Control;
-        private FileState _xmlState, _historyState, _sitesState, _mapState;
-        private string XMLTextDefault = "Legends XML / Archive";
+        private Button _xmlButton, _historyButton, _sitesButton, _mapButton, _xmlPlusButton;
+        private TextBox _xmlText, _historyText, _sitesText, _mapText, _xmlPlusText;
+        private RichTextBox _logText;
+        private Label _statusLabel;
+        private Color _readyColor = Color.FromArgb(220, 255, 220);
+        private Color _notReadyColor = Color.FromArgb(255, 220, 220);
+        private Color _notAvailableColor = Color.DarkGray;
+        private Color _defaultColor = SystemColors.Control;
+        private FileState _xmlState, _historyState, _sitesState, _mapState, _xmlPlusState;
+        private string _xmlTextDefault = "Legends XML / Archive";
         private const string HistoryTextDefault = "World History Text";
         private const string SitesTextDefault = "Sites and Populations Text";
         private const string MapTextDefault = "Map Image";
-        private FileState XMLState 
+        private const string XmlPlusTextDefault = "Legends XML Plus";
+
+        private const string FileIdentifierLegendsXml = "-legends.xml";
+        private const string FileIdentifierWorldHistoryTxt = "-world_history.txt";
+        private const string FileIdentifierWorldMapBmp = "-world_map.bmp";
+        private const string FileIdentifierWorldSitesAndPops = "-world_sites_and_pops.txt";
+        private const string FileIdentifierLegendsPlusXml = "-legends_plus.xml";
+
+        public static string SaveDirectory { get; set; }
+        public static string RegionId { get; set; }
+
+        private FileState XmlState
         {
-            get { return _xmlState;}
-            set {
+            get { return _xmlState; }
+            set
+            {
                 _xmlState = value;
                 switch (value)
                 {
                     case FileState.Default:
-                        XMLText.Text = XMLTextDefault;
-                        XMLText.BackColor = DefaultColor;
+                        _xmlText.Text = _xmlTextDefault;
+                        _xmlText.BackColor = _defaultColor;
                         break;
+
                     case FileState.NotReady:
-                        XMLText.Text = XMLTextDefault;
-                        XMLText.BackColor = NotReadyColor;
+                        _xmlText.Text = _xmlTextDefault;
+                        _xmlText.BackColor = _notReadyColor;
                         break;
+
                     case FileState.Ready:
-                        XMLText.BackColor = ReadyColor;
+                        _xmlText.BackColor = _readyColor;
                         break;
+
                     default:
                         throw new Exception("Unhandled File Loader File State.");
                 }
             }
         }
+
         private FileState HistoryState
         {
             get { return _historyState; }
@@ -60,44 +77,53 @@ namespace LegendsViewer
                 switch (value)
                 {
                     case FileState.Default:
-                        HistoryText.Text = HistoryTextDefault;
-                        HistoryText.BackColor = DefaultColor;
+                        _historyText.Text = HistoryTextDefault;
+                        _historyText.BackColor = _defaultColor;
                         break;
+
                     case FileState.NotReady:
-                        HistoryText.Text = HistoryTextDefault;
-                        HistoryText.BackColor = NotReadyColor;
+                        _historyText.Text = HistoryTextDefault;
+                        _historyText.BackColor = _notReadyColor;
                         break;
+
                     case FileState.Ready:
-                        HistoryText.BackColor = ReadyColor;
+                        _historyText.BackColor = _readyColor;
                         break;
+
                     default:
                         throw new Exception("Unhandled File Loader File State.");
                 }
             }
         }
+
         private FileState SitesState
         {
-            get { return _sitesState;}
-            set {
+            get { return _sitesState; }
+            set
+            {
                 _sitesState = value;
                 switch (value)
                 {
                     case FileState.Default:
-                        SitesText.Text = SitesTextDefault;
-                        SitesText.BackColor = DefaultColor;
+                        _sitesText.Text = SitesTextDefault;
+                        _sitesText.BackColor = _defaultColor;
                         break;
+
                     case FileState.NotReady:
-                        SitesText.Text = SitesTextDefault;
-                        SitesText.BackColor = NotReadyColor;
+                        _sitesText.Text = SitesTextDefault;
+                        _sitesText.BackColor = _notReadyColor;
                         break;
+
                     case FileState.Ready:
-                        SitesText.BackColor = ReadyColor;
+                        _sitesText.BackColor = _readyColor;
                         break;
+
                     default:
                         throw new Exception("Unhandled File Loader File State.");
                 }
             }
         }
+
         private FileState MapState
         {
             get { return _mapState; }
@@ -107,190 +133,319 @@ namespace LegendsViewer
                 switch (value)
                 {
                     case FileState.Default:
-                        MapText.Text = MapTextDefault;
-                        MapText.BackColor = DefaultColor;
+                        _mapText.Text = MapTextDefault;
+                        _mapText.BackColor = _defaultColor;
                         break;
+
                     case FileState.NotReady:
-                        MapText.Text = MapTextDefault;
-                        MapText.BackColor = NotReadyColor;
+                        _mapText.Text = MapTextDefault;
+                        _mapText.BackColor = _notReadyColor;
                         break;
+
                     case FileState.Ready:
-                        MapText.BackColor = ReadyColor;
+                        _mapText.BackColor = _readyColor;
                         break;
+
                     default:
                         throw new Exception("Unhandled File Loader File State.");
                 }
             }
         }
-        private List<string> ExtractedFiles;
 
-        public FileLoader(frmLegendsViewer form, Button xmlButton, TextBox xmlText, Button historyButton, TextBox historyText, Button sitesButton, TextBox sitesText, Button mapButton, TextBox mapText, Label statusLabel, RichTextBox logText)
+        private FileState XmlPlusState
         {
-            Form = form;
-            XMLButton = xmlButton;
-            XMLText = xmlText;
-            HistoryButton = historyButton;
-            HistoryText = historyText;
-            SitesButton = sitesButton;
-            SitesText = sitesText;
-            MapButton = mapButton;
-            MapText = mapText;
-            StatusLabel = statusLabel;
-            LogText = logText;
+            get { return _xmlPlusState; }
+            set
+            {
+                _xmlPlusState = value;
+                switch (value)
+                {
+                    case FileState.Default:
+                        _xmlPlusText.Text = XmlPlusTextDefault;
+                        _xmlPlusText.BackColor = _defaultColor;
+                        break;
 
-            XMLState = HistoryState = SitesState = MapState = FileState.Default;
+                    case FileState.NotReady:
+                        _xmlPlusText.Text = XmlPlusTextDefault;
+                        _xmlPlusText.BackColor = _notAvailableColor;
+                        break;
 
-            XMLButton.Click += XMLClick;
-            HistoryButton.Click += HistoryClick;
-            SitesButton.Click += SitesClick;
-            MapButton.Click += MapClick;
+                    case FileState.Ready:
+                        _xmlPlusText.BackColor = _readyColor;
+                        break;
 
-            ExtractedFiles = new List<string>();
+                    default:
+                        throw new Exception("Unhandled File Loader File State.");
+                }
+            }
+        }
+
+        private List<string> _extractedFiles;
+
+        public FileLoader(
+              Button xmlButton, TextBox xmlText
+            , Button historyButton, TextBox historyText
+            , Button sitesButton, TextBox sitesText
+            , Button mapButton, TextBox mapText
+            , Button xmlPlusButton, TextBox xmlPlusText
+            , Label statusLabel, RichTextBox logText)
+        {
+            _xmlButton = xmlButton;
+            _xmlText = xmlText;
+            _historyButton = historyButton;
+            _historyText = historyText;
+            _sitesButton = sitesButton;
+            _sitesText = sitesText;
+            _mapButton = mapButton;
+            _mapText = mapText;
+            _xmlPlusButton = xmlPlusButton;
+            _xmlPlusText = xmlPlusText;
+            _statusLabel = statusLabel;
+            _logText = logText;
+
+            XmlState = HistoryState = SitesState = MapState = FileState.Default;
+
+            _xmlButton.Click += XmlClick;
+            _historyButton.Click += HistoryClick;
+            _sitesButton.Click += SitesClick;
+            _mapButton.Click += MapClick;
+            _xmlPlusButton.Click += XmlPlusClick;
+
+            _extractedFiles = new List<string>();
 
             if (Environment.Is64BitProcess)
-                SevenZip.SevenZipExtractor.SetLibraryPath("7z64.dll");
+            {
+                SevenZipBase.SetLibraryPath("7z64.dll");
+            }
         }
 
         private string GetFile(string filter)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = filter;
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = filter
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
+            {
                 return dialog.FileName;
-            else
-                return "";
+            }
+            return "";
         }
 
-        private void XMLClick(Object sender, EventArgs e)
+        private void XmlClick(object sender, EventArgs e)
         {
-            AttemptLoadFrom(GetFile("Legends XML or Archive | *.*"));
+            AttemptLoadFrom(GetFile("Legends XML or Archive | *.xml; *.zip; *.7z;  "));
         }
 
         public void AttemptLoadFrom(string file)
         {
             if (!file.EndsWith(".xml") && file != "")
+            {
                 Extract(file);
+            }
             else if (file.EndsWith(".xml"))
             {
-                XMLText.Text = file;
-                XMLState = FileState.Ready;
                 LocateOtherFiles(file);
             }
             Load();
         }
 
-        private void HistoryClick(Object sender, EventArgs e)
+        private void HistoryClick(object sender, EventArgs e)
         {
             string historyFile = GetFile("History Text | *.txt");
             if (historyFile != "")
             {
-                HistoryText.Text = historyFile;
+                _historyText.Text = historyFile;
                 HistoryState = FileState.Ready;
             }
             Load();
         }
 
-        private void SitesClick(Object sender, EventArgs e)
+        private void SitesClick(object sender, EventArgs e)
         {
             string sitesFile = GetFile("Sites and Pops Text | *.txt");
             if (sitesFile != "")
             {
-                SitesText.Text = sitesFile;
+                _sitesText.Text = sitesFile;
                 SitesState = FileState.Ready;
             }
             Load();
         }
 
-        private void MapClick(Object sender, EventArgs e)
+        private void MapClick(object sender, EventArgs e)
         {
             string mapFile = GetFile("Map Image | *.jpg;*.jpeg;*.bmp;*.png;|All Files|*.*");
             if (mapFile != "")
             {
-                MapText.Text = mapFile;
+                _mapText.Text = mapFile;
                 MapState = FileState.Ready;
+            }
+            Load();
+        }
+
+        private void XmlPlusClick(object sender, EventArgs e)
+        {
+            string xmlFile = GetFile("Legends XML Plus|*legends_plus.xml;|Legends XML Plus|*.xml;|All Files|*.*");
+            if (string.IsNullOrEmpty(xmlFile))
+            {
+                _xmlPlusText.Text = xmlFile;
+                XmlPlusState = FileState.Ready;
             }
             Load();
         }
 
         private void LocateOtherFiles(string xmlFile)
         {
+            FileInfo fileInfo = new FileInfo(xmlFile);
+            string directory = fileInfo.DirectoryName;
             string region = "";
-            if (xmlFile.LastIndexOf("-") > 0)
-                region = xmlFile.Substring(xmlFile.LastIndexOf("\\") + 1, xmlFile.LastIndexOf("-") - xmlFile.LastIndexOf("\\") - 1);
-            else
-                return;
-            string directory = xmlFile.Substring(0, xmlFile.LastIndexOf("\\") + 1);
-
-            if (File.Exists(directory + region + "-world_history.txt"))
+            if (fileInfo.Name.Contains(FileIdentifierLegendsXml))
             {
-                HistoryText.Text = directory + region + "-world_history.txt";
+                region = fileInfo.Name.Replace(FileIdentifierLegendsXml, "");
+            }
+            else if(fileInfo.Name.Contains(FileIdentifierLegendsPlusXml))
+            {
+                region = fileInfo.Name.Replace(FileIdentifierLegendsPlusXml, "");
+            }
+            else
+            {
+                return;
+            }
+
+            SaveDirectory = directory;
+            RegionId = region;
+
+            string pathLegendsXml = Path.Combine(directory, region + FileIdentifierLegendsXml);
+            string pathWorldHistoryTxt = Path.Combine(directory, region + FileIdentifierWorldHistoryTxt);
+            string pathWorldSitesAndPopsTxt = Path.Combine(directory, region + FileIdentifierWorldSitesAndPops);
+            string pathWorldMapBmp = Path.Combine(directory, region + FileIdentifierWorldMapBmp);
+            string pathLegendsPlusXml = Path.Combine(directory, region + FileIdentifierLegendsPlusXml);
+
+            if (File.Exists(pathLegendsXml))
+            {
+                _xmlText.Text = pathLegendsXml;
+                XmlState = FileState.Ready;
+            }
+            else
+            {
+                XmlState = FileState.NotReady;
+            }
+            if (File.Exists(pathWorldHistoryTxt))
+            {
+                _historyText.Text = pathWorldHistoryTxt;
                 HistoryState = FileState.Ready;
             }
             else
-                HistoryState = FileState.NotReady;
-            if (File.Exists(directory + region + "-world_sites_and_pops.txt"))
             {
-                SitesText.Text = directory + region + "-world_sites_and_pops.txt";
+                HistoryState = FileState.NotReady;
+            }
+            if (File.Exists(pathWorldSitesAndPopsTxt))
+            {
+                _sitesText.Text = pathWorldSitesAndPopsTxt;
                 SitesState = FileState.Ready;
             }
             else
-                SitesState = FileState.NotReady;
-            List<string> imageFiles = Directory.GetFiles(directory).Where(file => file.Contains("world") && file.Contains(region) && (file.EndsWith(".bmp") || file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg"))).ToList();
-            if (imageFiles.Count == 1)
             {
-                MapText.Text = imageFiles.First();
+                SitesState = FileState.NotReady;
+            }
+            if (File.Exists(pathWorldMapBmp))
+            {
+                _mapText.Text = pathWorldMapBmp;
                 MapState = FileState.Ready;
             }
             else
-                MapState = FileState.NotReady;
-
+            {
+                string imageFile = Directory.GetFiles(directory)
+                    .FirstOrDefault(file => 
+                        file.Contains(region) && 
+                        (file.EndsWith(".bmp") || 
+                         file.EndsWith(".png") || 
+                         file.EndsWith(".jpg") || 
+                         file.EndsWith(".jpeg")));
+                if (!string.IsNullOrEmpty(imageFile))
+                {
+                    _mapText.Text = imageFile;
+                    MapState = FileState.Ready;
+                }
+                else
+                {
+                    MapState = FileState.NotReady;
+                }
+            }
+            if (File.Exists(pathLegendsPlusXml))
+            {
+                _xmlPlusText.Text = pathLegendsPlusXml;
+                XmlPlusState = FileState.Ready;
+            }
+            else
+            {
+                XmlPlusState = FileState.NotReady;
+            }
         }
 
         private void Load()
         {
-            if (XMLState != FileState.Ready || HistoryState != FileState.Ready || SitesState != FileState.Ready || MapState != FileState.Ready)
+            if (XmlState != FileState.Ready || HistoryState != FileState.Ready || SitesState != FileState.Ready || MapState != FileState.Ready)
+            {
                 return;
+            }
 
-            if (!(File.Exists(XMLText.Text) && File.Exists(HistoryText.Text) && File.Exists(SitesText.Text) && File.Exists(MapText.Text)))
+            if (!(File.Exists(_xmlText.Text) && File.Exists(_historyText.Text) && File.Exists(_sitesText.Text) && File.Exists(_mapText.Text)))
+            {
                 return;
+            }
 
-            string[] files = new string[] { XMLText.Text, HistoryText.Text, SitesText.Text, MapText.Text };
+            string xmlPlusText = File.Exists(_xmlPlusText.Text) ? _xmlPlusText.Text : "";
+            string[] files = { _xmlText.Text, _historyText.Text, _sitesText.Text, _mapText.Text, xmlPlusText };
 
             Working = true;
-            XMLButton.Enabled = HistoryButton.Enabled = SitesButton.Enabled = MapButton.Enabled = false;
-            LogText.Clear();
-            StatusLabel.Text = "Loading...";
-            StatusLabel.ForeColor = Color.Blue;
+            _xmlButton.Enabled = _historyButton.Enabled = _sitesButton.Enabled = _mapButton.Enabled = _xmlPlusButton.Enabled = false;
+            _logText.Clear();
+            _statusLabel.Text = "Loading...";
+            _statusLabel.ForeColor = Color.Blue;
 
-            BackgroundWorker load = new BackgroundWorker();
-            load.DoWork += load_DoWork;
-            load.RunWorkerCompleted += load_RunWorkerCompleted;
+            BackgroundWorker backgroundWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true
+            };
+            backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
+            backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
+            backgroundWorker.RunWorkerCompleted += BackgroundWorkerOnRunWorkerCompleted;
 
-            load.RunWorkerAsync(files);
-            while (load.IsBusy) Application.DoEvents();
+            backgroundWorker.RunWorkerAsync(files);
+            while (backgroundWorker.IsBusy)
+            {
+                Application.DoEvents();
+            }
 
             Working = false;
-            XMLButton.Enabled = HistoryButton.Enabled = SitesButton.Enabled = MapButton.Enabled = true;
-            XMLState = HistoryState = SitesState = MapState = FileState.Default;
+            _xmlButton.Enabled = _historyButton.Enabled = _sitesButton.Enabled = _mapButton.Enabled = _xmlPlusButton.Enabled = true;
+            XmlState = HistoryState = SitesState = MapState = XmlPlusState = FileState.Default;
         }
 
-        private void load_DoWork(object sender, DoWorkEventArgs e)
+        private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs progressChangedEventArgs)
         {
+            _logText.AppendText(progressChangedEventArgs.UserState + "\n");
+        }
+
+        private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
             string[] files = e.Argument as string[];
             try
             {
-                e.Result = new World(files[0], files[1], files[2], files[3]);
+                e.Result = new World(worker, files[0], files[1], files[2], files[3], files[4]);
             }
             catch (XmlException)
             {
-                string safeXMLFile = XMLParser.SafeXMLFile(files[0]);
-                if (safeXMLFile != null)
+                string repairedXmlFile = RepairXmlFile(files[0]);
+                if (repairedXmlFile != null)
                 {
-                    if (safeXMLFile != files[0])
+                    if (repairedXmlFile != files[0])
                     {
-                        ExtractedFiles.Add(safeXMLFile);
+                        _extractedFiles.Add(repairedXmlFile);
                     }
-                    e.Result = new World(safeXMLFile, files[1], files[2], files[3]);
+                    e.Result = new World(worker, repairedXmlFile, files[1], files[2], files[3], files[4]);
                 }
                 else
                 {
@@ -299,117 +454,177 @@ namespace LegendsViewer
             }
         }
 
-        private void load_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private static string RepairXmlFile(string xmlFile)
         {
-            foreach (string delete in ExtractedFiles)
-                System.IO.File.Delete(delete);
-            ExtractedFiles.Clear();
+            DialogResult response =
+                MessageBox.Show("There was an error loading this XML file! Do you wish to attempt a repair?",
+                    "Error loading XML", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (response == DialogResult.Yes)
+            {
+                string safeFile = Path.GetTempFileName();
+                using (StreamReader inputReader = new StreamReader(xmlFile))
+                {
+                    using (StreamWriter outputWriter = File.AppendText(safeFile))
+                    {
+                        string currentLine;
+                        while (null != (currentLine = inputReader.ReadLine()))
+                        {
+                            outputWriter.WriteLine(Regex.Replace(currentLine, "[\x00-\x08\x0B\x0C\x0E-\x1F\x26]",
+                                string.Empty));
+                        }
+                    }
+                }
+                DialogResult overwrite =
+                    MessageBox.Show(
+                        "Repair completed. Would you like to overwrite the original file with the repaired version? (Note: No effect if opened from an archive)",
+                        "Repair Completed", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (overwrite == DialogResult.Yes)
+                {
+                    File.Delete(xmlFile);
+                    File.Copy(safeFile, xmlFile);
+                    return xmlFile;
+                }
+                return safeFile;
+            }
+            return null;
+        }
+
+        public event EventHandler<EventArgs<World>> AfterLoad;
+
+        private void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
 
             if (e.Result != null)
             {
                 if (e.Error != null)
                 {
-                    LogText.AppendText(e.Error.Message + "\n" + e.Error.StackTrace);
-                    StatusLabel.Text = "ERROR!";
-                    StatusLabel.ForeColor = Color.Red;
+                    _logText.AppendText(e.Error.Message + "\n" + e.Error.StackTrace);
+                    _statusLabel.Text = "ERROR!";
+                    _statusLabel.ForeColor = Color.Red;
                 }
                 else
-                    Form.AfterLoad(e.Result as World);
+                {
+                    AfterLoad?.Invoke(this, new EventArgs<World>(e.Result as World));
+                }
             }
             else
             {
-                LogText.AppendText("Repair of corrupt XML cancelled!");
-                StatusLabel.Text = "ERROR!";
-                StatusLabel.ForeColor = Color.Red;
+                _logText.AppendText("Repair of corrupt XML cancelled!");
+                _statusLabel.Text = "ERROR!";
+                _statusLabel.ForeColor = Color.Red;
             }
-
+            foreach (string delete in _extractedFiles)
+            {
+                File.Delete(delete);
+            }
+            _extractedFiles.Clear();
         }
 
         private void Extract(string file)
         {
-            XMLButton.Enabled = HistoryButton.Enabled = SitesButton.Enabled = MapButton.Enabled = false;
-            StatusLabel.Text = "Extracting...";
-            StatusLabel.ForeColor = Color.Orange;
+            _xmlButton.Enabled = _historyButton.Enabled = _sitesButton.Enabled = _mapButton.Enabled = false;
+            _statusLabel.Text = "Extracting...";
+            _statusLabel.ForeColor = Color.Orange;
 
             BackgroundWorker extract = new BackgroundWorker();
             extract.DoWork += extract_DoWork;
             extract.RunWorkerCompleted += extract_RunWorkerCompleted;
 
             extract.RunWorkerAsync(file);
-            while (extract.IsBusy) Application.DoEvents();
+            while (extract.IsBusy)
+            {
+                Application.DoEvents();
+            }
         }
 
         private void extract_DoWork(object sender, DoWorkEventArgs e)
         {
             using (SevenZipExtractor extractor = new SevenZipExtractor(e.Argument as String))
             {
-                if (extractor.ArchiveFileNames.Count(file => file.EndsWith(".xml")) > 1 || extractor.ArchiveFileNames.Count(file => file.EndsWith(".xml")) == 0)
-                    throw new Exception("Not enough or too many XML Files");
-                if (extractor.ArchiveFileNames.Count(file => file.EndsWith(".world_history.txt")) > 1 || extractor.ArchiveFileNames.Count(file => file.EndsWith("-world_history.txt")) == 0)
-                    throw new Exception("Not enough or too many World History Text Files");
-                if (extractor.ArchiveFileNames.Count(file => file.EndsWith("-world_sites_and_pops.txt")) > 1 || extractor.ArchiveFileNames.Count(file => file.EndsWith("-world_sites_and_pops.txt")) == 0)
-                    throw new Exception("Not enough or too many Site & Pops Text Files");
-                if (extractor.ArchiveFileNames.Count(file => file.EndsWith(".bmp") || file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg")) == 0)
-                    throw new Exception("No map image found.");
-
-                string outputDirectory = new FileInfo(extractor.FileName).Directory.FullName;
-
-                string xml = extractor.ArchiveFileNames.Single(file => file.EndsWith(".xml"));
-                if (File.Exists(Path.Combine(outputDirectory, xml))) throw new Exception(xml + " already exists.");
-                extractor.ExtractFiles(outputDirectory, xml);
-                ExtractedFiles.Add(Path.Combine(outputDirectory, xml));
-
-                string history = extractor.ArchiveFileNames.Single(file => file.EndsWith("-world_history.txt"));
-                if (File.Exists(Path.Combine(outputDirectory, history))) throw new Exception(history + " already exists.");
-                extractor.ExtractFiles(outputDirectory, history);
-                ExtractedFiles.Add(Path.Combine(outputDirectory, history));
-
-                string sites = extractor.ArchiveFileNames.Single(file => file.EndsWith("-world_sites_and_pops.txt"));
-                if (File.Exists(Path.Combine(outputDirectory, sites))) throw new Exception(sites + " already exists.");
-                extractor.ExtractFiles(outputDirectory, sites);
-                ExtractedFiles.Add(Path.Combine(outputDirectory, sites));
-
-                string map = "";
-
-                if (extractor.ArchiveFileNames.Count(file => file.EndsWith(".bmp") || file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg")) == 1)
-                    map = extractor.ArchiveFileNames.Single(file => file.EndsWith(".bmp") || file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg"));
-                else
+                string fileNameLegendsXml = extractor.ArchiveFileNames.FirstOrDefault(file => file.EndsWith(FileIdentifierLegendsXml, StringComparison.OrdinalIgnoreCase));
+                if (string.IsNullOrEmpty(fileNameLegendsXml))
                 {
-                    dlgFileSelect fileSelect = new dlgFileSelect(extractor.ArchiveFileNames.Where(file => file.EndsWith(".bmp") || file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg")).ToList());
-                    fileSelect.Text = "Select Base Map";
-                    fileSelect.ShowDialog();
-                    if (fileSelect.SelectedFile == "") throw new Exception("No map file selected.");
-                    if (File.Exists(fileSelect.SelectedFile)) { MessageBox.Show(fileSelect.SelectedFile + " already exists."); return; }
-                    map = fileSelect.SelectedFile;
+                    throw new FileNotFoundException($"Could not find a 'region{FileIdentifierLegendsXml}' file.");
                 }
+                string region = fileNameLegendsXml.Replace(FileIdentifierLegendsXml, "");
 
-                if (File.Exists(Path.Combine(outputDirectory, map))) throw new Exception(map + " already exists.");
-                extractor.ExtractFiles(outputDirectory, map);
-                ExtractedFiles.Add(Path.Combine(outputDirectory, map));
+                string fileNameWorldHistoryTxt = extractor.ArchiveFileNames.FirstOrDefault(file => file.Equals(region + FileIdentifierWorldHistoryTxt));
+                if (string.IsNullOrEmpty(fileNameWorldHistoryTxt))
+                {
+                    throw new FileNotFoundException($"Could not find a 'region{FileIdentifierWorldHistoryTxt}' file.");
+                }
+                string fileNameWorldSitesAndPopsTxt = extractor.ArchiveFileNames.FirstOrDefault(file => file.Equals(region + FileIdentifierWorldSitesAndPops));
+                if (string.IsNullOrEmpty(fileNameWorldSitesAndPopsTxt))
+                {
+                    throw new FileNotFoundException($"Could not find a 'region{FileIdentifierWorldSitesAndPops}' file.");
+                }
+                string fileNameWorldMapBmp = extractor.ArchiveFileNames.FirstOrDefault(file => file.Contains(region + FileIdentifierWorldMapBmp));
+                if (string.IsNullOrEmpty(fileNameWorldMapBmp))
+                {
+                    var extns = new[] { ".bmp", ".png", ".jpg", ".jpeg" };
+                    fileNameWorldMapBmp = extractor.ArchiveFileNames.FirstOrDefault(file => file.Contains(region) && extns.Contains(Path.GetExtension(file).ToLower()));
+                }
+                if (string.IsNullOrEmpty(fileNameWorldMapBmp))
+                {
+                    throw new FileNotFoundException($"Could not find a 'region{FileIdentifierWorldMapBmp}' file.");
+                }
+                string fileNameLegendsPlusXml = extractor.ArchiveFileNames.FirstOrDefault(file => file.Equals(region + FileIdentifierLegendsPlusXml));
+
+                string outputDirectory = new FileInfo(extractor.FileName).DirectoryName;
+
+                ExtractFile(extractor, outputDirectory, fileNameLegendsXml);
+                ExtractFile(extractor, outputDirectory, fileNameWorldHistoryTxt);
+                ExtractFile(extractor, outputDirectory, fileNameWorldSitesAndPopsTxt);
+                ExtractFile(extractor, outputDirectory, fileNameWorldMapBmp);
+                if (!string.IsNullOrEmpty(fileNameLegendsPlusXml))
+                {
+                    ExtractFile(extractor, outputDirectory, fileNameLegendsPlusXml);
+                }
             }
         }
+
+        private void ExtractFile(SevenZipExtractor extractor, string outputDirectory, string fileName)
+        {
+            if (!File.Exists(Path.Combine(outputDirectory, fileName)))
+            {
+                extractor.ExtractFiles(outputDirectory, fileName);
+            }
+            _extractedFiles.Add(Path.Combine(outputDirectory, fileName));
+        }
+
         private void extract_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
             {
-                StatusLabel.Text = "ERROR!";
-                StatusLabel.ForeColor = Color.Red;
-                LogText.Text = e.Error.Message;
-                foreach (string delete in ExtractedFiles)
+                _statusLabel.Text = "ERROR!";
+                _statusLabel.ForeColor = Color.Red;
+                _logText.Text = e.Error.Message;
+                foreach (string delete in _extractedFiles)
+                {
                     File.Delete(delete);
-                ExtractedFiles.Clear();
+                }
+                _extractedFiles.Clear();
                 Working = false;
             }
             else
             {
-                XMLText.Text = ExtractedFiles[0];
-                XMLState = FileState.Ready;
-                HistoryText.Text = ExtractedFiles[1];
+                _xmlText.Text = _extractedFiles[0];
+                XmlState = FileState.Ready;
+                _historyText.Text = _extractedFiles[1];
                 HistoryState = FileState.Ready;
-                SitesText.Text = ExtractedFiles[2];
+                _sitesText.Text = _extractedFiles[2];
                 SitesState = FileState.Ready;
-                MapText.Text = ExtractedFiles[3];
+                _mapText.Text = _extractedFiles[3];
                 MapState = FileState.Ready;
+                if (_extractedFiles.Count == 5)
+                {
+                    _xmlPlusText.Text = _extractedFiles[4];
+                    XmlPlusState = FileState.Ready;
+                }
+                else
+                {
+                    XmlPlusState = FileState.NotReady;
+                }
             }
         }
 

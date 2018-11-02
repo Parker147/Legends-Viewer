@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using LegendsViewer.Controls.HTML;
 using LegendsViewer.Legends;
+using LegendsViewer.Legends.EventCollections;
 
 namespace LegendsViewer.Controls.Query
 {
     public partial class QueryControl : UserControl
     {
 
-        SearchList SearchList;
-        PropertyBox SelectProperties;
+        SearchList _searchList;
+        PropertyBox _selectProperties;
         public DwarfTabControl Browser;
         public World World;
-        List<Object> Results;
+        List<Object> _results;
         public QueryControl(World world, DwarfTabControl browser)
         {
             World = world;
             Browser = browser;
 
             InitializeComponent();
-            SelectionPanel.SizeChanged += new EventHandler(PanelResized);
-            SearchPanel.SizeChanged += new EventHandler(PanelResized);
-            OrderByPanel.SizeChanged += new EventHandler(PanelResized);
+            SelectionPanel.SizeChanged += PanelResized;
+            SearchPanel.SizeChanged += PanelResized;
+            OrderByPanel.SizeChanged += PanelResized;
 
             SelectionPanel.CriteriaStartLocation = lblSelectCriteria.Bottom + 3;
             SearchPanel.CriteriaStartLocation = lblSearchCriteria.Bottom + 3;
@@ -39,64 +41,73 @@ namespace LegendsViewer.Controls.Query
 
         private void SelectList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (SelectProperties != null) SelectProperties.Remove();
-            SelectProperties = new PropertyBox();
-            SelectProperties.Location = new Point(SelectList.Right + 3, SelectList.Top);
-            SelectProperties.ListPropertiesOnly = true;
-            SelectProperties.SelectedIndexChanged += new EventHandler(SelectSubListChanged);
-            this.Controls.Add(SelectProperties);
+            if (_selectProperties != null)
+            {
+                _selectProperties.Remove();
+            }
+
+            _selectProperties = new PropertyBox
+            {
+                Location = new Point(SelectList.Right + 3, SelectList.Top),
+                ListPropertiesOnly = true
+            };
+            _selectProperties.SelectedIndexChanged += SelectSubListChanged;
+            Controls.Add(_selectProperties);
 
             switch (SelectList.SelectedItem.ToString())
             {
                 case "Historical Figures": 
-                    SearchList = new SearchList<HistoricalFigure>(World.HistoricalFigures);
-                    SelectProperties.ParentType = typeof(HistoricalFigure);
+                    _searchList = new SearchList<HistoricalFigure>(World.HistoricalFigures);
+                    _selectProperties.ParentType = typeof(HistoricalFigure);
                     break;
                 case "Entities":
-                    SearchList = new SearchList<Entity>(World.Entities);
-                    SelectProperties.ParentType = typeof(Entity);
+                    _searchList = new SearchList<Entity>(World.Entities);
+                    _selectProperties.ParentType = typeof(Entity);
                     break;
                 case "Sites": 
-                    SearchList = new SearchList<Site>(World.Sites);
-                    SelectProperties.ParentType = typeof(Site);
+                    _searchList = new SearchList<Site>(World.Sites);
+                    _selectProperties.ParentType = typeof(Site);
                     break;
                 case "Regions":
-                    SearchList = new SearchList<WorldRegion>(World.Regions);
-                    SelectProperties.ParentType = typeof(WorldRegion);
+                    _searchList = new SearchList<WorldRegion>(World.Regions);
+                    _selectProperties.ParentType = typeof(WorldRegion);
                     break;
                 case "Underground Regions":
-                    SearchList = new SearchList<UndergroundRegion>(World.UndergroundRegions);
-                    SelectProperties.ParentType = typeof(UndergroundRegion);
+                    _searchList = new SearchList<UndergroundRegion>(World.UndergroundRegions);
+                    _selectProperties.ParentType = typeof(UndergroundRegion);
                     break;
                 case "Wars":
-                    SearchList = new SearchList<War>(World.Wars);
-                    SelectProperties.ParentType = typeof(War);
+                    _searchList = new SearchList<War>(World.Wars);
+                    _selectProperties.ParentType = typeof(War);
                     break;
                 case "Battles":
-                    SearchList = new SearchList<Battle>(World.Battles);
-                    SelectProperties.ParentType = typeof(Battle);
+                    _searchList = new SearchList<Battle>(World.Battles);
+                    _selectProperties.ParentType = typeof(Battle);
                     break;
                 case "Conquerings":
-                    SearchList = new SearchList<SiteConquered>(World.EventCollections.OfType<SiteConquered>().ToList());
-                    SelectProperties.ParentType = typeof(SiteConquered);
+                    _searchList = new SearchList<SiteConquered>(World.EventCollections.OfType<SiteConquered>().ToList());
+                    _selectProperties.ParentType = typeof(SiteConquered);
                     break;
                 case "Beast Attacks":
-                    SearchList = new SearchList<BeastAttack>(World.BeastAttacks);
-                    SelectProperties.ParentType = typeof(BeastAttack);
+                    _searchList = new SearchList<BeastAttack>(World.BeastAttacks);
+                    _selectProperties.ParentType = typeof(BeastAttack);
                     break;
                 case "Artifacts":
-                    SearchList = new SearchList<Artifact>(World.Artifacts);
-                    SelectProperties.ParentType = typeof(Artifact);
+                    _searchList = new SearchList<Artifact>(World.Artifacts);
+                    _selectProperties.ParentType = typeof(Artifact);
                     break;
             }
 
-            if (SelectProperties.ParentType == typeof(Site) || SelectProperties.ParentType == typeof(Battle)) btnMapResults.Visible = true;
+            if (_selectProperties.ParentType == typeof(Site) || _selectProperties.ParentType == typeof(Battle))
+            {
+                btnMapResults.Visible = true;
+            }
 
             SelectionPanel.Clear();
 
-            SelectionPanel.CriteriaType = SearchList.GetMainListType();
-            SearchPanel.CriteriaType = SelectProperties.GetLowestPropertyType();
-            OrderByPanel.CriteriaType = SelectProperties.GetLowestPropertyType();
+            SelectionPanel.CriteriaType = _searchList.GetMainListType();
+            SearchPanel.CriteriaType = _selectProperties.GetLowestPropertyType();
+            OrderByPanel.CriteriaType = _selectProperties.GetLowestPropertyType();
 
             SelectSubListChanged(this, null);
 
@@ -118,15 +129,20 @@ namespace LegendsViewer.Controls.Query
 
         private void SelectSubListChanged(object sender, EventArgs e)
         {
-            if (SelectProperties.SelectedIndex > 0) {
+            if (_selectProperties.SelectedIndex > 0) {
                 SelectionPanel.Visible = true;
-                if (SelectionPanel.Criteria.Count == 0) SelectionPanel.AddNew(); 
+                if (SelectionPanel.Criteria.Count == 0)
+                {
+                    SelectionPanel.AddNew();
+                }
             }
             else { SelectionPanel.Visible = false; SelectionPanel.Clear(); }
 
-            Type selectedType = SelectProperties.GetLowestPropertyType();
+            Type selectedType = _selectProperties.GetLowestPropertyType();
             if (selectedType.IsGenericType)
+            {
                 selectedType = selectedType.GetGenericArguments()[0];
+            }
 
             SearchPanel.Clear();
             SearchPanel.CriteriaType = selectedType;
@@ -137,15 +153,25 @@ namespace LegendsViewer.Controls.Query
             OrderByPanel.AddNew();
             PanelResized(this, null);
 
-            if (SelectProperties.SelectedIndex > 0)
+            if (_selectProperties.SelectedIndex > 0)
             {
-                if (selectedType == typeof(Site) || selectedType == typeof(Battle)) btnMapResults.Visible = true;
+                if (selectedType == typeof(Site) || selectedType == typeof(Battle))
+                {
+                    btnMapResults.Visible = true;
+                }
                 else
+                {
                     btnMapResults.Visible = false;
+                }
             }
-            else if (SelectProperties.ParentType == typeof(Site) || SelectProperties.ParentType == typeof(Battle)) btnMapResults.Visible = true;
+            else if (_selectProperties.ParentType == typeof(Site) || _selectProperties.ParentType == typeof(Battle))
+            {
+                btnMapResults.Visible = true;
+            }
             else
+            {
                 btnMapResults.Visible = false;
+            }
 
             //if (SelectProperties.SelectedIndex != 0)
             //    lblSearchCriteria.Text = "Search " + SelectProperties.Text + " Where:";
@@ -157,9 +183,14 @@ namespace LegendsViewer.Controls.Query
         {
             SelectionPanel.Top = SelectList.Bottom + 3;
             if (SelectionPanel.Visible)
+            {
                 SearchPanel.Top = SelectionPanel.Bottom;
+            }
             else
+            {
                 SearchPanel.Top = SelectList.Bottom + 3;
+            }
+
             OrderByPanel.Top = SearchPanel.Bottom;
             btnSearch.Top = OrderByPanel.Bottom + 3;
             btnMapResults.Top = OrderByPanel.Bottom + 3;
@@ -178,70 +209,90 @@ namespace LegendsViewer.Controls.Query
         {
             lblResults.Text = "Searching...";
             Application.DoEvents();
-            Results = Search();
-            lblResults.Text = Results.Count + " Results";
+            _results = Search();
+            lblResults.Text = _results.Count + " Results";
 
             dgResults.Columns.Clear();
 
             List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
-            if (SelectProperties.SelectedProperty == null)
-                columns = LegendsViewer.AppHelpers.GetColumns(SelectProperties.ParentType);
+            if (_selectProperties.SelectedProperty == null)
+            {
+                columns = AppHelpers.GetColumns(_selectProperties.ParentType);
+            }
             else
-                columns = LegendsViewer.AppHelpers.GetColumns(SelectProperties.SelectedProperty.Type);
+            {
+                columns = AppHelpers.GetColumns(_selectProperties.SelectedProperty.Type);
+            }
 
             if (columns.Count > 0)
             {
                 dgResults.AutoGenerateColumns = false;
                 dgResults.Columns.AddRange(columns.ToArray());
             }
-            else dgResults.AutoGenerateColumns = true;
-
-            if (Results.Count > 1000)
+            else
             {
-                dgResults.DataSource = Results.Take(1000).ToList();
+                dgResults.AutoGenerateColumns = true;
+            }
+
+            if (_results.Count > 1000)
+            {
+                dgResults.DataSource = _results.Take(1000).ToList();
                 lblResults.Text += " (First 1000)";
             }
             else
-                dgResults.DataSource = Results;
-            /*if (results.Count > 0 && results.First().GetType() == typeof(HistoricalFigure))
             {
-                DataGridViewTextBoxColumn killCount = new DataGridViewTextBoxColumn();
-                killCount.DataPropertyName = "NotableKills";
-                killCount.HeaderText = "NotableKills";
-                dgResults.Columns.Insert(killCount);
-                dgResults.Columns.AddRange(
-            }*/
+                dgResults.DataSource = _results;
+            }
+            /*if (results.Count > 0 && results.First().GetType() == typeof(HistoricalFigure))
+{
+   DataGridViewTextBoxColumn killCount = new DataGridViewTextBoxColumn();
+   killCount.DataPropertyName = "NotableKills";
+   killCount.HeaderText = "NotableKills";
+   dgResults.Columns.Insert(killCount);
+   dgResults.Columns.AddRange(
+}*/
         }
 
 
         public List<object> Search(CriteriaLine criteria = null)
         {
-            if (SelectProperties.SelectedIndex > 0)
-                SearchList.Select(SelectProperties.GetSelectedProperties());
+            if (_selectProperties.SelectedIndex > 0)
+            {
+                _searchList.Select(_selectProperties.GetSelectedProperties());
+            }
             /*if (SelectProperties.SelectedProperty.IsList)
-                SearchList.Select(SelectProperties.SelectedProperty.Name, SelectProperties.SelectedProperty.Type.GetGenericArguments()[0]);
+   SearchList.Select(SelectProperties.SelectedProperty.Name, SelectProperties.SelectedProperty.Type.GetGenericArguments()[0]);
+else
+   SearchList.Select(SelectProperties.SelectedProperty.Name, SelectProperties.SelectedProperty.Type);*/
             else
-                SearchList.Select(SelectProperties.SelectedProperty.Name, SelectProperties.SelectedProperty.Type);*/
-            else
-                SearchList.ResetSelect();
+            {
+                _searchList.ResetSelect();
+            }
 
-            SearchList.Search(SelectionPanel.BuildQuery());
-            SearchList.SubListSearch(SearchPanel.BuildQuery(criteria));
+            _searchList.Search(SelectionPanel.BuildQuery());
+            _searchList.SubListSearch(SearchPanel.BuildQuery(criteria));
             if (criteria == null)
-                SearchList.OrderBy(OrderByPanel.BuildQuery());
-            return SearchList.GetResults();
+            {
+                _searchList.OrderBy(OrderByPanel.BuildQuery());
+            }
+
+            return _searchList.GetResults();
         }
 
         public List<object> SearchSelection(CriteriaLine criteria = null)
         {
-            if (SelectProperties.SelectedIndex > 0)
-                SearchList.Select(SelectProperties.GetSelectedProperties());
+            if (_selectProperties.SelectedIndex > 0)
+            {
+                _searchList.Select(_selectProperties.GetSelectedProperties());
+            }
             //SearchList.Select(SelectProperties.SelectedProperty.Name, SelectProperties.SelectedProperty.Type.GetGenericArguments()[0]);
             else
-                SearchList.ResetSelect();
+            {
+                _searchList.ResetSelect();
+            }
 
-            SearchList.Search(SelectionPanel.BuildQuery(criteria));
-            return SearchList.GetSelection();
+            _searchList.Search(SelectionPanel.BuildQuery(criteria));
+            return _searchList.GetSelection();
         }
 
 
@@ -255,10 +306,22 @@ namespace LegendsViewer.Controls.Query
                 Type searchType = genericSearch.MakeGenericType(line.PropertySelect.ParentType);
                 SearchInfo newCriteria = Activator.CreateInstance(searchType) as SearchInfo;
                 if (line == inputCriteria.First(line1 => line1.IsComplete()))
+                {
                     newCriteria.Operator = QueryOperator.Or;
-                else newCriteria.Operator = QueryOperator.And;
+                }
+                else
+                {
+                    newCriteria.Operator = QueryOperator.And;
+                }
+
                 criteria.Add(newCriteria);
-                if (line.OrderByCriteria) if (line.OrderBySelect.Text == "Descending") newCriteria.OrderByDescending = true;
+                if (line.OrderByCriteria)
+                {
+                    if (line.OrderBySelect.Text == "Descending")
+                    {
+                        newCriteria.OrderByDescending = true;
+                    }
+                }
 
                 while (currentProperty != null)
                 {
@@ -266,7 +329,10 @@ namespace LegendsViewer.Controls.Query
                     if (currentProperty.Child == null || currentProperty.Child.SelectedProperty == null)
                     {
                         if (currentProperty.SelectedProperty != null)
+                        {
                             newCriteria.PropertyName = currentProperty.SelectedProperty.Name;
+                        }
+
                         if (currentProperty.SelectedProperty != null && currentProperty.SelectedProperty.Type.IsGenericType && currentProperty.SelectedProperty.Type.GetGenericTypeDefinition() == typeof(List<>))
                         {
                             newCriteria.Comparer = QueryComparer.Count;
@@ -276,19 +342,37 @@ namespace LegendsViewer.Controls.Query
                             newCriteria = Activator.CreateInstance(nextSearchType) as SearchInfo;
                             temp.Next = newCriteria;
                             newCriteria.Previous = temp;
-                            if (line.OrderByCriteria) newCriteria.Comparer = QueryComparer.All;
+                            if (line.OrderByCriteria)
+                            {
+                                newCriteria.Comparer = QueryComparer.All;
+                            }
                         }
 
                         if (newCriteria.Comparer != QueryComparer.All)
-                            newCriteria.Comparer = SearchProperty.StringToComparer(line.ComparerSelect.Text);
-                        if (currentProperty.SelectedProperty != null && currentProperty.SelectedProperty.Type == typeof(string))
                         {
-                            if (newCriteria.Comparer == QueryComparer.Equals) newCriteria.Comparer = QueryComparer.StringEquals;
-                            else if (newCriteria.Comparer == QueryComparer.NotEqual) newCriteria.Comparer = QueryComparer.StringNotEqual;
+                            newCriteria.Comparer = SearchProperty.StringToComparer(line.ComparerSelect.Text);
                         }
 
-                        if (currentProperty.SelectedProperty != null && (currentProperty.SelectedProperty.Type == typeof(int) || currentProperty.SelectedProperty.Type == typeof(List<int>))) newCriteria.Value = Convert.ToInt32(line.ValueSelect.Text);
-                        else newCriteria.Value = line.ValueSelect.Text;
+                        if (currentProperty.SelectedProperty != null && currentProperty.SelectedProperty.Type == typeof(string))
+                        {
+                            if (newCriteria.Comparer == QueryComparer.Equals)
+                            {
+                                newCriteria.Comparer = QueryComparer.StringEquals;
+                            }
+                            else if (newCriteria.Comparer == QueryComparer.NotEqual)
+                            {
+                                newCriteria.Comparer = QueryComparer.StringNotEqual;
+                            }
+                        }
+
+                        if (currentProperty.SelectedProperty != null && (currentProperty.SelectedProperty.Type == typeof(int) || currentProperty.SelectedProperty.Type == typeof(List<int>)))
+                        {
+                            newCriteria.Value = Convert.ToInt32(line.ValueSelect.Text);
+                        }
+                        else
+                        {
+                            newCriteria.Value = line.ValueSelect.Text;
+                        }
                     }
                     else
                     {
@@ -297,14 +381,23 @@ namespace LegendsViewer.Controls.Query
                         SearchInfo temp = newCriteria;
                         Type nextSearchType;
                         if (currentProperty.Child.ParentType.IsGenericType)
+                        {
                             nextSearchType = genericSearch.MakeGenericType(currentProperty.Child.ParentType.GetGenericArguments()[0]);
+                        }
                         else
+                        {
                             nextSearchType = genericSearch.MakeGenericType(currentProperty.Child.ParentType);
+                        }
+
                         newCriteria = Activator.CreateInstance(nextSearchType) as SearchInfo;
                         temp.Next = newCriteria;
                         newCriteria.Previous = temp;
                     }
-                    if (newCriteria.Previous != null) newCriteria.Operator = QueryOperator.Or;
+                    if (newCriteria.Previous != null)
+                    {
+                        newCriteria.Operator = QueryOperator.Or;
+                    }
+
                     currentProperty = currentProperty.Child;
                 }
             }
@@ -327,10 +420,15 @@ namespace LegendsViewer.Controls.Query
             {
                 object navigateTo = dgResults.Rows[e.RowIndex].DataBoundItem;
                 if (navigateTo.GetType() == typeof(HistoricalFigureLink))
+                {
                     navigateTo = (navigateTo as HistoricalFigureLink).HistoricalFigure;
+                }
                 else if (navigateTo.GetType() == typeof(SiteLink))
+                {
                     navigateTo = (navigateTo as SiteLink).Site;
-                Browser.Navigate(ControlOption.HTML, navigateTo);
+                }
+
+                Browser.Navigate(ControlOption.Html, navigateTo);
             }
         }
 
@@ -340,15 +438,29 @@ namespace LegendsViewer.Controls.Query
             string column = dgResults.Columns[e.ColumnIndex].HeaderText;
 
             if (e.Value != null && e.Value.GetType().IsEnum)
+            {
                 e.Value = e.Value.GetDescription();
+            }
 
             if (objectType == typeof(HistoricalFigure))
             {
                 HistoricalFigure hf = dgResults.Rows[e.RowIndex].DataBoundItem as HistoricalFigure;
-                if (column == "Kills") e.Value = hf.NotableKills.Count;
-                else if (column == "Abductions") e.Value = hf.Abductions.Count;
-                else if (column == "Battles") e.Value = hf.Battles.Count;
-                else if (column == "Beast Attacks") e.Value = hf.BeastAttacks.Count;
+                if (column == "Kills")
+                {
+                    e.Value = hf.NotableKills.Count;
+                }
+                else if (column == "Abductions")
+                {
+                    e.Value = hf.Abductions.Count;
+                }
+                else if (column == "Battles")
+                {
+                    e.Value = hf.Battles.Count;
+                }
+                else if (column == "Beast Attacks")
+                {
+                    e.Value = hf.BeastAttacks.Count;
+                }
                 else if (column == "Age")
                 {
                     int age;
@@ -367,7 +479,9 @@ namespace LegendsViewer.Controls.Query
                     e.Value = age + " (" + hf.BirthYear + " - " + deathYear + ")";
                 }
                 else if (column == "Events")
+                {
                     e.Value = hf.FilteredEvents.Count + " / " + hf.Events.Count;
+                }
             }
             else if (objectType == typeof(Entity))
             {
@@ -375,24 +489,50 @@ namespace LegendsViewer.Controls.Query
                 if (column == "Name")
                 {
                     e.Value = entity.ToString();
-                    if (entity.IsCiv) e.Value += " <Civ>";
+                    if (entity.IsCiv)
+                    {
+                        e.Value += " <Civ>";
+                    }
+
                     e.Value += " (" + entity.Race + ")";
                 }
-                else if (column == "Sites") e.Value = entity.CurrentSites.Count;
-                else if (column == "Lost Sites") e.Value = entity.LostSites.Count;
-                else if (column == "Population") e.Value = entity.Populations.Sum(population => population.Count);
-                else if (column == "Wars") e.Value = entity.Wars.Count;
-                else if (column == "Wins : Losses") e.Value = entity.WarVictories + " / " + entity.WarLosses;
-                else if (column == "Kills : Deaths") e.Value = entity.WarKills + " / " + entity.WarDeaths;
+                else if (column == "Sites")
+                {
+                    e.Value = entity.CurrentSites.Count;
+                }
+                else if (column == "Lost Sites")
+                {
+                    e.Value = entity.LostSites.Count;
+                }
+                else if (column == "Population")
+                {
+                    e.Value = entity.Populations.Sum(population => population.Count);
+                }
+                else if (column == "Wars")
+                {
+                    e.Value = entity.Wars.Count;
+                }
+                else if (column == "Wins : Losses")
+                {
+                    e.Value = entity.WarVictories + " / " + entity.WarLosses;
+                }
+                else if (column == "Kills : Deaths")
+                {
+                    e.Value = entity.WarKills + " / " + entity.WarDeaths;
+                }
                 else if (column == "Events")
+                {
                     e.Value = entity.FilteredEvents.Count + " / " + entity.Events.Count;
+                }
             }
             else if (objectType == typeof(Site))
             {
                 Site site = dgResults.Rows[e.RowIndex].DataBoundItem as Site;
                 if (column == "Owner") {
                     if (e.Value == null)
+                    {
                         e.Value = "";
+                    }
                     else
                     {
                         e.Value = site.CurrentOwner;
@@ -402,27 +542,54 @@ namespace LegendsViewer.Controls.Query
                         }
                     }
                 }
-                else if (column == "Previous Owners") e.Value = site.PreviousOwners.Count;
-                else if (column == "Deaths") e.Value = site.Deaths.Count;
-                else if (column == "Warfare") e.Value = site.Warfare.Count;
-                else if (column == "Population") e.Value = site.Populations.Sum(population => population.Count);
-                else if (column == "Beast Attacks") e.Value = site.BeastAttacks.Count;
+                else if (column == "Previous Owners")
+                {
+                    e.Value = site.PreviousOwners.Count;
+                }
+                else if (column == "Deaths")
+                {
+                    e.Value = site.Deaths.Count;
+                }
+                else if (column == "Warfare")
+                {
+                    e.Value = site.Warfare.Count;
+                }
+                else if (column == "Population")
+                {
+                    e.Value = site.Populations.Sum(population => population.Count);
+                }
+                else if (column == "Beast Attacks")
+                {
+                    e.Value = site.BeastAttacks.Count;
+                }
                 else if (column == "Events")
+                {
                     e.Value = site.FilteredEvents.Count + " / " + site.Events.Count;
+                }
             }
             else if (objectType == typeof(WorldRegion))
             {
                 WorldRegion region = dgResults.Rows[e.RowIndex].DataBoundItem as WorldRegion;
-                if (column == "Battles") e.Value = region.Battles.Count;
-                else if (column == "Deaths") e.Value = region.Deaths.Count;
+                if (column == "Battles")
+                {
+                    e.Value = region.Battles.Count;
+                }
+                else if (column == "Deaths")
+                {
+                    e.Value = region.Deaths.Count;
+                }
                 else if (column == "Events")
+                {
                     e.Value = region.FilteredEvents.Count + " / " + region.Events.Count;
+                }
             }
             else if (objectType == typeof(UndergroundRegion))
             {
                 UndergroundRegion uregion = dgResults.Rows[e.RowIndex].DataBoundItem as UndergroundRegion;
                 if (column == "Events")
+                {
                     e.Value = uregion.FilteredEvents.Count + " / " + uregion.Events.Count;
+                }
             }
             else if (objectType == typeof(War))
             {
@@ -431,53 +598,120 @@ namespace LegendsViewer.Controls.Query
                 if (column == "Length")
                 {
                     e.Value = war.StartYear + " - ";
-                    if (war.EndYear == -1) e.Value += "Present";
-                    else e.Value += war.EndYear.ToString();
+                    if (war.EndYear == -1)
+                    {
+                        e.Value += "Present";
+                    }
+                    else
+                    {
+                        e.Value += war.EndYear.ToString();
+                    }
+
                     e.Value += " (" + war.Length + ")";
                 }
-                else if (column == "Attacker") e.Value = war.Attacker.ToString() + " (" + war.Attacker.Race + ")";
-                else if (column == "Defender") e.Value = war.Defender.ToString() + " (" + war.Defender.Race + ")";
-                else if (column == "Kills") e.Value = war.DefenderDeathCount + " / " + war.AttackerDeathCount;
-                else if (column == "Victories") e.Value = war.AttackerBattleVictories.Count + " / " + war.DefenderBattleVictories.Count;
-                else if (column == "Sites Lost") e.Value = war.DefenderConquerings.Count(conquering => conquering.Notable) + " / " + war.AttackerConquerings.Count(conquering => conquering.Notable);
+                else if (column == "Attacker")
+                {
+                    e.Value = war.Attacker + " (" + war.Attacker.Race + ")";
+                }
+                else if (column == "Defender")
+                {
+                    e.Value = war.Defender + " (" + war.Defender.Race + ")";
+                }
+                else if (column == "Kills")
+                {
+                    e.Value = war.DefenderDeathCount + " / " + war.AttackerDeathCount;
+                }
+                else if (column == "Victories")
+                {
+                    e.Value = war.AttackerBattleVictories.Count + " / " + war.DefenderBattleVictories.Count;
+                }
+                else if (column == "Sites Lost")
+                {
+                    e.Value = war.DefenderConquerings.Count(conquering => conquering.Notable) + " / " + war.AttackerConquerings.Count(conquering => conquering.Notable);
+                }
                 else if (column == "Events")
+                {
                     e.Value = war.FilteredEvents.Count + " / " + war.AllEvents.Count;
+                }
             }
             else if (objectType == typeof(Battle))
             {
                 Battle battle = dgResults.Rows[e.RowIndex].DataBoundItem as Battle;
-                if (column == "Attacker") e.Value = battle.Attacker.ToString() + " (" + battle.Attacker.Race + ")";
-                else if (column == "Defender") e.Value = battle.Defender.ToString() + " (" + battle.Defender.Race + ")";
-                else if (column == "Deaths") e.Value = battle.DeathCount;
-                else if (column == "Combatants") e.Value = battle.AttackersAsList.Count + " / " + battle.DefendersAsList.Count;
-                else if (column == "Remaining") e.Value = battle.AttackersRemainingCount + " / " + battle.DefendersRemainingCount;
+                if (column == "Attacker")
+                {
+                    e.Value = battle.Attacker + " (" + battle.Attacker.Race + ")";
+                }
+                else if (column == "Defender")
+                {
+                    e.Value = battle.Defender + " (" + battle.Defender.Race + ")";
+                }
+                else if (column == "Deaths")
+                {
+                    e.Value = battle.DeathCount;
+                }
+                else if (column == "Combatants")
+                {
+                    e.Value = battle.AttackersAsList.Count + " / " + battle.DefendersAsList.Count;
+                }
+                else if (column == "Remaining")
+                {
+                    e.Value = battle.AttackersRemainingCount + " / " + battle.DefendersRemainingCount;
+                }
                 else if (column == "Conquering")
-                    if (battle.Conquering == null) e.Value = "";
-                    else e.Value = battle.Conquering.ToString();
+                {
+                    if (battle.Conquering == null)
+                    {
+                        e.Value = "";
+                    }
+                    else
+                    {
+                        e.Value = battle.Conquering.ToString();
+                    }
+                }
                 else if (column == "Events")
+                {
                     e.Value = battle.FilteredEvents.Count + " / " + battle.AllEvents.Count;
+                }
             }
             else if (objectType == typeof(SiteConquered))
             {
                 SiteConquered conquering = dgResults.Rows[e.RowIndex].DataBoundItem as SiteConquered;
-                if (column == "Name") e.Value = conquering.ToString();
-                else if (column == "Deaths") e.Value = conquering.Deaths.Count;
+                if (column == "Name")
+                {
+                    e.Value = conquering.ToString();
+                }
+                else if (column == "Deaths")
+                {
+                    e.Value = conquering.Deaths.Count;
+                }
                 else if (column == "Events")
+                {
                     e.Value = conquering.FilteredEvents.Count + " / " + conquering.AllEvents.Count;
+                }
             }
             else if (objectType == typeof(BeastAttack))
             {
                 BeastAttack attack = dgResults.Rows[e.RowIndex].DataBoundItem as BeastAttack;
-                if (column == "Name") e.Value = attack.ToString();
-                else if (column == "Deaths") e.Value = attack.Deaths.Count;
+                if (column == "Name")
+                {
+                    e.Value = attack.ToString();
+                }
+                else if (column == "Deaths")
+                {
+                    e.Value = attack.Deaths.Count;
+                }
                 else if (column == "Events")
+                {
                     e.Value = attack.FilteredEvents.Count + " / " + attack.AllEvents.Count;
+                }
             }
             else if (objectType == typeof(Artifact))
             {
                 Artifact artifact = dgResults.Rows[e.RowIndex].DataBoundItem as Artifact;
                 if (column == "Events")
+                {
                     e.Value = artifact.Events.Count;
+                }
             }
 
             //if (objectType.BaseType == typeof(WorldObject) && column == "Events")
@@ -497,23 +731,10 @@ namespace LegendsViewer.Controls.Query
         {
             if (dgResults.Rows.Count > 0)
             {
-                Browser.Navigate(ControlOption.Map, Results);
+                Browser.Navigate(ControlOption.Map, _results);
             }
         }
-
-
-
-
-
-
-
     }
-
-    
-
-   
-
-    
 
     public class SearchControl : PageControl
     {
@@ -528,15 +749,20 @@ namespace LegendsViewer.Controls.Query
         {
             if (QueryControl == null)
             {
-                QueryControl = new QueryControl(TabControl.World, TabControl);
-                QueryControl.Dock = DockStyle.Fill;
+                QueryControl = new QueryControl(TabControl.World, TabControl)
+                {
+                    Dock = DockStyle.Fill
+                };
             }
             return QueryControl;
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-
+            if (disposing)
+            {
+                QueryControl.Dispose();
+            }
         }
 
         public override void Refresh()

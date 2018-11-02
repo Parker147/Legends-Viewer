@@ -1,11 +1,14 @@
-﻿namespace LegendsViewer
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace LegendsViewer.Controls.Chart
 {
-    partial class dlgHF
+    partial class DlgHf
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -69,7 +72,7 @@
             this.Controls.Add(this.listHFRaces);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAccept);
-            this.Name = "dlgHF";
+            this.Name = "DlgHf";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select Race";
             this.ResumeLayout(false);
@@ -78,8 +81,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnAccept;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.ListBox listHFRaces;
+        private Button btnAccept;
+        private Button btnCancel;
+        private ListBox listHFRaces;
     }
 }

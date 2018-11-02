@@ -1,0 +1,457 @@
+﻿
+body {
+    font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #333;
+    background-color: #fff;
+    padding: 20px;
+}
+
+a:link {
+    color: #000000;
+}
+
+a:visited {
+    color: #000000;
+}
+
+a:hover {
+    color: dimgray;
+}
+
+ol {
+    margin-top: 0;
+}
+
+ul {
+    margin-top: 0;
+    list-style-type: square;
+    margin-left: 20px;
+    padding: 2px 4px;
+}
+
+li {
+    padding: 2px 4px;
+}
+
+img {
+    border: none;
+}
+
+h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 3px;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+
+.bar-chart {
+    padding-right: 20px;
+}
+
+/* TABLES*/
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 2px 8px 2px 0;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th {
+    border-bottom: 1px solid dimgray;
+}
+
+td {
+    font-size: 13px;
+}
+
+/* FANCY SKILLS */
+
+.skills {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0;
+}
+
+    .skills li {
+        margin: 1px 0;
+        line-height: 20px;
+        padding: 0 8px 0 20px;
+        height: 20px;
+        position: relative;
+        overflow: hidden;
+        cursor: default;
+    }
+
+        .skills li:before {
+            content: "";
+            display: inline-block;
+            line-height: 20px;
+            height: 20px;
+            width: 20px;
+            margin: auto;
+            text-align: center;
+            vertical-align: middle;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            border: 1px solid #000;
+            background-color: #fff;
+            color: #fff;
+        }
+
+li.dabbl:before, li.novic:before {
+    width: 2px;
+    height: 2px;
+    top: 8px;
+    left: 8px;
+}
+
+li.adequ:before, li.compe:before {
+    width: 4px;
+    height: 4px;
+    top: 7px;
+    left: 7px;
+}
+
+li.skill:before, li.profi:before {
+    width: 6px;
+    height: 6px;
+    top: 6px;
+    left: 6px;
+}
+
+li.talen:before, li.adept:before {
+    width: 8px;
+    height: 8px;
+    top: 5px;
+    left: 5px;
+}
+
+li.exper:before, li.profe:before {
+    width: 10px;
+    height: 10px;
+    top: 4px;
+    left: 4px;
+}
+
+li.accom:before, li.great:before {
+    width: 12px;
+    height: 12px;
+    top: 3px;
+    left: 3px;
+}
+
+li.maste:before {
+    width: 14px;
+    height: 14px;
+    top: 2px;
+    left: 2px;
+}
+
+li.highm:before {
+    width: 16px;
+    height: 16px;
+    top: 1px;
+    left: 1px;
+}
+
+li.grand:before {
+    width: 18px;
+    height: 18px;
+    top: 0px;
+    left: 0px;
+}
+
+li.legen:before {
+    content: "⧫";
+    background: none;
+    border: none;
+    text-shadow: -1px 0 0 #000, 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000;
+}
+
+li.unkno:before {
+    content: "?";
+    background: none;
+    border: none;
+    text-shadow: -1px 0 0 #000, 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000;
+}
+
+.skills li:hover, li.unk, li.non {
+    opacity: 0.8;
+}
+
+li.stn, li.pmp {
+    background-color: #c0c0c0;
+}
+
+li.doc, li.msc {
+    background-color: #c49e9f;
+}
+
+li.frm, li.mlk {
+    background-color: #dab587;
+}
+
+li.fsh, li.soc {
+    background-color: #c6e3ff;
+}
+
+li.min {
+    background-color: #acacac;
+}
+
+li.wod {
+    background-color: #b29c85;
+}
+
+li.hnt {
+    background-color: #afc37e;
+}
+
+li.cem {
+    background-color: #dac8af;
+}
+
+li.plt {
+    background-color: #83d2aa;
+}
+
+li.cok {
+    background-color: #c1bfab;
+}
+
+li.but {
+    background-color: #aaaa7e;
+}
+
+li.mtl {
+    background-color: #bdbdbd;
+}
+
+li.gem {
+    background-color: #acabcf;
+}
+
+li.gls {
+    background-color: #bebece;
+}
+
+li.crf {
+    background-color: #9bcdff;
+}
+
+li.pot {
+    background-color: #ffe1f0;
+}
+
+li.eng {
+    background-color: #df929e;
+}
+
+li.sig {
+    background-color: #b08e9c;
+}
+
+li.bee {
+    background-color: #ffff9d;
+}
+
+li.ppr {
+    background-color: #d3a960;
+}
+
+li.mil {
+    background-color: #e87c7c;
+}
+
+/* TREE */
+.tree {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+    .tree ul {
+        padding-top: 20px;
+        position: relative;
+        margin-left: 0;
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+    }
+
+    .tree li {
+        display: inline-block;
+        white-space: nowrap;
+        vertical-align: top;
+        margin: 0 -2px 0 -2px;
+        text-align: center;
+        list-style-type: none;
+        position: relative;
+        padding: 20px 5px 0 5px;
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+    }
+
+        /*We will use ::before and ::after to draw the connectors*/
+
+        .tree li::before, .tree li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-top: 1px solid #ccc;
+            width: 50%;
+            height: 20px;
+        }
+
+        .tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 1px solid #ccc;
+        }
+
+        /*We need to remove left-right connectors from elements without any siblings*/
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+
+        /*Remove space from the top of single children*/
+        .tree li:only-child {
+            padding-top: 0;
+        }
+
+        /*Remove left connector from first child and right connector from last child*/
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        /*Adding back the vertical connector to the last nodes*/
+        .tree li:last-child::before {
+            border-right: 1px solid #ccc;
+            border-radius: 0 5px 0 0;
+            -webkit-border-radius: 0 5px 0 0;
+            -moz-border-radius: 0 5px 0 0;
+        }
+
+        .tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+            -webkit-border-radius: 5px 0 0 0;
+            -moz-border-radius: 5px 0 0 0;
+        }
+
+    /*Time to add downward connectors from parents*/
+    .tree ul ul::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border-left: 1px solid #ccc;
+        width: 0;
+        height: 20px;
+    }
+
+    .tree li a {
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #666;
+        font-family: arial, verdana, tahoma;
+        font-size: 11px;
+        display: inline-block;
+        width: 100px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        white-space: normal;
+    }
+
+        /*Time for some hover effects*/
+        /*We will apply the hover effect the the lineage of the element also*/
+        .tree li a:hover, .tree li a:hover + ul li a {
+            background: whitesmoke;
+            color: #000;
+            border: 1px solid #94a0b4;
+        }
+            /*Connector styles on hover*/
+            .tree li a:hover + ul li::after,
+            .tree li a:hover + ul li::before,
+            .tree li a:hover + ul::before,
+            .tree li a:hover + ul ul::before {
+                border-color: #94a0b4;
+            }
+
+/* LINEAGE */
+
+.hf_deity {
+    border: 1px dashed orange !important;
+}
+
+/* CUSTOM */
+
+.legends_current_dwarfobject {
+    color: darkblue;
+}
+
+.legends_symbol_population {
+    font-family: Arial;
+    font-size: 14px;
+    color: #000;
+}
+
+.legends_symbol_site {
+    font-family: Arial;
+    color: #333;
+}
+
+.legends_symbol_dead {
+    font-family: Arial;
+    color: #333;
+}
+
+.legends_graph {
+    left: 20px;
+    right: 20px;
+    height: 600px;
+    border: 1px solid lightgray;
+    margin-bottom: 20px;
+}
+
+.legends_civilization_listitem > img{
+    width:32px;
+    height: 32px;
+}
+
+.legends_civilization_listitem > a {
+    vertical-align: top;
+}
+
+.legends_civilization_metainformation {
+    color: dimgray;
+    margin-top: -16px;
+    margin-left: 35px;
+}

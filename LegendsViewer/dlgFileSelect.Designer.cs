@@ -1,11 +1,14 @@
-﻿namespace LegendsViewer
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace LegendsViewer
 {
-    partial class dlgFileSelect
+    partial class DlgFileSelect
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -70,7 +73,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.listFiles);
-            this.Name = "dlgFileSelect";
+            this.Name = "DlgFileSelect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select File";
             this.ResumeLayout(false);
@@ -79,8 +82,8 @@
 
         #endregion
 
-        public System.Windows.Forms.ListBox listFiles;
-        private System.Windows.Forms.Button btnAccept;
-        private System.Windows.Forms.Button btnCancel;
+        public ListBox listFiles;
+        private Button btnAccept;
+        private Button btnCancel;
     }
 }

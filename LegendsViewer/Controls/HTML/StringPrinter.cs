@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
-namespace LegendsViewer.Controls
+namespace LegendsViewer.Controls.HTML
 {
-    class StringPrinter : HTMLPrinter
+    class StringPrinter : HtmlPrinter
     {
-        string Title;
+        string _title;
         public StringPrinter(string htmlString)
         {
-            HTML = new StringBuilder();
-            Title = htmlString.Substring(0, htmlString.IndexOf("\n"));
-            HTML.AppendLine(htmlString.Substring(htmlString.IndexOf("\n") + 1));
+            Html = new StringBuilder();
+            _title = htmlString.Substring(0, htmlString.IndexOf("\n"));
+            Html.AppendLine(htmlString.Substring(htmlString.IndexOf("\n") + 1));
         }
 
         public override string Print()
         {
-            return HTML.ToString();
+            return Html.ToString();
         }
 
         public override string GetTitle()
         {
-            return Title;
+            return _title;
         }
     }
 }

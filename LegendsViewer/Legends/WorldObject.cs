@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
     public abstract class WorldObject : DwarfObject
     {
         public List<WorldEvent> Events { get; set; }
-        public int ID { get; set; }
+        public int EventCount { get { return Events.Count; } set { } }
+        public int Id { get; set; }
         protected WorldObject(List<Property> properties, World world)
         {
-            ID = -1;
+            Id = -1;
             Events = new List<WorldEvent>();
             foreach(Property property in properties)
-                switch(property.Name)
+            {
+                switch (property.Name)
                 {
-                    case "id": ID = Convert.ToInt32(property.Value); property.Known = true; break;
+                    case "id": Id = Convert.ToInt32(property.Value); break;
                     default: break;
                 }
+            }
         }
         public WorldObject() { 
-            ID = -1; 
+            Id = -1; 
             Events = new List<WorldEvent>(); 
         }
         

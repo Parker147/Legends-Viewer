@@ -1,15 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using LegendsViewer.Controls.HTML.Utilities;
+using LegendsViewer.Legends.EventCollections;
+using LegendsViewer.Legends.Events;
+using LegendsViewer.Legends.Interfaces;
+using LegendsViewer.Legends.Parser;
 
 namespace LegendsViewer.Legends
 {
-    public class UndergroundRegion : WorldObject
+    public class UndergroundRegion : WorldObject, IHasCoordinates
     {
+        public string Icon = "<i class=\"fa fa-fw fa-map\"></i>";
+
         public int Depth { get; set; }
         public string Type { get; set; }
         public List<Battle> Battles { get; set; }
+        public List<Location> Coordinates { get; set; } // legends_plus.xml
+        public int SquareTiles
+        {
+            get
+            {
+                return Coordinates.Count;
+            }
+        }
         public static List<string> Filters;
         public override List<WorldEvent> FilteredEvents
         {
@@ -22,30 +36,58 @@ namespace LegendsViewer.Legends
             Depth = 0;
             Type = "";
             Battles = new List<Battle>();
-            foreach(Property property in properties)
-                switch(property.Name)
+            Coordinates = new List<Location>();
+            foreach (Property property in properties)
+            {
+                switch (property.Name)
                 {
                     case "depth": Depth = Convert.ToInt32(property.Value); break;
                     case "type": Type = Formatting.InitCaps(property.Value); break;
+                    case "coords":
+                        string[] coordinateStrings = property.Value.Split(new[] { '|' },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var coordinateString in coordinateStrings)
+                        {
+                            string[] xYCoordinates = coordinateString.Split(',');
+                            int x = Convert.ToInt32(xYCoordinates[0]);
+                            int y = Convert.ToInt32(xYCoordinates[1]);
+                            Coordinates.Add(new Location(x, y));
+                        }
+                        break;
                 }
+            }
         }
-        public override string ToString() { return this.Type; }
+        public override string ToString() { return Type; }
         public override string ToLink(bool link = true, DwarfObject pov = null)
         {
             string name;
-            if (this.Type == "Cavern") name = "the depths of the world";
-            else if (this.Type == "Underworld") name = "the Underworld";
-            else name = "an underground region (" + this.Type + ")";
+            if (Type == "Cavern")
+            {
+                name = "the depths of the world";
+            }
+            else if (Type == "Underworld")
+            {
+                name = "the Underworld";
+            }
+            else
+            {
+                name = "an underground region (" + Type + ")";
+            }
 
             if (link)
             {
+                string title = Type;
+                title += "&#13";
+                title += "Events: " + Events.Count;
+
                 if (pov != this)
-                    return "<a href = \"uregion#" + this.ID + "\">" + name + "</a>";
-                else
-                    return "<font color=\"Blue\">" + name + "</font>";
+                {
+                    return Icon + "<a href = \"uregion#" + Id + "\" title=\"" + title + "\">" + name + "</a>";
+                }
+
+                return Icon + "<a title=\"" + title + "\">" + HtmlStyleUtil.CurrentDwarfObject(name) + "</a>";
             }
-            else
-                return name;
+            return name;
         }
         
     }

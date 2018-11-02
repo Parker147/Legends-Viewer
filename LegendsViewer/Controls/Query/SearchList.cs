@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -13,7 +13,7 @@ namespace LegendsViewer.Controls.Query
         public abstract Type GetListType();
         public abstract Type GetMainListType();
         public abstract void Select(List<PropertyInfo> properties);
-        public abstract void SetupList<U>(List<U> mainList, List<PropertyInfo> properties);
+        public abstract void SetupList<TU>(List<TU> mainList, List<PropertyInfo> properties);
         public abstract void SubListSearch(List<SearchInfo> searchCriteria);
         public abstract void ResetSelect();
         public abstract void Search(List<SearchInfo> searchCriteria);
@@ -40,8 +40,12 @@ namespace LegendsViewer.Controls.Query
 
         public override Type GetListType()
         {
-            if (SubList != null) return SubList.GetListType();
-            else return typeof(T);
+            if (SubList != null)
+            {
+                return SubList.GetListType();
+            }
+
+            return typeof(T);
         }
 
         public override Type GetMainListType()
@@ -56,28 +60,40 @@ namespace LegendsViewer.Controls.Query
             Type subListSearchList;
             Type selectProperty = properties.Last().PropertyType;
             if (selectProperty.IsGenericType)
+            {
                 subListSearchList = genericSearchList.MakeGenericType(selectProperty.GetGenericArguments()[0]);
+            }
             else
+            {
                 subListSearchList = genericSearchList.MakeGenericType(selectProperty);
+            }
+
             SubList = Activator.CreateInstance(subListSearchList) as SearchList;
             SubList.SetupList(List, properties);
         }
 
-        public override void SetupList<U>(List<U> mainList, List<PropertyInfo> properties)
+        public override void SetupList<TU>(List<TU> mainList, List<PropertyInfo> properties)
         {
             BaseList = new List<T>();
             IQueryable selection = mainList.AsQueryable();
             foreach (PropertyInfo property in properties)
             {
                 if (property.PropertyType.IsGenericType)
+                {
                     selection = mainList.AsQueryable().SelectMany(property.Name);
+                }
                 else
+                {
                     selection = mainList.AsQueryable().Select(property.Name);
+                }
             }
 
-            System.Collections.IEnumerator list = selection.GetEnumerator();
+            IEnumerator list = selection.GetEnumerator();
             while (list.MoveNext())
+            {
                 BaseList.Add((T)list.Current);
+            }
+
             List = BaseList;
         }
 
@@ -87,7 +103,10 @@ namespace LegendsViewer.Controls.Query
             foreach (PropertyInfo property in properties)
             {
                 selectString += property.Name;
-                if (!(properties.Last() == property)) selectString += ".";
+                if (!(properties.Last() == property))
+                {
+                    selectString += ".";
+                }
             }
             return selectString;
         }
@@ -99,15 +118,28 @@ namespace LegendsViewer.Controls.Query
 
         public override void SubListSearch(List<SearchInfo> searchCriteria)
         {
-            if (SubList != null) SubList.SubListSearch(searchCriteria);
-            else Search(searchCriteria);
+            if (SubList != null)
+            {
+                SubList.SubListSearch(searchCriteria);
+            }
+            else
+            {
+                Search(searchCriteria);
+            }
         }
 
         public override void Search(List<SearchInfo> searchCriteria)
         {
             Expression<Func<T, bool>> predicate;
-            if (searchCriteria.Count > 0) predicate = t => false;
-            else predicate = t => true;
+            if (searchCriteria.Count > 0)
+            {
+                predicate = t => false;
+            }
+            else
+            {
+                predicate = t => true;
+            }
+
             foreach (SearchInfo criteria in searchCriteria)
             {
                 var where = criteria.GetPredicateExpression() as Expression<Func<T, bool>>;
@@ -118,34 +150,55 @@ namespace LegendsViewer.Controls.Query
             var compiled = predicate.Compile();
             var search = BaseList.Where(compiled);
             List = search.ToList();
-            if (SubList != null) SubList.SetupList(List, SubListProperties);
+            if (SubList != null)
+            {
+                SubList.SetupList(List, SubListProperties);
+            }
         }
 
         public override void OrderBy(List<SearchInfo> orderCriteria)
         {
-            if (SubList != null) SubList.OrderBy(orderCriteria);
+            if (SubList != null)
+            {
+                SubList.OrderBy(orderCriteria);
+            }
             else
+            {
                 for (int i = orderCriteria.Count - 1; i >= 0; i--)
                 {
                     SearchInfo criteria = orderCriteria[i];
                     if (criteria.Next == null || !criteria.ContainsListProperties())
                     {
                         if (criteria.OrderByDescending && criteria.PropertyString() != "Value")
+                        {
                             List = List.AsQueryable().OrderBy(criteria.PropertyString() + " DESC").ToList();
+                        }
                         else if (criteria.PropertyName == "Value")
+                        {
                             if (criteria.OrderByDescending)
+                            {
                                 List = List.OrderByDescending(value => value).ToList();
+                            }
                             else
+                            {
                                 List = List.OrderBy(value => value).ToList();
+                            }
+                        }
                         else
+                        {
                             List = List.AsQueryable().OrderBy(criteria.PropertyString()).ToList();
+                        }
                     }
                     else if (criteria.ContainsListPropertyLast() || criteria.Next.Comparer == QueryComparer.All)
                     {
                         if (criteria.OrderByDescending)
+                        {
                             List = List.AsQueryable().OrderBy(criteria.PropertyString() + ".Count DESC").ToList();
+                        }
                         else
+                        {
                             List = List.AsQueryable().OrderBy(criteria.PropertyString() + ".Count").ToList();
+                        }
                     }
                     else
                     {
@@ -160,7 +213,7 @@ namespace LegendsViewer.Controls.Query
                                 case QueryComparer.Average:
                                     List = List.OrderByDescending(t => criteria.Select(t).Select(t1 => Convert.ToDouble(t1)).AverageOrZero()).ToList();
                                     //List = List.OrderByDescending(t => criteria.Select(t)
-                                    //Expression<Func<T, bool>> notEmpty = t => criteria.Select(t).Count() > 0;
+                                    //Expression<Func<T, bool>> notEmpty = t => criteria.Select(t).Any();
                                     //List = List.Where(notEmpty.Compile()).OrderByDescending(t => criteria.Select(t).Select(t1 => Convert.ToDouble(t1)).Average()).ToList();
                                     break;
                                 case QueryComparer.Sum: List = List.OrderByDescending(t => criteria.Select(t).Select(t1 => Convert.ToDouble(t1)).Sum()).ToList(); break;
@@ -181,11 +234,16 @@ namespace LegendsViewer.Controls.Query
 
                     }
                 }
+            }
         }
 
         public override List<object> GetResults()
         {
-            if (SubList != null) return SubList.GetResults();
+            if (SubList != null)
+            {
+                return SubList.GetResults();
+            }
+
             return List.Cast<object>().ToList();
         }
 

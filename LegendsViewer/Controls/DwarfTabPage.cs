@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using LegendsViewer.Controls.Chart;
 
-namespace LegendsViewer
+namespace LegendsViewer.Controls
 {
-    public class DwarfTabPage : System.Windows.Forms.TabPage
+    public class DwarfTabPage : TabPage
     {
-        private Stack<PageControl> BackHistory = new Stack<PageControl>(), ForwardHistory = new Stack<PageControl>();
-        public PageControl Current;
+        private readonly Stack<PageControl> _backHistory = new Stack<PageControl>();
+        private readonly Stack<PageControl> _forwardHistory = new Stack<PageControl>();
+
+        public PageControl Current { get; private set; }
 
         public DwarfTabPage(PageControl pageControl)
         {
@@ -19,11 +19,15 @@ namespace LegendsViewer
 
         public void NewPageControl(PageControl pageControl)
         {
-            ForwardHistory.Clear();
+            foreach (var control in _forwardHistory)
+            {
+                control.Dispose();
+            }
+            _forwardHistory.Clear();
+
             if (Current != null)
             {
-                Current.Dispose();
-                BackHistory.Push(Current);
+                _backHistory.Push(Current);
             }
             Current = pageControl;
             LoadPageControl();
@@ -35,40 +39,46 @@ namespace LegendsViewer
             Text = Current.Title;
             Control newControl = Current.GetControl();
             Controls.Add(newControl);
-            if (newControl.GetType() == typeof(ChartPanel))
+            if (newControl.GetType() == typeof(ChartPanel) && Current.TabControl.SelectedTab != null)
             {
-                this.Width = Current.TabControl.SelectedTab.Width;
-                this.Refresh();
-                (newControl as ChartPanel).RefreshAllSeries();
+                Width = Current.TabControl.SelectedTab.Width;
+                Refresh();
+                (newControl as ChartPanel)?.RefreshAllSeries();
             }
         }
 
         public void Back()
         {
-            if (BackHistory.Count > 0)
+            if (_backHistory.Count > 0)
             {
-                Current.Dispose();
-                ForwardHistory.Push(Current);
-                Current = BackHistory.Pop();
+                _forwardHistory.Push(Current);
+                Current = _backHistory.Pop();
                 LoadPageControl();
             }
         }
 
         public void Forward()
         {
-            if (ForwardHistory.Count > 0)
+            if (_forwardHistory.Count > 0)
             {
-                Current.Dispose();
-                BackHistory.Push(Current);
-                Current = ForwardHistory.Pop();
+                _backHistory.Push(Current);
+                Current = _forwardHistory.Pop();
                 LoadPageControl();
             }
         }
 
-        public void Close()
+        protected override void Dispose(bool disposing)
         {
+            foreach (var forward in _forwardHistory)
+            {
+                forward.Dispose();
+            }
+            foreach (var back in _backHistory)
+            {
+                back.Dispose();
+            }
             Current.Dispose();
-            Controls.Clear();
+            base.Dispose(disposing);
         }
     }
 }

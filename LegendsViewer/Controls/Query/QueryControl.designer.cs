@@ -1,11 +1,14 @@
-﻿namespace LegendsViewer.Controls.Query
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace LegendsViewer.Controls.Query
 {
     partial class QueryControl
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -222,15 +225,15 @@
         public CriteriaPanel SelectionPanel;
         public CriteriaPanel SearchPanel;
         public CriteriaPanel OrderByPanel;
-        private System.Windows.Forms.Label lblSearchCriteria;
-        private System.Windows.Forms.Label lblOrderCriteria;
-        private System.Windows.Forms.Label lblSelectCriteria;
-        private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox SelectList;
-        private System.Windows.Forms.DataGridView dgResults;
-        private System.Windows.Forms.Label lblResults;
-        private System.Windows.Forms.Button btnMapResults;
+        private Label lblSearchCriteria;
+        private Label lblOrderCriteria;
+        private Label lblSelectCriteria;
+        private Button btnSearch;
+        private Label label1;
+        private ComboBox SelectList;
+        private DataGridView dgResults;
+        private Label lblResults;
+        private Button btnMapResults;
 
     }
 }

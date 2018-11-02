@@ -1,18 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Linq.Dynamic;
-using LegendsViewer;
-using System.Reflection;
-using LegendsViewer.Legends;
 
 namespace LegendsViewer.Controls.Query
 {
     public static class PredicateBuilder
     {
-        public static Expression<Func<T, bool>> True<T>() { return f => true; }
-        public static Expression<Func<T, bool>> False<T>() { return f => false; }
+        public static Expression<Func<T, bool>> True<T>()
+        {
+            return f => true;
+        }
+
+        public static Expression<Func<T, bool>> False<T>()
+        {
+            return f => false;
+        }
 
         public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> expr1,
                                                             Expression<Func<T, bool>> expr2)
@@ -29,7 +31,6 @@ namespace LegendsViewer.Controls.Query
             return Expression.Lambda<Func<T, bool>>
                   (Expression.AndAlso(expr1.Body, invokedExpr), expr1.Parameters);
         }
-
     }
 
     public enum QueryOperator
@@ -65,7 +66,4 @@ namespace LegendsViewer.Controls.Query
         ListLessThan,
         Property
     }
-
-    
-
 }

@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace LegendsViewer
 {
-    public partial class dlgFileSelect : Form
+    public partial class DlgFileSelect : Form
     {
         public string SelectedFile = "";
-        public dlgFileSelect(List<string> files)
+        public DlgFileSelect(List<string> files)
         {
             InitializeComponent();
             List<MapFile> maps = new List<MapFile>();

@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using LegendsViewer;
 using LegendsViewer.Legends;
 
-namespace LegendsViewer
+namespace LegendsViewer.Controls.Map
 {
-    public partial class dlgPopulation : Form
+    public partial class DlgPopulation : Form
     {
-        List<Population> Populations = new List<Population>();
+        List<Population> _populations = new List<Population>();
         public List<string> SelectedPopulations = new List<string>();
-        public dlgPopulation(World world)
+        public DlgPopulation(World world)
         {
             InitializeComponent();
             
@@ -26,7 +21,7 @@ namespace LegendsViewer
             foreach (var population in populationGrouped)
             {
                 listPopulations.Items.Add(population.Type + ": " + population.Count);
-                Populations.Add(new Population(population.Type, population.Count));
+                _populations.Add(new Population(population.Type, population.Count));
             }
         }
 
@@ -34,33 +29,40 @@ namespace LegendsViewer
         private void btnAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < listPopulations.Items.Count; i++)
+            {
                 listPopulations.SetSelected(i, true);
+            }
         }
 
         private void btnNone_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < listPopulations.Items.Count; i++)
+            {
                 listPopulations.SetSelected(i, false);
+            }
         }
 
         private void btnName_Click(object sender, EventArgs e)
         {
             listPopulations.Items.Clear();
-            Populations = Populations.OrderBy(population => population.Race).ToList();
-            Populations.ForEach(population => listPopulations.Items.Add(population.Race + ": " + population.Count));
+            _populations = _populations.OrderBy(population => population.Race).ToList();
+            _populations.ForEach(population => listPopulations.Items.Add(population.Race + ": " + population.Count));
         }
 
         private void btnNumber_Click(object sender, EventArgs e)
         {
             listPopulations.Items.Clear();
-            Populations = Populations.OrderByDescending(population => population.Count).ToList();
-            Populations.ForEach(population => listPopulations.Items.Add(population.Race + ": " + population.Count));
+            _populations = _populations.OrderByDescending(population => population.Count).ToList();
+            _populations.ForEach(population => listPopulations.Items.Add(population.Race + ": " + population.Count));
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < listPopulations.SelectedIndices.Count; i++)
-                SelectedPopulations.Add(Populations[listPopulations.SelectedIndices[i]].Race);
+            {
+                SelectedPopulations.Add(_populations[listPopulations.SelectedIndices[i]].Race);
+            }
+
             Close();
         }
 
